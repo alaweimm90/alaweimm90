@@ -1,20 +1,20 @@
-# Hi, I'm Meshal! 👋
+# Hi, I'm Meshal Alawein 👋
 
-🔬 **Computational Physicist** developing quantum materials and scientific computing tools  
-🎓 **PhD Candidate** in EECS at UC Berkeley  
-🚀 **Building** open-source scientific computing frameworks and AI-driven applications
+🔬 Computational physicist specializing in quantum materials and scientific computing  
+🎓 PhD candidate in Electrical Engineering & Computer Sciences at UC Berkeley  
+🚀 Building open-source tools for multiscale simulation, machine learning, and AI-driven research
 
 ---
 
 ## 🔭 Current Research
 
-- Strain-engineered quantum materials for device applications  
-- High-throughput DFT simulations and materials discovery  
-- Physics-informed machine learning for scientific computing
+- Strain-engineered quantum materials for next-gen electronic and optoelectronic devices  
+- High-throughput DFT simulations and automated materials discovery workflows  
+- Physics-informed machine learning and surrogate modeling for scientific computing
 
 ---
 
-## 🛠️ Tech Stack
+## 🧠 Tech Stack
 
 ```python
 skills = {
@@ -30,25 +30,20 @@ skills = {
 
 ## 🌟 Featured Projects
 
-- 🧮 **QMatSim** – Multiscale quantum materials simulation toolkit  
-- 🌐 **SimCore** – Interactive physics education platform *(18 modules)*  
-- 💪 **REPZ** – AI-driven coaching platform with ML algorithms
+- 🧮 **QMatSim** — Modular multiscale quantum materials simulation toolkit  
+- 🌐 **SimCore** — Interactive educational physics platform *(18 modules and growing)*  
+- 🧠 **REPZ** — AI-powered fitness coaching system with integrated ML diagnostics
 
 ---
 
-## 📊 GitHub Stats
 
-*(Add your GitHub Readme Stats here if desired, e.g. shields.io, GitHub Profile Trophy, or Wakatime)*
+## 🔗 Let's Connect
 
----
-
-## 🤝 Let's Connect
-
-- 📧 **Email**: [meshal@berkeley.edu](mailto:meshal@berkeley.edu)  
-- 💼 **LinkedIn**: [meshal-alawein](https://www.linkedin.com/in/meshal-alawein)  
-- 🌐 **Website**: [malawein.info](https://malawein.com)  
-- 📚 **Publications**: [Google Scholar](https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en)
+- 📧 Email: [meshal@berkeley.edu](mailto:meshal@berkeley.edu)  
+- 💼 LinkedIn: [meshal-alawein](https://www.linkedin.com/in/meshal-alawein)  
+- 🌐 Website: [malawein.com](https://www.malawein.com)  
+- 📚 Publications: [Google Scholar](https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en)
 
 ---
 
-**Looking for opportunities in quantum computing, materials science, and scientific ML!**
+🎯 *Exploring opportunities in quantum computing, materials science, and scientific machine learning.*
