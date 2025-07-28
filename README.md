@@ -1,16 +1,45 @@
-## Hi there 👋
+# Hi, I'm Meshal! 👋
 
-<!--
-**alaweimm90/alaweimm90** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+🔬 **Computational Physicist** developing quantum materials and scientific computing tools
 
-Here are some ideas to get you started:
+🎓 **PhD Candidate** in EECS at UC Berkeley  
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+🚀 **Building** open-source scientific computing frameworks and AI-driven applications
+
+## 🔭 Current Research
+- Strain-engineered quantum materials for device applications
+- High-throughput DFT simulations and materials discovery
+- Physics-informed machine learning for scientific computing
+
+## 🛠️ Tech Stack
+```python
+skills = {
+    "languages": ["Python", "MATLAB", "C++", "TypeScript"],
+    "scientific": ["DFT", "SIESTA", "LAMMPS", "SLURM"],
+    "ml_ai": ["PyTorch", "TensorFlow", "PINNs"],
+    "web": ["React", "Node.js", "Supabase"],
+    "tools": ["Git", "Linux", "HPC", "LaTeX"]
+}
+
+
+🌟 Featured Projects
+
+🧮 QMatSim - Multiscale quantum materials simulation toolkit
+
+🌐 SimCore - Interactive physics education platform (18 modules)
+
+💪 REPZ - AI-driven coaching platform with ML algorithms
+
+📊 GitHub Stats
+
+🤝 Let's Connect
+
+📧 Email: meshal@berkeley.edu
+
+💼 LinkedIn: meshal-alawein
+
+🌐 Website: malawein.info
+
+📚 Publications: Google Scholar
+
+Looking for opportunities in quantum computing, materials science, and scientific ML!
