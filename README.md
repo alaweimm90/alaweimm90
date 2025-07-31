@@ -39,10 +39,34 @@ skills = {
 
 ## 🔗 Let's Connect
 
-- 📧 Email: [meshal@berkeley.edu](mailto:meshal@berkeley.edu)  
-- 💼 LinkedIn: [meshal-alawein](https://www.linkedin.com/in/meshal-alawein)  
-- 🌐 Website: [malawein.com](https://www.malawein.com)  
-- 📚 Publications: [Google Scholar](https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en)
+<div align="center">
+
+<strong>Dr. Meshal Alawein</strong><br/>
+<em>Computational Physicist & Research Scientist</em><br/>
+University of California, Berkeley
+
+
+
+📧 <a href="mailto:meshal@berkeley.edu" style="color:#003262;">meshal@berkeley.edu</a>
+
+<a href="https://www.linkedin.com/in/meshal-alawein" title="LinkedIn">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" height="32" />
+</a>
+<a href="https://github.com/alaweimm90" title="GitHub">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white" alt="GitHub" height="32" />
+</a>
+<a href="https://malawein.com" title="Website">
+  <img src="https://img.shields.io/badge/Website-003262?style=flat&logo=googlechrome&logoColor=white" alt="Website" height="32" />
+</a>
+<a href="https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en" title="Google Scholar">
+  <img src="https://img.shields.io/badge/Scholar-4285F4?style=flat&logo=googlescholar&logoColor=white" alt="Scholar" height="32" />
+</a>
+<a href="https://simcore.dev" title="SimCore">
+  <img src="https://img.shields.io/badge/SimCore-FDB515?style=flat&logo=atom&logoColor=white" alt="SimCore" height="32" />
+</a>
+
+</div>
+
 
 ---
 
