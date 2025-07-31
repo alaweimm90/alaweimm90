@@ -29,12 +29,7 @@ skills = {
 ---
 
 ## 🌟 Featured Projects
-
-- 🧮 **QMatSim** — Modular multiscale quantum materials simulation toolkit  
-- 🌐 **SimCore** — Interactive educational physics platform *(18 modules and growing)*  
-- 🧠 **REPZ** — AI-powered fitness coaching system with integrated ML diagnostics
-@@
-- 🧮 **QMatSim** — Modular multiscale quantum materials simulation toolkit
++ 🧮 **QMatSim** — Modular multiscale quantum materials simulation toolkit
 + 🧲 **MagLogic** — Nanomagnetic logic simulation suite with OOMMF & MuMax³ integration
 + 🌀 **SpinCirc** — Cross-platform spin-transport circuit framework for computational spintronics
 - 🌐 **SimCore** — Interactive educational physics platform *(18 modules and growing)*
