@@ -33,7 +33,7 @@ skills = {
 + 🧲 [**MagLogic**](https://github.com/alaweimm90/MagLogic) — Nanomagnetic logic simulation suite with OOMMF & MuMax³ integration  
 + 🌀 [**SpinCirc**](https://github.com/alaweimm90/SpinCircs) — Cross-platform spin-transport circuit framework for computational spintronics  
 + 🧪 [**SciComp**](https://github.com/alaweimm90/SciComp) — Unified cross-platform framework for physics, ML, and scientific computing  
-- 🌐 [**SimCore**](https://simcore.dev.com) — Interactive educational physics platform *(18 modules and growing)*  
+- 🌐 [**SimCore**](https://simcore.dev) — Interactive educational physics platform *(18 modules and growing)*  
 - 🧠 [**REPZ**](https://repzcoach.com) — AI-powered fitness coaching system with integrated ML diagnostics  
 
 ---
