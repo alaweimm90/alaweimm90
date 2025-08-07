@@ -34,7 +34,7 @@ Computational Physicist | Quantum Materials | Scientific Computing
 - [**SciComp**](https://github.com/alaweimm90/SciComp): Multilingual scientific computing toolbox for quantum, FEM, statistical, and spintronic simulations
 - [**SpinCirc**](https://github.com/alaweimm90/SpinCirc): SPICE-compatible framework for simulating multistate spintronic circuits and non-volatile logic
 - [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for N-state nanomagnetic logic and SOT-driven switching
-- [**SimCore**](https://simcore.dev): Interactive browser platform for physics simulations — quantum band structures, Berry curvature, transport, and ML models
+- [**SimCore**](https://simcore.dev): Interactive browser platform for physics simulations: quantum mechanics, Berry curvature, ML-models, and more...
 
 ---
 
