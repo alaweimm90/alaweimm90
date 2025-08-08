@@ -32,7 +32,7 @@ Computational Physicist | Quantum Materials | Scientific Computing
 ## 📂 Highlighted Projects  
 > 🚀 *Online and actively maintained* &nbsp;&nbsp; ![status](https://img.shields.io/badge/status-updated-red)
 
-Explore the tools I build when I should be writing papers:
+Explore the tools I build when I should be sleeping (none on this platform does anyway):
 
 - 📘 [**QubeML**](https://github.com/alaweimm90/QubeML): An educational framework for quantum computing + materials informatics in Python/Colab.  
   - Hands-on Jupyter/Colab notebooks  
