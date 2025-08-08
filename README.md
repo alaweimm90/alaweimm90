@@ -13,7 +13,7 @@ Computational Physicist | Quantum Materials | Scientific Computing
 
 - **Quantum Properties of Rippled 2D Materials:** Flat-band formation in monolayer TMDs and its consequences: quantum wells, exciton traps, and platforms for Mott insulators, superconductivity, and possibly weird correlated stuff we haven’t named yet.  
 - **Multiscale Simulation Frameworks:** DFT + MD hybrids using `SIESTA`, `LAMMPS`, `ASE`, and `SLURM`, glued together with Python and duct tape (a.k.a. [`QMatSim`](https://github.com/alaweimm90/QMatSim)).  
-- **Quantum Device Modeling & Spintronics:** Circuit-level simulations for spin-orbitronics, multistate logic, and magnonic wizardry, mostly via [`SpinCirc`](https://github.com/alaweimm90/SpinCirc) and [`MagLogic`](https://github.com/alaweimm90/MagLogic)).  
+- **Quantum Device Modeling & Spintronics:** Circuit-level simulations for spin-orbitronics, multistate logic, and magnonic wizardry (all mostly via [`SpinCirc`](https://github.com/alaweimm90/SpinCirc) and [`MagLogic`](https://github.com/alaweimm90/MagLogic)).  
 - **Quantum SDKs & Variational Algorithms:** Hacking together variational pipelines using `Qiskit`, `Cirq`, and VQE to turn Hamiltonians into headaches (and maybe insights).  
 - **Materials Informatics & Structure Databases:** CIFs, JSONs, and regret. Automating property predictions and structure curation with `pymatgen`, structure graphs, and data-fueled optimism.  
 - **Band Structure & Electronic Modeling:** Custom tight-binding models, band flattening, Rashba hunting, and effective mass whispering in low-dimensional quantum zoos.  
