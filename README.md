@@ -5,7 +5,7 @@ Computational Physicist | Quantum Materials | Scientific Computing
 
 </div>
 
-*I build simulation frameworks to control misbehaving electrons, bend new materials to my will, and prototype powerful and smart quantum systems — just smart enough to accelerate physics, but not smart enough to start a robot uprising. Yet. 🧠🤖*
+*I build simulation frameworks to control misbehaving electrons, bend new materials to my will, and prototype smart quantum systems — just smart enough to accelerate physics, but not smart enough to start a robot uprising. Yet. 🧠🤖*
 
 ---
 
