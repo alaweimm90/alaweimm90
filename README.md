@@ -28,17 +28,30 @@ Computational Physicist | Quantum Materials | Scientific Computing
 
 ---
 
-## 📂 Highlighted Projects
+## 📂 Highlighted Projects  
+> 🚀 *Online and actively maintained* &nbsp;&nbsp; ![status](https://img.shields.io/badge/status-updated-red)
 
-- [**QMatSim**](https://github.com/alaweimm90/QMatSim): Modular DFT + MD pipeline for high-throughput strain–structure screening and flat-band discovery
-- [**SciComp**](https://github.com/alaweimm90/SciComp): Multilingual scientific computing toolbox for quantum, FEM, statistical, and spintronic simulations
-- [**SpinCirc**](https://github.com/alaweimm90/SpinCirc): SPICE-compatible framework for simulating multistate spintronic circuits and non-volatile logic
-- [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for N-state nanomagnetic logic and SOT-driven switching
-- [**SimCore**](https://simcore.dev): Interactive browser platform for physics simulations: quantum mechanics, Berry curvature, ML-models, and more...
+Explore selected tools and platforms at the intersection of **quantum computing**, **materials informatics**, and **spintronics**:
+
+- 📘 [**QubeML**](https://github.com/alaweimm90/QubeML): Educational framework for quantum computing + materials informatics in Python/Colab.  
+  - Clean, hands-on Jupyter/Colab notebooks  
+  - Covers quantum algorithms, DFT theory, and ML for materials  
+  - Ideal for students, researchers, and curious minds  
+  - Constantly updated — we learn together! 🤝
+
+- 🔷 [**QMatSim**](https://github.com/alaweimm90/QMatSim): DFT + MD pipeline for high-throughput strain–structure screening and flat-band analysis.
+
+- 🧮 [**SciComp**](https://github.com/alaweimm90/SciComp): Multilingual toolbox for quantum, FEM, statistical, and spintronic simulations.
+
+- 🌀 [**SpinCirc**](https://github.com/alaweimm90/SpinCirc): SPICE-compatible simulator for multistate spintronic circuits and non-volatile logic.
+
+- 🧲 [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for N-state nanomagnetic logic and SOT-driven spin dynamics.
+
+- 🌐 [**SimCore**](https://simcore.dev): Browser-based simulation suite for quantum mechanics, Berry curvature, ML-augmented models, and more.
+
 
 ---
 
----
 
 ## 🔗 Let's Connect
 
