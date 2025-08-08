@@ -5,50 +5,50 @@ Computational Physicist | Quantum Materials | Scientific Computing
 
 </div>
 
-*I build simulation frameworks to control misbehaving electrons, play with new materials, and prototype smart quantum systems — just smart enough to accelerate physics, but not smart enough to start a robot uprising. 🧠🤖*
+*I build simulation frameworks to control misbehaving electrons, bend new materials to my will, and prototype powerful and smart quantum systems — just smart enough to accelerate physics, but not smart enough to start a robot uprising. Yet. 🧠🤖*
 
 ---
 
 ## ⚛️ Some Research Topics
 
-- **Quantum Properties of Rippled 2D Materials:** Flat-band formation in monolayer TMDs and its consequences: quantum wells, exciton traps, and candidate platforms for Mott insulators, superconductivity, and correlated phases  
-- **Multiscale Simulation Frameworks:** Hybrid DFT + MD pipelines using `SIESTA`, `LAMMPS`, `ASE`, and `SLURM`, with automated convergence, error handling, and high-throughput screening via [`QMatSim`](https://github.com/alaweimm90/QMatSim)  
-- **Quantum Device Modeling & Spintronics:** Circuit-level simulators for spintronic/spin-orbitronic devices via [`SpinCirc`](https://github.com/alaweimm90/SpinCirc), nanomagnetic logic frameworks via [`MagLogic`](https://github.com/alaweimm90/MagLogic), and early-stage modeling of AFM spintronics and magnonics  
-- **Quantum SDKs & Variational Algorithms:** Developing variational pipelines using `Qiskit`, `Cirq`, and VQE for Hamiltonian modeling and materials-inspired quantum workflows  
-- **Materials Informatics & Structure Databases:** Structure parsing and workflow integration with tools like `pymatgen`, CIF I/O, and automated pipelines for property prediction and structure curation  
-- **Band Structure Theory & Electronic Modeling:** Building custom tight-binding models, flattening dispersions, extracting localization lengths, quantifying Rashba spin-splitting, and mapping anisotropic effective masses in low-dimensional systems  
+- **Quantum Properties of Rippled 2D Materials:** Flat-band formation in monolayer TMDs and its consequences: quantum wells, exciton traps, and platforms for Mott insulators, superconductivity, and possibly weird correlated stuff we haven’t named yet.  
+- **Multiscale Simulation Frameworks:** DFT + MD hybrids using `SIESTA`, `LAMMPS`, `ASE`, and `SLURM`, glued together with Python and duct tape (a.k.a. [`QMatSim`](https://github.com/alaweimm90/QMatSim)).  
+- **Quantum Device Modeling & Spintronics:** Circuit-level simulations for spin-orbitronics, multistate logic, and magnonic wizardry, mostly via [`SpinCirc`](https://github.com/alaweimm90/SpinCirc) and [`MagLogic`](https://github.com/alaweimm90/MagLogic)).  
+- **Quantum SDKs & Variational Algorithms:** Hacking together variational pipelines using `Qiskit`, `Cirq`, and VQE to turn Hamiltonians into headaches (and maybe insights).  
+- **Materials Informatics & Structure Databases:** CIFs, JSONs, and regret. Automating property predictions and structure curation with `pymatgen`, structure graphs, and data-fueled optimism.  
+- **Band Structure & Electronic Modeling:** Custom tight-binding models, band flattening, Rashba hunting, and effective mass whispering in low-dimensional quantum zoos.  
 
 ---
 
 ## 🧪 Current Playgrounds
 
-- 🧠 **Graph-Based Quantum Simulation:** Exploring custom graph topologies for quantum emulation and tight-binding approximations  
-- 🤖 **Scientific ML for Materials:** PINNs, GNNs, surrogate DFT/MD models (just for fun... for now)  
-- 🎓 [**QubeML**](https://github.com/alaweimm90/QubeML): An educational repo for learning quantum computing + materials informatics together.  
-  *Come play with me. Hands-on Colab notebooks, updated often, no robot uprising (yet).* 😉
+- 🧠 **Graph-Based Quantum Simulation:** Playing with graph topologies as if they were LEGO sets for tight-binding models.  
+- 🤖 **Scientific ML for Materials:** GNNs, PINNs, and surrogate DFT — for when I want neural nets to approximate physics (and occasionally hallucinate).  
+- 🎓 [**QubeML**](https://github.com/alaweimm90/QubeML): An educational repo for learning quantum computing + materials informatics.  
+  *Come play with me. Colab notebooks, clean code, and a zero-judgment zone for getting stuck.* 🤝
 
 ---
 
 ## 📂 Highlighted Projects  
 > 🚀 *Online and actively maintained* &nbsp;&nbsp; ![status](https://img.shields.io/badge/status-updated-red)
 
-Explore selected tools and platforms at the intersection of **quantum computing**, **materials informatics**, and **spintronics**:
+Explore the tools I build when I should be writing papers:
 
-- 📘 [**QubeML**](https://github.com/alaweimm90/QubeML): Educational framework for quantum computing + materials informatics in Python/Colab.  
-  - Clean, hands-on Jupyter/Colab notebooks  
-  - Covers quantum algorithms, DFT theory, and ML for materials  
-  - Ideal for students, researchers, and curious minds  
+- 📘 [**QubeML**](https://github.com/alaweimm90/QubeML): An educational framework for quantum computing + materials informatics in Python/Colab.  
+  - Hands-on Jupyter/Colab notebooks  
+  - From quantum gates to DFT and ML  
+  - Great for students, researchers, and curious insomniacs  
   - Constantly updated = we learn together (or both get stuck) 🤝
 
-- 🔷 [**QMatSim**](https://github.com/alaweimm90/QMatSim): DFT + MD pipeline for high-throughput strain–structure screening and flat-band analysis.
+- 🔷 [**QMatSim**](https://github.com/alaweimm90/QMatSim): DFT + MD pipeline for high-throughput strain–structure screening and flat-band treasure hunting.
 
-- 🧮 [**SciComp**](https://github.com/alaweimm90/SciComp): Multilingual toolbox for quantum, FEM, statistical, and spintronic simulations.
+- 🧮 [**SciComp**](https://github.com/alaweimm90/SciComp): Multilingual toolbox for quantum, FEM, statistical, and spintronic simulations (aka physics in multiple dialects).
 
-- 🌀 [**SpinCirc**](https://github.com/alaweimm90/SpinCirc): SPICE-compatible simulator for multistate spintronic circuits and non-volatile logic.
+- 🌀 [**SpinCirc**](https://github.com/alaweimm90/SpinCirc): SPICE-compatible simulator for multistate spintronic logic and not-yet-obsolete device concepts.
 
-- 🧲 [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for N-state nanomagnetic logic and SOT-driven spin dynamics.
+- 🧲 [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for nanomagnetic logic, SOT dynamics, and other spin-based mischief.
 
-- 🌐 [**SimCore**](https://simcore.dev): Browser-based simulation suite for quantum mechanics, Berry curvature, ML-augmented models, and more.
+- 🌐 [**SimCore**](https://simcore.dev): Browser-based platform for quantum systems, Berry curvature, ML-injected physics, and interactive demos. Comes with pretty plots.
 
 ---
 
@@ -70,4 +70,11 @@ University of California, Berkeley
 <a href="https://malawein.com">
   <img src="https://img.shields.io/badge/Website-003262?style=flat&logo=googlechrome&logoColor=white" height="30" />
 </a>
-<a href="https://scholar.google.com/citations
+<a href="https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en">
+  <img src="https://img.shields.io/badge/Scholar-4285F4?style=flat&logo=googlescholar&logoColor=white" height="30" />
+</a>
+<a href="https://simcore.dev">
+  <img src="https://img.shields.io/badge/SimCore-FDB515?style=flat&logo=atom&logoColor=white" height="30" />
+</a>
+
+</div>
