@@ -1,6 +1,6 @@
 <div align="center">
 
-# <span style="color:#003262">**Meshal Alawein**</span>
+# <span style="color:#003262">**Meshal Alawein**</span>  
 Computational Physicist | Quantum Materials | Scientific Computing
 
 </div>
@@ -18,13 +18,14 @@ Computational Physicist | Quantum Materials | Scientific Computing
 - **Materials Informatics & Structure Databases:** Structure parsing and workflow integration with tools like `pymatgen`, CIF I/O, and automated pipelines for property prediction and structure curation  
 - **Band Structure Theory & Electronic Modeling:** Building custom tight-binding models, flattening dispersions, extracting localization lengths, quantifying Rashba spin-splitting, and mapping anisotropic effective masses in low-dimensional systems  
 
-
 ---
 
 ## 🧪 Current Playgrounds
 
-- **Graph-Based Quantum Simulation:** Exploring custom graph topologies for quantum emulation and tight-binding approximations  
-- **Scientific ML for Materials:** PINNs, GNNs, surrogate DFT/MD models (this, just for fun, for now)  
+- 🧠 **Graph-Based Quantum Simulation:** Exploring custom graph topologies for quantum emulation and tight-binding approximations  
+- 🤖 **Scientific ML for Materials:** PINNs, GNNs, surrogate DFT/MD models (just for fun... for now)  
+- 🎓 [**QubeML**](https://github.com/alaweimm90/QubeML): An educational repo for learning quantum computing + materials informatics together.  
+  *Come play with me. Hands-on Colab notebooks, updated often, no robot uprising (yet).* 😉
 
 ---
 
@@ -37,7 +38,7 @@ Explore selected tools and platforms at the intersection of **quantum computing*
   - Clean, hands-on Jupyter/Colab notebooks  
   - Covers quantum algorithms, DFT theory, and ML for materials  
   - Ideal for students, researchers, and curious minds  
-  - Constantly updated — we learn together! 🤝
+  - Constantly updated = we learn together (or both get stuck) 🤝
 
 - 🔷 [**QMatSim**](https://github.com/alaweimm90/QMatSim): DFT + MD pipeline for high-throughput strain–structure screening and flat-band analysis.
 
@@ -49,9 +50,7 @@ Explore selected tools and platforms at the intersection of **quantum computing*
 
 - 🌐 [**SimCore**](https://simcore.dev): Browser-based simulation suite for quantum mechanics, Berry curvature, ML-augmented models, and more.
 
-
 ---
-
 
 ## 🔗 Let's Connect
 
@@ -60,7 +59,7 @@ Explore selected tools and platforms at the intersection of **quantum computing*
 <strong>Dr. Meshal Alawein</strong><br/> <em>Computational Physicist & Research Scientist</em><br/>
 University of California, Berkeley
 
-📧 <a href="mailto:meshal@berkeley.edu">[meshal@berkeley.edu](mailto:meshal@berkeley.edu)</a>
+📧 <a href="mailto:meshal@berkeley.edu">meshal@berkeley.edu</a>
 
 <a href="https://www.linkedin.com/in/meshal-alawein">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" height="30" />
@@ -71,11 +70,4 @@ University of California, Berkeley
 <a href="https://malawein.com">
   <img src="https://img.shields.io/badge/Website-003262?style=flat&logo=googlechrome&logoColor=white" height="30" />
 </a>
-<a href="https://scholar.google.com/citations?user=IB_E6GQAAAAJ&hl=en">
-  <img src="https://img.shields.io/badge/Scholar-4285F4?style=flat&logo=googlescholar&logoColor=white" height="30" />
-</a>
-<a href="https://simcore.dev">
-  <img src="https://img.shields.io/badge/SimCore-FDB515?style=flat&logo=atom&logoColor=white" height="30" />
-</a>
-
-</div>
+<a href="https://scholar.google.com/citations
