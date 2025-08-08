@@ -48,7 +48,7 @@ Explore the tools I build when I should be sleeping (none on this platform does 
 
 - 🧲 [**MagLogic**](https://github.com/alaweimm90/MagLogic): Modeling toolkit for nanomagnetic logic, SOT dynamics, and other spin-based mischief.
 
-- 🌐 [**SimCore**](https://simcore.dev): Browser-based platform for quantum systems, Berry curvature, ML-injected physics, and interactive demos. Comes with pretty plots.
+- 🌐 [**SimCore**](https://simcore.dev): Browser-based platform for quantum systems, Berry curvature, ML-injected physics, and interactive demos. Comes with pretty plots and buttons that still don't work.
 
 ---
 
