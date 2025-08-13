@@ -56,7 +56,7 @@ Explore the tools I build when I should be sleeping (none on this platform does 
 
 <div align="center">
 
-<strong>Dr. Meshal Alawein</strong><br/> <em>Computational Physicist & Research Scientist</em><br/>
+<strong>Meshal Alawein</strong><br/> <em>Computational Physicist & Research Scientist</em><br/>
 University of California, Berkeley
 
 📧 <a href="mailto:meshal@berkeley.edu">meshal@berkeley.edu</a>
