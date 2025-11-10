@@ -1,8 +1,7 @@
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=45&duration=3000&pause=1000&color=9D4EDD&center=true&vCenter=true&width=600&lines=MESHAL+ALAWEIN" alt="Name" />
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=F72585&center=true&vCenter=true&multiline=true&width=700&height=60&lines=Computational+Physicist;Quantum+Materials+%E2%80%A2+Optimization+Theory" alt="Title" />
+<h1 align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=24&height=120&section=header&text=MESHAL%20ALAWEIN&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=35" alt="Name" /><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=F72585&center=true&vCenter=true&multiline=true&width=700&height=60&lines=Computational+Physicist;Quantum+Materials+%E2%80%A2+Optimization+Theory" alt="Title" />
 
 <img src="https://img.shields.io/badge/%F0%9F%93%8D-Berkeley%2C_CA-7209B7?style=for-the-badge&logoColor=white" />
 
