@@ -21,8 +21,7 @@
 
 <div align="center">
 
-> ### 🚀 **Fresh Start!** Migrated repositories to new profile • New vision, exciting projects, and way more fun stuff coming soon! ✨
-
+> ### **Fresh Start** • Migrated repositories to new profile • New vision, exciting projects, and way more fun stuff coming soon!
 </div>
 <br/>
 
