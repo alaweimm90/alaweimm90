@@ -21,6 +21,13 @@
 
 <div align="center">
 
+> ### 🚀 **Fresh Start!** Migrated repositories to new profile • New vision, exciting projects, and way more fun stuff coming soon! ✨
+
+</div>
+<br/>
+
+<div align="center">
+
 ## <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30"> 🔬 Active Projects
 
 </div>
