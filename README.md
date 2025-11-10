@@ -1,14 +1,19 @@
 <div align="center">
 
 <h1 align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=24&height=120&section=header&text=MESHAL%20ALAWEIN&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=35" alt="Name" /><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=F72585&center=true&vCenter=true&multiline=true&width=700&height=60&lines=Computational+Physicist;Quantum+Materials+%E2%80%A2+Optimization+Theory" alt="Title" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=24&height=120&section=header&text=MESHAL%20ALAWEIN&fontSize=50&fontColor=fff&animation=twinkling&fontAlignY=35" alt="Name" /><img src="https://readme-typing-svg.demolab.com?<h3 align="center">
+  <span style="color:#F72585">Computational Physicist</span><br>
+  <span style="color:#F72585">Quantum Materials • Optimization Theory</span>
+</h3>
 
 <img src="https://img.shields.io/badge/%F0%9F%93%8D-Berkeley%2C_CA-7209B7?style=for-the-badge&logoColor=white" />
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=4000&pause=1000&color=4CC9F0&center=true&vCenter=true&width=800&lines=40%2C000%2B+viewers+across+projects;300%2B+stars+on+previous+tools;Building+at+the+intersection+of+physics+%2B+code" alt="Stats" />
-
+<p align="center">
+  <span style="color:#4CC9F0; font-size: 16px;">40,000+ viewers across projects • 300+ stars on previous tools</span><br>
+  <span style="color:#4CC9F0; font-size: 14px;">Building at the intersection of physics + code</span>
+</p>
 <br/>
 
 <a href="https://malawein.com"><img src="https://img.shields.io/badge/%F0%9F%8C%90_Website-malawein.com-4CC9F0?style=for-the-badge" /></a>
