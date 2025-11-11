@@ -2,19 +2,15 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=24&height=140&section=header&text=MESHAL%20ALAWEIN&fontSize=60&fontColor=fff&animation=twinkling&fontAlignY=35" alt="Header" />
 
-<h2 style="color:#E0E0E0; font-weight:300; margin-top:20px;">
-Computational Physicist<br>
-<span style="color:#B0B0B0; font-size:0.9em;">Quantum Materials • Optimization Theory</span>
-</h2>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3000&pause=1000&color=F72585&center=true&vCenter=true&width=600&lines=Computational+Physicist;Quantum+Materials+%E2%80%A2+Optimization+Theory" alt="Title" />
 
-<img src="https://img.shields.io/badge/📍-Berkeley,_CA-8B5CF6?style=for-the-badge&labelColor=1a1b27" />
+<img src="https://img.shields.io/badge/📍-Berkeley,_CA-A855F7?style=for-the-badge&labelColor=1a1b27" />
 
-<p style="color:#A0A0A0; font-size:15px; line-height:1.8; margin:24px 0;">
-40,000+ viewers across projects • 300+ stars<br>
-<span style="color:#888; font-size:13px;">Building at the intersection of physics + code</span>
-</p>
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&duration=4000&pause=500&color=4CC9F0&center=true&vCenter=true&width=700&lines=40%2C000%2B+viewers+across+projects;300%2B+stars+on+previous+tools;Building+at+the+intersection+of+physics+%2B+code" alt="Stats" />
 
-<a href="https://malawein.com"><img src="https://img.shields.io/badge/🌐_Website-malawein.com-8B5CF6?style=for-the-badge&labelColor=1a1b27" /></a>
+<br>
+
+<a href="https://malawein.com"><img src="https://img.shields.io/badge/🌐_Website-malawein.com-A855F7?style=for-the-badge&labelColor=1a1b27" /></a>
 <a href="mailto:meshal@berkeley.edu"><img src="https://img.shields.io/badge/📧_Email-meshal@berkeley.edu-EC4899?style=for-the-badge&labelColor=1a1b27" /></a>
 
 </div>
@@ -22,14 +18,19 @@ Computational Physicist<br>
 <br>
 
 <div align="center">
-<h3 style="color:#D0D0D0; font-weight:400;">✨ Fresh Start</h3>
-<p style="color:#999; font-size:14px;">Migrated repositories to new profile • New vision, exciting projects coming soon</p>
+
+## ✨ Fresh Start
+
+<p style="color:#A0A0A0;">Migrated repositories to new profile • New vision, exciting projects coming soon</p>
+
 </div>
 
 ---
 
 <div align="center">
-<h2 style="color:#E0E0E0; margin-bottom:30px;">🔬 Active Projects</h2>
+
+## 🔬 Active Projects
+
 </div>
 
 <table width="100%">
@@ -37,11 +38,11 @@ Computational Physicist<br>
 <td width="50%" valign="top">
 
 <h3 align="center">🐍 Optilibria</h3>
-<p align="center" style="color:#B0B0B0;">Universal Optimization Framework</p>
+<p align="center" style="color:#D0D0D0;">Universal Optimization Framework</p>
 <p align="center">
 <img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
 <img src="https://img.shields.io/badge/31+-Algorithms-EC4899?style=flat-square" />
-<img src="https://img.shields.io/badge/GPU-Accelerated-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/GPU-Accelerated-A855F7?style=flat-square" />
 </p>
 <p align="center"><a href="https://github.com/AlaweinLabs">@AlaweinLabs</a></p>
 
@@ -49,11 +50,11 @@ Computational Physicist<br>
 <td width="50%" valign="top">
 
 <h3 align="center">⚙️ ATLAS</h3>
-<p align="center" style="color:#B0B0B0;">Autonomous Research System</p>
+<p align="center" style="color:#D0D0D0;">Autonomous Research System</p>
 <p align="center">
 <img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
 <img src="https://img.shields.io/badge/AI-Powered-EC4899?style=flat-square" />
-<img src="https://img.shields.io/badge/Materials-Discovery-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/Materials-Discovery-A855F7?style=flat-square" />
 </p>
 <p align="center"><a href="https://github.com/AlaweinLabs">@AlaweinLabs</a></p>
 
@@ -63,10 +64,10 @@ Computational Physicist<br>
 <td width="50%" valign="top">
 
 <h3 align="center">⚛️ MeatheadPhysicist</h3>
-<p align="center" style="color:#B0B0B0;">Physics Education Platform</p>
+<p align="center" style="color:#D0D0D0;">Physics Education Platform</p>
 <p align="center">
 <img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
-<img src="https://img.shields.io/badge/Quantum-Simulations-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/Quantum-Simulations-A855F7?style=flat-square" />
 <img src="https://img.shields.io/badge/Interactive-Demos-F59E0B?style=flat-square" />
 </p>
 <p align="center"><a href="https://github.com/MeatheadPhysicist">@MeatheadPhysicist</a></p>
@@ -75,11 +76,11 @@ Computational Physicist<br>
 <td width="50%" valign="top">
 
 <h3 align="center">🔥 REPZCoach</h3>
-<p align="center" style="color:#B0B0B0;">AI Coaching Platform</p>
+<p align="center" style="color:#D0D0D0;">AI Coaching Platform</p>
 <p align="center">
 <img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
 <img src="https://img.shields.io/badge/Behavioral-Analytics-EC4899?style=flat-square" />
-<img src="https://img.shields.io/badge/Performance-Tracking-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/Performance-Tracking-A855F7?style=flat-square" />
 </p>
 <p align="center"><a href="https://github.com/REPZCoach">@REPZCoach</a></p>
 
@@ -93,10 +94,10 @@ Computational Physicist<br>
 
 ### 🧠 Expertise
 
-<img src="https://img.shields.io/badge/Quantum_Materials-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/Quantum_Materials-A855F7?style=flat-square" />
 <img src="https://img.shields.io/badge/Optimization_Theory-EC4899?style=flat-square" />
 <img src="https://img.shields.io/badge/Scientific_Computing-10B981?style=flat-square" />
-<img src="https://img.shields.io/badge/Machine_Learning-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/Machine_Learning-A855F7?style=flat-square" />
 <img src="https://img.shields.io/badge/GPU_Computing-EC4899?style=flat-square" />
 <img src="https://img.shields.io/badge/Educational_Tech-F59E0B?style=flat-square" />
 
@@ -118,15 +119,15 @@ Computational Physicist<br>
 
 **4 Active Projects**
 
-<img src="https://img.shields.io/badge/@AlaweinLabs-Research_&_Optimization-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/@AlaweinLabs-Research_&_Optimization-A855F7?style=flat-square" />
 <img src="https://img.shields.io/badge/@MeshyTools-Tools_&_Automation-10B981?style=flat-square" />
 <img src="https://img.shields.io/badge/@MeatheadPhysicist-Physics_&_Education-EC4899?style=flat-square" />
 <img src="https://img.shields.io/badge/@REPZCoach-AI_Coaching-F59E0B?style=flat-square" />
-<img src="https://img.shields.io/badge/@LiveItIconic-Commerce-8B5CF6?style=flat-square" />
+<img src="https://img.shields.io/badge/@LiveItIconic-Commerce-A855F7?style=flat-square" />
 
 ---
 
-<p align="center" style="color:#888; font-size:13px;">
+<p align="center" style="color:#999;">
 Building elegant solutions at the intersection of physics + code
 </p>
 
