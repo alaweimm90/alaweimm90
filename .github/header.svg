@@ -1,0 +1,120 @@
+<svg width="1200" height="300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F0F23;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1B3D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2A1B4D;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4CC9F0;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="orbit-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CC9F0;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:0.2" />
+    </linearGradient>
+
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Particle animation -->
+    <circle id="particle" r="2" fill="#4CC9F0" opacity="0.6"/>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="300" fill="url(#bg-gradient)"/>
+
+  <!-- Quantum wave pattern -->
+  <path d="M0,150 Q150,100 300,150 T600,150 T900,150 T1200,150"
+        stroke="#A855F7" stroke-width="1" fill="none" opacity="0.3"/>
+  <path d="M0,160 Q150,110 300,160 T600,160 T900,160 T1200,160"
+        stroke="#EC4899" stroke-width="1" fill="none" opacity="0.2"/>
+  <path d="M0,140 Q150,90 300,140 T600,140 T900,140 T1200,140"
+        stroke="#4CC9F0" stroke-width="1" fill="none" opacity="0.2"/>
+
+  <!-- Orbital paths -->
+  <circle cx="200" cy="150" r="80" stroke="url(#orbit-gradient)"
+          stroke-width="1" fill="none" opacity="0.3"/>
+  <circle cx="200" cy="150" r="100" stroke="url(#orbit-gradient)"
+          stroke-width="1" fill="none" opacity="0.2"/>
+  <circle cx="200" cy="150" r="120" stroke="url(#orbit-gradient)"
+          stroke-width="1" fill="none" opacity="0.1"/>
+
+  <!-- Particles on orbits -->
+  <circle cx="280" cy="150" r="3" fill="#4CC9F0" filter="url(#glow)">
+    <animateTransform attributeName="transform" type="rotate"
+                      from="0 200 150" to="360 200 150"
+                      dur="10s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="300" cy="150" r="2" fill="#A855F7" filter="url(#glow)">
+    <animateTransform attributeName="transform" type="rotate"
+                      from="0 200 150" to="360 200 150"
+                      dur="15s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="320" cy="150" r="2.5" fill="#EC4899" filter="url(#glow)">
+    <animateTransform attributeName="transform" type="rotate"
+                      from="0 200 150" to="360 200 150"
+                      dur="12s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Grid pattern -->
+  <g opacity="0.1">
+    <line x1="0" y1="50" x2="1200" y2="50" stroke="#4CC9F0" stroke-width="0.5"/>
+    <line x1="0" y1="100" x2="1200" y2="100" stroke="#4CC9F0" stroke-width="0.5"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#4CC9F0" stroke-width="0.5"/>
+    <line x1="0" y1="250" x2="1200" y2="250" stroke="#4CC9F0" stroke-width="0.5"/>
+  </g>
+
+  <!-- Main text -->
+  <text x="600" y="120" font-family="'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace"
+        font-size="64" font-weight="bold" text-anchor="middle"
+        fill="url(#text-gradient)" filter="url(#glow)">
+    MESHAL ALAWEIN
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="160" font-family="'SF Mono', 'Monaco', 'Inconsolata', monospace"
+        font-size="20" text-anchor="middle" fill="#A0A0C0">
+    Computational Physicist
+  </text>
+
+  <text x="600" y="190" font-family="'SF Mono', 'Monaco', 'Inconsolata', monospace"
+        font-size="16" text-anchor="middle" fill="#808090">
+    Building at the intersection of quantum materials × optimization × code
+  </text>
+
+  <!-- Decorative elements -->
+  <g opacity="0.6">
+    <!-- Left side mathematical symbols -->
+    <text x="50" y="80" font-family="'SF Mono', 'Monaco', monospace"
+          font-size="24" fill="#A855F7" opacity="0.5">∇²ψ</text>
+    <text x="40" y="220" font-family="'SF Mono', 'Monaco', monospace"
+          font-size="20" fill="#EC4899" opacity="0.5">∂H/∂t</text>
+
+    <!-- Right side -->
+    <text x="1100" y="80" font-family="'SF Mono', 'Monaco', monospace"
+          font-size="24" fill="#4CC9F0" opacity="0.5">λ·∇f</text>
+    <text x="1090" y="220" font-family="'SF Mono', 'Monaco', monospace"
+          font-size="20" fill="#A855F7" opacity="0.5">min(E)</text>
+  </g>
+
+  <!-- Location badge -->
+  <g transform="translate(500, 230)">
+    <rect x="0" y="0" width="200" height="30" rx="15"
+          fill="#1a1b27" stroke="#A855F7" stroke-width="1.5"/>
+    <text x="100" y="20" font-family="'SF Mono', monospace"
+          font-size="14" text-anchor="middle" fill="#A855F7">
+      📍 Berkeley, CA
+    </text>
+  </g>
+</svg>
