@@ -1,0 +1,91 @@
+<svg width="1200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A0A1F;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A0F2E;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#A855F7;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#EC4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- DNA helix pattern -->
+    <path id="helix1" d="M0,0 Q25,-20 50,0 T100,0" stroke="#A855F7" stroke-width="2" fill="none" opacity="0.4"/>
+    <path id="helix2" d="M0,0 Q25,20 50,0 T100,0" stroke="#EC4899" stroke-width="2" fill="none" opacity="0.4"/>
+  </defs>
+
+  <rect width="1200" height="250" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.08">
+    <line x1="0" y1="50" x2="1200" y2="50" stroke="#A855F7" stroke-width="1"/>
+    <line x1="0" y1="100" x2="1200" y2="100" stroke="#A855F7" stroke-width="1"/>
+    <line x1="0" y1="150" x2="1200" y2="150" stroke="#A855F7" stroke-width="1"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#A855F7" stroke-width="1"/>
+  </g>
+
+  <!-- Optimization landscape wireframe -->
+  <g opacity="0.2">
+    <ellipse cx="200" cy="180" rx="80" ry="30" stroke="#A855F7" stroke-width="1.5" fill="none"/>
+    <ellipse cx="200" cy="160" rx="60" ry="22" stroke="#EC4899" stroke-width="1.5" fill="none"/>
+    <ellipse cx="200" cy="140" rx="40" ry="15" stroke="#4CC9F0" stroke-width="1.5" fill="none"/>
+    <line x1="200" y1="110" x2="200" y2="210" stroke="#F59E0B" stroke-width="1.5"/>
+  </g>
+
+  <!-- Algorithm flow -->
+  <g opacity="0.15">
+    <circle cx="1000" cy="80" r="20" stroke="#A855F7" stroke-width="2" fill="none"/>
+    <circle cx="1050" cy="120" r="15" stroke="#EC4899" stroke-width="2" fill="none"/>
+    <circle cx="1000" cy="160" r="25" stroke="#4CC9F0" stroke-width="2" fill="none"/>
+    <line x1="1000" y1="100" x2="1040" y2="110" stroke="#A855F7" stroke-width="1.5"/>
+    <line x1="1045" y1="135" x2="1015" y2="145" stroke="#EC4899" stroke-width="1.5"/>
+    <circle cx="1025" cy="125" r="8" fill="#F59E0B" opacity="0.8">
+      <animate attributeName="cy" values="125;100;125" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Main title -->
+  <text x="600" y="100" font-family="'SF Mono', 'Monaco', 'Courier New', monospace"
+        font-size="56" font-weight="bold" text-anchor="middle"
+        fill="url(#text-grad)" filter="url(#glow)">
+    ALAWEIN LABS
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="140" font-family="'SF Mono', 'Monaco', monospace"
+        font-size="20" text-anchor="middle" fill="#B4A7D6">
+    Advanced Research in Computational Optimization
+  </text>
+
+  <!-- Decorative code brackets -->
+  <text x="400" y="105" font-family="'SF Mono', monospace"
+        font-size="48" fill="#A855F7" opacity="0.3">{</text>
+  <text x="775" y="105" font-family="'SF Mono', monospace"
+        font-size="48" fill="#A855F7" opacity="0.3">}</text>
+
+  <!-- Bottom badge -->
+  <g transform="translate(460, 170)">
+    <rect x="0" y="0" width="280" height="40" rx="20"
+          fill="#1a1b27" stroke="#A855F7" stroke-width="2" opacity="0.8"/>
+    <text x="140" y="26" font-family="'SF Mono', monospace"
+          font-size="14" text-anchor="middle" fill="#A855F7" font-weight="bold">
+      🔬 Where Theory Meets Performance
+    </text>
+  </g>
+
+  <!-- Mathematical notation -->
+  <text x="100" y="70" font-family="'SF Mono', monospace"
+        font-size="18" fill="#EC4899" opacity="0.4">min f(x)</text>
+  <text x="1070" y="220" font-family="'SF Mono', monospace"
+        font-size="18" fill="#4CC9F0" opacity="0.4">∇²ψ = 0</text>
+</svg>

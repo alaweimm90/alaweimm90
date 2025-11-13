@@ -1,0 +1,106 @@
+<svg width="1200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0D1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A2F1F;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#34D399;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6EE7B7;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="250" fill="url(#bg)"/>
+
+  <!-- Terminal grid -->
+  <g opacity="0.1">
+    <path d="M0,0 L1200,0 L1200,250 L0,250 Z" stroke="#10B981" stroke-width="1" fill="none"/>
+    <line x1="0" y1="60" x2="1200" y2="60" stroke="#10B981" stroke-width="1"/>
+    <line x1="0" y1="190" x2="1200" y2="190" stroke="#10B981" stroke-width="1"/>
+  </g>
+
+  <!-- Network mesh pattern -->
+  <g opacity="0.2">
+    <circle cx="150" cy="80" r="4" fill="#10B981"/>
+    <circle cx="220" cy="120" r="4" fill="#34D399"/>
+    <circle cx="180" cy="160" r="4" fill="#6EE7B7"/>
+    <circle cx="280" cy="100" r="4" fill="#10B981"/>
+
+    <line x1="150" y1="80" x2="220" y2="120" stroke="#10B981" stroke-width="1"/>
+    <line x1="220" y1="120" x2="180" y2="160" stroke="#34D399" stroke-width="1"/>
+    <line x1="180" y1="160" x2="280" y2="100" stroke="#6EE7B7" stroke-width="1"/>
+    <line x1="280" y1="100" x2="150" y2="80" stroke="#10B981" stroke-width="1"/>
+
+    <!-- Right side mesh -->
+    <circle cx="950" cy="90" r="4" fill="#10B981"/>
+    <circle cx="1020" cy="130" r="4" fill="#34D399"/>
+    <circle cx="980" cy="170" r="4" fill="#6EE7B7"/>
+    <circle cx="1080" cy="110" r="4" fill="#10B981"/>
+
+    <line x1="950" y1="90" x2="1020" y2="130" stroke="#10B981" stroke-width="1"/>
+    <line x1="1020" y1="130" x2="980" y2="170" stroke="#34D399" stroke-width="1"/>
+    <line x1="980" y1="170" x2="1080" y2="110" stroke="#6EE7B7" stroke-width="1"/>
+    <line x1="1080" y1="110" x2="950" y2="90" stroke="#10B981" stroke-width="1"/>
+  </g>
+
+  <!-- Gear shapes -->
+  <g opacity="0.15">
+    <circle cx="200" cy="125" r="35" stroke="#10B981" stroke-width="3" fill="none"/>
+    <path d="M200,90 L205,95 L200,100 L195,95 Z M235,125 L230,130 L225,125 L230,120 Z
+             M200,160 L205,155 L200,150 L195,155 Z M165,125 L170,130 L175,125 L170,120 Z"
+          fill="#34D399"/>
+
+    <circle cx="1000" cy="125" r="35" stroke="#34D399" stroke-width="3" fill="none"/>
+    <path d="M1000,90 L1005,95 L1000,100 L995,95 Z M1035,125 L1030,130 L1025,125 L1030,120 Z
+             M1000,160 L1005,155 L1000,150 L995,155 Z M965,125 L970,130 L975,125 L970,120 Z"
+          fill="#6EE7B7"/>
+  </g>
+
+  <!-- Terminal prompt decorations -->
+  <text x="80" y="45" font-family="'SF Mono', 'Courier New', monospace"
+        font-size="16" fill="#10B981" opacity="0.5">$</text>
+  <text x="1100" y="45" font-family="'SF Mono', monospace"
+        font-size="16" fill="#34D399" opacity="0.5">~</text>
+
+  <!-- Main title -->
+  <text x="600" y="110" font-family="'SF Mono', 'Monaco', 'Courier New', monospace"
+        font-size="64" font-weight="bold" text-anchor="middle"
+        fill="url(#text-grad)" filter="url(#glow)">
+    MESHY TOOLS
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="150" font-family="'SF Mono', 'Monaco', monospace"
+        font-size="18" text-anchor="middle" fill="#A0C9B8">
+    Elegant Automation for Modern Workflows
+  </text>
+
+  <!-- Bottom badge -->
+  <g transform="translate(440, 175)">
+    <rect x="0" y="0" width="320" height="38" rx="19"
+          fill="#0D1117" stroke="#10B981" stroke-width="2" opacity="0.9"/>
+    <text x="160" y="25" font-family="'SF Mono', monospace"
+          font-size="13" text-anchor="middle" fill="#10B981" font-weight="bold">
+      ⚙️ Build Less, Automate More, Ship Faster
+    </text>
+  </g>
+
+  <!-- CLI-style decorations -->
+  <rect x="50" y="210" width="20" height="3" fill="#10B981" opacity="0.4"/>
+  <rect x="75" y="210" width="20" height="3" fill="#34D399" opacity="0.4"/>
+  <rect x="100" y="210" width="35" height="3" fill="#6EE7B7" opacity="0.4"/>
+
+  <rect x="1080" y="210" width="20" height="3" fill="#10B981" opacity="0.4"/>
+  <rect x="1105" y="210" width="20" height="3" fill="#34D399" opacity="0.4"/>
+  <rect x="1130" y="210" width="35" height="3" fill="#6EE7B7" opacity="0.4"/>
+</svg>
