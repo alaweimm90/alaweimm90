@@ -1,0 +1,117 @@
+<svg width="1200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A0A0A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2D1810;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#EF4444;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#F97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="250" fill="url(#bg)"/>
+
+  <!-- Performance graph pattern -->
+  <g opacity="0.2">
+    <path d="M100,180 L150,160 L200,140 L250,155 L300,120 L350,100 L400,90"
+          stroke="#EF4444" stroke-width="3" fill="none"/>
+    <circle cx="100" cy="180" r="4" fill="#EF4444"/>
+    <circle cx="200" cy="140" r="4" fill="#F97316"/>
+    <circle cx="300" cy="120" r="4" fill="#FBBF24"/>
+    <circle cx="400" cy="90" r="5" fill="#FBBF24">
+      <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <!-- Right side graph -->
+    <path d="M800,180 L850,165 L900,145 L950,160 L1000,125 L1050,105 L1100,95"
+          stroke="#F97316" stroke-width="3" fill="none"/>
+    <circle cx="1100" cy="95" r="5" fill="#FBBF24">
+      <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Heartbeat/pulse line -->
+  <g opacity="0.15">
+    <path d="M0,200 L200,200 L220,180 L240,220 L260,200 L1200,200"
+          stroke="#EF4444" stroke-width="2" fill="none"/>
+    <path d="M0,210 L150,210 L170,190 L190,230 L210,210 L1200,210"
+          stroke="#F97316" stroke-width="1.5" fill="none"/>
+  </g>
+
+  <!-- Athletic icons -->
+  <g opacity="0.2">
+    <!-- Dumbbell left -->
+    <rect x="120" y="75" width="15" height="40" rx="7" fill="#EF4444"/>
+    <rect x="110" y="68" width="35" height="8" fill="#EF4444"/>
+    <rect x="110" y="107" width="35" height="8" fill="#EF4444"/>
+    <rect x="145" y="75" width="30" height="4" fill="#F97316"/>
+
+    <!-- Target/goal right -->
+    <circle cx="1050" cy="95" r="30" stroke="#F97316" stroke-width="3" fill="none"/>
+    <circle cx="1050" cy="95" r="20" stroke="#F97316" stroke-width="2" fill="none"/>
+    <circle cx="1050" cy="95" r="10" stroke="#FBBF24" stroke-width="2" fill="none"/>
+    <circle cx="1050" cy="95" r="4" fill="#FBBF24"/>
+  </g>
+
+  <!-- Progress bars -->
+  <g opacity="0.25">
+    <!-- Left bars -->
+    <rect x="50" y="140" width="180" height="6" rx="3" fill="#2D1810"/>
+    <rect x="50" y="140" width="140" height="6" rx="3" fill="#EF4444"/>
+
+    <rect x="50" y="155" width="180" height="6" rx="3" fill="#2D1810"/>
+    <rect x="50" y="155" width="160" height="6" rx="3" fill="#F97316"/>
+
+    <!-- Right bars -->
+    <rect x="970" y="140" width="180" height="6" rx="3" fill="#2D1810"/>
+    <rect x="970" y="140" width="150" height="6" rx="3" fill="#F97316"/>
+
+    <rect x="970" y="155" width="180" height="6" rx="3" fill="#2D1810"/>
+    <rect x="970" y="155" width="170" height="6" rx="3" fill="#FBBF24"/>
+  </g>
+
+  <!-- Main title -->
+  <text x="600" y="100" font-family="'SF Mono', 'Impact', 'Arial Black', monospace"
+        font-size="72" font-weight="bold" text-anchor="middle"
+        fill="url(#text-grad)" filter="url(#glow)">
+    REPZ COACH
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="140" font-family="'SF Mono', 'Arial', sans-serif"
+        font-size="18" text-anchor="middle" fill="#D4A574" font-weight="600">
+    AI-Powered Athletic Performance & Behavioral Analytics
+  </text>
+
+  <!-- Bottom badge -->
+  <g transform="translate(380, 165)">
+    <rect x="0" y="0" width="440" height="40" rx="20"
+          fill="#1A0A0A" stroke="#EF4444" stroke-width="2.5" opacity="0.9"/>
+    <text x="220" y="26" font-family="'SF Mono', sans-serif"
+          font-size="14" text-anchor="middle" fill="#EF4444" font-weight="bold">
+      💪 Train Smarter • Perform Better • Achieve More
+    </text>
+  </g>
+
+  <!-- Stats indicators -->
+  <text x="280" y="50" font-family="'SF Mono', monospace"
+        font-size="16" fill="#F97316" opacity="0.5" font-weight="bold">↑ 23%</text>
+  <text x="920" y="220" font-family="'SF Mono', monospace"
+        font-size="16" fill="#FBBF24" opacity="0.5" font-weight="bold">500+ ATHLETES</text>
+
+  <!-- Fire emoji representation -->
+  <circle cx="350" cy="65" r="8" fill="#EF4444" opacity="0.6"/>
+  <circle cx="350" cy="72" r="6" fill="#F97316" opacity="0.7"/>
+  <circle cx="350" cy="77" r="4" fill="#FBBF24" opacity="0.8"/>
+</svg>
