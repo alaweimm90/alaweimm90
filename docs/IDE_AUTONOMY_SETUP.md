@@ -1,4 +1,4 @@
-# IDE Autonomy Setup
+# Ide Autonomy Setup
 
 This repo standardizes a team-safe baseline for VS Code–compatible IDEs (VS Code, Trae, Windsurf). Personal and autonomous behaviors live only in user profiles.
 
@@ -40,6 +40,7 @@ pwsh scripts/disable-autonomy.ps1 -RestoreFromBackup
 - Optionally adds a user keybinding `Ctrl+Alt+A` to run the task “Approve Next 50 (Auto-Approve)”.
 
 Notes:
+
 - Keys are applied even if the extension isn’t installed; harmless but no effect until installed.
 - The scripts remove JSON comments when writing back (backups are made first).
 
