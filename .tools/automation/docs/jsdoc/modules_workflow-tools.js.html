@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modules/workflow-tools.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: modules/workflow-tools.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Workflow Tools Integration Module
+ * Integrates additional tools to complement the existing workflow
+ */
+
+const { BaseModule } = require('../core/framework');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+const path = require('path');
+const fs = require('fs').promises;
+
+const execAsync = promisify(exec);
+
+class WorkflowToolsModule extends BaseModule {
+  constructor(framework) {
+    super(framework);
+    this.name = 'WorkflowTools';
+    this.tools = new Map();
+
+    // Register module tasks
+    this.registerTask('integrate-tool', this.integrateTool);
+    this.registerTask('execute-tool', this.executeTool);
+    this.registerTask('list-tools', this.listTools);
+    this.registerTask('configure-tool', this.configureTool);
+    this.registerTask('sync-tools', this.syncTools);
+  }
+
+  async init() {
+    await super.init();
+
+    // Initialize essential workflow tools
+    await this.initializeEssentialTools();
+  }
+
+  /**
+   * Initialize essential workflow tools
+   * @returns {Promise&lt;void>}
+   */
+  async initializeEssentialTools() {
+    this.logger.info('Initializing essential workflow tools');
+
+    const essentialTools = [
+      {
+        name: 'prettier',
+        type: 'formatter',
+        command: 'prettier',
+        config: {
+          configFile: '.prettierrc',
+          ignore: '.prettierignore',
+          extensions: ['js', 'ts', 'jsx', 'tsx', 'json', 'md', 'yaml', 'yml'],
+        },
+        install: 'npm install -g prettier',
+      },
+      {
+        name: 'eslint',
+        type: 'linter',
+        command: 'eslint',
+        config: {
+          configFile: '.eslintrc.json',
+          ignore: '.eslintignore',
+          extensions: ['js', 'ts', 'jsx', 'tsx'],
+        },
+        install: 'npm install -g eslint',
+      },
+      {
+        name: 'typescript',
+        type: 'compiler',
+        command: 'tsc',
+        config: {
+          configFile: 'tsconfig.json',
+        },
+        install: 'npm install -g typescript',
+      },
+      {
+        name: 'jest',
+        type: 'test-runner',
+        command: 'jest',
+        config: {
+          configFile: 'jest.config.js',
+        },
+        install: 'npm install -g jest',
+      },
+      {
+        name: 'vitest',
+        type: 'test-runner',
+        command: 'vitest',
+        config: {
+          configFile: 'vitest.config.ts',
+        },
+        install: 'npm install -g vitest',
+      },
+      {
+        name: 'webpack',
+        type: 'bundler',
+        command: 'webpack',
+        config: {
+          configFile: 'webpack.config.js',
+        },
+        install: 'npm install -g webpack webpack-cli',
+      },
+      {
+        name: 'vite',
+        type: 'bundler',
+        command: 'vite',
+        config: {
+          configFile: 'vite.config.ts',
+        },
+        install: 'npm install -g vite',
+      },
+      {
+        name: 'turbo',
+        type: 'build-system',
+        command: 'turbo',
+        config: {
+          configFile: 'turbo.json',
+        },
+        install: 'npm install -g turbo',
+      },
+      {
+        name: 'nx',
+        type: 'build-system',
+        command: 'nx',
+        config: {
+          configFile: 'nx.json',
+        },
+        install: 'npm install -g nx',
+      },
+      {
+        name: 'husky',
+        type: 'git-hooks',
+        command: 'husky',
+        config: {
+          hooksDir: '.husky',
+        },
+        install: 'npm install -g husky',
+      },
+      {
+        name: 'commitlint',
+        type: 'commit-validator',
+        command: 'commitlint',
+        config: {
+          configFile: '.commitlintrc.json',
+        },
+        install: 'npm install -g @commitlint/cli @commitlint/config-conventional',
+      },
+      {
+        name: 'semantic-release',
+        type: 'release-automation',
+        command: 'semantic-release',
+        config: {
+          configFile: '.releaserc.json',
+        },
+        install: 'npm install -g semantic-release',
+      },
+      {
+        name: 'changeset',
+        type: 'version-management',
+        command: 'changeset',
+        config: {
+          configDir: '.changeset',
+        },
+        install: 'npm install -g @changesets/cli',
+      },
+      {
+        name: 'plop',
+        type: 'code-generator',
+        command: 'plop',
+        config: {
+          configFile: 'plopfile.js',
+        },
+        install: 'npm install -g plop',
+      },
+      {
+        name: 'hygen',
+        type: 'code-generator',
+        command: 'hygen',
+        config: {
+          templatesDir: '_templates',
+        },
+        install: 'npm install -g hygen',
+      },
+      {
+        name: 'bundlesize',
+        type: 'performance',
+        command: 'bundlesize',
+        config: {
+          configFile: 'bundlesize.config.json',
+        },
+        install: 'npm install -g bundlesize',
+      },
+      {
+        name: 'lighthouse',
+        type: 'performance',
+        command: 'lighthouse',
+        config: {
+          configFile: 'lighthouse.config.js',
+        },
+        install: 'npm install -g lighthouse',
+      },
+      {
+        name: 'npm-check-updates',
+        type: 'dependency-management',
+        command: 'ncu',
+        config: {},
+        install: 'npm install -g npm-check-updates',
+      },
+      {
+        name: 'depcheck',
+        type: 'dependency-management',
+        command: 'depcheck',
+        config: {},
+        install: 'npm install -g depcheck',
+      },
+      {
+        name: 'madge',
+        type: 'dependency-analysis',
+        command: 'madge',
+        config: {},
+        install: 'npm install -g madge',
+      },
+      {
+        name: 'size-limit',
+        type: 'bundle-analysis',
+        command: 'size-limit',
+        config: {
+          configFile: '.size-limit.json',
+        },
+        install: 'npm install -g @size-limit/preset-app',
+      },
+      {
+        name: 'standard-version',
+        type: 'version-management',
+        command: 'standard-version',
+        config: {
+          configFile: '.versionrc.json',
+        },
+        install: 'npm install -g standard-version',
+      },
+      {
+        name: 'concurrently',
+        type: 'process-management',
+        command: 'concurrently',
+        config: {},
+        install: 'npm install -g concurrently',
+      },
+      {
+        name: 'pm2',
+        type: 'process-management',
+        command: 'pm2',
+        config: {
+          configFile: 'ecosystem.config.js',
+        },
+        install: 'npm install -g pm2',
+      },
+      {
+        name: 'nodemon',
+        type: 'development',
+        command: 'nodemon',
+        config: {
+          configFile: 'nodemon.json',
+        },
+        install: 'npm install -g nodemon',
+      },
+    ];
+
+    // Additional specialized tools
+    const specializedTools = [
+      // Documentation tools
+      {
+        name: 'typedoc',
+        type: 'documentation',
+        command: 'typedoc',
+        config: {
+          configFile: 'typedoc.json',
+        },
+        install: 'npm install -g typedoc',
+      },
+      {
+        name: 'jsdoc',
+        type: 'documentation',
+        command: 'jsdoc',
+        config: {
+          configFile: '.jsdoc.json',
+        },
+        install: 'npm install -g jsdoc',
+      },
+      {
+        name: 'docusaurus',
+        type: 'documentation',
+        command: 'docusaurus',
+        config: {
+          configFile: 'docusaurus.config.js',
+        },
+        install: 'npm install -g @docusaurus/core',
+      },
+
+      // Security tools
+      {
+        name: 'snyk',
+        type: 'security',
+        command: 'snyk',
+        config: {},
+        install: 'npm install -g snyk',
+      },
+      {
+        name: 'npm-audit',
+        type: 'security',
+        command: 'npm',
+        args: ['audit'],
+        config: {},
+        install: null, // Built into npm
+      },
+
+      // Code quality tools
+      {
+        name: 'sonarjs',
+        type: 'code-quality',
+        command: 'eslint-plugin-sonarjs',
+        config: {},
+        install: 'npm install -g eslint-plugin-sonarjs',
+      },
+      {
+        name: 'jscpd',
+        type: 'code-quality',
+        command: 'jscpd',
+        config: {
+          configFile: '.jscpd.json',
+        },
+        install: 'npm install -g jscpd',
+      },
+
+      // Database tools
+      {
+        name: 'prisma',
+        type: 'database',
+        command: 'prisma',
+        config: {
+          schema: 'prisma/schema.prisma',
+        },
+        install: 'npm install -g prisma',
+      },
+      {
+        name: 'typeorm',
+        type: 'database',
+        command: 'typeorm',
+        config: {
+          configFile: 'ormconfig.json',
+        },
+        install: 'npm install -g typeorm',
+      },
+
+      // API tools
+      {
+        name: 'swagger',
+        type: 'api',
+        command: 'swagger-cli',
+        config: {
+          specFile: 'swagger.yaml',
+        },
+        install: 'npm install -g @apidevtools/swagger-cli',
+      },
+      {
+        name: 'openapi',
+        type: 'api',
+        command: 'openapi',
+        config: {
+          specFile: 'openapi.yaml',
+        },
+        install: 'npm install -g @redocly/openapi-cli',
+      },
+    ];
+
+    const allTools = [...essentialTools, ...specializedTools];
+
+    for (const tool of allTools) {
+      await this.registerTool(tool);
+    }
+
+    this.logger.info(`Registered ${allTools.length} workflow tools`);
+  }
+
+  /**
+   * Register a workflow tool
+   * @param {{name:string,type:string,command:string,config?:object,install?:string}} toolConfig Tool config
+   * @returns {Promise&lt;void>}
+   */
+  async registerTool(toolConfig) {
+    // Check if tool is available
+    const isAvailable = await this.checkToolAvailability(toolConfig.command);
+
+    const tool = {
+      ...toolConfig,
+      available: isAvailable,
+      lastUsed: null,
+      executionCount: 0,
+    };
+
+    this.tools.set(toolConfig.name, tool);
+
+    if (!isAvailable) {
+      this.logger.warn(
+        `Tool ${toolConfig.name} is not available. Install with: ${toolConfig.install}`
+      );
+    }
+  }
+
+  /**
+   * Check if a tool is available
+   * @param {string} command Tool command
+   * @returns {Promise&lt;boolean>}
+   */
+  async checkToolAvailability(command) {
+    try {
+      await execAsync(`${command} --version`);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /**
+   * Integrate a new tool
+   * @param {{name:string,command:string,type:string,config?:object,install?:string}} params Integration params
+   * @returns {Promise&lt;{status:string,tool:string,available:boolean}>}
+   */
+  async integrateTool(params) {
+    const { name, command, type, config = {}, install } = params;
+
+    this.logger.info(`Integrating new tool: ${name}`);
+
+    // Check if tool already exists
+    if (this.tools.has(name)) {
+      throw new Error(`Tool ${name} already integrated`);
+    }
+
+    // Register the tool
+    const toolConfig = {
+      name,
+      type,
+      command,
+      config,
+      install,
+    };
+
+    await this.registerTool(toolConfig);
+
+    // Attempt to install if not available and install command provided
+    const tool = this.tools.get(name);
+    if (!tool.available &amp;&amp; install) {
+      this.logger.info(`Installing ${name}...`);
+
+      try {
+        await execAsync(install);
+        tool.available = await this.checkToolAvailability(command);
+
+        if (tool.available) {
+          this.logger.info(`Successfully installed ${name}`);
+        }
+      } catch (error) {
+        this.logger.error(`Failed to install ${name}`, { error: error.message });
+      }
+    }
+
+    return {
+      status: 'integrated',
+      tool: name,
+      available: tool.available,
+    };
+  }
+
+  /**
+   * Execute a tool
+   * @param {{tool:string,args?:string[],options?:{cwd?:string,timeout?:number}}} params Execution params
+   * @returns {Promise&lt;{status:string,tool:string,stdout?:string,stderr?:string,error?:string}>}
+   */
+  async executeTool(params) {
+    const { tool: toolName, args = [], options = {} } = params;
+
+    const tool = this.tools.get(toolName);
+    if (!tool) {
+      throw new Error(`Tool ${toolName} not found`);
+    }
+
+    if (!tool.available) {
+      throw new Error(`Tool ${toolName} is not available. Install with: ${tool.install}`);
+    }
+
+    this.logger.info(`Executing tool: ${toolName}`, { args });
+
+    // Build command
+    let {command} = tool;
+    if (tool.args) {
+      command += ` ${  tool.args.join(' ')}`;
+    }
+    if (args.length > 0) {
+      command += ` ${  args.join(' ')}`;
+    }
+
+    try {
+      const { stdout, stderr } = await execAsync(command, {
+        cwd: options.cwd || process.cwd(),
+        timeout: options.timeout || 60000,
+      });
+
+      // Update tool stats
+      tool.lastUsed = new Date().toISOString();
+      tool.executionCount++;
+
+      return {
+        status: 'success',
+        tool: toolName,
+        stdout,
+        stderr,
+      };
+    } catch (error) {
+      this.logger.error(`Tool execution failed: ${toolName}`, { error: error.message });
+
+      return {
+        status: 'failed',
+        tool: toolName,
+        error: error.message,
+        stdout: error.stdout,
+        stderr: error.stderr,
+      };
+    }
+  }
+
+  /**
+   * List all available tools
+   * @param {{type?:string,available?:boolean}} params Filter params
+   * @returns {Promise&lt;{total:number,available:number,unavailable:number,byType:object}>}
+   */
+  async listTools(params = {}) {
+    const { type, available } = params;
+
+    let tools = Array.from(this.tools.values());
+
+    // Filter by type if specified
+    if (type) {
+      tools = tools.filter(t => t.type === type);
+    }
+
+    // Filter by availability if specified
+    if (available !== undefined) {
+      tools = tools.filter(t => t.available === available);
+    }
+
+    // Group by type
+    const grouped = {};
+    for (const tool of tools) {
+      if (!grouped[tool.type]) {
+        grouped[tool.type] = [];
+      }
+      grouped[tool.type].push({
+        name: tool.name,
+        command: tool.command,
+        available: tool.available,
+        lastUsed: tool.lastUsed,
+        executionCount: tool.executionCount,
+      });
+    }
+
+    return {
+      total: tools.length,
+      available: tools.filter(t => t.available).length,
+      unavailable: tools.filter(t => !t.available).length,
+      byType: grouped,
+    };
+  }
+
+  /**
+   * Configure a tool
+   * @param {{tool:string,config:object}} params Configuration params
+   * @returns {Promise&lt;{status:string,tool:string,config:object}>}
+   */
+  async configureTool(params) {
+    const { tool: toolName, config } = params;
+
+    const tool = this.tools.get(toolName);
+    if (!tool) {
+      throw new Error(`Tool ${toolName} not found`);
+    }
+
+    this.logger.info(`Configuring tool: ${toolName}`);
+
+    // Merge configuration
+    tool.config = { ...tool.config, ...config };
+
+    // Create config file if needed
+    if (config.configFile &amp;&amp; config.content) {
+      const configPath = path.resolve(config.configFile);
+
+      try {
+        await fs.writeFile(configPath, config.content, 'utf8');
+        this.logger.info(`Created config file: ${configPath}`);
+      } catch (error) {
+        this.logger.error(`Failed to create config file`, { error: error.message });
+        throw error;
+      }
+    }
+
+    return {
+      status: 'configured',
+      tool: toolName,
+      config: tool.config,
+    };
+  }
+
+  /**
+   * Sync tools - check and update availability
+   * @param {{}} params Reserved
+   * @returns {Promise&lt;{synced:Array,newlyAvailable:Array,newlyUnavailable:Array}>}
+   */
+  async syncTools(params = {}) {
+    this.logger.info('Syncing tool availability');
+
+    const results = {
+      synced: [],
+      newlyAvailable: [],
+      newlyUnavailable: [],
+    };
+
+    for (const [name, tool] of this.tools) {
+      const wasAvailable = tool.available;
+      const isAvailable = await this.checkToolAvailability(tool.command);
+
+      tool.available = isAvailable;
+      results.synced.push(name);
+
+      if (!wasAvailable &amp;&amp; isAvailable) {
+        results.newlyAvailable.push(name);
+        this.logger.info(`Tool ${name} is now available`);
+      } else if (wasAvailable &amp;&amp; !isAvailable) {
+        results.newlyUnavailable.push(name);
+        this.logger.warn(`Tool ${name} is no longer available`);
+      }
+    }
+
+    return results;
+  }
+
+  /**
+   * Create workflow using multiple tools
+   * @param {string} name Workflow name
+   * @param {Array&lt;{tool:string,name?:string,args?:string[],options?:object,continueOnError?:boolean}>} steps Steps
+   * @returns {Promise&lt;{name:string,steps:Array,created:string}>}
+   */
+  async createWorkflow(name, steps) {
+    const workflow = {
+      name,
+      steps: [],
+      created: new Date().toISOString(),
+    };
+
+    for (const step of steps) {
+      const tool = this.tools.get(step.tool);
+      if (!tool) {
+        throw new Error(`Tool ${step.tool} not found for workflow step`);
+      }
+
+      workflow.steps.push({
+        ...step,
+        tool: tool.name,
+        command: tool.command,
+      });
+    }
+
+    return workflow;
+  }
+
+  /**
+   * Execute a complete workflow
+   * @param {{name:string,steps:Array}} workflow Workflow definition
+   * @returns {Promise&lt;{workflow:string,results:Array}>}
+   */
+  async executeWorkflow(workflow) {
+    this.logger.info(`Executing workflow: ${workflow.name}`);
+
+    const results = [];
+
+    for (const step of workflow.steps) {
+      this.logger.info(`Executing step: ${step.name || step.tool}`);
+
+      try {
+        const result = await this.executeTool({
+          tool: step.tool,
+          args: step.args || [],
+          options: step.options || {},
+        });
+
+        results.push({
+          step: step.name || step.tool,
+          ...result,
+        });
+
+        if (result.status === 'failed' &amp;&amp; !step.continueOnError) {
+          this.logger.error(`Workflow step failed, stopping execution`);
+          break;
+        }
+      } catch (error) {
+        results.push({
+          step: step.name || step.tool,
+          status: 'failed',
+          error: error.message,
+        });
+
+        if (!step.continueOnError) {
+          break;
+        }
+      }
+    }
+
+    return {
+      workflow: workflow.name,
+      results,
+    };
+  }
+}
+
+module.exports = WorkflowToolsModule;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AgentOrchestratorModule.html">AgentOrchestratorModule</a></li><li><a href="MCPClient.html">MCPClient</a></li><li><a href="MCPModule.html">MCPModule</a></li><li><a href="MCPServer.html">MCPServer</a></li><li><a href="ResearchAgent.html">ResearchAgent</a></li></ul><h3>Global</h3><ul><li><a href="global.html#EventEmitter">EventEmitter</a></li><li><a href="global.html#WebSocket">WebSocket</a></li><li><a href="global.html#fs">fs</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sat Nov 22 2025 08:19:04 GMT-0800 (Pacific Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Portfolio Template</title>
+    <meta name="description" content="Professional portfolio showcasing creative work in design, development, and photography. View my projects, services, and get in touch.">
+    <meta name="keywords" content="portfolio, creative professional, designer, developer, photographer, web design, graphic design">
+    <meta name="author" content="Your Name">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:title" content="Creative Portfolio Template">
+    <meta property="og:description" content="Professional portfolio showcasing creative work">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/">
+    <meta property="twitter:title" content="Creative Portfolio Template">
+    <meta property="twitter:description" content="Professional portfolio showcasing creative work">
+    <meta property="twitter:image" content="https://via.placeholder.com/1200x630">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Your Name",
+        "jobTitle": "Creative Professional",
+        "description": "Professional designer, developer, and photographer",
+        "url": "https://yourwebsite.com",
+        "sameAs": [
+            "https://linkedin.com/in/yourprofile",
+            "https://behance.net/yourprofile",
+            "https://dribbble.com/yourprofile"
+        ],
+        "knowsAbout": ["Web Design", "Graphic Design", "Photography", "UI/UX Design"],
+        "hasOccupation": {
+            "@type": "Occupation",
+            "name": "Creative Professional"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo">
+                <a href="#home" aria-label="Go to home section">Your Name</a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Hello, I'm <span class="highlight">Your Name</span></h1>
+                <p class="hero-subtitle">Creative Professional • Designer • Developer • Photographer</p>
+                <p class="hero-description">I create stunning visual experiences that tell your story and captivate your audience.</p>
+                <div class="hero-actions">
+                    <a href="#portfolio" class="cta-button primary">View My Work</a>
+                    <a href="#contact" class="cta-button secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/500x600/4a90e2/ffffff?text=Profile+Photo" alt="Professional headshot of Your Name" loading="lazy">
+            </div>
+        </section>
+
+        <section id="portfolio" class="portfolio">
+            <div class="container">
+                <h2>Featured Work</h2>
+                <p class="section-description">A selection of my recent projects showcasing creativity and technical expertise.</p>
+                <div class="portfolio-grid" role="grid">
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/4a90e2/ffffff?text=Project+1" data-title="Brand Identity Design" data-description="Complete brand identity package including logo, color palette, and typography.">
+                        <img src="https://via.placeholder.com/400x300/4a90e2/ffffff?text=Project+1" alt="Brand identity design project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>Brand Identity Design</h3>
+                            <p>Complete brand identity package</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/e94b3c/ffffff?text=Project+2" data-title="E-commerce Website" data-description="Modern, responsive e-commerce platform with seamless user experience.">
+                        <img src="https://via.placeholder.com/400x300/e94b3c/ffffff?text=Project+2" alt="E-commerce website project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>E-commerce Website</h3>
+                            <p>Modern responsive platform</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/50c878/ffffff?text=Project+3" data-title="Photography Series" data-description="Artistic photography series capturing urban landscapes and street scenes.">
+                        <img src="https://via.placeholder.com/400x300/50c878/ffffff?text=Project+3" alt="Photography series project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>Photography Series</h3>
+                            <p>Urban landscapes collection</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/f39c12/ffffff?text=Project+4" data-title="Mobile App UI/UX" data-description="Intuitive mobile application design with focus on user experience.">
+                        <img src="https://via.placeholder.com/400x300/f39c12/ffffff?text=Project+4" alt="Mobile app UI/UX project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>Mobile App UI/UX</h3>
+                            <p>Intuitive user interface design</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/9b59b6/ffffff?text=Project+5" data-title="Print Design Collection" data-description="Magazine layouts, posters, and promotional materials.">
+                        <img src="https://via.placeholder.com/400x300/9b59b6/ffffff?text=Project+5" alt="Print design collection project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>Print Design Collection</h3>
+                            <p>Magazine layouts and posters</p>
+                        </div>
+                    </div>
+                    <div class="portfolio-item" role="gridcell" tabindex="0" data-image="https://via.placeholder.com/800x600/1abc9c/ffffff?text=Project+6" data-title="Web Development" data-description="Custom web application built with modern technologies.">
+                        <img src="https://via.placeholder.com/400x300/1abc9c/ffffff?text=Project+6" alt="Web development project thumbnail" loading="lazy">
+                        <div class="portfolio-overlay">
+                            <h3>Web Development</h3>
+                            <p>Custom web application</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://via.placeholder.com/400x500/34495e/ffffff?text=About+Photo" alt="Creative professional working at desk" loading="lazy">
+                    </div>
+                    <div class="about-text">
+                        <p>I'm a passionate creative professional with over 8 years of experience in design, development, and photography. I believe in creating meaningful connections through visual storytelling and innovative solutions.</p>
+                        <p>My approach combines technical expertise with artistic vision to deliver exceptional results that exceed expectations. Whether it's crafting a brand identity, developing a web application, or capturing the perfect shot, I bring dedication and creativity to every project.</p>
+                        
+                        <h3>Skills & Expertise</h3>
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4>Design</h4>
+                                <ul>
+                                    <li>Brand Identity</li>
+                                    <li>UI/UX Design</li>
+                                    <li>Graphic Design</li>
+                                    <li>Print Design</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Development</h4>
+                                <ul>
+                                    <li>HTML/CSS/JavaScript</li>
+                                    <li>React/Vue.js</li>
+                                    <li>Node.js</li>
+                                    <li>WordPress</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Photography</h4>
+                                <ul>
+                                    <li>Portrait</li>
+                                    <li>Product</li>
+                                    <li>Event</li>
+                                    <li>Landscape</li>
+                                </ul>
+                            </div>
+                            <div class="skill-category">
+                                <h4>Tools</h4>
+                                <ul>
+                                    <li>Adobe Creative Suite</li>
+                                    <li>Figma/Sketch</li>
+                                    <li>Lightroom/Photoshop</li>
+                                    <li>VS Code</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Services & Pricing</h2>
+                <p class="section-description">Professional services tailored to bring your vision to life.</p>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">🎨</div>
+                        <h3>Brand Identity Design</h3>
+                        <p>Complete brand identity package including logo design, color palette, typography, and brand guidelines.</p>
+                        <div class="service-price">
+                            <span class="price">$2,500</span>
+                            <span class="duration">Starting at</span>
+                        </div>
+                        <ul class="service-features">
+                            <li>Logo Design (3 concepts)</li>
+                            <li>Brand Color Palette</li>
+                            <li>Typography Selection</li>
+                            <li>Brand Guidelines</li>
+                            <li>Source Files</li>
+                        </ul>
+                        <a href="#contact" class="service-cta">Get Started</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">💻</div>
+                        <h3>Website Development</h3>
+                        <p>Custom website development with modern technologies, responsive design, and SEO optimization.</p>
+                        <div class="service-price">
+                            <span class="price">$3,500</span>
+                            <span class="duration">Starting at</span>
+                        </div>
+                        <ul class="service-features">
+                            <li>Responsive Design</li>
+                            <li>Custom Development</li>
+                            <li>SEO Optimization</li>
+                            <li>Content Management</li>
+                            <li>6 Months Support</li>
+                        </ul>
+                        <a href="#contact" class="service-cta">Get Started</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📸</div>
+                        <h3>Photography Services</h3>
+                        <p>Professional photography services for portraits, events, products, and commercial shoots.</p>
+                        <div class="service-price">
+                            <span class="price">$800</span>
+                            <span class="duration">Per session</span>
+                        </div>
+                        <ul class="service-features">
+                            <li>Professional Editing</li>
+                            <li>High-Resolution Files</li>
+                            <li>Online Gallery</li>
+                            <li>Print Release</li>
+                            <li>Rush Service Available</li>
+                        </ul>
+                        <a href="#contact" class="service-cta">Get Started</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">📱</div>
+                        <h3>UI/UX Design</h3>
+                        <p>User-centered design solutions for web and mobile applications with wireframes and prototypes.</p>
+                        <div class="service-price">
+                            <span class="price">$1,800</span>
+                            <span class="duration">Starting at</span>
+                        </div>
+                        <ul class="service-features">
+                            <li>User Research</li>
+                            <li>Wireframes & Mockups</li>
+                            <li>Interactive Prototypes</li>
+                            <li>Usability Testing</li>
+                            <li>Design System</li>
+                        </ul>
+                        <a href="#contact" class="service-cta">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2>Client Testimonials</h2>
+                <p class="section-description">What clients say about working with me.</p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "Exceptional creativity and attention to detail. The brand identity exceeded our expectations and has been instrumental in our market positioning."
+                        </blockquote>
+                        <cite>
+                            <img src="https://via.placeholder.com/60x60/e74c3c/ffffff?text=JS" alt="Client photo" loading="lazy">
+                            <div>
+                                <strong>Sarah Johnson</strong>
+                                <span>CEO, TechStart Inc.</span>
+                            </div>
+                        </cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "Professional, reliable, and incredibly talented. Our new website has increased conversions by 40% since launch."
+                        </blockquote>
+                        <cite>
+                            <img src="https://via.placeholder.com/60x60/3498db/ffffff?text=MR" alt="Client photo" loading="lazy">
+                            <div>
+                                <strong>Mike Rodriguez</strong>
+                                <span>Marketing Director, GrowthCo</span>
+                            </div>
+                        </cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <blockquote>
+                            "The photography work was outstanding. Captured the perfect mood for our campaign and delivered exactly what we needed."
+                        </blockquote>
+                        <cite>
+                            <img src="https://via.placeholder.com/60x60/2ecc71/ffffff?text=AL" alt="Client photo" loading="lazy">
+                            <div>
+                                <strong>Amanda Lee</strong>
+                                <span>Creative Director, AdAgency</span>
+                            </div>
+                        </cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <p class="section-description">Ready to start your next project? Let's discuss how we can work together.</p>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>hello@yourwebsite.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>
+                                <h3>Phone</h3>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h3>Location</h3>
+                                <p>San Francisco, CA</p>
+                            </div>
+                        </div>
+                        <div class="contact-social">
+                            <h3>Follow Me</h3>
+                            <div class="social-links">
+                                <a href="#" aria-label="LinkedIn profile" class="social-link">LinkedIn</a>
+                                <a href="#" aria-label="Behance profile" class="social-link">Behance</a>
+                                <a href="#" aria-label="Dribbble profile" class="social-link">Dribbble</a>
+                                <a href="#" aria-label="Instagram profile" class="social-link">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="contact-form" class="contact-form" action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required aria-required="true" aria-describedby="name-error">
+                            <span id="name-error" class="error-message" role="alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required aria-required="true" aria-describedby="email-error">
+                            <span id="email-error" class="error-message" role="alert"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required aria-required="true" aria-describedby="message-error"></textarea>
+                            <span id="message-error" class="error-message" role="alert"></span>
+                        </div>
+                        <button type="submit" class="submit-button">
+                            <span class="button-text">Send Message</span>
+                            <span class="button-loading" style="display: none;">Sending...</span>
+                        </button>
+                        <div id="form-success" class="success-message" role="alert" style="display: none;">
+                            Thank you! Your message has been sent successfully.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="#home">Your Name</a>
+                </div>
+                <div class="footer-nav">
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#" aria-label="LinkedIn">LinkedIn</a>
+                    <a href="#" aria-label="Behance">Behance</a>
+                    <a href="#" aria-label="Dribbble">Dribbble</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Your Name. All rights reserved.</p>
+                <p>Designed with ❤️ for creative professionals</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-describedby="lightbox-description" style="display: none;">
+        <div class="lightbox-overlay" tabindex="-1"></div>
+        <div class="lightbox-content">
+            <button class="lightbox-close" aria-label="Close lightbox">&times;</button>
+            <img id="lightbox-image" src="" alt="" loading="lazy">
+            <div class="lightbox-info">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

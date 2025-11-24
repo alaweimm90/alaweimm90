@@ -1,0 +1,335 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "industry": "SaaS Platform",
+    "description": "SaaS Platform Industry Compliance Configuration Template",
+    "frameworks": ["SOC2", "GDPR", "CCPA"],
+    "focus": "Trust services, EU/CA privacy rights, and data security",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["SOC2", "GDPR", "CCPA"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "personal_information": 2555,
+        "customer_data": 2555,
+        "consent_records": 2555,
+        "audit_logs": 2555,
+        "security_events": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": true
+    },
+    "geographicCompliance": {
+      "restrictedRegions": [],
+      "dataLocalizationRequired": true,
+      "sovereigntyRequirements": {
+        "europe": ["GDPR"],
+        "north_america": ["CCPA"]
+      }
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "continuousAuditing": {
+        "enabled": true,
+        "frequency": "real_time",
+        "automatedReporting": true
+      },
+      "annualPrivacyReport": {
+        "enabled": true,
+        "automatedGeneration": true,
+        "publicDisclosure": true
+      },
+      "dataBreachNotification": {
+        "enabled": true,
+        "timeframeHours": 72,
+        "recipients": ["supervisory_authority", "data_subjects"],
+        "automatedReporting": true
+      }
+    }
+  },
+  "dataClassification": {
+    "personal_information": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "soc2Compliance": true,
+      "gdprCompliance": true,
+      "ccpaCompliance": true
+    },
+    "customer_data": {
+      "patterns": [
+        "\\b(customer|client|user|account|profile)\\b",
+        "\\b(subscription|license|tenant|organization)\\b"
+      ],
+      "riskLevel": "medium",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "soc2Compliance": true,
+      "gdprCompliance": true,
+      "ccpaCompliance": true
+    },
+    "confidential": {
+      "patterns": [
+        "\\b(confidential|secret|proprietary|internal)\\b",
+        "\\b(trade_secret|intellectual_property)\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "soc2Compliance": true,
+      "gdprCompliance": false,
+      "ccpaCompliance": false
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": true,
+    "consentValidationEnabled": true,
+    "privacyRightsEnforced": true,
+    "continuousMonitoringEnabled": true,
+    "multiTenantIsolation": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america", "europe", "asia_pacific"],
+    "blockedRegions": [],
+    "dataLocalization": {
+      "personal_information": "europe"
+    },
+    "crossBorderRules": {
+      "adequacyDecision": true,
+      "standardContractualClauses": true,
+      "consentRequired": true
+    }
+  },
+  "consentManagement": {
+    "requiredForProcessing": true,
+    "granularConsent": true,
+    "optOutRights": true,
+    "doNotSellRights": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    },
+    "lawfulBases": ["consent", "contract", "legitimate_interests"]
+  },
+  "privacyRights": {
+    "rightToKnow": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToDelete": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToOptOut": {
+      "enabled": true,
+      "responseTimeDays": 15,
+      "automatedProcessing": true
+    },
+    "rightToNonDiscrimination": {
+      "enabled": true,
+      "protectionEnabled": true
+    },
+    "rightToAccess": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToPortability": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true,
+      "formats": ["json", "xml", "csv"]
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "platform_admin": {
+        "personal_information": ["read"],
+        "customer_data": ["read", "write", "delete"],
+        "confidential": ["read", "write"]
+      },
+      "customer_admin": {
+        "personal_information": ["read", "write"],
+        "customer_data": ["read", "write"],
+        "confidential": []
+      },
+      "support_agent": {
+        "personal_information": ["read"],
+        "customer_data": ["read", "write"],
+        "confidential": []
+      },
+      "privacy_officer": {
+        "personal_information": ["read", "write", "delete"],
+        "customer_data": ["read"],
+        "confidential": ["read", "write"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800,
+    "multiFactorRequired": true,
+    "tenantIsolation": true
+  },
+  "trustServicesCriteria": {
+    "security": {
+      "enabled": true,
+      "controls": [
+        "access_control",
+        "encryption",
+        "network_security",
+        "monitoring",
+        "incident_response"
+      ]
+    },
+    "availability": {
+      "enabled": true,
+      "controls": [
+        "system_availability",
+        "capacity_management",
+        "disaster_recovery",
+        "performance_monitoring"
+      ],
+      "targetUptime": 0.995
+    },
+    "confidentiality": {
+      "enabled": true,
+      "controls": ["data_classification", "encryption", "access_controls", "privacy_protection"]
+    }
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_modification",
+      "data_deletion",
+      "consent_granted",
+      "consent_withdrawn",
+      "opt_out_request",
+      "privacy_right_exercised",
+      "authentication",
+      "authorization_failure",
+      "security_event",
+      "system_change",
+      "tenant_isolation_breach"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true,
+    "evidenceCollection": true
+  },
+  "continuousMonitoring": {
+    "enabled": true,
+    "metrics": [
+      "system_availability",
+      "privacy_compliance",
+      "security_events",
+      "consent_violations",
+      "tenant_isolation",
+      "error_rates"
+    ],
+    "alerts": {
+      "availability_threshold": 0.995,
+      "privacy_violations": true,
+      "security_incidents": true,
+      "tenant_breach": true
+    },
+    "reporting": {
+      "frequency": "real_time",
+      "recipients": ["security_team", "privacy_officer", "platform_admin"],
+      "automated": true
+    }
+  },
+  "encryption": {
+    "requiredForPersonalInfo": true,
+    "requiredForCustomerData": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "tenantSpecificKeys": true
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "consentValidationAlerts": true,
+    "privacyRightAlerts": true,
+    "securityEventAlerts": true,
+    "availabilityAlerts": true,
+    "tenantIsolationAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "consentValidation": true,
+      "privacyRightsEnforcement": true,
+      "continuousMonitoring": true,
+      "multiTenantSupport": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "consent_management": true,
+      "privacy_portal": true,
+      "siem_integration": true,
+      "audit_systems": true,
+      "identity_provider": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "personal_data_detection",
+      "consent_validation",
+      "tenant_isolation",
+      "geographic_compliance",
+      "encryption_verification"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "consent_compliance",
+      "privacy_rights_processing",
+      "security_assessment",
+      "tenant_isolation_check"
+    ]
+  },
+  "_comments": {
+    "compliance": "Combined SOC 2, GDPR, and CCPA compliance settings",
+    "dataClassification": "Personal information, customer data, and confidential data",
+    "routingRules": "Multi-framework compliance-aware routing with multi-tenancy",
+    "geographicRestrictions": "EU and CA data localization requirements",
+    "consentManagement": "GDPR and CCPA consent management",
+    "privacyRights": "GDPR and CCPA privacy rights implementation",
+    "accessControls": "SaaS role-based access with tenant isolation",
+    "trustServicesCriteria": "SOC 2 trust services criteria for SaaS",
+    "auditLogging": "Comprehensive audit trail for all three frameworks",
+    "continuousMonitoring": "Real-time monitoring for SaaS compliance",
+    "encryption": "Tenant-specific encryption for multi-tenant SaaS",
+    "monitoring": "Comprehensive compliance monitoring",
+    "integration": "TRAE routing and SaaS platform integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

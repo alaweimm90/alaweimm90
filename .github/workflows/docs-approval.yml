@@ -1,0 +1,22 @@
+name: Docs Approval Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require approval label for critical doc changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const labels = (pr.labels||[]).map(l=>l.name);
+            const res = await github.rest.pulls.listFiles({ owner: context.repo.owner, repo: context.repo.repo, pull_number: pr.number });
+            const critical = res.data.some(f=>/\b(README\.md|CONTRIBUTING\.md|CHANGELOG\.md|SPECIFICATIONS\.md|DESIGN\.md|SECURITY\.md|ARCHITECTURE\.md)\b/.test(f.filename));
+            if (critical && !labels.includes('docs-approved')) {
+              core.setFailed('Missing docs-approved label for critical documentation changes');
+            }

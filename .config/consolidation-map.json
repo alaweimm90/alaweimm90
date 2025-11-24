@@ -1,0 +1,20 @@
+[
+  { "old": ".automation", "new": ".tools/automation" },
+  { "old": ".dev-tools", "new": ".tools/dev-tools" },
+  { "old": ".vscode", "new": ".config/vscode" },
+  { "old": ".meta", "new": ".config/meta" },
+  { "old": ".metaHub", "new": ".config/metaHub" },
+  { "old": ".husky", "new": ".tools/husky" },
+  { "old": ".governance", "new": ".config/governance" },
+  { "old": ".organizations", "new": ".config/organizations" },
+  { "old": ".archives", "new": ".config/archives" },
+  { "old": ".turbo", "new": ".cache/turbo" },
+  { "old": ".claude", "new": ".config/claude" },
+  { "old": ".devcontainer", "new": ".config/devcontainer" },
+  { "old": ".idea", "new": ".config/idea" },
+  { "old": ".cursor", "new": ".tools/cursor" },
+  { "old": ".continue", "new": ".tools/continue" },
+  { "old": ".windsurf", "new": ".tools/windsurf" },
+  { "old": ".amazonq", "new": ".tools/amazonq" },
+  { "old": ".copilot", "new": ".tools/copilot" }
+]

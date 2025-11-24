@@ -1,0 +1,30 @@
+name: File Cleanup Daily
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Evaluate policies
+        run: node scripts/files/policy.js
+      - name: Run cleanup
+        run: node scripts/files/cleanup-daily.js
+      - name: Commit changes
+        run: |
+          git checkout -b files/cleanup || git checkout files/cleanup
+          git add -A
+          git commit -m "files: daily cleanup rotation/quarantine" || echo "No changes"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: files/cleanup
+          title: 'Files: Daily cleanup'
+          commit-message: 'files: cleanup'
+          labels: files-cleanup

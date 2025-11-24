@@ -1,0 +1,55 @@
+name: CodeQL Configuration
+
+# Language selection
+paths:
+  - src
+  - lib
+
+paths-ignore:
+  - node_modules
+  - dist
+  - build
+  - coverage
+  - .next
+  - venv
+  - .venv
+
+# Disable default queries for specific files
+disable-default-queries: false
+
+# Database settings
+version: 1
+
+# Queries to run
+queries:
+  - uses: security-and-quality
+
+# Query filter settings
+query-filters:
+  - description: 'Exclude low-confidence results'
+    severity: warning
+    kinds: [path-problem, problem]
+
+# Telemetry
+telemetry: false
+
+# Script interpretation
+run-query-timeout: 600
+
+# Advanced configuration
+advanced:
+  # Memory limit for analysis (GB)
+  ram: 8
+
+  # Number of parallel jobs
+  num-jobs: 0 # Use auto-detection
+
+  # Strict mode
+  strict-mode: true
+
+# Exclude files from analysis
+exclude:
+  - '**/*.min.js'
+  - '**/node_modules/**'
+  - '**/venv/**'
+  - '**/.pytest_cache/**'

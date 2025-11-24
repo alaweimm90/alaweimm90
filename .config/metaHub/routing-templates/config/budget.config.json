@@ -1,0 +1,368 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "TRAE Cost Control and Budget Management Configuration Template",
+    "lastUpdated": "2025-11-22",
+    "frameworkAgnostic": true,
+    "complianceReady": ["HIPAA", "GDPR", "SOC2", "PCI_DSS"],
+    "targetSavings": "7-10x cost reduction"
+  },
+
+  "globalBudget": {
+    "dailyLimit": 100.0,
+    "monthlyLimit": 3000.0,
+    "yearlyLimit": 36500.0,
+    "currentDailyUsage": 0.0,
+    "currentMonthlyUsage": 0.0,
+    "currentYearlyUsage": 0.0,
+    "alertThreshold": 0.8,
+    "emergencyThreshold": 0.95,
+    "resetSchedule": "daily",
+    "currency": "USD"
+  },
+
+  "tierBudgets": {
+    "tier_1": {
+      "dailyLimit": 50.0,
+      "monthlyLimit": 1500.0,
+      "percentageOfTotal": 0.5,
+      "description": "Premium models (GPT-4, Claude-3-Opus)"
+    },
+    "tier_2": {
+      "dailyLimit": 40.0,
+      "monthlyLimit": 1200.0,
+      "percentageOfTotal": 0.4,
+      "description": "Balanced models (GPT-3.5, Claude-3-Sonnet)"
+    },
+    "tier_3": {
+      "dailyLimit": 10.0,
+      "monthlyLimit": 300.0,
+      "percentageOfTotal": 0.1,
+      "description": "Budget models (Local LLM, OpenRouter)"
+    }
+  },
+
+  "providerBudgets": {
+    "openai": {
+      "dailyLimit": 60.0,
+      "monthlyLimit": 1800.0,
+      "percentageOfTotal": 0.6,
+      "priority": "high"
+    },
+    "anthropic": {
+      "dailyLimit": 30.0,
+      "monthlyLimit": 900.0,
+      "percentageOfTotal": 0.3,
+      "priority": "high"
+    },
+    "gemini": {
+      "dailyLimit": 5.0,
+      "monthlyLimit": 150.0,
+      "percentageOfTotal": 0.05,
+      "priority": "medium"
+    },
+    "mistral": {
+      "dailyLimit": 3.0,
+      "monthlyLimit": 90.0,
+      "percentageOfTotal": 0.03,
+      "priority": "medium"
+    },
+    "local": {
+      "dailyLimit": 1.0,
+      "monthlyLimit": 30.0,
+      "percentageOfTotal": 0.01,
+      "priority": "low"
+    },
+    "openrouter": {
+      "dailyLimit": 1.0,
+      "monthlyLimit": 30.0,
+      "percentageOfTotal": 0.01,
+      "priority": "low"
+    }
+  },
+
+  "regionalBudgets": {
+    "north_america": {
+      "dailyLimit": 70.0,
+      "monthlyLimit": 2100.0,
+      "percentageOfTotal": 0.7,
+      "description": "Primary region - highest allocation"
+    },
+    "europe": {
+      "dailyLimit": 20.0,
+      "monthlyLimit": 600.0,
+      "percentageOfTotal": 0.2,
+      "description": "GDPR compliance region"
+    },
+    "asia_pacific": {
+      "dailyLimit": 8.0,
+      "monthlyLimit": 240.0,
+      "percentageOfTotal": 0.08,
+      "description": "Growing market region"
+    },
+    "south_america": {
+      "dailyLimit": 1.5,
+      "monthlyLimit": 45.0,
+      "percentageOfTotal": 0.015,
+      "description": "Emerging market"
+    },
+    "africa": {
+      "dailyLimit": 0.5,
+      "monthlyLimit": 15.0,
+      "percentageOfTotal": 0.005,
+      "description": "Limited availability region"
+    }
+  },
+
+  "complianceBudgets": {
+    "HIPAA": {
+      "dailyLimit": 25.0,
+      "monthlyLimit": 750.0,
+      "enforced": true,
+      "auditRequired": true,
+      "description": "Healthcare data compliance"
+    },
+    "GDPR": {
+      "dailyLimit": 50.0,
+      "monthlyLimit": 1500.0,
+      "enforced": true,
+      "auditRequired": true,
+      "description": "European data protection"
+    },
+    "SOC2": {
+      "dailyLimit": 15.0,
+      "monthlyLimit": 450.0,
+      "enforced": true,
+      "auditRequired": true,
+      "description": "Security and compliance framework"
+    },
+    "PCI_DSS": {
+      "dailyLimit": 10.0,
+      "monthlyLimit": 300.0,
+      "enforced": false,
+      "auditRequired": false,
+      "description": "Payment card industry security"
+    }
+  },
+
+  "perRequestLimits": {
+    "default": 10.0,
+    "byComplexity": {
+      "simple": 1.0,
+      "moderate": 5.0,
+      "complex": 10.0,
+      "critical": 25.0
+    },
+    "byPriority": {
+      "low": 2.0,
+      "normal": 10.0,
+      "high": 15.0,
+      "critical": 50.0
+    },
+    "byDataClassification": {
+      "public": 1.0,
+      "internal": 5.0,
+      "confidential": 15.0,
+      "restricted": 50.0
+    }
+  },
+
+  "costOptimizationRules": {
+    "aggressive": {
+      "maxTier1Percentage": 0.1,
+      "forceTier3Threshold": 0.9,
+      "costReductionTarget": 0.9,
+      "description": "Maximum cost reduction (10x target)"
+    },
+    "balanced": {
+      "maxTier1Percentage": 0.2,
+      "forceTier3Threshold": 0.95,
+      "costReductionTarget": 0.8,
+      "description": "Balanced cost and quality (8x target)"
+    },
+    "quality_first": {
+      "maxTier1Percentage": 0.5,
+      "forceTier3Threshold": 0.99,
+      "costReductionTarget": 0.6,
+      "description": "Quality prioritized (6x target)"
+    }
+  },
+
+  "budgetAlerts": {
+    "thresholds": [
+      {
+        "percentage": 0.5,
+        "severity": "info",
+        "message": "Budget usage at 50%",
+        "actions": ["log"]
+      },
+      {
+        "percentage": 0.75,
+        "severity": "warning",
+        "message": "Budget usage at 75%",
+        "actions": ["log", "notify"]
+      },
+      {
+        "percentage": 0.85,
+        "severity": "warning",
+        "message": "Budget usage at 85% - cost optimization activated",
+        "actions": ["log", "notify", "optimize"]
+      },
+      {
+        "percentage": 0.95,
+        "severity": "error",
+        "message": "Budget usage at 95% - emergency measures activated",
+        "actions": ["log", "notify", "emergency", "block"]
+      }
+    ],
+    "notificationChannels": {
+      "console": {
+        "enabled": true,
+        "level": "info"
+      },
+      "email": {
+        "enabled": true,
+        "recipients": ["admin@example.com"],
+        "level": "warning"
+      },
+      "slack": {
+        "enabled": false,
+        "webhook": "https://hooks.slack.com/...",
+        "channel": "#budget-alerts",
+        "level": "error"
+      },
+      "webhook": {
+        "enabled": false,
+        "url": "https://api.example.com/budget-alerts",
+        "level": "warning"
+      }
+    }
+  },
+
+  "costTracking": {
+    "enabled": true,
+    "granularity": "request",
+    "retention": {
+      "detailed": "90d",
+      "aggregated": "1y"
+    },
+    "metrics": [
+      "totalCost",
+      "costByTier",
+      "costByProvider",
+      "costByRegion",
+      "costByModel",
+      "costByComplexity",
+      "costSavings",
+      "budgetUtilization"
+    ],
+    "reporting": {
+      "daily": true,
+      "weekly": true,
+      "monthly": true,
+      "format": "json",
+      "destination": "s3://bucket/cost-reports/"
+    }
+  },
+
+  "emergencyControls": {
+    "costSpike": {
+      "enabled": true,
+      "threshold": 2.0,
+      "timeWindow": 300,
+      "actions": [
+        {
+          "type": "force_tier_3",
+          "duration": 1800,
+          "description": "Force all requests to Tier 3 models"
+        },
+        {
+          "type": "rate_limit",
+          "limit": 10,
+          "duration": 1800,
+          "description": "Reduce request rate to 10/minute"
+        }
+      ]
+    },
+    "budgetExhaustion": {
+      "enabled": true,
+      "threshold": 0.98,
+      "actions": [
+        {
+          "type": "block_non_critical",
+          "duration": 3600,
+          "description": "Block non-critical requests"
+        },
+        {
+          "type": "force_local_models",
+          "duration": 3600,
+          "description": "Use only local models"
+        }
+      ]
+    },
+    "complianceViolation": {
+      "enabled": true,
+      "actions": [
+        {
+          "type": "compliance_lockdown",
+          "duration": 3600,
+          "description": "Block all non-compliant requests"
+        }
+      ]
+    }
+  },
+
+  "costPrediction": {
+    "enabled": true,
+    "predictionHorizon": "30d",
+    "confidenceThreshold": 0.8,
+    "factors": ["historicalUsage", "seasonalPatterns", "modelPricingChanges", "usageGrowth"],
+    "alerts": {
+      "budgetExceeded": true,
+      "unusualSpending": true,
+      "costAnomalies": true
+    }
+  },
+
+  "budgetAllocation": {
+    "dynamicReallocation": true,
+    "underutilizedThreshold": 0.3,
+    "reallocationStrategy": "proportional",
+    "minimumAllocations": {
+      "tier_1": 10.0,
+      "tier_2": 20.0,
+      "tier_3": 5.0
+    }
+  },
+
+  "auditAndCompliance": {
+    "costAudit": {
+      "enabled": true,
+      "frequency": "monthly",
+      "scope": "all_transactions",
+      "retention": "7y"
+    },
+    "budgetCompliance": {
+      "enforceLimits": true,
+      "auditTrail": true,
+      "violationReporting": true,
+      "remediationRequired": true
+    }
+  },
+
+  "_comments": {
+    "globalBudget": "Overall budget limits and tracking",
+    "tierBudgets": "Budget allocation by model tier",
+    "providerBudgets": "Budget limits per LLM provider",
+    "regionalBudgets": "Geographic budget allocations",
+    "complianceBudgets": "Compliance-specific budget controls",
+    "perRequestLimits": "Maximum cost per individual request",
+    "costOptimizationRules": "Cost reduction strategies by mode",
+    "budgetAlerts": "Automated budget monitoring and alerts",
+    "costTracking": "Detailed cost tracking and reporting",
+    "emergencyControls": "Automatic responses to budget emergencies",
+    "costPrediction": "Predictive cost analysis and alerts",
+    "budgetAllocation": "Dynamic budget reallocation rules",
+    "auditAndCompliance": "Audit requirements and compliance tracking"
+  }
+}

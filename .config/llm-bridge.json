@@ -1,0 +1,6 @@
+{
+  "claudeCmd": "claude",
+  "mode": "argue",
+  "rounds": 3,
+  "agents": [{ "name": "claude", "cmd": "claude" }]
+}

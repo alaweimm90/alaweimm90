@@ -1,0 +1,111 @@
+# Snyk Configuration File
+# https://docs.snyk.io/snyk-cli/configure-the-snyk-cli
+
+version: v1
+
+# Severity threshold for failing tests
+severity-threshold: high
+
+# Monitor for ongoing dependency management
+monitor: true
+
+# Detection depth for package dependencies
+detection-depth: 5
+
+# Languages to scan
+include-dev-dependencies: true
+
+# Exclude paths
+exclude:
+  - node_modules
+  - dist
+  - build
+  - coverage
+  - .next
+  - venv
+  - .venv
+  - .git
+  - .mypy_cache
+
+# Scanning configuration
+scan:
+  # All projects
+  all-projects: true
+
+  # Prune unused dependencies
+  prune-unused-dependencies: false
+
+  # Unmanaged findings
+  unmanaged-findings: false
+
+# Reporting
+reporting:
+  # Enable json output
+  json: true
+
+  # Include dependencies in the output
+  include-dependencies: true
+
+  # Include severity in the output
+  include-severity: true
+
+  # Include vulnerable paths
+  include-paths: true
+
+# Vulnerability handling
+vulnerabilities:
+  # Fail on issues
+  fail-on: upgradable
+
+  # Only show issues at or above severity
+  min-severity: high
+
+# Policy configuration
+policy:
+  # Path to policy file
+  path: .snyk
+
+# Organization context
+organization: null
+
+# API authentication (use environment variable SNYK_TOKEN instead)
+# token: null
+
+# API endpoint
+api: https://api.snyk.io
+
+# Strict SSL verification
+strict-ssl: true
+
+# Proxy configuration (if needed)
+# proxy: null
+# proxy-strict-ssl: true
+
+# Automation configuration
+automation: true
+
+# Skip unsupported manifest files
+skip-unresolved: true
+
+# Docker scanning
+docker:
+  # Scan docker images
+  scan: false
+
+# Kubernetes scanning
+kubernetes:
+  # Scan Kubernetes manifests
+  scan: false
+
+# Infrastructure as Code scanning
+infrastructure-as-code:
+  # Scan IaC files
+  scan: false
+
+# Custom configurations
+custom:
+  # Enable telemetry
+  telemetry: true
+
+  # Enable analytics
+  analytics: true

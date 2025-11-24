@@ -1,0 +1,25 @@
+{
+  "monorepo": {
+    "root": ".",
+    "packageManager": "pnpm",
+    "taskRunner": "turbo"
+  },
+  "automation": {
+    "scriptsDir": ".automation/scripts",
+    "hooksDir": ".automation/hooks"
+  },
+  "security": {
+    "minScore": 9.5,
+    "scanOnCommit": true
+  },
+  "testing": {
+    "minCoverage": 80,
+    "runOnChanged": true
+  },
+  "paths": {
+    "apps": "apps/",
+    "packages": "packages/",
+    "organizations": "organizations/",
+    "metaHub": "metaHub/"
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "framework": "CCPA",
+    "description": "CCPA Compliance Configuration Template for TRAE Routing",
+    "focus": "California consumer privacy rights and data protection",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["CCPA"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "personal_information": 2555,
+        "consent_records": 2555,
+        "audit_logs": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": false
+    },
+    "geographicCompliance": {
+      "restrictedRegions": [],
+      "dataLocalizationRequired": false,
+      "sovereigntyRequirements": {}
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "annualPrivacyReport": {
+        "enabled": true,
+        "automatedGeneration": true,
+        "publicDisclosure": true
+      }
+    }
+  },
+  "dataClassification": {
+    "personal_information": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    },
+    "sensitive_personal_information": {
+      "patterns": [
+        "\\b(racial|ethnic|religious|medical|sexual_orientation|citizenship|genetic|biometric)\\b",
+        "\\b(minor|child|underage|juvenile)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "optInRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": false,
+    "consentValidationEnabled": true,
+    "privacyRightsEnforced": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america"],
+    "blockedRegions": [],
+    "dataLocalization": {},
+    "crossBorderRules": {
+      "adequacyDecision": false,
+      "standardContractualClauses": false,
+      "bindingCorporateRules": false
+    }
+  },
+  "consentManagement": {
+    "requiredForProcessing": true,
+    "granularConsent": true,
+    "optOutRights": true,
+    "doNotSellRights": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    }
+  },
+  "privacyRights": {
+    "rightToKnow": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToDelete": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToOptOut": {
+      "enabled": true,
+      "responseTimeDays": 15,
+      "automatedProcessing": true
+    },
+    "rightToNonDiscrimination": {
+      "enabled": true,
+      "protectionEnabled": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "privacy_officer": {
+        "personal_information": ["read", "write", "delete"],
+        "sensitive_personal_information": ["read", "write", "delete"]
+      },
+      "data_processor": {
+        "personal_information": ["read", "write"],
+        "sensitive_personal_information": ["read"]
+      },
+      "consumer": {
+        "personal_information": ["read"],
+        "sensitive_personal_information": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_deletion",
+      "consent_granted",
+      "consent_withdrawn",
+      "opt_out_request",
+      "privacy_right_exercised"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "encryption": {
+    "requiredForPersonalInfo": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "consentValidationAlerts": true,
+    "privacyRightAlerts": true,
+    "accessViolationAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "annual"
+  },
+  "integration": {
+    "traeRouting": {
+      "ccpaAwareRouting": true,
+      "consentValidation": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "consent_management": true,
+      "privacy_portal": true,
+      "audit_systems": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": ["personal_data_detection", "consent_validation", "privacy_rights_check"],
+    "postProcessingValidation": ["audit_log_verification", "consent_compliance", "retention_limits"]
+  },
+  "_comments": {
+    "compliance": "CCPA-specific compliance settings",
+    "dataClassification": "Personal and sensitive personal information",
+    "routingRules": "CCPA-aware routing behavior",
+    "consentManagement": "Consent and opt-out rights management",
+    "privacyRights": "CCPA consumer privacy rights implementation",
+    "accessControls": "Role-based access control",
+    "auditLogging": "Comprehensive audit trail for CCPA",
+    "encryption": "Personal information encryption requirements",
+    "monitoring": "Real-time compliance monitoring",
+    "integration": "TRAE routing and external system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

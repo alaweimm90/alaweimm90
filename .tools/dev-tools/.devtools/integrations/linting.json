@@ -1,0 +1,6 @@
+{
+  "eslintConfig": ".eslintrc.js",
+  "prettierConfig": ".prettierrc",
+  "autoFixOnSave": true,
+  "strictMode": true
+}

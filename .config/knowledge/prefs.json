@@ -1,0 +1,16 @@
+{
+  "patterns": {
+    "Overwrite file?": {
+      "last": "y",
+      "count": 41
+    },
+    "Do you want to continue? (y/n)": {
+      "last": "y",
+      "count": 41
+    },
+    "Proceed with deployment? (y/n)": {
+      "last": "y",
+      "count": 41
+    }
+  }
+}

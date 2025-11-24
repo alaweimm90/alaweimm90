@@ -1,0 +1,24 @@
+# pnpm Workspace Configuration
+# Defines all packages in this monorepo
+
+packages:
+  # Core infrastructure packages
+  - 'packages/*'
+
+  # Primary organization workspace
+  - 'alaweimm90'
+
+  # Source packages (if any)
+  - 'src/*'
+
+  # Exclude patterns (archives, backups, templates, tools)
+  - '!templates/**'
+  - '!.archives/**'
+  - '!.backup_*/**'
+  - '!.cache/**'
+  - '!.config/organizations/**'
+  - '!.config/archives/**'
+  - '!automation/**'
+  - '!.organizations/**'
+  - '!.metaHub/**'
+  - '!.tools/automation/**'

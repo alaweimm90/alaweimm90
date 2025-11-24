@@ -1,0 +1,525 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "geographic": "Global",
+    "description": "Global Operations Geographic Compliance Configuration Template",
+    "frameworks": ["GDPR", "CCPA", "ISO_27001"],
+    "focus": "Global data protection, privacy rights, and information security",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["GDPR", "CCPA", "ISO_27001"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "personal_information": 2555,
+        "confidential_information": 2555,
+        "security_logs": 2555,
+        "audit_logs": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": true
+    },
+    "geographicCompliance": {
+      "restrictedRegions": ["china", "russia", "iran", "north_korea"],
+      "dataLocalizationRequired": true,
+      "sovereigntyRequirements": {
+        "europe": ["GDPR", "ISO_27001"],
+        "north_america": ["CCPA", "ISO_27001"],
+        "asia_pacific": ["ISO_27001"],
+        "global": ["ISO_27001"]
+      }
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "dataBreachNotification": {
+        "enabled": true,
+        "timeframeHours": 72,
+        "recipients": ["supervisory_authority", "data_subjects"],
+        "automatedReporting": true
+      },
+      "annualPrivacyReport": {
+        "enabled": true,
+        "automatedGeneration": true,
+        "publicDisclosure": true
+      },
+      "annualAudit": {
+        "enabled": true,
+        "externalAuditor": true,
+        "certificationMaintenance": true
+      }
+    }
+  },
+  "ismsRequirements": {
+    "context_of_organization": {
+      "enabled": true,
+      "stakeholder_analysis": true,
+      "internal_external_issues": true,
+      "global_focus": true
+    },
+    "leadership": {
+      "enabled": true,
+      "information_security_policy": true,
+      "roles_responsibilities": true,
+      "privacy_by_design": true
+    },
+    "planning": {
+      "enabled": true,
+      "risk_assessment": true,
+      "risk_treatment": true,
+      "objectives_targets": true,
+      "privacy_impact_assessment": true
+    },
+    "support": {
+      "enabled": true,
+      "resources": true,
+      "competence": true,
+      "awareness": true,
+      "communication": true,
+      "documented_information": true
+    },
+    "operation": {
+      "enabled": true,
+      "planning_control": true,
+      "information_security_risks": true,
+      "privacy_controls": true
+    },
+    "performance_evaluation": {
+      "enabled": true,
+      "monitoring_measurement": true,
+      "internal_audit": true,
+      "management_review": true
+    },
+    "improvement": {
+      "enabled": true,
+      "nonconformity_corrective_action": true,
+      "continual_improvement": true
+    }
+  },
+  "annexAControls": {
+    "information_security_policies": {
+      "enabled": true,
+      "controls": ["5.1.1", "5.1.2"]
+    },
+    "organization_of_information_security": {
+      "enabled": true,
+      "controls": ["5.2.1", "5.2.2", "5.3.1", "5.3.2", "5.3.3"]
+    },
+    "human_resource_security": {
+      "enabled": true,
+      "controls": ["6.1.1", "6.1.2", "6.1.3", "6.2.1", "6.2.2", "6.2.3"]
+    },
+    "asset_management": {
+      "enabled": true,
+      "controls": ["7.1.1", "7.1.2", "7.1.3", "7.2.1", "7.2.2", "7.2.3", "7.3.1", "7.3.2"]
+    },
+    "access_control": {
+      "enabled": true,
+      "controls": [
+        "8.1.1",
+        "8.1.2",
+        "8.1.3",
+        "8.1.4",
+        "8.2.1",
+        "8.2.2",
+        "8.2.3",
+        "8.3.1",
+        "8.3.2",
+        "8.3.3"
+      ]
+    },
+    "cryptography": {
+      "enabled": true,
+      "controls": ["8.3.1", "8.3.2", "8.3.3"]
+    },
+    "physical_environmental_security": {
+      "enabled": true,
+      "controls": [
+        "9.1.1",
+        "9.1.2",
+        "9.2.1",
+        "9.2.2",
+        "9.2.3",
+        "9.2.4",
+        "9.2.5",
+        "9.2.6",
+        "9.3.1",
+        "9.4.1",
+        "9.4.2",
+        "9.4.3",
+        "9.4.4",
+        "9.4.5"
+      ]
+    },
+    "operations_security": {
+      "enabled": true,
+      "controls": ["10.1.1", "10.1.2", "10.1.3", "10.1.4", "10.1.5"]
+    },
+    "communications_security": {
+      "enabled": true,
+      "controls": [
+        "11.1.1",
+        "11.1.2",
+        "11.1.3",
+        "11.1.4",
+        "11.1.5",
+        "11.2.1",
+        "11.2.2",
+        "11.2.3",
+        "11.2.4",
+        "11.2.5",
+        "11.2.6"
+      ]
+    },
+    "system_acquisition_development": {
+      "enabled": true,
+      "controls": [
+        "12.1.1",
+        "12.1.2",
+        "12.1.3",
+        "12.1.4",
+        "12.2.1",
+        "12.3.1",
+        "12.3.2",
+        "12.4.1",
+        "12.4.2",
+        "12.4.3",
+        "12.4.4",
+        "12.5.1",
+        "12.6.1",
+        "12.6.2",
+        "12.7.1"
+      ]
+    },
+    "supplier_relationships": {
+      "enabled": true,
+      "controls": ["13.1.1", "13.1.2", "13.1.3", "13.2.1", "13.2.2", "13.2.3"]
+    },
+    "information_security_incident_management": {
+      "enabled": true,
+      "controls": [
+        "14.1.1",
+        "14.1.2",
+        "14.1.3",
+        "14.2.1",
+        "14.2.2",
+        "14.2.3",
+        "14.2.4",
+        "14.2.5",
+        "14.2.6",
+        "14.2.7",
+        "14.2.8",
+        "14.3.1"
+      ]
+    },
+    "information_security_aspects_business": {
+      "enabled": true,
+      "controls": ["15.1.1", "15.1.2", "15.1.3", "15.2.1", "15.2.2"]
+    },
+    "compliance": {
+      "enabled": true,
+      "controls": ["16.1.1", "16.1.2", "16.1.3", "16.1.4", "16.1.5"]
+    }
+  },
+  "dataClassification": {
+    "personal_information": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "gdprCompliance": true,
+      "ccpaCompliance": true,
+      "iso27001Compliance": true
+    },
+    "sensitive_data": {
+      "patterns": [
+        "\\b(racial|ethnic|political|religious|philosophical|genetic|biometric|health|sex|sexual_orientation)\\b",
+        "\\b(criminal_convictions|offences|security_measures)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "explicitConsentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "gdprCompliance": true,
+      "ccpaCompliance": true,
+      "iso27001Compliance": true
+    },
+    "confidential": {
+      "patterns": [
+        "\\b(confidential|secret|proprietary|internal)\\b",
+        "\\b(trade_secret|intellectual_property)\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "gdprCompliance": false,
+      "ccpaCompliance": false,
+      "iso27001Compliance": true
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": true,
+    "consentValidationEnabled": true,
+    "privacyRightsEnforced": true,
+    "riskBasedRouting": true,
+    "globalComplianceFocus": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america", "europe", "asia_pacific", "south_america", "africa"],
+    "blockedRegions": ["china", "russia", "iran", "north_korea"],
+    "dataLocalization": {
+      "personal_information": "europe",
+      "sensitive_data": "europe",
+      "confidential": "any_compliant"
+    },
+    "crossBorderRules": {
+      "adequacyDecision": true,
+      "standardContractualClauses": true,
+      "consentRequired": true,
+      "bindingCorporateRules": true
+    }
+  },
+  "consentManagement": {
+    "requiredForProcessing": true,
+    "granularConsent": true,
+    "optOutRights": true,
+    "doNotSellRights": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    },
+    "lawfulBases": [
+      "consent",
+      "contract",
+      "legal_obligation",
+      "vital_interests",
+      "public_task",
+      "legitimate_interests"
+    ]
+  },
+  "privacyRights": {
+    "rightToKnow": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToDelete": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToOptOut": {
+      "enabled": true,
+      "responseTimeDays": 15,
+      "automatedProcessing": true
+    },
+    "rightToNonDiscrimination": {
+      "enabled": true,
+      "protectionEnabled": true
+    },
+    "rightToAccess": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToRectification": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToPortability": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true,
+      "formats": ["json", "xml", "csv"]
+    },
+    "rightToObject": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "global_privacy_officer": {
+        "personal_information": ["read", "write", "delete"],
+        "sensitive_data": ["read", "write", "delete"],
+        "confidential": ["read"]
+      },
+      "regional_privacy_officer": {
+        "personal_information": ["read", "write", "delete"],
+        "sensitive_data": ["read", "write"],
+        "confidential": ["read"]
+      },
+      "information_security_officer": {
+        "personal_information": ["read"],
+        "sensitive_data": ["read"],
+        "confidential": ["read", "write", "delete"]
+      },
+      "auditor": {
+        "personal_information": ["read"],
+        "sensitive_data": ["read"],
+        "confidential": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800,
+    "multiFactorRequired": true,
+    "regionalAccessControls": true
+  },
+  "riskManagement": {
+    "enabled": true,
+    "assessmentFrequency": "quarterly",
+    "riskRegister": true,
+    "treatmentPlans": true,
+    "globalRisks": true,
+    "regionalRisks": true,
+    "privacyRisks": true,
+    "cyberSecurityRisks": true,
+    "monitoring": {
+      "continuous": true,
+      "thresholdAlerts": true,
+      "regionalAlerts": true
+    }
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_modification",
+      "data_deletion",
+      "consent_granted",
+      "consent_withdrawn",
+      "opt_out_request",
+      "privacy_right_exercised",
+      "breach_detected",
+      "cross_border_transfer",
+      "security_event",
+      "system_change",
+      "risk_assessment",
+      "control_failure",
+      "regional_compliance"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true,
+    "regionalAuditLogs": true
+  },
+  "breachDetection": {
+    "personalDataPatterns": true,
+    "unauthorizedAccess": true,
+    "dataLoss": true,
+    "encryptionFailures": true,
+    "regionalBreachDetection": true,
+    "notificationSettings": {
+      "immediateAlert": true,
+      "supervisoryAuthority": true,
+      "dataSubjects": true,
+      "regionalAuthorities": true,
+      "timeframeHours": 72
+    }
+  },
+  "encryption": {
+    "requiredForPersonalInfo": true,
+    "requiredForSensitiveData": true,
+    "requiredForConfidential": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "regionalKeyManagement": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "consentValidationAlerts": true,
+    "privacyRightAlerts": true,
+    "securityEventAlerts": true,
+    "controlFailureAlerts": true,
+    "riskAlerts": true,
+    "regionalComplianceAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "multiFrameworkCompliance": true,
+      "consentValidation": true,
+      "privacyRightsEnforcement": true,
+      "riskAssessment": true,
+      "continuousMonitoring": true,
+      "regionalCompliance": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "consent_management": true,
+      "privacy_portal": true,
+      "supervisory_authority": true,
+      "regional_privacy_offices": true,
+      "siem_integration": true,
+      "audit_systems": true,
+      "risk_management_platform": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "personal_data_detection",
+      "consent_validation",
+      "geographic_compliance",
+      "regional_compliance",
+      "encryption_verification",
+      "access_authorization",
+      "risk_assessment",
+      "control_verification"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "consent_compliance",
+      "privacy_rights_processing",
+      "security_assessment",
+      "control_effectiveness",
+      "risk_monitoring",
+      "regional_compliance_check"
+    ]
+  },
+  "_comments": {
+    "compliance": "Combined GDPR, CCPA, and ISO 27001 compliance for global operations",
+    "ismsRequirements": "ISMS structure with global privacy focus",
+    "annexAControls": "ISO 27001 Annex A security controls",
+    "dataClassification": "Personal, sensitive, and confidential data",
+    "routingRules": "Global compliance-aware routing",
+    "geographicRestrictions": "Global data localization with regional requirements",
+    "consentManagement": "GDPR and CCPA consent management",
+    "privacyRights": "GDPR and CCPA privacy rights implementation",
+    "accessControls": "Global role-based access with regional controls",
+    "riskManagement": "Global and regional risk management",
+    "auditLogging": "Comprehensive global audit trail",
+    "breachDetection": "Global breach detection with regional notifications",
+    "encryption": "Global encryption with regional key management",
+    "monitoring": "Comprehensive global compliance monitoring",
+    "integration": "TRAE routing and global system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

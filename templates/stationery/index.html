@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stationery Templates</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Custom Stationery Templates</h1>
+        <p>Create professional notebooks, journals, and planners with customizable designs</p>
+    </header>
+
+    <main class="container">
+        <section class="template-selection">
+            <h2>Choose Your Template Type</h2>
+            <div class="template-grid">
+                <div class="template-card" data-type="notebook">
+                    <div class="template-icon">📓</div>
+                    <h3>Notebooks</h3>
+                    <p>Classic lined, dotted, and blank pages for notes and sketches</p>
+                    <div class="template-options">
+                        <select class="page-style">
+                            <option value="ruled">Ruled Lines</option>
+                            <option value="dotted">Dotted Grid</option>
+                            <option value="blank">Blank Pages</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary customize-btn">Customize</button>
+                </div>
+
+                <div class="template-card" data-type="journal">
+                    <div class="template-icon">📔</div>
+                    <h3>Journals</h3>
+                    <p>Personal journals with dated or undated entries</p>
+                    <div class="template-options">
+                        <select class="date-style">
+                            <option value="dated">Dated Entries</option>
+                            <option value="undated">Undated Pages</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary customize-btn">Customize</button>
+                </div>
+
+                <div class="template-card" data-type="planner">
+                    <div class="template-icon">📅</div>
+                    <h3>Planners</h3>
+                    <p>Weekly and monthly planning layouts</p>
+                    <div class="template-options">
+                        <select class="planner-style">
+                            <option value="weekly">Weekly View</option>
+                            <option value="monthly">Monthly View</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary customize-btn">Customize</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="customization-panel" id="customization-panel" style="display: none;">
+            <h2>Customize Your Template</h2>
+            <div class="customization-controls">
+                <div class="control-group">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select">
+                        <option value="minimalist">Minimalist</option>
+                        <option value="floral">Floral</option>
+                        <option value="geometric">Geometric</option>
+                        <option value="vintage">Vintage</option>
+                        <option value="modern">Modern</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="primary-color">Primary Color:</label>
+                    <input type="color" id="primary-color" value="#2c3e50">
+                </div>
+
+                <div class="control-group">
+                    <label for="secondary-color">Secondary Color:</label>
+                    <input type="color" id="secondary-color" value="#3498db">
+                </div>
+
+                <div class="control-group">
+                    <label for="header-text">Header Text:</label>
+                    <input type="text" id="header-text" placeholder="Your Name or Title">
+                </div>
+
+                <div class="control-group">
+                    <label for="footer-text">Footer Text:</label>
+                    <input type="text" id="footer-text" placeholder="Page numbers, dates, etc.">
+                </div>
+
+                <div class="control-group">
+                    <label for="page-count">Number of Pages:</label>
+                    <input type="number" id="page-count" value="50" min="10" max="200">
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-secondary" id="preview-btn">Preview</button>
+                <button class="btn-primary" id="print-btn">Print Template</button>
+                <button class="btn-secondary" id="back-btn">Back to Selection</button>
+            </div>
+        </section>
+
+        <section class="preview-section" id="preview-section" style="display: none;">
+            <h2>Template Preview</h2>
+            <div class="preview-controls">
+                <button class="btn-secondary" id="edit-btn">Edit Settings</button>
+                <button class="btn-primary" id="download-btn">Download PDF</button>
+            </div>
+            <div class="preview-container">
+                <iframe id="template-preview" src="" width="100%" height="600px"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Stationery Templates. Professional layouts for all your writing needs.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

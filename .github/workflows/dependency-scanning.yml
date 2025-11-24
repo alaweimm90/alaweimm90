@@ -1,0 +1,351 @@
+name: Dependency Scanning & Vulnerability Detection
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+      - 'requirements.txt'
+      - 'pyproject.toml'
+      - 'Dockerfile'
+      - '.github/workflows/dependency-scanning.yml'
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+      - 'requirements.txt'
+      - 'pyproject.toml'
+      - 'Dockerfile'
+  schedule:
+    # Run daily at 2 AM UTC for continuous monitoring
+    - cron: '0 2 * * *'
+
+jobs:
+  npm-audit:
+    name: NPM Audit & Security Check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+      fail-fast: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+        continue-on-error: true
+
+      - name: Run npm audit
+        id: npm-audit
+        run: |
+          npm audit --json > npm-audit-report.json 2>&1 || true
+          npm audit --audit-level=critical || echo "vulnerabilities found"
+        continue-on-error: true
+
+      - name: Parse audit results
+        if: always()
+        run: |
+          python3 - <<EOF
+          import json
+          import sys
+
+          try:
+              with open('npm-audit-report.json') as f:
+                  report = json.load(f)
+
+              vulnerabilities = report.get('vulnerabilities', {})
+              metadata = report.get('metadata', {})
+
+              print(f"Total vulnerabilities: {len(vulnerabilities)}")
+
+              critical_count = sum(1 for v in vulnerabilities.values() if 'critical' in str(v.get('severity', '')))
+              high_count = sum(1 for v in vulnerabilities.values() if 'high' in str(v.get('severity', '')))
+
+              print(f"Critical: {critical_count}")
+              print(f"High: {high_count}")
+
+              if critical_count > 0 or high_count > 0:
+                  sys.exit(1)
+          except:
+              pass
+          EOF
+
+      - name: Upload npm audit report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: npm-audit-report-node${{ matrix.node-version }}
+          path: npm-audit-report.json
+          retention-days: 30
+
+      - name: Comment PR with audit results
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const report = JSON.parse(fs.readFileSync('npm-audit-report.json', 'utf8'));
+              const vulns = Object.keys(report.vulnerabilities || {}).length;
+
+              let comment = `## NPM Audit Report (Node ${context.job})\n`;
+              comment += `Total vulnerabilities found: **${vulns}**\n\n`;
+
+              if (vulns > 0) {
+                comment += '❌ Please review and fix vulnerabilities before merging\n';
+              } else {
+                comment += '✅ No vulnerabilities detected\n';
+              }
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            } catch(e) {
+              console.log('Could not parse audit report');
+            }
+
+  python-audit:
+    name: Python Dependency Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install audit tools
+        run: |
+          pip install pip-audit safety bandit --quiet
+
+      - name: Run pip-audit on all projects
+        id: pip-audit
+        run: |
+          echo "Running pip-audit..." > audit-results.txt
+
+          # Find all requirements.txt and pyproject.toml files
+          find . -name "requirements.txt" -not -path "*/node_modules/*" | while read req; do
+            echo "Scanning $req..." >> audit-results.txt
+            pip-audit --file "$req" --desc || echo "Vulnerabilities found in $req" >> audit-results.txt
+          done
+
+          # Also check with safety
+          find . -name "requirements.txt" -not -path "*/node_modules/*" | while read req; do
+            echo "Safety check on $req..." >> audit-results.txt
+            safety check --file "$req" --json || true
+          done
+
+          cat audit-results.txt
+
+      - name: Run bandit for security issues
+        continue-on-error: true
+        run: |
+          find . -name "*.py" -not -path "*/node_modules/*" -not -path "*/.venv/*" | head -50 | xargs bandit -f json -o bandit-report.json || true
+
+      - name: Upload Python audit reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-audit-reports
+          path: |
+            audit-results.txt
+            bandit-report.json
+          retention-days: 30
+
+  docker-scan:
+    name: Docker Image Vulnerability Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Find Dockerfiles
+        id: dockerfiles
+        run: |
+          echo "Finding all Dockerfiles..."
+          find . -name "Dockerfile*" -not -path "*/node_modules/*" > dockerfiles.txt
+          cat dockerfiles.txt
+
+      - name: Build and scan with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  dependency-check:
+    name: OWASP Dependency-Check Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'GitHub-Monorepo'
+          path: '.'
+          format: 'JSON'
+          args: >
+            --enableExperimental
+            --exclude node_modules
+            --exclude .venv
+
+      - name: Upload OWASP results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: owasp-dependency-check-report
+          path: reports
+          retention-days: 30
+
+  license-audit:
+    name: License Compliance Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install license-checker
+        run: npm install -g license-checker
+
+      - name: Run license-checker on Node projects
+        continue-on-error: true
+        run: |
+          echo "# License Compliance Report" > license-report.md
+          echo "" >> license-report.md
+
+          # Check root project
+          if [ -f "package.json" ]; then
+            echo "## Root Project" >> license-report.md
+            license-checker --json > root-licenses.json || true
+          fi
+
+          # Check all subprojects
+          find . -maxdepth 3 -name "package.json" -not -path "*/node_modules/*" | while read pj; do
+            dir=$(dirname "$pj")
+            echo "## Project: $dir" >> license-report.md
+            cd "$dir" && license-checker --json > licenses.json || true
+            cd - > /dev/null
+          done
+
+      - name: Check for restricted licenses
+        run: |
+          python3 - <<EOF
+          import json
+          import glob
+
+          restricted = ['GPL', 'AGPL', 'LGPL', 'SSPL']
+          found_restricted = []
+
+          for license_file in glob.glob('**/licenses.json', recursive=True):
+              try:
+                  with open(license_file) as f:
+                      licenses = json.load(f)
+
+                  for package, info in licenses.items():
+                      for lic in restricted:
+                          if lic in info.get('licenses', ''):
+                              found_restricted.append(f"{package}: {info.get('licenses', '')}")
+              except:
+                  pass
+
+          if found_restricted:
+              print("Found packages with restricted licenses:")
+              for item in found_restricted:
+                  print(f"  ⚠️  {item}")
+          else:
+              print("✅ No restricted licenses found")
+          EOF
+
+      - name: Upload license report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: license-compliance-report
+          path: license-report.md
+          retention-days: 30
+
+  summary:
+    name: Security Summary & Reporting
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [npm-audit, python-audit, docker-scan, license-audit]
+
+    steps:
+      - name: Download all reports
+        uses: actions/download-artifact@v3
+
+      - name: Generate Security Summary
+        run: |
+          echo "# Security Audit Summary" > SECURITY_SUMMARY.md
+          echo "Generated: $(date)" >> SECURITY_SUMMARY.md
+          echo "" >> SECURITY_SUMMARY.md
+
+          echo "## Scan Results" >> SECURITY_SUMMARY.md
+          echo "- NPM Audit: ${{ needs.npm-audit.result }}" >> SECURITY_SUMMARY.md
+          echo "- Python Audit: ${{ needs.python-audit.result }}" >> SECURITY_SUMMARY.md
+          echo "- Docker Scan: ${{ needs.docker-scan.result }}" >> SECURITY_SUMMARY.md
+          echo "- License Audit: ${{ needs.license-audit.result }}" >> SECURITY_SUMMARY.md
+
+          echo "" >> SECURITY_SUMMARY.md
+          echo "## Artifacts Generated" >> SECURITY_SUMMARY.md
+          echo "- NPM audit reports" >> SECURITY_SUMMARY.md
+          echo "- Python audit reports" >> SECURITY_SUMMARY.md
+          echo "- Docker vulnerability scan (Trivy)" >> SECURITY_SUMMARY.md
+          echo "- License compliance report" >> SECURITY_SUMMARY.md
+
+      - name: Comment PR with summary
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## 🔒 Security & Dependency Scan Results\nCheck artifacts for detailed vulnerability reports and recommendations.'
+            });
+
+      - name: Fail if critical vulnerabilities found
+        if: >
+          needs.npm-audit.result == 'failure' ||
+          needs.python-audit.result == 'failure'
+        run: |
+          echo "❌ Critical vulnerabilities detected in dependencies"
+          exit 1

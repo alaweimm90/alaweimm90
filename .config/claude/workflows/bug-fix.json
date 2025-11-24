@@ -1,0 +1,37 @@
+{
+  "id": "bug-fix-workflow",
+  "name": "Bug Fix Workflow",
+  "description": "Process for identifying and fixing bugs",
+  "version": "1.0.0",
+  "enabled": true,
+  "steps": [
+    {
+      "id": "step-reproduce",
+      "name": "Reproduce Bug",
+      "type": "task",
+      "action": "test",
+      "agentId": "code-agent"
+    },
+    {
+      "id": "step-analyze",
+      "name": "Analyze Issue",
+      "type": "task",
+      "action": "analyze",
+      "agentId": "analysis-agent"
+    },
+    {
+      "id": "step-fix",
+      "name": "Implement Fix",
+      "type": "task",
+      "action": "code-fix",
+      "agentId": "code-agent"
+    },
+    {
+      "id": "step-verify",
+      "name": "Verify Fix",
+      "type": "task",
+      "action": "test",
+      "agentId": "code-agent"
+    }
+  ]
+}

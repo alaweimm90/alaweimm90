@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Modern e-commerce website template with product catalog, shopping cart, and user accounts. Responsive design with accessibility features.">
+    <meta name="keywords" content="e-commerce, online store, shopping cart, product catalog, responsive design">
+    <meta name="author" content="E-commerce Template">
+    <title>E-Commerce Store - Modern Online Shopping</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <a href="index.html" class="logo" aria-label="Home page">E-Shop</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html" aria-current="page">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html" aria-label="Shopping cart">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-container">
+                <h1 id="hero-heading">Welcome to E-Shop</h1>
+                <p>Discover amazing products at unbeatable prices. Shop now and enjoy fast, secure delivery.</p>
+                <a href="products.html" class="cta-button" aria-label="Browse products">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="featured-products" aria-labelledby="featured-heading">
+            <div class="container">
+                <h2 id="featured-heading">Featured Products</h2>
+                <div class="products-grid" role="grid">
+                    <article class="product-card" role="gridcell">
+                        <img src="https://via.placeholder.com/300x200?text=Product+1" alt="Wireless Headphones - High quality audio device" loading="lazy">
+                        <h3>Wireless Headphones</h3>
+                        <p class="price">$99.99</p>
+                        <button class="add-to-cart" data-product-id="1" aria-label="Add Wireless Headphones to cart">Add to Cart</button>
+                    </article>
+                    <article class="product-card" role="gridcell">
+                        <img src="https://via.placeholder.com/300x200?text=Product+2" alt="Smart Watch - Fitness tracking device" loading="lazy">
+                        <h3>Smart Watch</h3>
+                        <p class="price">$199.99</p>
+                        <button class="add-to-cart" data-product-id="2" aria-label="Add Smart Watch to cart">Add to Cart</button>
+                    </article>
+                    <article class="product-card" role="gridcell">
+                        <img src="https://via.placeholder.com/300x200?text=Product+3" alt="Laptop - Powerful computing device" loading="lazy">
+                        <h3>Gaming Laptop</h3>
+                        <p class="price">$1299.99</p>
+                        <button class="add-to-cart" data-product-id="3" aria-label="Add Gaming Laptop to cart">Add to Cart</button>
+                    </article>
+                    <article class="product-card" role="gridcell">
+                        <img src="https://via.placeholder.com/300x200?text=Product+4" alt="Smartphone - Latest mobile device" loading="lazy">
+                        <h3>Smartphone</h3>
+                        <p class="price">$699.99</p>
+                        <button class="add-to-cart" data-product-id="4" aria-label="Add Smartphone to cart">Add to Cart</button>
+                    </article>
+                </div>
+                <div class="view-all">
+                    <a href="products.html" class="secondary-button" aria-label="View all products">View All Products</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="account.html">My Account</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

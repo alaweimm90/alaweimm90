@@ -1,0 +1,25 @@
+{
+  "name": "@monorepo/context-provider",
+  "version": "1.0.0",
+  "description": "Shared context provider for agents and MCPs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@monorepo/mcp-core": "workspace:*",
+    "@monorepo/agent-core": "workspace:*",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.11.20",
+    "jest": "^30.2.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,420 @@
+name: Security Gates Pipeline
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * *' # Daily security scan at 2 AM UTC
+
+env:
+  REGISTRY: ghcr.io
+  SEVERITY_THRESHOLD: high
+
+jobs:
+  # Pre-commit Security Checks
+  pre-commit-checks:
+    runs-on: ubuntu-latest
+    name: Pre-Commit Security Hooks
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install pre-commit
+        run: |
+          pip install pre-commit
+
+      - name: Run pre-commit hooks
+        run: |
+          pre-commit run --all-files --show-diff
+        continue-on-error: true
+
+      - name: Report pre-commit results
+        if: failure()
+        run: |
+          echo "Pre-commit hooks failed. Please fix issues locally and retry."
+          exit 1
+
+  # Secret Scanning with GitLeaks
+  secrets-scanning:
+    runs-on: ubuntu-latest
+    name: Secret Detection (GitLeaks)
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: true
+          GITLEAKS_ENABLE_COMMENTS_ON_PUSH: false
+
+      - name: Upload GitLeaks results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.json
+          retention-days: 30
+
+  # SAST: CodeQL Analysis
+  codeql-analysis:
+    runs-on: ubuntu-latest
+    name: SAST - CodeQL Analysis
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['javascript', 'python']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          config-file: ./.github/codeql-config.yml
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: /language:${{ matrix.language }}
+
+  # SAST: SonarQube Analysis
+  sonarqube-analysis:
+    runs-on: ubuntu-latest
+    name: SAST - SonarQube Analysis
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SonarQube Scanner
+        uses: SonarSource/sonarqube-scan-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=github-monorepo
+            -Dsonar.sources=.
+            -Dsonar.exclusions=node_modules/**,dist/**,.next/**
+
+      - name: SonarQube Quality Gate
+        uses: SonarSource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # SAST: Trivy Filesystem Scan
+  trivy-filesystem:
+    runs-on: ubuntu-latest
+    name: SAST - Trivy Filesystem Scanning
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: '.'
+          format: sarif
+          output: trivy-results.sarif
+          severity: ${{ env.SEVERITY_THRESHOLD }},critical
+          skip-dirs: node_modules,dist,.next
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
+
+  # Dependency Scanning
+  dependency-scanning:
+    runs-on: ubuntu-latest
+    name: Dependency Vulnerability Scanning
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      matrix:
+        include:
+          - package-manager: 'npm'
+            manifest-path: 'package.json'
+          - package-manager: 'npm'
+            manifest-path: 'metaHub/trae-core/package.json'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run npm audit
+        run: |
+          npm audit --json > npm-audit.json || true
+          cat npm-audit.json
+
+      - name: Check npm vulnerabilities
+        run: |
+          npm audit --audit-level=${{ env.SEVERITY_THRESHOLD }} || exit 1
+
+      - name: Upload npm audit results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+
+  # Snyk Dependency Scanning
+  snyk-scan:
+    runs-on: ubuntu-latest
+    name: Dependency Scanning - Snyk
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Snyk authentication
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk test
+        run: |
+          snyk test \
+            --severity-threshold=${{ env.SEVERITY_THRESHOLD }} \
+            --json-file-output=snyk-results.json \
+            --all-projects \
+            --detection-depth=5
+        continue-on-error: true
+
+      - name: Upload Snyk results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: snyk-report
+          path: snyk-results.json
+
+      - name: Snyk quality gate
+        run: |
+          VULNERABILITIES=$(jq '.summary.vulnerabilities.high + .summary.vulnerabilities.critical' snyk-results.json)
+          if [ "$VULNERABILITIES" -gt 0 ]; then
+            echo "Critical/High vulnerabilities found: $VULNERABILITIES"
+            exit 1
+          fi
+
+  # Container Image Scanning
+  container-scanning:
+    runs-on: ubuntu-latest
+    name: Container Security Scanning
+    if: contains(github.event.head_commit.modified, 'Dockerfile') || github.event_name == 'schedule'
+    permissions:
+      contents: read
+      security-events: write
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build test image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          load: true
+          tags: test-image:latest
+
+      - name: Run Trivy container scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: test-image:latest
+          format: sarif
+          output: trivy-container-results.sarif
+          severity: ${{ env.SEVERITY_THRESHOLD }},critical
+
+      - name: Upload container scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-container-results.sarif
+          category: trivy-container
+
+  # License Compliance Scanning
+  license-compliance:
+    runs-on: ubuntu-latest
+    name: License Compliance Scanning
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install license-checker
+        run: npm install -g license-checker
+
+      - name: Check licenses
+        run: |
+          license-checker \
+            --json > licenses.json \
+            --onlyunknown \
+            --excludePrivatePackages \
+            --excludePattern "MIT|Apache-2.0|BSD.*|ISC" || true
+
+      - name: Analyze license results
+        run: |
+          if [ -s licenses.json ] && [ "$(cat licenses.json | jq 'length')" -gt 0 ]; then
+            echo "Non-standard licenses detected:"
+            cat licenses.json | jq '.'
+            exit 1
+          fi
+
+  # Infrastructure as Code Scanning
+  iac-scanning:
+    runs-on: ubuntu-latest
+    name: Infrastructure as Code Scanning
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy IaC scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: config
+          scan-ref: .
+          format: sarif
+          output: trivy-iac-results.sarif
+          skip-dirs: node_modules,dist
+
+      - name: Upload IaC results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: trivy-iac-results.sarif
+          category: trivy-iac
+
+  # Security Policy Enforcement
+  security-policy-check:
+    runs-on: ubuntu-latest
+    name: Security Policy Enforcement
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SECURITY.md exists
+        run: |
+          if [ ! -f SECURITY.md ]; then
+            echo "SECURITY.md is missing"
+            exit 1
+          fi
+
+      - name: Validate PR security requirements
+        if: github.event_name == 'pull_request'
+        run: |
+          # Check PR has security label for security changes
+          PR_LABELS=$(jq -r '.pull_request.labels[].name' $GITHUB_EVENT_PATH)
+          if echo "${{ github.event.pull_request.body }}" | grep -qi "security\|vulnerability\|cve"; then
+            if ! echo "$PR_LABELS" | grep -qi "security\|fix"; then
+              echo "Security-related PRs must have 'security' or 'fix' label"
+              exit 1
+            fi
+          fi
+
+  # Summary and Gate Decision
+  security-gate-summary:
+    runs-on: ubuntu-latest
+    name: Security Gates Summary
+    needs:
+      [
+        pre-commit-checks,
+        secrets-scanning,
+        codeql-analysis,
+        sonarqube-analysis,
+        trivy-filesystem,
+        dependency-scanning,
+        snyk-scan,
+        container-scanning,
+        license-compliance,
+        iac-scanning,
+        security-policy-check,
+      ]
+    if: always()
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check security gate status
+        run: |
+          echo "Security Gates Summary"
+          echo "======================="
+          echo "Pre-Commit Checks: ${{ needs.pre-commit-checks.result }}"
+          echo "Secrets Scanning: ${{ needs.secrets-scanning.result }}"
+          echo "CodeQL Analysis: ${{ needs.codeql-analysis.result }}"
+          echo "SonarQube Analysis: ${{ needs.sonarqube-analysis.result }}"
+          echo "Trivy Filesystem: ${{ needs.trivy-filesystem.result }}"
+          echo "Dependency Scanning: ${{ needs.dependency-scanning.result }}"
+          echo "Snyk Scanning: ${{ needs.snyk-scan.result }}"
+          echo "Container Scanning: ${{ needs.container-scanning.result }}"
+          echo "License Compliance: ${{ needs.license-compliance.result }}"
+          echo "IaC Scanning: ${{ needs.iac-scanning.result }}"
+          echo "Security Policy: ${{ needs.security-policy-check.result }}"
+          echo "======================="
+
+      - name: Fail if critical security checks failed
+        if: |
+          needs.secrets-scanning.result == 'failure' ||
+          needs.codeql-analysis.result == 'failure' ||
+          needs.dependency-scanning.result == 'failure'
+        run: |
+          echo "Critical security gates failed. Please review and remediate."
+          exit 1

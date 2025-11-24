@@ -1,0 +1,224 @@
+{
+  "version": "1.0.0",
+  "description": "Advanced orchestration rules for automation and CI/CD integration",
+  "rules": [
+    {
+      "id": "rule-pr-code-review",
+      "name": "PR Code Review Automation",
+      "description": "Automatically run code review on pull request creation or update",
+      "trigger": "pull_request_opened",
+      "triggers": ["pull_request_opened", "pull_request_synchronize"],
+      "actions": [
+        {
+          "type": "execute",
+          "target": "code-review-workflow",
+          "parameters": {
+            "agentId": "code-agent",
+            "blocking": true,
+            "failOnError": false
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "post-comment",
+            "template": "code-review-result"
+          }
+        }
+      ],
+      "enabled": true,
+      "conditions": {
+        "branches": ["main", "develop", "release/*"],
+        "filePatterns": ["src/**", "packages/**"],
+        "excludePatterns": ["**/*.test.ts", "**/*.spec.ts"]
+      }
+    },
+    {
+      "id": "rule-security-scan-push",
+      "name": "Security Scan on Push to Main",
+      "description": "Run security audit whenever code is pushed to main branch",
+      "trigger": "push_to_main",
+      "actions": [
+        {
+          "type": "execute",
+          "target": "security-audit-workflow",
+          "parameters": {
+            "agentId": "analysis-agent",
+            "blocking": false,
+            "failOnError": true
+          }
+        },
+        {
+          "type": "schedule",
+          "target": "generate-security-report",
+          "parameters": {
+            "frequency": "daily",
+            "time": "02:00 UTC"
+          }
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": "rule-performance-regression",
+      "name": "Performance Regression Detection",
+      "description": "Detect performance regressions on pull requests",
+      "trigger": "pull_request_opened",
+      "actions": [
+        {
+          "type": "execute",
+          "target": "performance-analysis-workflow",
+          "parameters": {
+            "agentId": "analysis-agent",
+            "compareWith": "main",
+            "threshold": "10"
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "block-merge",
+            "condition": "regressionDetected"
+          }
+        }
+      ],
+      "enabled": false,
+      "comment": "Enable when performance monitoring is set up"
+    },
+    {
+      "id": "rule-docs-update-check",
+      "name": "Check Documentation Updates",
+      "description": "Ensure documentation is updated with code changes",
+      "trigger": "pull_request_opened",
+      "actions": [
+        {
+          "type": "execute",
+          "target": "documentation-generation-workflow",
+          "parameters": {
+            "agentId": "code-agent",
+            "checkOnly": true
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "request-review",
+            "condition": "docsNeedUpdate"
+          }
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": "rule-dependency-update",
+      "name": "Dependency Update Check",
+      "description": "Scan dependencies for updates and security vulnerabilities",
+      "trigger": "schedule",
+      "parameters": {
+        "frequency": "weekly",
+        "day": "monday",
+        "time": "09:00 UTC"
+      },
+      "actions": [
+        {
+          "type": "execute",
+          "target": "security-audit-workflow",
+          "parameters": {
+            "agentId": "analysis-agent",
+            "focusOn": "dependencies"
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "create-issue",
+            "template": "dependency-update",
+            "condition": "updatesAvailable"
+          }
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": "rule-release-preparation",
+      "name": "Release Preparation Workflow",
+      "description": "Automate release preparation with full checks",
+      "trigger": "release_requested",
+      "actions": [
+        {
+          "type": "execute",
+          "target": "code-review-workflow",
+          "parameters": {
+            "agentId": "code-agent",
+            "strict": true
+          }
+        },
+        {
+          "type": "execute",
+          "target": "security-audit-workflow",
+          "parameters": {
+            "agentId": "analysis-agent",
+            "failOnHighSeverity": true
+          }
+        },
+        {
+          "type": "execute",
+          "target": "documentation-generation-workflow",
+          "parameters": {
+            "agentId": "code-agent",
+            "generateChangelog": true
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "create-release",
+            "autoTag": true
+          }
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "id": "rule-code-quality-baseline",
+      "name": "Code Quality Baseline Check",
+      "description": "Ensure code quality doesn't regress below baseline",
+      "trigger": "pull_request_opened",
+      "actions": [
+        {
+          "type": "execute",
+          "target": "code-review-workflow",
+          "parameters": {
+            "agentId": "code-agent",
+            "checkQuality": true,
+            "baseline": {
+              "lint": 0,
+              "type-errors": 0,
+              "coverage": 80
+            }
+          }
+        },
+        {
+          "type": "webhook",
+          "target": "github",
+          "parameters": {
+            "action": "block-merge",
+            "condition": "qualityBelowBaseline"
+          }
+        }
+      ],
+      "enabled": true
+    }
+  ],
+  "metadata": {
+    "description": "Production-ready orchestration rules",
+    "lastUpdated": "2025-11-23",
+    "ruleCount": 7,
+    "enabledRules": 5
+  }
+}

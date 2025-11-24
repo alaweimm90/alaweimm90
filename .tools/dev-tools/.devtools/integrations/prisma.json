@@ -1,0 +1,6 @@
+{
+  "schemaPath": "packages/database/prisma/schema.prisma",
+  "autoFormat": true,
+  "generateOnSave": true,
+  "migrationsDir": "packages/database/prisma/migrations"
+}

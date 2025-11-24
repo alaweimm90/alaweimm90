@@ -1,0 +1,45 @@
+name: Orchestrator Performance Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      total:
+        description: Total tasks to run
+        default: '50'
+        required: false
+      timeoutMs:
+        description: Timeout in milliseconds
+        default: '15000'
+        required: false
+  workflow_call:
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (.automation)
+        working-directory: ./.automation
+        run: npm ci
+
+      - name: Run performance test
+        working-directory: ./.automation
+        env:
+          PERF_TOTAL: ${{ inputs.total }}
+          PERF_TIMEOUT: ${{ inputs.timeoutMs }}
+          STATUS_PORT: '7090'
+        run: node scripts/perf-orchestrator.js > perf-results.json
+
+      - name: Upload perf results
+        uses: actions/upload-artifact@v4
+        with:
+          name: perf-results
+          path: ./.automation/perf-results.json
+

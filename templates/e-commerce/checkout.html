@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure checkout - Complete your purchase with our easy checkout process.">
+    <meta name="keywords" content="checkout, payment, shipping, order">
+    <meta name="author" content="E-commerce Template">
+    <title>Checkout - E-Commerce Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <a href="index.html" class="logo" aria-label="Home page">E-Shop</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html" aria-label="Shopping cart">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+            <div class="container">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li aria-current="page">Checkout</li>
+                </ol>
+            </div>
+        </nav>
+
+        <section class="checkout-section" aria-labelledby="checkout-title">
+            <div class="container">
+                <h1 id="checkout-title">Checkout</h1>
+
+                <div class="checkout-layout">
+                    <div class="checkout-form">
+                        <form id="checkout-form" novalidate>
+                            <div class="form-section">
+                                <h2>Shipping Information</h2>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="first-name">First Name *</label>
+                                        <input type="text" id="first-name" name="firstName" required aria-describedby="first-name-error">
+                                        <div id="first-name-error" class="error-message"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="last-name">Last Name *</label>
+                                        <input type="text" id="last-name" name="lastName" required aria-describedby="last-name-error">
+                                        <div id="last-name-error" class="error-message"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required aria-describedby="email-error">
+                                    <div id="email-error" class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" aria-describedby="phone-error">
+                                    <div id="phone-error" class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Street Address *</label>
+                                    <input type="text" id="address" name="address" required aria-describedby="address-error">
+                                    <div id="address-error" class="error-message"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="city">City *</label>
+                                        <input type="text" id="city" name="city" required aria-describedby="city-error">
+                                        <div id="city-error" class="error-message"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zip">ZIP Code *</label>
+                                        <input type="text" id="zip" name="zip" required aria-describedby="zip-error">
+                                        <div id="zip-error" class="error-message"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country *</label>
+                                    <select id="country" name="country" required aria-describedby="country-error">
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                    </select>
+                                    <div id="country-error" class="error-message"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-section">
+                                <h2>Payment Information</h2>
+                                <div class="form-group">
+                                    <label for="card-name">Name on Card *</label>
+                                    <input type="text" id="card-name" name="cardName" required aria-describedby="card-name-error">
+                                    <div id="card-name-error" class="error-message"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="card-number">Card Number *</label>
+                                    <input type="text" id="card-number" name="cardNumber" placeholder="1234 5678 9012 3456" required aria-describedby="card-number-error">
+                                    <div id="card-number-error" class="error-message"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="expiry">Expiry Date *</label>
+                                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required aria-describedby="expiry-error">
+                                        <div id="expiry-error" class="error-message"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cvv">CVV *</label>
+                                        <input type="text" id="cvv" name="cvv" placeholder="123" required aria-describedby="cvv-error">
+                                        <div id="cvv-error" class="error-message"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="cta-button" id="place-order-btn">Place Order</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="order-summary">
+                        <h2>Order Summary</h2>
+                        <div id="order-items" class="order-items">
+                            <!-- Order items will be populated by JavaScript -->
+                        </div>
+                        <div class="order-totals">
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <span id="order-subtotal">$0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping:</span>
+                                <span id="order-shipping">Free</span>
+                            </div>
+                            <div class="total-row total">
+                                <span>Total:</span>
+                                <span id="order-total">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="account.html">My Account</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Checkout page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutForm = document.getElementById('checkout-form');
+            const orderItems = document.getElementById('order-items');
+            const orderSubtotal = document.getElementById('order-subtotal');
+            const orderTotal = document.getElementById('order-total');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+
+            function renderOrderSummary() {
+                orderItems.innerHTML = '';
+                const items = cart.items;
+
+                if (items.length === 0) {
+                    orderItems.innerHTML = '<p>Your cart is empty. <a href="products.html">Continue shopping</a></p>';
+                    return;
+                }
+
+                items.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'order-item';
+                    itemElement.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        <div class="order-item-details">
+                            <h4>${item.name}</h4>
+                            <p>Quantity: ${item.quantity}</p>
+                            <p>$${(item.price * item.quantity).toFixed(2)}</p>
+                        </div>
+                    `;
+                    orderItems.appendChild(itemElement);
+                });
+
+                const subtotal = cart.getTotal();
+                orderSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+                orderTotal.textContent = `$${subtotal.toFixed(2)}`;
+            }
+
+            checkoutForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                if (cart.items.length === 0) {
+                    alert('Your cart is empty. Please add some items before checkout.');
+                    return;
+                }
+
+                if (FormValidator.validateForm(checkoutForm)) {
+                    UI.showLoading(placeOrderBtn);
+                    setTimeout(() => {
+                        // Simulate order processing
+                        alert('Order placed successfully! Thank you for your purchase.');
+                        cart.clearCart();
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            });
+
+            // Initial render
+            renderOrderSummary();
+        });
+    </script>
+</body>
+</html>

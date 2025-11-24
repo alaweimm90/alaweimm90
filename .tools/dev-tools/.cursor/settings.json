@@ -1,0 +1,4 @@
+{
+  "cursor.rulesPath": "../.devtools/rules",
+  "cursor.contextFiles": ["../.devtools/integrations/shared.json", "../README.md"]
+}

@@ -1,0 +1,24 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "files.associations": {
+    "*.js": "javascript",
+    "*.ts": "typescript",
+    "*.json": "json"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true
+  },
+  "governance.enabled": true,
+  "governance.autoFix": true,
+  "governance.validateOnSave": true,
+  "workbench.colorCustomizations": {}
+}

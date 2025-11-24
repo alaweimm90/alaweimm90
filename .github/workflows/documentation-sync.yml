@@ -1,0 +1,324 @@
+name: Documentation Synchronization
+
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'lib/**'
+      - 'api/**'
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'lib/**'
+      - 'api/**'
+  workflow_dispatch:
+    inputs:
+      full_sync:
+        description: 'Perform full documentation synchronization'
+        required: false
+        default: 'false'
+
+jobs:
+  detect-changes:
+    name: Detect Code Changes
+    runs-on: ubuntu-latest
+    outputs:
+      files_changed: ${{ steps.changes.outputs.files }}
+      needs_doc_update: ${{ steps.analyze.outputs.needs_update }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changes
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            files=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          else
+            files=$(git diff --name-only HEAD~1 HEAD)
+          fi
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$files" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Analyze if docs need update
+        id: analyze
+        run: |
+          needs_update=false
+          while IFS= read -r file; do
+            # Check if source file changed
+            if [[ "$file" =~ ^(src|lib|api)/ ]]; then
+              # Check if it's a public API file
+              if [[ "$file" =~ \.(js|ts|jsx|tsx)$ ]]; then
+                needs_update=true
+                break
+              fi
+            fi
+          done <<< "${{ steps.changes.outputs.files }}"
+          echo "needs_update=$needs_update" >> $GITHUB_OUTPUT
+
+  generate-documentation:
+    name: Generate Documentation
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.needs_doc_update == 'true' || github.event.inputs.full_sync == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install documentation tools
+        run: |
+          npm install -D \
+            jsdoc \
+            typedoc \
+            @microsoft/api-extractor \
+            @microsoft/api-documenter \
+            markdown-toc \
+            doctoc
+
+      - name: Generate JSDoc documentation
+        if: hashFiles('**/*.js') != ''
+        run: |
+          cat > jsdoc.json << EOF
+          {
+            "source": {
+              "include": ["src", "lib"],
+              "includePattern": ".+\\\\.js(doc|x)?$",
+              "excludePattern": "(^|\\\\/|\\\\\\\\)_"
+            },
+            "opts": {
+              "destination": "./docs/api/jsdoc",
+              "recurse": true,
+              "readme": "./README.md"
+            },
+            "plugins": ["plugins/markdown"],
+            "templates": {
+              "cleverLinks": true,
+              "monospaceLinks": true
+            }
+          }
+          EOF
+          npx jsdoc -c jsdoc.json
+        continue-on-error: true
+
+      - name: Generate TypeDoc documentation
+        if: hashFiles('**/*.ts') != ''
+        run: |
+          cat > typedoc.json << EOF
+          {
+            "entryPoints": ["src/index.ts"],
+            "out": "docs/api/typedoc",
+            "plugin": ["typedoc-plugin-markdown"],
+            "readme": "README.md",
+            "githubPages": false,
+            "excludePrivate": true,
+            "excludeProtected": false,
+            "excludeExternals": true,
+            "disableSources": false
+          }
+          EOF
+          npx typedoc
+        continue-on-error: true
+
+      - name: Generate API documentation from code
+        run: |
+          mkdir -p docs/api/auto-generated
+
+          # Extract function documentation
+          for file in $(find src -name "*.js" -o -name "*.ts" 2>/dev/null); do
+            basename_no_ext=$(basename "$file" | sed 's/\.[^.]*$//')
+            output_file="docs/api/auto-generated/${basename_no_ext}.md"
+
+            echo "# API Documentation: $basename_no_ext" > "$output_file"
+            echo "" >> "$output_file"
+            echo "Source: \`$file\`" >> "$output_file"
+            echo "" >> "$output_file"
+
+            # Extract JSDoc comments and function signatures
+            grep -A 10 "^/\*\*" "$file" | grep -B 10 "function\|const.*=.*=>" | \
+              sed 's/^[[:space:]]*//' >> "$output_file" || true
+          done
+
+      - name: Update README with API links
+        run: |
+          # Check if API section exists
+          if grep -q "## API Documentation" README.md; then
+            # Update existing section
+            sed -i '/## API Documentation/,/##[^#]/c\
+          ## API Documentation\n\n\
+          - [JSDoc API](./docs/api/jsdoc/index.html)\n\
+          - [TypeDoc API](./docs/api/typedoc/index.html)\n\
+          - [Auto-generated API Docs](./docs/api/auto-generated/)\n\n\
+          ##' README.md
+          else
+            # Add new section
+            echo -e "\n## API Documentation\n\n\
+          - [JSDoc API](./docs/api/jsdoc/index.html)\n\
+          - [TypeDoc API](./docs/api/typedoc/index.html)\n\
+          - [Auto-generated API Docs](./docs/api/auto-generated/)\n" >> README.md
+          fi
+
+      - name: Generate table of contents for all markdown files
+        run: |
+          # Generate TOC for README
+          npx doctoc README.md --github --title "## Table of Contents"
+
+          # Generate TOC for all docs
+          find docs -name "*.md" -exec npx doctoc {} --github \;
+
+      - name: Create documentation index
+        run: |
+          cat > docs/INDEX.md << EOF
+          # Documentation Index
+
+          Generated: $(date)
+
+          ## Available Documentation
+
+          ### API Documentation
+          EOF
+
+          find docs/api -name "*.md" -o -name "*.html" | while read -r file; do
+            basename=$(basename "$file")
+            echo "- [$basename]($file)" >> docs/INDEX.md
+          done
+
+          cat >> docs/INDEX.md << EOF
+
+          ### Guides
+          EOF
+
+          find docs -name "*.md" -not -path "*/api/*" | while read -r file; do
+            basename=$(basename "$file")
+            echo "- [$basename]($file)" >> docs/INDEX.md
+          done
+
+      - name: Commit documentation updates
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "docs-bot@github-actions"
+          git config --local user.name "Documentation Bot"
+          git add docs/
+          git add README.md || true
+          if [[ -n $(git status -s) ]]; then
+            git commit -m "📚 Auto-update: Documentation synchronized with code changes"
+            git push
+          fi
+
+  check-documentation-coverage:
+    name: Check Documentation Coverage
+    runs-on: ubuntu-latest
+    needs: generate-documentation
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Calculate documentation coverage
+        run: |
+          # Count source files
+          src_files=$(find src lib api -name "*.js" -o -name "*.ts" 2>/dev/null | wc -l || echo 0)
+
+          # Count documented files
+          doc_files=$(find docs -name "*.md" | wc -l || echo 0)
+
+          if [ "$src_files" -gt 0 ]; then
+            coverage=$((doc_files * 100 / src_files))
+            echo "📊 Documentation Coverage: ${coverage}%"
+
+            if [ $coverage -lt 80 ]; then
+              echo "⚠️ Warning: Documentation coverage below 80%"
+              echo "Consider adding more documentation for your source files"
+            fi
+          else
+            echo "ℹ️ No source files found to document"
+          fi
+
+      - name: Create documentation report
+        run: |
+          mkdir -p .governance/reports
+
+          cat > .governance/reports/documentation-report.json << EOF
+          {
+            "timestamp": "$(date -Iseconds)",
+            "source_files": $(find src lib api -name "*.js" -o -name "*.ts" 2>/dev/null | wc -l || echo 0),
+            "documentation_files": $(find docs -name "*.md" | wc -l || echo 0),
+            "api_docs_generated": $(ls -la docs/api/ 2>/dev/null | wc -l || echo 0),
+            "readme_updated": $(git diff HEAD~1 HEAD -- README.md | wc -l || echo 0)
+          }
+          EOF
+
+      - name: Upload documentation report
+        uses: actions/upload-artifact@v3
+        with:
+          name: documentation-report
+          path: .governance/reports/documentation-report.json
+          retention-days: 30
+
+  validate-cross-references:
+    name: Validate Documentation Cross-References
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for broken links in documentation
+        run: |
+          broken_links=""
+
+          # Find all markdown files
+          find . -name "*.md" -not -path "./node_modules/*" | while read -r file; do
+            # Extract links from markdown
+            grep -oP '\[.*?\]\(\K[^)]+' "$file" | while read -r link; do
+              # Check if it's a relative link
+              if [[ ! "$link" =~ ^https?:// ]]; then
+                # Check if file exists
+                if [[ "$link" =~ ^# ]]; then
+                  # Anchor link - skip
+                  continue
+                elif [[ ! -f "$link" && ! -f "${link}.md" ]]; then
+                  broken_links="${broken_links}\n  - $file: $link"
+                fi
+              fi
+            done
+          done
+
+          if [ -n "$broken_links" ]; then
+            echo "❌ Broken links found in documentation:${broken_links}"
+            exit 1
+          else
+            echo "✅ All documentation links are valid"
+          fi
+
+  notify-documentation-changes:
+    name: Notify Documentation Changes
+    runs-on: ubuntu-latest
+    needs: [generate-documentation, check-documentation-coverage]
+    if: always() && github.event_name == 'pull_request'
+    steps:
+      - name: Comment on PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const message = `## 📚 Documentation Sync Status
+
+            Documentation has been automatically synchronized with your code changes.
+
+            | Check | Status |
+            |-------|--------|
+            | Documentation Generation | ${{ needs.generate-documentation.result }} |
+            | Coverage Check | ${{ needs.check-documentation-coverage.result }} |
+
+            Please review the generated documentation to ensure accuracy.`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });

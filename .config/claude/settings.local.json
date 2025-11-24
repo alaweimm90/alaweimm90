@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(node scripts/validate-setup.js:*)",
+      "Bash(node scripts/mcp-setup.js:*)",
+      "Bash(node scripts/agent-setup.js:*)",
+      "Bash(tree:*)",
+      "Bash(if [ -d \".config/organizations/alaweimm90-business-duplicate\" ])",
+      "Bash(then rm -rf \".config/organizations/alaweimm90-business-duplicate\")",
+      "Bash(else echo \"ℹ Directory already removed or doesn''t exist\")",
+      "Bash(fi)",
+      "Bash(node:*)",
+      "Bash(pnpm install:*)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

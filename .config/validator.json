@@ -1,0 +1,3 @@
+{
+  "allowedHidden": [".github", ".git", ".devcontainer", ".backup_*"]
+}

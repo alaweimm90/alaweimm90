@@ -1,0 +1,32 @@
+name: Docs Backup
+
+on:
+  schedule:
+    - cron: '0 4 * * 0'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Snapshot docs
+        run: |
+          set -euo pipefail
+          ts="$(date +%Y%m%d%H%M%S)"
+          mkdir -p archives/backups
+          tar -czf archives/backups/docs-$ts.tgz $(find . -type f -name '*.md' -print)
+      - name: Commit backup
+        run: |
+          git checkout -b docs/backups || git checkout docs/backups
+          git add archives/backups/docs-*.tgz
+          git commit -m "docs: backup snapshot" || echo "No changes"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: docs/backups
+          title: 'Docs: Backup snapshot'
+          commit-message: 'docs: backup'
+          labels: docs-backup

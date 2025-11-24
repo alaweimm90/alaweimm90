@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  github-mcp-server:
+    image: ghcr.io/github/github-mcp-server
+    stdin_open: true
+    tty: true
+    environment:
+      # Passed from your WSL environment when you run docker compose
+      # export GITHUB_TOKEN=your_token_here
+      GITHUB_PERSONAL_ACCESS_TOKEN: ${GITHUB_TOKEN}
+    restart: unless-stopped

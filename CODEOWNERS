@@ -1,0 +1,70 @@
+# Engineering Excellence Framework - Access Control Matrix
+# This file defines code ownership and review requirements per the framework
+
+# Global Owners (Engineering Excellence Maintainers)
+* @engineering-excellence @meshal
+
+# AI Integration (SSOT Maintainers)
+/.meta/ai/ @ai-tools-maintainers
+/.meta/ai/instructions/ @ai-instruction-maintainers
+/.meta/ai/prompts/ @ai-prompt-reviewers
+/.meta/ai/tools/ @ai-tools-maintainers
+/.meta/ai/context/ @ai-context-reviewers
+
+# Governance & Compliance
+/.meta/governance/ @governance-team
+/.meta/compliance/ @compliance-team
+CODEOWNERS @engineering-excellence
+.pre-commit-config.yaml @engineering-excellence
+.github/workflows/ @ci-cd-maintainers
+
+# Security Critical Files
+SECURITY.md @security-team
+.github/workflows/security* @security-team
+.github/workflows/compliance* @security-team
+.gitleaks.toml @security-team
+.bandit @security-team
+
+# CI/CD and Quality Gates
+.github/workflows/ @platform-team
+turbo.json @platform-team
+.prettierrc.json @frontend-quality
+.eslintrc.js @frontend-quality
+
+# Repository Standards (Require 2 Reviews)
+/REPO_STANDARDS.md @engineering-excellence @governance-team
+
+# Package Management
+package.json @platform-team
+requirements*.txt @platform-team
+pyproject.toml @platform-team
+
+# Documentation (All docs require technical and content review)
+*.md @technical-writers @engineering-excellence
+docs/ @technical-writers
+*.md @content-reviewers
+
+# Code Ownership by Project Areas
+alaweimm90/automation/ @automation-team
+alaweimm90/monitoring/ @platform-team @monitoring-team
+benchbarrier-mock/ @frontend-team
+
+# Dependency Updates (Automated - Require Security Review)
+package-lock.json @platform-team @security-team
+pnpm-lock.yaml @platform-team @security-team
+
+# Configuration Files (Require Architecture Review)
+tsconfig.json @platform-team @architecture-team
+docker-compose.yml @platform-team @devops-team
+
+# Security Overrides
+# NEVER approve changes to security files without security team review
+/.env* @security-team
+*secret* @security-team
+*vault* @security-team
+
+# Emergency Contacts
+# Emergency bypass available only for:
+# - P0 security patches (requires @security-leads approval)
+# - Build-breaking fixes (requires @platform-leads approval)
+# - Documentation deployment issues (requires @messaging-leads approval)

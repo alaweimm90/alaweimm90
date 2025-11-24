@@ -1,0 +1,38 @@
+name: Daily Security & Compliance Checks
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  automation-security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (.automation)
+        working-directory: ./.automation
+        run: npm ci
+
+      - name: NPM Audit (prod only)
+        working-directory: ./.automation
+        run: npm audit --omit=dev || true
+
+      - name: License Report
+        working-directory: ./.automation
+        run: npx license-checker --production --json > license-report.json || true
+
+      - name: Upload security artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: automation-security-reports
+          path: |
+            ./.automation/license-report.json
+

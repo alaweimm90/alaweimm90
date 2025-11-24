@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Modern Blog</title>
+    <meta name="description" content="Search articles, tutorials, and insights on Modern Blog. Find content by keywords, categories, authors, and date ranges.">
+    <meta name="keywords" content="search, blog, articles, tutorials, technology, design">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="index.html">Modern Blog</a></h1>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="author.html">Authors</a></li>
+                        <li><a href="search.html">Search</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="search-page">
+        <div class="container">
+            <!-- Search Header -->
+            <div class="search-header">
+                <h1>Search Articles</h1>
+                <p>Find articles, tutorials, and insights from our blog</p>
+            </div>
+
+            <!-- Search Form -->
+            <div class="search-form-container">
+                <form class="search-form" id="search-form">
+                    <div class="search-input-group">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <input type="text" id="search-input" name="q" placeholder="Search articles, topics, or authors..." autocomplete="off">
+                            <button type="button" class="clear-search" id="clear-search" aria-label="Clear search" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <button type="submit" class="btn btn-primary search-submit">Search</button>
+                    </div>
+
+                    <!-- Advanced Filters -->
+                    <div class="search-filters">
+                        <button type="button" class="filter-toggle" id="filter-toggle">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                            Filters
+                            <span class="filter-count" id="filter-count" style="display: none;">0</span>
+                        </button>
+
+                        <div class="filters-panel" id="filters-panel" style="display: none;">
+                            <div class="filter-group">
+                                <label for="category-filter">Category</label>
+                                <select id="category-filter" name="category">
+                                    <option value="">All Categories</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="design">Design</option>
+                                    <option value="lifestyle">Lifestyle</option>
+                                    <option value="tutorial">Tutorial</option>
+                                    <option value="opinion">Opinion</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label for="author-filter">Author</label>
+                                <select id="author-filter" name="author">
+                                    <option value="">All Authors</option>
+                                    <option value="john-doe">John Doe</option>
+                                    <option value="jane-smith">Jane Smith</option>
+                                    <option value="mike-johnson">Mike Johnson</option>
+                                    <option value="sarah-wilson">Sarah Wilson</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label for="date-filter">Date Range</label>
+                                <select id="date-filter" name="date">
+                                    <option value="">Any Time</option>
+                                    <option value="week">Past Week</option>
+                                    <option value="month">Past Month</option>
+                                    <option value="quarter">Past 3 Months</option>
+                                    <option value="year">Past Year</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-group">
+                                <label for="sort-filter">Sort By</label>
+                                <select id="sort-filter" name="sort">
+                                    <option value="relevance">Relevance</option>
+                                    <option value="date">Date</option>
+                                    <option value="popular">Most Popular</option>
+                                    <option value="title">Title</option>
+                                </select>
+                            </div>
+
+                            <div class="filter-actions">
+                                <button type="button" class="btn btn-secondary" id="clear-filters">Clear All</button>
+                                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Search Results -->
+            <div class="search-results" id="search-results">
+                <div class="results-header">
+                    <h2 id="results-count">Search Results <span class="result-count">(0)</span></h2>
+                    <div class="results-info" id="results-info" style="display: none;">
+                        <span id="search-term-display"></span>
+                        <span id="filter-summary"></span>
+                    </div>
+                </div>
+
+                <!-- No Results State -->
+                <div class="no-results" id="no-results">
+                    <div class="no-results-icon">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </div>
+                    <h3>No articles found</h3>
+                    <p>Try adjusting your search terms or filters</p>
+                    <div class="search-suggestions">
+                        <h4>Search Suggestions:</h4>
+                        <ul>
+                            <li>Check your spelling</li>
+                            <li>Use more general keywords</li>
+                            <li>Try different keywords</li>
+                            <li>Remove filters to broaden your search</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Results List -->
+                <div class="results-list" id="results-list" style="display: none;">
+                    <article class="search-result-item">
+                        <div class="result-content">
+                            <div class="result-meta">
+                                <span class="result-category">Technology</span>
+                                <span class="result-author">By <a href="author.html">John Doe</a></span>
+                                <time datetime="2024-12-15">December 15, 2024</time>
+                                <span class="result-read-time">5 min read</span>
+                            </div>
+                            <h3><a href="article.html">The Future of Web Development: Trends to Watch in 2024</a></h3>
+                            <p class="result-excerpt">Explore the latest trends shaping the future of web development, from AI integration to progressive web apps and beyond. Discover how these technologies are transforming the way we build web applications.</p>
+                            <div class="result-highlights" style="display: none;">
+                                <span class="highlight">web development</span>
+                                <span class="highlight">trends</span>
+                                <span class="highlight">AI</span>
+                            </div>
+                        </div>
+                        <div class="result-image">
+                            <img src="https://via.placeholder.com/150x100/4A90E2/FFFFFF?text=Article" alt="Article thumbnail">
+                        </div>
+                    </article>
+
+                    <article class="search-result-item">
+                        <div class="result-content">
+                            <div class="result-meta">
+                                <span class="result-category">Tutorial</span>
+                                <span class="result-author">By <a href="author.html">Sarah Wilson</a></span>
+                                <time datetime="2024-12-08">December 8, 2024</time>
+                                <span class="result-read-time">8 min read</span>
+                            </div>
+                            <h3><a href="article.html">Complete Guide to CSS Grid Layout</a></h3>
+                            <p class="result-excerpt">Learn everything you need to know about CSS Grid, from basic concepts to advanced techniques. This comprehensive guide covers all aspects of creating responsive layouts with CSS Grid.</p>
+                            <div class="result-highlights" style="display: none;">
+                                <span class="highlight">CSS Grid</span>
+                                <span class="highlight">layout</span>
+                                <span class="highlight">responsive</span>
+                            </div>
+                        </div>
+                        <div class="result-image">
+                            <img src="https://via.placeholder.com/150x100/9B59B6/FFFFFF?text=Article" alt="Article thumbnail">
+                        </div>
+                    </article>
+
+                    <article class="search-result-item">
+                        <div class="result-content">
+                            <div class="result-meta">
+                                <span class="result-category">Design</span>
+                                <span class="result-author">By <a href="author.html">Jane Smith</a></span>
+                                <time datetime="2024-12-12">December 12, 2024</time>
+                                <span class="result-read-time">6 min read</span>
+                            </div>
+                            <h3><a href="article.html">Mastering Clean Typography in Modern Web Design</a></h3>
+                            <p class="result-excerpt">Learn the principles of effective typography and how to implement them in your web projects. Discover typography best practices for improved readability and user experience.</p>
+                            <div class="result-highlights" style="display: none;">
+                                <span class="highlight">typography</span>
+                                <span class="highlight">design</span>
+                                <span class="highlight">web</span>
+                            </div>
+                        </div>
+                        <div class="result-image">
+                            <img src="https://via.placeholder.com/150x100/50C878/FFFFFF?text=Article" alt="Article thumbnail">
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button class="pagination-btn prev-btn" disabled>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15,18 9,12 15,6"></polyline>
+                        </svg>
+                        Previous
+                    </button>
+                    <div class="pagination-numbers">
+                        <button class="pagination-number active">1</button>
+                        <button class="pagination-number">2</button>
+                        <button class="pagination-number">3</button>
+                        <span class="pagination-dots">...</span>
+                        <button class="pagination-number">10</button>
+                    </div>
+                    <button class="pagination-btn next-btn">
+                        Next
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Popular Searches -->
+            <aside class="popular-searches">
+                <h3>Popular Searches</h3>
+                <div class="popular-tags">
+                    <a href="#" class="popular-tag" data-search="web development">Web Development</a>
+                    <a href="#" class="popular-tag" data-search="javascript">JavaScript</a>
+                    <a href="#" class="popular-tag" data-search="react">React</a>
+                    <a href="#" class="popular-tag" data-search="css">CSS</a>
+                    <a href="#" class="popular-tag" data-search="typescript">TypeScript</a>
+                    <a href="#" class="popular-tag" data-search="design">Design</a>
+                    <a href="#" class="popular-tag" data-search="tutorial">Tutorial</a>
+                    <a href="#" class="popular-tag" data-search="performance">Performance</a>
+                    <a href="#" class="popular-tag" data-search="accessibility">Accessibility</a>
+                    <a href="#" class="popular-tag" data-search="seo">SEO</a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Modern Blog</h4>
+                    <p>A platform for sharing insights, tutorials, and stories about technology, design, and lifestyle.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="author.html">Authors</a></li>
+                        <li><a href="search.html">Search</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Modern Blog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+{
+  "timestamp": "2025-11-22T16:20:20.514Z",
+  "metrics": {
+    "system": {
+      "timestamp": "2025-11-22T16:20:19.769Z",
+      "cpu": {
+        "usage": "0.00",
+        "cores": 16,
+        "loadAverage": ["0.00", "0.00", "0.00"]
+      },
+      "memory": {
+        "total": "15.31 GB",
+        "used": "9.31 GB",
+        "free": "6.00 GB",
+        "usage": "60.83"
+      },
+      "uptime": 17174.531,
+      "platform": "win32",
+      "hostname": "Meshal"
+    },
+    "application": {
+      "timestamp": "2025-11-22T16:20:20.052Z",
+      "process": {
+        "pid": 41540,
+        "uptime": 10143.7324872,
+        "memory": {
+          "rss": 19206144,
+          "heapTotal": 18194432,
+          "heapUsed": 10088088,
+          "external": 1826909,
+          "arrayBuffers": 44177
+        },
+        "cpuUsage": {
+          "user": 54265000,
+          "system": 123937000
+        }
+      },
+      "services": [
+        {
+          "name": "node",
+          "status": "running",
+          "version": "v22.20.0"
+        },
+        {
+          "name": "npm",
+          "status": "running",
+          "version": "10.9.3"
+        },
+        {
+          "name": "git",
+          "status": "running",
+          "version": "git version 2.51.1.windows.1"
+        }
+      ],
+      "health": "healthy"
+    },
+    "repository": {
+      "timestamp": "2025-11-22T16:20:20.494Z",
+      "files": {
+        "total": 25517,
+        "js": 394,
+        "json": 5070,
+        "md": 2592
+      },
+      "git": {
+        "modified": 0,
+        "added": 0,
+        "deleted": 0,
+        "untracked": 286
+      },
+      "dependencies": {
+        "dependencies": 6,
+        "devDependencies": 21
+      }
+    },
+    "performance": {
+      "timestamp": "2025-11-22T16:20:20.494Z",
+      "fileSystemResponse": 0,
+      "networkLatency": -1,
+      "diskIO": 1
+    }
+  },
+  "alerts": [
+    {
+      "id": "alert_1763828090503_ogknj0bvj",
+      "timestamp": "2025-11-22T16:14:50.503Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 93.29,
+      "threshold": 85,
+      "message": "High memory usage: 93.29%"
+    },
+    {
+      "id": "alert_1763828121138_nnwuk94c1",
+      "timestamp": "2025-11-22T16:15:21.138Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 88.53,
+      "threshold": 85,
+      "message": "High memory usage: 88.53%"
+    },
+    {
+      "id": "alert_1763828151001_9iba82fgi",
+      "timestamp": "2025-11-22T16:15:51.001Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 94.29,
+      "threshold": 85,
+      "message": "High memory usage: 94.29%"
+    },
+    {
+      "id": "alert_1763828181620_ztyf6jwhv",
+      "timestamp": "2025-11-22T16:16:21.620Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 94.23,
+      "threshold": 85,
+      "message": "High memory usage: 94.23%"
+    },
+    {
+      "id": "alert_1763828210697_uewvqtgv1",
+      "timestamp": "2025-11-22T16:16:50.697Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 91.13,
+      "threshold": 85,
+      "message": "High memory usage: 91.13%"
+    },
+    {
+      "id": "alert_1763828240796_lz56s7rtc",
+      "timestamp": "2025-11-22T16:17:20.796Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 91.57,
+      "threshold": 85,
+      "message": "High memory usage: 91.57%"
+    },
+    {
+      "id": "alert_1763828270989_gsa2xlpm8",
+      "timestamp": "2025-11-22T16:17:50.989Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 93.49,
+      "threshold": 85,
+      "message": "High memory usage: 93.49%"
+    },
+    {
+      "id": "alert_1763828301083_jqmptw03w",
+      "timestamp": "2025-11-22T16:18:21.083Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 92.78,
+      "threshold": 85,
+      "message": "High memory usage: 92.78%"
+    },
+    {
+      "id": "alert_1763828331638_1ljrb3wkx",
+      "timestamp": "2025-11-22T16:18:51.638Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 94.21,
+      "threshold": 85,
+      "message": "High memory usage: 94.21%"
+    },
+    {
+      "id": "alert_1763828360720_ycj3rfm8r",
+      "timestamp": "2025-11-22T16:19:20.720Z",
+      "type": "high_memory",
+      "severity": "warning",
+      "value": 86.04,
+      "threshold": 85,
+      "message": "High memory usage: 86.04%"
+    }
+  ],
+  "remediations": [
+    {
+      "timestamp": "2025-11-22T16:14:50.504Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:15:21.139Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:15:51.002Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:16:21.620Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:16:50.697Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:17:20.796Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:17:50.989Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:18:21.083Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:18:51.638Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    },
+    {
+      "timestamp": "2025-11-22T16:19:20.720Z",
+      "issue": "high_memory",
+      "action": "Cleared caches and temporary files",
+      "success": true
+    }
+  ],
+  "status": "warning"
+}

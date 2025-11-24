@@ -1,0 +1,75 @@
+# Bandit Configuration File
+# https://bandit.readthedocs.io/en/latest/configuration/
+
+# Tests to exclude
+exclude_dirs:
+  - /test
+  - /tests
+  - /.venv
+  - /venv
+  - /node_modules
+
+# Tests to run
+# skips: []
+
+# Severity level (low, medium, high)
+level: medium
+
+# Assert templates
+assert_template: |
+  (__| %)
+  (__| assert)
+  (unittest\..*\.assert)
+
+# Define which tests to use
+# tests: [B201, B301, B302, B303, B304, B305, B306, B307, B308, B309, B310, B311, B312, B313, B314, B315, B316, B317, B318, B319, B320, B321, B322, B323, B324, B325, B326, B327, B328, B329, B330, B331, B332, B333, B334, B335, B336, B337, B338, B339, B340, B341, B342, B343, B344, B345, B346, B347, B348, B349, B350, B351, B352, B353, B354, B355, B356, B357, B358, B359, B360, B361, B362]
+
+# Report format
+report:
+  # Format: txt, json, csv, xml
+  format: json
+
+# Logging
+logging:
+  # Console level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  console_level: INFO
+  # File level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file_level: INFO
+
+# Specific test configurations
+tests:
+  B101:
+    # assert_used
+    skips:
+      - "/test*"
+      - "*/test*.py"
+
+  B601:
+    # paramiko_calls - allow specific hosts
+    safe_hosts:
+      - "localhost"
+      - "127.0.0.1"
+
+  B602:
+    # shell_injection - allow specific commands
+    shell_injection_escape: false
+
+  B604:
+    # any_other_function_with_shell_equals_true
+    shell_injection_escape: false
+
+  B607:
+    # partial_path_resolution
+    partial_path_resolution: true
+
+# Custom plugins (if any)
+# plugins: []
+
+# Recursive scanning
+recursive: true
+
+# Aggregate output
+aggregate: true
+
+# Metrics collection
+metrics: true

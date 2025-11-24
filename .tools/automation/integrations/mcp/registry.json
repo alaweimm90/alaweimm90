@@ -1,0 +1,291 @@
+{
+  "$schema": "https://spec.modelcontextprotocol.org/schema/registry.json",
+  "version": "1.0.0",
+  "registry": {
+    "name": "GitHub Monorepo MCP Registry",
+    "description": "Curated Model Context Protocols for developers, researchers, and scientists",
+    "mcps": {
+      "developer": [
+        {
+          "id": "code-analyzer",
+          "name": "Code Analyzer MCP",
+          "version": "1.0.0",
+          "description": "Static code analysis and quality metrics",
+          "category": "development",
+          "tags": ["analysis", "quality", "metrics"],
+          "endpoint": "mcp://localhost:5001/code-analyzer",
+          "capabilities": [
+            "code-analysis",
+            "complexity-metrics",
+            "dead-code-detection",
+            "dependency-graph"
+          ],
+          "setup": {
+            "required": ["node", "typescript"],
+            "optional": ["eslint", "prettier"]
+          }
+        },
+        {
+          "id": "test-generator",
+          "name": "Test Generator MCP",
+          "version": "1.0.0",
+          "description": "Automatic test case generation",
+          "category": "development",
+          "tags": ["testing", "automation", "coverage"],
+          "endpoint": "mcp://localhost:5002/test-generator",
+          "capabilities": [
+            "unit-test-generation",
+            "integration-test-generation",
+            "coverage-analysis",
+            "test-suggestion"
+          ],
+          "setup": {
+            "required": ["node", "jest or vitest"],
+            "optional": ["@testing-library/react"]
+          }
+        },
+        {
+          "id": "documentation-generator",
+          "name": "Documentation Generator MCP",
+          "version": "1.0.0",
+          "description": "Automatic documentation generation from code",
+          "category": "development",
+          "tags": ["documentation", "jsdoc", "markdown"],
+          "endpoint": "mcp://localhost:5003/docs-generator",
+          "capabilities": [
+            "jsdoc-generation",
+            "markdown-generation",
+            "api-documentation",
+            "readme-generation"
+          ],
+          "setup": {
+            "required": ["node"],
+            "optional": ["typedoc", "jsdoc"]
+          }
+        },
+        {
+          "id": "refactoring-assistant",
+          "name": "Refactoring Assistant MCP",
+          "version": "1.0.0",
+          "description": "AI-powered code refactoring suggestions",
+          "category": "development",
+          "tags": ["refactoring", "code-improvement", "patterns"],
+          "endpoint": "mcp://localhost:5004/refactoring",
+          "capabilities": [
+            "pattern-detection",
+            "smell-detection",
+            "refactoring-suggestions",
+            "automated-refactoring"
+          ],
+          "setup": {
+            "required": ["node", "typescript"],
+            "optional": []
+          }
+        },
+        {
+          "id": "security-scanner",
+          "name": "Security Scanner MCP",
+          "version": "1.0.0",
+          "description": "Security vulnerability scanning and analysis",
+          "category": "security",
+          "tags": ["security", "vulnerabilities", "sast"],
+          "endpoint": "mcp://localhost:5005/security",
+          "capabilities": [
+            "vulnerability-scanning",
+            "dependency-scanning",
+            "secret-detection",
+            "security-recommendations"
+          ],
+          "setup": {
+            "required": ["node"],
+            "optional": ["gitleaks", "semgrep"]
+          }
+        }
+      ],
+      "researcher": [
+        {
+          "id": "paper-search",
+          "name": "Academic Paper Search MCP",
+          "version": "1.0.0",
+          "description": "Search and analyze academic papers from arXiv, PubMed, etc.",
+          "category": "research",
+          "tags": ["papers", "arxiv", "pubmed", "research"],
+          "endpoint": "mcp://localhost:6001/paper-search",
+          "capabilities": [
+            "arxiv-search",
+            "pubmed-search",
+            "paper-summarization",
+            "citation-extraction",
+            "related-papers"
+          ],
+          "setup": {
+            "required": ["python"],
+            "optional": ["arxiv-api", "pubmed-api"]
+          }
+        },
+        {
+          "id": "data-analyzer",
+          "name": "Statistical Data Analyzer MCP",
+          "version": "1.0.0",
+          "description": "Statistical analysis and data visualization",
+          "category": "research",
+          "tags": ["statistics", "data-analysis", "visualization"],
+          "endpoint": "mcp://localhost:6002/data-analyzer",
+          "capabilities": [
+            "descriptive-statistics",
+            "hypothesis-testing",
+            "regression-analysis",
+            "data-visualization"
+          ],
+          "setup": {
+            "required": ["python", "pandas", "numpy"],
+            "optional": ["scipy", "matplotlib", "seaborn"]
+          }
+        },
+        {
+          "id": "citation-manager",
+          "name": "Citation Manager MCP",
+          "version": "1.0.0",
+          "description": "Manage and format citations and bibliographies",
+          "category": "research",
+          "tags": ["citations", "bibliography", "bibtex"],
+          "endpoint": "mcp://localhost:6003/citations",
+          "capabilities": [
+            "citation-formatting",
+            "bibliography-generation",
+            "bibtex-management",
+            "doi-lookup"
+          ],
+          "setup": {
+            "required": ["python"],
+            "optional": ["bibtexparser"]
+          }
+        },
+        {
+          "id": "latex-assistant",
+          "name": "LaTeX Assistant MCP",
+          "version": "1.0.0",
+          "description": "LaTeX document assistance and compilation",
+          "category": "research",
+          "tags": ["latex", "documents", "formatting"],
+          "endpoint": "mcp://localhost:6004/latex",
+          "capabilities": [
+            "syntax-checking",
+            "table-generation",
+            "equation-formatting",
+            "bibliography-integration"
+          ],
+          "setup": {
+            "required": ["python", "latex"],
+            "optional": ["latexmk"]
+          }
+        }
+      ],
+      "scientist": [
+        {
+          "id": "simulation-runner",
+          "name": "Scientific Simulation Runner MCP",
+          "version": "1.0.0",
+          "description": "Run and manage scientific simulations",
+          "category": "scientific-computing",
+          "tags": ["simulation", "hpc", "modeling"],
+          "endpoint": "mcp://localhost:7001/simulation",
+          "capabilities": [
+            "simulation-setup",
+            "parameter-sweeps",
+            "job-scheduling",
+            "result-collection"
+          ],
+          "setup": {
+            "required": ["python"],
+            "optional": ["numpy", "scipy", "mpi4py"]
+          }
+        },
+        {
+          "id": "plot-generator",
+          "name": "Scientific Plotting MCP",
+          "version": "1.0.0",
+          "description": "Generate publication-quality scientific plots",
+          "category": "visualization",
+          "tags": ["plotting", "visualization", "graphs"],
+          "endpoint": "mcp://localhost:7002/plotting",
+          "capabilities": [
+            "2d-plotting",
+            "3d-plotting",
+            "contour-plots",
+            "heatmaps",
+            "publication-formatting"
+          ],
+          "setup": {
+            "required": ["python", "matplotlib"],
+            "optional": ["seaborn", "plotly"]
+          }
+        },
+        {
+          "id": "data-processor",
+          "name": "Scientific Data Processor MCP",
+          "version": "1.0.0",
+          "description": "Process and analyze scientific data files",
+          "category": "data-processing",
+          "tags": ["data", "processing", "analysis"],
+          "endpoint": "mcp://localhost:7003/data-processor",
+          "capabilities": [
+            "file-format-conversion",
+            "data-cleaning",
+            "signal-processing",
+            "fourier-analysis"
+          ],
+          "setup": {
+            "required": ["python", "numpy", "pandas"],
+            "optional": ["scipy", "h5py", "netCDF4"]
+          }
+        },
+        {
+          "id": "unit-converter",
+          "name": "Scientific Unit Converter MCP",
+          "version": "1.0.0",
+          "description": "Convert between scientific units and constants",
+          "category": "utilities",
+          "tags": ["units", "conversion", "constants"],
+          "endpoint": "mcp://localhost:7004/units",
+          "capabilities": [
+            "unit-conversion",
+            "physical-constants",
+            "dimensional-analysis",
+            "uncertainty-propagation"
+          ],
+          "setup": {
+            "required": ["python"],
+            "optional": ["pint", "astropy"]
+          }
+        },
+        {
+          "id": "equation-solver",
+          "name": "Equation Solver MCP",
+          "version": "1.0.0",
+          "description": "Solve mathematical and differential equations",
+          "category": "mathematics",
+          "tags": ["equations", "solver", "numerical-methods"],
+          "endpoint": "mcp://localhost:7005/solver",
+          "capabilities": [
+            "algebraic-equations",
+            "differential-equations",
+            "optimization",
+            "root-finding"
+          ],
+          "setup": {
+            "required": ["python", "numpy", "scipy"],
+            "optional": ["sympy"]
+          }
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created": "2025-11-22",
+    "maintainer": "GitHub Monorepo Team",
+    "contact": "meshal@berkeley.edu",
+    "repository": "https://github.com/your-org/monorepo",
+    "documentation": ".automation/integrations/mcp/README.md"
+  }
+}

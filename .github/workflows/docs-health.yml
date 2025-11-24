@@ -1,0 +1,33 @@
+name: Docs Health
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compute health metrics
+        run: |
+          set -euo pipefail
+          total=0; passing=0; dups=0; temps=0; outdated=0
+          get_scope() { find . -type f \( -name package.json -o -name pyproject.toml \) -print0 | xargs -0 -n1 dirname | sort -u; }
+          while IFS= read -r dir; do
+            total=$((total+1))
+            miss=0; for f in README.md CONTRIBUTING.md CHANGELOG.md; do [ -f "$dir/$f" ] || miss=$((miss+1)); done
+            unauth=0; for f in $(ls -1 "$dir" 2>/dev/null | grep -E '\.md$' || true); do case "$f" in README.md|CONTRIBUTING.md|CHANGELOG.md|SPECIFICATIONS.md|DESIGN.md|SECURITY.md|ARCHITECTURE.md) :;; *) unauth=$((unauth+1));; esac; done
+            if [ $((miss+unauth)) -eq 0 ]; then passing=$((passing+1)); fi
+          done < <(get_scope)
+          dups=$(grep -c '^duplicate|' archives/docs-ops.log 2>/dev/null || echo 0)
+          temps=$(grep -c '^temp|' archives/docs-ops.log 2>/dev/null || echo 0)
+          outdated=$(grep -c '^outdated|' archives/docs-ops.log 2>/dev/null || echo 0)
+          pct=0; if [ "$total" -gt 0 ]; then pct=$((100*passing/total)); fi
+          echo "{\"generatedAt\":\"$(date -Iseconds)\",\"compliance\":$pct,\"total\":$total,\"passing\":$passing,\"duplicates\":$dups,\"temps\":$temps,\"outdated\":$outdated}" > docs-health.json
+      - name: Upload health
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-health
+          path: docs-health.json

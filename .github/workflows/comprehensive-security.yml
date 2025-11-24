@@ -1,0 +1,79 @@
+name: Comprehensive Security Scanning
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  secret-scanning:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Scan
+        run: |
+          docker run --rm -v $(pwd):/scan zricethezav/gitleaks:latest detect --source /scan --verbose --redact || true
+
+      - name: Pattern-based Secret Detection
+        run: |
+          echo "Checking for common secret patterns..."
+          ! grep -r -E "(password|secret|key|token)\s*=\s*['\"][^'\"]{8,}" . \
+            --exclude-dir=node_modules \
+            --exclude-dir=.git \
+            --exclude="*.md" || {
+            echo "⚠️  Potential secrets found"
+            exit 1
+          }
+
+  sast:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: ESLint Security Plugin
+        run: |
+          npx eslint . \
+            --plugin security \
+            --rule 'security/detect-object-injection: error' \
+            --rule 'security/detect-non-literal-regexp: error' \
+            --rule 'security/detect-unsafe-regex: error' \
+            --ext .js,.jsx,.ts,.tsx || true
+
+  dependency-scanning:
+    name: Dependency Vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit Dependencies
+        run: |
+          pnpm audit --audit-level=moderate || {
+            echo "Vulnerabilities found - check output above"
+            exit 1
+          }

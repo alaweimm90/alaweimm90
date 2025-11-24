@@ -1,0 +1,11 @@
+{
+  "scanning": {
+    "enabled": true,
+    "frequency": "daily",
+    "severity": "moderate"
+  },
+  "autoFix": {
+    "enabled": true,
+    "severity": "high"
+  }
+}

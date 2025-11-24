@@ -1,0 +1,292 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "industry": "Healthcare",
+    "description": "Healthcare Industry Compliance Configuration Template",
+    "frameworks": ["HIPAA", "SOC2"],
+    "focus": "Healthcare data protection, PHI security, and trust services",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["HIPAA", "SOC2"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "phi": 2555,
+        "medical_records": 2555,
+        "audit_logs": 2555,
+        "security_events": 2555
+      },
+      "crossBorderTransferAllowed": false,
+      "dataLocalizationRequired": true
+    },
+    "geographicCompliance": {
+      "restrictedRegions": ["china", "russia", "iran", "north_korea"],
+      "dataLocalizationRequired": true,
+      "sovereigntyRequirements": {
+        "north_america": ["HIPAA", "SOC2"]
+      }
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "breachNotification": {
+        "enabled": true,
+        "timeframeDays": 60,
+        "recipients": ["OCR", "affected_individuals"],
+        "automatedReporting": true
+      },
+      "continuousAuditing": {
+        "enabled": true,
+        "frequency": "real_time",
+        "automatedReporting": true
+      }
+    }
+  },
+  "dataClassification": {
+    "phi": {
+      "patterns": [
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b(diagnosis|treatment|medication|condition|PHI)\\b",
+        "\\b\\d{9}\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": true,
+      "soc2Compliance": true
+    },
+    "healthcare_data": {
+      "patterns": ["\\b(medical|health|patient|clinical)\\b", "\\b(MRN|patient_id|health_id)\\b"],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": true,
+      "soc2Compliance": true
+    },
+    "confidential": {
+      "patterns": [
+        "\\b(confidential|secret|proprietary|internal)\\b",
+        "\\b(trade_secret|intellectual_property)\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": false,
+      "soc2Compliance": true
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": true,
+    "phiDetectionEnabled": true,
+    "breachPreventionMode": true,
+    "continuousMonitoringEnabled": true,
+    "availabilityOptimization": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america"],
+    "blockedRegions": ["china", "russia", "iran", "north_korea"],
+    "dataLocalization": {
+      "phi": "north_america",
+      "healthcare_data": "north_america",
+      "confidential": "north_america"
+    },
+    "crossBorderRules": {
+      "requiresBAARegistration": true,
+      "standardContractualClauses": true,
+      "bindingCorporateRules": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "chief_medical_officer": {
+        "phi": ["read", "write", "delete"],
+        "healthcare_data": ["read", "write"],
+        "confidential": ["read"]
+      },
+      "clinician": {
+        "phi": ["read", "write"],
+        "healthcare_data": ["read", "write"],
+        "confidential": ["read"]
+      },
+      "billing_staff": {
+        "phi": ["read"],
+        "healthcare_data": ["read", "write"],
+        "confidential": ["read"]
+      },
+      "researcher": {
+        "phi": ["read"],
+        "healthcare_data": ["read"],
+        "confidential": ["read"]
+      },
+      "auditor": {
+        "phi": ["read"],
+        "healthcare_data": ["read"],
+        "confidential": ["read", "write"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800,
+    "multiFactorRequired": true,
+    "segregationOfDuties": true
+  },
+  "trustServicesCriteria": {
+    "security": {
+      "enabled": true,
+      "controls": [
+        "access_control",
+        "encryption",
+        "network_security",
+        "monitoring",
+        "incident_response"
+      ]
+    },
+    "availability": {
+      "enabled": true,
+      "controls": [
+        "system_availability",
+        "capacity_management",
+        "disaster_recovery",
+        "performance_monitoring"
+      ],
+      "targetUptime": 0.995
+    },
+    "confidentiality": {
+      "enabled": true,
+      "controls": ["data_classification", "encryption", "access_controls", "phi_protection"]
+    }
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_modification",
+      "data_deletion",
+      "authentication",
+      "authorization_failure",
+      "phi_detection",
+      "breach_attempt",
+      "geographic_violation",
+      "security_event",
+      "system_change",
+      "audit_activity"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true,
+    "evidenceCollection": true
+  },
+  "breachDetection": {
+    "phiPatterns": true,
+    "unusualAccessPatterns": true,
+    "geographicAnomalies": true,
+    "encryptionFailures": true,
+    "healthcareDataExposure": true,
+    "notificationSettings": {
+      "immediateAlert": true,
+      "ocrNotification": true,
+      "affectedIndividuals": true,
+      "timeframeDays": 60
+    }
+  },
+  "continuousMonitoring": {
+    "enabled": true,
+    "metrics": [
+      "system_availability",
+      "phi_access_attempts",
+      "security_events",
+      "compliance_violations",
+      "error_rates"
+    ],
+    "alerts": {
+      "availability_threshold": 0.995,
+      "phi_breach": true,
+      "security_incidents": true,
+      "unauthorized_access": true
+    },
+    "reporting": {
+      "frequency": "real_time",
+      "recipients": ["security_team", "compliance_officer", "auditors"],
+      "automated": true
+    }
+  },
+  "encryption": {
+    "requiredForPHI": true,
+    "requiredForConfidential": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "phiDetectionAlerts": true,
+    "accessViolationAlerts": true,
+    "geographicViolationAlerts": true,
+    "securityEventAlerts": true,
+    "availabilityAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "phiAwareRouting": true,
+      "complianceValidation": true,
+      "auditIntegration": true,
+      "continuousMonitoring": true
+    },
+    "externalSystems": {
+      "ehr_integration": true,
+      "ocr_reporting": true,
+      "audit_systems": true,
+      "siem_integration": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "phi_detection",
+      "geographic_compliance",
+      "access_authorization",
+      "encryption_verification",
+      "security_controls"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "retention_compliance",
+      "breach_detection",
+      "availability_check",
+      "control_effectiveness"
+    ]
+  },
+  "_comments": {
+    "compliance": "Combined HIPAA and SOC 2 compliance settings",
+    "dataClassification": "PHI, healthcare data, and confidential information",
+    "routingRules": "Compliance-aware routing with PHI protection",
+    "geographicRestrictions": "US-focused healthcare data localization",
+    "accessControls": "Healthcare role-based access with segregation of duties",
+    "trustServicesCriteria": "SOC 2 trust services criteria for healthcare",
+    "auditLogging": "Comprehensive audit trail for HIPAA and SOC 2",
+    "breachDetection": "PHI breach detection and notification",
+    "continuousMonitoring": "Real-time monitoring for healthcare compliance",
+    "encryption": "Strong encryption for healthcare data",
+    "monitoring": "Comprehensive compliance monitoring",
+    "integration": "TRAE routing and healthcare system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

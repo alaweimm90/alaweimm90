@@ -1,0 +1,37 @@
+{
+  "id": "code-review-workflow",
+  "name": "Code Review Workflow",
+  "description": "Standard code review process",
+  "version": "1.0.0",
+  "enabled": true,
+  "steps": [
+    {
+      "id": "step-lint",
+      "name": "Lint Check",
+      "type": "task",
+      "action": "lint",
+      "agentId": "code-agent"
+    },
+    {
+      "id": "step-type",
+      "name": "Type Check",
+      "type": "task",
+      "action": "type-check",
+      "agentId": "code-agent"
+    },
+    {
+      "id": "step-test",
+      "name": "Test Execution",
+      "type": "task",
+      "action": "test",
+      "agentId": "code-agent"
+    },
+    {
+      "id": "step-security",
+      "name": "Security Scan",
+      "type": "task",
+      "action": "security-scan",
+      "agentId": "analysis-agent"
+    }
+  ]
+}

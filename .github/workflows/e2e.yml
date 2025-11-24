@@ -1,0 +1,41 @@
+name: Playwright E2E
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+    paths:
+      - 'sample-project/**'
+      - '.github/workflows/e2e.yml'
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sample-project
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: sample-project/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Set base URL (prefers secret override)
+        run: |
+          BASE_URL="${{ secrets.PLAYWRIGHT_BASE_URL }}"
+          if [ -z "$BASE_URL" ]; then BASE_URL="http://localhost:3000"; fi
+          echo "PLAYWRIGHT_BASE_URL=$BASE_URL" >> $GITHUB_ENV
+
+      - name: Run Playwright smoke tests
+        run: npm run test:e2e

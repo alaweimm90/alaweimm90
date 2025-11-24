@@ -1,0 +1,511 @@
+version: '3.8'
+
+services:
+  # Prometheus - Metrics Collection and Storage
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/recording-rules.yml:/etc/prometheus/recording-rules.yml:ro
+      - ./monitoring/prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9090/-/healthy']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Prometheus with HA support using Thanos
+  prometheus-ha-1:
+    image: prom/prometheus:latest
+    container_name: prometheus-ha-1
+    ports:
+      - '9091:9090'
+    volumes:
+      - ./monitoring/prometheus/prometheus-ha-1.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/recording-rules.yml:/etc/prometheus/recording-rules.yml:ro
+      - ./monitoring/prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml:ro
+      - prometheus_ha_1_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.external-labels=replica=1'
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  prometheus-ha-2:
+    image: prom/prometheus:latest
+    container_name: prometheus-ha-2
+    ports:
+      - '9092:9090'
+    volumes:
+      - ./monitoring/prometheus/prometheus-ha-2.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/recording-rules.yml:/etc/prometheus/recording-rules.yml:ro
+      - ./monitoring/prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml:ro
+      - prometheus_ha_2_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.external-labels=replica=2'
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  # AlertManager - Alert Routing and Deduplication
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    ports:
+      - '9093:9093'
+    volumes:
+      - ./monitoring/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./monitoring/alertmanager/notification-templates:/etc/alertmanager/templates:ro
+      - alertmanager_data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+      - '--log.level=info'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9093/-/healthy']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # AlertManager HA Node 2
+  alertmanager-ha-2:
+    image: prom/alertmanager:latest
+    container_name: alertmanager-ha-2
+    ports:
+      - '9094:9093'
+    volumes:
+      - ./monitoring/alertmanager/alertmanager-ha.yml:/etc/alertmanager/alertmanager.yml:ro
+      - ./monitoring/alertmanager/notification-templates:/etc/alertmanager/templates:ro
+      - alertmanager_ha_2_data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+      - '--cluster.peer=alertmanager:9093'
+      - '--log.level=info'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - alertmanager
+
+  # Grafana - Visualization and Dashboarding
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - '3000:3000'
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD:-admin123}
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_DATE_FORMAT=YYYY-MM-DD HH:mm:ss
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3000/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - prometheus
+
+  # OpenTelemetry Collector - Central ingestion and processing
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    command: ['--config=/etc/otel-collector-config.yml']
+    ports:
+      # OTLP receiver ports
+      - '4317:4317' # OTLP gRPC receiver
+      - '4318:4318' # OTLP HTTP receiver
+      # Jaeger receiver ports
+      - '14250:14250' # Jaeger gRPC
+      - '14268:14268' # Jaeger HTTP
+      - '6831:6831/udp' # Jaeger compact thrift
+      # Zipkin receiver port
+      - '9411:9411' # Zipkin JSON
+      # Prometheus receiver
+      - '8888:8888' # Metrics endpoint
+      # Management ports
+      - '13133:13133' # Health check
+      - '55679:55679' # ZPages
+    volumes:
+      - ./config/otel-collector-config.yml:/etc/otel-collector-config.yml:ro
+    environment:
+      - GOGC=80
+      - OTEL_RESOURCE_ATTRIBUTES=service.name=otel-collector,service.version=0.88.0
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - jaeger
+      - tempo
+    healthcheck:
+      test: ['CMD', 'grpcurl', '-plaintext', 'localhost:4317', 'list']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Jaeger - Distributed Tracing (Backend)
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      # UI port
+      - '16686:16686'
+      # Collector ports (for backward compatibility)
+      - '6831:6831/udp'
+      - '6832:6832/udp'
+      - '5778:5778'
+      - '14250:14250'
+      - '14268:14268'
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - COLLECTOR_OTLP_ENABLED=true
+      - MEMORY_MAX_TRACES=10000
+      - MEMORY_ALERT_THRESHOLD=8000
+    volumes:
+      - jaeger_data:/badger
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:16686']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Tempo - Long-term trace storage (optional, alternative to Jaeger)
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    command: ['-config.file=/etc/tempo.yml']
+    ports:
+      # OTLP receivers
+      - '4317:4317' # OTLP gRPC
+      - '4318:4318' # OTLP HTTP
+      # Query frontend port
+      - '3200:3200' # Tempo query frontend
+    volumes:
+      - ./monitoring/tempo/tempo.yml:/etc/tempo.yml:ro
+      - tempo_data:/var/tempo
+    environment:
+      - GOGC=80
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - minio
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3200/ready']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MinIO - S3-compatible storage for Tempo
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/minio_data
+    command: server /minio_data --console-address ":9001"
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Loki - Log Aggregation
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - '3100:3100'
+    volumes:
+      - ./monitoring/loki/loki-config.yml:/etc/loki/loki-config.yml:ro
+      - loki_data:/loki
+    command: -config.file=/etc/loki/loki-config.yml
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:3100/ready']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Promtail - Log Collector
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - ./monitoring/promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/promtail-config.yml
+    networks:
+      - monitoring
+    restart: unless-stopped
+
+  # Node Exporter - System Metrics
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9100/metrics']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Exporter
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: redis-exporter
+    ports:
+      - '9121:9121'
+    environment:
+      - REDIS_ADDR=redis:6379
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - redis
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9121/metrics']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=monitoring
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-monitoring123}
+      - POSTGRES_DB=monitoring
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U monitoring']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Exporter
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: postgres-exporter
+    ports:
+      - '9187:9187'
+    environment:
+      DATA_SOURCE_NAME: 'postgresql://monitoring:monitoring123@postgres:5432/monitoring?sslmode=disable'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9187/metrics']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Blackbox Exporter - Endpoint/Service Monitoring
+  blackbox-exporter:
+    image: prom/blackbox-exporter:latest
+    container_name: blackbox-exporter
+    ports:
+      - '9115:9115'
+    volumes:
+      - ./monitoring/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml:ro
+    command:
+      - '--config.file=/etc/blackbox_exporter/config.yml'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:9115/metrics']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # cAdvisor - Container Metrics
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - '8080:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://localhost:8080/api/v1.3/machine',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Thanos Sidecar (for HA Prometheus)
+  thanos-sidecar:
+    image: quay.io/thanos/thanos:latest
+    container_name: thanos-sidecar
+    volumes:
+      - prometheus_data:/prometheus
+      - ./monitoring/thanos/sidecar-config.yml:/etc/thanos/sidecar-config.yml:ro
+    command:
+      - sidecar
+      - '--tsdb.path=/prometheus'
+      - '--prometheus.url=http://prometheus:9090'
+      - '--grpc-address=0.0.0.0:10901'
+      - '--http-address=0.0.0.0:10902'
+    ports:
+      - '10901:10901'
+      - '10902:10902'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Thanos Query (federated queries across HA instances)
+  thanos-query:
+    image: quay.io/thanos/thanos:latest
+    container_name: thanos-query
+    command:
+      - query
+      - '--grpc-address=0.0.0.0:10901'
+      - '--http-address=0.0.0.0:10902'
+      - '--store=prometheus:9090'
+    ports:
+      - '10902:10902'
+    networks:
+      - monitoring
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Prometheus Custom Exporter (application metrics)
+  custom-app-exporter:
+    build:
+      context: ./monitoring/custom-exporters
+      dockerfile: Dockerfile
+    container_name: custom-app-exporter
+    ports:
+      - '8888:8888'
+    environment:
+      - PORT=8888
+      - LOG_LEVEL=info
+    networks:
+      - monitoring
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '--quiet', '--tries=1', '--spider', 'http://localhost:8888/metrics']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  prometheus_data:
+  prometheus_ha_1_data:
+  prometheus_ha_2_data:
+  alertmanager_data:
+  alertmanager_ha_2_data:
+  grafana_data:
+  jaeger_data:
+  tempo_data:
+  minio_data:
+  loki_data:
+  redis_data:
+  postgres_data:

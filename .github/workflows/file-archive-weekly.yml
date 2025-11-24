@@ -1,0 +1,30 @@
+name: File Archive Weekly
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Evaluate policies
+        run: node scripts/files/policy.js
+      - name: Archive docs
+        run: FILE_ENCRYPTION_KEY=${{ secrets.FILE_ENCRYPTION_KEY }} node scripts/files/archive-weekly.js
+      - name: Commit changes
+        run: |
+          git checkout -b files/archive || git checkout files/archive
+          git add -A
+          git commit -m "files: weekly archive" || echo "No changes"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: files/archive
+          title: 'Files: Weekly archive'
+          commit-message: 'files: archive'
+          labels: files-archive

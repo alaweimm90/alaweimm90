@@ -1,0 +1,52 @@
+name: Docs Maintenance
+
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Generate missing docs and archive unauthorized
+        run: |
+          set -euo pipefail
+          BR=docs/sync
+          git checkout -b "$BR" || git checkout "$BR"
+          gen() { 
+            folder="$1"; file="$2"; 
+            name=$(basename "$folder"); date=$(date -Iseconds);
+            src=".docs-templates/$file"; dst="$folder/$file";
+            if [ -f "$src" ] && [ ! -f "$dst" ]; then 
+              sed -e "s/\${PROJECT_NAME}/$name/g" -e "s/\${DATE}/$date/g" "$src" > "$dst"; 
+              echo "Generated $dst"; 
+            fi 
+          }
+          get_scope() { find . -type f \( -name package.json -o -name pyproject.toml \) -print0 | xargs -0 -n1 dirname | sort -u; }
+          while IFS= read -r dir; do
+            for f in README.md CONTRIBUTING.md CHANGELOG.md; do gen "$dir" "$f"; done
+            ts="$(date +%Y%m%d%H%M%S)"
+            mkdir -p archives/docs/"${dir#./}"/"$ts"
+            for f in $(ls -1 "$dir" 2>/dev/null | grep -E '\.(md|rst|docx|pdf)$' || true); do
+              case "$f" in README.md|CONTRIBUTING.md|CHANGELOG.md|SPECIFICATIONS.md|DESIGN.md|SECURITY.md|ARCHITECTURE.md) :;; *)
+                mv "$dir/$f" archives/docs/"${dir#./}"/"$ts"/"$f" || true;;
+              esac
+            done
+          done < <(get_scope)
+          git add -A
+          if git diff --cached --quiet; then echo "No changes"; else git commit -m "docs: generate missing and archive unauthorized"; fi
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: docs/sync
+          title: 'Docs: Sync required files and archive unauthorized'
+          commit-message: 'docs: generate missing and archive unauthorized'
+          labels: docs-sync
+          body: |
+            Synchronize required documentation files from templates and archive unauthorized docs.

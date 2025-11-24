@@ -1,0 +1,167 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "framework": "PCI_DSS",
+    "description": "PCI DSS Compliance Configuration Template for TRAE Routing",
+    "focus": "Cardholder data protection and payment card security",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["PCI_DSS"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "cardholder_data": 2555,
+        "transaction_data": 2555,
+        "audit_logs": 2555
+      },
+      "crossBorderTransferAllowed": false,
+      "dataLocalizationRequired": false
+    },
+    "geographicCompliance": {
+      "restrictedRegions": ["china", "russia"],
+      "dataLocalizationRequired": false,
+      "sovereigntyRequirements": {}
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "quarterlyScan": {
+        "enabled": true,
+        "automatedScheduling": true,
+        "approvedScanner": true
+      }
+    }
+  },
+  "dataClassification": {
+    "cardholder_data": {
+      "patterns": [
+        "\\b\\d{13,19}\\b",
+        "\\b\\d{3,4}\\b",
+        "%[A-Z0-9]+\\?",
+        "\\b\\d{1,2}/\\d{1,2}\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "maskingRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    },
+    "sensitive_authentication": {
+      "patterns": ["\\b(cvv|cvc|cvv2|cav2|cid)\\b", "\\b(pin|password|security_code)\\b"],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "neverStore": true,
+      "accessLogging": true,
+      "retentionDays": 0
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": false,
+    "cardholderDataDetection": true,
+    "paymentSecurityEnforced": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america", "europe", "asia_pacific"],
+    "blockedRegions": ["china", "russia"],
+    "dataLocalization": {},
+    "crossBorderRules": {
+      "adequacyDecision": false,
+      "standardContractualClauses": true,
+      "bindingCorporateRules": false
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "admin": {
+        "cardholder_data": ["read", "write"],
+        "sensitive_authentication": ["read"]
+      },
+      "payment_processor": {
+        "cardholder_data": ["read", "write"],
+        "sensitive_authentication": []
+      },
+      "auditor": {
+        "cardholder_data": ["read"],
+        "sensitive_authentication": []
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 900,
+    "twoPersonRule": true
+  },
+  "auditLogging": {
+    "events": [
+      "cardholder_data_access",
+      "cardholder_data_modification",
+      "authentication_attempt",
+      "encryption_key_change",
+      "security_event",
+      "system_access"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "encryption": {
+    "requiredForCardholderData": true,
+    "algorithm": "AES-256",
+    "keyRotationDays": 365,
+    "dualControl": true,
+    "keyCustodian": true
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "cardholderDataAlerts": true,
+    "accessViolationAlerts": true,
+    "encryptionFailureAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "pciAwareRouting": true,
+      "cardholderDataDetection": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "payment_processor": true,
+      "tokenization_service": true,
+      "audit_systems": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "cardholder_data_detection",
+      "encryption_verification",
+      "access_authorization"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "data_masking_check",
+      "retention_compliance"
+    ]
+  },
+  "_comments": {
+    "compliance": "PCI DSS-specific compliance settings",
+    "dataClassification": "Cardholder data and sensitive authentication patterns",
+    "routingRules": "PCI DSS-aware routing behavior",
+    "accessControls": "Role-based access with two-person rule",
+    "auditLogging": "Comprehensive audit trail for PCI DSS",
+    "encryption": "Strong encryption requirements for cardholder data",
+    "monitoring": "Real-time compliance monitoring",
+    "integration": "TRAE routing and external system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

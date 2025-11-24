@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Coaching API
+  version: 0.1.0
+paths:
+  /v1/dashboard/{athleteId}:
+    get:
+      parameters:
+        - name: athleteId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Dashboard payload
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  athlete:
+                    type: object
+                  metrics:
+                    type: object
+                  weeklyPlan:
+                    type: array
+                    items:
+                      type: object
+                  sessions:
+                    type: array
+                    items:
+                      type: object
+                  risk:
+                    type: object
+                  recommendations:
+                    type: array
+                    items:
+                      type: string

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Governance Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .card-icon {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .metric-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-success { background: #10b981; color: white; }
+        .status-warning { background: #f59e0b; color: white; }
+        .status-error { background: #ef4444; color: white; }
+        .status-info { background: #3b82f6; color: white; }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            transition: width 0.5s ease;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .file-item {
+            padding: 10px;
+            background: #f9fafb;
+            border-radius: 5px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .file-status-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .file-name {
+            font-size: 0.8em;
+            color: #374151;
+            word-break: break-all;
+        }
+
+        .violations-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .violation-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            border-radius: 5px;
+        }
+
+        .violation-severity {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+
+        .severity-critical { color: #991b1b; }
+        .severity-high { color: #dc2626; }
+        .severity-medium { color: #f59e0b; }
+        .severity-low { color: #10b981; }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛡️ Governance Dashboard</h1>
+
+        <div class="dashboard-grid">
+            <!-- Compliance Score Card -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📊</span>
+                    <h2 class="card-title">Compliance Score</h2>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Overall Score</span>
+                    <span class="metric-value" id="compliance-score">95%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 95%"></div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Status</span>
+                    <span class="status-badge status-success">COMPLIANT</span>
+                </div>
+            </div>
+
+            <!-- Repository Health -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💚</span>
+                    <h2 class="card-title">Repository Health</h2>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total Files</span>
+                    <span class="metric-value" id="total-files">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Active</span>
+                    <span class="metric-value" id="active-files">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Warning</span>
+                    <span class="metric-value" id="warning-files">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Archived</span>
+                    <span class="metric-value" id="archived-files">0</span>
+                </div>
+            </div>
+
+            <!-- Security Status -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🔒</span>
+                    <h2 class="card-title">Security Status</h2>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Security Score</span>
+                    <span class="metric-value">9.5/10</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Vulnerabilities</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Last Scan</span>
+                    <span class="status-badge status-info">Today</span>
+                </div>
+            </div>
+
+            <!-- Documentation Coverage -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">📚</span>
+                    <h2 class="card-title">Documentation</h2>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Coverage</span>
+                    <span class="metric-value" id="doc-coverage">85%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%"></div>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Missing Docs</span>
+                    <span class="metric-value" id="missing-docs">3</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- File Status Overview -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">📁</span>
+                <h2 class="card-title">File Status Overview</h2>
+            </div>
+            <div class="file-grid" id="file-grid">
+                <!-- Files will be dynamically added here -->
+            </div>
+        </div>
+
+        <!-- Violations & Issues -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">⚠️</span>
+                <h2 class="card-title">Active Violations</h2>
+            </div>
+            <div class="violations-list" id="violations-list">
+                <!-- Violations will be dynamically added here -->
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="runValidation()">Run Validation</button>
+                <button class="btn btn-secondary" onclick="autoFix()">Auto-Fix Issues</button>
+                <button class="btn btn-danger" onclick="archiveOldFiles()">Archive Old Files</button>
+            </div>
+        </div>
+
+        <div class="timestamp">
+            Last Updated: <span id="last-updated"></span>
+        </div>
+    </div>
+
+    <script>
+        // Dashboard data (would be loaded from API/files in real implementation)
+        const dashboardData = {
+            compliance: {
+                score: 95,
+                status: 'compliant'
+            },
+            files: {
+                total: 156,
+                active: 120,
+                warning: 20,
+                archived: 16
+            },
+            documentation: {
+                coverage: 85,
+                missing: 3
+            },
+            violations: [
+                { severity: 'high', message: 'Missing SECURITY.md file', file: 'root' },
+                { severity: 'medium', message: 'Outdated dependencies', file: 'package.json' },
+                { severity: 'low', message: 'File naming convention violation', file: 'src/MyComponent.js' }
+            ],
+            fileStatus: [
+                { name: 'index.js', status: 'completed' },
+                { name: 'app.js', status: 'in-progress' },
+                { name: 'config.js', status: 'warning' },
+                { name: 'old-util.js', status: 'archived' },
+                { name: 'test.js', status: 'blocked' }
+            ]
+        };
+
+        // Status icons mapping
+        const statusIcons = {
+            'completed': '✅',
+            'in-progress': '🔄',
+            'pending': '⏳',
+            'blocked': '🚫',
+            'warning': '⚠️',
+            'archived': '📦'
+        };
+
+        // Load dashboard data
+        function loadDashboard() {
+            // Update metrics
+            document.getElementById('compliance-score').textContent = dashboardData.compliance.score + '%';
+            document.getElementById('total-files').textContent = dashboardData.files.total;
+            document.getElementById('active-files').textContent = dashboardData.files.active;
+            document.getElementById('warning-files').textContent = dashboardData.files.warning;
+            document.getElementById('archived-files').textContent = dashboardData.files.archived;
+            document.getElementById('doc-coverage').textContent = dashboardData.documentation.coverage + '%';
+            document.getElementById('missing-docs').textContent = dashboardData.documentation.missing;
+
+            // Load file grid
+            const fileGrid = document.getElementById('file-grid');
+            fileGrid.innerHTML = '';
+            dashboardData.fileStatus.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-status-icon">${statusIcons[file.status] || '📄'}</div>
+                    <div class="file-name">${file.name}</div>
+                `;
+                fileGrid.appendChild(fileItem);
+            });
+
+            // Load violations
+            const violationsList = document.getElementById('violations-list');
+            violationsList.innerHTML = '';
+            dashboardData.violations.forEach(violation => {
+                const violationItem = document.createElement('div');
+                violationItem.className = 'violation-item';
+                violationItem.innerHTML = `
+                    <div class="violation-severity severity-${violation.severity}">${violation.severity}</div>
+                    <div>${violation.message}</div>
+                    <div style="font-size: 0.8em; color: #666; margin-top: 5px;">File: ${violation.file}</div>
+                `;
+                violationsList.appendChild(violationItem);
+            });
+
+            // Update timestamp
+            document.getElementById('last-updated').textContent = new Date().toLocaleString();
+        }
+
+        // Action functions
+        function runValidation() {
+            alert('Running full validation scan...');
+            // In real implementation, this would trigger the validation workflow
+        }
+
+        function autoFix() {
+            alert('Attempting to auto-fix issues...');
+            // In real implementation, this would trigger the auto-fix process
+        }
+
+        function archiveOldFiles() {
+            if (confirm('Are you sure you want to archive old files?')) {
+                alert('Archiving old files...');
+                // In real implementation, this would trigger the archive process
+            }
+        }
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadDashboard, 30000);
+
+        // Initial load
+        loadDashboard();
+    </script>
+</body>
+</html>

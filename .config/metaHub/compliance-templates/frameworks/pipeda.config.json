@@ -1,0 +1,243 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "framework": "PIPEDA",
+    "description": "PIPEDA Compliance Configuration Template for TRAE Routing",
+    "focus": "Canadian personal information protection and privacy",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["PIPEDA"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "personal_information": 2555,
+        "consent_records": 2555,
+        "audit_logs": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": false
+    },
+    "geographicCompliance": {
+      "restrictedRegions": [],
+      "dataLocalizationRequired": false,
+      "sovereigntyRequirements": {}
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "privacyImpactAssessment": {
+        "enabled": true,
+        "thresholdAssessment": true,
+        "documentationRequired": true
+      }
+    }
+  },
+  "dataClassification": {
+    "personal_information": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    },
+    "sensitive_personal_information": {
+      "patterns": [
+        "\\b(medical|health|racial|ethnic|religious|financial|criminal)\\b",
+        "\\b(biometric|genetic|sexual_orientation|political_beliefs)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "explicitConsentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": false,
+    "consentValidationEnabled": true,
+    "privacyProtectionEnforced": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america"],
+    "blockedRegions": [],
+    "dataLocalization": {},
+    "crossBorderRules": {
+      "adequacyDecision": false,
+      "standardContractualClauses": false,
+      "bindingCorporateRules": false
+    }
+  },
+  "consentManagement": {
+    "requiredForCollection": true,
+    "requiredForUse": true,
+    "requiredForDisclosure": true,
+    "withdrawalRights": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    },
+    "exceptions": [
+      "legal_requirement",
+      "legal_proceeding",
+      "medical_emergency",
+      "journalistic_purpose"
+    ]
+  },
+  "privacyPrinciples": {
+    "accountability": {
+      "enforced": true,
+      "designated_individual": true,
+      "privacy_management_program": true
+    },
+    "identifying_purposes": {
+      "enforced": true,
+      "purpose_specification": true,
+      "openness_requirement": true
+    },
+    "consent": {
+      "enforced": true,
+      "informed_consent": true,
+      "withdrawal_rights": true
+    },
+    "limiting_collection": {
+      "enforced": true,
+      "necessary_collection": true,
+      "minimization_principle": true
+    },
+    "limiting_use": {
+      "enforced": true,
+      "purpose_limitation": true,
+      "secondary_use_consent": true
+    },
+    "accuracy": {
+      "enforced": true,
+      "data_validation": true,
+      "correction_rights": true
+    },
+    "safeguards": {
+      "enforced": true,
+      "security_measures": true,
+      "risk_assessment": true
+    },
+    "openness": {
+      "enforced": true,
+      "privacy_policy": true,
+      "information_access": true
+    },
+    "individual_access": {
+      "enforced": true,
+      "access_rights": true,
+      "correction_rights": true
+    },
+    "challenging_compliance": {
+      "enforced": true,
+      "complaint_process": true,
+      "resolution_mechanism": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "privacy_officer": {
+        "personal_information": ["read", "write", "delete"],
+        "sensitive_personal_information": ["read", "write", "delete"]
+      },
+      "data_controller": {
+        "personal_information": ["read", "write"],
+        "sensitive_personal_information": ["read"]
+      },
+      "individual": {
+        "personal_information": ["read"],
+        "sensitive_personal_information": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800
+  },
+  "auditLogging": {
+    "events": [
+      "data_collection",
+      "data_use",
+      "data_disclosure",
+      "consent_obtained",
+      "consent_withdrawn",
+      "access_request",
+      "correction_request"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "encryption": {
+    "requiredForPersonalInfo": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "consentValidationAlerts": true,
+    "privacyViolationAlerts": true,
+    "accessAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "annual"
+  },
+  "integration": {
+    "traeRouting": {
+      "pipedaAwareRouting": true,
+      "consentValidation": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "consent_management": true,
+      "privacy_office": true,
+      "audit_systems": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "personal_data_detection",
+      "consent_validation",
+      "purpose_limitation_check"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "privacy_principles_compliance",
+      "retention_limits"
+    ]
+  },
+  "_comments": {
+    "compliance": "PIPEDA-specific compliance settings",
+    "dataClassification": "Personal and sensitive personal information",
+    "routingRules": "PIPEDA-aware routing behavior",
+    "consentManagement": "Consent management with Canadian requirements",
+    "privacyPrinciples": "PIPEDA's 10 privacy principles",
+    "accessControls": "Role-based access control",
+    "auditLogging": "Comprehensive audit trail for PIPEDA",
+    "encryption": "Personal information encryption requirements",
+    "monitoring": "Real-time compliance monitoring",
+    "integration": "TRAE routing and external system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

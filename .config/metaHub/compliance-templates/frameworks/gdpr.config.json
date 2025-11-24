@@ -1,0 +1,295 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "framework": "GDPR",
+    "description": "GDPR Compliance Configuration Template for TRAE Routing",
+    "focus": "EU data protection, consent management, and individual rights",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["GDPR"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "personal_data": 2555,
+        "sensitive_data": 2555,
+        "consent_records": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": true
+    },
+    "geographicCompliance": {
+      "restrictedRegions": ["china", "russia", "iran", "north_korea"],
+      "dataLocalizationRequired": true,
+      "sovereigntyRequirements": {
+        "europe": ["GDPR"]
+      }
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "dataBreachNotification": {
+        "enabled": true,
+        "timeframeHours": 72,
+        "recipients": ["supervisory_authority", "data_subjects"],
+        "automatedReporting": true
+      }
+    }
+  },
+  "dataClassification": {
+    "personal_data": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    },
+    "sensitive_data": {
+      "patterns": [
+        "\\b(racial|ethnic|political|religious|philosophical|genetic|biometric|health|sex|sexual_orientation)\\b",
+        "\\b(criminal_convictions|offences|security_measures)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "explicitConsentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": true,
+    "consentValidationEnabled": true,
+    "dataMinimizationEnforced": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["europe", "north_america", "asia_pacific"],
+    "blockedRegions": ["china", "russia", "iran", "north_korea"],
+    "dataLocalization": {
+      "personal_data": "europe",
+      "sensitive_data": "europe"
+    },
+    "crossBorderRules": {
+      "adequacyDecision": true,
+      "standardContractualClauses": true,
+      "bindingCorporateRules": false,
+      "consentRequired": true
+    }
+  },
+  "consentManagement": {
+    "requiredForProcessing": true,
+    "granularConsent": true,
+    "consentWithdrawal": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    },
+    "lawfulBases": [
+      "consent",
+      "contract",
+      "legal_obligation",
+      "vital_interests",
+      "public_task",
+      "legitimate_interests"
+    ]
+  },
+  "individualRights": {
+    "rightToAccess": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToRectification": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToErasure": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true,
+      "exceptions": ["legal_claims", "public_interest", "research"]
+    },
+    "rightToRestriction": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    },
+    "rightToPortability": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true,
+      "formats": ["json", "xml", "csv"]
+    },
+    "rightToObject": {
+      "enabled": true,
+      "responseTimeDays": 30,
+      "automatedProcessing": true
+    }
+  },
+  "dataProtectionPrinciples": {
+    "lawfulness": {
+      "enforced": true,
+      "lawfulBasesValidation": true
+    },
+    "fairness": {
+      "enforced": true,
+      "transparencyRequirements": true
+    },
+    "transparency": {
+      "enforced": true,
+      "privacyNotices": true,
+      "automatedDecisions": true
+    },
+    "purposeLimitation": {
+      "enforced": true,
+      "purposeValidation": true
+    },
+    "dataMinimization": {
+      "enforced": true,
+      "unnecessaryDataRemoval": true
+    },
+    "accuracy": {
+      "enforced": true,
+      "dataValidation": true
+    },
+    "storageLimitation": {
+      "enforced": true,
+      "retentionPolicies": true
+    },
+    "integrity": {
+      "enforced": true,
+      "securityMeasures": true
+    },
+    "confidentiality": {
+      "enforced": true,
+      "accessControls": true
+    },
+    "accountability": {
+      "enforced": true,
+      "recordsOfProcessing": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "data_controller": {
+        "personal_data": ["read", "write", "delete"],
+        "sensitive_data": ["read", "write", "delete"]
+      },
+      "data_processor": {
+        "personal_data": ["read", "write"],
+        "sensitive_data": ["read", "write"]
+      },
+      "data_subject": {
+        "personal_data": ["read"],
+        "sensitive_data": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_modification",
+      "data_deletion",
+      "consent_granted",
+      "consent_withdrawn",
+      "right_exercised",
+      "breach_detected",
+      "cross_border_transfer"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "breachDetection": {
+    "personalDataPatterns": true,
+    "unauthorizedAccess": true,
+    "dataLoss": true,
+    "encryptionFailures": true,
+    "notificationSettings": {
+      "immediateAlert": true,
+      "supervisoryAuthority": true,
+      "dataSubjects": true,
+      "timeframeHours": 72
+    }
+  },
+  "encryption": {
+    "requiredForPersonalData": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "consentValidationAlerts": true,
+    "accessViolationAlerts": true,
+    "geographicViolationAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "gdprAwareRouting": true,
+      "consentValidation": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "consent_management": true,
+      "dpo_reporting": true,
+      "supervisory_authority": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "personal_data_detection",
+      "consent_validation",
+      "lawful_basis_check",
+      "geographic_compliance"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "retention_compliance",
+      "breach_detection",
+      "right_exercise_processing"
+    ]
+  },
+  "_comments": {
+    "compliance": "GDPR-specific compliance settings and requirements",
+    "dataClassification": "Personal and sensitive data detection patterns",
+    "routingRules": "GDPR-aware routing behavior",
+    "geographicRestrictions": "EU-focused data localization requirements",
+    "consentManagement": "Consent collection and management settings",
+    "individualRights": "GDPR individual rights implementation",
+    "dataProtectionPrinciples": "GDPR data protection principles enforcement",
+    "accessControls": "Role-based access control for personal data",
+    "auditLogging": "Comprehensive audit trail requirements",
+    "breachDetection": "Automated breach detection and notification",
+    "encryption": "Personal data encryption requirements",
+    "monitoring": "Real-time compliance monitoring",
+    "integration": "TRAE routing and external system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

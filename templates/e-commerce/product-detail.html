@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Wireless Headphones - Premium audio experience with noise cancellation, long battery life, and comfortable design.">
+    <meta name="keywords" content="wireless headphones, audio, noise cancellation, bluetooth">
+    <meta name="author" content="E-commerce Template">
+    <title>Wireless Headphones - E-Commerce Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <a href="index.html" class="logo" aria-label="Home page">E-Shop</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html" aria-label="Shopping cart">Cart <span id="cart-count" class="cart-count">0</span></a></li>
+                    <li><a href="account.html">Account</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+            <div class="container">
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li aria-current="page">Wireless Headphones</li>
+                </ol>
+            </div>
+        </nav>
+
+        <section class="product-detail" aria-labelledby="product-title">
+            <div class="container">
+                <div class="product-layout">
+                    <div class="product-gallery">
+                        <div class="main-image">
+                            <img id="main-product-image" src="https://via.placeholder.com/500x500?text=Wireless+Headphones" alt="Wireless Headphones main view" loading="lazy">
+                        </div>
+                        <div class="thumbnail-gallery" role="tablist" aria-label="Product image gallery">
+                            <button class="thumbnail active" data-image="https://via.placeholder.com/500x500?text=Wireless+Headphones" aria-selected="true">
+                                <img src="https://via.placeholder.com/100x100?text=Main" alt="Main view thumbnail">
+                            </button>
+                            <button class="thumbnail" data-image="https://via.placeholder.com/500x500?text=Side+View" aria-selected="false">
+                                <img src="https://via.placeholder.com/100x100?text=Side" alt="Side view thumbnail">
+                            </button>
+                            <button class="thumbnail" data-image="https://via.placeholder.com/500x500?text=Detail+View" aria-selected="false">
+                                <img src="https://via.placeholder.com/100x100?text=Detail" alt="Detail view thumbnail">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-info">
+                        <h1 id="product-title">Wireless Headphones</h1>
+                        <div class="product-rating" aria-label="Product rating: 4.5 out of 5 stars">
+                            <span class="stars" aria-hidden="true">★★★★☆</span>
+                            <span class="rating-text">4.5 (128 reviews)</span>
+                        </div>
+                        <p class="price">$99.99</p>
+                        <p class="product-description">
+                            Experience premium sound quality with our wireless headphones featuring active noise cancellation,
+                            30-hour battery life, and comfortable over-ear design. Perfect for music lovers and professionals alike.
+                        </p>
+
+                        <div class="product-options">
+                            <div class="quantity-selector">
+                                <label for="quantity">Quantity:</label>
+                                <div class="quantity-controls">
+                                    <button type="button" class="quantity-btn" aria-label="Decrease quantity" data-action="decrease">-</button>
+                                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" aria-label="Product quantity">
+                                    <button type="button" class="quantity-btn" aria-label="Increase quantity" data-action="increase">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-actions">
+                            <button class="add-to-cart" data-product-id="1" aria-label="Add Wireless Headphones to cart">Add to Cart</button>
+                            <button class="secondary-button" aria-label="Add to wishlist">Add to Wishlist</button>
+                        </div>
+
+                        <div class="product-meta">
+                            <p><strong>SKU:</strong> WH-001</p>
+                            <p><strong>Category:</strong> Electronics</p>
+                            <p><strong>Availability:</strong> <span class="in-stock">In Stock</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-tabs">
+                    <div class="tab-buttons" role="tablist" aria-label="Product information tabs">
+                        <button class="tab-btn active" data-tab="description" aria-selected="true" role="tab">Description</button>
+                        <button class="tab-btn" data-tab="specifications" aria-selected="false" role="tab">Specifications</button>
+                        <button class="tab-btn" data-tab="reviews" aria-selected="false" role="tab">Reviews</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div id="description" class="tab-panel active" role="tabpanel" aria-labelledby="description-tab">
+                            <h3>Product Description</h3>
+                            <p>Our wireless headphones deliver studio-quality sound with deep bass and crystal-clear highs.
+                            The active noise cancellation technology blocks out unwanted ambient noise, allowing you to focus
+                            on what matters most. With a comfortable, adjustable headband and plush ear cushions, you can
+                            enjoy extended listening sessions without discomfort.</p>
+                            <ul>
+                                <li>Active Noise Cancellation</li>
+                                <li>30-hour battery life</li>
+                                <li>Bluetooth 5.0 connectivity</li>
+                                <li>Comfortable over-ear design</li>
+                                <li>Built-in microphone for calls</li>
+                            </ul>
+                        </div>
+
+                        <div id="specifications" class="tab-panel" role="tabpanel" aria-labelledby="specifications-tab">
+                            <h3>Technical Specifications</h3>
+                            <table>
+                                <tr>
+                                    <td>Driver Size</td>
+                                    <td>40mm</td>
+                                </tr>
+                                <tr>
+                                    <td>Frequency Response</td>
+                                    <td>20Hz - 20kHz</td>
+                                </tr>
+                                <tr>
+                                    <td>Battery Life</td>
+                                    <td>30 hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Charging Time</td>
+                                    <td>2 hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Weight</td>
+                                    <td>250g</td>
+                                </tr>
+                                <tr>
+                                    <td>Connectivity</td>
+                                    <td>Bluetooth 5.0, USB-C</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div id="reviews" class="tab-panel" role="tabpanel" aria-labelledby="reviews-tab">
+                            <h3>Customer Reviews</h3>
+                            <div class="reviews-list">
+                                <div class="review">
+                                    <div class="review-header">
+                                        <span class="review-author">John D.</span>
+                                        <span class="review-rating">★★★★★</span>
+                                        <span class="review-date">2 weeks ago</span>
+                                    </div>
+                                    <p class="review-text">Excellent sound quality and noise cancellation. Very comfortable for long listening sessions.</p>
+                                </div>
+                                <div class="review">
+                                    <div class="review-header">
+                                        <span class="review-author">Sarah M.</span>
+                                        <span class="review-rating">★★★★☆</span>
+                                        <span class="review-date">1 month ago</span>
+                                    </div>
+                                    <p class="review-text">Great headphones, battery life is impressive. Only wish they came in more colors.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="related-products" aria-labelledby="related-title">
+                    <h2 id="related-title">Related Products</h2>
+                    <div class="products-grid">
+                        <article class="product-card">
+                            <img src="https://via.placeholder.com/300x200?text=Smart+Watch" alt="Smart Watch" loading="lazy">
+                            <h3>Smart Watch</h3>
+                            <p class="price">$199.99</p>
+                            <button class="add-to-cart" data-product-id="2" aria-label="Add Smart Watch to cart">Add to Cart</button>
+                        </article>
+                        <article class="product-card">
+                            <img src="https://via.placeholder.com/300x200?text=Wireless+Charger" alt="Wireless Charger" loading="lazy">
+                            <h3>Wireless Charger</h3>
+                            <p class="price">$49.99</p>
+                            <button class="add-to-cart" data-product-id="6" aria-label="Add Wireless Charger to cart">Add to Cart</button>
+                        </article>
+                        <article class="product-card">
+                            <img src="https://via.placeholder.com/300x200?text=Earphones" alt="Earphones" loading="lazy">
+                            <h3>Earphones</h3>
+                            <p class="price">$19.99</p>
+                            <button class="add-to-cart" data-product-id="10" aria-label="Add Earphones to cart">Add to Cart</button>
+                        </article>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="account.html">My Account</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 E-Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Product detail page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Image gallery
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.getElementById('main-product-image');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Update main image
+                    const imageSrc = this.dataset.image;
+                    mainImage.src = imageSrc;
+                    mainImage.alt = this.querySelector('img').alt.replace('thumbnail', 'view');
+
+                    // Update active state
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    thumbnails.forEach(t => t.setAttribute('aria-selected', 'false'));
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                });
+            });
+
+            // Quantity selector
+            const quantityInput = document.getElementById('quantity');
+            const quantityBtns = document.querySelectorAll('.quantity-btn');
+
+            quantityBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    let currentValue = parseInt(quantityInput.value);
+
+                    if (action === 'increase' && currentValue < 10) {
+                        quantityInput.value = currentValue + 1;
+                    } else if (action === 'decrease' && currentValue > 1) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+            });
+
+            // Tab functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+
+                    // Update tab buttons
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabBtns.forEach(b => b.setAttribute('aria-selected', 'false'));
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+
+                    // Update tab panels
+                    tabPanels.forEach(panel => panel.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Update add to cart to use quantity
+            document.querySelector('.add-to-cart').addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.dataset.productId;
+                const quantity = parseInt(quantityInput.value);
+
+                UI.showLoading(this);
+                setTimeout(() => {
+                    for (let i = 0; i < quantity; i++) {
+                        cart.addItem(productId, 1);
+                    }
+                    UI.hideLoading(this, 'Add to Cart');
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>

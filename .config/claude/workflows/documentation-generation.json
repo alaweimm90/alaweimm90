@@ -1,0 +1,93 @@
+{
+  "id": "documentation-generation-workflow",
+  "name": "Documentation Generation",
+  "description": "Automatically generate and update API and code documentation",
+  "version": "1.0.0",
+  "enabled": true,
+  "category": "documentation",
+  "difficulty": "beginner",
+  "estimatedTime": "15 minutes",
+  "tags": ["documentation", "api-docs", "generation", "maintenance"],
+  "steps": [
+    {
+      "id": "step-1",
+      "name": "Analyze Code Structure",
+      "description": "Analyze exported APIs and components",
+      "type": "task",
+      "action": "analyze-exports",
+      "agentId": "code-agent",
+      "inputs": {
+        "includePrivate": false,
+        "analyzeTypes": true
+      },
+      "outputs": ["api-structure"]
+    },
+    {
+      "id": "step-2",
+      "name": "Extract JSDoc/Comments",
+      "description": "Extract existing documentation from code",
+      "type": "task",
+      "action": "extract-comments",
+      "agentId": "code-agent",
+      "inputs": {
+        "format": "jsdoc",
+        "includeExamples": true
+      },
+      "outputs": ["extracted-docs"]
+    },
+    {
+      "id": "step-3",
+      "name": "Identify Documentation Gaps",
+      "description": "Find undocumented or poorly documented code",
+      "type": "task",
+      "action": "find-gaps",
+      "agentId": "analysis-agent",
+      "inputs": {
+        "threshold": "80",
+        "excludeTests": true
+      },
+      "outputs": ["documentation-gaps"]
+    },
+    {
+      "id": "step-4",
+      "name": "Generate Missing Documentation",
+      "description": "Create documentation for undocumented items",
+      "type": "task",
+      "action": "generate-docs",
+      "agentId": "code-agent",
+      "inputs": {
+        "includeExamples": true,
+        "includeTypes": true,
+        "format": "markdown"
+      },
+      "outputs": ["generated-docs"]
+    },
+    {
+      "id": "step-5",
+      "name": "Create API Reference",
+      "description": "Compile comprehensive API reference",
+      "type": "task",
+      "action": "generate-reference",
+      "agentId": "code-agent",
+      "inputs": {
+        "format": "markdown",
+        "includeExamples": true,
+        "includeChangelog": true
+      },
+      "outputs": ["api-reference"]
+    },
+    {
+      "id": "step-6",
+      "name": "Update Documentation Files",
+      "description": "Update README and doc files",
+      "type": "task",
+      "action": "update-docs",
+      "agentId": "code-agent",
+      "inputs": {
+        "targetFiles": ["README.md", "docs/API.md", "docs/GUIDE.md"],
+        "createIfMissing": true
+      },
+      "outputs": ["documentation-updated"]
+    }
+  ]
+}

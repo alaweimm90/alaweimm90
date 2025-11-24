@@ -1,0 +1,37 @@
+name: File Dashboard
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build inventory
+        run: node scripts/files/inventory.js || true
+      - name: Generate dashboard
+        run: node scripts/files/dashboard.js
+      - name: Upload dashboard
+        uses: actions/upload-artifact@v4
+        with:
+          name: files-dashboard
+          path: files-dashboard.json
+      - name: Push dashboard history
+        run: |
+          set -euo pipefail
+          ts="$(date +%Y%m%d%H%M%S)"
+          mkdir -p files-history
+          cp files-dashboard.json files-history/files-dashboard-$ts.json
+          git checkout -b files/dashboard-history || git checkout files/dashboard-history
+          git add files-history/files-dashboard-$ts.json
+          git commit -m "files: dashboard snapshot $ts" || echo "No changes"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: files/dashboard-history
+          title: 'Files: Dashboard snapshot'
+          commit-message: 'files: dashboard snapshot'
+          labels: files-dashboard

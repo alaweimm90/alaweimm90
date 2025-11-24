@@ -1,0 +1,388 @@
+{
+  "timestamp": "2025-11-22T15:27:54.084Z",
+  "optimizationsApplied": 0,
+  "optimizationsFailed": 0,
+  "results": [],
+  "learningData": {
+    "patterns": [
+      {
+        "timestamp": "2025-11-22T13:54:47.327Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T13:55:51.237Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T13:56:51.924Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T13:57:51.681Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T13:58:51.202Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T13:59:54.148Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:00:52.028Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:01:51.723Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:02:51.245Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:03:50.792Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:04:50.805Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:05:51.006Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:06:51.166Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:07:52.456Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:08:51.472Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:10:55.527Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:11:25.241Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:11:51.763Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:12:50.938Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:13:51.262Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:14:51.772Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:15:52.234Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:16:51.829Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:17:51.666Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:18:53.243Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:19:51.973Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:20:55.563Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:21:51.853Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:22:51.880Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:23:52.375Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:24:51.149Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:25:51.714Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:26:51.732Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:27:51.172Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:28:51.138Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:29:57.484Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:30:51.681Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:31:53.667Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:32:51.672Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:33:51.932Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:34:52.287Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:35:53.952Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:36:51.110Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:37:51.273Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:38:51.525Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:39:52.743Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:40:51.383Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:41:52.344Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:42:52.476Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:43:53.888Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:44:54.391Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:46:03.487Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:47:07.401Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:48:01.780Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:48:54.609Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:49:54.025Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:50:54.863Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:51:54.681Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:52:55.809Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:53:54.766Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:54:56.222Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:55:53.835Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:56:53.843Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:57:52.166Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:58:52.384Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T14:59:53.140Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:00:53.898Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:01:53.352Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:02:54.092Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:04:01.894Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:04:55.629Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:05:53.516Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:06:54.119Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:07:54.459Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:08:53.243Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:09:52.699Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:10:57.044Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:11:55.283Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:12:56.757Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:13:53.158Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:14:54.234Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:15:53.408Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:16:52.186Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:17:52.155Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:18:52.925Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:19:52.010Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:20:51.962Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:21:53.378Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:23:00.287Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:23:57.514Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:24:56.460Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:25:59.669Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:27:03.457Z",
+        "successRates": {}
+      },
+      {
+        "timestamp": "2025-11-22T15:27:54.084Z",
+        "successRates": {}
+      }
+    ],
+    "successfulOptimizations": [],
+    "failedOptimizations": []
+  }
+}

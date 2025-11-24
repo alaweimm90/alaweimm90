@@ -1,0 +1,52 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "integration": "Multi-Framework",
+    "description": "Multi-Framework Integration Configuration Template",
+    "frameworks": ["GDPR", "HIPAA", "SOC2", "PCI_DSS", "CCPA", "PDPA", "ISO_27001"],
+    "focus": "Integrated multi-framework compliance management",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "frameworkPrioritySettings": {
+    "priorityMatrix": {
+      "GDPR": { "level": "critical", "overrideOtherFrameworks": true },
+      "HIPAA": { "level": "critical", "overrideOtherFrameworks": true },
+      "PCI_DSS": { "level": "critical", "overrideOtherFrameworks": true },
+      "CCPA": { "level": "high", "overrideOtherFrameworks": false },
+      "PDPA": { "level": "high", "overrideOtherFrameworks": false },
+      "SOC2": { "level": "high", "overrideOtherFrameworks": false },
+      "ISO_27001": { "level": "medium", "overrideOtherFrameworks": false }
+    },
+    "conflictResolution": {
+      "enabled": true,
+      "priorityBasedResolution": true,
+      "manualOverrideCapability": true
+    }
+  },
+  "integratedDataClassification": {
+    "personal_data": {
+      "frameworkCompliance": { "GDPR": true, "CCPA": true, "PDPA": true, "ISO_27001": true }
+    },
+    "health_data": { "frameworkCompliance": { "HIPAA": true, "GDPR": true, "ISO_27001": true } },
+    "financial_data": { "frameworkCompliance": { "SOX": true, "SOC2": true, "ISO_27001": true } },
+    "cardholder_data": {
+      "frameworkCompliance": { "PCI_DSS": true, "GDPR": true, "CCPA": true, "ISO_27001": true }
+    }
+  },
+  "routingRules": {
+    "multiFrameworkRouting": true,
+    "frameworkPriorityRouting": true,
+    "conflictResolutionRouting": true
+  },
+  "integratedMonitoring": {
+    "frameworkSpecificAlerts": true,
+    "conflictDetectionAlerts": true,
+    "consolidatedReporting": { "enabled": true, "frameworkBreakdown": true }
+  },
+  "frameworkIntegration": {
+    "conflictResolutionEngine": { "enabled": true, "priorityBasedResolution": true },
+    "unifiedConsentManagement": { "enabled": true, "frameworkSpecificConsent": true }
+  }
+}

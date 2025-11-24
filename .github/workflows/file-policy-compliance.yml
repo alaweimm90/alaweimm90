@@ -1,0 +1,15 @@
+name: File Policy Compliance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ajv-cli
+        run: npm i -g ajv-cli
+      - name: Validate config schema
+        run: ajv validate -s config/file-management.schema.json -d config/file-management.json

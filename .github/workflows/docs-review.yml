@@ -1,0 +1,36 @@
+name: Docs Monthly Review
+
+on:
+  schedule:
+    - cron: '0 7 1 * *'
+  workflow_dispatch:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aggregate current compliance
+        run: |
+          set -euo pipefail
+          ok=0; total=0
+          get_scope() { find . -type f \( -name package.json -o -name pyproject.toml \) -print0 | xargs -0 -n1 dirname | sort -u; }
+          while IFS= read -r dir; do
+            total=$((total+1))
+            miss=0; for f in README.md CONTRIBUTING.md CHANGELOG.md; do [ -f "$dir/$f" ] || miss=$((miss+1)); done
+            unauth=0; for f in $(ls -1 "$dir" 2>/dev/null | grep -E '\.md$' || true); do case "$f" in README.md|CONTRIBUTING.md|CHANGELOG.md|SPECIFICATIONS.md|DESIGN.md) :;; *) unauth=$((unauth+1));; esac; done
+            if [ $((miss+unauth)) -eq 0 ]; then ok=$((ok+1)); fi
+          done < <(get_scope)
+          pct=0; if [ "$total" -gt 0 ]; then pct=$((100*ok/total)); fi
+          echo "compliance=$pct" >> $GITHUB_ENV
+          echo "total=$total" >> $GITHUB_ENV
+          echo "passing=$ok" >> $GITHUB_ENV
+      - name: Create monthly review issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const compliance = process.env.compliance;
+            const total = process.env.total;
+            const passing = process.env.passing;
+            const body = `Monthly docs compliance\nCompliance: ${compliance}%\nFolders: ${passing}/${total}`;
+            await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `Monthly docs review (${compliance}%)`, labels: ['docs-review'], body });

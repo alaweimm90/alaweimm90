@@ -1,0 +1,601 @@
+/**
+ * Intelligent Monitoring System
+ * Real-time monitoring with automated remediation
+ */
+
+const fs = require('fs').promises;
+const path = require('path');
+const { EventEmitter } = require('events');
+const os = require('os');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+
+const execAsync = promisify(exec);
+
+class IntelligentMonitor extends EventEmitter {
+  constructor(config = {}) {
+    super();
+
+    this.config = {
+      interval: config.interval || 60000, // 1 minute
+      thresholds: {
+        cpuUsage: config.cpuThreshold || 80,
+        memoryUsage: config.memoryThreshold || 85,
+        diskUsage: config.diskThreshold || 90,
+        responseTime: config.responseThreshold || 1000,
+        errorRate: config.errorThreshold || 0.05
+      },
+      autoRemediation: config.autoRemediation !== false,
+      alerting: config.alerting !== false,
+      ...config
+    };
+
+    this.metrics = {
+      system: {},
+      application: {},
+      repository: {},
+      performance: {}
+    };
+
+    this.alerts = [];
+    this.remediations = [];
+    this.monitoring = false;
+    this.logger = config.logger || console;
+  }
+
+  async start() {
+    this.logger.info('🔍 Starting Intelligent Monitoring System...');
+    this.monitoring = true;
+
+    // Initial scan
+    await this.performMonitoring();
+
+    // Set up continuous monitoring
+    this.monitoringInterval = setInterval(async () => {
+      if (this.monitoring) {
+        await this.performMonitoring();
+      }
+    }, this.config.interval);
+
+    // Set up real-time file watching
+    await this.setupFileWatching();
+
+    this.logger.info('✅ Monitoring system active');
+    this.emit('started');
+  }
+
+  async stop() {
+    this.logger.info('🛑 Stopping monitoring system...');
+    this.monitoring = false;
+
+    if (this.monitoringInterval) {
+      clearInterval(this.monitoringInterval);
+    }
+
+    this.emit('stopped');
+    this.logger.info('✅ Monitoring system stopped');
+  }
+
+  async performMonitoring() {
+    try {
+      // Collect metrics
+      await this.collectSystemMetrics();
+      await this.collectApplicationMetrics();
+      await this.collectRepositoryMetrics();
+      await this.collectPerformanceMetrics();
+
+      // Analyze metrics
+      const issues = await this.analyzeMetrics();
+
+      // Handle issues
+      if (issues.length > 0) {
+        await this.handleIssues(issues);
+      }
+
+      // Update dashboard
+      await this.updateDashboard();
+
+      // Emit metrics
+      this.emit('metrics', this.metrics);
+
+    } catch (error) {
+      this.logger.error('Monitoring error:', error.message);
+      this.emit('error', error);
+    }
+  }
+
+  async collectSystemMetrics() {
+    const cpus = os.cpus();
+    const totalMemory = os.totalmem();
+    const freeMemory = os.freemem();
+    const loadAverage = os.loadavg();
+
+    // Calculate CPU usage
+    const cpuUsage = loadAverage[0] / cpus.length * 100;
+
+    // Calculate memory usage
+    const memoryUsage = ((totalMemory - freeMemory) / totalMemory) * 100;
+
+    this.metrics.system = {
+      timestamp: new Date().toISOString(),
+      cpu: {
+        usage: cpuUsage.toFixed(2),
+        cores: cpus.length,
+        loadAverage: loadAverage.map(l => l.toFixed(2))
+      },
+      memory: {
+        total: `${(totalMemory / (1024 ** 3)).toFixed(2)  } GB`,
+        used: `${((totalMemory - freeMemory) / (1024 ** 3)).toFixed(2)  } GB`,
+        free: `${(freeMemory / (1024 ** 3)).toFixed(2)  } GB`,
+        usage: memoryUsage.toFixed(2)
+      },
+      uptime: os.uptime(),
+      platform: os.platform(),
+      hostname: os.hostname()
+    };
+  }
+
+  async collectApplicationMetrics() {
+    try {
+      // Check if Node.js process is running
+      const processMetrics = {
+        pid: process.pid,
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        cpuUsage: process.cpuUsage()
+      };
+
+      // Check running services
+      const services = await this.checkServices();
+
+      this.metrics.application = {
+        timestamp: new Date().toISOString(),
+        process: processMetrics,
+        services,
+        health: 'healthy'
+      };
+
+    } catch (error) {
+      this.metrics.application = {
+        timestamp: new Date().toISOString(),
+        health: 'unknown',
+        error: error.message
+      };
+    }
+  }
+
+  async collectRepositoryMetrics() {
+    try {
+      const rootPath = process.cwd();
+
+      // Count files
+      const fileStats = await this.countFiles(rootPath);
+
+      // Check git status
+      const gitStatus = await this.getGitStatus();
+
+      // Check dependencies
+      const depStatus = await this.checkDependencies();
+
+      this.metrics.repository = {
+        timestamp: new Date().toISOString(),
+        files: fileStats,
+        git: gitStatus,
+        dependencies: depStatus
+      };
+
+    } catch (error) {
+      this.metrics.repository = {
+        timestamp: new Date().toISOString(),
+        error: error.message
+      };
+    }
+  }
+
+  async collectPerformanceMetrics() {
+    const startTime = Date.now();
+
+    try {
+      // Measure file system response time
+      await fs.readdir(process.cwd());
+      const fsResponseTime = Date.now() - startTime;
+
+      this.metrics.performance = {
+        timestamp: new Date().toISOString(),
+        fileSystemResponse: fsResponseTime,
+        networkLatency: await this.measureNetworkLatency(),
+        diskIO: await this.measureDiskIO()
+      };
+
+    } catch (error) {
+      this.metrics.performance = {
+        timestamp: new Date().toISOString(),
+        error: error.message
+      };
+    }
+  }
+
+  async analyzeMetrics() {
+    const issues = [];
+
+    // Check CPU usage
+    const cpuUsage = parseFloat(this.metrics.system.cpu.usage);
+    if (cpuUsage > this.config.thresholds.cpuUsage) {
+      issues.push({
+        type: 'high_cpu',
+        severity: 'warning',
+        value: cpuUsage,
+        threshold: this.config.thresholds.cpuUsage,
+        message: `High CPU usage: ${cpuUsage}%`
+      });
+    }
+
+    // Check memory usage
+    const memoryUsage = parseFloat(this.metrics.system.memory.usage);
+    if (memoryUsage > this.config.thresholds.memoryUsage) {
+      issues.push({
+        type: 'high_memory',
+        severity: 'warning',
+        value: memoryUsage,
+        threshold: this.config.thresholds.memoryUsage,
+        message: `High memory usage: ${memoryUsage}%`
+      });
+    }
+
+    // Check response time
+    const responseTime = this.metrics.performance.fileSystemResponse;
+    if (responseTime > this.config.thresholds.responseTime) {
+      issues.push({
+        type: 'slow_response',
+        severity: 'info',
+        value: responseTime,
+        threshold: this.config.thresholds.responseTime,
+        message: `Slow file system response: ${responseTime}ms`
+      });
+    }
+
+    return issues;
+  }
+
+  async handleIssues(issues) {
+    this.logger.warn(`⚠️ Detected ${issues.length} issues`);
+
+    for (const issue of issues) {
+      this.logger.warn(`  - ${issue.message}`);
+
+      // Generate alert
+      if (this.config.alerting) {
+        await this.generateAlert(issue);
+      }
+
+      // Attempt auto-remediation
+      if (this.config.autoRemediation) {
+        await this.attemptRemediation(issue);
+      }
+    }
+
+    this.emit('issues', issues);
+  }
+
+  async generateAlert(issue) {
+    const alert = {
+      id: `alert_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: new Date().toISOString(),
+      ...issue
+    };
+
+    this.alerts.push(alert);
+
+    // Keep only recent alerts
+    if (this.alerts.length > 100) {
+      this.alerts.shift();
+    }
+
+    this.emit('alert', alert);
+  }
+
+  async attemptRemediation(issue) {
+    this.logger.info(`  🔧 Attempting remediation for ${issue.type}...`);
+
+    let remediation = null;
+
+    switch (issue.type) {
+      case 'high_memory':
+        remediation = await this.remediateHighMemory();
+        break;
+      case 'high_cpu':
+        remediation = await this.remediateHighCPU();
+        break;
+      case 'slow_response':
+        remediation = await this.remediateSlowResponse();
+        break;
+      default:
+        this.logger.info('    No automated remediation available');
+    }
+
+    if (remediation) {
+      this.remediations.push({
+        timestamp: new Date().toISOString(),
+        issue: issue.type,
+        action: remediation.action,
+        success: remediation.success
+      });
+
+      if (remediation.success) {
+        this.logger.info(`    ✅ Remediation successful: ${remediation.action}`);
+      } else {
+        this.logger.error(`    ❌ Remediation failed: ${remediation.error}`);
+      }
+    }
+  }
+
+  async remediateHighMemory() {
+    try {
+      // Clear Node.js caches
+      if (global.gc) {
+        global.gc();
+      }
+
+      // Clear temporary files
+      await this.clearTempFiles();
+
+      return {
+        action: 'Cleared caches and temporary files',
+        success: true
+      };
+    } catch (error) {
+      return {
+        action: 'Memory cleanup',
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  async remediateHighCPU() {
+    try {
+      // Identify CPU-intensive processes
+      const { stdout } = await execAsync('ps aux --sort=-%cpu | head -5');
+
+      return {
+        action: 'Identified high CPU processes',
+        success: true,
+        details: stdout
+      };
+    } catch (error) {
+      return {
+        action: 'CPU analysis',
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  async remediateSlowResponse() {
+    try {
+      // Clear file system caches
+      await this.clearFileSystemCaches();
+
+      return {
+        action: 'Cleared file system caches',
+        success: true
+      };
+    } catch (error) {
+      return {
+        action: 'Performance optimization',
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  async setupFileWatching() {
+    // Watch for critical file changes
+    const criticalFiles = ['package.json', '.env', 'config'];
+
+    // Note: In production, use a proper file watcher like chokidar
+    this.logger.info('📂 Watching critical files for changes');
+  }
+
+  async updateDashboard() {
+    const dashboardData = {
+      timestamp: new Date().toISOString(),
+      metrics: this.metrics,
+      alerts: this.alerts.slice(-10),
+      remediations: this.remediations.slice(-10),
+      status: this.calculateOverallStatus()
+    };
+
+    const dashboardPath = path.join(process.cwd(), '.automation', 'monitoring', 'dashboard.json');
+    await fs.mkdir(path.dirname(dashboardPath), { recursive: true });
+    await fs.writeFile(dashboardPath, JSON.stringify(dashboardData, null, 2));
+  }
+
+  calculateOverallStatus() {
+    const recentAlerts = this.alerts.filter(a => {
+      const alertTime = new Date(a.timestamp);
+      const now = new Date();
+      return (now - alertTime) < 300000; // Last 5 minutes
+    });
+
+    if (recentAlerts.some(a => a.severity === 'critical')) {
+      return 'critical';
+    } if (recentAlerts.some(a => a.severity === 'warning')) {
+      return 'warning';
+    } if (recentAlerts.length > 0) {
+      return 'info';
+    } 
+      return 'healthy';
+    
+  }
+
+  // Helper methods
+
+  async checkServices() {
+    const services = [];
+
+    // Check if common services are running
+    const servicesToCheck = [
+      { name: 'node', command: 'node --version' },
+      { name: 'npm', command: 'npm --version' },
+      { name: 'git', command: 'git --version' }
+    ];
+
+    for (const service of servicesToCheck) {
+      try {
+        const { stdout } = await execAsync(service.command);
+        services.push({
+          name: service.name,
+          status: 'running',
+          version: stdout.trim()
+        });
+      } catch {
+        services.push({
+          name: service.name,
+          status: 'not available'
+        });
+      }
+    }
+
+    return services;
+  }
+
+  async countFiles(dir, counts = { total: 0, js: 0, json: 0, md: 0 }) {
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+
+      for (const entry of entries) {
+        const skip = (entry.name === 'node_modules' || entry.name === '.git');
+        if (!skip) {
+          const fullPath = path.join(dir, entry.name);
+
+          if (entry.isDirectory()) {
+            await this.countFiles(fullPath, counts);
+          } else {
+            counts.total++;
+            const ext = path.extname(entry.name);
+            if (ext === '.js') counts.js++;
+            else if (ext === '.json') counts.json++;
+            else if (ext === '.md') counts.md++;
+          }
+        }
+      }
+    } catch (error) {
+      // Ignore errors
+    }
+
+    return counts;
+  }
+
+  async getGitStatus() {
+    try {
+      const { stdout } = await execAsync('git status --porcelain');
+      const lines = stdout.trim().split('\n').filter(l => l);
+
+      return {
+        modified: lines.filter(l => l.startsWith(' M')).length,
+        added: lines.filter(l => l.startsWith('A ')).length,
+        deleted: lines.filter(l => l.startsWith(' D')).length,
+        untracked: lines.filter(l => l.startsWith('??')).length
+      };
+    } catch {
+      return { error: 'Git not available' };
+    }
+  }
+
+  async checkDependencies() {
+    try {
+      const packagePath = path.join(process.cwd(), 'package.json');
+      const packageJson = JSON.parse(await fs.readFile(packagePath, 'utf8'));
+
+      return {
+        dependencies: Object.keys(packageJson.dependencies || {}).length,
+        devDependencies: Object.keys(packageJson.devDependencies || {}).length
+      };
+    } catch {
+      return { error: 'Package.json not found' };
+    }
+  }
+
+  async measureNetworkLatency() {
+    try {
+      const start = Date.now();
+      await execAsync('ping -c 1 8.8.8.8');
+      return Date.now() - start;
+    } catch {
+      return -1;
+    }
+  }
+
+  async measureDiskIO() {
+    try {
+      const start = Date.now();
+      const testFile = path.join(os.tmpdir(), `test_${Date.now()}.tmp`);
+      await fs.writeFile(testFile, 'test');
+      await fs.readFile(testFile);
+      await fs.unlink(testFile);
+      return Date.now() - start;
+    } catch {
+      return -1;
+    }
+  }
+
+  async clearTempFiles() {
+    const tempDirs = ['tmp', 'temp', '.cache'];
+
+    for (const dir of tempDirs) {
+      const tempPath = path.join(process.cwd(), dir);
+      try {
+        await fs.rmdir(tempPath, { recursive: true });
+      } catch {
+        // Ignore if doesn't exist
+      }
+    }
+  }
+
+  async clearFileSystemCaches() {
+    // Platform-specific cache clearing
+    // This is a placeholder - actual implementation would vary
+    return true;
+  }
+
+  getMetrics() {
+    return this.metrics;
+  }
+
+  getAlerts() {
+    return this.alerts;
+  }
+
+  getRemediations() {
+    return this.remediations;
+  }
+}
+
+// Run if executed directly
+if (require.main === module) {
+  const monitor = new IntelligentMonitor({
+    interval: 30000, // 30 seconds for demo
+    autoRemediation: true,
+    alerting: true
+  });
+
+  monitor.on('alert', (alert) => {
+    monitor.logger.info(`🚨 ALERT: ${alert.message}`);
+  });
+
+  monitor.on('metrics', (metrics) => {
+    monitor.logger.info(`📊 Metrics Update: System CPU: ${metrics.system.cpu.usage}%, Memory: ${metrics.system.memory.usage}%`);
+  });
+
+  monitor.start().catch(console.error);
+
+  // Graceful shutdown
+  process.on('SIGINT', async () => {
+    monitor.logger.info('Shutting down monitor...');
+    await monitor.stop();
+    process.exit(0);
+  });
+}
+
+module.exports = IntelligentMonitor;

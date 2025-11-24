@@ -1,0 +1,315 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "geographic": "US-Only",
+    "description": "US-Only Geographic Compliance Configuration Template",
+    "frameworks": ["HIPAA", "SOX", "CCPA"],
+    "focus": "US-focused healthcare, financial, and privacy compliance",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["HIPAA", "SOX", "CCPA"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": true,
+      "retentionLimits": {
+        "phi": 2555,
+        "financial_data": 2555,
+        "personal_information": 2555,
+        "audit_logs": 2555
+      },
+      "crossBorderTransferAllowed": false,
+      "dataLocalizationRequired": true
+    },
+    "geographicCompliance": {
+      "restrictedRegions": ["china", "russia", "iran", "north_korea"],
+      "dataLocalizationRequired": true,
+      "sovereigntyRequirements": {
+        "north_america": ["HIPAA", "SOX", "CCPA"]
+      }
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "breachNotification": {
+        "enabled": true,
+        "timeframeDays": 60,
+        "recipients": ["OCR", "affected_individuals"],
+        "automatedReporting": true
+      },
+      "annualAudit": {
+        "enabled": true,
+        "externalAuditor": true,
+        "certificationMaintenance": true
+      },
+      "annualPrivacyReport": {
+        "enabled": true,
+        "automatedGeneration": true,
+        "publicDisclosure": true
+      }
+    }
+  },
+  "dataClassification": {
+    "phi": {
+      "patterns": [
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b(diagnosis|treatment|medication|condition|PHI)\\b",
+        "\\b\\d{9}\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": true,
+      "soxCompliance": false,
+      "ccpaCompliance": true
+    },
+    "financial_reporting": {
+      "patterns": [
+        "\\b(revenue|profit|loss|assets|liabilities|equity)\\b",
+        "\\b(financial_statement|balance_sheet|income_statement)\\b",
+        "\\b(SEC|10-K|10-Q|8-K)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": false,
+      "soxCompliance": true,
+      "ccpaCompliance": false
+    },
+    "personal_information": {
+      "patterns": [
+        "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+        "\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b",
+        "\\b\\d{3}[-]\\d{2}[-]\\d{4}\\b",
+        "\\b\\d{1,2}/\\d{1,2}/\\d{4}\\b",
+        "\\b[A-Z][a-z]+ [A-Z][a-z]+\\b",
+        "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "consentRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "hipaaCompliance": true,
+      "soxCompliance": false,
+      "ccpaCompliance": true
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": true,
+    "phiDetectionEnabled": true,
+    "financialDataProtection": true,
+    "consentValidationEnabled": true,
+    "privacyRightsEnforced": true,
+    "usDomesticFocus": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america"],
+    "blockedRegions": ["china", "russia", "iran", "north_korea"],
+    "dataLocalization": {
+      "phi": "north_america",
+      "financial_data": "north_america",
+      "personal_information": "north_america"
+    },
+    "crossBorderRules": {
+      "requiresBAARegistration": true,
+      "standardContractualClauses": true,
+      "bindingCorporateRules": true
+    }
+  },
+  "consentManagement": {
+    "requiredForProcessing": true,
+    "granularConsent": true,
+    "optOutRights": true,
+    "doNotSellRights": true,
+    "consentRecords": {
+      "retentionPeriod": 2555,
+      "auditTrail": true,
+      "automatedValidation": true
+    }
+  },
+  "privacyRights": {
+    "rightToKnow": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToDelete": {
+      "enabled": true,
+      "responseTimeDays": 45,
+      "automatedProcessing": true
+    },
+    "rightToOptOut": {
+      "enabled": true,
+      "responseTimeDays": 15,
+      "automatedProcessing": true
+    },
+    "rightToNonDiscrimination": {
+      "enabled": true,
+      "protectionEnabled": true
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "healthcare_admin": {
+        "phi": ["read", "write", "delete"],
+        "financial_data": [],
+        "personal_information": ["read"]
+      },
+      "financial_officer": {
+        "phi": [],
+        "financial_data": ["read", "write"],
+        "personal_information": []
+      },
+      "privacy_officer": {
+        "phi": ["read"],
+        "financial_data": ["read"],
+        "personal_information": ["read", "write", "delete"]
+      },
+      "auditor": {
+        "phi": ["read"],
+        "financial_data": ["read"],
+        "personal_information": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800,
+    "segregationOfDuties": true
+  },
+  "internalControls": {
+    "enabled": true,
+    "controlActivities": [
+      "access_controls",
+      "change_management",
+      "backup_recovery",
+      "incident_response",
+      "financial_reporting",
+      "privacy_protection"
+    ],
+    "monitoring": {
+      "automated": true,
+      "frequency": "continuous",
+      "alerts": true
+    },
+    "testing": {
+      "frequency": "quarterly",
+      "automated": true,
+      "documentation": true
+    }
+  },
+  "auditLogging": {
+    "events": [
+      "data_access",
+      "data_modification",
+      "data_deletion",
+      "consent_granted",
+      "consent_withdrawn",
+      "opt_out_request",
+      "privacy_right_exercised",
+      "control_change",
+      "audit_activity",
+      "authentication",
+      "authorization_failure",
+      "phi_detection",
+      "breach_attempt"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "breachDetection": {
+    "phiPatterns": true,
+    "personalDataExposure": true,
+    "unauthorizedAccess": true,
+    "encryptionFailures": true,
+    "notificationSettings": {
+      "immediateAlert": true,
+      "ocrNotification": true,
+      "affectedIndividuals": true,
+      "timeframeDays": 60
+    }
+  },
+  "encryption": {
+    "requiredForPHI": true,
+    "requiredForFinancialData": true,
+    "requiredForPersonalInfo": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "hsmRequired": false
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "phiDetectionAlerts": true,
+    "consentValidationAlerts": true,
+    "privacyRightAlerts": true,
+    "controlViolationAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "phiAwareRouting": true,
+      "financialDataProtection": true,
+      "consentValidation": true,
+      "privacyRightsEnforcement": true,
+      "controlIntegration": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "ehr_integration": true,
+      "erp_integration": true,
+      "consent_management": true,
+      "privacy_portal": true,
+      "audit_systems": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "phi_detection",
+      "personal_data_detection",
+      "consent_validation",
+      "geographic_compliance",
+      "access_authorization",
+      "control_verification"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "consent_compliance",
+      "privacy_rights_processing",
+      "control_effectiveness",
+      "retention_compliance"
+    ]
+  },
+  "_comments": {
+    "compliance": "Combined HIPAA, SOX, and CCPA compliance for US-only operations",
+    "dataClassification": "PHI, financial data, and personal information",
+    "routingRules": "US-focused compliance-aware routing",
+    "geographicRestrictions": "US-only data localization requirements",
+    "consentManagement": "CCPA consent management",
+    "privacyRights": "CCPA privacy rights implementation",
+    "accessControls": "US healthcare and financial role-based access",
+    "internalControls": "SOX internal control framework",
+    "auditLogging": "Comprehensive audit trail for US frameworks",
+    "breachDetection": "PHI and personal data breach detection",
+    "encryption": "Strong encryption for US compliance data",
+    "monitoring": "Comprehensive US compliance monitoring",
+    "integration": "TRAE routing and US system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

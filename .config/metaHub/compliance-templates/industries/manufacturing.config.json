@@ -1,0 +1,450 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "industry": "Manufacturing",
+    "description": "Manufacturing Industry Compliance Configuration Template",
+    "frameworks": ["ISO_27001", "SOC2"],
+    "focus": "Information security management and operational technology security",
+    "lastUpdated": "2025-11-22",
+    "productionReady": true,
+    "frameworkAgnostic": true
+  },
+  "compliance": {
+    "enabledFrameworks": ["ISO_27001", "SOC2"],
+    "strictMode": true,
+    "auditLevel": "detailed",
+    "dataHandling": {
+      "encryptionRequired": true,
+      "anonymizationRequired": false,
+      "retentionLimits": {
+        "confidential_information": 2555,
+        "operational_data": 2555,
+        "intellectual_property": 2555,
+        "audit_logs": 2555,
+        "security_events": 2555
+      },
+      "crossBorderTransferAllowed": true,
+      "dataLocalizationRequired": false
+    },
+    "geographicCompliance": {
+      "restrictedRegions": [],
+      "dataLocalizationRequired": false,
+      "sovereigntyRequirements": {}
+    },
+    "auditSettings": {
+      "logRetention": 2555,
+      "realTimeMonitoring": true,
+      "alertOnViolation": true,
+      "complianceReporting": true,
+      "annualAudit": {
+        "enabled": true,
+        "externalAuditor": true,
+        "certificationMaintenance": true
+      },
+      "continuousAuditing": {
+        "enabled": true,
+        "frequency": "real_time",
+        "automatedReporting": true
+      }
+    }
+  },
+  "ismsRequirements": {
+    "context_of_organization": {
+      "enabled": true,
+      "stakeholder_analysis": true,
+      "internal_external_issues": true,
+      "manufacturing_focus": true
+    },
+    "leadership": {
+      "enabled": true,
+      "information_security_policy": true,
+      "roles_responsibilities": true,
+      "operational_technology": true
+    },
+    "planning": {
+      "enabled": true,
+      "risk_assessment": true,
+      "risk_treatment": true,
+      "objectives_targets": true,
+      "industrial_control_systems": true
+    },
+    "support": {
+      "enabled": true,
+      "resources": true,
+      "competence": true,
+      "awareness": true,
+      "communication": true,
+      "documented_information": true
+    },
+    "operation": {
+      "enabled": true,
+      "planning_control": true,
+      "information_security_risks": true,
+      "operational_technology_security": true
+    },
+    "performance_evaluation": {
+      "enabled": true,
+      "monitoring_measurement": true,
+      "internal_audit": true,
+      "management_review": true
+    },
+    "improvement": {
+      "enabled": true,
+      "nonconformity_corrective_action": true,
+      "continual_improvement": true
+    }
+  },
+  "annexAControls": {
+    "information_security_policies": {
+      "enabled": true,
+      "controls": ["5.1.1", "5.1.2"]
+    },
+    "organization_of_information_security": {
+      "enabled": true,
+      "controls": ["5.2.1", "5.2.2", "5.3.1", "5.3.2", "5.3.3"]
+    },
+    "human_resource_security": {
+      "enabled": true,
+      "controls": ["6.1.1", "6.1.2", "6.1.3", "6.2.1", "6.2.2", "6.2.3"]
+    },
+    "asset_management": {
+      "enabled": true,
+      "controls": ["7.1.1", "7.1.2", "7.1.3", "7.2.1", "7.2.2", "7.2.3", "7.3.1", "7.3.2"]
+    },
+    "access_control": {
+      "enabled": true,
+      "controls": [
+        "8.1.1",
+        "8.1.2",
+        "8.1.3",
+        "8.1.4",
+        "8.2.1",
+        "8.2.2",
+        "8.2.3",
+        "8.3.1",
+        "8.3.2",
+        "8.3.3"
+      ]
+    },
+    "cryptography": {
+      "enabled": true,
+      "controls": ["8.3.1", "8.3.2", "8.3.3"]
+    },
+    "physical_environmental_security": {
+      "enabled": true,
+      "controls": [
+        "9.1.1",
+        "9.1.2",
+        "9.2.1",
+        "9.2.2",
+        "9.2.3",
+        "9.2.4",
+        "9.2.5",
+        "9.2.6",
+        "9.3.1",
+        "9.4.1",
+        "9.4.2",
+        "9.4.3",
+        "9.4.4",
+        "9.4.5"
+      ]
+    },
+    "operations_security": {
+      "enabled": true,
+      "controls": ["10.1.1", "10.1.2", "10.1.3", "10.1.4", "10.1.5"]
+    },
+    "communications_security": {
+      "enabled": true,
+      "controls": [
+        "11.1.1",
+        "11.1.2",
+        "11.1.3",
+        "11.1.4",
+        "11.1.5",
+        "11.2.1",
+        "11.2.2",
+        "11.2.3",
+        "11.2.4",
+        "11.2.5",
+        "11.2.6"
+      ]
+    },
+    "system_acquisition_development": {
+      "enabled": true,
+      "controls": [
+        "12.1.1",
+        "12.1.2",
+        "12.1.3",
+        "12.1.4",
+        "12.2.1",
+        "12.3.1",
+        "12.3.2",
+        "12.4.1",
+        "12.4.2",
+        "12.4.3",
+        "12.4.4",
+        "12.5.1",
+        "12.6.1",
+        "12.6.2",
+        "12.7.1"
+      ]
+    },
+    "supplier_relationships": {
+      "enabled": true,
+      "controls": ["13.1.1", "13.1.2", "13.1.3", "13.2.1", "13.2.2", "13.2.3"]
+    },
+    "information_security_incident_management": {
+      "enabled": true,
+      "controls": [
+        "14.1.1",
+        "14.1.2",
+        "14.1.3",
+        "14.2.1",
+        "14.2.2",
+        "14.2.3",
+        "14.2.4",
+        "14.2.5",
+        "14.2.6",
+        "14.2.7",
+        "14.2.8",
+        "14.3.1"
+      ]
+    },
+    "information_security_aspects_business": {
+      "enabled": true,
+      "controls": ["15.1.1", "15.1.2", "15.1.3", "15.2.1", "15.2.2"]
+    },
+    "compliance": {
+      "enabled": true,
+      "controls": ["16.1.1", "16.1.2", "16.1.3", "16.1.4", "16.1.5"]
+    }
+  },
+  "dataClassification": {
+    "confidential": {
+      "patterns": [
+        "\\b(confidential|secret|proprietary|internal)\\b",
+        "\\b(trade_secret|intellectual_property|patent)\\b"
+      ],
+      "riskLevel": "high",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "iso27001Compliance": true,
+      "soc2Compliance": true
+    },
+    "operational_data": {
+      "patterns": [
+        "\\b(manufacturing|production|assembly|quality)\\b",
+        "\\b(machine|equipment|sensor|iot|industrial)\\b"
+      ],
+      "riskLevel": "medium",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "iso27001Compliance": true,
+      "soc2Compliance": true
+    },
+    "intellectual_property": {
+      "patterns": [
+        "\\b(design|blueprint|specification|formula)\\b",
+        "\\b(research|development|innovation|proprietary)\\b"
+      ],
+      "riskLevel": "critical",
+      "encryptionRequired": true,
+      "accessLogging": true,
+      "retentionDays": 2555,
+      "iso27001Compliance": true,
+      "soc2Compliance": true
+    }
+  },
+  "routingRules": {
+    "complianceFirstRouting": true,
+    "dataClassificationRouting": true,
+    "geographicComplianceRouting": false,
+    "riskBasedRouting": true,
+    "operationalTechnologySecurity": true,
+    "continuousMonitoringEnabled": true,
+    "industrialControlSystemProtection": true
+  },
+  "geographicRestrictions": {
+    "allowedRegions": ["north_america", "europe", "asia_pacific"],
+    "blockedRegions": [],
+    "dataLocalization": {},
+    "crossBorderRules": {
+      "adequacyDecision": false,
+      "standardContractualClauses": false,
+      "bindingCorporateRules": false
+    }
+  },
+  "accessControls": {
+    "roleBasedAccess": {
+      "plant_manager": {
+        "confidential": ["read", "write"],
+        "operational_data": ["read", "write"],
+        "intellectual_property": ["read"]
+      },
+      "engineer": {
+        "confidential": ["read", "write"],
+        "operational_data": ["read", "write"],
+        "intellectual_property": ["read", "write"]
+      },
+      "operator": {
+        "confidential": ["read"],
+        "operational_data": ["read", "write"],
+        "intellectual_property": []
+      },
+      "auditor": {
+        "confidential": ["read"],
+        "operational_data": ["read"],
+        "intellectual_property": ["read"]
+      }
+    },
+    "minimumAccessPrinciple": true,
+    "accessLogging": true,
+    "sessionTimeout": 1800,
+    "multiFactorRequired": true,
+    "physicalAccessControls": true
+  },
+  "trustServicesCriteria": {
+    "security": {
+      "enabled": true,
+      "controls": [
+        "access_control",
+        "encryption",
+        "network_security",
+        "monitoring",
+        "incident_response",
+        "operational_technology"
+      ]
+    },
+    "availability": {
+      "enabled": true,
+      "controls": [
+        "system_availability",
+        "capacity_management",
+        "disaster_recovery",
+        "performance_monitoring",
+        "production_continuity"
+      ],
+      "targetUptime": 0.995
+    },
+    "confidentiality": {
+      "enabled": true,
+      "controls": [
+        "data_classification",
+        "encryption",
+        "access_controls",
+        "intellectual_property_protection"
+      ]
+    }
+  },
+  "riskManagement": {
+    "enabled": true,
+    "assessmentFrequency": "annual",
+    "riskRegister": true,
+    "treatmentPlans": true,
+    "operationalTechnologyRisks": true,
+    "supplyChainRisks": true,
+    "monitoring": {
+      "continuous": true,
+      "thresholdAlerts": true
+    }
+  },
+  "auditLogging": {
+    "events": [
+      "access_attempt",
+      "security_event",
+      "system_change",
+      "operational_event",
+      "risk_assessment",
+      "control_failure",
+      "incident_response",
+      "physical_access",
+      "industrial_control_system"
+    ],
+    "retentionPeriod": 2555,
+    "tamperProof": true,
+    "realTimeAlerts": true,
+    "automatedReview": true
+  },
+  "incidentManagement": {
+    "enabled": true,
+    "detection": {
+      "automated": true,
+      "thresholds": true,
+      "operational_technology": true
+    },
+    "response": {
+      "escalation_procedure": true,
+      "containment_steps": true,
+      "recovery_procedures": true,
+      "production_impact_assessment": true
+    },
+    "reporting": {
+      "internal_notification": true,
+      "external_reporting": true,
+      "regulatory_reporting": true
+    }
+  },
+  "encryption": {
+    "requiredForConfidential": true,
+    "requiredForOperationalData": true,
+    "algorithm": "AES-256-GCM",
+    "keyRotationDays": 365,
+    "envelopeEncryption": true,
+    "industrialControlSystemEncryption": true
+  },
+  "monitoring": {
+    "realTimeCompliance": true,
+    "securityEventAlerts": true,
+    "controlFailureAlerts": true,
+    "riskAlerts": true,
+    "operationalTechnologyAlerts": true,
+    "dashboardEnabled": true,
+    "reportingFrequency": "daily"
+  },
+  "integration": {
+    "traeRouting": {
+      "riskAssessment": true,
+      "continuousMonitoring": true,
+      "operationalTechnologySecurity": true,
+      "auditIntegration": true
+    },
+    "externalSystems": {
+      "industrial_control_systems": true,
+      "manufacturing_execution_system": true,
+      "siem_integration": true,
+      "audit_systems": true
+    }
+  },
+  "validationRules": {
+    "preFlightChecks": [
+      "access_authorization",
+      "risk_assessment",
+      "control_verification",
+      "operational_technology_security"
+    ],
+    "postProcessingValidation": [
+      "audit_log_verification",
+      "control_effectiveness",
+      "risk_monitoring",
+      "industrial_control_system_security"
+    ]
+  },
+  "_comments": {
+    "compliance": "Combined ISO 27001 and SOC 2 compliance settings",
+    "ismsRequirements": "ISMS structure with manufacturing focus",
+    "annexAControls": "ISO 27001 Annex A security controls",
+    "dataClassification": "Confidential, operational, and IP data",
+    "routingRules": "Compliance-aware routing with OT security",
+    "accessControls": "Manufacturing role-based access with physical controls",
+    "trustServicesCriteria": "SOC 2 criteria for manufacturing",
+    "riskManagement": "Risk management for operational technology",
+    "auditLogging": "Comprehensive security audit trail",
+    "incidentManagement": "Manufacturing incident response",
+    "encryption": "Encryption for industrial control systems",
+    "monitoring": "Continuous compliance monitoring",
+    "integration": "TRAE routing and manufacturing system integration",
+    "validationRules": "Pre and post-processing compliance validation"
+  }
+}

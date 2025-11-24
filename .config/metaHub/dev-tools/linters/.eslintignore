@@ -1,0 +1,6 @@
+alaweimm90/automation/dashboard/**
+node_modules/**
+dist/**
+build/**
+.next/**
+coverage/**

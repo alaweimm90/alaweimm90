@@ -1,0 +1,6 @@
+* @maintainers
+/.tools/ @devx
+/.config/ @platform
+/src/coaching-api/ @api-team
+/packages/agent-core/ @agent-team
+/packages/workflow-templates/ @platform

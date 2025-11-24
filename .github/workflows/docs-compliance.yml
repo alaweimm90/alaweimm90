@@ -1,0 +1,113 @@
+name: Docs Compliance
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ajv-cli
+        run: npm i -g ajv-cli
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Validate .docoverride schema
+        run: |
+          set -euo pipefail
+          for f in $(find . -type f -name .docoverride); do
+            ajv validate -s .docs-templates/.docoverride.schema.json -d "$f" || { echo "Schema validation failed: $f"; exit 1; }
+          done
+      - name: Scan folders
+        run: |
+          set -euo pipefail
+          echo '[]' > report.json
+          get_scope() {
+            find . -type f \( -name package.json -o -name pyproject.toml \) -print0 | xargs -0 -n1 dirname | sort -u
+          }
+          while IFS= read -r dir; do
+            required=(README.md CONTRIBUTING.md CHANGELOG.md)
+            optional=(SPECIFICATIONS.md DESIGN.md)
+            allowExtra=()
+            missingAllowed=()
+            allowOptional=()
+            expires=""
+            reason=""
+            ignorePatterns=()
+            allowGlobal=()
+            if [ -f ".docs-templates/allowlist.json" ]; then
+              mapfile -t allowGlobal < <(jq -r '.[]' .docs-templates/allowlist.json)
+            fi
+            if [ -f "$dir/.docoverride" ]; then
+              allowOptional=$(jq -r '.allowOptional? // [] | @csv' "$dir/.docoverride")
+              allowExtra=$(jq -r '.allowExtra? // [] | @csv' "$dir/.docoverride")
+              missingAllowed=$(jq -r '.missingAllowed? // [] | @csv' "$dir/.docoverride")
+              expires=$(jq -r '.expires? // ""' "$dir/.docoverride")
+              reason=$(jq -r '.reason? // ""' "$dir/.docoverride")
+            fi
+            if [ -f "$dir/.docsignore" ]; then
+              mapfile -t ignorePatterns < "$dir/.docsignore"
+            fi
+            IFS=',' read -r -a allowOptionalA <<< "$allowOptional"
+            IFS=',' read -r -a allowExtraA <<< "$allowExtra"
+            IFS=',' read -r -a missingAllowedA <<< "$missingAllowed"
+            req_missing=()
+            for f in "${required[@]}"; do
+              skip=0
+              for m in "${missingAllowedA[@]}"; do [ "$m" = "$f" ] && skip=1; done
+              if [ ! -f "$dir/$f" ] && [ "$skip" -eq 0 ]; then req_missing+=("$f"); fi
+            done
+            unauth=()
+            for f in $(ls -1 "$dir" 2>/dev/null | grep -E '\.md$' || true); do
+              ok=0
+              for r in "${required[@]}"; do [ "$f" = "$r" ] && ok=1; done
+              for o in "${optional[@]}"; do for ao in "${allowOptionalA[@]}"; do [ "$f" = "$o" ] && [ "$ao" = "$o" ] && ok=1; done; done
+              for ex in "${allowExtraA[@]}"; do [ "$f" = "$ex" ] && ok=1; done
+              for gx in "${allowGlobal[@]}"; do [ "$f" = "$gx" ] && ok=1; done
+              for ig in "${ignorePatterns[@]}"; do [[ "$f" == $ig ]] && ok=1; done
+              if [ "$ok" -eq 0 ]; then unauth+=("$f"); fi
+            done
+            expired=0
+            if [ -n "$expires" ]; then
+              now=$(date -Iseconds)
+              if [ "$(date -d "$now" +%s)" -gt "$(date -d "$expires" +%s)" ]; then expired=1; fi
+            fi
+            violation_count=$(expr ${#req_missing[@]} + ${#unauth[@]})
+            jq -n --arg folder "$dir" \
+              --argjson missing "$(printf '%s\n' "${req_missing[@]}" | jq -R . | jq -s .)" \
+              --argjson unauthorized "$(printf '%s\n' "${unauth[@]}" | jq -R . | jq -s .)" \
+              --arg overrideExpires "$expires" --arg overrideReason "$reason" \
+              --argjson allowOptional "$(printf '%s\n' "${allowOptionalA[@]}" | jq -R . | jq -s .)" \
+              --argjson allowExtra "$(printf '%s\n' "${allowExtraA[@]}" | jq -R . | jq -s .)" \
+              --argjson missingAllowed "$(printf '%s\n' "${missingAllowedA[@]}" | jq -R . | jq -s .)" \
+              --argjson expired $expired \
+              --argjson violations $violation_count \
+              '{folder:$folder,missing:$missing,unauthorized:$unauthorized,override:{expires:$overrideExpires,reason:$overrideReason,allowOptional:$allowOptional,allowExtra:$allowExtra,missingAllowed:$missingAllowed,expired:$expired},violations:$violations}' \
+              > entry.json
+            jq -s '.[0] + [.[1]]' report.json entry.json > tmp.json && mv tmp.json report.json
+          done < <(get_scope)
+          total=$(jq '[.[] | .violations] | add' report.json)
+          expiredCount=$(jq '[.[] | select(.override.expired==1)] | length' report.json)
+          echo "Total violations: $total"
+          echo "Expired overrides: ${expiredCount:-0}"
+          mv report.json docs-compliance-report.json
+          if [ "${total:-0}" -gt 0 ] || [ "${expiredCount:-0}" -gt 0 ]; then exit 1; fi
+      - name: Upload compliance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-compliance-report
+          path: docs-compliance-report.json
+      - name: Create degradation issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const rpt = JSON.parse(fs.readFileSync('docs-compliance-report.json','utf8'));
+            const total = rpt.reduce((a,b)=>a+(b.violations||0),0);
+            const expired = rpt.filter(e=>e.override && e.override.expired===1).length;
+            const problems = rpt.filter(e=> (e.violations||0)>0).map(e=>`- ${e.folder}: missing=${(e.missing||[]).length} unauthorized=${(e.unauthorized||[]).length}`);
+            const body = `Documentation degradation detected\nTotal violations: ${total}\nExpired overrides: ${expired}\n\nFolders:\n${problems.join('\n')}`;
+            await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title: `Docs compliance failures (${total})`, labels: ['docs-degradation'], body });

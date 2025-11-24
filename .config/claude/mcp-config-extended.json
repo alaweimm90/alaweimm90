@@ -1,0 +1,120 @@
+{
+  "description": "Extended MCP configuration with additional servers enabled. Copy this over mcp-config.json to enable more MCPs.",
+  "mcpServers": {
+    "filesystem": {
+      "name": "filesystem",
+      "description": "Secure file system operations with path restrictions",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem"],
+      "enabled": true,
+      "category": "core",
+      "version": "latest"
+    },
+    "git": {
+      "name": "git",
+      "description": "Git repository operations and analysis",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-git"],
+      "enabled": true,
+      "category": "core",
+      "version": "latest"
+    },
+    "fetch": {
+      "name": "fetch",
+      "description": "Web content retrieval and conversion for LLM usage",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-fetch"],
+      "enabled": true,
+      "category": "core",
+      "version": "latest"
+    },
+    "github": {
+      "name": "github",
+      "description": "GitHub API integration for repositories and workflows",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-github"],
+      "enabled": true,
+      "category": "development",
+      "version": "latest",
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "postgres": {
+      "name": "postgres",
+      "description": "PostgreSQL database access and queries",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres"],
+      "enabled": false,
+      "category": "database",
+      "version": "latest",
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+    "brave-search": {
+      "name": "brave-search",
+      "description": "Brave Search integration for web search",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-brave-search"],
+      "enabled": true,
+      "category": "search",
+      "version": "latest",
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+    "puppeteer": {
+      "name": "puppeteer",
+      "description": "Browser automation and web scraping",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-puppeteer"],
+      "enabled": false,
+      "category": "browser",
+      "version": "latest"
+    },
+    "sentry": {
+      "name": "sentry",
+      "description": "Error tracking and monitoring",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-sentry"],
+      "enabled": false,
+      "category": "monitoring",
+      "version": "latest",
+      "env": {
+        "SENTRY_AUTH_TOKEN": "${SENTRY_AUTH_TOKEN}"
+      }
+    },
+    "slack": {
+      "name": "slack",
+      "description": "Slack workspace integration",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-slack"],
+      "enabled": false,
+      "category": "communication",
+      "version": "latest",
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}"
+      }
+    },
+    "mongodb": {
+      "name": "mongodb",
+      "description": "MongoDB database access",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-mongodb"],
+      "enabled": false,
+      "category": "database",
+      "version": "latest",
+      "env": {
+        "MONGODB_URI": "${MONGODB_URI}"
+      }
+    }
+  },
+  "enabled": ["filesystem", "git", "fetch", "github", "brave-search"],
+  "disabled": ["postgres", "puppeteer", "sentry", "slack", "mongodb"],
+  "metadata": {
+    "description": "Extended MCP configuration with development tools enabled",
+    "lastUpdated": "2025-11-23",
+    "environment": "development"
+  }
+}
