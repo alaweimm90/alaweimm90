@@ -8,7 +8,7 @@ module.exports = {
     '<rootDir>/.tools/automation/',
   ],
   modulePathIgnorePatterns: ['<rootDir>/.config/', '<rootDir>/.cache/'],
-  collectCoverage: true,
-  collectCoverageFrom: ['scripts/standards-validator.js'],
+  collectCoverage: true,  coverageThreshold: {    global: {      branches: 80,      functions: 80,      lines: 80,      statements: 80    }  },
+  collectCoverageFrom: ['scripts/standards-validator.js', 'packages/**/*.js', 'packages/**/*.ts', 'alaweimm90/**/*.js', 'alaweimm90/**/*.ts'],  coverageDirectory: 'coverage',
   restoreMocks: true,
 };
