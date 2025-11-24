@@ -1,0 +1,78 @@
+{
+  "id": "performance-analysis-workflow",
+  "name": "Performance Analysis",
+  "description": "Comprehensive performance profiling and optimization recommendations",
+  "version": "1.0.0",
+  "enabled": true,
+  "category": "performance",
+  "difficulty": "intermediate",
+  "estimatedTime": "45 minutes",
+  "tags": ["performance", "optimization", "profiling", "metrics"],
+  "steps": [
+    {
+      "id": "step-1",
+      "name": "Code Complexity Analysis",
+      "description": "Analyze code complexity and identify hotspots",
+      "type": "task",
+      "action": "analyze-complexity",
+      "agentId": "analysis-agent",
+      "inputs": {
+        "includeMetrics": ["cyclomatic", "cognitive", "nesting"],
+        "threshold": "high"
+      },
+      "outputs": ["complexity-report"]
+    },
+    {
+      "id": "step-2",
+      "name": "Bundle Size Analysis",
+      "description": "Analyze bundle size and dependencies",
+      "type": "task",
+      "action": "analyze-bundle",
+      "agentId": "analysis-agent",
+      "inputs": {
+        "formats": ["js", "css"],
+        "checkGzip": true
+      },
+      "outputs": ["bundle-report"]
+    },
+    {
+      "id": "step-3",
+      "name": "Runtime Performance Profiling",
+      "description": "Profile runtime performance and memory usage",
+      "type": "task",
+      "action": "profile-runtime",
+      "agentId": "code-agent",
+      "inputs": {
+        "duration": 60,
+        "sampleRate": 100
+      },
+      "outputs": ["performance-profile"]
+    },
+    {
+      "id": "step-4",
+      "name": "Database Query Analysis",
+      "description": "Analyze database queries for performance issues",
+      "type": "task",
+      "action": "analyze-queries",
+      "agentId": "analysis-agent",
+      "inputs": {
+        "checkIndexes": true,
+        "checkN1": true
+      },
+      "outputs": ["query-report"]
+    },
+    {
+      "id": "step-5",
+      "name": "Generate Optimization Recommendations",
+      "description": "Create actionable optimization recommendations",
+      "type": "task",
+      "action": "generate-recommendations",
+      "agentId": "analysis-agent",
+      "inputs": {
+        "priorityLevel": "high",
+        "includeEstimates": true
+      },
+      "outputs": ["optimization-report"]
+    }
+  ]
+}

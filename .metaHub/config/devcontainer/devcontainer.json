@@ -1,0 +1,131 @@
+{
+  // Dev Container for a modern, autonomous, monorepo + MCP workflow
+  "name": "Monorepo DevOps Workspace (MCP Ready)",
+
+  // Build from the existing Dockerfile, parameterized for flexibility
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "NODE_VERSION": "20",
+      "PYTHON_VERSION": "3.11",
+      // Allow overriding via environment if needed in CI
+      "PNPM_VERSION": "8.15.4"
+    }
+  },
+
+  // Use the same non-root user defined in the Dockerfile (commonly 'node')
+  "remoteUser": "node",
+
+  // Mount the repo at a stable path for scripts / MCP configs
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  // Optimize for iterative dev & autonomous tools (agents, scripts, CI parity)
+  "features": {
+    // Git with common CLI tools
+    "ghcr.io/devcontainers/features/git:1": {},
+    // Node / pnpm tooling if not fully baked into Dockerfile
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20",
+      "nodeGypDependencies": true
+    },
+    // Optional: Docker-in-Docker for local container builds, if your Dockerfile supports it
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "moby": true
+    }
+  },
+
+  // VS Code customization for monorepo + DevOps + MCP workflows
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Code quality
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker",
+
+        // Git / GitHub / PR workflows
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+
+        // Containers / K8s / DevOps
+        "ms-azuretools.vscode-docker",
+
+        // Monorepo & JS/TS ergonomics
+        "pnpm.pnpm-vscode",
+        "orta.vscode-jest",
+
+        // YAML / JSON for MCP + workflows
+        "redhat.vscode-yaml",
+        "EditorConfig.EditorConfig"
+      ],
+      "settings": {
+        // Use workspace-local TypeScript / tooling
+        "typescript.tsdk": "node_modules/typescript/lib",
+
+        // Lint/format on save for fast feedback and auto-healing
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit",
+          "source.organizeImports": "explicit"
+        },
+        "eslint.enable": true,
+        "eslint.run": "onType",
+        "prettier.requireConfig": true,
+
+        // Better terminal UX
+        "terminal.integrated.defaultProfile.linux": "bash",
+
+        // Monorepo search perf
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/dist/**": true,
+          "**/build/**": true,
+          "**/.turbo/**": true
+        },
+        "search.exclude": {
+          "**/node_modules": true,
+          "**/dist": true,
+          "**/build": true,
+          "**/.turbo": true
+        }
+      }
+    }
+  },
+
+  // Common dev ports for apps, dashboards, and agents
+  "forwardPorts": [3000, 5173, 8000, 9229],
+
+  // Provide default env for agents / MCP / CI parity
+  "env": {
+    "MCP_SERVERS": "filesystem,git,fetch,github",
+    "WORKSPACE_ROOT": "/workspace",
+    "NODE_ENV": "development",
+    // Helpful for scripts that toggle behavior in containers vs local
+    "CI": "false"
+  },
+
+  // Commands run once after container is created (good for first-time setup)
+  "postCreateCommand": "corepack enable && pnpm install --frozen-lockfile || pnpm install",
+
+  // Commands run every time the container starts (keep agents & tools alive)
+  "postStartCommand": "pnpm run build:dev || pnpm run build || echo 'No build:dev/build script found; skipping'",
+
+  // Improve file perf on large monorepos
+  "mounts": [
+    "source=devcontainer-npm-cache,target=/home/node/.npm,type=volume",
+    "source=devcontainer-pnpm-store,target=/home/node/.local/share/pnpm,type=volume"
+  ],
+
+  // Ensure container has reasonable resources for autonomous tooling
+  "runArgs": [
+    "--init",
+    // Uncomment for heavier workflows needing more memory
+    // "--memory=4g",
+    // "--cpus=2"
+    "--security-opt",
+    "label=disable" // helps if SELinux/AppArmor interfere with volume mounts
+  ]
+}

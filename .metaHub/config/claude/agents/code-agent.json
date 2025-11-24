@@ -1,0 +1,15 @@
+{
+  "id": "code-agent",
+  "name": "Code Agent",
+  "description": "Handles code manipulation, analysis, and generation",
+  "version": "1.0.0",
+  "type": "code",
+  "capabilities": ["code-review", "code-fix", "code-feature", "refactor", "test"],
+  "requiredMcps": ["filesystem", "git"],
+  "enabled": true,
+  "config": {
+    "lintOnExecute": true,
+    "typeCheckOnExecute": true,
+    "testOnExecute": false
+  }
+}
