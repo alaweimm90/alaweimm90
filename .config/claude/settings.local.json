@@ -19,7 +19,12 @@
       "Bash(for pkg in packages/*)",
       "Bash(do if [ -f \"$pkg/package.json\" ])",
       "Bash(then echo \"✓ $pkg\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(package.json)",
+      "Bash([ -f .github_token ])",
+      "Bash([ -f .env.secure ])",
+      "Bash([ -f .pieces.config.json ])",
+      "Bash([ -f README_START_HERE.md ])"
     ],
     "deny": [],
     "ask": []
