@@ -1,15 +1,93 @@
-name: Deploy Template
+# Template: Basic Deployment Pipeline
+# Use this template for basic application deployment
+---
+name: Deploy Application
+
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+      - '.github/**'
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        type: string
+        default: 'production'
+      version:
+        description: 'Application version'
+        required: false
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'production' }}
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-      - run: npm ci
-      - run: npm test
-      - run: npm run build
-      # Add deployment steps
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run build
+        run: npm run build
+
+      - name: Generate version
+        id: version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=v$(date +%Y.%m.%d.%H%M)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create deployment artifact
+        run: |
+          tar -czf app-${{ steps.version.outputs.version }}.tar.gz dist/ package.json
+
+      - name: Upload to storage
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ steps.version.outputs.version }}
+          path: app-${{ steps.version.outputs.version }}.tar.gz
+
+      - name: Deploy to ${{ inputs.environment || 'production' }}
+        env:
+          DEPLOY_ENV: ${{ inputs.environment || 'production' }}
+          DEPLOY_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          echo "Deploying version ${{ env.DEPLOY_VERSION }} to ${{ env.DEPLOY_ENV }}"
+          # Add your deployment commands here
+          # e.g., kubectl, docker-compose, AWS CLI, etc.
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: always()
+
+    steps:
+      - name: Notification
+        run: |
+          if [ "${{ needs.deploy.result }}" = "success" ]; then
+            echo "✅ Deployment successful"
+          else
+            echo "❌ Deployment failed"
+            exit 1
+          fi</content>
+</parameter_2>74785,79655

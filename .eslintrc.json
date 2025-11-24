@@ -35,7 +35,8 @@
     {
       "files": [
         "tests/**/*.test.js",
-        "**/__tests__/**/*.js"
+        "**/__tests__/**/*.js",
+        "**/*.test.js"
       ],
       "env": {
         "jest": true,
@@ -48,5 +49,18 @@
         "plugin:jest/recommended"
       ]
     }
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/dist/**",
+    "**/build/**",
+    "scripts/**",
+    "alaweimm90/**",
+    ".metaHub/**",
+    ".organizations/**",
+    ".tools/automation/**"
   ]
 }

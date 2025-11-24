@@ -3,7 +3,7 @@
  */
 
 import { BaseAgent } from './agent';
-import { AgentConfig, AgentContext, Workflow, WorkflowStep, OrchestrationRule, AgentTask, TaskStatus } from './types';
+import { AgentContext, Workflow, WorkflowStep, OrchestrationRule, AgentTask, TaskStatus } from './types';
 
 export class AgentOrchestrator {
   private agents: Map<string, BaseAgent> = new Map();
@@ -177,7 +177,8 @@ export class AgentOrchestrator {
    * @param step
    * @param previousResults
    */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars\n  private async executeConditionalStep(step: WorkflowStep, previousResults: Map<string, unknown>): Promise<unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private async executeConditionalStep(step: WorkflowStep, previousResults: Map<string, unknown>): Promise<unknown> {
     // Placeholder - evaluate condition and execute based on result
     if (step.condition) {
       // Simple condition evaluation (can be enhanced)
@@ -226,7 +227,5 @@ export class AgentOrchestrator {
     }
   }
 }
-
-
 
 
