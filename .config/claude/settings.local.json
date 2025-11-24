@@ -26,7 +26,13 @@
       "Bash([ -f .pieces.config.json ])",
       "Bash([ -f README_START_HERE.md ])",
       "Bash([ -f jest.config.json ])",
-      "Bash([ -f jest.config.js ])"
+      "Bash([ -f jest.config.js ])",
+      "Bash(.yaml)",
+      "Bash(.yml)",
+      "Bash(.md)",
+      "Bash(.txt)",
+      "Bash(CODEOWNERS)",
+      "Bash(LICENSE\" | wc -l)\")"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,6 @@
+{
+  "name": "{{project-name}}",
+  "version": "1.0.0",
+  "description": "{{project-description}}",
+  "main": "dist/index.js",
+  "scripts": {

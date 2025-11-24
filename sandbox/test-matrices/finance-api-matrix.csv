@@ -1,0 +1,6 @@
+case,input_amount,input_currency,expected_status,expected_result
+valid,100,USD,200,processed=true
+invalid_amount,-1,USD,400,error=SME rules
+invalid_currency,100,XYZ,400,error=SME rules
+deterministic_confidence,100,USD,200,aiConfidence≈0.95
+
