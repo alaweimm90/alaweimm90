@@ -1,46 +1,186 @@
 {
   "rules": [
-    { "pattern": "(?i)do you want to continue\\?\\?.*\\(y/n\\)", "action": "accept", "response": "y" },
-    { "pattern": "(?i)overwrite.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)install missing dependencies\\?", "action": "accept", "response": "yes" },
-    { "pattern": "(?i)confirm.*delete", "action": "reject", "response": "no" },
-    { "pattern": "(?i)continue.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)update.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)upgrade.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)install.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)download.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)build.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)test.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)lint.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)format.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)deploy.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)sync.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)push.*\\?", "action": "accept", "response": "y" },
-    { "pattern": "(?i)publish.*\\?", "action": "accept", "response": "y" }
+    {
+      "pattern": "(?i)do you want to continue\\?\\?.*\\(y/n\\)",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)overwrite.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)install missing dependencies\\?",
+      "action": "accept",
+      "response": "yes"
+    },
+    {
+      "pattern": "(?i)confirm.*delete",
+      "action": "reject",
+      "response": "no"
+    },
+    {
+      "pattern": "(?i)continue.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)update.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)upgrade.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)install.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)download.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)build.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)test.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)lint.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)format.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)deploy.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)sync.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)push.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "pattern": "(?i)publish.*\\?",
+      "action": "accept",
+      "response": "y"
+    },
+    {
+      "response": "y",
+      "pattern": "Overwrite file?",
+      "action": "accept"
+    },
+    {
+      "response": "y",
+      "pattern": "Do you want to continue? (y/n)",
+      "action": "accept"
+    },
+    {
+      "response": "y",
+      "pattern": "Proceed with deployment? (y/n)",
+      "action": "accept"
+    }
   ],
   "forceFlags": [
-    { "pattern": "(?i)npm( |$)", "flag": "--yes" },
-    { "pattern": "(?i)pnpm( |$)", "flag": "--yes" },
-    { "pattern": "(?i)yarn( |$)", "flag": "--yes" },
-    { "pattern": "(?i)^choco( |$)", "flag": "-y" },
+    {
+      "pattern": "(?i)npm( |$)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)pnpm( |$)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)yarn( |$)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)^choco( |$)",
+      "flag": "-y"
+    },
     {
       "pattern": "(?i)^winget( |$)",
       "flag": "--accept-source-agreements --accept-package-agreements"
     },
-    { "pattern": "(?i)pip( |install)", "flag": "--yes" },
-    { "pattern": "(?i)apt-get( |install)", "flag": "-y" },
-    { "pattern": "(?i)apt( |install)", "flag": "-y" },
-    { "pattern": "(?i)dnf( |install)", "flag": "-y" },
-    { "pattern": "(?i)yum( |install)", "flag": "-y" },
-    { "pattern": "(?i)makepkg( |install)", "flag": "--yes" },
-    { "pattern": "(?i)pacman( |install)", "flag": "--yes --noconfirm" },
-    { "pattern": "(?i)docker( |pull|push|tag|rmi)", "flag": "--yes" },
-    { "pattern": "(?i)kubectl( |delete|drain)", "flag": "--yes" },
-    { "pattern": "(?i)helm( |install|uninstall|rollback)", "flag": "--yes" },
-    { "pattern": "(?i)dotnet( |nuget|tool|workload)", "flag": "--yes" },
-    { "pattern": "(?i)code( |--install-extension)", "flag": "--force" },
-    { "pattern": "(?i)go( |install)", "flag": "--yes" },
-    { "pattern": "(?i)curl( |download)", "flag": "-L" },
-    { "pattern": "(?i)python( |-m pip install)", "flag": "--yes" }
+    {
+      "pattern": "(?i)pip( |install)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)apt-get( |install)",
+      "flag": "-y"
+    },
+    {
+      "pattern": "(?i)apt( |install)",
+      "flag": "-y"
+    },
+    {
+      "pattern": "(?i)dnf( |install)",
+      "flag": "-y"
+    },
+    {
+      "pattern": "(?i)yum( |install)",
+      "flag": "-y"
+    },
+    {
+      "pattern": "(?i)makepkg( |install)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)pacman( |install)",
+      "flag": "--yes --noconfirm"
+    },
+    {
+      "pattern": "(?i)docker( |pull|push|tag|rmi)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)kubectl( |delete|drain)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)helm( |install|uninstall|rollback)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)dotnet( |nuget|tool|workload)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)code( |--install-extension)",
+      "flag": "--force"
+    },
+    {
+      "pattern": "(?i)go( |install)",
+      "flag": "--yes"
+    },
+    {
+      "pattern": "(?i)curl( |download)",
+      "flag": "-L"
+    },
+    {
+      "pattern": "(?i)python( |-m pip install)",
+      "flag": "--yes"
+    }
   ]
 }

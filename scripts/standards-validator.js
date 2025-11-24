@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const { toTitleCase, checkMarkdownTitle, checkYaml } = require('./standards-lib');
+
+const { checkMarkdownTitle, checkYaml } = require('./standards-lib');
 
 function main() {
   const args = process.argv.slice(2);
@@ -10,13 +9,15 @@ function main() {
   const files = args.filter(a => !a.startsWith('--'));
   let ok = true;
   for (const f of files) {
-    if (mode === 'docs' && path.extname(f).toLowerCase() === '.md') {
+    const dot = f.lastIndexOf('.');
+    const ext = dot >= 0 ? f.slice(dot).toLowerCase() : '';
+    if (mode === 'docs' && ext === '.md') {
       if (!checkMarkdownTitle(f)) {
         ok = false;
         console.error(`Doc title mismatch: ${f}`);
       }
     }
-    if (mode === 'yaml' && ['.yml', '.yaml'].includes(path.extname(f).toLowerCase())) {
+    if (mode === 'yaml' && ['.yml', '.yaml'].includes(ext)) {
       if (!checkYaml(f)) {
         ok = false;
         console.error(`YAML contains tabs: ${f}`);
