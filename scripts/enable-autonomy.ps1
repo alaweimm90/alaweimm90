@@ -21,9 +21,9 @@ param(
 
 function Remove-JsonComments {
   param([string]$JsonText)
+  # Only remove block comments; leave // intact to avoid corrupting file:// URIs
   $noBlock = [System.Text.RegularExpressions.Regex]::Replace($JsonText, "/\*.*?\*/", '', 'Singleline')
-  $noLine = [System.Text.RegularExpressions.Regex]::Replace($noBlock, "(?m)//.*$", '')
-  return $noLine
+  return $noBlock
 }
 
 function Set-JsonValue {
@@ -80,16 +80,15 @@ function Update-UserSettingsFile {
   Write-Host "Updating: $SettingsPath" -ForegroundColor Cyan
   $raw = Get-Content -LiteralPath $SettingsPath -Raw -ErrorAction Stop
   $rawNoComments = Remove-JsonComments $raw
-  $obj = $null
+  $parsed = $null
   try {
-    $obj = ConvertFrom-Json -InputObject $rawNoComments -ErrorAction Stop
+    $parsed = ConvertFrom-Json -InputObject $rawNoComments -ErrorAction Stop
   } catch {
     throw "Failed to parse JSON: $SettingsPath. See backup for manual fix. Error: $($_.Exception.Message)"
   }
-  if (-not ($obj -is [hashtable])) {
-    $obj = @{} + $obj.PSObject.Properties | ForEach-Object { @{ ($_.Name) = $_.Value } }
-  }
-  if (-not ($obj -is [hashtable])) { $obj = @{} }
+  # Normalize to hashtable for easy mutation
+  $obj = @{}
+  foreach ($p in $parsed.PSObject.Properties) { $obj[$p.Name] = $p.Value }
 
   # Autonomous/persona keys
   $desired = @{

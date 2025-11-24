@@ -13,9 +13,9 @@ param(
 
 function Remove-JsonComments {
   param([string]$JsonText)
+  # Only remove block comments; leave // intact (e.g., file:// URIs in yaml.schemas)
   $noBlock = [System.Text.RegularExpressions.Regex]::Replace($JsonText, "/\*.*?\*/", '', 'Singleline')
-  $noLine = [System.Text.RegularExpressions.Regex]::Replace($noBlock, "(?m)//.*$", '')
-  return $noLine
+  return $noBlock
 }
 
 function Set-JsonValue {
@@ -81,12 +81,10 @@ function Update-UserSettingsFile {
   Write-Host "Updating: $SettingsPath" -ForegroundColor Cyan
   $raw = Get-Content -LiteralPath $SettingsPath -Raw -ErrorAction Stop
   $rawNoComments = Remove-JsonComments $raw
-  $obj = $null
-  try { $obj = ConvertFrom-Json -InputObject $rawNoComments -ErrorAction Stop } catch { throw }
-  if (-not ($obj -is [hashtable])) {
-    $obj = @{} + $obj.PSObject.Properties | ForEach-Object { @{ ($_.Name) = $_.Value } }
-  }
-  if (-not ($obj -is [hashtable])) { $obj = @{} }
+  $parsed = $null
+  try { $parsed = ConvertFrom-Json -InputObject $rawNoComments -ErrorAction Stop } catch { throw }
+  $obj = @{}
+  foreach ($p in $parsed.PSObject.Properties) { $obj[$p.Name] = $p.Value }
 
   $disable = @{
     'editor.inlineSuggest.enabled'            = $false

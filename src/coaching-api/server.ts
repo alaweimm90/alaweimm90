@@ -56,7 +56,7 @@ app.listen(port, () => {
   console.log(`coaching-api listening on port ${port}`);
 });
 
-const errorHandler: ErrorRequestHandler = (err, _req, res) => {
+const errorHandler: ErrorRequestHandler = (_err, _req, res) => {
   res.status(500).json({ error: 'internal_error' });
 };
 

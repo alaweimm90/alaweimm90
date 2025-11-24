@@ -1,12 +1,20 @@
 module.exports = {
   root: true,
   extends: ['../.metaHub/dev-tools/linters/.eslintrc.js'],
+  env: { jest: true, node: true },
+  globals: { test: 'readonly', expect: 'readonly', describe: 'readonly' },
   settings: {
     'import/resolver': {
       typescript: { project: './tsconfig.json' },
       node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     },
   },
+  overrides: [
+    {
+      files: ['tests/**/*.test.js', '**/__tests__/**/*.js'],
+      env: { jest: true },
+    },
+  ],
   rules: {
     'import/extensions': [
       'error',
