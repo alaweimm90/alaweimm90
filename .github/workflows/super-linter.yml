@@ -1,0 +1,57 @@
+name: Super-Linter
+
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  statuses: write
+  pull-requests: write
+
+jobs:
+  lint:
+    name: Lint Codebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Super-Linter
+        uses: super-linter/super-linter@v7
+        env:
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # Only lint changed files in PRs
+          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
+
+          # Enable validators
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_PYTHON_PYLINT: true
+          VALIDATE_PYTHON_FLAKE8: true
+          VALIDATE_YAML: true
+          VALIDATE_JSON: true
+          VALIDATE_MARKDOWN: true
+          VALIDATE_BASH: true
+          VALIDATE_DOCKERFILE_HADOLINT: true
+          VALIDATE_GITHUB_ACTIONS: true
+
+          # Disable problematic validators
+          VALIDATE_JSCPD: false
+
+          # Linter paths
+          LINTER_RULES_PATH: /
+          YAML_CONFIG_FILE: .yamllint.yml
+          MARKDOWN_CONFIG_FILE: .markdownlint.json
+
+          # Fix mode (only on PRs)
+          FIX_MODE: ${{ github.event_name == 'pull_request' }}
+          FIX_MODE_ENABLED_LINTERS: JAVASCRIPT_ES,TYPESCRIPT_ES,PYTHON_BLACK
