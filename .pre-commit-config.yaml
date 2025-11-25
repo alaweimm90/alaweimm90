@@ -163,6 +163,14 @@ repos:
         stages: [commit]
         always_run: true
 
+      - id: validate-alaweimm90-structure
+        name: Validate alaweimm90 structure
+        entry: python alaweimm90/tools/validate_structure.py
+        language: system
+        pass_filenames: false
+        stages: [commit]
+        types: [file]
+
   # Ruff - Fast Python linter and formatter (Engineering Excellence Framework)
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.5

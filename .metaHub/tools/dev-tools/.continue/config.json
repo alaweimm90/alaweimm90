@@ -1,9 +1,0 @@
-{
-  "rulesDirectories": ["../.devtools/rules"],
-  "contextProviders": [
-    {
-      "name": "devtools",
-      "path": "../.devtools/integrations/shared.json"
-    }
-  ]
-}

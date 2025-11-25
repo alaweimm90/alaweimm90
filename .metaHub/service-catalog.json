@@ -1,0 +1,12 @@
+{
+  "services": [
+    {"name": "simcore", "image": "simcore:latest", "port": 3000, "health": "/", "domain": "simcore.local"},
+    {"name": "repz", "image": "repz:latest", "port": 8080, "health": "/", "domain": "repz.local"},
+    {"name": "benchbarrier", "image": "benchbarrier:latest", "port": 8081, "health": "/", "domain": "benchbarrier.local"},
+    {"name": "attributa", "image": "attributa:latest", "port": 3000, "health": "/", "domain": "attributa.local"},
+    {"name": "mag-logic", "image": "mag-logic:latest", "port": 8888, "health": "import", "domain": null},
+    {"name": "custom-exporters", "image": "custom-exporters:latest", "port": 8888, "health": "/metrics", "domain": "metrics.local"},
+    {"name": "infra", "image": "infra:latest", "port": 8000, "health": "/health", "domain": "infra.local"},
+    {"name": "status", "image": "status:latest", "port": 4000, "health": "/status", "domain": "status.local"}
+  ]
+}

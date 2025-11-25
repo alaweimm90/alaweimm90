@@ -1,0 +1,94 @@
+#!/bin/bash
+
+echo "🚨 ENFORCEMENT ENGINE: Pre-commit hook activated"
+
+# Actually run enforcement checks - no more documentation-only governance
+
+# 1. Security scan enforcement
+echo "🔒 Running security scan..."
+npm audit --audit-level=moderate
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Security vulnerabilities found"
+    echo "Run 'npm audit fix' to resolve"
+    exit 1
+fi
+
+# 2. ESLint enforcement
+echo "📏 Running ESLint..."
+npx eslint src --max-warnings 0
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Code quality issues found"
+    echo "Run 'npx eslint src --fix' to auto-fix"
+    exit 1
+fi
+
+# 3. TypeScript strict mode enforcement
+echo "🔷 Checking TypeScript strict mode..."
+if ! grep -q '"strict": true' tsconfig.json; then
+    echo "❌ COMMIT BLOCKED: TypeScript strict mode not enabled"
+    echo "Enable strict mode in tsconfig.json"
+    exit 1
+fi
+
+# 4. Test coverage enforcement
+echo "🧪 Checking test coverage..."
+npm run test:coverage
+# Parse coverage from output (simplified - would need better parsing in real implementation)
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Tests failed or coverage too low"
+    echo "Ensure all tests pass and coverage >= 80%"
+    exit 1
+fi
+
+# 5. License compliance enforcement
+echo "📜 Checking license compliance..."
+npx license-checker --failOn "GPL;LGPL;BSD" --excludePrivatePackages
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Non-compliant licenses detected"
+    echo "Remove packages with GPL/LGPL/BSD licenses"
+    exit 1
+fi
+
+# 6. Secrets detection enforcement
+echo "🔑 Scanning for secrets..."
+if grep -r "password\|secret\|api[_-]*key" --include="*.js" --include="*.ts" --include="*.json" src/; then
+    echo "❌ COMMIT BLOCKED: Potential secrets found in code"
+    echo "Remove hardcoded secrets or use environment variables"
+    exit 1
+fi
+
+# 7. Bundle size enforcement
+echo "📦 Checking bundle size..."
+npx bundlesize
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Bundle size exceeds limits"
+    echo "Optimize bundle size or update budget"
+    exit 1
+fi
+
+# 8. Accessibility enforcement
+echo "♿ Running accessibility checks..."
+npx axe-core-cli public/
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Accessibility violations found"
+    echo "Fix accessibility issues before committing"
+    exit 1
+fi
+
+# 9. Dependency updates check
+echo "📦 Checking for outdated dependencies..."
+npm outdated
+# Note: This warns but doesn't block - updates should be separate commits
+
+# 10. Run full enforcement engine
+echo "🚨 Running full enforcement engine..."
+powershell -ExecutionPolicy Bypass -File "scripts/ENFORCEMENT_ENGINE.ps1" -ForceEnforce
+if [ $? -ne 0 ]; then
+    echo "❌ COMMIT BLOCKED: Enforcement engine found violations"
+    exit 1
+fi
+
+echo "✅ ALL ENFORCEMENT CHECKS PASSED - Commit allowed"
+echo "🎉 Code is compliant and ready for commit"
+node scripts/ops/enforce/guard.mjs || exit 1
+node scripts/ops/enforce/structure.mjs || exit 1
