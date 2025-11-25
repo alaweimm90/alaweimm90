@@ -1,6 +1,0 @@
-{
-  "*.{js,jsx,ts,tsx}": ["eslint --fix"],
-  "*.{json,md,yml,yaml}": ["prettier --write"],
-  "*.md": ["node scripts/standards-validator.js --docs"],
-  "*.{yml,yaml}": ["node scripts/standards-validator.js --yaml"]
-}

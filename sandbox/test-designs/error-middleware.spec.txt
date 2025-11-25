@@ -1,7 +1,0 @@
-Title: Error Middleware Test Design
-
-Cases
-- /error route -> 500 JSON error
-- Thrown error in handler -> captured and 500
-- Order: middleware after routes to catch thrown errors
-

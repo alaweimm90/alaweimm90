@@ -1,5 +1,0 @@
-services:
-  dr_alowein_portfolio:
-    build: ../.config/organizations/.personal/dr-alowein-portfolio
-    image: dr-alowein-portfolio:latest
-    restart: unless-stopped

@@ -1,4 +1,0 @@
-case,route,action,expected_status,expected_body
-explicit_error,/error,throw,500,error json
-thrown_in_handler,/api/finance,throw,500,error json
-

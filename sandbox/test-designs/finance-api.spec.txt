@@ -1,8 +1,0 @@
-Title: Finance API Test Design
-
-Cases
-- Valid: amount=100, currency=USD -> 200 processed
-- Invalid amount: amount=-1, currency=USD -> 400 SME error
-- Invalid currency: amount=100, currency=XYZ -> 400 SME error
-- Hallucination gate: deterministic high confidence in test mode
-

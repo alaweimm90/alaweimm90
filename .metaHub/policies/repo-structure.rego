@@ -1,30 +1,28 @@
 # Repository Structure Policy - STRICT ENFORCEMENT
-# Enforces allowed root directory structure for multi-org monorepo
+# Enforces CANONICAL root directory structure for multi-org monorepo
 
 package repo_structure
 
-# Define allowed root directories
+# CANONICAL STRUCTURE: Only these root directories/files allowed
 allowed_roots := {
     ".github",
     ".metaHub",
-    ".config",
-    "apps",
-    "packages",
     "alaweimm90",
-    "ops",
-    "scripts",
+    "organizations",
+    ".husky",
     "SECURITY.md",
     "README.md",
+    "LICENSE",
     "package.json",
-    "pnpm-lock.yaml",
+    "package-lock.json",
     "pnpm-workspace.yaml",
     "turbo.json",
     "docker-compose.yml",
+    "docker-compose.dev.yml",
+    "docker-compose.test.yml",
     ".dockerignore",
     ".gitignore",
-    ".editorconfig",
-    "Makefile",
-    "LICENSE"
+    "Makefile"
 }
 
 # STRICT: Only these specific paths allowed in .metaHub
@@ -90,11 +88,7 @@ deny[msg] {
 }
 
 dockerfile_in_allowed_location(path) {
-    startswith(path, ".config/organizations/")
-}
-
-dockerfile_in_allowed_location(path) {
-    startswith(path, "apps/")
+    startswith(path, "organizations/")
 }
 
 dockerfile_in_allowed_location(path) {
@@ -103,10 +97,6 @@ dockerfile_in_allowed_location(path) {
 
 dockerfile_in_allowed_location(path) {
     startswith(path, ".metaHub/")
-}
-
-dockerfile_in_allowed_location(path) {
-    startswith(path, "ops/")
 }
 
 # Warn about large files (>10MB)
@@ -119,10 +109,6 @@ warn[msg] {
 is_allowed_large_file(path) {
     # Allow large files in specific directories
     startswith(path, ".metaHub/cache/")
-}
-
-is_allowed_large_file(path) {
-    startswith(path, "docs/assets/")
 }
 
 is_allowed_large_file(path) {
