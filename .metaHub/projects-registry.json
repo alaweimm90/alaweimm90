@@ -1,0 +1,2650 @@
+{
+    "$schema":  ".metaHub/schemas/project-registry.schema.json",
+    "version":  "1.0.0",
+    "lastUpdated":  "2025-11-24T06:41:27Z",
+    "metadata":  {
+                     "totalProjects":  80,
+                     "totalOrganizations":  5,
+                     "containerizationRate":  0.613,
+                     "cicdRate":  0.35
+                 },
+    "organizations":  {
+                          "alaweimm90-business":  {
+                                                      "id":  "org-001",
+                                                      "name":  "alaweimm90-business",
+                                                      "type":  "company",
+                                                      "priority":  "high",
+                                                      "path":  ".config/organizations/alaweimm90-business",
+                                                      "projects":  [
+
+                                                                   ]
+                                                  },
+                          "alaweimm90-science":  {
+                                                     "id":  "org-002",
+                                                     "name":  "alaweimm90-science",
+                                                     "type":  "company",
+                                                     "priority":  "high",
+                                                     "path":  ".config/organizations/alaweimm90-science",
+                                                     "projects":  [
+
+                                                                  ]
+                                                 },
+                          "alaweimm90-tools":  {
+                                                   "id":  "org-003",
+                                                   "name":  "alaweimm90-tools",
+                                                   "type":  "company",
+                                                   "priority":  "high",
+                                                   "path":  ".config/organizations/alaweimm90-tools",
+                                                   "projects":  [
+
+                                                                ]
+                                               },
+                          "AlaweinOS":  {
+                                            "id":  "org-004",
+                                            "name":  "AlaweinOS",
+                                            "type":  "product",
+                                            "priority":  "medium",
+                                            "path":  ".config/organizations/AlaweinOS",
+                                            "projects":  [
+
+                                                         ]
+                                        },
+                          "personal":  {
+                                           "id":  "org-004",
+                                           "name":  "personal",
+                                           "type":  "personal",
+                                           "priority":  "low",
+                                           "path":  ".config/organizations/.personal",
+                                           "projects":  [
+
+                                                        ]
+                                       },
+                          "MeatheadPhysicist":  {
+                                                    "id":  "org-005",
+                                                    "name":  "MeatheadPhysicist",
+                                                    "type":  "personal",
+                                                    "priority":  "low",
+                                                    "path":  ".config/organizations/MeatheadPhysicist",
+                                                    "projects":  [
+
+                                                                 ]
+                                                }
+                      },
+    "standaloneProjects":  [
+                               {
+                                   "name":  "autonomous",
+                                   "description":  "Autonomous systems project (not an organization)",
+                                   "path":  ".config/organizations/autonomous",
+                                   "type":  "standalone-project"
+                               }
+                           ],
+    "projects":  [
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-001",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  9,
+                         "isSubmodule":  false,
+                         "name":  "benchbarrier",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/benchbarrier",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-002",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  7,
+                         "isSubmodule":  false,
+                         "name":  "calla-lily-couture",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/calla-lily-couture",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-003",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "live-it-iconic",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/live-it-iconic",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-004",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  9,
+                         "isSubmodule":  false,
+                         "name":  "marketing-automation",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-005",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  9,
+                         "isSubmodule":  false,
+                         "name":  "repz",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/repz",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-006",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "dashboard",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/frontend/dashboard",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-007",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "analytics",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/analytics",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-008",
+                         "category":  "backend-service",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "api-gateway",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/api-gateway",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-009",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "content-generation",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/content-generation",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express",
+                                           "typescript",
+                                           "postgres",
+                                           "mongodb"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-010",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "email-marketing",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/email-marketing",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-011",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "scheduling",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/scheduling",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-012",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "social-media",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/services/social-media",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-013",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "types",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-business/marketing-automation/shared/types",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-014",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "REPZ",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-business/repz/REPZ",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-015",
+                         "category":  "backend-service",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "backend",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-business/repz/app/backend",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "express"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-016",
+                         "category":  "frontend-app",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "frontend",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-business/repz/app/frontend",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-017",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "platform",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-business/repz/REPZ/platform",
+                         "organizationId":  "org-001",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-018",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "mag-logic",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-science/mag-logic",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-019",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "qube-ml",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-science/qube-ml",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-020",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "sci-comp",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-science/sci-comp",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-021",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "spin-circ",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-science/spin-circ",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-022",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "docker",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-science/mag-logic/docker",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-023",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  1,
+                         "isSubmodule":  false,
+                         "name":  "python",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-science/spin-circ/python",
+                         "organizationId":  "org-002",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-024",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  ".devcontainer",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/.devcontainer",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-025",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  10,
+                         "isSubmodule":  false,
+                         "name":  "admin-dashboard",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/admin-dashboard",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-026",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "business-intelligence",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/business-intelligence",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-027",
+                         "category":  "tool",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "consolidation-tool",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/alaweimm90-tools/consolidation-tool",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-028",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "core-framework",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/core-framework",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-029",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "devops-platform",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/devops-platform",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-030",
+                         "category":  "frontend-app",
+                         "cicd":  true,
+                         "healthScore":  7,
+                         "isSubmodule":  false,
+                         "name":  "fitness-app",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/fitness-app",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-031",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "load-tests",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/load-tests",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-032",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "marketing-center",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/marketing-center",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-033",
+                         "category":  "backend-service",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "prompty-service",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/alaweimm90-tools/prompty-service",
+                         "organizationId":  "org-003",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-034",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  9,
+                         "isSubmodule":  false,
+                         "name":  "Attributa",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/Attributa",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-035",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "docker",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/docker",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-036",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  10,
+                         "isSubmodule":  false,
+                         "name":  "LLMWorks",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/LLMWorks",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-037",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "MEZAN",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-038",
+                         "category":  "library",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "QAPlibria-new",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/QAPlibria-new",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-039",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "qmlab",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/qmlab",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-040",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  10,
+                         "isSubmodule":  false,
+                         "name":  "SimCore",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/SimCore",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript",
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-041",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  8,
+                         "isSubmodule":  false,
+                         "name":  "TalAI",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/TalAI",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-042",
+                         "category":  "backend-service",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "backend",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/backend",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-043",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "prototypes",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/prototypes",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-044",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "chaos-engine",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/frontend/chaos-engine",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-045",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "ghost-researcher",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/frontend/ghost-researcher",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-046",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "scientific-tinder",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/frontend/scientific-tinder",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-047",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  1,
+                         "isSubmodule":  false,
+                         "name":  "research_prison",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/CrazyIdeas/prototypes/research_prison",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-048",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "ATLAS",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/ATLAS",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-049",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "atlas-core",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/ATLAS/atlas-core",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-050",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-alloc",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-alloc",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-051",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-dual",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-dual",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-052",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-evo",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-evo",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-053",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-flow",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-flow",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-054",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-graph",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-graph",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-055",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "libria-meta",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-meta",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-056",
+                         "category":  "library",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "libria-qap",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/MEZAN/Libria/libria-qap",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-057",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "active-learning",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/active-learning",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-058",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "analytics",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/analytics",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-059",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "causal-inference",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/causal-inference",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-060",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  3,
+                         "isSubmodule":  false,
+                         "name":  "enterprise",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/enterprise",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-061",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "materials-science",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/materials-science",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-062",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "meta-science",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/meta-science",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-063",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "neuroscience",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/neuroscience",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-064",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "performance",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/performance",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-065",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "turingo",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/turingo",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-066",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "validation",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/AlaweinOS/TalAI/validation",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-067",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  7,
+                         "isSubmodule":  false,
+                         "name":  "dr-alowein-portfolio",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/.personal/dr-alowein-portfolio",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-068",
+                         "category":  "unknown",
+                         "cicd":  true,
+                         "healthScore":  7,
+                         "isSubmodule":  false,
+                         "name":  "dr-alowein-portfolio",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/.personal/.personal/dr-alowein-portfolio",
+                         "organizationId":  "org-004",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "nextjs",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-069",
+                         "category":  "backend-service",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "api",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/MeatheadPhysicist/api",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-070",
+                         "category":  "tool",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "cli",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/cli",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-071",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  4,
+                         "isSubmodule":  false,
+                         "name":  "dashboard",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/dashboard",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-072",
+                         "category":  "frontend-app",
+                         "cicd":  false,
+                         "healthScore":  6,
+                         "isSubmodule":  false,
+                         "name":  "frontend",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/MeatheadPhysicist/frontend",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "react",
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-073",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "integrations",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/integrations",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-074",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  5,
+                         "isSubmodule":  false,
+                         "name":  "visualizations",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/visualizations",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "typescript"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-075",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "docker",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/MeatheadPhysicist/dashboard/docker",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-076",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "sphinx",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/docs/sphinx",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-077",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "simple_analysis",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/examples/simple_analysis",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-078",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "docker-example",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/MeatheadPhysicist/examples/deployment/docker-example",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-079",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "bell-inequality-analysis",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  true,
+                         "path":  ".config/organizations/MeatheadPhysicist/projects/bell-inequality-analysis",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     },
+                     {
+                         "metrics":  {
+                                         "users":  0,
+                                         "uptime":  0,
+                                         "deploymentFrequency":  "unknown",
+                                         "lastDeployment":  null
+                                     },
+                         "id":  "proj-080",
+                         "category":  "unknown",
+                         "cicd":  false,
+                         "healthScore":  2,
+                         "isSubmodule":  false,
+                         "name":  "ml",
+                         "dependencies":  [
+
+                                          ],
+                         "status":  "unknown",
+                         "containerized":  false,
+                         "path":  ".config/organizations/MeatheadPhysicist/src/ml",
+                         "organizationId":  "org-005",
+                         "repository":  "",
+                         "styleEnforcement":  {
+                                                  "aiConventions":  ".metaHub/conventions/AI_AGENT_RULES.md",
+                                                  "codeStyle":  ".metaHub/conventions/CODING_STYLE.md",
+                                                  "writingStyle":  ".metaHub/conventions/WRITING_STYLE.md"
+                                              },
+                         "priority":  "medium",
+                         "techStack":  [
+                                           "python"
+                                       ]
+                     }
+                 ],
+    "llmConfig":  {
+                      "primaryModels":  [
+                                            {
+                                                "name":  "claude-sonnet-4.5",
+                                                "provider":  "claude-code",
+                                                "useCases":  [
+                                                                 "architecture",
+                                                                 "refactoring",
+                                                                 "complex-logic"
+                                                             ],
+                                                "subscriptionLimit":  "high-priority-only",
+                                                "cost":  "high"
+                                            },
+                                            {
+                                                "name":  "cursor-ai",
+                                                "provider":  "cursor",
+                                                "useCases":  [
+                                                                 "quick-edits",
+                                                                 "boilerplate",
+                                                                 "code-completion"
+                                                             ],
+                                                "subscriptionLimit":  "moderate",
+                                                "cost":  "medium"
+                                            },
+                                            {
+                                                "name":  "windsurf",
+                                                "provider":  "windsurf",
+                                                "useCases":  [
+                                                                 "exploration",
+                                                                 "research",
+                                                                 "documentation"
+                                                             ],
+                                                "subscriptionLimit":  "moderate",
+                                                "cost":  "medium"
+                                            },
+                                            {
+                                                "name":  "copilot",
+                                                "provider":  "github",
+                                                "useCases":  [
+                                                                 "inline-suggestions",
+                                                                 "test-generation"
+                                                             ],
+                                                "subscriptionLimit":  "unlimited",
+                                                "cost":  "low"
+                                            }
+                                        ],
+                      "taskRouting":  {
+                                          "architecture-design":  "claude-sonnet-4.5",
+                                          "quick-fix":  "cursor-ai",
+                                          "documentation":  "windsurf",
+                                          "code-completion":  "copilot",
+                                          "refactoring":  "claude-sonnet-4.5",
+                                          "boilerplate":  "cursor-ai",
+                                          "research":  "windsurf"
+                                      }
+                  }
+}

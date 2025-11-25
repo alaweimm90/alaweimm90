@@ -1,0 +1,115 @@
+{
+    "summary":  {
+                    "totalNonContainerized":  36,
+                    "top5Selected":  true,
+                    "analyzedProjects":  36
+                },
+    "recommendations":  [
+                            {
+                                "estimatedEffort":  "2-4 hours",
+                                "rank":  1,
+                                "priorityScore":  135,
+                                "organizationId":  "org-004",
+                                "projectName":  "SimCore",
+                                "projectId":  "proj-040",
+                                "path":  ".config/organizations/AlaweinOS/SimCore",
+                                "organizationName":  "AlaweinOS",
+                                "tier":  "Tier 1 (Easy)",
+                                "reasons":  "Health Score: 9/10 | Org Priority: medium | Category: unknown | Has CI/CD (easy win!) | Complexity: Tier 1 (Easy)",
+                                "nextSteps":  [
+                                                  "Review project structure and dependencies",
+                                                  "Create Dockerfile using .metaHub/templates/containers/ template",
+                                                  "Add .dockerignore file",
+                                                  "Test local build: docker build -t SimCore .",
+                                                  "Test local run and verify functionality",
+                                                  "Update projects-registry.json: containerized = true",
+                                                  "Commit Dockerfile and update documentation"
+                                              ]
+                            },
+                            {
+                                "estimatedEffort":  "2-4 hours",
+                                "rank":  2,
+                                "priorityScore":  135,
+                                "organizationId":  "org-001",
+                                "projectName":  "repz",
+                                "projectId":  "proj-005",
+                                "path":  ".config/organizations/alaweimm90-business/repz",
+                                "organizationName":  "alaweimm90-business",
+                                "tier":  "Tier 1 (Easy)",
+                                "reasons":  "Health Score: 8/10 | Org Priority: high | Category: unknown | Has CI/CD (easy win!) | Complexity: Tier 1 (Easy)",
+                                "nextSteps":  [
+                                                  "Review project structure and dependencies",
+                                                  "Create Dockerfile using .metaHub/templates/containers/ template",
+                                                  "Add .dockerignore file",
+                                                  "Test local build: docker build -t repz .",
+                                                  "Test local run and verify functionality",
+                                                  "Update projects-registry.json: containerized = true",
+                                                  "Commit Dockerfile and update documentation"
+                                              ]
+                            },
+                            {
+                                "estimatedEffort":  "2-4 hours",
+                                "rank":  3,
+                                "priorityScore":  135,
+                                "organizationId":  "org-001",
+                                "projectName":  "benchbarrier",
+                                "projectId":  "proj-001",
+                                "path":  ".config/organizations/alaweimm90-business/benchbarrier",
+                                "organizationName":  "alaweimm90-business",
+                                "tier":  "Tier 1 (Easy)",
+                                "reasons":  "Health Score: 8/10 | Org Priority: high | Category: unknown | Has CI/CD (easy win!) | Complexity: Tier 1 (Easy)",
+                                "nextSteps":  [
+                                                  "Review project structure and dependencies",
+                                                  "Create Dockerfile using .metaHub/templates/containers/ template",
+                                                  "Add .dockerignore file",
+                                                  "Test local build: docker build -t benchbarrier .",
+                                                  "Test local run and verify functionality",
+                                                  "Update projects-registry.json: containerized = true",
+                                                  "Commit Dockerfile and update documentation"
+                                              ]
+                            },
+                            {
+                                "estimatedEffort":  "2-4 hours",
+                                "rank":  4,
+                                "priorityScore":  125,
+                                "organizationId":  "org-002",
+                                "projectName":  "mag-logic",
+                                "projectId":  "proj-018",
+                                "path":  ".config/organizations/alaweimm90-science/mag-logic",
+                                "organizationName":  "alaweimm90-science",
+                                "tier":  "Tier 1 (Easy)",
+                                "reasons":  "Health Score: 7/10 | Org Priority: high | Category: unknown | Has CI/CD (easy win!) | Complexity: Tier 1 (Easy)",
+                                "nextSteps":  [
+                                                  "Review project structure and dependencies",
+                                                  "Create Dockerfile using .metaHub/templates/containers/ template",
+                                                  "Add .dockerignore file",
+                                                  "Test local build: docker build -t mag-logic .",
+                                                  "Test local run and verify functionality",
+                                                  "Update projects-registry.json: containerized = true",
+                                                  "Commit Dockerfile and update documentation"
+                                              ]
+                            },
+                            {
+                                "estimatedEffort":  "2-4 hours",
+                                "rank":  5,
+                                "priorityScore":  125,
+                                "organizationId":  "org-004",
+                                "projectName":  "Attributa",
+                                "projectId":  "proj-034",
+                                "path":  ".config/organizations/AlaweinOS/Attributa",
+                                "organizationName":  "AlaweinOS",
+                                "tier":  "Tier 1 (Easy)",
+                                "reasons":  "Health Score: 8/10 | Org Priority: medium | Category: unknown | Has CI/CD (easy win!) | Complexity: Tier 1 (Easy)",
+                                "nextSteps":  [
+                                                  "Review project structure and dependencies",
+                                                  "Create Dockerfile using .metaHub/templates/containers/ template",
+                                                  "Add .dockerignore file",
+                                                  "Test local build: docker build -t Attributa .",
+                                                  "Test local run and verify functionality",
+                                                  "Update projects-registry.json: containerized = true",
+                                                  "Commit Dockerfile and update documentation"
+                                              ]
+                            }
+                        ],
+    "generatedAt":  "2025-11-24T03:18:34Z"
+}

@@ -1,0 +1,132 @@
+version: '3.8'
+
+# Development overrides for docker-compose.yml
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  # ============================================================================
+  # SimCore - Development Overrides
+  # ============================================================================
+  simcore:
+    build:
+      context: .config/organizations/AlaweinOS/SimCore
+      dockerfile: Dockerfile
+      target: builder  # Use builder stage for development
+    environment:
+      - NODE_ENV=development
+      - VITE_DEBUG=true
+      - VITE_HOT_RELOAD=true
+    volumes:
+      - .config/organizations/AlaweinOS/SimCore/src:/app/src:ro
+      - .config/organizations/AlaweinOS/SimCore/public:/app/public:ro
+    ports:
+      - "3000:3000"
+      - "5173:5173"  # Vite dev server
+    command: npm run dev -- --host 0.0.0.0
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+
+  # ============================================================================
+  # repz - Development Overrides
+  # ============================================================================
+  repz:
+    build:
+      context: .config/organizations/alaweimm90-business/repz
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      - NODE_ENV=development
+      - VITE_DEBUG=true
+      - VITE_HOT_RELOAD=true
+    volumes:
+      - .config/organizations/alaweimm90-business/repz/src:/app/src:ro
+      - .config/organizations/alaweimm90-business/repz/public:/app/public:ro
+    ports:
+      - "8080:8080"
+      - "5174:5174"  # Vite dev server
+    command: npm run dev -- --host 0.0.0.0 --port 5174
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+
+  # ============================================================================
+  # benchbarrier - Development Overrides
+  # ============================================================================
+  benchbarrier:
+    build:
+      context: .config/organizations/alaweimm90-business/benchbarrier
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      - NODE_ENV=development
+      - VITE_DEBUG=true
+      - VITE_HOT_RELOAD=true
+    volumes:
+      - .config/organizations/alaweimm90-business/benchbarrier/src:/app/src:ro
+      - .config/organizations/alaweimm90-business/benchbarrier/public:/app/public:ro
+    ports:
+      - "8081:8081"
+      - "5175:5175"  # Vite dev server
+    command: npm run dev -- --host 0.0.0.0 --port 5175
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+
+  # ============================================================================
+  # mag-logic - Development Overrides
+  # ============================================================================
+  mag-logic:
+    build:
+      context: .config/organizations/alaweimm90-science/mag-logic
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - JUPYTER_ENABLE_LAB=yes
+      - DEBUG=true
+    volumes:
+      - .config/organizations/alaweimm90-science/mag-logic/src:/app/src:ro
+      - .config/organizations/alaweimm90-science/mag-logic/notebooks:/app/notebooks
+      - mag-logic-data:/app/data
+    ports:
+      - "8888:8888"
+      - "8889:8889"  # Jupyter Lab alternative port
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+
+  # ============================================================================
+  # Attributa - Development Overrides
+  # ============================================================================
+  attributa:
+    build:
+      context: .config/organizations/AlaweinOS/Attributa
+      dockerfile: Dockerfile
+      target: builder
+    environment:
+      - NODE_ENV=development
+      - VITE_DEBUG=true
+      - VITE_HOT_RELOAD=true
+    volumes:
+      - .config/organizations/AlaweinOS/Attributa/src:/app/src:ro
+      - .config/organizations/AlaweinOS/Attributa/public:/app/public:ro
+    ports:
+      - "3001:3000"
+      - "5176:5176"  # Vite dev server
+    command: npm run dev -- --host 0.0.0.0 --port 5176
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G

@@ -1,0 +1,17 @@
+services:
+  api:
+    build: ../.config/organizations/MeatheadPhysicist/api
+    image: meathead-api:latest
+    restart: unless-stopped
+  docker_example:
+    build: ../.config/organizations/MeatheadPhysicist/examples/deployment/docker-example
+    image: docker-example:latest
+    restart: unless-stopped
+  bell_inequality_analysis:
+    build: ../.config/organizations/MeatheadPhysicist/projects/bell-inequality-analysis
+    image: bell-inequality-analysis:latest
+    restart: unless-stopped
+  frontend:
+    build: ../.config/organizations/MeatheadPhysicist/frontend
+    image: meathead-frontend:latest
+    restart: unless-stopped

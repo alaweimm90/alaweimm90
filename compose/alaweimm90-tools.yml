@@ -1,0 +1,37 @@
+services:
+  devcontainer:
+    build: ../.config/organizations/alaweimm90-tools/.devcontainer
+    image: tools-devcontainer:latest
+    restart: unless-stopped
+  admin_dashboard:
+    build: ../.config/organizations/alaweimm90-tools/admin-dashboard
+    image: admin-dashboard:latest
+    restart: unless-stopped
+  business_intelligence:
+    build: ../.config/organizations/alaweimm90-tools/business-intelligence
+    image: business-intelligence:latest
+    restart: unless-stopped
+  core_framework:
+    build: ../.config/organizations/alaweimm90-tools/core-framework
+    image: core-framework:latest
+    restart: unless-stopped
+  devops_platform:
+    build: ../.config/organizations/alaweimm90-tools/devops-platform
+    image: devops-platform:latest
+    restart: unless-stopped
+  fitness_app:
+    build: ../.config/organizations/alaweimm90-tools/fitness-app
+    image: fitness-app:latest
+    restart: unless-stopped
+  load_tests:
+    build: ../.config/organizations/alaweimm90-tools/load-tests
+    image: load-tests:latest
+    restart: unless-stopped
+  marketing_center:
+    build: ../.config/organizations/alaweimm90-tools/marketing-center
+    image: marketing-center:latest
+    restart: unless-stopped
+  prompty_service:
+    build: ../.config/organizations/alaweimm90-tools/prompty-service
+    image: prompty-service:latest
+    restart: unless-stopped

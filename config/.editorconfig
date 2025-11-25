@@ -1,9 +1,14 @@
-# EditorConfig is awesome: https://EditorConfig.org
+# ============================================
+# SSOT: EditorConfig for All Projects
+# Synced from: .metaHub/config/.editorconfig
+# Sync Date: 2025-11-24
+# ============================================
 
-# top-most EditorConfig file
 root = true
 
-# Unix-style newlines with a newline ending every file
+# ============================================
+# Default Settings (All Files)
+# ============================================
 [*]
 charset = utf-8
 end_of_line = lf
@@ -12,9 +17,14 @@ trim_trailing_whitespace = true
 indent_style = space
 indent_size = 2
 
-# Markdown files
-[*.md]
-trim_trailing_whitespace = false
+# ============================================
+# Language-Specific Settings
+# ============================================
+
+# JavaScript/TypeScript/JSX/TSX
+[*.{js,jsx,ts,tsx,mjs,cjs}]
+indent_size = 2
+max_line_length = 100
 
 # JSON files
 [*.json]
@@ -23,114 +33,135 @@ indent_size = 2
 # YAML files
 [*.{yaml,yml}]
 indent_size = 2
+
+# Markdown files
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# Python files
+[*.py]
+indent_size = 4
+max_line_length = 100
 
 # Shell scripts
 [*.sh]
 indent_size = 2
 
-# Makefiles use tabs for indentation
+# Batch files (Windows)
+[*.{cmd,bat,ps1}]
+end_of_line = crlf
+indent_size = 2
+
+# Makefiles (must use tabs)
 [Makefile]
 indent_style = tab
 
-# Batch files use CRLF line endings
-[*.{cmd,bat}]
-end_of_line = crlf
-
-# Git commit messages
-[COMMIT_EDITMSG]
-max_line_length = 0
-
-# Dockerfiles
-[Dockerfile]
-indent_style = space
-indent_size = 4
-
-# Python files
-[*.py]
-indent_style = space
-indent_size = 4
-
-# Java files
-[*.{java,kt}]
-indent_style = space
-indent_size = 4
-
-# C/C++ files
-[*.{c,cpp,h,hpp}]
-indent_style = space
-indent_size = 4
-
-# Go files
+# Go files (convention uses tabs)
 [*.go]
 indent_style = tab
 
 # Ruby files
 [*.rb]
-indent_style = space
 indent_size = 2
 
 # PHP files
 [*.php]
-indent_style = space
 indent_size = 4
 
+# Java/Kotlin files
+[*.{java,kt,kts}]
+indent_size = 4
+
+# C/C++ files
+[*.{c,cpp,h,hpp,cc,hh}]
+indent_size = 4
+
+# C# files
+[*.cs]
+indent_size = 4
+
+# Rust files
+[*.rs]
+indent_size = 4
+
+# Swift files
+[*.swift]
+indent_size = 4
+
+# Dart files
+[*.dart]
+indent_size = 2
+
 # XML files
-[*.{xml,xsd,xslt}]
-indent_style = space
-indent_size = 2
-
-# SQL files
-[*.sql]
-indent_style = space
-indent_size = 2
-
-# CSS/SCSS files
-[*.{css,scss,less}]
-indent_style = space
+[*.{xml,xsd,xslt,svg}]
 indent_size = 2
 
 # HTML files
 [*.{html,htm}]
-indent_style = space
 indent_size = 2
 
-# JavaScript/TypeScript/JSX/TSX files
-[*.{js,jsx,ts,tsx}]
-indent_style = space
+# CSS/SCSS/LESS files
+[*.{css,scss,sass,less}]
 indent_size = 2
 
-# JSON files
-[*.json]
-indent_style = space
+# SQL files
+[*.sql]
 indent_size = 2
 
-# YAML files
-[*.{yaml,yml}]
-indent_style = space
+# TOML files
+[*.toml]
 indent_size = 2
 
-# Markdown files
-[*.md]
-trim_trailing_whitespace = false
+# INI files
+[*.ini]
+indent_size = 4
 
-# Git merge and rebase files
-[.git{/,\}*]
-indent_style = space
+# Dockerfiles
+[Dockerfile]
+indent_size = 4
+
+[*.dockerfile]
+indent_size = 4
+
+# Git files
+[.gitattributes]
 indent_size = 2
 
-# Ignore package-lock.json and yarn.lock
+[.gitignore]
+indent_size = 2
+
+[.gitmodules]
+indent_size = 2
+
+# Git commit messages
+[COMMIT_EDITMSG]
+max_line_length = 72
+
+# ============================================
+# Ignore Files (No Formatting Rules)
+# ============================================
+
+# Package lock files
 [package-lock.json]
 insert_final_newline = false
+indent_size = ignore
 
 [yarn.lock]
 insert_final_newline = false
-
-# Ignore minified files
-[*.min.{js,css}]
-indent_style = ignore
 indent_size = ignore
 
-# Ignore minified HTML files
-[*.min.html]
+[pnpm-lock.yaml]
+insert_final_newline = false
+indent_size = ignore
+
+# Minified files
+[*.min.{js,css,html}]
+indent_style = ignore
+indent_size = ignore
+insert_final_newline = false
+
+# Compiled/Generated files
+[*.{map,bundle.js}]
 indent_style = ignore
 indent_size = ignore

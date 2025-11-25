@@ -96,3 +96,83 @@ Entry 12
 - created_at: now
 - approved_by: project-lead
 - validation: isolated, non-executable
+
+Entry 13
+- task: add audit exec summary
+- path: sandbox/audit/exec-summary.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 14
+- task: add comparative matrix
+- path: sandbox/audit/comparative-matrix.csv
+- type: csv
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 15
+- task: add prioritized roadmap
+- path: sandbox/audit/roadmap.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 16
+- task: add quick-win list
+- path: sandbox/audit/quick-wins.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 17
+- task: add long-term architecture plan
+- path: sandbox/audit/long-term-architecture.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 13
+- task: add audit exec summary
+- path: sandbox/audit/exec-summary.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 14
+- task: add comparative matrix
+- path: sandbox/audit/comparative-matrix.csv
+- type: csv
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 15
+- task: add prioritized roadmap
+- path: sandbox/audit/roadmap.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 16
+- task: add quick-win list
+- path: sandbox/audit/quick-wins.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable
+
+Entry 17
+- task: add long-term architecture plan
+- path: sandbox/audit/long-term-architecture.md
+- type: md
+- created_at: now
+- approved_by: project-lead
+- validation: isolated, non-executable

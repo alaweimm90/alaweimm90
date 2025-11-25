@@ -1,0 +1,12 @@
+services:
+  mag_logic:
+    image: mag-logic:latest
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import maglogic\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

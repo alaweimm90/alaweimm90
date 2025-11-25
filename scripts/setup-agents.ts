@@ -5,9 +5,9 @@
  * Initializes agents and orchestration for Claude Code
  */
 
-import { AgentOrchestrator, CodeAgent, AnalysisAgent, AgentType } from '@monorepo/agent-core';
-import { ContextProvider } from '@monorepo/context-provider';
-import { createDefaultTemplates as createDefaultWorkflows } from '@monorepo/workflow-templates';
+import { AgentOrchestrator, CodeAgent, AnalysisAgent, AgentType, ContextProvider } from '@monorepo/agent-framework';
+
+import { createDefaultWorkflowTemplates } from '@monorepo/templates';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -54,7 +54,7 @@ async function setupAgents(): Promise<void> {
   // Register workflows
   console.log('\n📋 Registering workflows...');
 
-  const defaultWorkflows = createDefaultWorkflows();
+  const defaultWorkflows = createDefaultWorkflowTemplates();
 
   for (const workflow of defaultWorkflows) {
     orchestrator.registerWorkflow(workflow);
