@@ -1,0 +1,234 @@
+# Policy-Bot Configuration
+# Advanced PR approval policies for multi-org governance
+# https://github.com/palantir/policy-bot
+
+# Define approval policies
+policy:
+  # Default policy for all PRs
+  approval:
+    # Require at least 1 approval
+    - or:
+        - owner approval required
+        - maintainer approval required
+
+# Define approval rules based on file patterns
+approval_rules:
+  # Critical governance files require explicit approval
+  - name: governance_changes
+    description: Changes to governance infrastructure require security team approval
+    if:
+      has_file_glob:
+        - ".metaHub/**"
+        - ".github/workflows/**"
+        - ".github/CODEOWNERS"
+        - "SECURITY.md"
+    requires:
+      count: 2
+      teams:
+        - "alaweimm90"
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: false
+      allow_contributor: false
+      invalidate_on_push: true
+      request_review:
+        enabled: true
+        mode: teams
+
+  # Policy changes require review
+  - name: policy_changes
+    description: OPA policy changes require security approval
+    if:
+      has_file_glob:
+        - ".metaHub/policies/**/*.rego"
+    requires:
+      count: 1
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: false
+      invalidate_on_push: true
+
+  # Docker configuration changes
+  - name: docker_changes
+    description: Docker configuration requires platform team approval
+    if:
+      has_file_glob:
+        - "Dockerfile*"
+        - "docker-compose*.yml"
+        - ".dockerignore"
+    requires:
+      count: 1
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: false
+      invalidate_on_push: true
+
+  # Dependency changes require security review
+  - name: dependency_changes
+    description: Dependency changes require security review
+    if:
+      has_file_glob:
+        - "package.json"
+        - "package-lock.json"
+        - "pnpm-workspace.yaml"
+        - ".metaHub/renovate.json"
+    requires:
+      count: 1
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: false
+      invalidate_on_push: false  # Don't invalidate on lockfile updates
+
+  # Workflow changes are critical
+  - name: workflow_changes
+    description: GitHub workflow changes require DevOps approval
+    if:
+      has_file_glob:
+        - ".github/workflows/**"
+        - ".github/actions/**"
+    requires:
+      count: 1
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: false
+      invalidate_on_push: true
+      methods:
+        comments:
+          - "LGTM"
+          - "lgtm"
+          - ":shipit:"
+
+  # Organization workspace changes
+  - name: org_changes
+    description: Organization workspace changes require org owner approval
+    if:
+      has_file_glob:
+        - "organizations/**"
+        - "alaweimm90/**"
+    requires:
+      count: 1
+      users:
+        - "alaweimm90"
+    options:
+      allow_author: true  # Allow self-approval for personal workspace
+      invalidate_on_push: true
+
+# Define teams and permissions (extend as org grows)
+teams:
+  alaweimm90:
+    users:
+      - alaweimm90
+
+# Options for PR status
+options:
+  # Post status as PR comment
+  comments:
+    enabled: true
+    post_on_approval: true
+    post_on_disapproval: true
+
+  # Set commit status
+  status:
+    enabled: true
+    context: "policy-bot"
+    success_description: "All approval policies satisfied"
+    failure_description: "Missing required approvals"
+
+# Define disapproval rules (blocking conditions)
+disapproval:
+  # Block PRs with certain labels
+  requires:
+    organizations:
+      - "alaweimm90"
+  options:
+    # Disapprove if PR has "do-not-merge" label
+    labels:
+      - "do-not-merge"
+      - "wip"
+      - "blocked"
+
+# Cross-organization rules (for future multi-org support)
+cross_org:
+  enabled: true
+  organizations:
+    - "alaweimm90"
+
+# Performance and behavior settings
+performance:
+  # Cache policy evaluation results
+  cache:
+    enabled: true
+    ttl: 300  # 5 minutes
+
+# Security settings
+security:
+  # Require signed commits
+  require_signed_commits: false  # Set to true once GPG keys configured
+
+  # Prevent force pushes
+  prevent_force_push: true
+
+  # Require status checks
+  require_status_checks:
+    - "Super-Linter"
+    - "OpenSSF Scorecard"
+    - "OPA Policy Enforcement"
+
+# Review requirements
+review:
+  # Require approval from code owners
+  require_code_owner_reviews: true
+
+  # Dismiss stale reviews on push
+  dismiss_stale_reviews: true
+
+  # Number of required reviews
+  required_approving_review_count: 1
+
+# Labels for automation
+labels:
+  # Auto-add labels based on file changes
+  auto_label:
+    - pattern: ".metaHub/**"
+      labels:
+        - "governance"
+        - "infrastructure"
+
+    - pattern: "Dockerfile*"
+      labels:
+        - "docker"
+        - "infrastructure"
+
+    - pattern: ".github/workflows/**"
+      labels:
+        - "ci-cd"
+        - "automation"
+
+    - pattern: "**/*.rego"
+      labels:
+        - "policy"
+        - "security"
+
+    - pattern: "package.json"
+      labels:
+        - "dependencies"
+
+# Notification settings
+notifications:
+  # Notify on policy violations
+  on_violation:
+    enabled: true
+    channels:
+      - github_status
+      - pr_comment
+
+  # Notify on approval
+  on_approval:
+    enabled: true
+    channels:
+      - github_status

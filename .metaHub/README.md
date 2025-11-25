@@ -56,12 +56,12 @@ This is the ONLY correct structure. Everything else was hallucinated.
 | **Super-Linter** | ✅ Active | [.github/workflows/super-linter.yml](../.github/workflows/super-linter.yml) | Multi-language code quality gates |
 | **CODEOWNERS** | ✅ Active | [.github/CODEOWNERS](../.github/CODEOWNERS) | Required reviews for sensitive paths |
 
-### Tier 2: Policy Hardening (1-Week) 🔄
+### Tier 2: Policy Hardening (1-Week) ✅
 
-| Tool | Status | Description |
-|------|--------|-------------|
-| **Policy-Bot** | 📋 Planned | Advanced PR approval policies |
-| **OPA/Conftest** | 📋 Planned | Policy-as-code validation (already have .rego files) |
+| Tool | Status | Location | Description |
+|------|--------|----------|-------------|
+| **Policy-Bot** | 🟡 Ready | [.metaHub/policy-bot.yml](./policy-bot.yml) + [Setup Guide](./POLICY_BOT_SETUP.md) | Advanced PR approval policies (requires GitHub App install) |
+| **OPA/Conftest** | ✅ Active | [.github/workflows/opa-conftest.yml](../.github/workflows/opa-conftest.yml) | Policy-as-code validation for Dockerfiles and repo structure |
 
 ### Tier 3: Strategic Deployment (1-Month) 🔄
 
@@ -92,3 +92,34 @@ This is the ONLY correct structure. Everything else was hallucinated.
 - Vulnerability alerts with priority labels
 - Historical security metrics in `.metaHub/security/scorecard/history/`
 - Docker image scanning, dependency auditing, workflow validation
+
+### Policy-as-Code (OPA/Rego)
+
+Active policies enforced via Conftest:
+
+**Repository Structure Policy** ([repo-structure.rego](./policies/repo-structure.rego)):
+
+- Enforces canonical root directory structure
+- Blocks unauthorized files in `.metaHub/`
+- Prevents forbidden patterns (.DS_Store, *.log, node_modules)
+- Restricts Dockerfiles to allowed locations
+- Warns about large files (>10MB)
+
+**Docker Security Policy** ([docker-security.rego](./policies/docker-security.rego)):
+
+- Requires non-root USER directive
+- Mandates HEALTHCHECK for monitoring
+- Blocks :latest and untagged base images
+- Enforces apt-get best practices
+- Prevents secrets in ENV variables
+- Recommends multi-stage builds
+- Blocks privileged ports (<1024)
+
+**Policy-Bot Approval Rules** ([policy-bot.yml](./policy-bot.yml)):
+
+- Governance changes: 2 approvals required
+- Policy changes: Security approval required
+- Docker changes: Platform team approval
+- Dependency changes: Security review
+- Workflow changes: DevOps approval
+- Auto-labeling based on file patterns

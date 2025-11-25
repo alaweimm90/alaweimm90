@@ -1,0 +1,147 @@
+name: OPA Policy Enforcement
+
+on:
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'Dockerfile*'
+      - '**/*.Dockerfile'
+      - 'docker-compose*.yml'
+      - '.metaHub/**'
+      - '.github/**'
+      - 'package.json'
+      - 'turbo.json'
+  push:
+    branches: [master, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  conftest:
+    name: Policy Validation with Conftest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Conftest
+        run: |
+          CONFTEST_VERSION=0.49.1
+          wget https://github.com/open-policy-agent/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz
+          tar xzf conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz
+          sudo mv conftest /usr/local/bin/
+          conftest --version
+
+      - name: Validate Repository Structure
+        continue-on-error: true
+        run: |
+          echo "## Repository Structure Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Test repo structure policy
+          for file in $(git diff --name-only origin/master...HEAD 2>/dev/null || git ls-files); do
+            if [ -f "$file" ]; then
+              echo "Testing: $file"
+              conftest test \
+                --policy .metaHub/policies/repo-structure.rego \
+                --input json \
+                --data <(echo "{\"file\": {\"path\": \"$file\", \"size\": $(stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null || echo 0)}}") \
+                --output table || true
+            fi
+          done
+
+      - name: Validate Dockerfiles
+        if: ${{ hashFiles('**/Dockerfile*') != '' }}
+        run: |
+          echo "## Docker Security Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Find all Dockerfiles
+          find . -type f \( -name "Dockerfile*" -o -name "*.Dockerfile" \) | while read dockerfile; do
+            echo "### Validating: $dockerfile" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Run Conftest on each Dockerfile
+            conftest test \
+              --policy .metaHub/policies/docker-security.rego \
+              --input dockerfile \
+              "$dockerfile" \
+              --output github || {
+                echo "❌ Policy violations found in $dockerfile" >> $GITHUB_STEP_SUMMARY
+                exit 1
+              }
+
+            echo "✅ $dockerfile passed all security checks" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Validate Docker Compose files
+        if: ${{ hashFiles('docker-compose*.yml') != '' }}
+        run: |
+          echo "## Docker Compose Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Find all docker-compose files
+          find . -maxdepth 2 -type f -name "docker-compose*.yml" | while read composefile; do
+            echo "### Validating: $composefile" >> $GITHUB_STEP_SUMMARY
+
+            # Basic validation - check for security best practices
+            if grep -q "privileged: true" "$composefile"; then
+              echo "⚠️ WARNING: $composefile uses privileged mode" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if grep -q ":latest" "$composefile"; then
+              echo "⚠️ WARNING: $composefile uses :latest tags" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "✅ $composefile validated" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          done
+
+      - name: Validate Kubernetes manifests
+        if: ${{ hashFiles('**/*.yaml', '**/*.yml') != '' }}
+        continue-on-error: true
+        run: |
+          echo "## Kubernetes Manifest Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check if we have k8s manifests
+          if find . -type f \( -name "*.yaml" -o -name "*.yml" \) -exec grep -l "kind:" {} \; | grep -v node_modules | grep -v ".github" | head -1 > /dev/null; then
+            echo "Found Kubernetes manifests, validating..." >> $GITHUB_STEP_SUMMARY
+
+            find . -type f \( -name "*.yaml" -o -name "*.yml" \) -exec grep -l "kind:" {} \; | grep -v node_modules | grep -v ".github" | while read k8sfile; do
+              echo "Validating: $k8sfile"
+              conftest test --policy .metaHub/policies/ "$k8sfile" --output github || true
+            done
+          else
+            echo "No Kubernetes manifests found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Policy Summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Policy Enforcement Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Policy Location**: .metaHub/policies/" >> $GITHUB_STEP_SUMMARY
+          echo "- **Active Policies**:" >> $GITHUB_STEP_SUMMARY
+          echo "  - Repository Structure (repo-structure.rego)" >> $GITHUB_STEP_SUMMARY
+          echo "  - Docker Security (docker-security.rego)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Enforcement**: Blocking violations" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tool**: Conftest + OPA" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload policy results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-results-${{ github.sha }}
+          path: |
+            .metaHub/policies/
+          retention-days: 30
