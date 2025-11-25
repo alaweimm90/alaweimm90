@@ -2,6 +2,27 @@
 
 Central governance hub containing ALL tools, automation, agents, AI infrastructure, and governance for the monorepo.
 
+## 🚀 Quick Links
+
+- **[Complete Implementation Guide](./GOVERNANCE_SUMMARY.md)** - Full details on all 10 tools (500+ lines)
+- **[Developer Guide](./DEVELOPER_GUIDE.md)** - How to work with governance tools
+- **[Monitoring Checklist](./MONITORING_CHECKLIST.md)** - Daily/weekly/monthly tasks
+- **[Troubleshooting Guide](./TROUBLESHOOTING.md)** - Common issues and solutions
+- **[Baseline Metrics](./security/BASELINE_METRICS.md)** - Track security improvements
+- **[Next Steps](./NEXT_STEPS.md)** - Immediate actions and ongoing maintenance
+
+### Setup Guides
+
+- [Policy-Bot Setup](./POLICY_BOT_SETUP.md) - Install and configure Policy-Bot GitHub App
+- [Allstar Setup](../.allstar/ALLSTAR_SETUP.md) - Install and configure OpenSSF Allstar
+
+### Policies
+
+- [Repository Structure Policy](./policies/repo-structure.rego) - Canonical structure enforcement
+- [Docker Security Policy](./policies/docker-security.rego) - Container security best practices
+- [Policy-Bot Approval Rules](./policy-bot.yml) - File-based PR approval policies
+- [Allstar Security Policies](../.allstar/) - Continuous security monitoring
+
 ## Structure
 
 ```
