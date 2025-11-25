@@ -1,7 +1,7 @@
 # 1. Governance Quick Reference Card
 
 **Repository**: https://github.com/alaweimm90/alaweimm90
-**Status**: 7/10 tools active | 3 manual setups pending (30 min)
+**Status**: 8/10 tools active | 1 manual setup pending (10 min) | CLEAN SLATE ✨
 **Last Updated**: 2025-11-25
 
 ---
@@ -86,8 +86,8 @@ gh pr create --title "Test Activation"
 | OPA/Conftest | ✅ Active | Every PR | `.github/workflows/opa-conftest.yml` |
 | Backstage | ✅ Active | On-demand | `.metaHub/backstage/` |
 | SLSA | ✅ Active | Push to master | `.github/workflows/slsa-provenance.yml` |
-| Rulesets | 🟡 Pending | Always | GitHub UI Settings |
-| Policy-Bot | 🟡 Pending | Every PR | `.metaHub/policy-bot.yml` |
+| Rulesets | ✅ Active | Always | GitHub UI (API verified) |
+| Policy-Bot | ⚠️ Skipped | N/A | Requires self-hosting |
 | Allstar | 🟡 Pending | Continuous | `.allstar/allstar.yaml` |
 
 ---
