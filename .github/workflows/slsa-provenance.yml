@@ -1,0 +1,299 @@
+name: SLSA Provenance Generation
+
+on:
+  push:
+    branches: [master, main]
+    tags:
+      - 'v*'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+  id-token: write
+  packages: write
+
+jobs:
+  # Generate SLSA Build Level 3 provenance
+  provenance:
+    name: Generate SLSA Provenance
+    runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build artifacts
+        run: |
+          # Create build directory
+          mkdir -p dist/
+
+          # Generate build metadata
+          cat > dist/build-metadata.json <<EOF
+          {
+            "version": "${{ github.ref_name }}",
+            "commit": "${{ github.sha }}",
+            "branch": "${{ github.ref }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "runner": "${{ runner.name }}",
+            "workflow": "${{ github.workflow }}",
+            "actor": "${{ github.actor }}"
+          }
+          EOF
+
+          # Package governance configs as distributable artifacts
+          tar -czf dist/governance-configs.tar.gz \
+            .metaHub/policies/ \
+            .metaHub/renovate.json \
+            .metaHub/policy-bot.yml \
+            .github/workflows/ \
+            .github/CODEOWNERS
+
+          # Package Backstage catalog
+          tar -czf dist/backstage-catalog.tar.gz \
+            .metaHub/backstage/
+
+          echo "Build artifacts created:"
+          ls -lh dist/
+
+      - name: Generate artifact hashes
+        id: hash
+        run: |
+          cd dist/
+          sha256sum * > checksums.txt
+          cat checksums.txt
+
+          # Generate base64 encoded hashes for SLSA
+          echo "hashes=$(cat checksums.txt | base64 -w0)" >> $GITHUB_OUTPUT
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-artifacts-${{ github.sha }}
+          path: dist/
+          retention-days: 90
+
+  # Generate SLSA provenance using official generator
+  slsa-provenance:
+    name: SLSA Provenance Generator
+    needs: [provenance]
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.10.0
+    with:
+      base64-subjects: "${{ needs.provenance.outputs.hashes }}"
+      upload-assets: true
+      provenance-name: governance-provenance.intoto.jsonl
+
+  # Verify SLSA provenance
+  verify-provenance:
+    name: Verify SLSA Provenance
+    needs: [provenance, slsa-provenance]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: governance-artifacts-${{ github.sha }}
+          path: dist/
+
+      - name: Download provenance
+        uses: actions/download-artifact@v4
+        with:
+          name: governance-provenance.intoto.jsonl
+
+      - name: Install SLSA verifier
+        run: |
+          SLSA_VERIFIER_VERSION=v2.5.1
+          wget https://github.com/slsa-framework/slsa-verifier/releases/download/${SLSA_VERIFIER_VERSION}/slsa-verifier-linux-amd64
+          chmod +x slsa-verifier-linux-amd64
+          sudo mv slsa-verifier-linux-amd64 /usr/local/bin/slsa-verifier
+
+      - name: Verify artifacts
+        run: |
+          echo "## SLSA Provenance Verification" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Verify each artifact
+          for artifact in dist/*.tar.gz; do
+            echo "Verifying: $artifact"
+            slsa-verifier verify-artifact \
+              --provenance-path governance-provenance.intoto.jsonl \
+              --source-uri github.com/${{ github.repository }} \
+              "$artifact" || {
+                echo "❌ Verification failed for $artifact" >> $GITHUB_STEP_SUMMARY
+                exit 1
+              }
+            echo "✅ Verified: $artifact" >> $GITHUB_STEP_SUMMARY
+          done
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**All artifacts verified successfully!**" >> $GITHUB_STEP_SUMMARY
+
+  # Attest with GitHub Attestations
+  attest:
+    name: Generate GitHub Attestations
+    needs: [provenance]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: governance-artifacts-${{ github.sha }}
+          path: dist/
+
+      - name: Generate attestations
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: 'dist/*.tar.gz'
+
+  # Store provenance for audit trail
+  store-provenance:
+    name: Store Provenance History
+    needs: [slsa-provenance, verify-provenance]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download provenance
+        uses: actions/download-artifact@v4
+        with:
+          name: governance-provenance.intoto.jsonl
+          path: provenance/
+
+      - name: Store provenance in repository
+        run: |
+          # Create provenance directory
+          mkdir -p .metaHub/security/slsa/
+
+          # Store provenance with timestamp
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          mv provenance/governance-provenance.intoto.jsonl \
+             .metaHub/security/slsa/provenance-${TIMESTAMP}-${{ github.sha }}.intoto.jsonl
+
+          # Keep only last 10 provenance files
+          cd .metaHub/security/slsa/
+          ls -t provenance-*.intoto.jsonl | tail -n +11 | xargs -r rm
+
+          # Create summary
+          cat > .metaHub/security/slsa/README.md <<EOF
+          # SLSA Provenance History
+
+          This directory contains SLSA Build Level 3 provenance attestations for governance artifacts.
+
+          ## Latest Provenance
+
+          - **Commit**: ${{ github.sha }}
+          - **Timestamp**: ${TIMESTAMP}
+          - **Branch**: ${{ github.ref }}
+          - **Actor**: ${{ github.actor }}
+          - **Workflow**: ${{ github.workflow }}
+
+          ## Verification
+
+          To verify an artifact:
+
+          \`\`\`bash
+          slsa-verifier verify-artifact \\
+            --provenance-path provenance-${TIMESTAMP}-${{ github.sha }}.intoto.jsonl \\
+            --source-uri github.com/${{ github.repository }} \\
+            path/to/artifact.tar.gz
+          \`\`\`
+
+          ## SLSA Level
+
+          **Build Level 3**: Provenance is generated by a trusted, isolated build platform with cryptographic guarantees.
+
+          ## Contents
+
+          \`\`\`
+          $(ls -lh)
+          \`\`\`
+          EOF
+
+      - name: Commit provenance
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .metaHub/security/slsa/
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(security): store SLSA provenance for ${{ github.sha }}
+
+          Generated SLSA Build Level 3 provenance attestation.
+
+          - Commit: ${{ github.sha }}
+          - Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          - Artifacts: governance-configs, backstage-catalog
+          - Verification: GitHub Attestations + SLSA Verifier
+
+          🤖 Automated commit from SLSA workflow"
+
+            git push
+          fi
+
+  # Summary report
+  summary:
+    name: SLSA Summary Report
+    needs: [provenance, slsa-provenance, verify-provenance, attest, store-provenance]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# SLSA Provenance Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Build Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Actor**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## SLSA Level" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Level 3** - Provenance generated by trusted, isolated build platform" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- governance-configs.tar.gz (policies, workflows, configs)" >> $GITHUB_STEP_SUMMARY
+          echo "- backstage-catalog.tar.gz (service catalog)" >> $GITHUB_STEP_SUMMARY
+          echo "- build-metadata.json (build info)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Verification Methods" >> $GITHUB_STEP_SUMMARY
+          echo "1. **SLSA Verifier**: Use slsa-verifier CLI tool" >> $GITHUB_STEP_SUMMARY
+          echo "2. **GitHub Attestations**: View in repository attestations page" >> $GITHUB_STEP_SUMMARY
+          echo "3. **Provenance History**: Stored in .metaHub/security/slsa/" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Status" >> $GITHUB_STEP_SUMMARY
+          echo "- Provenance Generation: ${{ needs.provenance.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- SLSA Attestation: ${{ needs.slsa-provenance.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Verification: ${{ needs.verify-provenance.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Attestations: ${{ needs.attest.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Storage: ${{ needs.store-provenance.result }}" >> $GITHUB_STEP_SUMMARY

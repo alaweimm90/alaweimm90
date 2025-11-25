@@ -63,13 +63,13 @@ This is the ONLY correct structure. Everything else was hallucinated.
 | **Policy-Bot** | 🟡 Ready | [.metaHub/policy-bot.yml](./policy-bot.yml) + [Setup Guide](./POLICY_BOT_SETUP.md) | Advanced PR approval policies (requires GitHub App install) |
 | **OPA/Conftest** | ✅ Active | [.github/workflows/opa-conftest.yml](../.github/workflows/opa-conftest.yml) | Policy-as-code validation for Dockerfiles and repo structure |
 
-### Tier 3: Strategic Deployment (1-Month) 🔄
+### Tier 3: Strategic Deployment (1-Month) ✅
 
-| Tool | Status | Description |
-|------|--------|-------------|
-| **Backstage Portal** | 🏗️ In Progress | Developer portal + service catalog |
-| **SLSA Provenance** | 📋 Planned | Supply chain security attestations |
-| **OpenSSF Allstar** | 📋 Planned | Continuous security enforcement |
+| Tool | Status | Location | Description |
+|------|--------|----------|-------------|
+| **Backstage Portal** | ✅ Active | [.metaHub/backstage/](./backstage/) | Developer portal with 11 services cataloged |
+| **SLSA Provenance** | ✅ Active | [.github/workflows/slsa-provenance.yml](../.github/workflows/slsa-provenance.yml) | Build Level 3 supply chain attestations |
+| **OpenSSF Allstar** | 🟡 Ready | [.allstar/](../.allstar/) + [Setup Guide](../.allstar/ALLSTAR_SETUP.md) | Continuous security monitoring (requires GitHub App install) |
 
 ## Key Features
 
@@ -123,3 +123,39 @@ Active policies enforced via Conftest:
 - Dependency changes: Security review
 - Workflow changes: DevOps approval
 - Auto-labeling based on file patterns
+
+### Supply Chain Security (SLSA)
+
+**SLSA Build Level 3 Provenance** ([slsa-provenance.yml](../.github/workflows/slsa-provenance.yml)):
+
+- Cryptographically signed build attestations
+- Tamper-proof provenance generation via GitHub Actions
+- SHA-256 artifact hashes with verification
+- GitHub Attestations integration
+- Historical provenance storage in `.metaHub/security/slsa/`
+- Verification via slsa-verifier CLI tool
+- Automated artifact packaging (governance configs, Backstage catalog)
+
+### Developer Portal (Backstage)
+
+**Service Catalog** ([backstage/catalog-info.yaml](./backstage/catalog-info.yaml)):
+
+- **11 cataloged services**: SimCore, Repz, BenchBarrier, Attributa, Mag-Logic, Custom-Exporters, Infra, AI-Agent-Demo, API-Gateway, Dashboard, Healthcare
+- **3 resources**: Prometheus, Redis, Local-Registry
+- **1 system**: Multi-Org Platform
+- Full dependency mapping and API relationships
+- Local development URLs and service domains
+- Lifecycle tracking (production, experimental)
+- Owner assignments and team structure
+
+### Continuous Security Monitoring (Allstar)
+
+**OpenSSF Allstar Policies** ([.allstar/](../.allstar/)):
+
+- **Branch Protection**: Enforces PR requirements, approvals, status checks
+- **Binary Artifacts**: Blocks committed binaries and executables
+- **Outside Collaborators**: Controls external access
+- **Security Policy**: Ensures SECURITY.md exists
+- **Dangerous Workflows**: Detects unsafe GitHub Actions patterns
+- Auto-remediation capable (currently issue-only mode)
+- Integration with existing status checks

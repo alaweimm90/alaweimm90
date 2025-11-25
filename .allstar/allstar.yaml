@@ -1,0 +1,87 @@
+# OpenSSF Allstar Configuration
+# Continuous security enforcement and auto-remediation
+# https://github.com/ossf/allstar
+
+# Global Allstar configuration
+optConfig:
+  # Opt-in to Allstar enforcement
+  optInRepos:
+    - alaweimm90
+
+  # Opt-out specific repos if needed (currently none)
+  optOutRepos: []
+
+  # Opt out of specific policies per repo
+  optOutStrategy: repo
+
+# Issue creation settings
+issueLabel: allstar
+issueRepo: alaweimm90
+issueFooter: |
+  ---
+  This issue was created by [Allstar](https://github.com/ossf/allstar).
+
+  **Auto-remediation**: Some security issues may be auto-fixed by Allstar.
+  **Policy enforcement**: This issue indicates a security policy violation.
+
+# Enforcement action
+action: issue  # Options: log, issue, fix
+
+# Notification settings
+notifications:
+  # Create issues for violations
+  enabled: true
+
+  # Auto-close issues when fixed
+  autoClose: true
+
+# Policy configurations
+policies:
+  # Binary Artifacts Policy
+  binary_artifacts:
+    # Enabled: true
+    action: issue
+
+  # Branch Protection Policy
+  branch_protection:
+    enabled: true
+    action: issue
+
+    # Protection requirements
+    protectMain: true
+    requirePullRequest: true
+    requireApprovals: 1
+    dismissStaleReviews: true
+    requireCodeOwnerReviews: true
+    requireStatusChecks: true
+    requireUpToDate: true
+    requiredStatusChecks:
+      - "Super-Linter"
+      - "OpenSSF Scorecard"
+      - "OPA Policy Enforcement"
+    enforceAdmin: false  # Allow admin bypass in emergencies
+
+  # Outside Collaborators Policy
+  outside:
+    enabled: true
+    action: issue
+
+    # Allowed outside collaborators (if any)
+    allowedCollaborators: []
+
+    # Allowed GitHub Apps
+    allowedGitHubApps:
+      - "renovate"
+      - "dependabot"
+      - "policy-bot"
+
+  # Security Policy (SECURITY.md)
+  security:
+    enabled: true
+    action: issue
+
+  # Dangerous Workflow Policy
+  dangerous_workflow:
+    enabled: true
+    action: issue
+
