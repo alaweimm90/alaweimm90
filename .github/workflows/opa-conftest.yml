@@ -71,7 +71,7 @@ jobs:
             # Run Conftest on each Dockerfile
             conftest test \
               --policy .metaHub/policies/docker-security.rego \
-              --input dockerfile \
+              --parser dockerfile \
               "$dockerfile" \
               --output github || {
                 echo "❌ Policy violations found in $dockerfile" >> $GITHUB_STEP_SUMMARY
