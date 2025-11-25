@@ -1,4 +1,4 @@
-﻿{
+{
   // ============================================
   // SSOT: IDE Configuration for All Projects
   // Location: .metaHub/config/vscode/settings.json
@@ -115,7 +115,7 @@
   "workbench.editor.enablePreviewFromCodeNavigation": false,
   "workbench.editor.openPositioning": "right",
   "workbench.editor.closeEmptyGroups": true,
-  "workbench.editor.showTabs": true,
+  "workbench.editor.showTabs": "multiple",
   "workbench.editor.revealIfOpen": false,
   "workbench.editor.restoreViewState": true,
   "workbench.panel.opensMaximized": "never",
