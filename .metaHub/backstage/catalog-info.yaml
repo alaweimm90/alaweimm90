@@ -1,0 +1,322 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: multi-org-platform
+  description: Multi-organization monorepo platform
+  annotations:
+    github.com/project-slug: mesha/GitHub
+spec:
+  owner: platform-team
+  domain: infrastructure
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: simcore
+  description: SimCore service - React TypeScript application
+  annotations:
+    github.com/project-slug: mesha/GitHub
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - react
+    - typescript
+    - frontend
+  links:
+    - url: http://localhost:3000
+      title: Local Development
+    - url: http://simcore.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - simcore-api
+  dependsOn:
+    - component:default/infra
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: repz
+  description: Repz service - Node.js application
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - backend
+  links:
+    - url: http://localhost:8080
+      title: Local Development
+    - url: http://repz.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - repz-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: benchbarrier
+  description: BenchBarrier service - Performance monitoring
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - monitoring
+    - performance
+  links:
+    - url: http://localhost:8081
+      title: Local Development
+    - url: http://benchbarrier.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - benchbarrier-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: attributa
+  description: Attributa service - Attribution system
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - backend
+  links:
+    - url: http://localhost:3001
+      title: Local Development
+    - url: http://attributa.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - attributa-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: mag-logic
+  description: Mag-Logic service - Python-based logic engine
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - python
+    - backend
+    - logic-engine
+  links:
+    - url: http://localhost:8888
+      title: Local Development
+spec:
+  type: service
+  lifecycle: production
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - mag-logic-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: custom-exporters
+  description: Custom Prometheus exporters - Monitoring metrics
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - monitoring
+    - prometheus
+    - metrics
+  links:
+    - url: http://localhost:9100/metrics
+      title: Metrics Endpoint
+    - url: http://metrics.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: platform-team
+  system: multi-org-platform
+  providesApis:
+    - metrics-api
+  dependsOn:
+    - resource:default/prometheus
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: infra
+  description: Infrastructure service - Core platform infrastructure
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - infrastructure
+    - platform
+  links:
+    - url: http://localhost:9090
+      title: Local Development
+    - url: http://infra.local
+      title: Service Domain
+spec:
+  type: service
+  lifecycle: production
+  owner: platform-team
+  system: multi-org-platform
+  providesApis:
+    - infra-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-agent-demo
+  description: AI Agent Demo - Express API demonstration
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - express
+    - ai
+    - demo
+  links:
+    - url: http://localhost:8085
+      title: Local Development
+spec:
+  type: service
+  lifecycle: experimental
+  owner: alawein-os
+  system: multi-org-platform
+  providesApis:
+    - ai-agent-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: api-gateway
+  description: API Gateway - Advanced gateway with auth and monitoring
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - express
+    - gateway
+    - authentication
+    - graphql
+  links:
+    - url: http://localhost:8086
+      title: Local Development
+spec:
+  type: service
+  lifecycle: production
+  owner: alaweimm90
+  system: multi-org-platform
+  providesApis:
+    - gateway-api
+  dependsOn:
+    - resource:default/redis
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dashboard
+  description: Dashboard - React TypeScript dashboard UI
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - react
+    - typescript
+    - frontend
+    - dashboard
+  links:
+    - url: http://localhost:8087
+      title: Local Development
+spec:
+  type: website
+  lifecycle: production
+  owner: alaweimm90
+  system: multi-org-platform
+  consumesApis:
+    - api-gateway
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: healthcare
+  description: Healthcare Automation - HIPAA-compliant medical workflow system
+  annotations:
+    github.com/project-slug: mesha/GitHub
+  tags:
+    - nodejs
+    - express
+    - healthcare
+    - hipaa
+    - fhir
+  links:
+    - url: http://localhost:8088
+      title: Local Development
+spec:
+  type: service
+  lifecycle: production
+  owner: alaweimm90
+  system: multi-org-platform
+  providesApis:
+    - healthcare-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: prometheus
+  description: Prometheus monitoring system
+  annotations:
+    prometheus.io/scrape: 'true'
+spec:
+  type: monitoring
+  owner: platform-team
+  system: multi-org-platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: redis
+  description: Redis cache and session store
+spec:
+  type: cache
+  owner: platform-team
+  system: multi-org-platform
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: local-registry
+  description: Local Docker registry at 127.0.0.1:5000
+  annotations:
+    registry.io/url: 'http://127.0.0.1:5000'
+spec:
+  type: registry
+  owner: platform-team
+  system: multi-org-platform

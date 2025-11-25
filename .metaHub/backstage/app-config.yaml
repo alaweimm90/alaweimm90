@@ -1,0 +1,83 @@
+app:
+  title: Multi-Org Platform
+  baseUrl: http://localhost:3030
+
+organization:
+  name: GitHub Multi-Org Monorepo
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:3030
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+integrations:
+  github:
+    - host: github.com
+      # For production, use GitHub App or Personal Access Token
+      # token: ${GITHUB_TOKEN}
+
+techdocs:
+  builder: 'local'
+  generator:
+    runIn: 'local'
+  publisher:
+    type: 'local'
+
+auth:
+  # Allow guest access for local development
+  environment: development
+  providers:
+    guest: {}
+
+scaffolder:
+  defaultAuthor:
+    name: Platform Team
+    email: platform@example.com
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location]
+  locations:
+    # Load all catalog-info.yaml files from metaHub
+    - type: file
+      target: ../../.metaHub/backstage/catalog-info.yaml
+      rules:
+        - allow: [Component, System, API, Resource]
+
+    # Auto-discover catalog files in the repository
+    - type: file
+      target: ../../**/catalog-info.yaml
+      rules:
+        - allow: [Component, API, Resource]
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters: []
+
+# Prometheus metrics
+prometheus:
+  proxyPath: /prometheus/api
+  # Point to your existing Prometheus instance
+  # Set via PROMETHEUS_URL environment variable in docker-compose
+
+# Custom theme
+theme:
+  light:
+    primaryColor: '#2196F3'
+  dark:
+    primaryColor: '#90CAF9'

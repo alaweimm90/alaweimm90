@@ -1,0 +1,56 @@
+name: Renovate Dependency Updates
+
+on:
+  schedule:
+    # Run every 3 hours during work hours
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: false
+        default: 'info'
+        type: choice
+        options:
+          - debug
+          - info
+          - warn
+          - error
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  renovate:
+    name: Run Renovate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v40.3.2
+        with:
+          configurationFile: .metaHub/renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN || secrets.GITHUB_TOKEN }}
+        env:
+          LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
+          RENOVATE_PLATFORM: github
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_AUTODISCOVER: false
+          RENOVATE_GIT_AUTHOR: 'Renovate Bot <bot@renovateapp.com>'
+          RENOVATE_PR_FOOTER: |
+            
+
+            
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## Renovate Run Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Repository: ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Config: .metaHub/renovate.json" >> $GITHUB_STEP_SUMMARY
+          echo "- Triggered: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Log Level: ${{ inputs.logLevel || 'info' }}" >> $GITHUB_STEP_SUMMARY
