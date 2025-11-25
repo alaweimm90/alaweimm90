@@ -1,28 +1,21 @@
 # Repository Structure Policy - STRICT ENFORCEMENT
-# Enforces CANONICAL root directory structure for multi-org monorepo
+# Enforces CANONICAL root directory structure for meta governance repository
 
 package repo_structure
 
 # CANONICAL STRUCTURE: Only these root directories/files allowed
+# This is a meta governance repository - contains policies and configurations only
 allowed_roots := {
     ".github",
     ".metaHub",
-    "alaweimm90",
-    "organizations",
+    ".allstar",
     ".husky",
     "SECURITY.md",
     "README.md",
     "LICENSE",
     "package.json",
     "package-lock.json",
-    "pnpm-workspace.yaml",
-    "turbo.json",
-    "docker-compose.yml",
-    "docker-compose.dev.yml",
-    "docker-compose.test.yml",
-    ".dockerignore",
-    ".gitignore",
-    "Makefile"
+    ".gitignore"
 }
 
 # STRICT: Only these specific paths allowed in .metaHub
@@ -80,23 +73,17 @@ deny[msg] {
 }
 
 # Deny Dockerfiles outside allowed directories
+# Meta governance repo should not have Dockerfiles (policies only)
 deny[msg] {
     input.file.path
     endswith(input.file.path, "Dockerfile")
     not dockerfile_in_allowed_location(input.file.path)
-    msg := sprintf("Dockerfile at '%s' must be in service directory, not root or arbitrary locations", [input.file.path])
+    msg := sprintf("Dockerfile at '%s' not allowed in meta governance repository. Place Dockerfiles in governed service repositories.", [input.file.path])
 }
 
+# Only allow Dockerfiles in .metaHub for governance tool containers (e.g., Backstage)
 dockerfile_in_allowed_location(path) {
-    startswith(path, "organizations/")
-}
-
-dockerfile_in_allowed_location(path) {
-    startswith(path, "alaweimm90/")
-}
-
-dockerfile_in_allowed_location(path) {
-    startswith(path, ".metaHub/")
+    startswith(path, ".metaHub/backstage/")
 }
 
 # Warn about large files (>10MB)
