@@ -29,14 +29,10 @@ jobs:
           DEFAULT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-          # Only lint changed files in PRs
-          VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'push' }}
+          # Validate all files on push to master (meta governance repo)
+          VALIDATE_ALL_CODEBASE: true
 
-          # Enable validators
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_TYPESCRIPT_ES: true
-          VALIDATE_PYTHON_PYLINT: true
-          VALIDATE_PYTHON_FLAKE8: true
+          # Core validators for meta governance repository
           VALIDATE_YAML: true
           VALIDATE_JSON: true
           VALIDATE_MARKDOWN: true
@@ -44,14 +40,7 @@ jobs:
           VALIDATE_DOCKERFILE_HADOLINT: true
           VALIDATE_GITHUB_ACTIONS: true
 
-          # Disable problematic validators
-          VALIDATE_JSCPD: false
-
-          # Linter paths
+          # Linter configurations
           LINTER_RULES_PATH: /
           YAML_CONFIG_FILE: .yamllint.yml
           MARKDOWN_CONFIG_FILE: .markdownlint.json
-
-          # Fix mode (only on PRs)
-          FIX_MODE: ${{ github.event_name == 'pull_request' }}
-          FIX_MODE_ENABLED_LINTERS: JAVASCRIPT_ES,TYPESCRIPT_ES,PYTHON_BLACK
