@@ -39,8 +39,3 @@ jobs:
           VALIDATE_BASH: true
           VALIDATE_DOCKERFILE_HADOLINT: true
           VALIDATE_GITHUB_ACTIONS: true
-
-          # Linter configurations
-          LINTER_RULES_PATH: /
-          YAML_CONFIG_FILE: .yamllint.yml
-          MARKDOWN_CONFIG_FILE: .markdownlint.json
