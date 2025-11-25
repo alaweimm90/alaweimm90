@@ -124,7 +124,7 @@ pnpm run pnode3:4:2:smart
 <!-- Reprez AI center script: -->
 <!--
     npm run activate-dulp:node3:4:2 (index.js)
-    npm run initnode3:4:2=sub3eft5qf2e (pluginservice.js)
+    npm run initnode3:4:客气2=sub3eft5qf2e (pluginservice.js)
     latest version: https://eenzo.com/public/Items/Tools/ai-center-starter.zip
     refactor from https://github.com/Dall-E-2023/duplicative-probe
 -->
@@ -614,17 +614,14 @@ Follow: 4-week roadmap in MONOREPO_ANALYSIS_SUMMARY.md
 All business products are now organized under `alaweimm90/business/products/`:
 
 #### 🏋️ **REPZ** - AI Athletic Performance Platform
-
 **Location**: [`alaweimm90/business/products/repz/`](./alaweimm90/business/products/repz/)
 
 **What it includes:**
-
 - **Platform**: Full-stack application (portal + mobile app + backend)
 - **Autonomous Improvement**: 500-step self-optimizing workflow system
 - **Business Operations**: Sales automation, CRM integration, marketing
 
 **Quick Start:**
-
 ```bash
 # Main platform
 cd alaweimm90/business/products/repz/platform
@@ -636,16 +633,22 @@ python run.py
 ```
 
 #### 🎨 **LiveItIconic** - Creative Platform
-
 **Location**: [`alaweimm90/business/products/liveiticonic/`](./alaweimm90/business/products/liveiticonic/)
 
 #### 📊 **BenchBarrier** - Performance Analytics
-
 **Location**: [`alaweimm90/business/products/benchbarrier/`](./alaweimm90/business/products/benchbarrier/)
 
 #### 💄 **Calla** - Beauty & Lifestyle
-
 **Location**: [`alaweimm90/business/products/calla/`](./alaweimm90/business/products/calla/)
+
+#### 🔬 **AlaweinLabs** - Research & Innovation
+**Location**: [`alaweimm90/business/products/alaweinlabs/`](./alaweimm90/business/products/alaweinlabs/)
+
+#### 🧠 **MeatheadPhysicist** - Science & Education
+**Location**: [`alaweimm90/business/products/meatheadphysicist/`](./alaweimm90/business/products/meatheadphysicist/)
+
+#### 🛠️ **MeshyTools** - Developer Tools
+**Location**: [`alaweimm90/business/products/meshlytools/`](./alaweimm90/business/products/meshlytools/)
 
 ### 🔧 Centralized Automation
 
