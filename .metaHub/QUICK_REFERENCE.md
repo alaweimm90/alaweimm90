@@ -1,4 +1,4 @@
-# Governance Quick Reference Card
+# 1. Governance Quick Reference Card
 
 **Repository**: https://github.com/alaweimm90/alaweimm90
 **Status**: 7/10 tools active | 3 manual setups pending (30 min)
@@ -6,9 +6,9 @@
 
 ---
 
-## 🚀 30-Minute Activation Checklist
+## 1.1. 🚀 30-Minute Activation Checklist
 
-### ☐ Step 1: GitHub Rulesets (5 min)
+### 1.1.1. ☐ Step 1: GitHub Rulesets (5 min)
 ```
 URL: https://github.com/alaweimm90/alaweimm90/settings/rules
 
@@ -31,7 +31,7 @@ Actions:
 6. Create
 ```
 
-### ☐ Step 2: Policy-Bot (10 min)
+### 1.1.2. ☐ Step 2: Policy-Bot (10 min)
 ```
 URL: https://github.com/apps/policy-bot
 
@@ -44,7 +44,7 @@ Actions:
 6. Go back to Rulesets, add "policy-bot" to required checks
 ```
 
-### ☐ Step 3: OpenSSF Allstar (10 min)
+### 1.1.3. ☐ Step 3: OpenSSF Allstar (10 min)
 ```
 URL: https://github.com/apps/allstar-app
 
@@ -56,7 +56,7 @@ Actions:
 5. Check for issues: gh issue list --label allstar
 ```
 
-### ☐ Step 4: Verify (5 min)
+### 1.1.4. ☐ Step 4: Verify (5 min)
 ```bash
 # Create test PR
 git checkout -b test-activation
@@ -75,7 +75,7 @@ gh pr create --title "Test Activation"
 
 ---
 
-## 📊 Tool Status Dashboard
+## 1.2. 📊 Tool Status Dashboard
 
 | Tool | Status | Trigger | Location |
 |------|--------|---------|----------|
@@ -92,7 +92,7 @@ gh pr create --title "Test Activation"
 
 ---
 
-## 🔍 Daily Commands (5 min)
+## 1.3. 🔍 Daily Commands (5 min)
 
 ```bash
 # Check Renovate PRs
@@ -110,7 +110,7 @@ gh run list --status failure --limit 5
 
 ---
 
-## 📈 Weekly Commands (15 min)
+## 1.4. 📈 Weekly Commands (15 min)
 
 ```bash
 # View latest Scorecard results
@@ -128,7 +128,7 @@ gh pr list --search "is:pr" --limit 10
 
 ---
 
-## 🆘 Emergency Commands
+## 1.5. 🆘 Emergency Commands
 
 ```bash
 # Bypass pre-commit hook for governance changes
@@ -147,7 +147,7 @@ git push --force origin branch-name
 
 ---
 
-## 📚 Documentation Quick Links
+## 1.6. 📚 Documentation Quick Links
 
 | Need | Document | Location |
 |------|----------|----------|
@@ -163,16 +163,16 @@ git push --force origin branch-name
 
 ---
 
-## 🔧 Common Fixes
+## 1.7. 🔧 Common Fixes
 
-### Super-Linter failing on valid code
+### 1.7.1. Super-Linter failing on valid code
 ```yaml
 # .github/workflows/super-linter.yml
 env:
   VALIDATE_JSCPD: false  # Disable copy-paste detection
 ```
 
-### OPA rejecting valid Dockerfile
+### 1.7.2. OPA rejecting valid Dockerfile
 ```rego
 # .metaHub/policies/docker-security.rego
 # Add to allowed exceptions
@@ -181,7 +181,7 @@ allow_latest_for_dev := {
 }
 ```
 
-### Too many Renovate PRs
+### 1.7.3. Too many Renovate PRs
 ```json
 // .metaHub/renovate.json
 {
@@ -190,14 +190,14 @@ allow_latest_for_dev := {
 }
 ```
 
-### Policy-Bot not working
+### 1.7.4. Policy-Bot not working
 1. Check: https://github.com/settings/installations
 2. Verify webhook deliveries
 3. Ensure in required status checks
 
 ---
 
-## 📞 Getting Help
+## 1.8. 📞 Getting Help
 
 **Documentation**: `.metaHub/` folder (4000+ lines)
 
@@ -220,32 +220,32 @@ allow_latest_for_dev := {
 
 ---
 
-## 📋 First Week Checklist
+## 1.9. 📋 First Week Checklist
 
-### Day 1 (Today)
+### 1.9.1. Day 1 (Today)
 - [ ] Complete 3 manual setups (30 min)
 - [ ] Create test PR
 - [ ] Verify all checks pass
 - [ ] Merge test PR
 
-### Day 2-3
+### 1.9.2. Day 2-3
 - [ ] Monitor Renovate PRs
 - [ ] Review any Allstar issues
 - [ ] Check workflow runs
 
-### Day 4-5
+### 1.9.3. Day 4-5
 - [ ] Test creating Dockerfile (OPA validation)
 - [ ] Test governance change (Policy-Bot routing)
 - [ ] Review SLSA provenance generation
 
-### Day 6-7 (Weekend)
+### 1.9.4. Day 6-7 (Weekend)
 - [ ] Wait for first Scorecard run (Saturday)
 - [ ] Collect baseline metrics
 - [ ] Update BASELINE_METRICS.md
 
 ---
 
-## 🎯 Success Metrics
+## 1.10. 🎯 Success Metrics
 
 **Week 1 Targets**:
 - [ ] All 10 tools active
@@ -263,7 +263,7 @@ allow_latest_for_dev := {
 
 ---
 
-## 💡 Pro Tips
+## 1.11. 💡 Pro Tips
 
 1. **Read the violation message** - It tells you exactly what's wrong
 2. **Test locally first** - Run `conftest test` before pushing
@@ -276,7 +276,7 @@ allow_latest_for_dev := {
 
 ---
 
-## 🚦 Status Indicators
+## 1.12. 🚦 Status Indicators
 
 **🟢 Green (Active & Working)**:
 - Super-Linter, Scorecard, Renovate, CODEOWNERS, OPA, Backstage, SLSA
