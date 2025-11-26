@@ -19,8 +19,7 @@ import os
 import hashlib
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
-from collections import defaultdict
+from typing import Dict, Any, Optional
 
 import click
 import yaml
@@ -184,7 +183,7 @@ class CheckpointManager:
                 try:
                     content = file_path.read_text(encoding='utf-8')
                     file_contents.append(f"{rel_path}:{hashlib.md5(content.encode()).hexdigest()}")
-                except:
+                except (OSError, UnicodeDecodeError):
                     pass
         repo_data["files_hash"] = hashlib.md5('|'.join(file_contents).encode()).hexdigest()[:8]
 
@@ -402,8 +401,8 @@ class CheckpointManager:
             "",
             "## Summary",
             "",
-            f"| Metric | Value |",
-            f"|--------|-------|",
+            "| Metric | Value |",
+            "|--------|-------|",
             f"| Current Checkpoint | {self.current_state.get('timestamp', 'N/A')} |",
             f"| Previous Checkpoint | {self.previous_state.get('timestamp', 'N/A') if self.previous_state else 'None'} |",
             f"| Drift Detected | {'Yes' if self.drift.get('has_drift') else 'No'} |",

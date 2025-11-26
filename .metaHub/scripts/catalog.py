@@ -18,12 +18,10 @@ import json
 import os
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any, Optional
-from collections import defaultdict
+from typing import Dict, Any, Optional
 
 import click
 import yaml
-from tabulate import tabulate
 
 
 class CatalogBuilder:
@@ -492,17 +490,17 @@ def main(org_path: Optional[str], fmt: str, output: Optional[str], quiet: bool):
             click.echo("\n" + "="*50)
             click.echo("CATALOG SUMMARY")
             click.echo("="*50)
-            click.echo(f"\nBy Language:")
+            click.echo("\nBy Language:")
             for lang, count in sorted(catalog["summary"]["by_language"].items(),
                                        key=lambda x: -x[1]):
                 click.echo(f"  {lang}: {count}")
 
-            click.echo(f"\nBy Type:")
+            click.echo("\nBy Type:")
             for repo_type, count in sorted(catalog["summary"]["by_type"].items(),
                                             key=lambda x: -x[1]):
                 click.echo(f"  {repo_type}: {count}")
 
-            click.echo(f"\nBy Tier:")
+            click.echo("\nBy Tier:")
             for tier in [1, 2, 3, 4]:
                 count = catalog["summary"]["by_tier"].get(tier, 0)
                 click.echo(f"  Tier {tier}: {count}")

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Catalog</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        h2 { color: #666; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f5f5f5; }
+        tr:hover { background: #f9f9f9; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .summary-card { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+        .summary-card h3 { margin-top: 0; }
+        .tier-1 { background: #ffebee; }
+        .tier-2 { background: #fff3e0; }
+        .tier-3 { background: #e3f2fd; }
+        .tier-4 { background: #f5f5f5; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+        .badge-python { background: #3776ab; color: white; }
+        .badge-typescript { background: #3178c6; color: white; }
+        .badge-go { background: #00add8; color: white; }
+        .badge-rust { background: #dea584; color: black; }
+        .timestamp { color: #999; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>Service Catalog</h1>
+    <p class="timestamp">Generated: 2025-11-26T14:40:01.162783</p>
+
+    <div class="summary">
+        <div class="summary-card">
+            <h3>Organizations</h3>
+            <p style="font-size: 24px; font-weight: bold;">5</p>
+        </div>
+        <div class="summary-card">
+            <h3>Repositories</h3>
+            <p style="font-size: 24px; font-weight: bold;">81</p>
+        </div>
+        <div class="summary-card tier-1">
+            <h3>Tier 1 (Critical)</h3>
+            <p style="font-size: 24px; font-weight: bold;">2</p>
+        </div>
+        <div class="summary-card tier-2">
+            <h3>Tier 2 (Important)</h3>
+            <p style="font-size: 24px; font-weight: bold;">10</p>
+        </div>
+    </div>
+
+    <h2>By Language</h2>
+    <table>
+        <tr><th>Language</th><th>Count</th></tr>
+        <tr><td>Python</td><td>22</td></tr>
+        <tr><td>unknown</td><td>16</td></tr>
+        <tr><td>TypeScript</td><td>12</td></tr>
+        <tr><td>Unknown</td><td>11</td></tr>
+        <tr><td>python</td><td>8</td></tr>
+        <tr><td>Mixed</td><td>5</td></tr>
+        <tr><td>Markdown</td><td>2</td></tr>
+        <tr><td>typescript</td><td>1</td></tr>
+        <tr><td>YAML</td><td>1</td></tr>
+        <tr><td>javascript</td><td>1</td></tr>
+        <tr><td>HTML</td><td>1</td></tr>
+        <tr><td>LaTeX</td><td>1</td></tr>
+    </table>
+
+    <h2>By Type</h2>
+    <table>
+        <tr><th>Type</th><th>Count</th></tr>
+        <tr><td>unknown</td><td>27</td></tr>
+        <tr><td>library</td><td>7</td></tr>
+        <tr><td>scientific-library</td><td>6</td></tr>
+        <tr><td>ui-application</td><td>3</td></tr>
+        <tr><td>web-application</td><td>2</td></tr>
+        <tr><td>automation</td><td>2</td></tr>
+        <tr><td>framework</td><td>2</td></tr>
+        <tr><td>cli-tool</td><td>2</td></tr>
+        <tr><td>platform</td><td>2</td></tr>
+        <tr><td>application</td><td>2</td></tr>
+        <tr><td>observability</td><td>2</td></tr>
+        <tr><td>ecommerce</td><td>1</td></tr>
+        <tr><td>portfolio</td><td>1</td></tr>
+        <tr><td>sdk</td><td>1</td></tr>
+        <tr><td>analytics</td><td>1</td></tr>
+        <tr><td>tool</td><td>1</td></tr>
+        <tr><td>experimental</td><td>1</td></tr>
+        <tr><td>kubernetes-charts</td><td>1</td></tr>
+        <tr><td>testing</td><td>1</td></tr>
+        <tr><td>llm-tool</td><td>1</td></tr>
+        <tr><td>service</td><td>1</td></tr>
+        <tr><td>laboratory</td><td>1</td></tr>
+        <tr><td>simulator</td><td>1</td></tr>
+        <tr><td>api</td><td>1</td></tr>
+        <tr><td>cloud-platform</td><td>1</td></tr>
+        <tr><td>database</td><td>1</td></tr>
+        <tr><td>educational</td><td>1</td></tr>
+        <tr><td>examples</td><td>1</td></tr>
+        <tr><td>static-site</td><td>1</td></tr>
+        <tr><td>mlops</td><td>1</td></tr>
+        <tr><td>jupyter-notebooks</td><td>1</td></tr>
+        <tr><td>documentation</td><td>1</td></tr>
+        <tr><td>academic-papers</td><td>1</td></tr>
+        <tr><td>project-tracking</td><td>1</td></tr>
+        <tr><td>visualizations</td><td>1</td></tr>
+    </table>
+
+    <h2>AlaweinOS</h2>
+    <p>Repositories: 14</p>
+    <table>
+        <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Language</th>
+            <th>Tier</th>
+            <th>Status</th>
+            <th>Compliance</th>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>MEZAN</strong></td>
+            <td>framework</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>QAPlibria-new</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-1">
+            <td><strong>SimCore</strong></td>
+            <td>simulator</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>1</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>TalAI</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-Mixed">Mixed</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>benchmarks</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>docker</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>docs</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>k8s</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>optilibria</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>qmlab</strong></td>
+            <td>laboratory</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>reports</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>scripts</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>src</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-3">
+            <td><strong>tests</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>3</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+    </table>
+
+    <h2>MeatheadPhysicist</h2>
+    <p>Repositories: 30</p>
+    <table>
+        <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Language</th>
+            <th>Tier</th>
+            <th>Status</th>
+            <th>Compliance</th>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>api</strong></td>
+            <td>api</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>automation</strong></td>
+            <td>automation</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>benchmarks</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>cli</strong></td>
+            <td>cli-tool</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>cloud</strong></td>
+            <td>cloud-platform</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>config</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>dashboard</strong></td>
+            <td>ui-application</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>database</strong></td>
+            <td>database</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>deployment</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>docs</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-javascript">javascript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>education</strong></td>
+            <td>educational</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>examples</strong></td>
+            <td>examples</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>frontend</strong></td>
+            <td>ui-application</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>gh-pages</strong></td>
+            <td>static-site</td>
+            <td><span class="badge badge-HTML">HTML</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>integrations</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-Mixed">Mixed</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>k8s</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>mlops</strong></td>
+            <td>mlops</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>monitoring</strong></td>
+            <td>observability</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>nginx</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>notebooks</strong></td>
+            <td>jupyter-notebooks</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>notes</strong></td>
+            <td>documentation</td>
+            <td><span class="badge badge-Markdown">Markdown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>papers</strong></td>
+            <td>academic-papers</td>
+            <td><span class="badge badge-LaTeX">LaTeX</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>projects</strong></td>
+            <td>project-tracking</td>
+            <td><span class="badge badge-Markdown">Markdown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>quantum</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>scripts</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>src</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>terraform</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-3">
+            <td><strong>tests</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>3</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>tools</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>visualizations</strong></td>
+            <td>visualizations</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+    </table>
+
+    <h2>alaweimm90-business</h2>
+    <p>Repositories: 9</p>
+    <table>
+        <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Language</th>
+            <th>Tier</th>
+            <th>Status</th>
+            <th>Compliance</th>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>benchbarrier</strong></td>
+            <td>web-application</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>calla-lily-couture</strong></td>
+            <td>ecommerce</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>docs</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>dr-alowein-portfolio</strong></td>
+            <td>portfolio</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>live-it-iconic</strong></td>
+            <td>web-application</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>marketing-automation</strong></td>
+            <td>automation</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>repz</strong></td>
+            <td>framework</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>scripts</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>templates</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-typescript">typescript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+    </table>
+
+    <h2>alaweimm90-science</h2>
+    <p>Repositories: 6</p>
+    <table>
+        <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Language</th>
+            <th>Tier</th>
+            <th>Status</th>
+            <th>Compliance</th>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>TalAI</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-Unknown">Unknown</span></td>
+            <td>4</td>
+            <td>inactive</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>mag-logic</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>qmat-sim</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>qube-ml</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>sci-comp</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>spin-circ</strong></td>
+            <td>scientific-library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+    </table>
+
+    <h2>alaweimm90-tools</h2>
+    <p>Repositories: 22</p>
+    <table>
+        <tr>
+            <th>Repository</th>
+            <th>Type</th>
+            <th>Language</th>
+            <th>Tier</th>
+            <th>Status</th>
+            <th>Compliance</th>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>Attributa</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>CrazyIdeas</strong></td>
+            <td>experimental</td>
+            <td><span class="badge badge-Mixed">Mixed</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>HELIOS</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>LLMWorks</strong></td>
+            <td>library</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>admin-dashboard</strong></td>
+            <td>ui-application</td>
+            <td><span class="badge badge-TypeScript">TypeScript</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>alaweimm90-cli</strong></td>
+            <td>cli-tool</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>alaweimm90-python-sdk</strong></td>
+            <td>sdk</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>business-intelligence</strong></td>
+            <td>analytics</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-2">
+            <td><strong>core-framework</strong></td>
+            <td>tool</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>2</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-1">
+            <td><strong>devops-platform</strong></td>
+            <td>platform</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>1</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>docs</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>fitness-app</strong></td>
+            <td>application</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>helm-charts</strong></td>
+            <td>kubernetes-charts</td>
+            <td><span class="badge badge-YAML">YAML</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>job-search</strong></td>
+            <td>application</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-3">
+            <td><strong>load-tests</strong></td>
+            <td>testing</td>
+            <td><span class="badge badge-Mixed">Mixed</span></td>
+            <td>3</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>marketing-center</strong></td>
+            <td>platform</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>monitoring</strong></td>
+            <td>observability</td>
+            <td><span class="badge badge-Mixed">Mixed</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>node_modules</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>prompty</strong></td>
+            <td>llm-tool</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>prompty-service</strong></td>
+            <td>service</td>
+            <td><span class="badge badge-Python">Python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>shared</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-unknown">unknown</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+        <tr class="tier-4">
+            <td><strong>terraform</strong></td>
+            <td>unknown</td>
+            <td><span class="badge badge-python">python</span></td>
+            <td>4</td>
+            <td>active</td>
+            <td>README, CI, Tests</td>
+        </tr>
+    </table>
+
+</body>
+</html>

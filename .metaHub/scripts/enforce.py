@@ -25,7 +25,6 @@ from typing import Dict, List, Any, Optional, Tuple
 import click
 import yaml
 import jsonschema
-from tabulate import tabulate
 
 
 class PolicyEnforcer:
@@ -414,28 +413,28 @@ class PolicyEnforcer:
             f"\n{'='*60}",
             f"Enforcement Report: {self.repo_path.name}",
             f"{'='*60}",
-            f"\nSummary:",
+            "\nSummary:",
             f"  Violations: {len(self.violations)}",
             f"  Warnings:   {len(self.warnings)}",
             f"  Info:       {len(self.info)}",
         ]
 
         if self.violations:
-            lines.append(f"\n[VIOLATIONS]")
+            lines.append("\n[VIOLATIONS]")
             for v in self.violations:
                 lines.append(f"  [ERROR] {v['check']}: {v['message']}")
                 if v.get('file'):
                     lines.append(f"          File: {v['file']}")
 
         if self.warnings:
-            lines.append(f"\n[WARNINGS]")
+            lines.append("\n[WARNINGS]")
             for w in self.warnings:
                 lines.append(f"  [WARN] {w['check']}: {w['message']}")
                 if w.get('file'):
                     lines.append(f"         File: {w['file']}")
 
         if self.info:
-            lines.append(f"\n[INFO]")
+            lines.append("\n[INFO]")
             for i in self.info:
                 lines.append(f"  [INFO] {i['check']}: {i['message']}")
 
@@ -541,7 +540,7 @@ def main(path: str, strict: bool, report_fmt: str, output: Optional[str],
                 f"\n{'='*60}",
                 f"Organization Enforcement Report: {results['organization']}",
                 f"{'='*60}",
-                f"\nSummary:",
+                "\nSummary:",
                 f"  Total Repos:      {results['summary']['total_repos']}",
                 f"  Passed:           {results['summary']['passed']}",
                 f"  Failed:           {results['summary']['failed']}",
@@ -552,14 +551,14 @@ def main(path: str, strict: bool, report_fmt: str, output: Optional[str],
             # List failed repos
             failed_repos = [r for r in results['repos'] if not r['passed']]
             if failed_repos:
-                lines.append(f"\n[FAILED REPOS]")
+                lines.append("\n[FAILED REPOS]")
                 for repo in failed_repos:
                     lines.append(f"  - {repo['name']}: {len(repo['violations'])} violations")
 
             # List repos with warnings only
             warning_repos = [r for r in results['repos'] if r['passed'] and r['warnings']]
             if warning_repos:
-                lines.append(f"\n[REPOS WITH WARNINGS]")
+                lines.append("\n[REPOS WITH WARNINGS]")
                 for repo in warning_repos:
                     lines.append(f"  - {repo['name']}: {len(repo['warnings'])} warnings")
 

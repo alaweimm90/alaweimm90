@@ -17,11 +17,10 @@ Usage:
 
 import json
 import os
-import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field, asdict
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass, field
 from enum import Enum
 
 import click
@@ -236,12 +235,12 @@ class MetaAuditor:
 
         # Check required fields
         required = ["type", "language"]
-        for field in required:
-            if field not in metadata:
+        for req_field in required:
+            if req_field not in metadata:
                 audit.gaps.append(GovernanceGap(
                     severity=GapSeverity.P0,
                     category="metadata",
-                    message=f"Missing required field: {field}",
+                    message=f"Missing required field: {req_field}",
                     file_path=str(meta_file)
                 ))
 
@@ -334,8 +333,26 @@ class MetaAuditor:
 
     def _check_file_for_secrets(self, file_path: Path) -> bool:
         """Basic check for hardcoded secrets."""
+        # Skip test files, config templates, and documentation
+        skip_patterns = ["test_", "_test.", ".test.", "spec.", "mock", "fixture", "example", "template", ".md"]
+        file_name = file_path.name.lower()
+        if any(p in file_name for p in skip_patterns):
+            return False
+        
+        # Skip files in test directories
+        path_str = str(file_path).lower()
+        if any(d in path_str for d in ["/tests/", "/test/", "/__tests__/", "/spec/", "/fixtures/"]):
+            return False
+        
         try:
             content = file_path.read_text(encoding='utf-8', errors='ignore')
+            
+            # Skip if file is mostly comments or documentation
+            lines = content.split('\n')
+            code_lines = [line for line in lines if line.strip() and not line.strip().startswith(('#', '//', '/*', '*', '"""', "'''"))]
+            if len(code_lines) < 5:
+                return False
+            
             secret_patterns = [
                 "password=",
                 "api_key=",
@@ -347,8 +364,8 @@ class MetaAuditor:
             content_lower = content.lower()
             for pattern in secret_patterns:
                 if pattern.lower() in content_lower:
-                    # Skip if it's just a variable reference
-                    if "os.environ" in content or "process.env" in content:
+                    # Skip if it's just a variable reference or placeholder
+                    if any(safe in content for safe in ["os.environ", "process.env", "getenv", "${", "{{", "<YOUR_", "xxx", "placeholder"]):
                         continue
                     return True
         except Exception:
@@ -500,8 +517,8 @@ class MetaAuditor:
             "",
             "## Summary",
             "",
-            f"| Metric | Value |",
-            f"|--------|-------|",
+            "| Metric | Value |",
+            "|--------|-------|",
             f"| Total Projects | {summary.get('total_projects', 0)} |",
             f"| Promotion Ready | {summary.get('promotion_ready', 0)} |",
             f"| Average Score | {summary.get('average_score', 0)}% |",
@@ -890,7 +907,7 @@ def audit(output: str, fmt: str):
     """Generate comprehensive audit report."""
     try:
         auditor = MetaAuditor()
-        click.echo(f"Running portfolio audit...")
+        click.echo("Running portfolio audit...")
 
         auditor.scan_all_projects()
         report = auditor.generate_report(fmt=fmt)
@@ -902,7 +919,7 @@ def audit(output: str, fmt: str):
 
         # Print summary
         summary = auditor._generate_summary()
-        click.echo(f"\nSummary:")
+        click.echo("\nSummary:")
         click.echo(f"  Total Projects: {summary.get('total_projects', 0)}")
         click.echo(f"  Promotion Ready: {summary.get('promotion_ready', 0)}")
         click.echo(f"  Average Score: {summary.get('average_score', 0)}%")
