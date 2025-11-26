@@ -65,29 +65,40 @@ ROOT (7 files — actual)
 
 ## 🚀 How Consumer Repos Use This
 
+**Start with the [Consumer Guide](./CONSUMER_GUIDE.md) and [Example Consumer Repository](./.metaHub/examples/consumer-repo/)**
+
 Consumer repositories reference this governance contract via:
 
-1. **Reference policies** from this repo's OPA bundle
+1. **Implement Repository Metadata** (`.meta/repo.yaml`)
    ```bash
-   opa eval -d https://github.com/alaweimm90/alaweimm90/policies \
-     -i <(./scripts/repo-snapshot.sh) 'data.repo.deny'
+   # Validate against governance contract schema
+   ajv validate -s <governance-contract>/schemas/repo-schema.json -d .meta/repo.yaml
    ```
+   See: [Example `.meta/repo.yaml`](./.metaHub/examples/consumer-repo/.meta/repo.yaml)
 
-2. **Call reusable workflows** from `.github/workflows/`
+2. **Call Reusable Workflows** from `.github/workflows/`
    ```yaml
-   - uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
-   - uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+   jobs:
+     python-ci:
+       uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+     policy-validation:
+       uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
    ```
+   See: [Example CI Workflow](./.metaHub/examples/consumer-repo/.github/workflows/ci.yml)
 
-3. **Implement `.meta/repo.yaml`** per schema in `.metaHub/schemas/`
+3. **Copy Infrastructure Examples** as starter code
    ```bash
-   ajv validate -s <this-repo>/schemas/repo-schema.json -d .meta/repo.yaml
+   cp <governance-contract>/.metaHub/infra/examples/Dockerfile.example ./Dockerfile
+   cp <governance-contract>/.metaHub/infra/examples/docker-compose.example.yml ./docker-compose.yml
    ```
+   See: [Example Dockerfile](./.metaHub/examples/consumer-repo/Dockerfile) and [docker-compose.yml](./.metaHub/examples/consumer-repo/docker-compose.yml)
 
-4. **Copy examples** from `.metaHub/infra/examples/` as starter code
+4. **Validate Against Governance Policies**
    ```bash
-   cp <this-repo>/.metaHub/infra/examples/Dockerfile.example ./Dockerfile
+   opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+     -i <(cat .meta/repo.yaml) 'data.repo.warn'
    ```
+   See: [Policy Documentation](./.metaHub/policies/README.md)
 
 ---
 
