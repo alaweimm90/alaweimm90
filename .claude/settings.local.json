@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install:*)",
+      "Bash(/c/Users/mesha/AppData/Local/Microsoft/WindowsApps/python3 -m pip install:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

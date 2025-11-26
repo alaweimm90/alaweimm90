@@ -18,7 +18,12 @@ allowed_roots := {
 allowed_metahub_paths := {
     ".metaHub/policies",
     ".metaHub/schemas",
-    ".metaHub/infra/examples"
+    ".metaHub/infra/examples",
+    ".metaHub/templates",
+    ".metaHub/guides",
+    ".metaHub/examples",
+    ".metaHub/docs",
+    ".metaHub/security"
 }
 
 # Warn (don't deny) about structure violations
