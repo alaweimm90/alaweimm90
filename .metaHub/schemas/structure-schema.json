@@ -1,0 +1,260 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Portfolio Structure Schema",
+  "description": "Defines the canonical folder/file hierarchy for the entire portfolio",
+  "version": "1.0.0",
+
+  "definitions": {
+    "portfolio": {
+      "description": "Top-level portfolio structure",
+      "type": "object",
+      "required": ["organizations"],
+      "properties": {
+        "organizations": {
+          "type": "array",
+          "description": "List of organization directories",
+          "items": { "$ref": "#/definitions/organization" }
+        }
+      }
+    },
+
+    "organization": {
+      "description": "Organization-level structure",
+      "type": "object",
+      "required": ["name", "required_files", "required_dirs", "repos"],
+      "properties": {
+        "name": { "type": "string" },
+        "required_files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["README.md", "LICENSE", "CODEOWNERS", ".gitignore"]
+        },
+        "required_dirs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [".github"]
+        },
+        "repos": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/repository" }
+        }
+      }
+    },
+
+    "repository": {
+      "description": "Repository-level structure",
+      "type": "object",
+      "required": ["name", "type", "language"],
+      "properties": {
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["library", "service", "tool", "demo", "research", "adapter", "meta"]
+        },
+        "language": {
+          "type": "string",
+          "enum": ["python", "typescript", "go", "rust", "mixed", "docs"]
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        }
+      }
+    }
+  },
+
+  "structure_templates": {
+    "base": {
+      "description": "Required for ALL repositories regardless of type",
+      "required_files": [
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        ".meta/repo.yaml"
+      ],
+      "required_dirs": [
+        ".meta",
+        ".github"
+      ],
+      "optional_files": [
+        "CONTRIBUTING.md",
+        "SECURITY.md",
+        "CHANGELOG.md",
+        "CODE_OF_CONDUCT.md"
+      ]
+    },
+
+    "tier_1": {
+      "description": "Mission-critical repositories (extends base)",
+      "extends": "base",
+      "required_files": [
+        ".github/CODEOWNERS",
+        ".github/workflows/ci.yml",
+        "SECURITY.md"
+      ],
+      "required_dirs": [
+        "tests",
+        "docs"
+      ]
+    },
+
+    "tier_2": {
+      "description": "Important repositories (extends base)",
+      "extends": "base",
+      "required_files": [
+        ".github/CODEOWNERS",
+        ".github/workflows/ci.yml"
+      ],
+      "required_dirs": [
+        "tests"
+      ]
+    },
+
+    "tier_3": {
+      "description": "Experimental repositories (extends base)",
+      "extends": "base",
+      "required_files": [],
+      "required_dirs": []
+    },
+
+    "python": {
+      "description": "Python-specific structure",
+      "required_files": [
+        "pyproject.toml",
+        "requirements.txt"
+      ],
+      "required_dirs": [
+        "src",
+        "tests"
+      ],
+      "optional_files": [
+        "setup.py",
+        "setup.cfg",
+        "ruff.toml",
+        ".pre-commit-config.yaml"
+      ],
+      "optional_dirs": [
+        "docs",
+        "scripts"
+      ]
+    },
+
+    "typescript": {
+      "description": "TypeScript-specific structure",
+      "required_files": [
+        "package.json",
+        "tsconfig.json"
+      ],
+      "required_dirs": [
+        "src",
+        "tests"
+      ],
+      "optional_files": [
+        "package-lock.json",
+        "bun.lockb",
+        "eslint.config.js",
+        ".prettierrc",
+        "jest.config.js",
+        "vitest.config.ts"
+      ],
+      "optional_dirs": [
+        "public",
+        "dist",
+        "docs"
+      ]
+    },
+
+    "go": {
+      "description": "Go-specific structure",
+      "required_files": [
+        "go.mod"
+      ],
+      "required_dirs": [
+        "cmd",
+        "internal"
+      ],
+      "optional_files": [
+        "go.sum",
+        "Makefile"
+      ],
+      "optional_dirs": [
+        "pkg",
+        "api",
+        "docs"
+      ]
+    },
+
+    "rust": {
+      "description": "Rust-specific structure",
+      "required_files": [
+        "Cargo.toml"
+      ],
+      "required_dirs": [
+        "src"
+      ],
+      "optional_files": [
+        "Cargo.lock",
+        "rust-toolchain.toml"
+      ],
+      "optional_dirs": [
+        "tests",
+        "benches",
+        "examples"
+      ]
+    },
+
+    "service": {
+      "description": "Service/API repositories",
+      "required_files": [
+        "Dockerfile"
+      ],
+      "required_dirs": [
+        "src",
+        "tests"
+      ],
+      "optional_files": [
+        "docker-compose.yml",
+        ".dockerignore"
+      ],
+      "optional_dirs": [
+        "api",
+        "config",
+        "scripts",
+        "deploy"
+      ]
+    },
+
+    "library": {
+      "description": "Library/package repositories",
+      "required_files": [],
+      "required_dirs": [
+        "src",
+        "tests"
+      ],
+      "optional_files": [],
+      "optional_dirs": [
+        "docs",
+        "examples"
+      ]
+    }
+  },
+
+  "portfolio_hierarchy": {
+    "organizations/": {
+      "description": "Contains all organization directories",
+      "children": {
+        "{org-name}/": {
+          "description": "Organization directory (e.g., alaweimm90-tools)",
+          "required_files": ["README.md", "CODEOWNERS", ".gitignore"],
+          "children": {
+            "{repo-name}/": {
+              "description": "Individual repository",
+              "structure": "Determined by .meta/repo.yaml type and language"
+            }
+          }
+        }
+      }
+    }
+  }
+}

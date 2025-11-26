@@ -1,0 +1,3772 @@
+{
+  "validated_at": "2025-11-26T15:37:26.693721",
+  "organizations": {
+    "alaweimm90-business": {
+      "name": "alaweimm90-business",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
+      "repos": [
+        {
+          "name": "benchbarrier",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\benchbarrier",
+          "metadata": {
+            "type": "web-application",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: benchbarrier",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "calla-lily-couture",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\calla-lily-couture",
+          "metadata": {
+            "type": "ecommerce",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: calla-lily-couture",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "alaweimm90-business",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "dr-alowein-portfolio",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\dr-alowein-portfolio",
+          "metadata": {
+            "type": "portfolio",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: dr-alowein-portfolio",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "live-it-iconic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\live-it-iconic",
+          "metadata": {
+            "type": "web-application",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: live-it-iconic",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "marketing-automation",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\marketing-automation",
+          "metadata": {
+            "type": "automation",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: marketing-automation",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [
+            "tsconfig.json"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "repz",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\repz",
+          "metadata": {
+            "type": "framework",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-business",
+            "description": "Repository: repz",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "scripts",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\scripts",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "alaweimm90-business",
+            "description": "scripts repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "templates",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\templates",
+          "metadata": {
+            "type": "unknown",
+            "language": "typescript",
+            "tier": 4,
+            "owner": "alaweimm90-business",
+            "description": "templates repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [
+            "tsconfig.json",
+            "package.json"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        }
+      ],
+      "summary": {
+        "total_repos": 9,
+        "compliant": 6,
+        "non_compliant": 3,
+        "missing_files": 3,
+        "missing_dirs": 3
+      }
+    },
+    "alaweimm90-science": {
+      "name": "alaweimm90-science",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
+      "repos": [
+        {
+          "name": "mag-logic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\mag-logic",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: mag-logic",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "qmat-sim",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qmat-sim",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: qmat-sim",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "qube-ml",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qube-ml",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: qube-ml",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "sci-comp",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\sci-comp",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: sci-comp",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "spin-circ",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\spin-circ",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: spin-circ",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "TalAI",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
+          "metadata": {
+            "type": "unknown",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-science",
+            "description": "Repository: TalAI",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        }
+      ],
+      "summary": {
+        "total_repos": 6,
+        "compliant": 2,
+        "non_compliant": 4,
+        "missing_files": 0,
+        "missing_dirs": 4
+      }
+    },
+    "alaweimm90-tools": {
+      "name": "alaweimm90-tools",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools",
+      "repos": [
+        {
+          "name": "admin-dashboard",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\admin-dashboard",
+          "metadata": {
+            "type": "ui-application",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: admin-dashboard",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "alaweimm90-cli",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-cli",
+          "metadata": {
+            "type": "cli-tool",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: alaweimm90-cli",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "alaweimm90-python-sdk",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-python-sdk",
+          "metadata": {
+            "type": "sdk",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: alaweimm90-python-sdk",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "Attributa",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\Attributa",
+          "metadata": {
+            "type": "library",
+            "language": "TypeScript",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: Attributa",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "business-intelligence",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\business-intelligence",
+          "metadata": {
+            "type": "analytics",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: business-intelligence",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "core-framework",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\core-framework",
+          "metadata": {
+            "type": "tool",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: core-framework",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "CrazyIdeas",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\CrazyIdeas",
+          "metadata": {
+            "type": "experimental",
+            "language": "Mixed",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: CrazyIdeas",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "devops-platform",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\devops-platform",
+          "metadata": {
+            "type": "platform",
+            "language": "Python",
+            "tier": 1,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: devops-platform",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "SECURITY.md",
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            "docs/",
+            ".meta/",
+            ".github/",
+            "src/",
+            "tests/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/",
+            "tests/"
+          ],
+          "missing_files": [
+            "SECURITY.md"
+          ],
+          "missing_dirs": [
+            "docs/"
+          ]
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "alaweimm90-tools",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "fitness-app",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\fitness-app",
+          "metadata": {
+            "type": "application",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: fitness-app",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "HELIOS",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\HELIOS",
+          "metadata": {
+            "type": "library",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: HELIOS",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "helm-charts",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\helm-charts",
+          "metadata": {
+            "type": "kubernetes-charts",
+            "language": "YAML",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: helm-charts",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "job-search",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\job-search",
+          "metadata": {
+            "type": "application",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: job-search",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": []
+        },
+        {
+          "name": "LLMWorks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\LLMWorks",
+          "metadata": {
+            "type": "library",
+            "language": "TypeScript",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: LLMWorks",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "load-tests",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\load-tests",
+          "metadata": {
+            "type": "testing",
+            "language": "Mixed",
+            "tier": 3,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: load-tests",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "marketing-center",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\marketing-center",
+          "metadata": {
+            "type": "platform",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: marketing-center",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "monitoring",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\monitoring",
+          "metadata": {
+            "type": "observability",
+            "language": "Mixed",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: monitoring",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "node_modules",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\node_modules",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "alaweimm90-tools",
+            "description": "node_modules repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "prompty",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty",
+          "metadata": {
+            "type": "llm-tool",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: prompty",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "prompty-service",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty-service",
+          "metadata": {
+            "type": "service",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: prompty-service",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "Dockerfile",
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "Dockerfile",
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "shared",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\shared",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "alaweimm90-tools",
+            "description": "shared repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "terraform",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\terraform",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "alaweimm90-tools",
+            "description": "terraform repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        }
+      ],
+      "summary": {
+        "total_repos": 22,
+        "compliant": 17,
+        "non_compliant": 5,
+        "missing_files": 4,
+        "missing_dirs": 4
+      }
+    },
+    "AlaweinOS": {
+      "name": "AlaweinOS",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS",
+      "repos": [
+        {
+          "name": "benchmarks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\benchmarks",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "benchmarks repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "docker",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docker",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "docker repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "k8s",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\k8s",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "k8s repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "MEZAN",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\MEZAN",
+          "metadata": {
+            "type": "framework",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: MEZAN",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "optilibria",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\optilibria",
+          "metadata": {
+            "type": "library",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: optilibria",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "QAPlibria-new",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria-new",
+          "metadata": {
+            "type": "library",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: QAPlibria-new",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "qmlab",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\qmlab",
+          "metadata": {
+            "type": "laboratory",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: qmlab",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "reports",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\reports",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "reports repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "scripts",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\scripts",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "scripts repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "SimCore",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\SimCore",
+          "metadata": {
+            "type": "simulator",
+            "language": "TypeScript",
+            "tier": 1,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: SimCore",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "SECURITY.md",
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            "docs/",
+            ".meta/",
+            ".github/",
+            "src/",
+            "tests/"
+          ],
+          "present_files": [
+            "SECURITY.md",
+            "README.md",
+            ".github/workflows/ci.yml",
+            "tsconfig.json",
+            "package.json",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            "docs/",
+            ".meta/",
+            ".github/",
+            "src/",
+            "tests/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "src",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\src",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "src repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "TalAI",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\TalAI",
+          "metadata": {
+            "type": "library",
+            "language": "Mixed",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: TalAI",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "tests",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\tests",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 3,
+            "owner": "AlaweinOS",
+            "description": "tests repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        }
+      ],
+      "summary": {
+        "total_repos": 14,
+        "compliant": 8,
+        "non_compliant": 6,
+        "missing_files": 3,
+        "missing_dirs": 6
+      }
+    },
+    "MeatheadPhysicist": {
+      "name": "MeatheadPhysicist",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
+      "repos": [
+        {
+          "name": "api",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\api",
+          "metadata": {
+            "type": "api",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: api",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "automation",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\automation",
+          "metadata": {
+            "type": "automation",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: automation",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "benchmarks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\benchmarks",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "benchmarks repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "cli",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cli",
+          "metadata": {
+            "type": "cli-tool",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: cli",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".github/workflows/ci.yml",
+            "pyproject.toml",
+            ".github/CODEOWNERS",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "cloud",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cloud",
+          "metadata": {
+            "type": "cloud-platform",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: cloud",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "config",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\config",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "config repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "dashboard",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\dashboard",
+          "metadata": {
+            "type": "ui-application",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: dashboard",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "database",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\database",
+          "metadata": {
+            "type": "database",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: database",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "deployment",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\deployment",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "deployment repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "javascript",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "education",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\education",
+          "metadata": {
+            "type": "educational",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: education",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "examples",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\examples",
+          "metadata": {
+            "type": "examples",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: examples",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "frontend",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\frontend",
+          "metadata": {
+            "type": "ui-application",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: frontend",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "tsconfig.json",
+            "package.json",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "gh-pages",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\gh-pages",
+          "metadata": {
+            "type": "static-site",
+            "language": "HTML",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: gh-pages",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "integrations",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\integrations",
+          "metadata": {
+            "type": "library",
+            "language": "Mixed",
+            "tier": 4,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: integrations",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "k8s",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\k8s",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "k8s repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "mlops",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\mlops",
+          "metadata": {
+            "type": "mlops",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: mlops",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "monitoring",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\monitoring",
+          "metadata": {
+            "type": "observability",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: monitoring",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "nginx",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\nginx",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "nginx repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "notebooks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notebooks",
+          "metadata": {
+            "type": "jupyter-notebooks",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: notebooks",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "notes",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notes",
+          "metadata": {
+            "type": "documentation",
+            "language": "Markdown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: notes",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "papers",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\papers",
+          "metadata": {
+            "type": "academic-papers",
+            "language": "LaTeX",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: papers",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "projects",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\projects",
+          "metadata": {
+            "type": "project-tracking",
+            "language": "Markdown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: projects",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "quantum",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\quantum",
+          "metadata": {
+            "type": "scientific-library",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: quantum",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "scripts",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\scripts",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "scripts repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "src",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\src",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "src repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "terraform",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\terraform",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "terraform repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "tests",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tests",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 3,
+            "owner": "MeatheadPhysicist",
+            "description": "tests repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": false,
+          "required_files": [
+            "README.md",
+            "pyproject.toml",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/",
+            "src/"
+          ],
+          "present_files": [
+            "README.md",
+            ".gitignore",
+            "LICENSE",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            "tests/",
+            ".github/"
+          ],
+          "missing_files": [
+            "pyproject.toml"
+          ],
+          "missing_dirs": [
+            "src/"
+          ]
+        },
+        {
+          "name": "tools",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tools",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "tools repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        },
+        {
+          "name": "visualizations",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\visualizations",
+          "metadata": {
+            "type": "visualizations",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: visualizations",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliant": true,
+          "required_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "required_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "present_files": [
+            "README.md",
+            "LICENSE",
+            ".gitignore",
+            ".meta/repo.yaml"
+          ],
+          "present_dirs": [
+            ".meta/",
+            ".github/"
+          ],
+          "missing_files": [],
+          "missing_dirs": []
+        }
+      ],
+      "summary": {
+        "total_repos": 30,
+        "compliant": 22,
+        "non_compliant": 8,
+        "missing_files": 5,
+        "missing_dirs": 8
+      }
+    }
+  },
+  "summary": {
+    "total_orgs": 5,
+    "total_repos": 81,
+    "compliant_repos": 55,
+    "non_compliant_repos": 26,
+    "missing_files": 15,
+    "missing_dirs": 25
+  }
+}

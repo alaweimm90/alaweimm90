@@ -1,0 +1,348 @@
+# Portfolio Structure Definition
+# This file defines the canonical folder hierarchy for the entire portfolio
+
+version: "1.0"
+description: "Canonical structure for alaweimm90 portfolio"
+
+# =============================================================================
+# PORTFOLIO LEVEL (Root)
+# =============================================================================
+portfolio:
+  name: "alaweimm90"
+  description: "Central governance repository"
+
+  required_structure:
+    - ".metaHub/"           # Governance infrastructure
+    - "organizations/"      # All organization directories
+    - "README.md"           # Profile README
+    - "LICENSE"             # MIT License
+    - ".gitignore"          # Git ignore rules
+    - "CONTRIBUTING.md"     # Contribution guidelines
+    - "SECURITY.md"         # Security policy
+    - "GOVERNANCE.md"       # Governance strategy
+
+# =============================================================================
+# ORGANIZATION LEVEL
+# =============================================================================
+organizations:
+  - name: "alaweimm90-business"
+    description: "Business and enterprise projects"
+    required_structure:
+      files:
+        - "README.md"
+        - "CODEOWNERS"
+        - ".gitignore"
+      dirs:
+        - ".github/"
+
+  - name: "alaweimm90-science"
+    description: "Scientific computing and research"
+    required_structure:
+      files:
+        - "README.md"
+        - "CODEOWNERS"
+        - ".gitignore"
+      dirs:
+        - ".github/"
+
+  - name: "alaweimm90-tools"
+    description: "Developer tools and utilities"
+    required_structure:
+      files:
+        - "README.md"
+        - "CODEOWNERS"
+        - ".gitignore"
+      dirs:
+        - ".github/"
+
+  - name: "AlaweinOS"
+    description: "Operating system and infrastructure"
+    required_structure:
+      files:
+        - "README.md"
+        - "CODEOWNERS"
+        - ".gitignore"
+      dirs:
+        - ".github/"
+
+  - name: "MeatheadPhysicist"
+    description: "Physics education and outreach"
+    required_structure:
+      files:
+        - "README.md"
+        - "CODEOWNERS"
+        - ".gitignore"
+      dirs:
+        - ".github/"
+
+# =============================================================================
+# REPOSITORY LEVEL - Base Requirements
+# =============================================================================
+repository_base:
+  description: "Required for ALL repositories"
+
+  required:
+    files:
+      - "README.md"
+      - "LICENSE"
+      - ".gitignore"
+      - ".meta/repo.yaml"
+    dirs:
+      - ".meta/"
+      - ".github/"
+
+  recommended:
+    files:
+      - "CONTRIBUTING.md"
+      - "CHANGELOG.md"
+      - ".github/CODEOWNERS"
+    dirs:
+      - "tests/"
+      - "docs/"
+
+# =============================================================================
+# REPOSITORY LEVEL - By Tier
+# =============================================================================
+repository_tiers:
+  tier_1:
+    name: "Mission Critical"
+    extends: "repository_base"
+    additional_required:
+      files:
+        - ".github/CODEOWNERS"
+        - ".github/workflows/ci.yml"
+        - "SECURITY.md"
+      dirs:
+        - "tests/"
+        - "docs/"
+    coverage_minimum: 90
+
+  tier_2:
+    name: "Important"
+    extends: "repository_base"
+    additional_required:
+      files:
+        - ".github/CODEOWNERS"
+        - ".github/workflows/ci.yml"
+      dirs:
+        - "tests/"
+    coverage_minimum: 80
+
+  tier_3:
+    name: "Experimental"
+    extends: "repository_base"
+    additional_required:
+      files: []
+      dirs: []
+    coverage_minimum: 60
+
+  tier_4:
+    name: "Unknown/Unclassified"
+    extends: "repository_base"
+    additional_required:
+      files: []
+      dirs: []
+    coverage_minimum: 0
+
+# =============================================================================
+# REPOSITORY LEVEL - By Language
+# =============================================================================
+repository_languages:
+  python:
+    name: "Python Repository"
+    required:
+      files:
+        - "pyproject.toml"
+      dirs:
+        - "src/"
+        - "tests/"
+    recommended:
+      files:
+        - "requirements.txt"
+        - "requirements-dev.txt"
+        - "ruff.toml"
+        - ".pre-commit-config.yaml"
+      dirs:
+        - "docs/"
+        - "scripts/"
+
+  typescript:
+    name: "TypeScript Repository"
+    required:
+      files:
+        - "package.json"
+        - "tsconfig.json"
+      dirs:
+        - "src/"
+    recommended:
+      files:
+        - "package-lock.json"
+        - "eslint.config.js"
+        - ".prettierrc"
+      dirs:
+        - "tests/"
+        - "public/"
+        - "dist/"
+
+  go:
+    name: "Go Repository"
+    required:
+      files:
+        - "go.mod"
+      dirs:
+        - "cmd/"
+    recommended:
+      files:
+        - "go.sum"
+        - "Makefile"
+      dirs:
+        - "internal/"
+        - "pkg/"
+        - "api/"
+
+  rust:
+    name: "Rust Repository"
+    required:
+      files:
+        - "Cargo.toml"
+      dirs:
+        - "src/"
+    recommended:
+      files:
+        - "Cargo.lock"
+        - "rust-toolchain.toml"
+      dirs:
+        - "tests/"
+        - "benches/"
+        - "examples/"
+
+  terraform:
+    name: "Terraform Repository"
+    required:
+      files: []
+      dirs: []
+    recommended:
+      files:
+        - "main.tf"
+        - "variables.tf"
+        - "outputs.tf"
+      dirs:
+        - "modules/"
+
+  docs:
+    name: "Documentation Repository"
+    required:
+      files:
+        - "README.md"
+      dirs: []
+    recommended:
+      files:
+        - "mkdocs.yml"
+      dirs:
+        - "docs/"
+
+  unknown:
+    name: "Unknown/Unclassified"
+    required:
+      files: []
+      dirs: []
+    recommended:
+      files: []
+      dirs: []
+
+# =============================================================================
+# REPOSITORY LEVEL - By Type
+# =============================================================================
+repository_types:
+  service:
+    name: "Service/API"
+    required:
+      files: []  # Dockerfile is recommended, not required
+      dirs:
+        - "src/"
+    recommended:
+      files:
+        - "Dockerfile"
+        - "docker-compose.yml"
+        - ".dockerignore"
+      dirs:
+        - "api/"
+        - "config/"
+        - "deploy/"
+
+  library:
+    name: "Library/Package"
+    required:
+      files: []
+      dirs:
+        - "src/"
+    recommended:
+      files: []
+      dirs:
+        - "docs/"
+        - "examples/"
+        - "tests/"
+
+  tool:
+    name: "CLI/Developer Tool"
+    required:
+      files: []
+      dirs: []  # src/ is language-specific, not always required
+    recommended:
+      files:
+        - "Makefile"
+      dirs:
+        - "src/"
+        - "scripts/"
+        - "docs/"
+
+  demo:
+    name: "Demo/Example"
+    required:
+      files:
+        - "README.md"
+      dirs: []
+    recommended:
+      files: []
+      dirs:
+        - "examples/"
+
+  research:
+    name: "Research/Experimental"
+    required:
+      files:
+        - "README.md"
+      dirs: []
+    recommended:
+      files: []
+      dirs:
+        - "notebooks/"
+        - "data/"
+        - "results/"
+
+# =============================================================================
+# .meta/repo.yaml TEMPLATE
+# =============================================================================
+meta_template:
+  required_fields:
+    - type        # library | service | tool | demo | research | adapter | meta
+    - language    # python | typescript | go | rust | mixed | docs
+
+  recommended_fields:
+    - tier        # 1-4 (1=critical, 4=experimental)
+    - owner       # @username or team name
+    - status      # active | archived | deprecated
+    - description # Brief description
+
+  example: |
+    type: library
+    language: python
+    tier: 2
+    owner: "@alaweimm90"
+    status: active
+    description: "Core utilities library"
+    coverage:
+      target: 85
+      lines: 80
+    docs:
+      profile: standard
