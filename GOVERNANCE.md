@@ -1,102 +1,87 @@
-# Git Repository Strategy Decision
+# Governance
 
-## Decision: Organization-Level Monorepos (Option A)
+<img src="https://img.shields.io/badge/Strategy-Org_Monorepos-A855F7?style=flat-square&labelColor=1a1b27" alt="Strategy"/>
+<img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square&labelColor=1a1b27" alt="Status"/>
 
-**Date:** 2025-11-26  
-**Decided By:** Kilo Code (AI Assistant)  
-**Approved By:** User  
+---
 
-### Context
-The codebase is organized in a monorepo structure with organization directories containing multiple projects. The goal was to determine the optimal Git repository strategy to avoid nested repositories while maintaining proper version control, CI/CD, and team collaboration.
+## Repository Strategy
 
-### Options Considered
+> **Decision:** Organization-Level Monorepos
 
-**Option A: Organization-Level Repositories**
-- Each organization directory becomes a Git repository
-- Projects remain as subdirectories within org repos
-- Pros: Logical grouping, shared governance, coordinated releases
-- Cons: Larger repos, requires monorepo tooling
+Each organization directory is a logical unit containing related projects as subdirectories.
 
-**Option B: Project-Level Repositories**  
-- Each individual project becomes a separate Git repo
-- Organization directories are just grouping folders
-- Pros: Independent releases, clear separation
-- Cons: Cross-project changes complex, many repos to manage
+### Why This Approach
 
-### Decision Rationale
+| Benefit | Description |
+|---------|-------------|
+| **Logical Grouping** | Projects within orgs are related (science, tools, etc.) |
+| **Shared Governance** | Consistent CI/CD, CODEOWNERS, policies |
+| **Atomic Commits** | Cross-project changes in single commits |
+| **Simplified Management** | Fewer repos to manage vs. 80+ separate repos |
 
-**Chosen: Option A (Organization-Level Monorepos)**
+### Structure
 
-This approach is optimal because:
-- Organizations already have established governance (.github/, CODEOWNERS)
-- Projects within orgs are logically related (all science, all tools, etc.)
-- Existing structure supports shared CI/CD and tooling
-- Avoids the complexity of managing 20+ separate repositories
-- Enables atomic commits across related projects
-- Maintains clean separation without nested repo issues
+```
+organizations/
+├── alaweimm90-business/    # Business projects
+├── alaweimm90-science/     # Scientific computing
+├── alaweimm90-tools/       # Developer tools
+├── AlaweinOS/              # OS & infrastructure
+└── MeatheadPhysicist/      # Physics education
+```
 
-### Implementation Plan
+---
 
-1. **Initialize Git Repositories**
-   - Run `git init` in each organization directory:
-     - `organizations/alaweimm90-science/`
-     - `organizations/alaweimm90-tools/`
-     - `organizations/AlaweinOS/`
-     - `organizations/MeatheadPhysicist/`
+## Project Qualification
 
-2. **Repository Structure**
-   - Organization repos contain project subdirectories
-   - Shared files (.github/, CODEOWNERS) remain at org level
-   - Each project keeps its build configs (pyproject.toml, Dockerfile)
+A subdirectory qualifies as a "project" if it has:
 
-3. **Monorepo Tooling**
-   - Implement Turbo or Nx for cross-project operations
-   - Set up shared CI/CD pipelines at org level
-   - Configure dependency management across projects
+| Requirement | File |
+|-------------|------|
+| Build config | `pyproject.toml` or `package.json` |
+| Deployment config | `Dockerfile` |
+| Independent release | Semantic versioning capability |
 
-4. **Naming Standards**
-   - Convert all names to kebab-case
-   - Standardize project directory names
-   - Update documentation accordingly
+---
 
-### Project Qualification Criteria
+## Compliance Requirements
 
-A "project" qualifies for independent tracking within the monorepo if it has:
-- Build configuration (pyproject.toml or package.json) AND
-- Deployment configuration (Dockerfile) AND
-- Independent release capability
+### All Repositories Must Have
 
-**Qualified Projects per Organization:**
-- alaweimm90-science: sci-comp, spin-circ
-- alaweimm90-tools: core-framework, prompty-service
-- AlaweinOS: MEZAN/ATLAS, QAPlibria-new
-- MeatheadPhysicist: projects/bell-inequality-analysis
+- `.meta/repo.yaml` — Metadata conforming to schema
+- `README.md` — Documentation
+- `.github/CODEOWNERS` — Ownership definition
+- CI workflow — Using reusable workflows
 
-### Compliance & Governance
+### Tier-Based Requirements
 
-- No nested Git repositories
-- All repos follow established governance policies
-- Regular audits to maintain structure
-- Documentation updated to reflect new repo boundaries
+| Tier | Requirements |
+|------|--------------|
+| **1** (Critical) | Full test coverage, SLO monitoring, incident runbooks |
+| **2** (Important) | 80%+ coverage, basic monitoring |
+| **3** (Experimental) | Metadata only |
 
-### Risks & Mitigations
+---
 
-**Risk:** Large org repos become unwieldy  
-**Mitigation:** Implement monorepo tooling, regular refactoring
+## Decision Records
 
-**Risk:** Cross-project conflicts  
-**Mitigation:** Clear ownership, code reviews, automated testing
+Major architectural decisions are documented as ADRs in `docs/adr/`.
 
-**Risk:** Tooling complexity  
-**Mitigation:** Standardize on proven monorepo tools (Turbo/Nx)
+| ADR | Decision |
+|-----|----------|
+| ADR-001 | Organization-level monorepos |
+| ADR-002 | OPA/Rego for policy enforcement |
+| ADR-003 | JSON Schema for metadata validation |
 
-### Next Steps
+---
 
-1. Initialize organization repositories
-2. Set up monorepo tooling
-3. Update CI/CD pipelines
-4. Migrate existing workflows
-5. Train teams on new structure
-6. Monitor and refine as needed
+## Maintainers
 
-This decision balances maintainability, collaboration, and scalability for the multi-organization codebase.
+| Role | Contact |
+|------|---------|
+| Lead | [@alaweimm90](https://github.com/alaweimm90) |
+
+---
+
+**See also:** [Contributing](./CONTRIBUTING.md) · [Security](./SECURITY.md) · [Governance Docs](./.metaHub/README.md)

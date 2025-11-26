@@ -1,122 +1,136 @@
 # Governance Policies
 
-This directory contains OPA/Rego policies that enforce governance across the portfolio.
+<img src="https://img.shields.io/badge/Engine-OPA/Rego-A855F7?style=flat-square&labelColor=1a1b27" alt="OPA"/>
+<img src="https://img.shields.io/badge/Mode-Warning_Only-F59E0B?style=flat-square&labelColor=1a1b27" alt="Mode"/>
+<img src="https://img.shields.io/badge/Policies-6-4CC9F0?style=flat-square&labelColor=1a1b27" alt="Count"/>
 
-## Available Policies
+---
+
+> OPA/Rego policies that enforce governance across the portfolio.
 
 All policies run in **warning-only mode** — violations generate warnings but don't block commits. This allows teams to learn before enforcement tightens.
 
-### 1. Repository Structure (`repo-structure.rego`)
+---
 
-Validates repository organization and file placement.
+## Available Policies
 
-**What it checks:**
-- Root files are in the allowed list (.github, .metaHub, .allstar, .gitignore, .gitattributes, README.md, LICENSE)
-- .metaHub subdirectories are properly organized (policies/, schemas/, infra/examples/)
-- Large files (>10MB) are flagged for Git LFS
+### 1. Repository Structure
 
-**Mode:** Warning-only
+**File:** `repo-structure.rego`
 
-### 2. Docker Security (`docker-security.rego`)
+| Check | Description |
+|-------|-------------|
+| Root files | Only allowed files in root directory |
+| `.metaHub/` structure | Proper subdirectory organization |
+| Large files | Files >10MB flagged for Git LFS |
 
-Enforces Docker container best practices and security.
+### 2. Docker Security
 
-**What it checks:**
-- Non-root USER directive (required for security)
-- HEALTHCHECK directive (required for reliability)
-- Base image tags are not `:latest` (prevents version drift)
-- No hardcoded secrets in ENV variables
+**File:** `docker-security.rego`
 
-**Mode:** Warning-only
+| Check | Description |
+|-------|-------------|
+| `USER` directive | Non-root user required |
+| `HEALTHCHECK` | Health check required |
+| Base image tags | No `:latest` tags |
+| Secrets | No hardcoded secrets in `ENV` |
 
-### 3. Kubernetes Governance (`k8s-governance.rego`)
+### 3. Kubernetes Governance
 
-Validates Kubernetes manifests for security and compliance.
+**File:** `k8s-governance.rego`
 
-**What it checks:**
-- Resource requests and limits are defined
-- Liveness and readiness probes are configured
-- Security context is properly set
-- Network policies are in place (when applicable)
+| Check | Description |
+|-------|-------------|
+| Resources | Requests and limits defined |
+| Probes | Liveness and readiness configured |
+| Security context | Properly set |
+| Network policies | In place when applicable |
 
-**Mode:** Warning-only
+### 4. Service SLO
 
-### 4. Service SLO (`service-slo.rego`)
+**File:** `service-slo.rego`
 
-Ensures service-level objectives are defined and tracked.
+| Check | Description |
+|-------|-------------|
+| SLO definitions | Present in `.meta/repo.yaml` |
+| Availability | Realistic targets |
+| Error budgets | Specified |
+| Monitoring | Configured |
 
-**What it checks:**
-- `.meta/repo.yaml` includes SLO definitions
-- Availability targets are realistic
-- Error budgets are specified
-- Monitoring and alerting are configured
+### 5. Architecture Decision Records
 
-**Mode:** Warning-only
+**File:** `adr-policy.rego`
 
-### 5. Architecture Decision Records (`adr-policy.rego`)
+| Check | Description |
+|-------|-------------|
+| ADR existence | Present for major decisions |
+| Format | Standard format followed |
+| Tracking | Decisions approved and tracked |
 
-Ensures significant decisions are documented.
+### 6. Dependency Security
 
-**What it checks:**
-- ADRs exist for major architectural decisions
-- ADRs follow the standard format
-- Decisions are approved and tracked
+**File:** `dependency-security.rego`
 
-**Mode:** Warning-only
+| Check | Description |
+|-------|-------------|
+| Lock files | Present and up-to-date |
+| Known vulnerabilities | No critical CVEs |
+| License compliance | Approved licenses only |
 
-## How to Use These Policies
+---
+
+## Usage
 
 ### In Consumer Repositories
 
-Consumer repos reference these policies through:
+**Option 1: OPA Bundle Reference**
 
-1. **OPA Bundle Reference** (centralizes policy updates)
-   ```bash
-   opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
-     -i <(cat .meta/repo.yaml) 'data.repo.warn'
-   ```
+```bash
+opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+  -i <(cat .meta/repo.yaml) 'data.repo.warn'
+```
 
-2. **GitHub Actions Workflow**
-   Consumer repos call the reusable policy workflow:
-   ```yaml
-   jobs:
-     policies:
-       uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
-   ```
+**Option 2: GitHub Actions Workflow**
 
-3. **Pre-commit Hook** (local validation before commit)
-   ```bash
-   ./.metaHub/policies/pre-commit-opa.sh
-   ```
+```yaml
+jobs:
+  policies:
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+```
 
-### Local Policy Testing
+**Option 3: Pre-commit Hook**
+
+```bash
+./.metaHub/policies/pre-commit-opa.sh
+```
+
+### Local Testing
 
 ```bash
 # Install OPA
 curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_x86_64
-chmod +x opa
-sudo mv opa /usr/local/bin/
+chmod +x opa && sudo mv opa /usr/local/bin/
 
-# Test a policy against a repo.yaml
+# Test policy
 opa eval -d .metaHub/policies -i <(cat .meta/repo.yaml) 'data.repo.warn'
 ```
 
+---
+
 ## Adding New Policies
 
-To add a new governance policy:
+1. Create `.rego` file in this directory
+2. Define rules in `warn[]` blocks (warning-only) or `deny[]` blocks (blocking)
+3. Document in this README
+4. Test against example repos
+5. Submit PR
 
-1. Create a new `.rego` file in this directory
-2. Define policy rules in `warn[]` blocks (warning-only) or `deny[]` blocks (blocking, optional)
-3. Document the policy in this README
-4. Test the policy against example repos
-5. Submit PR for review
+**Example structure:**
 
-**Example policy structure:**
 ```rego
 package my_policy
 
 warn[msg] {
-    # Check condition
     input.some_field == "invalid"
     msg := "Description of why this is a warning"
 }
@@ -124,13 +138,17 @@ warn[msg] {
 pass = true
 ```
 
-## Policy Philosophy
+---
 
-- **Learn Before Enforcement:** Policies warn before they block
-- **Documentation as Code:** Policy rules are the source of truth
-- **Centralized Updates:** Changes to this repo propagate to all consumers
-- **Non-Breaking:** Warnings don't block work, allowing gradual adoption
+## Philosophy
+
+| Principle | Description |
+|-----------|-------------|
+| **Learn Before Enforcement** | Policies warn before they block |
+| **Documentation as Code** | Policy rules are source of truth |
+| **Centralized Updates** | Changes propagate to all consumers |
+| **Non-Breaking** | Warnings don't block work |
 
 ---
 
-**For more information:** See [parent README](../../README.md) and [Consumer Guide](.../guides/consumer-guide.md)
+**See also:** [Governance README](../README.md) · [Consumer Guide](../guides/consumer-guide.md)

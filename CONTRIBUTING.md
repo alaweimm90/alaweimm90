@@ -1,34 +1,28 @@
-# Contributing to the Governance System
+# Contributing
 
-Thank you for your interest in contributing to the alaweimm90 GitHub Governance System!
+<img src="https://img.shields.io/badge/PRs-Welcome-A855F7?style=flat-square&labelColor=1a1b27" alt="PRs Welcome"/>
+<img src="https://img.shields.io/badge/Code-Python_3.11+-EC4899?style=flat-square&labelColor=1a1b27" alt="Python"/>
+<img src="https://img.shields.io/badge/Style-Ruff-4CC9F0?style=flat-square&labelColor=1a1b27" alt="Ruff"/>
 
-## Table of Contents
+---
+
+> Thank you for your interest in contributing to the governance system.
+
+## Quick Links
 
 - [Code of Conduct](#code-of-conduct)
-- [How to Contribute](#how-to-contribute)
 - [Development Setup](#development-setup)
 - [Contribution Types](#contribution-types)
 - [Pull Request Process](#pull-request-process)
 - [Style Guidelines](#style-guidelines)
 
+---
+
 ## Code of Conduct
 
-This project follows a standard code of conduct. Be respectful, inclusive, and constructive in all interactions.
+Be respectful, inclusive, and constructive in all interactions.
 
-## How to Contribute
-
-### Reporting Issues
-
-1. Check existing issues to avoid duplicates
-2. Use the appropriate issue template
-3. Provide clear reproduction steps
-4. Include relevant logs or screenshots
-
-### Suggesting Enhancements
-
-1. Open a GitHub issue with the `enhancement` label
-2. Describe the use case and expected behavior
-3. Consider backward compatibility
+---
 
 ## Development Setup
 
@@ -36,187 +30,148 @@ This project follows a standard code of conduct. Be respectful, inclusive, and c
 
 - Python 3.11+
 - Git
-- pre-commit (`pip install pre-commit`)
+- pre-commit
 
-### Setup Steps
+### Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/alaweimm90/GitHub.git
-cd GitHub
+# Clone
+git clone https://github.com/alaweimm90/alaweimm90.git
+cd alaweimm90
 
-# Install Python dependencies
+# Install dependencies
 pip install -r .metaHub/scripts/requirements.txt
 pip install pytest pytest-cov ruff mypy
 
-# Install pre-commit hooks
+# Install hooks
 pre-commit install
 
 # Run tests
 pytest tests/ -v
 ```
 
-### Running Governance Scripts
+### Run Scripts
 
 ```bash
-# Enforcement
-python .metaHub/scripts/enforce.py ./organizations/my-org/
-
-# Catalog generation
-python .metaHub/scripts/catalog.py
-
-# Meta auditor
-python .metaHub/scripts/meta.py scan-projects
+python .metaHub/scripts/enforce.py ./organizations/my-org/   # Enforcement
+python .metaHub/scripts/catalog.py                           # Catalog
+python .metaHub/scripts/meta.py scan-projects                # Audit
 ```
+
+---
 
 ## Contribution Types
 
-### 1. Policy Changes (`.metaHub/policies/`)
+### Policies (`.metaHub/policies/`)
 
-OPA/Rego policy changes require:
+- Clear documentation of policy intent
+- Test cases demonstrating behavior
+- Backward compatibility consideration
+- Maintainer review required
 
-- Clear documentation of the policy intent
-- Test cases demonstrating the policy behavior
-- Consideration of backward compatibility
-- Review by a maintainer
+### Schemas (`.metaHub/schemas/`)
 
-**Example policy structure:**
-```rego
-package my_policy
+- New fields should be optional (backward compatible)
+- Migration guide for existing repos
+- Validation tests required
 
-# Deny rule with clear message
-deny[msg] {
-    # condition
-    msg := "Clear explanation of violation"
-}
-
-# Warn rule for non-blocking issues
-warn[msg] {
-    # condition
-    msg := "Suggestion for improvement"
-}
-```
-
-### 2. Schema Changes (`.metaHub/schemas/`)
-
-Schema changes to `repo-schema.json` require:
-
-- Backward compatibility (new fields should be optional)
-- Migration guide for existing repositories
-- Updated documentation
-- Validation tests
-
-### 3. Template Changes (`.metaHub/templates/`)
-
-Template changes require:
-
-- Testing with multiple project types
-- Documentation updates
-- Consideration of all supported languages
-
-### 4. Script Changes (`.metaHub/scripts/`)
-
-Python script changes require:
+### Scripts (`.metaHub/scripts/`)
 
 - Type hints for all functions
 - Docstrings for public functions
 - Unit tests with >80% coverage
-- No breaking changes to CLI interfaces
+- No breaking CLI changes
 
-### 5. Workflow Changes (`.github/workflows/`)
-
-Workflow changes require:
+### Workflows (`.github/workflows/`)
 
 - Explicit permissions block
 - Pinned action versions
-- Testing in a fork first
+- Test in fork first
 - Security review for sensitive operations
+
+---
 
 ## Pull Request Process
 
 ### Before Submitting
 
-1. **Run tests locally**: `pytest tests/ -v`
-2. **Run linting**: `ruff check .metaHub/scripts/ scripts/`
-3. **Run pre-commit**: `pre-commit run --all-files`
-4. **Update documentation** if needed
+```bash
+pytest tests/ -v                    # Run tests
+ruff check .metaHub/scripts/        # Lint
+pre-commit run --all-files          # Pre-commit
+```
 
-### PR Requirements
+### Requirements
 
-- Clear title following conventional commits (`feat:`, `fix:`, `docs:`, etc.)
-- Description of changes and motivation
-- Link to related issues
-- All CI checks passing
+| Requirement | Description |
+|-------------|-------------|
+| Title | Conventional commit format (`feat:`, `fix:`, `docs:`) |
+| Description | Changes and motivation |
+| Issues | Link to related issues |
+| CI | All checks passing |
 
-### Review Process
+### Review
 
 1. Automated checks must pass
-2. At least one maintainer approval required
-3. All comments must be resolved
+2. One maintainer approval required
+3. All comments resolved
 4. Squash merge preferred
+
+---
 
 ## Style Guidelines
 
 ### Python
-
-- Use `ruff` for linting and formatting
-- Type hints required for all functions
-- Docstrings in Google style
-- Maximum line length: 100 characters
-
 
 ```python
 def my_function(param: str, optional: int = 0) -> Dict[str, Any]:
     """Brief description.
 
     Args:
-        param: Description of param.
-        optional: Description of optional param.
+        param: Description.
+        optional: Description.
 
     Returns:
-        Description of return value.
-
-    Raises:
-        ValueError: When param is invalid.
+        Description.
     """
     pass
 ```
 
-### YAML
-
-- 2-space indentation
-- No trailing whitespace
-- Explicit quotes for strings that could be misinterpreted
-
-### Markdown
-
-- ATX-style headers (`#`)
-- Fenced code blocks with language specifier
-- One sentence per line (for better diffs)
+- Use `ruff` for linting/formatting
+- Type hints required
+- Google-style docstrings
+- Max line length: 100
 
 ### Commit Messages
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
 <type>(<scope>): <description>
 
 [optional body]
-
-[optional footer]
 ```
 
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+| Type | Description |
+|------|-------------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `docs` | Documentation |
+| `refactor` | Code restructure |
+| `test` | Tests |
+| `chore` | Maintenance |
 
-Examples:
+**Examples:**
+
 - `feat(policies): add kubernetes pod security policy`
 - `fix(enforce): handle missing metadata gracefully`
 - `docs(readme): update installation instructions`
 
+---
+
 ## Questions?
 
-- Open a GitHub issue for general questions
-- Tag maintainers for urgent matters
+- Open a GitHub issue
 - Check existing documentation first
 
-Thank you for contributing!
+---
+
+**Maintainer:** [@alaweimm90](https://github.com/alaweimm90)

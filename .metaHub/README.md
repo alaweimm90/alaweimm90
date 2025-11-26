@@ -1,13 +1,27 @@
-# GitHub Governance System
+<div align="center">
 
-**Enterprise-grade governance framework** for 55+ repositories across 5 organizations.
+# Portfolio Governance System
 
-[![CI](https://github.com/alaweimm90/GitHub/actions/workflows/ci.yml/badge.svg)](https://github.com/alaweimm90/GitHub/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/alaweimm90/GitHub/badge)](https://securityscorecards.dev/viewer/?uri=github.com/alaweimm90/GitHub)
+<br>
+
+<img src="https://img.shields.io/badge/Repositories-81+-A855F7?style=for-the-badge&labelColor=1a1b27" alt="Repos"/>
+<img src="https://img.shields.io/badge/Organizations-5-EC4899?style=for-the-badge&labelColor=1a1b27" alt="Orgs"/>
+<img src="https://img.shields.io/badge/Compliance-86%25-4CC9F0?style=for-the-badge&labelColor=1a1b27" alt="Compliance"/>
+
+<br><br>
+
+[![CI](https://img.shields.io/github/actions/workflow/status/alaweimm90/alaweimm90/ci.yml?style=flat-square&label=CI&labelColor=1a1b27&color=10B981)](https://github.com/alaweimm90/alaweimm90/actions)
+[![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/alaweimm90/alaweimm90?style=flat-square&label=OpenSSF&labelColor=1a1b27&color=A855F7)](https://securityscorecards.dev/viewer/?uri=github.com/alaweimm90/alaweimm90)
+
+</div>
+
+---
 
 ## Overview
 
-This repository is the **single source of truth** for governance across the alaweimm90 portfolio:
+> **Enterprise-grade governance framework** for the alaweimm90 portfolio.
+
+This is the **single source of truth** for policies, schemas, and automation across all repositories.
 
 | Component | Purpose |
 |-----------|---------|
@@ -17,11 +31,13 @@ This repository is the **single source of truth** for governance across the alaw
 | **Templates** | Dockerfiles, pre-commit configs, README templates |
 | **Scripts** | Enforcement, catalog generation, meta auditing |
 
+---
+
 ## Quick Start
 
 ### For Consumer Repositories
 
-1. Create `.meta/repo.yaml` in your repository:
+**1. Create `.meta/repo.yaml`:**
 
 ```yaml
 type: library          # library, tool, demo, research, adapter
@@ -32,7 +48,7 @@ description: Brief description
 status: active
 ```
 
-2. Add CI workflow calling reusable workflows:
+**2. Add CI workflow:**
 
 ```yaml
 # .github/workflows/ci.yml
@@ -41,15 +57,15 @@ on: [push, pull_request]
 
 jobs:
   python:
-    uses: alaweimm90/.github/.github/workflows/reusable-python-ci.yml@main
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
 
   policy:
-    uses: alaweimm90/.github/.github/workflows/reusable-policy.yml@main
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
 ```
 
-3. Install pre-commit hooks:
+**3. Install pre-commit:**
 
 ```bash
 pip install pre-commit
@@ -59,38 +75,42 @@ pre-commit install
 ### For Governance Development
 
 ```bash
-# Clone and setup
-git clone https://github.com/alaweimm90/GitHub.git
-cd GitHub
+# Setup
+git clone https://github.com/alaweimm90/alaweimm90.git
+cd alaweimm90
 pip install -r .metaHub/scripts/requirements.txt
 
-# Run enforcement
+# Enforce
 python .metaHub/scripts/enforce.py ./organizations/my-org/
 
-# Generate catalog
+# Catalog
 python .metaHub/scripts/catalog.py
 
-# Run meta audit
+# Audit
 python .metaHub/scripts/meta.py scan-projects
 ```
+
+---
 
 ## Architecture
 
 ### Three-Layer Enforcement
 
 ```
-Layer 1: Local (Pre-commit)
-    - Linting, formatting, schema validation
-    - Runs before every commit
-
-Layer 2: CI/CD (GitHub Actions)
-    - Reusable workflows for all languages
-    - Security scanning, testing, coverage
-
-Layer 3: Portfolio (Governance)
-    - OPA policy enforcement
-    - Catalog generation
-    - Drift detection
+┌─────────────────────────────────────────────────────────────┐
+│  Layer 1: Local (Pre-commit)                                │
+│  ├── Linting, formatting, schema validation                 │
+│  └── Runs before every commit                               │
+├─────────────────────────────────────────────────────────────┤
+│  Layer 2: CI/CD (GitHub Actions)                            │
+│  ├── Reusable workflows for all languages                   │
+│  └── Security scanning, testing, coverage                   │
+├─────────────────────────────────────────────────────────────┤
+│  Layer 3: Portfolio (Governance)                            │
+│  ├── OPA policy enforcement                                 │
+│  ├── Catalog generation                                     │
+│  └── Drift detection                                        │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Repository Structure
@@ -98,88 +118,61 @@ Layer 3: Portfolio (Governance)
 ```
 .
 ├── .github/
-│   ├── workflows/           # CI/CD workflows
-│   │   ├── ci.yml           # Governance repo CI
+│   ├── workflows/              # CI/CD workflows
+│   │   ├── ci.yml              # Governance repo CI
 │   │   ├── reusable-python-ci.yml
 │   │   ├── reusable-ts-ci.yml
-│   │   ├── reusable-policy.yml
-│   │   └── ...
-│   ├── CODEOWNERS
-│   └── CI_ENFORCEMENT_RULES.md
+│   │   └── reusable-policy.yml
+│   └── CODEOWNERS
 ├── .metaHub/
-│   ├── policies/            # OPA/Rego policies
-│   │   ├── repo-structure.rego
-│   │   ├── docker-security.rego
-│   │   ├── dependency-security.rego
-│   │   └── ...
-│   ├── schemas/             # JSON Schema
-│   │   └── repo-schema.json
-│   ├── scripts/             # CLI tools
-│   │   ├── enforce.py       # Policy enforcement
-│   │   ├── catalog.py       # Catalog generation
-│   │   ├── meta.py          # Meta auditor
-│   │   └── requirements.txt
-│   └── templates/           # File templates
-│       ├── docker/          # Dockerfiles
-│       ├── pre-commit/      # Pre-commit configs
-│       └── README.md.template
-├── organizations/           # 55+ repositories
-├── scripts/
-│   ├── govern.sh            # Local governance hook
-│   └── verify_and_enforce_golden_path.py
-├── tests/                   # Test suite
+│   ├── policies/               # OPA/Rego policies
+│   ├── schemas/                # JSON Schema
+│   ├── scripts/                # CLI tools
+│   └── templates/              # File templates
+├── organizations/              # 81+ repositories
+├── tests/                      # Test suite
 ├── CONTRIBUTING.md
 ├── GOVERNANCE.md
-├── SECURITY.md
-└── README.md
+└── SECURITY.md
 ```
+
+---
 
 ## CLI Tools
 
-### enforce.py - Policy Enforcement
+### `enforce.py` — Policy Enforcement
 
 ```bash
-# Enforce on single repo
-python .metaHub/scripts/enforce.py ./my-repo
-
-# Enforce on organization
-python .metaHub/scripts/enforce.py ./organizations/my-org/
-
-# JSON output
-python .metaHub/scripts/enforce.py ./my-repo --report json --output results.json
-
-# Strict mode (warnings as errors)
-python .metaHub/scripts/enforce.py ./my-repo --strict --fail-on-warnings
+python .metaHub/scripts/enforce.py ./my-repo                    # Single repo
+python .metaHub/scripts/enforce.py ./organizations/my-org/      # Organization
+python .metaHub/scripts/enforce.py ./my-repo --report json      # JSON output
+python .metaHub/scripts/enforce.py ./my-repo --strict           # Strict mode
 ```
 
-### catalog.py - Service Catalog
+### `catalog.py` — Service Catalog
 
 ```bash
-# Generate JSON catalog
-python .metaHub/scripts/catalog.py
-
-# Generate Markdown
-python .metaHub/scripts/catalog.py --format markdown --output catalog.md
-
-# Generate HTML
-python .metaHub/scripts/catalog.py --format html --output catalog.html
+python .metaHub/scripts/catalog.py                              # JSON catalog
+python .metaHub/scripts/catalog.py --format markdown            # Markdown
+python .metaHub/scripts/catalog.py --format html                # HTML
 ```
 
-### meta.py - Portfolio Auditor
+### `checkpoint.py` — Drift Detection
 
 ```bash
-# Scan all projects
-python .metaHub/scripts/meta.py scan-projects
-
-# Filter by organization
-python .metaHub/scripts/meta.py scan-projects --org alaweimm90-tools
-
-# Promote project to full repo status
-python .metaHub/scripts/meta.py promote-project my-project --org my-org
-
-# Generate audit report
-python .metaHub/scripts/meta.py audit --output audit-report.md
+python .metaHub/scripts/checkpoint.py --baseline                # Create baseline
+python .metaHub/scripts/checkpoint.py                           # Detect drift
 ```
+
+### `meta.py` — Portfolio Auditor
+
+```bash
+python .metaHub/scripts/meta.py scan-projects                   # Scan all
+python .metaHub/scripts/meta.py scan-projects --org my-org      # Filter by org
+python .metaHub/scripts/meta.py audit --output report.md        # Audit report
+```
+
+---
 
 ## Policies
 
@@ -190,7 +183,10 @@ python .metaHub/scripts/meta.py audit --output audit-report.md
 | `dependency-security.rego` | Dependency management security |
 | `k8s-governance.rego` | Kubernetes manifest validation |
 | `service-slo.rego` | Service level objectives |
-| `adr-policy.rego` | Architecture decision records |
+
+See [Policies README](./policies/README.md) for details.
+
+---
 
 ## Supported Languages
 
@@ -198,26 +194,42 @@ python .metaHub/scripts/meta.py audit --output audit-report.md
 |----------|-------------|------------|------------|
 | Python | `reusable-python-ci.yml` | `python.yaml` | `python.Dockerfile` |
 | TypeScript | `reusable-ts-ci.yml` | `typescript.yaml` | `typescript.Dockerfile` |
-| Go | - | `go.yaml` | `go.Dockerfile` |
-| Rust | - | `rust.yaml` | `rust.Dockerfile` |
+| Go | — | `go.yaml` | `go.Dockerfile` |
+| Rust | — | `rust.yaml` | `rust.Dockerfile` |
+
+---
 
 ## Security
+
+<img src="https://img.shields.io/badge/OpenSSF-Scorecard-A855F7?style=flat-square" />
+<img src="https://img.shields.io/badge/SLSA-Level_3-EC4899?style=flat-square" />
+<img src="https://img.shields.io/badge/Trivy-Scanning-4CC9F0?style=flat-square" />
 
 - **OpenSSF Scorecard**: Weekly security analysis
 - **SLSA Level 3**: Provenance for governance artifacts
 - **Trivy**: Container and filesystem scanning
-- **Renovate**: Automated dependency updates
 
-See [SECURITY.md](SECURITY.md) for vulnerability reporting.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+See [SECURITY.md](../SECURITY.md) for vulnerability reporting.
 
 ---
 
+## Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [Quick Start](./docs/QUICK_START.md) | Get started in 5 minutes |
+| [Consumer Guide](./guides/consumer-guide.md) | Implementing governance in your repos |
+| [Operations Runbook](../docs/OPERATIONS_RUNBOOK.md) | Production operations |
+| [Deployment Guide](./guides/DEPLOYMENT_GUIDE.md) | Step-by-step deployment |
+
+---
+
+<div align="center">
+
 **Maintainer**: [@alaweimm90](https://github.com/alaweimm90)
+
+<br>
+
+<img src="https://img.shields.io/badge/License-MIT-A855F7?style=flat-square&labelColor=1a1b27" />
+
+</div>

@@ -1,70 +1,83 @@
 # Repository Metadata Schema
 
-Defines the structure of `.meta/repo.yaml` — repository metadata used for governance, cataloging, and compliance.
+<img src="https://img.shields.io/badge/Schema-JSON_Draft_07-A855F7?style=flat-square&labelColor=1a1b27" alt="Schema"/>
+<img src="https://img.shields.io/badge/Status-Stable-10B981?style=flat-square&labelColor=1a1b27" alt="Status"/>
 
-## Schema File
+---
 
-**Location:** `repo-schema.json` (JSON Schema draft-07)
+> Defines the structure of `.meta/repo.yaml` — repository metadata for governance, cataloging, and compliance.
 
-All consumer repositories MUST implement a `.meta/repo.yaml` file that conforms to this schema.
+**Schema File:** [`repo-schema.json`](./repo-schema.json)
+
+All consumer repositories **must** implement a `.meta/repo.yaml` that conforms to this schema.
+
+---
 
 ## Required Fields
 
-### `type` (required)
+### `type`
+
 Repository classification. Determines governance expectations and deployment patterns.
 
-**Allowed values:**
-- `lib` — Reusable library (SDK, framework, utility)
-- `tool` — Standalone tool or CLI
-- `core` — Core service (mission-critical infrastructure)
-- `research` — Experimental or research project
-- `demo` — Example or demonstration code
-- `workspace` — Monorepo or workspace aggregating multiple services
+| Value | Description |
+|-------|-------------|
+| `lib` | Reusable library (SDK, framework, utility) |
+| `tool` | Standalone tool or CLI |
+| `core` | Core service (mission-critical infrastructure) |
+| `research` | Experimental or research project |
+| `demo` | Example or demonstration code |
+| `workspace` | Monorepo aggregating multiple services |
 
-### `language` (required)
+### `language`
+
 Primary programming language. Used for CI workflow selection and linting rules.
 
-**Allowed values:**
-- `python` — Python application
-- `typescript` — TypeScript/Node.js application
-- `mixed` — Multiple languages or polyglot
+| Value | Description |
+|-------|-------------|
+| `python` | Python application |
+| `typescript` | TypeScript/Node.js application |
+| `mixed` | Multiple languages or polyglot |
+
+---
 
 ## Optional Fields
 
-### `tier` (optional)
-Criticality tier. Determines deployment frequency, SLO stringency, and disaster recovery requirements.
+### `tier`
 
-**Values:**
-- `1` — Mission-critical (24/7 support, 99.99% availability)
-- `2` — Important production service (business hours support, 99.5% availability)
-- `3` — Experimental or non-critical (best-effort support)
+Criticality tier. Determines SLO stringency and support requirements.
 
-### `coverage` (optional)
-Test coverage thresholds and targets.
+| Value | SLA | Availability |
+|-------|-----|--------------|
+| `1` | 24/7 support | 99.99% |
+| `2` | Business hours | 99.5% |
+| `3` | Best-effort | — |
 
-**Structure:**
+### `coverage`
+
+Test coverage thresholds:
+
 ```yaml
 coverage:
-  target: 85          # Target coverage percentage
-  current: 82         # Current coverage (informational)
+  target: 85          # Target percentage
+  current: 82         # Current (informational)
   lines: 85           # Line coverage minimum
 ```
 
-### `docs` (optional)
-Documentation profile and requirements.
+### `docs`
 
-**Structure:**
+Documentation requirements:
+
 ```yaml
 docs:
-  profile: standard   # standard or minimal
-  required: true      # Docs are required
-  location: docs/     # Where docs are located
+  profile: standard   # standard | minimal
+  required: true
+  location: docs/
 ```
 
-### `interfaces` (optional)
-API endpoints and their specifications.
+### `interfaces`
 
-**Structure:**
+API endpoints:
+
 ```yaml
 interfaces:
   - type: rest
@@ -77,23 +90,25 @@ interfaces:
     path: /ws
 ```
 
-### `owner` (optional)
-Team or person responsible for the repository.
+### `owner`
 
-**Structure:**
+Team ownership:
+
 ```yaml
-owner: engineering-team      # Team name
+owner: engineering-team
 contact_email: team@company.com
 slack_channel: "#team-name"
 ```
 
-## Example `.meta/repo.yaml`
+---
+
+## Complete Example
 
 ```yaml
 ---
 metadata:
   name: my-service
-  description: Brief description of what this service does
+  description: Brief description of the service
   owner: platform-team
 
 type: lib
@@ -118,11 +133,11 @@ contact_email: platform-team@company.com
 slack_channel: "#platform-team"
 ```
 
+---
+
 ## Validation
 
-All `.meta/repo.yaml` files are validated against this schema in CI.
-
-### Local Validation
+### Local
 
 ```bash
 # Install AJV CLI
@@ -131,31 +146,31 @@ npm install -g ajv-cli
 # Validate your repo.yaml
 ajv validate -s .metaHub/schemas/repo-schema.json -d .meta/repo.yaml
 
-# Validate all repos in portfolio
+# Validate all repos
 for repo in organizations/*/*/; do
   ajv validate -s .metaHub/schemas/repo-schema.json -d "$repo/.meta/repo.yaml"
 done
 ```
 
-### GitHub Actions Validation
+### GitHub Actions
 
-Consumer repositories can validate in CI:
 ```yaml
 - name: Validate metadata
   run: ajv validate -s .metaHub/schemas/repo-schema.json -d .meta/repo.yaml
 ```
 
+---
+
 ## Why Metadata Matters
 
-The metadata in `.meta/repo.yaml` is used for:
-
-- **Governance:** Determines which policies apply
-- **Cataloging:** Inventory of all repositories and their purpose
-- **SLO Tracking:** Monitors service-level objectives
-- **Compliance:** Maps repos to compliance requirements
-- **Automation:** Determines deployment and testing strategies
-- **Documentation:** Generates architecture and inventory reports
+| Use Case | Description |
+|----------|-------------|
+| **Governance** | Determines which policies apply |
+| **Cataloging** | Inventory of all repositories |
+| **SLO Tracking** | Monitors service-level objectives |
+| **Compliance** | Maps repos to requirements |
+| **Automation** | Determines deployment strategies |
 
 ---
 
-**For more information:** See [parent README](../../README.md) and [Policies](../policies/README.md)
+**See also:** [Governance README](../README.md) · [Policies](../policies/README.md)
