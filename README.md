@@ -1,223 +1,359 @@
-# GitHub Governance System
+<div align="center">
 
-**Enterprise-grade governance framework** for 55+ repositories across 5 organizations.
+![Header](.github/header.svg)
 
-[![CI](https://github.com/alaweimm90/GitHub/actions/workflows/ci.yml/badge.svg)](https://github.com/alaweimm90/GitHub/actions/workflows/ci.yml)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/alaweimm90/GitHub/badge)](https://securityscorecards.dev/viewer/?uri=github.com/alaweimm90/GitHub)
+<br>
 
-## Overview
+<a href="https://malawein.com">
+  <img src="https://img.shields.io/badge/Portfolio-malawein.com-A855F7?style=for-the-badge&labelColor=1a1b27" alt="Portfolio"/>
+</a>
+<a href="mailto:meshal@berkeley.edu">
+  <img src="https://img.shields.io/badge/Email-meshal@berkeley.edu-EC4899?style=for-the-badge&labelColor=1a1b27" alt="Email"/>
+</a>
+<a href="https://linkedin.com/in/alawein">
+  <img src="https://img.shields.io/badge/LinkedIn-Connect-4CC9F0?style=for-the-badge&logo=linkedin&labelColor=1a1b27" alt="LinkedIn"/>
+</a>
 
-This repository is the **single source of truth** for governance across the alaweimm90 portfolio:
+</div>
 
-| Component | Purpose |
-|-----------|---------|
-| **Policies** | OPA/Rego rules for structure, Docker, Kubernetes, dependencies |
-| **Schemas** | JSON Schema for `.meta/repo.yaml` validation |
-| **Reusable Workflows** | CI/CD templates for Python, TypeScript, Go, Rust |
-| **Templates** | Dockerfiles, pre-commit configs, README templates |
-| **Scripts** | Enforcement, catalog generation, meta auditing |
+<br>
 
-## Quick Start
+![Divider](.github/divider.svg)
 
-### For Consumer Repositories
+## About Me
 
-1. Create `.meta/repo.yaml` in your repository:
+> **Computational physicist & systems engineer** — I use math and code to untangle hard problems.
+
+I'm **Meshal Alawein**. I started out in **computational physics**, simulating quantum systems. These days I use that background to build optimization engines, autonomous agents, and scientific tools.
+
+I care less about buzzwords and more about how and why things work. I like code that matches the math on paper and makes good use of the hardware it runs on.
+
+### Core Focus
+
+- **Optimization:** Custom solvers for messy, high-dimensional problems.
+- **Scientific ML:** Letting physics and priors guide the models instead of guessing.
+- **HPC:** Writing code that actually talks to the GPU (CUDA, JAX) instead of ignoring it.
+
+### Current Status
+
+```python
+current_state = {
+    "research": "GPU-accelerated optimization for materials discovery",
+    "building": ["Optilibria framework", "ATLAS research system"],
+    "learning": "Distributed systems & Rust",
+    "reading": "Convex Optimization (Boyd)"
+}
+```
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## Featured Projects
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### Optilibria
+
+**Universal optimization framework**
+
+A JAX-based library meant to be a drop-in upgrade over standard SciPy optimizers for tougher problems. It includes **31+ algorithms**, from basic gradient methods to nature-inspired approaches.
+
+- **Speed:** Around 5–10x faster than SciPy on GPU for many workloads.
+- **Used in:** Materials discovery pipelines at Berkeley.
+
+**Tech:** Python, JAX, CUDA, NumPy
+
+```python
+from optilibria import GradientDescent
+# fast, hardware-accelerated optimization
+optimizer = GradientDescent(alpha=0.01)
+result = optimizer.optimize(f, x0, gpu=True)
+```
+
+<img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
+<img src="https://img.shields.io/badge/GPU-Accelerated-A855F7?style=flat-square" />
+
+</td>
+<td width="50%" valign="top">
+
+### ATLAS
+
+**Autonomous research agent**
+
+An AI system I built to handle the boring parts of research. It designs experiments, looks at the data, and suggests the next step while checking against physics constraints.
+
+- **Impact:** Speeds up hypothesis testing by 3-5x.
+- **Core:** LLMs for reasoning + Physics engines for fact-checking.
+
+**Tech:** Python, PyTorch, Transformers, Docker
+
+```python
+# Automated experiment proposal
+atlas.propose_experiment(
+    target="high-Tc superconductor",
+    constraints={"max_temp": 300}
+)
+```
+
+<img src="https://img.shields.io/badge/Status-Beta-F59E0B?style=flat-square" />
+<img src="https://img.shields.io/badge/AI-Agent-EC4899?style=flat-square" />
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+### MeatheadPhysicist
+
+**Interactive physics education**
+
+I built this so students could actually "see" quantum mechanics. It uses WebGL to render real-time visualizations of wavefunctions and band structures.
+
+**Tech:** TypeScript, React, Three.js, WebGL
+
+<img src="https://img.shields.io/badge/Status-Active-10B981?style=flat-square" />
+<img src="https://img.shields.io/badge/10k+-Students-A855F7?style=flat-square" />
+
+</td>
+<td width="50%" valign="top">
+
+### REPZCoach
+
+**Performance analytics**
+
+A behavioral analytics platform for athletes. It uses ML to track progression and flag fatigue patterns before they lead to injury.
+
+**Tech:** Python, Next.js, PostgreSQL, FastAPI
+
+<img src="https://img.shields.io/badge/Status-Production-10B981?style=flat-square" />
+<img src="https://img.shields.io/badge/ML-Powered-EC4899?style=flat-square" />
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><b>More Projects & Tools</b></summary>
+
+<br>
+
+- **[AlaweinLabs](https://github.com/AlaweinLabs)** — My research org for computational physics tools.
+- **[MeshyTools](https://github.com/AlaweinLabs)** — Utilities I got tired of rewriting.
+- **[LiveItIconic](https://github.com/LiveItIconic)** — E-commerce platform with ML-driven recommendations.
+
+</details>
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## Expertise
+
+<div align="center">
+
+### Domain Knowledge
+
+```
+Quantum Mechanics          ██████████████████████ 95%
+Optimization Theory        ████████████████████░░ 90%
+Computational Physics      ██████████████████░░░░ 85%
+Machine Learning           ████████████████░░░░░░ 75%
+System Architecture        ██████████████████░░░░ 80%
+```
+
+### Tech Stack
+
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+<img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" />
+<img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" />
+<img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" />
+<img src="https://img.shields.io/badge/JAX-00B4D8?style=for-the-badge&logo=google&logoColor=white" />
+<br>
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" />
+
+</div>
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## GitHub Stats
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=alaweimm90&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=A855F7&icon_color=EC4899&text_color=C9D1D9&ring_color=4CC9F0" width="49%" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=alaweimm90&theme=tokyonight&hide_border=true&background=0D1117&ring=A855F7&fire=EC4899&currStreakLabel=4CC9F0" width="49%" />
+<br>
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=alaweimm90&theme=tokyo-night&hide_border=true&bg_color=0D1117&color=A855F7&line=EC4899&point=4CC9F0" width="98%" />
+<br>
+<img src="https://github-profile-trophy.vercel.app/?username=alaweimm90&theme=tokyonight&no-frame=true&no-bg=true&row=1&column=7&margin-w=10&margin-h=10" width="98%" />
+
+</div>
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## Philosophy
+
+> **"The best code is like a physics equation—minimal, elegant, and captures the essence of truth."**
+
+### Design Values
+
+1.  **Optimization is art:** Finding the minimum isn't just brute force; it takes intuition.
+2.  **Physics-first:** Before coding, I ask: *What are the conserved quantities? What's the simplest model that works?*
+3.  **Performance:** Speed enables better science. I obsess over memory layouts so you don't have to.
+4.  **Open Source:** Knowledge grows when it's shared.
+
+```python
+class CodePhilosophy:
+    def evaluate(self, code):
+        return (
+            self.is_correct(code) * 10 +      # Must be right
+            self.is_maintainable(code) * 5 +  # Must be readable
+            self.is_performant(code) * 3      # Must be fast
+        )
+```
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## Currently Working On
+
+<details open>
+<summary><b>Weekly Focus & Goals</b></summary>
+
+<br>
 
 ```yaml
-type: library          # library, tool, demo, research, adapter
-language: python       # python, typescript, go, rust
-tier: 2                # 1=critical, 2=important, 3=experimental, 4=unknown
-owner: your-org
-description: Brief description
-status: active
+sprint: "Optilibria v2.0"
+goals:
+  - Implement L-BFGS and SR1 algorithms
+  - Benchmark against SciPy
+  - Write documentation
+
+learning:
+  book: "Convex Optimization (Boyd)"
+  skill: "Rust for scientific computing"
 ```
 
-2. Add CI workflow calling reusable workflows:
+</details>
 
-```yaml
-# .github/workflows/ci.yml
-name: CI
-on: [push, pull_request]
+<br>
 
-jobs:
-  python:
-    uses: alaweimm90/.github/.github/workflows/reusable-python-ci.yml@main
-    with:
-      python-version: '3.11'
+![Divider](.github/divider.svg)
 
-  policy:
-    uses: alaweimm90/.github/.github/workflows/reusable-policy.yml@main
+## Coding Atmosphere
+
+<div align="center">
+
+**What I'm listening to:**
+
+[![Spotify](https://spotify-github-readme.vercel.app/api/spotify)](https://open.spotify.com/user/alawein)
+
+*Usually: Deep Focus, Jazz, or silence.*
+
+</div>
+
+<br>
+
+![Divider](.github/divider.svg)
+
+## Connect
+
+<div align="center">
+
+<a href="https://malawein.com"><img src="https://img.shields.io/badge/Web-malawein.com-A855F7?style=for-the-badge&logo=google-chrome&logoColor=white"/></a>
+<a href="mailto:meshal@berkeley.edu"><img src="https://img.shields.io/badge/Email-meshal@berkeley.edu-EC4899?style=for-the-badge&logo=gmail&logoColor=white"/></a>
+<a href="https://linkedin.com/in/alawein"><img src="https://img.shields.io/badge/LinkedIn-Connect-4CC9F0?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
+
+<br><br>
+
+### Response Time
+
+```python
+def response_time(message_type):
+    return {
+        "research_collab": "24-48 hours",
+        "technical_question": "2-3 days",
+        "bug_report": "Same day",
+        "spam": "Never"
+    }.get(message_type)
 ```
 
-3. Install pre-commit hooks:
+</div>
 
-```bash
-pip install pre-commit
-pre-commit install
-```
+<br>
 
-### For Governance Development
+![Divider](.github/divider.svg)
 
-```bash
-# Clone and setup
-git clone https://github.com/alaweimm90/GitHub.git
-cd GitHub
-pip install -r .metaHub/scripts/requirements.txt
+<div align="center">
 
-# Run enforcement
-python .metaHub/scripts/enforce.py ./organizations/my-org/
+### Fun Facts & Easter Eggs
 
-# Generate catalog
-python .metaHub/scripts/catalog.py
+<details>
+<summary><b>🎲 Click to reveal...</b></summary>
 
-# Run meta audit
-python .metaHub/scripts/meta.py scan-projects
-```
+<br>
 
-## Architecture
+- 🏋️ Competitive powerlifter (see: REPZCoach).
+- 📚 I own 200+ physical physics textbooks.
+- 🎯 I can derive Maxwell's equations from memory (useless party trick).
+- 🌌 Favorite equation: `∇²ψ + k²ψ = 0` (Helmholtz).
+- 🐍 Python is my day job, but I secretly love Rust.
+- 🚀 Dream project: A physics engine that respects thermodynamics.
 
-### Three-Layer Enforcement
+**Hidden achievement unlocked!** 🏆
+*You read the whole README. I appreciate the attention to detail.*
 
-```
-Layer 1: Local (Pre-commit)
-    - Linting, formatting, schema validation
-    - Runs before every commit
+If you made it this far, include the phrase **"Hamiltonian"** in your message so I know you're real! 🎯
 
-Layer 2: CI/CD (GitHub Actions)
-    - Reusable workflows for all languages
-    - Security scanning, testing, coverage
+</details>
 
-Layer 3: Portfolio (Governance)
-    - OPA policy enforcement
-    - Catalog generation
-    - Drift detection
-```
+</div>
 
-### Repository Structure
-
-```
-.
-├── .github/
-│   ├── workflows/           # CI/CD workflows
-│   │   ├── ci.yml           # Governance repo CI
-│   │   ├── reusable-python-ci.yml
-│   │   ├── reusable-ts-ci.yml
-│   │   ├── reusable-policy.yml
-│   │   └── ...
-│   ├── CODEOWNERS
-│   └── CI_ENFORCEMENT_RULES.md
-├── .metaHub/
-│   ├── policies/            # OPA/Rego policies
-│   │   ├── repo-structure.rego
-│   │   ├── docker-security.rego
-│   │   ├── dependency-security.rego
-│   │   └── ...
-│   ├── schemas/             # JSON Schema
-│   │   └── repo-schema.json
-│   ├── scripts/             # CLI tools
-│   │   ├── enforce.py       # Policy enforcement
-│   │   ├── catalog.py       # Catalog generation
-│   │   ├── meta.py          # Meta auditor
-│   │   └── requirements.txt
-│   └── templates/           # File templates
-│       ├── docker/          # Dockerfiles
-│       ├── pre-commit/      # Pre-commit configs
-│       └── README.md.template
-├── organizations/           # 55+ repositories
-├── scripts/
-│   ├── govern.sh            # Local governance hook
-│   └── verify_and_enforce_golden_path.py
-├── tests/                   # Test suite
-├── CONTRIBUTING.md
-├── GOVERNANCE.md
-├── SECURITY.md
-└── README.md
-```
-
-## CLI Tools
-
-### enforce.py - Policy Enforcement
-
-```bash
-# Enforce on single repo
-python .metaHub/scripts/enforce.py ./my-repo
-
-# Enforce on organization
-python .metaHub/scripts/enforce.py ./organizations/my-org/
-
-# JSON output
-python .metaHub/scripts/enforce.py ./my-repo --report json --output results.json
-
-# Strict mode (warnings as errors)
-python .metaHub/scripts/enforce.py ./my-repo --strict --fail-on-warnings
-```
-
-### catalog.py - Service Catalog
-
-```bash
-# Generate JSON catalog
-python .metaHub/scripts/catalog.py
-
-# Generate Markdown
-python .metaHub/scripts/catalog.py --format markdown --output catalog.md
-
-# Generate HTML
-python .metaHub/scripts/catalog.py --format html --output catalog.html
-```
-
-### meta.py - Portfolio Auditor
-
-```bash
-# Scan all projects
-python .metaHub/scripts/meta.py scan-projects
-
-# Filter by organization
-python .metaHub/scripts/meta.py scan-projects --org alaweimm90-tools
-
-# Promote project to full repo status
-python .metaHub/scripts/meta.py promote-project my-project --org my-org
-
-# Generate audit report
-python .metaHub/scripts/meta.py audit --output audit-report.md
-```
-
-## Policies
-
-| Policy | Purpose |
-|--------|---------|
-| `repo-structure.rego` | Repository structure validation |
-| `docker-security.rego` | Dockerfile security best practices |
-| `dependency-security.rego` | Dependency management security |
-| `k8s-governance.rego` | Kubernetes manifest validation |
-| `service-slo.rego` | Service level objectives |
-| `adr-policy.rego` | Architecture decision records |
-
-## Supported Languages
-
-| Language | CI Workflow | Pre-commit | Dockerfile |
-|----------|-------------|------------|------------|
-| Python | `reusable-python-ci.yml` | `python.yaml` | `python.Dockerfile` |
-| TypeScript | `reusable-ts-ci.yml` | `typescript.yaml` | `typescript.Dockerfile` |
-| Go | - | `go.yaml` | `go.Dockerfile` |
-| Rust | - | `rust.yaml` | `rust.Dockerfile` |
-
-## Security
-
-- **OpenSSF Scorecard**: Weekly security analysis
-- **SLSA Level 3**: Provenance for governance artifacts
-- **Trivy**: Container and filesystem scanning
-- **Renovate**: Automated dependency updates
-
-See [SECURITY.md](SECURITY.md) for vulnerability reporting.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup and guidelines.
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+<br>
 
 ---
 
-**Maintainer**: [@alaweimm90](https://github.com/alaweimm90)
+<div align="center">
+
+<img src="https://komarev.com/ghpvc/?username=alaweimm90&label=Views&color=A855F7&style=flat-square" alt="Profile Views"/>
+
+<br><br>
+
+**Maintained by Meshal Alawein**
+
+*Updated: 2025*
+
+<br>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=24&height=100&section=footer" alt="Footer wave"/>
+
+</div>
+
+<!--
+███████╗██╗  ██╗ █████╗ ███╗   ██╗██╗  ██╗███████╗    ███████╗ ██████╗ ██████╗
+╚══════╝██║  ██║██╔══██╗████╗  ██║██║ ██╔╝██╔════╝    ██╔════╝██╔═══██╗██╔══██╗
+        ███████║███████║██╔██╗ ██║█████╔╝ ███████╗    █████╗  ██║   ██║██████╔╝
+        ██╔══██║██╔══██║██║╚██╗██║██╔═██╗ ╚════██║    ██╔══╝  ██║   ██║██╔══██╗
+        ██║  ██║██║  ██║██║ ╚████║██║  ██╗███████║    ██║     ╚██████╔╝██║  ██║
+        ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝    ╚═╝      ╚═════╝ ╚═╝  ╚═╝
+
+        ██████╗ ███████╗ █████╗ ██████╗ ██╗███╗   ██╗ ██████╗
+        ██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔══██╗██║████╗  ██║██╔════╝
+        ██████╔╝█████╗  ███████║██║  ██║██║██╔██╗ ██║██║  ███╗
+        ██╔══██╗██╔══╝  ██╔══██║██║  ██║██║██║╚██╗██║██║   ██║
+        ██║  ██║███████╗██║  ██║██████╔╝██║██║ ╚████║╚██████╔╝
+        ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚═══╝ ╚═════╝
+
+Nice find.
+-->
+```
