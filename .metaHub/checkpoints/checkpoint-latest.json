@@ -1,0 +1,2957 @@
+{
+  "timestamp": "2025-11-26T14:07:07.901095",
+  "version": "2.0",
+  "checksum": "6c980da27d834c30",
+  "organizations": {
+    "alaweimm90-business": {
+      "repos": {
+        "benchbarrier": {
+          "name": "benchbarrier",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/benchbarrier",
+          "type": "web-application",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "8ee1656f"
+        },
+        "calla-lily-couture": {
+          "name": "calla-lily-couture",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/calla-lily-couture",
+          "type": "ecommerce",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "6fefba53"
+        },
+        "docs": {
+          "name": "docs",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/docs",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "1471960d"
+        },
+        "dr-alowein-portfolio": {
+          "name": "dr-alowein-portfolio",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/dr-alowein-portfolio",
+          "type": "portfolio",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "5bdf0285"
+        },
+        "live-it-iconic": {
+          "name": "live-it-iconic",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/live-it-iconic",
+          "type": "web-application",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "edd8d70f"
+        },
+        "marketing-automation": {
+          "name": "marketing-automation",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/marketing-automation",
+          "type": "automation",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "f3b95f9c"
+        },
+        "repz": {
+          "name": "repz",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/repz",
+          "type": "framework",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "d9b2f2cf"
+        },
+        "scripts": {
+          "name": "scripts",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/scripts",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "f0b4779e"
+        },
+        "templates": {
+          "name": "templates",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/templates",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        }
+      }
+    },
+    "alaweimm90-science": {
+      "repos": {
+        "mag-logic": {
+          "name": "mag-logic",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/mag-logic",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "1837fee6"
+        },
+        "qmat-sim": {
+          "name": "qmat-sim",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/qmat-sim",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "ab8c4f45"
+        },
+        "qube-ml": {
+          "name": "qube-ml",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/qube-ml",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "bfab709e"
+        },
+        "sci-comp": {
+          "name": "sci-comp",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/sci-comp",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "1f343887"
+        },
+        "spin-circ": {
+          "name": "spin-circ",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/spin-circ",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "547bc5c8"
+        },
+        "TalAI": {
+          "name": "TalAI",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/TalAI",
+          "type": "unknown",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "482e62d6"
+        }
+      }
+    },
+    "alaweimm90-tools": {
+      "repos": {
+        "admin-dashboard": {
+          "name": "admin-dashboard",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/admin-dashboard",
+          "type": "ui-application",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "e01e0fb2"
+        },
+        "alaweimm90-cli": {
+          "name": "alaweimm90-cli",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/alaweimm90-cli",
+          "type": "cli-tool",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "ba39b414"
+        },
+        "alaweimm90-python-sdk": {
+          "name": "alaweimm90-python-sdk",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/alaweimm90-python-sdk",
+          "type": "sdk",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "1bdcd26e"
+        },
+        "Attributa": {
+          "name": "Attributa",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/Attributa",
+          "type": "library",
+          "language": "TypeScript",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "0b3737eb"
+        },
+        "business-intelligence": {
+          "name": "business-intelligence",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/business-intelligence",
+          "type": "analytics",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "f39777dd"
+        },
+        "core-framework": {
+          "name": "core-framework",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/core-framework",
+          "type": "tool",
+          "language": "Python",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "33e68960"
+        },
+        "CrazyIdeas": {
+          "name": "CrazyIdeas",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/CrazyIdeas",
+          "type": "experimental",
+          "language": "Mixed",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "16023c1b"
+        },
+        "devops-platform": {
+          "name": "devops-platform",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/devops-platform",
+          "type": "platform",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "ba15de1f"
+        },
+        "docs": {
+          "name": "docs",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/docs",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "2801147d"
+        },
+        "fitness-app": {
+          "name": "fitness-app",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/fitness-app",
+          "type": "application",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "4aa22ffd"
+        },
+        "HELIOS": {
+          "name": "HELIOS",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/HELIOS",
+          "type": "library",
+          "language": "Python",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "0efc9eea"
+        },
+        "helm-charts": {
+          "name": "helm-charts",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/helm-charts",
+          "type": "kubernetes-charts",
+          "language": "YAML",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "84d87d19"
+        },
+        "job-search": {
+          "name": "job-search",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/job-search",
+          "type": "application",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "da64beed"
+        },
+        "LLMWorks": {
+          "name": "LLMWorks",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/LLMWorks",
+          "type": "library",
+          "language": "TypeScript",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "c991bc0b"
+        },
+        "load-tests": {
+          "name": "load-tests",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/load-tests",
+          "type": "testing",
+          "language": "Mixed",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "9f490c67"
+        },
+        "marketing-center": {
+          "name": "marketing-center",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/marketing-center",
+          "type": "platform",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "c586d967"
+        },
+        "monitoring": {
+          "name": "monitoring",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/monitoring",
+          "type": "observability",
+          "language": "Mixed",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "0e6342c6"
+        },
+        "node_modules": {
+          "name": "node_modules",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/node_modules",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "prompty": {
+          "name": "prompty",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/prompty",
+          "type": "llm-tool",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "255d7e55"
+        },
+        "prompty-service": {
+          "name": "prompty-service",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/prompty-service",
+          "type": "service",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "799dec7c"
+        },
+        "shared": {
+          "name": "shared",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/shared",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d990a3c4"
+        },
+        "terraform": {
+          "name": "terraform",
+          "organization": "alaweimm90-tools",
+          "full_name": "alaweimm90-tools/terraform",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "193a0602"
+        }
+      }
+    },
+    "AlaweinOS": {
+      "repos": {
+        "benchmarks": {
+          "name": "benchmarks",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/benchmarks",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "docker": {
+          "name": "docker",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/docker",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "docs": {
+          "name": "docs",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/docs",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "8ef6aa5d"
+        },
+        "k8s": {
+          "name": "k8s",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/k8s",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "MEZAN": {
+          "name": "MEZAN",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/MEZAN",
+          "type": "framework",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "722285b7"
+        },
+        "optilibria": {
+          "name": "optilibria",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/optilibria",
+          "type": "library",
+          "language": "Python",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "4227fe15"
+        },
+        "QAPlibria-new": {
+          "name": "QAPlibria-new",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/QAPlibria-new",
+          "type": "library",
+          "language": "Python",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "37954f14"
+        },
+        "qmlab": {
+          "name": "qmlab",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/qmlab",
+          "type": "laboratory",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "6237aca8"
+        },
+        "reports": {
+          "name": "reports",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/reports",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "fafbcb69"
+        },
+        "scripts": {
+          "name": "scripts",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/scripts",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "4e9061a6"
+        },
+        "SimCore": {
+          "name": "SimCore",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/SimCore",
+          "type": "simulator",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "3cdbbf3c"
+        },
+        "src": {
+          "name": "src",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/src",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "TalAI": {
+          "name": "TalAI",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/TalAI",
+          "type": "library",
+          "language": "Mixed",
+          "tier": 2,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "4ef7023c"
+        },
+        "tests": {
+          "name": "tests",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/tests",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        }
+      }
+    },
+    "MeatheadPhysicist": {
+      "repos": {
+        "api": {
+          "name": "api",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/api",
+          "type": "api",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "e1aa50e1"
+        },
+        "automation": {
+          "name": "automation",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/automation",
+          "type": "automation",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "24f694dc"
+        },
+        "benchmarks": {
+          "name": "benchmarks",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/benchmarks",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "38818418"
+        },
+        "cli": {
+          "name": "cli",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/cli",
+          "type": "cli-tool",
+          "language": "Python",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "3cb62eec"
+        },
+        "cloud": {
+          "name": "cloud",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/cloud",
+          "type": "cloud-platform",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "4437ab59"
+        },
+        "config": {
+          "name": "config",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/config",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "691dc5c5"
+        },
+        "dashboard": {
+          "name": "dashboard",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/dashboard",
+          "type": "ui-application",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "46fbc062"
+        },
+        "database": {
+          "name": "database",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/database",
+          "type": "database",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "91660f1a"
+        },
+        "deployment": {
+          "name": "deployment",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/deployment",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "docs": {
+          "name": "docs",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/docs",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "2a9f2f20"
+        },
+        "education": {
+          "name": "education",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/education",
+          "type": "educational",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "8952f1b3"
+        },
+        "examples": {
+          "name": "examples",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/examples",
+          "type": "examples",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "c91410a8"
+        },
+        "frontend": {
+          "name": "frontend",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/frontend",
+          "type": "ui-application",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "7147e750"
+        },
+        "gh-pages": {
+          "name": "gh-pages",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/gh-pages",
+          "type": "static-site",
+          "language": "HTML",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "a4df70a0"
+        },
+        "integrations": {
+          "name": "integrations",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/integrations",
+          "type": "library",
+          "language": "Mixed",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "6fd5baef"
+        },
+        "k8s": {
+          "name": "k8s",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/k8s",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "mlops": {
+          "name": "mlops",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/mlops",
+          "type": "mlops",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "6535f79c"
+        },
+        "monitoring": {
+          "name": "monitoring",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/monitoring",
+          "type": "observability",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "720ce64c"
+        },
+        "nginx": {
+          "name": "nginx",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/nginx",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "notebooks": {
+          "name": "notebooks",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/notebooks",
+          "type": "jupyter-notebooks",
+          "language": "Python",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "87d6829d"
+        },
+        "notes": {
+          "name": "notes",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/notes",
+          "type": "documentation",
+          "language": "Markdown",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "4e9c2ea5"
+        },
+        "papers": {
+          "name": "papers",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/papers",
+          "type": "academic-papers",
+          "language": "LaTeX",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "18b54c2e"
+        },
+        "projects": {
+          "name": "projects",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/projects",
+          "type": "project-tracking",
+          "language": "Markdown",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "9aace38b"
+        },
+        "quantum": {
+          "name": "quantum",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/quantum",
+          "type": "scientific-library",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true
+          },
+          "files_hash": "5ab2ee7b"
+        },
+        "scripts": {
+          "name": "scripts",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/scripts",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "b8d10de4"
+        },
+        "src": {
+          "name": "src",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/src",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "bf02eeca"
+        },
+        "terraform": {
+          "name": "terraform",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/terraform",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": false,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": false,
+            "has_codeowners": false,
+            "has_ci": false,
+            "has_tests": false
+          },
+          "files_hash": "d41d8cd9"
+        },
+        "tests": {
+          "name": "tests",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/tests",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "07be048f"
+        },
+        "tools": {
+          "name": "tools",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/tools",
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "unknown",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": false,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "46d25838"
+        },
+        "visualizations": {
+          "name": "visualizations",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/visualizations",
+          "type": "visualizations",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "compliant": true,
+          "compliance_checks": {
+            "has_metadata": true,
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": false
+          },
+          "files_hash": "2c2566e1"
+        }
+      }
+    }
+  },
+  "repositories": {
+    "alaweimm90-business/benchbarrier": {
+      "name": "benchbarrier",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/benchbarrier",
+      "type": "web-application",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "8ee1656f"
+    },
+    "alaweimm90-business/calla-lily-couture": {
+      "name": "calla-lily-couture",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/calla-lily-couture",
+      "type": "ecommerce",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "6fefba53"
+    },
+    "alaweimm90-business/docs": {
+      "name": "docs",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/docs",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "1471960d"
+    },
+    "alaweimm90-business/dr-alowein-portfolio": {
+      "name": "dr-alowein-portfolio",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/dr-alowein-portfolio",
+      "type": "portfolio",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "5bdf0285"
+    },
+    "alaweimm90-business/live-it-iconic": {
+      "name": "live-it-iconic",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/live-it-iconic",
+      "type": "web-application",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "edd8d70f"
+    },
+    "alaweimm90-business/marketing-automation": {
+      "name": "marketing-automation",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/marketing-automation",
+      "type": "automation",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "f3b95f9c"
+    },
+    "alaweimm90-business/repz": {
+      "name": "repz",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/repz",
+      "type": "framework",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "d9b2f2cf"
+    },
+    "alaweimm90-business/scripts": {
+      "name": "scripts",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/scripts",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "f0b4779e"
+    },
+    "alaweimm90-business/templates": {
+      "name": "templates",
+      "organization": "alaweimm90-business",
+      "full_name": "alaweimm90-business/templates",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "alaweimm90-science/mag-logic": {
+      "name": "mag-logic",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/mag-logic",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "1837fee6"
+    },
+    "alaweimm90-science/qmat-sim": {
+      "name": "qmat-sim",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/qmat-sim",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "ab8c4f45"
+    },
+    "alaweimm90-science/qube-ml": {
+      "name": "qube-ml",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/qube-ml",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "bfab709e"
+    },
+    "alaweimm90-science/sci-comp": {
+      "name": "sci-comp",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/sci-comp",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "1f343887"
+    },
+    "alaweimm90-science/spin-circ": {
+      "name": "spin-circ",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/spin-circ",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "547bc5c8"
+    },
+    "alaweimm90-science/TalAI": {
+      "name": "TalAI",
+      "organization": "alaweimm90-science",
+      "full_name": "alaweimm90-science/TalAI",
+      "type": "unknown",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "482e62d6"
+    },
+    "alaweimm90-tools/admin-dashboard": {
+      "name": "admin-dashboard",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/admin-dashboard",
+      "type": "ui-application",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "e01e0fb2"
+    },
+    "alaweimm90-tools/alaweimm90-cli": {
+      "name": "alaweimm90-cli",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/alaweimm90-cli",
+      "type": "cli-tool",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "ba39b414"
+    },
+    "alaweimm90-tools/alaweimm90-python-sdk": {
+      "name": "alaweimm90-python-sdk",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/alaweimm90-python-sdk",
+      "type": "sdk",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "1bdcd26e"
+    },
+    "alaweimm90-tools/Attributa": {
+      "name": "Attributa",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/Attributa",
+      "type": "library",
+      "language": "TypeScript",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "0b3737eb"
+    },
+    "alaweimm90-tools/business-intelligence": {
+      "name": "business-intelligence",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/business-intelligence",
+      "type": "analytics",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "f39777dd"
+    },
+    "alaweimm90-tools/core-framework": {
+      "name": "core-framework",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/core-framework",
+      "type": "tool",
+      "language": "Python",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "33e68960"
+    },
+    "alaweimm90-tools/CrazyIdeas": {
+      "name": "CrazyIdeas",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/CrazyIdeas",
+      "type": "experimental",
+      "language": "Mixed",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "16023c1b"
+    },
+    "alaweimm90-tools/devops-platform": {
+      "name": "devops-platform",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/devops-platform",
+      "type": "platform",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "ba15de1f"
+    },
+    "alaweimm90-tools/docs": {
+      "name": "docs",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/docs",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "2801147d"
+    },
+    "alaweimm90-tools/fitness-app": {
+      "name": "fitness-app",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/fitness-app",
+      "type": "application",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "4aa22ffd"
+    },
+    "alaweimm90-tools/HELIOS": {
+      "name": "HELIOS",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/HELIOS",
+      "type": "library",
+      "language": "Python",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "0efc9eea"
+    },
+    "alaweimm90-tools/helm-charts": {
+      "name": "helm-charts",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/helm-charts",
+      "type": "kubernetes-charts",
+      "language": "YAML",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "84d87d19"
+    },
+    "alaweimm90-tools/job-search": {
+      "name": "job-search",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/job-search",
+      "type": "application",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "da64beed"
+    },
+    "alaweimm90-tools/LLMWorks": {
+      "name": "LLMWorks",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/LLMWorks",
+      "type": "library",
+      "language": "TypeScript",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "c991bc0b"
+    },
+    "alaweimm90-tools/load-tests": {
+      "name": "load-tests",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/load-tests",
+      "type": "testing",
+      "language": "Mixed",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "9f490c67"
+    },
+    "alaweimm90-tools/marketing-center": {
+      "name": "marketing-center",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/marketing-center",
+      "type": "platform",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "c586d967"
+    },
+    "alaweimm90-tools/monitoring": {
+      "name": "monitoring",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/monitoring",
+      "type": "observability",
+      "language": "Mixed",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "0e6342c6"
+    },
+    "alaweimm90-tools/node_modules": {
+      "name": "node_modules",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/node_modules",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "alaweimm90-tools/prompty": {
+      "name": "prompty",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/prompty",
+      "type": "llm-tool",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "255d7e55"
+    },
+    "alaweimm90-tools/prompty-service": {
+      "name": "prompty-service",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/prompty-service",
+      "type": "service",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "799dec7c"
+    },
+    "alaweimm90-tools/shared": {
+      "name": "shared",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/shared",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d990a3c4"
+    },
+    "alaweimm90-tools/terraform": {
+      "name": "terraform",
+      "organization": "alaweimm90-tools",
+      "full_name": "alaweimm90-tools/terraform",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "193a0602"
+    },
+    "AlaweinOS/benchmarks": {
+      "name": "benchmarks",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/benchmarks",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "AlaweinOS/docker": {
+      "name": "docker",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/docker",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "AlaweinOS/docs": {
+      "name": "docs",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/docs",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "8ef6aa5d"
+    },
+    "AlaweinOS/k8s": {
+      "name": "k8s",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/k8s",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "AlaweinOS/MEZAN": {
+      "name": "MEZAN",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/MEZAN",
+      "type": "framework",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "722285b7"
+    },
+    "AlaweinOS/optilibria": {
+      "name": "optilibria",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/optilibria",
+      "type": "library",
+      "language": "Python",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "4227fe15"
+    },
+    "AlaweinOS/QAPlibria-new": {
+      "name": "QAPlibria-new",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/QAPlibria-new",
+      "type": "library",
+      "language": "Python",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "37954f14"
+    },
+    "AlaweinOS/qmlab": {
+      "name": "qmlab",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/qmlab",
+      "type": "laboratory",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "6237aca8"
+    },
+    "AlaweinOS/reports": {
+      "name": "reports",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/reports",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "fafbcb69"
+    },
+    "AlaweinOS/scripts": {
+      "name": "scripts",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/scripts",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "4e9061a6"
+    },
+    "AlaweinOS/SimCore": {
+      "name": "SimCore",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/SimCore",
+      "type": "simulator",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "3cdbbf3c"
+    },
+    "AlaweinOS/src": {
+      "name": "src",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/src",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "AlaweinOS/TalAI": {
+      "name": "TalAI",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/TalAI",
+      "type": "library",
+      "language": "Mixed",
+      "tier": 2,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "4ef7023c"
+    },
+    "AlaweinOS/tests": {
+      "name": "tests",
+      "organization": "AlaweinOS",
+      "full_name": "AlaweinOS/tests",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "MeatheadPhysicist/api": {
+      "name": "api",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/api",
+      "type": "api",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "e1aa50e1"
+    },
+    "MeatheadPhysicist/automation": {
+      "name": "automation",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/automation",
+      "type": "automation",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "24f694dc"
+    },
+    "MeatheadPhysicist/benchmarks": {
+      "name": "benchmarks",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/benchmarks",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "38818418"
+    },
+    "MeatheadPhysicist/cli": {
+      "name": "cli",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/cli",
+      "type": "cli-tool",
+      "language": "Python",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "3cb62eec"
+    },
+    "MeatheadPhysicist/cloud": {
+      "name": "cloud",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/cloud",
+      "type": "cloud-platform",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "4437ab59"
+    },
+    "MeatheadPhysicist/config": {
+      "name": "config",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/config",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "691dc5c5"
+    },
+    "MeatheadPhysicist/dashboard": {
+      "name": "dashboard",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/dashboard",
+      "type": "ui-application",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "46fbc062"
+    },
+    "MeatheadPhysicist/database": {
+      "name": "database",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/database",
+      "type": "database",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "91660f1a"
+    },
+    "MeatheadPhysicist/deployment": {
+      "name": "deployment",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/deployment",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "MeatheadPhysicist/docs": {
+      "name": "docs",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/docs",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "2a9f2f20"
+    },
+    "MeatheadPhysicist/education": {
+      "name": "education",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/education",
+      "type": "educational",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "8952f1b3"
+    },
+    "MeatheadPhysicist/examples": {
+      "name": "examples",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/examples",
+      "type": "examples",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "c91410a8"
+    },
+    "MeatheadPhysicist/frontend": {
+      "name": "frontend",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/frontend",
+      "type": "ui-application",
+      "language": "TypeScript",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "7147e750"
+    },
+    "MeatheadPhysicist/gh-pages": {
+      "name": "gh-pages",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/gh-pages",
+      "type": "static-site",
+      "language": "HTML",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "a4df70a0"
+    },
+    "MeatheadPhysicist/integrations": {
+      "name": "integrations",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/integrations",
+      "type": "library",
+      "language": "Mixed",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "6fd5baef"
+    },
+    "MeatheadPhysicist/k8s": {
+      "name": "k8s",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/k8s",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "MeatheadPhysicist/mlops": {
+      "name": "mlops",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/mlops",
+      "type": "mlops",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "6535f79c"
+    },
+    "MeatheadPhysicist/monitoring": {
+      "name": "monitoring",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/monitoring",
+      "type": "observability",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "720ce64c"
+    },
+    "MeatheadPhysicist/nginx": {
+      "name": "nginx",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/nginx",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "MeatheadPhysicist/notebooks": {
+      "name": "notebooks",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/notebooks",
+      "type": "jupyter-notebooks",
+      "language": "Python",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "87d6829d"
+    },
+    "MeatheadPhysicist/notes": {
+      "name": "notes",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/notes",
+      "type": "documentation",
+      "language": "Markdown",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "4e9c2ea5"
+    },
+    "MeatheadPhysicist/papers": {
+      "name": "papers",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/papers",
+      "type": "academic-papers",
+      "language": "LaTeX",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "18b54c2e"
+    },
+    "MeatheadPhysicist/projects": {
+      "name": "projects",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/projects",
+      "type": "project-tracking",
+      "language": "Markdown",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "9aace38b"
+    },
+    "MeatheadPhysicist/quantum": {
+      "name": "quantum",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/quantum",
+      "type": "scientific-library",
+      "language": "Python",
+      "tier": 4,
+      "status": "active",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": true
+      },
+      "files_hash": "5ab2ee7b"
+    },
+    "MeatheadPhysicist/scripts": {
+      "name": "scripts",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/scripts",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "b8d10de4"
+    },
+    "MeatheadPhysicist/src": {
+      "name": "src",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/src",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "bf02eeca"
+    },
+    "MeatheadPhysicist/terraform": {
+      "name": "terraform",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/terraform",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": false,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": false,
+        "has_codeowners": false,
+        "has_ci": false,
+        "has_tests": false
+      },
+      "files_hash": "d41d8cd9"
+    },
+    "MeatheadPhysicist/tests": {
+      "name": "tests",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/tests",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "07be048f"
+    },
+    "MeatheadPhysicist/tools": {
+      "name": "tools",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/tools",
+      "type": "unknown",
+      "language": "unknown",
+      "tier": 4,
+      "status": "unknown",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": false,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "46d25838"
+    },
+    "MeatheadPhysicist/visualizations": {
+      "name": "visualizations",
+      "organization": "MeatheadPhysicist",
+      "full_name": "MeatheadPhysicist/visualizations",
+      "type": "visualizations",
+      "language": "Unknown",
+      "tier": 4,
+      "status": "inactive",
+      "compliant": true,
+      "compliance_checks": {
+        "has_metadata": true,
+        "has_readme": true,
+        "has_codeowners": true,
+        "has_ci": true,
+        "has_tests": false
+      },
+      "files_hash": "2c2566e1"
+    }
+  },
+  "summary": {
+    "total_organizations": 5,
+    "total_repositories": 81,
+    "compliant": 70,
+    "non_compliant": 11,
+    "by_tier": {
+      "1": 0,
+      "2": 7,
+      "3": 0,
+      "4": 74
+    }
+  }
+}

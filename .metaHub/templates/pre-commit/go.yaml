@@ -1,0 +1,90 @@
+# Golden Path Pre-commit Configuration for Go Projects
+# Install: pip install pre-commit && pre-commit install
+# Run: pre-commit run --all-files
+
+repos:
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+
+  # Go formatting and linting
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+      - id: go-imports
+      - id: go-vet
+      - id: go-build
+      - id: go-mod-tidy
+
+  # golangci-lint - comprehensive Go linter
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.62.0
+    hooks:
+      - id: golangci-lint
+        args: [--timeout=5m]
+
+  # Go security scanner
+  - repo: local
+    hooks:
+      - id: gosec
+        name: Go Security Scanner
+        entry: bash -c 'command -v gosec >/dev/null && gosec -quiet ./... || echo "gosec not installed, skipping"'
+        language: system
+        types: [go]
+        pass_filenames: false
+
+      - id: govulncheck
+        name: Go Vulnerability Check
+        entry: bash -c 'command -v govulncheck >/dev/null && govulncheck ./... || echo "govulncheck not installed, skipping"'
+        language: system
+        types: [go]
+        pass_filenames: false
+        stages: [push]
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        args: [--fix]
+        exclude: CHANGELOG.md
+
+  # Commit message linting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.30.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # Local governance checks
+  - repo: local
+    hooks:
+      - id: governance-check
+        name: Golden Path Governance
+        entry: bash -c 'if [ -f scripts/govern.sh ]; then ./scripts/govern.sh --schema; fi'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [golangci-lint, gosec, govulncheck]
+  submodules: false

@@ -1,0 +1,94 @@
+# Golden Path Pre-commit Configuration for TypeScript Projects
+# Install: pip install pre-commit && pre-commit install
+# Run: pre-commit run --all-files
+
+repos:
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-json
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+
+  # ESLint for TypeScript
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.14.0
+    hooks:
+      - id: eslint
+        files: \.[jt]sx?$
+        types: [file]
+        args: [--fix, --max-warnings=0]
+        additional_dependencies:
+          - eslint@9.14.0
+          - typescript@5.6.3
+          - '@typescript-eslint/parser@8.13.0'
+          - '@typescript-eslint/eslint-plugin@8.13.0'
+
+  # Prettier for formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or: [javascript, jsx, ts, tsx, json, yaml, markdown, css, scss]
+        args: [--write]
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        args: [--fix]
+        exclude: CHANGELOG.md
+
+  # Commit message linting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.30.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # Check package.json
+  - repo: local
+    hooks:
+      - id: check-package-json
+        name: Check package.json
+        entry: bash -c 'if [ -f package.json ]; then node -e "JSON.parse(require(\"fs\").readFileSync(\"package.json\"))"; fi'
+        language: system
+        files: package\.json$
+        pass_filenames: false
+
+      - id: check-npm-audit
+        name: npm audit
+        entry: bash -c 'if [ -f package-lock.json ]; then npm audit --audit-level=high; fi'
+        language: system
+        pass_filenames: false
+        stages: [push]
+
+  # Local governance checks
+  - repo: local
+    hooks:
+      - id: governance-check
+        name: Golden Path Governance
+        entry: bash -c 'if [ -f scripts/govern.sh ]; then ./scripts/govern.sh --schema; fi'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [eslint, check-npm-audit]
+  submodules: false

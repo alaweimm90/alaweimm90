@@ -5,11 +5,19 @@ on:
     - cron: '0 8 * * 1'  # Weekly on Monday at 8 AM UTC
   workflow_dispatch:  # Allow manual trigger
 
+# Explicit minimal permissions - security hardening
+permissions:
+  contents: write  # For git commit/push
+  actions: write   # For artifact upload
+
 jobs:
   checkpoint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for drift comparison
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -18,29 +26,72 @@ jobs:
       - name: Install dependencies
         run: pip install -r .metaHub/scripts/requirements.txt
 
-      - name: Generate checkpoint
-        run: python .metaHub/scripts/checkpoint.py
+      - name: Generate checkpoint and detect drift
+        id: checkpoint
+        run: |
+          # Run checkpoint with markdown output
+          python .metaHub/scripts/checkpoint.py \
+            --report markdown \
+            --output drift-report.md
+
+          # Check if drift was detected
+          if [ -f ".metaHub/checkpoints/checkpoint-latest.json" ]; then
+            has_drift=$(python3 -c "import json; d=json.load(open('.metaHub/checkpoints/checkpoint-latest.json')); print('true' if d.get('checksum') else 'false')")
+            echo "has_drift=$has_drift" >> $GITHUB_OUTPUT
+          fi
 
       - name: Archive drift report
         run: |
           mkdir -p .metaHub/catalog/weekly-reports
           timestamp=$(date +%Y-%m-%d)
-          cp drift-report.md ".metaHub/catalog/weekly-reports/drift-report-${timestamp}.md"
-          cp drift-report.md .metaHub/catalog/weekly-reports/latest-drift.md
+
+          # Copy reports
+          if [ -f "drift-report.md" ]; then
+            cp drift-report.md ".metaHub/catalog/weekly-reports/drift-report-${timestamp}.md"
+            cp drift-report.md .metaHub/catalog/weekly-reports/latest-drift.md
+          fi
+
+          # Also generate JSON version
+          python .metaHub/scripts/checkpoint.py \
+            --report json \
+            --output ".metaHub/catalog/weekly-reports/drift-report-${timestamp}.json"
 
       - name: Commit reports
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
+          git add .metaHub/checkpoints/
           git add .metaHub/catalog/weekly-reports/
-          git commit -m "chore: weekly drift checkpoint" || echo "No changes"
+          git commit -m "chore: weekly drift checkpoint $(date +%Y-%m-%d)" || echo "No changes to commit"
 
       - name: Push reports
         run: |
           git push origin || echo "No changes to push"
 
       - name: Upload drift report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: drift-report
-          path: drift-report.md
+          name: drift-report-${{ github.run_id }}
+          path: |
+            drift-report.md
+            .metaHub/checkpoints/checkpoint-latest.json
+          retention-days: 90
+
+      - name: Create issue if drift degraded compliance
+        if: steps.checkpoint.outputs.has_drift == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('drift-report.md', 'utf8');
+
+            // Check if report contains degraded compliance
+            if (report.includes('Compliance Degraded') || report.includes('compliance_degraded')) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `[Drift Alert] Compliance degradation detected - ${new Date().toISOString().split('T')[0]}`,
+                body: report,
+                labels: ['drift-detection', 'compliance', 'automated']
+              });
+            }

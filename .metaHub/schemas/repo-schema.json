@@ -6,24 +6,28 @@
   "properties": {
     "type": {
       "type": "string",
-      "enum": ["lib", "tool", "core", "research", "demo", "workspace"],
-      "description": "Repository type classification"
+      "description": "Repository type classification (library, tool, demo, research, adapter, meta, or custom)"
     },
     "tier": {
       "type": "integer",
       "minimum": 1,
-      "maximum": 3,
-      "description": "Criticality tier (1=mission-critical, 2=important, 3=experimental)"
+      "maximum": 4,
+      "description": "Criticality tier (1=mission-critical, 2=important, 3=experimental, 4=unknown)"
     },
     "language": {
       "type": "string",
-      "enum": ["python", "typescript", "mixed"],
-      "description": "Primary programming language"
+      "description": "Primary programming language (python, typescript, go, rust, mixed, etc.)"
     },
     "coverage": {
       "type": "object",
-      "description": "Test coverage thresholds",
+      "description": "Test coverage configuration",
       "properties": {
+        "target": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Target coverage percentage"
+        },
         "lines": {
           "type": "integer",
           "minimum": 0,
@@ -60,6 +64,20 @@
     "owner": {
       "type": "string",
       "description": "Owner or team responsible for this repository"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the repository"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "archived", "deprecated", "unknown"],
+      "description": "Repository lifecycle status"
+    },
+    "created": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the repository was created (YYYY-MM-DD)"
     }
   },
   "required": ["type", "language"],

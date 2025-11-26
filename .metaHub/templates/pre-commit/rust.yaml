@@ -1,0 +1,107 @@
+# Golden Path Pre-commit Configuration for Rust Projects
+# Install: pip install pre-commit && pre-commit install
+# Run: pre-commit run --all-files
+
+repos:
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-json
+      - id: check-toml
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: detect-private-key
+
+  # Rust formatting and linting
+  - repo: local
+    hooks:
+      - id: cargo-fmt
+        name: Cargo Format
+        entry: cargo fmt --all --
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+      - id: cargo-clippy
+        name: Cargo Clippy
+        entry: cargo clippy --all-targets --all-features -- -D warnings
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+      - id: cargo-check
+        name: Cargo Check
+        entry: cargo check --all-targets --all-features
+        language: system
+        types: [rust]
+        pass_filenames: false
+
+      - id: cargo-test
+        name: Cargo Test
+        entry: cargo test --all-features
+        language: system
+        types: [rust]
+        pass_filenames: false
+        stages: [push]
+
+  # Rust security scanning
+  - repo: local
+    hooks:
+      - id: cargo-audit
+        name: Cargo Audit
+        entry: bash -c 'command -v cargo-audit >/dev/null && cargo audit || echo "cargo-audit not installed, skipping"'
+        language: system
+        types: [rust]
+        pass_filenames: false
+        stages: [push]
+
+      - id: cargo-deny
+        name: Cargo Deny
+        entry: bash -c 'command -v cargo-deny >/dev/null && cargo deny check || echo "cargo-deny not installed, skipping"'
+        language: system
+        types: [rust]
+        pass_filenames: false
+        stages: [push]
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.42.0
+    hooks:
+      - id: markdownlint
+        args: [--fix]
+        exclude: CHANGELOG.md
+
+  # Commit message linting
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.30.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # Local governance checks
+  - repo: local
+    hooks:
+      - id: governance-check
+        name: Golden Path Governance
+        entry: bash -c 'if [ -f scripts/govern.sh ]; then ./scripts/govern.sh --schema; fi'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+# CI configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [cargo-clippy, cargo-test, cargo-audit, cargo-deny]
+  submodules: false

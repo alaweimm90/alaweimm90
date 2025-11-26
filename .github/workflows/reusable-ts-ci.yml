@@ -38,21 +38,17 @@ jobs:
           fi
 
       - name: Lint
-        continue-on-error: true
         run: |
-          npm run lint 2>/dev/null || npx eslint . || true
+          npm run lint 2>/dev/null || npx eslint .
 
       - name: Type check
-        continue-on-error: true
-        run: npm run type-check 2>/dev/null || npx tsc --noEmit || true
+        run: npm run type-check 2>/dev/null || npx tsc --noEmit
 
       - name: Build
-        continue-on-error: true
-        run: npm run build || true
+        run: npm run build
 
       - name: Test
-        continue-on-error: true
-        run: npm test || true
+        run: npm test
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3

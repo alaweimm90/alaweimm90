@@ -6,12 +6,18 @@ on:
     paths: ['organizations/**', '.meta/**']
   schedule:
     - cron: '0 8 * * *'  # Daily at 8 AM UTC
+  workflow_dispatch:  # Allow manual trigger
+
+# Explicit minimal permissions - security hardening
+permissions:
+  contents: write  # For git commit/push
 
 jobs:
   catalog:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -20,16 +26,47 @@ jobs:
       - name: Install dependencies
         run: pip install -r .metaHub/scripts/requirements.txt
 
-      - name: Generate catalog
-        run: python .metaHub/scripts/catalog.py
+      - name: Generate catalog (JSON)
+        run: |
+          python .metaHub/scripts/catalog.py --format json
+
+      - name: Generate catalog (Markdown)
+        run: |
+          python .metaHub/scripts/catalog.py \
+            --format markdown \
+            --output .metaHub/catalog/catalog.md
+
+      - name: Generate catalog (HTML)
+        run: |
+          python .metaHub/scripts/catalog.py \
+            --format html \
+            --output .metaHub/catalog/service-catalog.html
+
+      - name: Generate summary
+        id: summary
+        run: |
+          orgs=$(python3 -c "import json; d=json.load(open('.metaHub/catalog/catalog.json')); print(d['summary']['total_organizations'])")
+          repos=$(python3 -c "import json; d=json.load(open('.metaHub/catalog/catalog.json')); print(d['summary']['total_repositories'])")
+          echo "organizations=$orgs" >> $GITHUB_OUTPUT
+          echo "repositories=$repos" >> $GITHUB_OUTPUT
 
       - name: Commit catalog
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add .metaHub/catalog/catalog.json
-          git commit -m "chore: update portfolio catalog" || echo "No changes"
+          git add .metaHub/catalog/
+          git commit -m "chore: update portfolio catalog (${{ steps.summary.outputs.organizations }} orgs, ${{ steps.summary.outputs.repositories }} repos)" || echo "No changes"
 
       - name: Push catalog
         run: |
           git push origin || echo "No changes to push"
+
+      - name: Upload catalog artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: service-catalog
+          path: |
+            .metaHub/catalog/catalog.json
+            .metaHub/catalog/catalog.md
+            .metaHub/catalog/service-catalog.html
+          retention-days: 30
