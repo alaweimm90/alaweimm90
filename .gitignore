@@ -140,3 +140,11 @@ organizations/
 
 # Local staging for new repos
 new-repos/
+
+# Workspace files
+*.code-workspace
+
+# Temporary enforcement/audit outputs
+enforcement-results.json
+*-audit.pdf
+*Audit.pdf
