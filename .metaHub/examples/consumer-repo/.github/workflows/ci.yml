@@ -1,0 +1,35 @@
+name: Consumer Repo CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  # Use reusable Python CI workflow from governance contract
+  python-ci:
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+    with:
+      python-version: '3.11'
+      test-command: 'pytest tests/ -v --cov=src'
+
+  # Use reusable OPA Policy Gate from governance contract
+  policy-validation:
+    needs: python-ci
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    with:
+      policy-path: .metaHub/policies
+
+  # Example of calling Release workflow on tags
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: python-ci
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-release.yml@main
+    with:
+      version: ${{ github.ref_name }}
+      prerelease: false

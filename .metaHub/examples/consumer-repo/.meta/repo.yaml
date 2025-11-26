@@ -1,0 +1,62 @@
+---
+# Repository Metadata — Implements schema from governance contract
+# Schema: https://github.com/alaweimm90/alaweimm90/blob/main/.metaHub/schemas/repo-schema.json
+
+metadata:
+  name: example-microservice
+  description: Example consumer repository demonstrating governance contract usage
+  owner: engineering-team
+  team_slack: "#platform-team"
+  created: 2025-11-01
+
+type: lib  # lib, tool, core, research, demo, workspace
+language: python  # python, typescript, mixed, go, rust
+
+tier:
+  level: 2  # 1=core, 2=production, 3=experimental
+  criticality: medium  # critical, high, medium, low
+  slo:
+    availability: 99.5%
+    latency_p99_ms: 200
+    error_rate_target: 0.1%
+
+quality:
+  coverage:
+    target: 85%
+    current: 82%
+  lint: enabled
+  type_check: enabled
+  docs: enabled
+
+interfaces:
+  - type: rest
+    port: 8000
+    docs_url: /docs
+  - type: grpc
+    port: 9000
+
+deployment:
+  container_image: example-microservice:latest
+  requires_kubernetes: true
+  helm_chart: ./deploy/helm/example-microservice
+
+dependencies:
+  governance_contract: https://github.com/alaweimm90/alaweimm90
+  python_version: ">=3.11"
+  required_services:
+    - auth-service
+    - logging-service
+    - metrics-service
+
+runbooks:
+  - title: "Deploy to Production"
+    url: ./docs/runbooks/production-deploy.md
+  - title: "Incident Response"
+    url: ./docs/runbooks/incident-response.md
+  - title: "Database Migration"
+    url: ./docs/runbooks/db-migration.md
+
+contacts:
+  owner_email: platform-team@company.com
+  slack_channel: "#example-microservice"
+  on_call_schedule: https://pagerduty.com/schedules/example-microservice
