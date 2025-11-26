@@ -24,7 +24,9 @@
       "Bash(docker build:*)",
       "Bash(docker-compose:*)",
       "Bash(for file in .metaHub/policies/*.rego)",
-      "Bash(do echo \"Checking: $file\")"
+      "Bash(do echo \"Checking: $file\")",
+      "Bash(for f in ci.yml gitleaks.yml paved-road.yml service-scorecard.yml)",
+      "Bash(do git ls-files .github/workflows/$f)"
     ],
     "deny": [],
     "ask": []

@@ -21,25 +21,28 @@ This repository provides the **governance contract** that other repos consume:
 ```
 alaweimm90/alaweimm90 (governance contract — WIP)
 
-ROOT (6 files — actual)
+ROOT (7 files — actual)
 ├── README.md                   # This file
 ├── LICENSE                     # MIT license
 ├── .github/                    # GitHub Actions workflows
 ├── .metaHub/                   # Governance infrastructure
+├── .gitattributes              # Git line ending rules
 ├── .gitignore                  # Git ignore rules
 └── SECURITY.md                 # Security policy
 
-(TODO: Add .gitattributes, complete .allstar/ setup)
+.allstar/ (IN PROGRESS)
+└── alstar.yaml                 # Allstar security policies [PENDING]
 
-.github/workflows/ (CURRENT — old governance)
-├── opa-conftest.yml            # Run OPA on changed files (warning-only) [ACTIVE]
-├── ci.yml, gitleaks.yml, paved-road.yml, service-scorecard.yml  [TO BE REMOVED]
-
-.github/workflows/ (REUSABLE — COMPLETE)
-├── reusable-python-ci.yml      # Callable: Python CI template [COMPLETE]
-├── reusable-ts-ci.yml          # Callable: TypeScript CI template [COMPLETE]
-├── reusable-policy.yml         # Callable: OPA policy gate [COMPLETE]
-└── reusable-release.yml        # Callable: Release workflow [COMPLETE]
+.github/workflows/ (9 total — Governance + Reusable)
+├── opa-conftest.yml            # Policy validation on changed files
+├── renovate.yml                # Dependency update automation
+├── scorecard.yml               # OpenSSF security scoring
+├── slsa-provenance.yml         # SLSA supply chain security
+├── super-linter.yml            # Code quality linting
+├── reusable-python-ci.yml      # Callable: Python CI/testing
+├── reusable-ts-ci.yml          # Callable: TypeScript CI/testing
+├── reusable-policy.yml         # Callable: OPA policy gate
+└── reusable-release.yml        # Callable: Release automation
 
 .metaHub/
 ├── policies/                   # OPA/Rego governance policies [COMPLETE]
@@ -123,10 +126,10 @@ See `.metaHub/policies/README.md` for complete documentation.
 - **Examples**: ✅ Dockerfile and docker-compose references
 - **Reusable Workflows**: ✅ Python, TypeScript, Policy Gate, Release
 
-**Optimization (PENDING):**
-- Tracked files: 44 (target: reduce to ~30)
-- Old workflows: 5 remaining (ci.yml, gitleaks.yml, paved-road.yml, service-scorecard.yml, scorecard.yml)
-- Additional work: Complete .allstar/ configuration, continue file reduction
+**Optimization (IN PROGRESS):**
+- Tracked files: 44 (target: reduce to ~30 through consolidation)
+- Workflows: 9 all legitimate and necessary (governance + reusable)
+- Remaining work: Complete .allstar/ configuration, optional file consolidation
 
 **Last Updated**: 2025-11-26
 **Maintainer**: @alaweimm90

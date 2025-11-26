@@ -1,87 +1,33 @@
 # OpenSSF Allstar Configuration
-# Continuous security enforcement and auto-remediation
-# https://github.com/ossf/allstar
+# Continuous security enforcement for governance contract repository
 
-# Global Allstar configuration
-optConfig:
-  # Opt-in to Allstar enforcement
-  optInRepos:
-    - alaweimm90
+# Policy mode: Issue-only (non-blocking) during initial rollout
+# Will transition to blocking after team familiarization
 
-  # Opt-out specific repos if needed (currently none)
-  optOutRepos: []
-
-  # Opt out of specific policies per repo
-  optOutStrategy: repo
-
-# Issue creation settings
-issueLabel: allstar
-issueRepo: alaweimm90
-issueFooter: |
-  ---
-  This issue was created by [Allstar](https://github.com/ossf/allstar).
-
-  **Auto-remediation**: Some security issues may be auto-fixed by Allstar.
-  **Policy enforcement**: This issue indicates a security policy violation.
-
-# Enforcement action
-action: issue  # Options: log, issue, fix
-
-# Notification settings
-notifications:
-  # Create issues for violations
-  enabled: true
-
-  # Auto-close issues when fixed
-  autoClose: true
-
-# Policy configurations
 policies:
-  # Binary Artifacts Policy
-  binary_artifacts:
-    # Enabled: true
-    action: issue
-
   # Branch Protection Policy
   branch_protection:
-    enabled: true
     action: issue
 
-    # Protection requirements
-    protectMain: true
-    requirePullRequest: true
-    requireApprovals: 1
-    dismissStaleReviews: true
-    requireCodeOwnerReviews: true
-    requireStatusChecks: true
-    requireUpToDate: true
-    requiredStatusChecks:
-      - "Super-Linter"
-      - "OpenSSF Scorecard"
-      - "OPA Policy Enforcement"
-    enforceAdmin: false  # Allow admin bypass in emergencies
+  # Binary Artifacts Policy
+  # Prevents committed binary files (executables, archives, etc.)
+  binary_artifacts:
+    action: issue
 
   # Outside Collaborators Policy
-  outside:
-    enabled: true
+  # Controls who can be added as external collaborators
+  outside_collaborators:
     action: issue
 
-    # Allowed outside collaborators (if any)
-    allowedCollaborators: []
-
-    # Allowed GitHub Apps
-    allowedGitHubApps:
-      - "renovate"
-      - "dependabot"
-      - "policy-bot"
-
-  # Security Policy (SECURITY.md)
-  security:
-    enabled: true
+  # Security Policy
+  # Requires SECURITY.md with vulnerability reporting guidance
+  security_policy:
     action: issue
 
-  # Dangerous Workflow Policy
-  dangerous_workflow:
-    enabled: true
+  # Dangerous Workflows Policy
+  # Detects risky GitHub Actions patterns
+  dangerous_workflows:
     action: issue
 
+# Scheduled check frequency (hours)
+check_frequency: 24
