@@ -1,148 +1,54 @@
-# Governance Contract — Meta-Repository
+# Governance Contract
 
-**Governance contract repository** that defines policies, schemas, and reference examples for portfolio repositories.
+**Pure governance contract repository** — defines policies, schemas, and reusable workflows for portfolio repositories.
 
-**STATUS:** Work in Progress — 60% complete. Core governance (policies, schemas, examples, reusable workflows) ready. Optimization in progress.
+## What This Is
 
-## 🎯 Purpose
+This repository is a **single source of truth for governance**. Consumer repositories consume:
 
-This repository provides the **governance contract** that other repos consume:
-- **Policies** (`.metaHub/policies/`) — OPA/Rego rules for structure, Docker security, Kubernetes, SLOs (COMPLETE)
-- **Schemas** (`.metaHub/schemas/`) — `.meta/repo.yaml` format definition (COMPLETE)
-- **Reusable Workflows** (`.github/workflows/`) — Callable CI/CD templates for Python, TypeScript, releases (COMPLETE)
-- **Infrastructure Examples** (`.metaHub/infra/examples/`) — Reference Dockerfile and docker-compose (COMPLETE)
+- **Policies** (`.metaHub/policies/`) — OPA/Rego rules for structure, Docker security, Kubernetes, SLOs
+- **Schemas** (`.metaHub/schemas/`) — `.meta/repo.yaml` format definition
+- **Reusable Workflows** (`.github/workflows/`) — Callable CI/CD templates
+- **Infrastructure Examples** (`.metaHub/infra/examples/`) — Dockerfile and docker-compose templates
 
-**This repo is the governance contract** — consumer repos will implement what's defined here.
+## Start Here
 
----
+**New to this governance contract?**
+- 📖 Read: [Consumer Guide](./.metaHub/guides/consumer-guide.md)
+- 📋 See: [Example Consumer Repository](./.metaHub/examples/consumer-repo/)
 
-## 📁 Structure
+**Want to understand the governance system?**
+- 🏗️ Read: `.metaHub/README.md` (governance index)
+- 📋 See: [Policy Documentation](./.metaHub/policies/README.md)
+- 📋 See: [Schema Documentation](./.metaHub/schemas/README.md)
+
+## Quick Links
+
+| Need | Location |
+|------|----------|
+| Policies | [`.metaHub/policies/`](./.metaHub/policies/) |
+| Schemas | [`.metaHub/schemas/`](./.metaHub/schemas/) |
+| Infrastructure Examples | [`.metaHub/infra/examples/`](./.metaHub/infra/examples/) |
+| Consumer Guide | [`.metaHub/guides/consumer-guide.md`](./.metaHub/guides/consumer-guide.md) |
+| Example Repo | [`.metaHub/examples/consumer-repo/`](./.metaHub/examples/consumer-repo/) |
+| Security Policy | [`.metaHub/SECURITY.md`](./.metaHub/SECURITY.md) |
+
+## All Documentation Lives in `.metaHub/`
+
+Everything you need is in the `.metaHub/` directory:
 
 ```
-alaweimm90/alaweimm90 (governance contract — WIP)
-
-ROOT (7 files — actual)
-├── README.md                   # This file
-├── LICENSE                     # MIT license
-├── .github/                    # GitHub Actions workflows
-├── .metaHub/                   # Governance infrastructure
-├── .gitattributes              # Git line ending rules
-├── .gitignore                  # Git ignore rules
-└── SECURITY.md                 # Security policy
-
-.allstar/ (COMPLETE)
-├── allstar.yaml                # Allstar security policies [COMPLETE]
-└── SETUP.md                    # Installation and transition guide [COMPLETE]
-
-.github/workflows/ (9 total — Governance + Reusable)
-├── opa-conftest.yml            # Policy validation on changed files
-├── renovate.yml                # Dependency update automation
-├── scorecard.yml               # OpenSSF security scoring
-├── slsa-provenance.yml         # SLSA supply chain security
-├── super-linter.yml            # Code quality linting
-├── reusable-python-ci.yml      # Callable: Python CI/testing
-├── reusable-ts-ci.yml          # Callable: TypeScript CI/testing
-├── reusable-policy.yml         # Callable: OPA policy gate
-└── reusable-release.yml        # Callable: Release automation
-
 .metaHub/
-├── policies/                   # OPA/Rego governance policies [COMPLETE]
-│   ├── repo-structure.rego     # Repository structure (warning-only)
-│   ├── docker-security.rego    # Docker security checks
-│   ├── k8s-governance.rego     # Kubernetes manifests
-│   ├── service-slo.rego        # Service-level objectives
-│   ├── adr-policy.rego         # Architecture decision records
-│   └── README.md               # Policy documentation
-├── schemas/                    # Repository metadata schema [COMPLETE]
-│   ├── repo-schema.json        # .meta/repo.yaml schema definition
-│   └── README.md               # Schema documentation
-└── infra/examples/             # Infrastructure reference examples [COMPLETE]
-    ├── Dockerfile.example      # Multi-stage Python Dockerfile
-    └── docker-compose.example.yml  # Dev environment reference
+├── policies/          # OPA/Rego governance rules
+├── schemas/           # Repository metadata format
+├── guides/            # How-to guides and documentation
+├── examples/          # Example consumer repository
+├── infra/examples/    # Infrastructure templates
+└── README.md          # Navigation hub
 ```
 
 ---
 
-## 🚀 How Consumer Repos Use This
-
-**Start with the [Consumer Guide](./CONSUMER_GUIDE.md) and [Example Consumer Repository](./.metaHub/examples/consumer-repo/)**
-
-Consumer repositories reference this governance contract via:
-
-1. **Implement Repository Metadata** (`.meta/repo.yaml`)
-   ```bash
-   # Validate against governance contract schema
-   ajv validate -s <governance-contract>/schemas/repo-schema.json -d .meta/repo.yaml
-   ```
-   See: [Example `.meta/repo.yaml`](./.metaHub/examples/consumer-repo/.meta/repo.yaml)
-
-2. **Call Reusable Workflows** from `.github/workflows/`
-   ```yaml
-   jobs:
-     python-ci:
-       uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
-     policy-validation:
-       uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
-   ```
-   See: [Example CI Workflow](./.metaHub/examples/consumer-repo/.github/workflows/ci.yml)
-
-3. **Copy Infrastructure Examples** as starter code
-   ```bash
-   cp <governance-contract>/.metaHub/infra/examples/Dockerfile.example ./Dockerfile
-   cp <governance-contract>/.metaHub/infra/examples/docker-compose.example.yml ./docker-compose.yml
-   ```
-   See: [Example Dockerfile](./.metaHub/examples/consumer-repo/Dockerfile) and [docker-compose.yml](./.metaHub/examples/consumer-repo/docker-compose.yml)
-
-4. **Validate Against Governance Policies**
-   ```bash
-   opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
-     -i <(cat .meta/repo.yaml) 'data.repo.warn'
-   ```
-   See: [Policy Documentation](./.metaHub/policies/README.md)
-
----
-
-## 📚 Documentation
-
-Policy documentation:
-- **`.metaHub/policies/README.md`** — Policy descriptions and usage
-- **`.metaHub/schemas/README.md`** — Schema documentation
-
----
-
-## 🔗 For Portfolio Operations
-
-This repository **is the governance contract only**. Related operations live in separate repos:
-
-- **Census/Audit:** [`portfolio-census`](https://github.com/alaweimm90/portfolio-census) repo
-- **Repo Templates:** [`governance-templates`](https://github.com/alaweimm90/governance-templates) repo
-- **Infrastructure Examples:** [`governance-infra`](https://github.com/alaweimm90/governance-infra) repo
-
----
-
-## 🛡️ Policies
-
-All policies are **warning-only (non-blocking)** — teams learn before enforcement tightens.
-
-See `.metaHub/policies/README.md` for complete documentation.
-
----
-
-## 📊 Status
-
-**Repository State**: Governance contract — Work in Progress (60% Complete)
-
-**Core Governance (COMPLETE):**
-- **Policies**: ✅ 5 OPA/Rego policies, warning-only mode
-- **Schemas**: ✅ JSON Schema with complete documentation
-- **Examples**: ✅ Dockerfile and docker-compose references
-- **Reusable Workflows**: ✅ Python, TypeScript, Policy Gate, Release
-- **Allstar Security**: ✅ OpenSSF Allstar governance configured
-
-**Optimization (40% REMAINING):**
-- Tracked files: 45 (target: reduce to ~30 through consolidation)
-- Workflows: 9 all legitimate and necessary (governance + reusable)
-- Remaining work: Consumer testing, optional file consolidation, Allstar GitHub App installation
-
-**Last Updated**: 2025-11-26
-**Maintainer**: @alaweimm90
+**Status:** Pure governance contract (production-ready)
+**License:** MIT
+**Maintainer:** [@alaweimm90](https://github.com/alaweimm90)

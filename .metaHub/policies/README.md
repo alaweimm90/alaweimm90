@@ -1,85 +1,136 @@
 # Governance Policies
 
-OPA/Rego policies that enforce repository structure and practices across the portfolio.
+This directory contains OPA/Rego policies that enforce governance across the portfolio.
 
 ## Available Policies
 
-### `repo-structure.rego`
-Enforces canonical repository structure at root level and within `.metaHub/` directory. This policy documents the contract that consumer repositories should follow.
+All policies run in **warning-only mode** — violations generate warnings but don't block commits. This allows teams to learn before enforcement tightens.
 
-**Enforced:**
-- Root files must be in allowed list (policies, workflows, configs only)
-- `.metaHub/` must contain only policies/, schemas/, infra/examples/
-- Forbidden patterns blocked (node_modules, .env, *.log, etc.)
+### 1. Repository Structure (`repo-structure.rego`)
 
-**Mode:** Warning-only (non-blocking)
+Validates repository organization and file placement.
 
-### `docker-security.rego`
-Docker security best practices and container image hardening.
+**What it checks:**
+- Root files are in the allowed list (.github, .metaHub, .allstar, .gitignore, .gitattributes, README.md, LICENSE)
+- .metaHub subdirectories are properly organized (policies/, schemas/, infra/examples/)
+- Large files (>10MB) are flagged for Git LFS
 
-**Enforced:**
-- Non-root USER directive required
-- HEALTHCHECK recommended for services
-- Latest tags forbidden (use specific versions)
-- Secrets not allowed in ENV variables
-- Best practices for apt-get, COPY vs ADD, etc.
+**Mode:** Warning-only
 
-### `k8s-governance.rego`
-Kubernetes manifest validation for services deployed to clusters.
+### 2. Docker Security (`docker-security.rego`)
 
-**Enforced:**
-- Required labels (owner, environment)
-- No privileged containers
-- Resource requests/limits recommended
+Enforces Docker container best practices and security.
 
-### `service-slo.rego`
-Service-level objective enforcement for critical services.
+**What it checks:**
+- Non-root USER directive (required for security)
+- HEALTHCHECK directive (required for reliability)
+- Base image tags are not `:latest` (prevents version drift)
+- No hardcoded secrets in ENV variables
 
-**Enforced:**
-- SLO blocks required in service catalog
-- Availability and latency targets defined
+**Mode:** Warning-only
 
-### `adr-policy.rego`
-Architecture Decision Records (ADRs) presence check.
+### 3. Kubernetes Governance (`k8s-governance.rego`)
 
-**Enforced:**
-- ADR directory recommended (docs/adr/ or adr/)
-- Documents major architectural decisions
+Validates Kubernetes manifests for security and compliance.
 
-## How Consumer Repos Use These Policies
+**What it checks:**
+- Resource requests and limits are defined
+- Liveness and readiness probes are configured
+- Security context is properly set
+- Network policies are in place (when applicable)
 
-Consumer repositories reference these policies via:
+**Mode:** Warning-only
 
-1. **OPA Bundle Reference** (recommended) — Centralizes policy updates
+### 4. Service SLO (`service-slo.rego`)
+
+Ensures service-level objectives are defined and tracked.
+
+**What it checks:**
+- `.meta/repo.yaml` includes SLO definitions
+- Availability targets are realistic
+- Error budgets are specified
+- Monitoring and alerting are configured
+
+**Mode:** Warning-only
+
+### 5. Architecture Decision Records (`adr-policy.rego`)
+
+Ensures significant decisions are documented.
+
+**What it checks:**
+- ADRs exist for major architectural decisions
+- ADRs follow the standard format
+- Decisions are approved and tracked
+
+**Mode:** Warning-only
+
+## How to Use These Policies
+
+### In Consumer Repositories
+
+Consumer repos reference these policies through:
+
+1. **OPA Bundle Reference** (centralizes policy updates)
    ```bash
-   opa eval -d <this-repo>/policies/ -i repo-snapshot.json 'data.repo.deny'
+   opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+     -i <(cat .meta/repo.yaml) 'data.repo.warn'
    ```
 
-2. **GitHub Actions Workflow** — In consumer's `.github/workflows/policy.yml`
+2. **GitHub Actions Workflow**
+   Consumer repos call the reusable policy workflow:
    ```yaml
-   - uses: open-policy-agent/setup-opa@v2
-   - run: |
-       opa eval -d <this-repo>/policies/ \
-         -i <(./scripts/repo-snapshot.sh) \
-         'data.repo.deny'
+   jobs:
+     policies:
+       uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
    ```
 
-3. **Pre-Commit Hook** (local validation)
+3. **Pre-commit Hook** (local validation before commit)
    ```bash
-   conftest test --policy .metaHub/policies/ Dockerfile
+   ./.metaHub/policies/pre-commit-opa.sh
    ```
+
+### Local Policy Testing
+
+```bash
+# Install OPA
+curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_x86_64
+chmod +x opa
+sudo mv opa /usr/local/bin/
+
+# Test a policy against a repo.yaml
+opa eval -d .metaHub/policies -i <(cat .meta/repo.yaml) 'data.repo.warn'
+```
 
 ## Adding New Policies
 
-To add a new policy:
+To add a new governance policy:
 
-1. Create `policy-name.rego` in this directory
-2. Document in this README
-3. Test with: `opa eval -d . -i test-data.json 'data'`
-4. Consumer repos automatically pick up new policies
+1. Create a new `.rego` file in this directory
+2. Define policy rules in `warn[]` blocks (warning-only) or `deny[]` blocks (blocking, optional)
+3. Document the policy in this README
+4. Test the policy against example repos
+5. Submit PR for review
 
-## References
+**Example policy structure:**
+```rego
+package my_policy
 
-- **OPA/Rego Docs:** https://www.openpolicyagent.org/docs/latest/
-- **Conftest (OPA CLI):** https://www.conftest.dev/
-- **Root README:** `../../README.md` for consumption guide
+warn[msg] {
+    # Check condition
+    input.some_field == "invalid"
+    msg := "Description of why this is a warning"
+}
+
+pass = true
+```
+
+## Policy Philosophy
+
+- **Learn Before Enforcement:** Policies warn before they block
+- **Documentation as Code:** Policy rules are the source of truth
+- **Centralized Updates:** Changes to this repo propagate to all consumers
+- **Non-Breaking:** Warnings don't block work, allowing gradual adoption
+
+---
+
+**For more information:** See [parent README](../../README.md) and [Consumer Guide](.../guides/consumer-guide.md)

@@ -1,70 +1,89 @@
-# Docker Compose reference example for consumer repositories
-# Use this as a template for development environments
-
 version: '3.9'
 
+# Docker Compose Example
+# This is a reference implementation following governance contract best practices
+# Copy this file to your repository and customize for your application
+
 services:
+  # Main application service
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: myapp-dev
+    container_name: app-service
     ports:
-      - "8080:8080"
-      - "5000:5000"  # Flask debug port
+      - "8000:8000"
     environment:
-      - LOG_LEVEL=INFO
-      - ENVIRONMENT=development
-      - DEBUG=false
-    volumes:
-      - .:/app
-      - /app/__pycache__
+      LOG_LEVEL: INFO
+      DATABASE_URL: postgresql://postgres:password@db:5432/appdb
+      REDIS_URL: redis://redis:6379/0
     depends_on:
-      - postgres
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - .:/app:ro
     networks:
       - app-network
-    restart: unless-stopped
+    restart: on-failure
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 3s
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
       retries: 3
       start_period: 5s
 
-  postgres:
+  # PostgreSQL database
+  db:
     image: postgres:15-alpine
-    container_name: postgres-dev
+    container_name: postgres-db
     environment:
-      POSTGRES_USER: devuser
-      POSTGRES_PASSWORD: devpass
-      POSTGRES_DB: devdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appdb
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U devuser"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app-network
+    restart: on-failure
 
+  # Redis cache
   redis:
     image: redis:7-alpine
-    container_name: redis-dev
+    container_name: redis-cache
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - app-network
+    restart: on-failure
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
-      timeout: 3s
-      retries: 3
+      timeout: 5s
+      retries: 5
+
+  # Development tools (optional)
+  tools:
+    image: python:3.11-slim
+    container_name: dev-tools
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
