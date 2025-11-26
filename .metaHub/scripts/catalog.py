@@ -71,7 +71,9 @@ class CatalogBuilder:
     def scan_organizations(self) -> Dict[str, Any]:
         """Scan and catalog all repositories."""
         if not self.org_path.exists():
-            raise RuntimeError(f"Organizations path not found: {self.org_path}")
+            click.echo(f"Organizations path not found: {self.org_path}", err=True)
+            click.echo("Returning empty catalog (organizations/ may be gitignored)", err=True)
+            return self.catalog
 
         # Scan each organization directory
         for org_dir in sorted(self.org_path.iterdir()):

@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write  # For git commit/push
   actions: write   # For artifact upload
+  issues: write    # For issue creation
 
 jobs:
   checkpoint:
@@ -26,7 +27,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r .metaHub/scripts/requirements.txt
 
+      - name: Check for organizations
+        id: check
+        run: |
+          if [ -d "organizations" ] && [ "$(ls -A organizations 2>/dev/null)" ]; then
+            echo "has_orgs=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_orgs=false" >> $GITHUB_OUTPUT
+            echo "::notice::No organizations/ directory found - skipping drift detection"
+          fi
+
       - name: Generate checkpoint and detect drift
+        if: steps.check.outputs.has_orgs == 'true'
         id: checkpoint
         run: |
           # Run checkpoint with markdown output
@@ -41,6 +53,7 @@ jobs:
           fi
 
       - name: Archive drift report
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           mkdir -p .metaHub/catalog/weekly-reports
           timestamp=$(date +%Y-%m-%d)
@@ -57,6 +70,7 @@ jobs:
             --output ".metaHub/catalog/weekly-reports/drift-report-${timestamp}.json"
 
       - name: Commit reports
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -65,10 +79,12 @@ jobs:
           git commit -m "chore: weekly drift checkpoint $(date +%Y-%m-%d)" || echo "No changes to commit"
 
       - name: Push reports
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           git push origin || echo "No changes to push"
 
       - name: Upload drift report
+        if: steps.check.outputs.has_orgs == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: drift-report-${{ github.run_id }}
@@ -78,7 +94,7 @@ jobs:
           retention-days: 90
 
       - name: Create issue if drift degraded compliance
-        if: steps.checkpoint.outputs.has_drift == 'true'
+        if: steps.check.outputs.has_orgs == 'true' && steps.checkpoint.outputs.has_drift == 'true'
         uses: actions/github-script@v7
         with:
           script: |

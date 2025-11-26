@@ -26,23 +26,36 @@ jobs:
       - name: Install dependencies
         run: pip install -r .metaHub/scripts/requirements.txt
 
-      - name: Generate catalog (JSON)
+      - name: Check for organizations
+        id: check
         run: |
-          python .metaHub/scripts/catalog.py --format json
+          if [ -d "organizations" ] && [ "$(ls -A organizations 2>/dev/null)" ]; then
+            echo "has_orgs=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_orgs=false" >> $GITHUB_OUTPUT
+            echo "::notice::No organizations/ directory found - skipping catalog generation"
+          fi
+
+      - name: Generate catalog (JSON)
+        if: steps.check.outputs.has_orgs == 'true'
+        run: python .metaHub/scripts/catalog.py --format json
 
       - name: Generate catalog (Markdown)
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           python .metaHub/scripts/catalog.py \
             --format markdown \
             --output .metaHub/catalog/catalog.md
 
       - name: Generate catalog (HTML)
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           python .metaHub/scripts/catalog.py \
             --format html \
             --output .metaHub/catalog/service-catalog.html
 
       - name: Generate summary
+        if: steps.check.outputs.has_orgs == 'true'
         id: summary
         run: |
           orgs=$(python3 -c "import json; d=json.load(open('.metaHub/catalog/catalog.json')); print(d['summary']['total_organizations'])")
@@ -51,6 +64,7 @@ jobs:
           echo "repositories=$repos" >> $GITHUB_OUTPUT
 
       - name: Commit catalog
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -58,10 +72,12 @@ jobs:
           git commit -m "chore: update portfolio catalog (${{ steps.summary.outputs.organizations }} orgs, ${{ steps.summary.outputs.repositories }} repos)" || echo "No changes"
 
       - name: Push catalog
+        if: steps.check.outputs.has_orgs == 'true'
         run: |
           git push origin || echo "No changes to push"
 
       - name: Upload catalog artifacts
+        if: steps.check.outputs.has_orgs == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: service-catalog
