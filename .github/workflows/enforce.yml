@@ -1,0 +1,36 @@
+name: Enforce Governance
+
+on:
+  push:
+    branches: [main, master]
+    paths: ['organizations/**', '.metaHub/**']
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+
+jobs:
+  enforce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .metaHub/scripts/requirements.txt
+
+      - name: Run enforcement (portfolio-wide)
+        run: |
+          for org in organizations/*/; do
+            python .metaHub/scripts/enforce.py "$org" --report json --output "enforcement-${org}.json"
+          done
+        continue-on-error: true
+
+      - name: Upload enforcement reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: enforcement-reports
+          path: enforcement-*.json

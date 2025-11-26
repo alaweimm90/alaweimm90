@@ -1,0 +1,35 @@
+name: Generate Catalog
+
+on:
+  push:
+    branches: [main, master]
+    paths: ['organizations/**', '.meta/**']
+  schedule:
+    - cron: '0 8 * * *'  # Daily at 8 AM UTC
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .metaHub/scripts/requirements.txt
+
+      - name: Generate catalog
+        run: python .metaHub/scripts/catalog.py
+
+      - name: Commit catalog
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .metaHub/catalog/catalog.json
+          git commit -m "chore: update portfolio catalog" || echo "No changes"
+
+      - name: Push catalog
+        run: |
+          git push origin || echo "No changes to push"

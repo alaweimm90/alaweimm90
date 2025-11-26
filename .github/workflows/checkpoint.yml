@@ -1,0 +1,46 @@
+name: Weekly Drift Detection
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'  # Weekly on Monday at 8 AM UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  checkpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .metaHub/scripts/requirements.txt
+
+      - name: Generate checkpoint
+        run: python .metaHub/scripts/checkpoint.py
+
+      - name: Archive drift report
+        run: |
+          mkdir -p .metaHub/catalog/weekly-reports
+          timestamp=$(date +%Y-%m-%d)
+          cp drift-report.md ".metaHub/catalog/weekly-reports/drift-report-${timestamp}.md"
+          cp drift-report.md .metaHub/catalog/weekly-reports/latest-drift.md
+
+      - name: Commit reports
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .metaHub/catalog/weekly-reports/
+          git commit -m "chore: weekly drift checkpoint" || echo "No changes"
+
+      - name: Push reports
+        run: |
+          git push origin || echo "No changes to push"
+
+      - name: Upload drift report
+        uses: actions/upload-artifact@v3
+        with:
+          name: drift-report
+          path: drift-report.md

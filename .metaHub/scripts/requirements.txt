@@ -1,0 +1,6 @@
+# Enforcement and Cataloging Scripts Requirements
+jsonschema>=4.20.0
+pyyaml>=6.0.1
+pathlib2>=2.3.7.post1
+click>=8.1.7
+tabulate>=0.9.0
