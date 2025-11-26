@@ -1,135 +1,85 @@
-# OPA Policy Enforcement
+# Governance Policies
 
-This directory contains Open Policy Agent (OPA) policies for governance enforcement.
+OPA/Rego policies that enforce repository structure and practices across the portfolio.
 
-## Policies
+## Available Policies
 
-### 1. Repository Structure (`repo-structure.rego`)
-Enforces allowed root directory structure for the multi-org monorepo.
+### `repo-structure.rego`
+Enforces canonical repository structure at root level and within `.metaHub/` directory. This policy documents the contract that consumer repositories should follow.
 
-**Checks**:
-- ✅ Files only in allowed root directories
-- ✅ No forbidden file patterns (.DS_Store, *.log, etc.)
-- ✅ Dockerfiles in appropriate service directories
-- ⚠️ Large file warnings (>10MB)
+**Enforced:**
+- Root files must be in allowed list (policies, workflows, configs only)
+- `.metaHub/` must contain only policies/, schemas/, infra/examples/
+- Forbidden patterns blocked (node_modules, .env, *.log, etc.)
 
-**Allowed Roots**:
-- `.github/`, `.metaHub/`, `.config/`
-- `apps/`, `packages/`, `alaweimm90/`
-- `ops/`, `scripts/`, `templates/`, `docs/`
-- Standard files: `README.md`, `package.json`, `docker-compose.yml`, etc.
+**Mode:** Warning-only (non-blocking)
 
-### 2. Docker Security (`docker-security.rego`)
-Enforces security best practices in Dockerfiles.
+### `docker-security.rego`
+Docker security best practices and container image hardening.
 
-**Checks**:
-- ✅ Must include USER directive (non-root)
-- ✅ Must include HEALTHCHECK
-- ✅ No `:latest` tags in FROM directives
-- ✅ All base images must be tagged
-- ⚠️ Prefer COPY over ADD
-- ✅ apt-get install must use -y flag
-- ⚠️ apt-get should include cleanup
-- ⚠️ COPY should use --chown with USER
-- ✅ No privileged ports (<1024) in EXPOSE
-- ✅ No secrets in ENV variables
+**Enforced:**
+- Non-root USER directive required
+- HEALTHCHECK recommended for services
+- Latest tags forbidden (use specific versions)
+- Secrets not allowed in ENV variables
+- Best practices for apt-get, COPY vs ADD, etc.
 
-## Pre-commit Hook Integration
+### `k8s-governance.rego`
+Kubernetes manifest validation for services deployed to clusters.
 
-The `pre-commit-opa.sh` script integrates OPA validation into your git workflow.
+**Enforced:**
+- Required labels (owner, environment)
+- No privileged containers
+- Resource requests/limits recommended
 
-### Installation
+### `service-slo.rego`
+Service-level objective enforcement for critical services.
 
-```bash
-# Link to git hooks (if using standard git hooks)
-ln -sf ../../.metaHub/policies/pre-commit-opa.sh .git/hooks/pre-commit
+**Enforced:**
+- SLO blocks required in service catalog
+- Availability and latency targets defined
 
-# Or use with husky (recommended)
-# Add to .husky/pre-commit:
-# .metaHub/policies/pre-commit-opa.sh
-```
+### `adr-policy.rego`
+Architecture Decision Records (ADRs) presence check.
 
-### Usage
+**Enforced:**
+- ADR directory recommended (docs/adr/ or adr/)
+- Documents major architectural decisions
 
-The hook automatically runs on `git commit` and will:
-1. Check all staged files against repository structure policy
-2. Check all staged Dockerfiles against security policy
-3. Block commit if any violations found
-4. Show warnings for non-critical issues
+## How Consumer Repos Use These Policies
 
-### Manual Testing
+Consumer repositories reference these policies via:
 
-Test policies manually:
-
-```bash
-# Test repository structure
-opa eval -d .metaHub/policies/repo-structure.rego \
-  -i '{"file": {"path": "forbidden/file.js", "size": 1024}}' \
-  "data.repo_structure.deny"
-
-# Test Dockerfile security
-opa eval -d .metaHub/policies/docker-security.rego \
-  -i '{"dockerfile": "FROM node:20-alpine\nRUN apt-get install -y curl\nUSER nodejs\nHEALTHCHECK CMD curl localhost"}' \
-  "data.docker_security.deny"
-```
-
-### Bypassing Policies
-
-**Emergency bypass** (use sparingly):
-```bash
-git commit --no-verify -m "emergency: description"
-```
-
-**Note**: Bypassed commits will be flagged in CI/CD for review.
-
-## CI/CD Integration
-
-Policies are also enforced in GitHub Actions workflows:
-
-- `.github/workflows/policy-enforcement.yml` (if created)
-- Part of CI matrix builds
-- Blocks PRs with policy violations
-
-## Policy Development
-
-### Adding New Policies
-
-1. Create new `.rego` file in this directory
-2. Follow OPA policy structure:
-   ```rego
-   package policy_name
-
-   deny[msg] {
-       # Denial logic
-       msg := "Error message"
-   }
-
-   warn[msg] {
-       # Warning logic
-       msg := "Warning message"
-   }
+1. **OPA Bundle Reference** (recommended) — Centralizes policy updates
+   ```bash
+   opa eval -d <this-repo>/policies/ -i repo-snapshot.json 'data.repo.deny'
    ```
 
-3. Add to pre-commit hook script
-4. Test with sample inputs
-5. Document in this README
+2. **GitHub Actions Workflow** — In consumer's `.github/workflows/policy.yml`
+   ```yaml
+   - uses: open-policy-agent/setup-opa@v2
+   - run: |
+       opa eval -d <this-repo>/policies/ \
+         -i <(./scripts/repo-snapshot.sh) \
+         'data.repo.deny'
+   ```
 
-### Testing Policies
+3. **Pre-Commit Hook** (local validation)
+   ```bash
+   conftest test --policy .metaHub/policies/ Dockerfile
+   ```
 
-```bash
-# Run OPA tests
-opa test .metaHub/policies/*.rego -v
+## Adding New Policies
 
-# Format policies
-opa fmt -w .metaHub/policies/
-```
+To add a new policy:
 
-## Resources
+1. Create `policy-name.rego` in this directory
+2. Document in this README
+3. Test with: `opa eval -d . -i test-data.json 'data'`
+4. Consumer repos automatically pick up new policies
 
-- [OPA Documentation](https://www.openpolicyagent.org/docs/latest/)
-- [Rego Language Guide](https://www.openpolicyagent.org/docs/latest/policy-language/)
-- [OPA Playground](https://play.openpolicyagent.org/)
+## References
 
----
-
-
+- **OPA/Rego Docs:** https://www.openpolicyagent.org/docs/latest/
+- **Conftest (OPA CLI):** https://www.conftest.dev/
+- **Root README:** `../../README.md` for consumption guide

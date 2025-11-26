@@ -130,3 +130,13 @@ monitoring/logs/
 docs/api/jsdoc/
 docs/api/typedoc/
 docs/api/auto-generated/
+
+# Local working copies of external repos
+alaweimm90/
+organizations/
+
+# Local tool data
+.trae/
+
+# Local staging for new repos
+new-repos/

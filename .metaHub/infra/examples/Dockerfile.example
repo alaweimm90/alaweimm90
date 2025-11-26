@@ -1,0 +1,42 @@
+# Multi-stage Python library Dockerfile
+# Reference example for consumer repositories
+
+# Build stage
+FROM python:3.11-slim AS builder
+WORKDIR /build
+
+# Install poetry
+RUN pip install --user poetry
+
+# Copy project files
+COPY pyproject.toml poetry.lock* ./
+RUN poetry install --no-interaction --no-ansi --only main
+
+# Runtime stage
+FROM python:3.11-slim
+LABEL maintainer="GitHub Organization"
+LABEL description="Production image for Python library"
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser
+
+# Copy from builder
+COPY --from=builder /root/.local /home/appuser/.local
+ENV PATH="/home/appuser/.local/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+WORKDIR /app
+
+# Copy application code
+COPY --chown=appuser:appuser . .
+
+# Switch to non-root user
+USER appuser
+
+# Health check (customize as needed)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD python -c "import sys; sys.exit(0)" || exit 1
+
+# Entrypoint (customize for your application)
+CMD ["python", "-m", "myapp"]

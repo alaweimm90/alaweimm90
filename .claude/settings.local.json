@@ -12,7 +12,14 @@
       "Bash(gh issue list:*)",
       "Bash(gh pr list:*)",
       "Bash(gh run list:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(gh repo list:*)",
+      "Bash(done)",
+      "Bash(chmod:*)",
+      "Bash(bash:*)",
+      "Bash(for org in \"c:\\Users\\mesha\\Desktop\\GitHub/organizations\"/*/)",
+      "Bash(python3:*)",
+      "Bash(python -c:*)"
     ],
     "deny": [],
     "ask": []

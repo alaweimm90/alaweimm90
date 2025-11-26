@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": ".meta/repo.yaml Schema",
+  "description": "Schema definition for repository metadata file",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["lib", "tool", "core", "research", "demo", "workspace"],
+      "description": "Repository type classification"
+    },
+    "tier": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3,
+      "description": "Criticality tier (1=mission-critical, 2=important, 3=experimental)"
+    },
+    "language": {
+      "type": "string",
+      "enum": ["python", "typescript", "mixed"],
+      "description": "Primary programming language"
+    },
+    "coverage": {
+      "type": "object",
+      "description": "Test coverage thresholds",
+      "properties": {
+        "lines": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Minimum line coverage percentage"
+        }
+      }
+    },
+    "docs": {
+      "type": "object",
+      "description": "Documentation profile",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "enum": ["standard", "minimal"],
+          "description": "Documentation level (standard=full docs/ tree, minimal=README only)"
+        }
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "description": "Public interfaces exposed by this repository",
+      "properties": {
+        "cli": {
+          "type": "boolean",
+          "description": "Provides CLI interface"
+        },
+        "api": {
+          "type": "boolean",
+          "description": "Provides API interface"
+        }
+      }
+    },
+    "owner": {
+      "type": "string",
+      "description": "Owner or team responsible for this repository"
+    }
+  },
+  "required": ["type", "language"],
+  "additionalProperties": false
+}

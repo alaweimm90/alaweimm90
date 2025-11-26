@@ -1,0 +1,14 @@
+name: CI (Paved Road)
+
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: [master, main]
+
+jobs:
+  paved-road:
+    uses: ./.github/workflows/paved-road.yml
+    with:
+      run_tests: false
+      deploy: false
