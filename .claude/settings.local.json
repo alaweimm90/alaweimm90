@@ -19,7 +19,12 @@
       "Bash(bash:*)",
       "Bash(for org in \"c:\\Users\\mesha\\Desktop\\GitHub/organizations\"/*/)",
       "Bash(python3:*)",
-      "Bash(python -c:*)"
+      "Bash(python -c:*)",
+      "Bash(git rm:*)",
+      "Bash(docker build:*)",
+      "Bash(docker-compose:*)",
+      "Bash(for file in .metaHub/policies/*.rego)",
+      "Bash(do echo \"Checking: $file\")"
     ],
     "deny": [],
     "ask": []

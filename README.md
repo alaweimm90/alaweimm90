@@ -1,54 +1,60 @@
 # Governance Contract — Meta-Repository
 
-**Pure governance contract** that defines the rules, schemas, and reusable workflows for all repositories in the portfolio.
+**Governance contract repository** that defines policies, schemas, and reference examples for portfolio repositories.
+
+**STATUS:** Work in Progress — Core components (policies, schemas, examples) complete. Reusable workflows in development.
 
 ## 🎯 Purpose
 
 This repository provides the **governance contract** that other repos consume:
-- **Policies** (`.metaHub/policies/`) — OPA/Rego rules for structure, Docker security, Kubernetes, SLOs
-- **Schemas** (`.metaHub/schemas/`) — `.meta/repo.yaml` format definition
-- **Reusable Workflows** (`.github/workflows/`) — Callable CI/CD templates (Python, TypeScript, release)
-- **Infrastructure Examples** (`.metaHub/infra/examples/`) — Reference configurations (Dockerfiles, docker-compose)
+- **Policies** (`.metaHub/policies/`) — OPA/Rego rules for structure, Docker security, Kubernetes, SLOs (COMPLETE)
+- **Schemas** (`.metaHub/schemas/`) — `.meta/repo.yaml` format definition (COMPLETE)
+- **Reusable Workflows** (`.github/workflows/`) — Callable CI/CD templates for Python, TypeScript, releases (IN PROGRESS)
+- **Infrastructure Examples** (`.metaHub/infra/examples/`) — Reference Dockerfile and docker-compose (COMPLETE)
 
-**This repo is the governance contract** — consumer repos implement what's defined here.
+**This repo is the governance contract** — consumer repos will implement what's defined here.
 
 ---
 
 ## 📁 Structure
 
 ```
-alaweimm90/alaweimm90 (pure governance contract)
+alaweimm90/alaweimm90 (governance contract — WIP)
 
-ROOT (7 files — MINIMAL)
+ROOT (6 files — actual)
 ├── README.md                   # This file
-├── LICENSE                     # License
+├── LICENSE                     # MIT license
 ├── .github/                    # GitHub Actions workflows
-├── .metaHub/                   # Pure governance infrastructure
-├── .allstar/                   # Allstar security config
+├── .metaHub/                   # Governance infrastructure
 ├── .gitignore                  # Git ignore rules
-└── .gitattributes              # Git attributes
+└── SECURITY.md                 # Security policy
 
-.github/workflows/
-├── reusable-python-ci.yml      # Callable: Python CI template
-├── reusable-ts-ci.yml          # Callable: TypeScript CI template
-├── reusable-policy.yml         # Callable: OPA policy gate
-├── reusable-release.yml        # Callable: Release workflow
-└── opa-conftest.yml            # Run OPA on changed files (warning-only)
+(TODO: Add .gitattributes, complete .allstar/ setup)
+
+.github/workflows/ (CURRENT — old governance)
+├── opa-conftest.yml            # Run OPA on changed files (warning-only) [ACTIVE]
+├── ci.yml, gitleaks.yml, paved-road.yml, service-scorecard.yml  [TO BE REMOVED]
+
+.github/workflows/ (IN DEVELOPMENT — reusable)
+├── reusable-python-ci.yml      # Callable: Python CI template [PLANNED]
+├── reusable-ts-ci.yml          # Callable: TypeScript CI template [PLANNED]
+├── reusable-policy.yml         # Callable: OPA policy gate [PLANNED]
+└── reusable-release.yml        # Callable: Release workflow [PLANNED]
 
 .metaHub/
-├── policies/                   # OPA/Rego governance policies
-│   ├── repo-structure.rego     # Repository structure validation
+├── policies/                   # OPA/Rego governance policies [COMPLETE]
+│   ├── repo-structure.rego     # Repository structure (warning-only)
 │   ├── docker-security.rego    # Docker security checks
 │   ├── k8s-governance.rego     # Kubernetes manifests
 │   ├── service-slo.rego        # Service-level objectives
 │   ├── adr-policy.rego         # Architecture decision records
 │   └── README.md               # Policy documentation
-├── schemas/                    # Repository metadata schema
+├── schemas/                    # Repository metadata schema [COMPLETE]
 │   ├── repo-schema.json        # .meta/repo.yaml schema definition
 │   └── README.md               # Schema documentation
-└── infra/examples/             # Infrastructure reference examples
+└── infra/examples/             # Infrastructure reference examples [COMPLETE]
     ├── Dockerfile.example      # Multi-stage Python Dockerfile
-    └── docker-compose.example.yml
+    └── docker-compose.example.yml  # Dev environment reference
 ```
 
 ---
@@ -109,11 +115,16 @@ See `.metaHub/policies/README.md` for complete documentation.
 
 ## 📊 Status
 
-**Repository State**: Pure governance contract ✨
-- **Tracked files**: ~15 (policies, schemas, workflows, examples)
-- **Purpose**: Crystal-clear (governance only)
-- **Reusability**: High (other repos consume this contract)
-- **Policy mode**: Warning-only (non-blocking)
+**Repository State**: Governance contract — Work in Progress
+- **Tracked files**: 43 (includes old workflows, will reduce to ~20 when complete)
+- **Policies**: ✅ COMPLETE (5 OPA/Rego policies, warning-only mode)
+- **Schemas**: ✅ COMPLETE (repo-schema.json with full documentation)
+- **Examples**: ✅ COMPLETE (Dockerfile and docker-compose references)
+- **Reusable Workflows**: 🚧 IN PROGRESS (Python, TypeScript, release, OPA)
+- **Old Workflows**: 🗑️ TO DELETE (ci.yml, gitleaks.yml, etc.)
+- **Missing**: .gitattributes file, .allstar/ configuration
+
+**Completion**: ~60% (core governance done, reusable workflows pending)
 
 **Last Updated**: 2025-11-26
 **Maintainer**: @alaweimm90
