@@ -66,6 +66,8 @@ allowed_files:
       purpose: "Kilo Code AI rules"
     - name: ".augmentrules"
       purpose: "Augment AI assistant rules"
+    - name: ".ai-settings.yaml"
+      purpose: "Unified AI assistant configuration (all 14 tools)"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL DIRECTORIES
