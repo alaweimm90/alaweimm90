@@ -1,0 +1,42 @@
+site_name: alaweimm90 Governance
+site_url: https://alaweimm90.github.io/alaweimm90
+site_description: Portfolio governance documentation
+site_author: alaweimm90
+
+repo_url: https://github.com/alaweimm90/alaweimm90
+repo_name: alaweimm90/alaweimm90
+
+nav:
+  - Home: index.md
+  - Governance:
+      - Overview: .metaHub/README.md
+      - Policies: .metaHub/policies/README.md
+      - Schemas: .metaHub/schemas/README.md
+  - Operations:
+      - Runbook: docs/OPERATIONS_RUNBOOK.md
+  - Architecture:
+      - ADR Index: docs/adr/README.md
+      - ADR-001 Monorepos: docs/adr/ADR-001-organization-monorepos.md
+      - ADR-002 OPA: docs/adr/ADR-002-opa-policy-enforcement.md
+      - ADR-003 Schema: docs/adr/ADR-003-json-schema-metadata.md
+
+theme:
+  name: material
+  palette:
+    primary: deep purple
+    accent: purple
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - toc.follow
+    - search.suggest
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
