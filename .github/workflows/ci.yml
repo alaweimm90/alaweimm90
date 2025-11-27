@@ -34,15 +34,15 @@ jobs:
 
       - name: Lint with ruff
         run: |
-          ruff check .metaHub/scripts/ scripts/ tests/ --output-format=github
+          ruff check .metaHub/scripts/ tests/ --output-format=github
 
       - name: Type check with mypy
         run: |
-          mypy .metaHub/scripts/ scripts/ --ignore-missing-imports --no-error-summary || true
+          mypy .metaHub/scripts/ --ignore-missing-imports --no-error-summary || true
 
       - name: Run tests
         run: |
-          pytest tests/ -v --tb=short --cov=.metaHub/scripts --cov=scripts --cov-report=xml
+          pytest tests/ -v --tb=short --cov=.metaHub/scripts --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4

@@ -13,7 +13,6 @@ Usage:
 """
 
 import json
-import os
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Tuple
@@ -391,7 +390,7 @@ class StructureValidator:
                             f.write("type: unknown\n")
                             f.write("language: unknown\n")
                             f.write("tier: 4\n")
-                            f.write(f"# owner: @alaweimm90\n")
+                            f.write("# owner: @alaweimm90\n")
                         changes.append(f"Created file: {file_path} (needs update)")
                     elif file_path == "LICENSE":
                         with open(full_path, 'w') as f:
@@ -441,7 +440,7 @@ build-backend = "hatchling.build"
 ''')
                 elif file_path == "SECURITY.md":
                     with open(full_path, 'w') as f:
-                        f.write(f'''# Security Policy
+                        f.write('''# Security Policy
 
 ## Reporting a Vulnerability
 

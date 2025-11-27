@@ -10,7 +10,6 @@ Tests cover:
 import json
 import sys
 from pathlib import Path
-from datetime import datetime
 
 import pytest
 import yaml

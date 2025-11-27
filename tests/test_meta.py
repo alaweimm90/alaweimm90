@@ -11,7 +11,6 @@ Tests cover:
 import json
 import sys
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 import yaml
@@ -228,7 +227,7 @@ class TestProjectPromoter:
     def test_promote_creates_codeowners(self, mock_project):
         """Should create CODEOWNERS."""
         promoter = ProjectPromoter(base_path=mock_project["central"])
-        result = promoter.promote_project(
+        promoter.promote_project(
             mock_project["project"],
             mock_project["org"]
         )
@@ -238,7 +237,7 @@ class TestProjectPromoter:
     def test_promote_creates_ci_workflow(self, mock_project):
         """Should create CI workflow."""
         promoter = ProjectPromoter(base_path=mock_project["central"])
-        result = promoter.promote_project(
+        promoter.promote_project(
             mock_project["project"],
             mock_project["org"]
         )
@@ -248,7 +247,7 @@ class TestProjectPromoter:
     def test_promote_creates_precommit(self, mock_project):
         """Should create pre-commit config."""
         promoter = ProjectPromoter(base_path=mock_project["central"])
-        result = promoter.promote_project(
+        promoter.promote_project(
             mock_project["project"],
             mock_project["org"]
         )
@@ -270,7 +269,7 @@ class TestProjectPromoter:
     def test_promote_detects_language(self, mock_project):
         """Should detect Python from pyproject.toml."""
         promoter = ProjectPromoter(base_path=mock_project["central"])
-        result = promoter.promote_project(
+        promoter.promote_project(
             mock_project["project"],
             mock_project["org"]
         )

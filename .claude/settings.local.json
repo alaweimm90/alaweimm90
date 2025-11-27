@@ -1,8 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(pip install:*)",
-      "Bash(/c/Users/mesha/AppData/Local/Microsoft/WindowsApps/python3 -m pip install:*)"
+      "Bash(\"/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe\" -m pip install ruff --quiet)",
+      "Bash(\"/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe\" -m ruff check .metaHub/scripts/structure_validator.py --select F541)",
+      "Bash(\"/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe\" -m ruff check tests/ --select F401,F841)",
+      "Bash(\"/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe\" -m ruff check tests/ .metaHub/scripts/ --select F401,F541 --fix)",
+      "Bash(\"/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe\" -m ruff check .metaHub/scripts/ tests/ --output-format=text)"
     ],
     "deny": [],
     "ask": []

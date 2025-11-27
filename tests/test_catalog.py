@@ -9,9 +9,7 @@ Tests cover:
 """
 import json
 import sys
-import tempfile
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 import yaml
@@ -230,11 +228,13 @@ class TestCatalogEdgeCases:
         assert catalog["summary"]["total_repositories"] == 0
 
     def test_missing_organizations_dir(self, tmp_path):
-        """Should raise error for missing directory."""
+        """Should return empty catalog when directory is missing (gitignored)."""
         builder = CatalogBuilder(base_path=tmp_path)
 
-        with pytest.raises(RuntimeError, match="not found"):
-            builder.scan_organizations()
+        # Now returns empty catalog instead of raising (graceful handling)
+        catalog = builder.scan_organizations()
+        assert catalog["summary"]["total_organizations"] == 0
+        assert catalog["summary"]["total_repositories"] == 0
 
     def test_invalid_yaml_metadata(self, tmp_path):
         """Should handle invalid YAML in repo.yaml."""
