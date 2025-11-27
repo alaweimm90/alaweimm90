@@ -1,0 +1,107 @@
+name: AI Governance Audit
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly Monday 9 AM UTC
+  workflow_dispatch:
+    inputs:
+      deep_analysis:
+        description: 'Run deep analysis'
+        type: boolean
+        default: false
+      create_issue:
+        description: 'Create issue for findings'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r .metaHub/scripts/requirements.txt
+
+      - name: Check for organizations
+        id: check
+        run: |
+          if [ -d "organizations" ] && [ "$(ls -A organizations 2>/dev/null)" ]; then
+            echo "has_orgs=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_orgs=false" >> $GITHUB_OUTPUT
+            echo "::notice::No organizations directory - running limited audit"
+          fi
+
+      - name: Run AI Governance Audit
+        id: audit
+        run: |
+          python .metaHub/scripts/ai_audit.py \
+            --report json \
+            --output audit-results.json \
+            ${{ inputs.deep_analysis && '--deep' || '' }}
+
+          # Extract key metrics
+          SCORE=$(python3 -c "import json; d=json.load(open('audit-results.json')); print(d['summary']['score'])")
+          STATUS=$(python3 -c "import json; d=json.load(open('audit-results.json')); print(d['summary']['status'])")
+
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+
+      - name: Generate Markdown Report
+        run: |
+          python .metaHub/scripts/ai_audit.py \
+            --report markdown \
+            --output audit-report.md
+
+      - name: Generate Summary
+        run: |
+          echo "## AI Governance Audit Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Score:** ${{ steps.audit.outputs.score }}/100" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ steps.audit.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat audit-report.md >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Audit Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-audit-report
+          path: |
+            audit-results.json
+            audit-report.md
+          retention-days: 90
+
+      - name: Create Issue for Low Scores
+        if: inputs.create_issue && steps.audit.outputs.score < 80
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('audit-report.md', 'utf8');
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Governance Audit] Score: ${{ steps.audit.outputs.score }}/100 - ${{ steps.audit.outputs.status }}`,
+              body: report,
+              labels: ['governance', 'audit', 'automated']
+            });
+
+      - name: Fail on Critical Status
+        if: steps.audit.outputs.status == 'CRITICAL'
+        run: |
+          echo "::error::Governance audit returned CRITICAL status"
+          exit 1

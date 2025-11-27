@@ -71,7 +71,7 @@
     },
     "status": {
       "type": "string",
-      "enum": ["active", "archived", "deprecated", "unknown"],
+      "enum": ["active", "inactive", "archived", "deprecated", "unknown"],
       "description": "Repository lifecycle status"
     },
     "created": {
