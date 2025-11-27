@@ -315,6 +315,30 @@ blackbox --yolo "Create a REST API for user management"
 
 ---
 
+## Augment
+
+**Config:** `.augment/settings.json`, `.augmentrules`
+
+**Best-For:**
+
+- Enterprise code completion
+- Large codebase understanding
+- Team collaboration workflows
+- Context-aware suggestions
+
+**Typical Use:**
+
+- Intelligent code completion in VS Code
+- Refactoring with codebase context
+- Understanding legacy code patterns
+- Team-shared AI context
+
+**Strengths:** Enterprise focus, codebase indexing, auto-approve support
+
+**Limitations:** Requires subscription for full features
+
+---
+
 ## Workflow Combinations
 
 ### Speed-Optimized Pipeline

@@ -64,6 +64,8 @@ allowed_files:
       purpose: "Cline AI assistant rules"
     - name: ".kilorules"
       purpose: "Kilo Code AI rules"
+    - name: ".augmentrules"
+      purpose: "Augment AI assistant rules"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL DIRECTORIES
@@ -127,6 +129,8 @@ allowed_directories:
       purpose: "Google Gemini AI configuration"
     - name: ".codex"
       purpose: "OpenAI Codex configuration"
+    - name: ".augment"
+      purpose: "Augment AI assistant configuration"
 
   # Cache (auto-generated, gitignored)
   cache:

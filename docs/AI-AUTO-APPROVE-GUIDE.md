@@ -19,6 +19,7 @@ This document details how to configure each AI coding assistant for maximum auto
 | **Blackbox** | `.blackbox/config.json` | `yoloMode: true` | Supported |
 | **Gemini** | `.gemini/settings.json` | `autoApprove: true` | Supported |
 | **Codex** | `.codex/config.json` | `autoApprove: true` | Supported |
+| **Augment** | `.augment/settings.json` | `autoApprove: true` | Supported |
 
 ## Detailed Configuration
 
@@ -218,6 +219,7 @@ Workaround: Use CLI versions (Aider, Claude Code) which have more control.
 .cursorrules             # Cursor IDE rules
 .windsurfrules           # Windsurf IDE rules
 .clinerules              # Cline AI rules
+.augmentrules            # Augment AI rules
 .ai-context.md           # Shared AI context for all tools
 
 # Directory-based configs
@@ -230,16 +232,17 @@ Workaround: Use CLI versions (Aider, Claude Code) which have more control.
 .blackbox/config.json    # Blackbox AI config (yoloMode)
 .gemini/settings.json    # Google Gemini config
 .codex/config.json       # OpenAI Codex config
+.augment/settings.json   # Augment AI config
 
 # GitHub-specific
 .github/copilot-instructions.md  # Copilot project context
 ```
 
-## Tool Count: 13 AI Assistants Configured
+## Tool Count: 14 AI Assistants Configured
 
 | Category | Tools |
 |----------|-------|
-| **Full Auto-Approve** | Aider, Cursor, Windsurf, Cline, Blackbox |
+| **Full Auto-Approve** | Aider, Cursor, Windsurf, Cline, Blackbox, Augment |
 | **Supported** | Continue, Kilo, Amazon Q, Trae, Gemini, Codex |
 | **Context Only** | GitHub Copilot |
 | **CLI Flag Required** | Claude Code |
