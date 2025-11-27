@@ -50,6 +50,21 @@ allowed_files:
     - name: "package.json"
       purpose: "Node.js dependencies (if needed)"
 
+  # AI Assistant Rules Files (allowed)
+  ai_rules:
+    - name: ".cursorrules"
+      purpose: "Cursor IDE AI rules and context"
+    - name: ".windsurfrules"
+      purpose: "Windsurf IDE AI rules and context"
+    - name: ".aider.conf.yml"
+      purpose: "Aider CLI configuration (auto-approve settings)"
+    - name: ".ai-context.md"
+      purpose: "Unified AI context for all assistants"
+    - name: ".clinerules"
+      purpose: "Cline AI assistant rules"
+    - name: ".kilorules"
+      purpose: "Kilo Code AI rules"
+
 # =============================================================================
 # ALLOWED ROOT-LEVEL DIRECTORIES
 # =============================================================================
@@ -83,8 +98,31 @@ allowed_directories:
       purpose: "Git hooks (husky)"
     - name: ".allstar"
       purpose: "GitHub Allstar security configuration"
+
+  # AI Assistant Configurations
+  ai_assistants:
+    - name: ".claude"
+      purpose: "Claude Code AI assistant configuration"
+    - name: ".cursor"
+      purpose: "Cursor IDE AI configuration"
     - name: ".trae"
-      purpose: "Trae AI configuration"
+      purpose: "Trae AI assistant configuration"
+    - name: ".continue"
+      purpose: "Continue.dev AI extension configuration"
+    - name: ".kilocode"
+      purpose: "Kilo Code AI configuration"
+    - name: ".amazonq"
+      purpose: "Amazon Q AI assistant configuration"
+    - name: ".aider"
+      purpose: "Aider CLI configuration directory"
+    - name: ".cline"
+      purpose: "Cline AI assistant configuration"
+    - name: ".windsurf"
+      purpose: "Windsurf IDE configuration"
+    - name: ".blackbox"
+      purpose: "Blackbox AI configuration"
+    - name: ".copilot"
+      purpose: "GitHub Copilot configuration"
 
   # Cache (auto-generated, gitignored)
   cache:

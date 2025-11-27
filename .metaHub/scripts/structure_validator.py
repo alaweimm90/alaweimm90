@@ -94,7 +94,7 @@ class StructureValidator:
 
         # Collect all allowed file names
         allowed_file_names = set()
-        for category in ["required", "recommended", "configuration"]:
+        for category in ["required", "recommended", "configuration", "ai_rules"]:
             for item in allowed_files_policy.get(category, []):
                 if isinstance(item, dict):
                     allowed_file_names.add(item.get("name", ""))
@@ -103,7 +103,7 @@ class StructureValidator:
 
         # Collect all allowed directory names
         allowed_dir_names = set()
-        for category in ["required", "recommended", "optional", "tooling", "cache"]:
+        for category in ["required", "recommended", "optional", "tooling", "cache", "ai_assistants"]:
             for item in allowed_dirs_policy.get(category, []):
                 if isinstance(item, dict):
                     allowed_dir_names.add(item.get("name", ""))
