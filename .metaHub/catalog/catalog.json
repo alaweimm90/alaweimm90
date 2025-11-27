@@ -1,15 +1,15 @@
 {
   "version": "2.0",
-  "generated_at": "2025-11-26T14:40:00.060048",
+  "generated_at": "2025-11-26T21:16:46.095712",
   "generator": "catalog.py",
   "organizations": [
     {
       "name": "AlaweinOS",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS",
+      "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS",
       "repos": [
         {
           "name": "MEZAN",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\MEZAN",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\MEZAN",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/MEZAN",
           "metadata": {
@@ -44,7 +44,7 @@
         },
         {
           "name": "QAPlibria-new",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria-new",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria-new",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/QAPlibria-new",
           "metadata": {
@@ -79,7 +79,7 @@
         },
         {
           "name": "SimCore",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\SimCore",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\SimCore",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/SimCore",
           "metadata": {
@@ -114,7 +114,7 @@
         },
         {
           "name": "TalAI",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\TalAI",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\TalAI",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/TalAI",
           "metadata": {
@@ -149,7 +149,7 @@
         },
         {
           "name": "benchmarks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\benchmarks",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\benchmarks",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/benchmarks",
           "metadata": {
@@ -178,7 +178,7 @@
         },
         {
           "name": "docker",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docker",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docker",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/docker",
           "metadata": {
@@ -207,7 +207,7 @@
         },
         {
           "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docs",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docs",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/docs",
           "metadata": {
@@ -236,7 +236,7 @@
         },
         {
           "name": "k8s",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\k8s",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\k8s",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/k8s",
           "metadata": {
@@ -265,7 +265,7 @@
         },
         {
           "name": "optilibria",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\optilibria",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\optilibria",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/optilibria",
           "metadata": {
@@ -300,7 +300,7 @@
         },
         {
           "name": "qmlab",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\qmlab",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\qmlab",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/qmlab",
           "metadata": {
@@ -335,7 +335,7 @@
         },
         {
           "name": "reports",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\reports",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\reports",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/reports",
           "metadata": {
@@ -364,7 +364,7 @@
         },
         {
           "name": "scripts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\scripts",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\scripts",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/scripts",
           "metadata": {
@@ -393,7 +393,7 @@
         },
         {
           "name": "src",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\src",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\src",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/src",
           "metadata": {
@@ -422,7 +422,7 @@
         },
         {
           "name": "tests",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\tests",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\tests",
           "organization": "AlaweinOS",
           "full_name": "AlaweinOS/tests",
           "metadata": {
@@ -476,11 +476,11 @@
     },
     {
       "name": "MeatheadPhysicist",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
+      "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
       "repos": [
         {
           "name": "api",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\api",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\api",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/api",
           "metadata": {
@@ -515,7 +515,7 @@
         },
         {
           "name": "automation",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\automation",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\automation",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/automation",
           "metadata": {
@@ -550,7 +550,7 @@
         },
         {
           "name": "benchmarks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\benchmarks",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\benchmarks",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/benchmarks",
           "metadata": {
@@ -579,7 +579,7 @@
         },
         {
           "name": "cli",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cli",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cli",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/cli",
           "metadata": {
@@ -614,7 +614,7 @@
         },
         {
           "name": "cloud",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cloud",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cloud",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/cloud",
           "metadata": {
@@ -649,7 +649,7 @@
         },
         {
           "name": "config",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\config",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\config",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/config",
           "metadata": {
@@ -678,7 +678,7 @@
         },
         {
           "name": "dashboard",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\dashboard",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\dashboard",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/dashboard",
           "metadata": {
@@ -713,7 +713,7 @@
         },
         {
           "name": "database",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\database",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\database",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/database",
           "metadata": {
@@ -748,7 +748,7 @@
         },
         {
           "name": "deployment",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\deployment",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\deployment",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/deployment",
           "metadata": {
@@ -777,7 +777,7 @@
         },
         {
           "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\docs",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\docs",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/docs",
           "metadata": {
@@ -806,7 +806,7 @@
         },
         {
           "name": "education",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\education",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\education",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/education",
           "metadata": {
@@ -841,7 +841,7 @@
         },
         {
           "name": "examples",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\examples",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\examples",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/examples",
           "metadata": {
@@ -876,7 +876,7 @@
         },
         {
           "name": "frontend",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\frontend",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\frontend",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/frontend",
           "metadata": {
@@ -911,7 +911,7 @@
         },
         {
           "name": "gh-pages",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\gh-pages",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\gh-pages",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/gh-pages",
           "metadata": {
@@ -946,7 +946,7 @@
         },
         {
           "name": "integrations",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\integrations",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\integrations",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/integrations",
           "metadata": {
@@ -981,7 +981,7 @@
         },
         {
           "name": "k8s",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\k8s",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\k8s",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/k8s",
           "metadata": {
@@ -1010,7 +1010,7 @@
         },
         {
           "name": "mlops",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\mlops",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\mlops",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/mlops",
           "metadata": {
@@ -1045,7 +1045,7 @@
         },
         {
           "name": "monitoring",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\monitoring",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\monitoring",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/monitoring",
           "metadata": {
@@ -1080,7 +1080,7 @@
         },
         {
           "name": "nginx",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\nginx",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\nginx",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/nginx",
           "metadata": {
@@ -1109,7 +1109,7 @@
         },
         {
           "name": "notebooks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notebooks",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notebooks",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/notebooks",
           "metadata": {
@@ -1144,7 +1144,7 @@
         },
         {
           "name": "notes",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notes",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notes",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/notes",
           "metadata": {
@@ -1179,7 +1179,7 @@
         },
         {
           "name": "papers",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\papers",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\papers",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/papers",
           "metadata": {
@@ -1214,7 +1214,7 @@
         },
         {
           "name": "projects",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\projects",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\projects",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/projects",
           "metadata": {
@@ -1249,7 +1249,7 @@
         },
         {
           "name": "quantum",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\quantum",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\quantum",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/quantum",
           "metadata": {
@@ -1284,7 +1284,7 @@
         },
         {
           "name": "scripts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\scripts",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\scripts",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/scripts",
           "metadata": {
@@ -1313,7 +1313,7 @@
         },
         {
           "name": "src",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\src",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\src",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/src",
           "metadata": {
@@ -1342,7 +1342,7 @@
         },
         {
           "name": "terraform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\terraform",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\terraform",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/terraform",
           "metadata": {
@@ -1371,7 +1371,7 @@
         },
         {
           "name": "tests",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tests",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tests",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/tests",
           "metadata": {
@@ -1400,7 +1400,7 @@
         },
         {
           "name": "tools",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tools",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tools",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/tools",
           "metadata": {
@@ -1429,7 +1429,7 @@
         },
         {
           "name": "visualizations",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\visualizations",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\visualizations",
           "organization": "MeatheadPhysicist",
           "full_name": "MeatheadPhysicist/visualizations",
           "metadata": {
@@ -1508,11 +1508,11 @@
     },
     {
       "name": "alaweimm90-business",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
+      "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
       "repos": [
         {
           "name": "benchbarrier",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\benchbarrier",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\benchbarrier",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/benchbarrier",
           "metadata": {
@@ -1547,7 +1547,7 @@
         },
         {
           "name": "calla-lily-couture",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\calla-lily-couture",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\calla-lily-couture",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/calla-lily-couture",
           "metadata": {
@@ -1582,7 +1582,7 @@
         },
         {
           "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/docs",
           "metadata": {
@@ -1611,7 +1611,7 @@
         },
         {
           "name": "dr-alowein-portfolio",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\dr-alowein-portfolio",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\dr-alowein-portfolio",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/dr-alowein-portfolio",
           "metadata": {
@@ -1646,7 +1646,7 @@
         },
         {
           "name": "live-it-iconic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\live-it-iconic",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\live-it-iconic",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/live-it-iconic",
           "metadata": {
@@ -1681,7 +1681,7 @@
         },
         {
           "name": "marketing-automation",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\marketing-automation",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\marketing-automation",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/marketing-automation",
           "metadata": {
@@ -1716,7 +1716,7 @@
         },
         {
           "name": "repz",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\repz",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\repz",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/repz",
           "metadata": {
@@ -1751,7 +1751,7 @@
         },
         {
           "name": "scripts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\scripts",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\scripts",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/scripts",
           "metadata": {
@@ -1780,7 +1780,7 @@
         },
         {
           "name": "templates",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\templates",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\templates",
           "organization": "alaweimm90-business",
           "full_name": "alaweimm90-business/templates",
           "metadata": {
@@ -1833,11 +1833,11 @@
     },
     {
       "name": "alaweimm90-science",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
+      "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
       "repos": [
         {
           "name": "TalAI",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/TalAI",
           "metadata": {
@@ -1872,7 +1872,7 @@
         },
         {
           "name": "mag-logic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\mag-logic",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\mag-logic",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/mag-logic",
           "metadata": {
@@ -1907,7 +1907,7 @@
         },
         {
           "name": "qmat-sim",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qmat-sim",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qmat-sim",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/qmat-sim",
           "metadata": {
@@ -1942,7 +1942,7 @@
         },
         {
           "name": "qube-ml",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qube-ml",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qube-ml",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/qube-ml",
           "metadata": {
@@ -1977,7 +1977,7 @@
         },
         {
           "name": "sci-comp",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\sci-comp",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\sci-comp",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/sci-comp",
           "metadata": {
@@ -2012,7 +2012,7 @@
         },
         {
           "name": "spin-circ",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\spin-circ",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\spin-circ",
           "organization": "alaweimm90-science",
           "full_name": "alaweimm90-science/spin-circ",
           "metadata": {
@@ -2066,11 +2066,11 @@
     },
     {
       "name": "alaweimm90-tools",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools",
+      "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools",
       "repos": [
         {
           "name": "Attributa",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\Attributa",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\Attributa",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/Attributa",
           "metadata": {
@@ -2105,7 +2105,7 @@
         },
         {
           "name": "CrazyIdeas",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\CrazyIdeas",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\CrazyIdeas",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/CrazyIdeas",
           "metadata": {
@@ -2140,7 +2140,7 @@
         },
         {
           "name": "HELIOS",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\HELIOS",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\HELIOS",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/HELIOS",
           "metadata": {
@@ -2175,7 +2175,7 @@
         },
         {
           "name": "LLMWorks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\LLMWorks",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\LLMWorks",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/LLMWorks",
           "metadata": {
@@ -2210,7 +2210,7 @@
         },
         {
           "name": "admin-dashboard",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\admin-dashboard",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\admin-dashboard",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/admin-dashboard",
           "metadata": {
@@ -2245,7 +2245,7 @@
         },
         {
           "name": "alaweimm90-cli",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-cli",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-cli",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/alaweimm90-cli",
           "metadata": {
@@ -2280,7 +2280,7 @@
         },
         {
           "name": "alaweimm90-python-sdk",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-python-sdk",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-python-sdk",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/alaweimm90-python-sdk",
           "metadata": {
@@ -2315,7 +2315,7 @@
         },
         {
           "name": "business-intelligence",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\business-intelligence",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\business-intelligence",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/business-intelligence",
           "metadata": {
@@ -2350,7 +2350,7 @@
         },
         {
           "name": "core-framework",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\core-framework",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\core-framework",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/core-framework",
           "metadata": {
@@ -2385,7 +2385,7 @@
         },
         {
           "name": "devops-platform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\devops-platform",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\devops-platform",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/devops-platform",
           "metadata": {
@@ -2420,7 +2420,7 @@
         },
         {
           "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\docs",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\docs",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/docs",
           "metadata": {
@@ -2449,7 +2449,7 @@
         },
         {
           "name": "fitness-app",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\fitness-app",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\fitness-app",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/fitness-app",
           "metadata": {
@@ -2484,7 +2484,7 @@
         },
         {
           "name": "helm-charts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\helm-charts",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\helm-charts",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/helm-charts",
           "metadata": {
@@ -2519,7 +2519,7 @@
         },
         {
           "name": "job-search",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\job-search",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\job-search",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/job-search",
           "metadata": {
@@ -2554,7 +2554,7 @@
         },
         {
           "name": "load-tests",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\load-tests",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\load-tests",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/load-tests",
           "metadata": {
@@ -2589,7 +2589,7 @@
         },
         {
           "name": "marketing-center",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\marketing-center",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\marketing-center",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/marketing-center",
           "metadata": {
@@ -2624,7 +2624,7 @@
         },
         {
           "name": "monitoring",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\monitoring",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\monitoring",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/monitoring",
           "metadata": {
@@ -2658,37 +2658,8 @@
           "description": "Repository: monitoring"
         },
         {
-          "name": "node_modules",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\node_modules",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/node_modules",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "alaweimm90-tools",
-            "description": "node_modules repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "node_modules repository"
-        },
-        {
           "name": "prompty",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/prompty",
           "metadata": {
@@ -2723,7 +2694,7 @@
         },
         {
           "name": "prompty-service",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty-service",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty-service",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/prompty-service",
           "metadata": {
@@ -2758,7 +2729,7 @@
         },
         {
           "name": "shared",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\shared",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\shared",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/shared",
           "metadata": {
@@ -2787,7 +2758,7 @@
         },
         {
           "name": "terraform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\terraform",
+          "path": "c:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\terraform",
           "organization": "alaweimm90-tools",
           "full_name": "alaweimm90-tools/terraform",
           "metadata": {
@@ -2816,14 +2787,14 @@
         }
       ],
       "summary": {
-        "total_repos": 22,
+        "total_repos": 21,
         "by_language": {
           "TypeScript": 3,
           "Python": 11,
           "Mixed": 3,
           "python": 2,
           "YAML": 1,
-          "unknown": 2
+          "unknown": 1
         },
         "by_type": {
           "ui-application": 1,
@@ -2834,7 +2805,7 @@
           "tool": 1,
           "experimental": 1,
           "platform": 2,
-          "unknown": 4,
+          "unknown": 3,
           "application": 2,
           "kubernetes-charts": 1,
           "testing": 1,
@@ -2846,17 +2817,17 @@
           "1": 1,
           "2": 6,
           "3": 1,
-          "4": 14
+          "4": 13
         }
       }
     }
   ],
   "summary": {
     "total_organizations": 5,
-    "total_repositories": 81,
+    "total_repositories": 80,
     "by_language": {
       "TypeScript": 12,
-      "unknown": 16,
+      "unknown": 15,
       "typescript": 1,
       "Python": 22,
       "Unknown": 11,
@@ -2871,7 +2842,7 @@
     "by_type": {
       "web-application": 2,
       "ecommerce": 1,
-      "unknown": 27,
+      "unknown": 26,
       "portfolio": 1,
       "automation": 2,
       "framework": 2,
@@ -2909,10 +2880,10 @@
       "1": 2,
       "2": 10,
       "3": 3,
-      "4": 66
+      "4": 65
     },
     "by_status": {
-      "active": 65,
+      "active": 64,
       "inactive": 16
     }
   }

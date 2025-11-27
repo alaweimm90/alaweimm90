@@ -1,0 +1,146 @@
+name: Weekly Governance Compliance Check
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  compliance-check:
+    name: Governance Compliance Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout governance repo
+        uses: actions/checkout@v4
+        with:
+          path: governance
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          cd governance
+          python -m pip install --upgrade pip
+          pip install -r .metaHub/scripts/requirements.txt
+          pip install PyYAML
+
+      - name: Run structure validation
+        id: structure_check
+        run: |
+          cd governance
+          python .metaHub/scripts/structure_validator.py --report json --output compliance-report.json
+
+      - name: Run governance enforcement check
+        id: governance_check
+        run: |
+          cd governance
+          python .metaHub/scripts/enforce.py organizations/ --report json --output governance-report.json
+
+      - name: Generate compliance summary
+        id: summary
+        run: |
+          cd governance
+          python -c "
+          import json
+          import os
+          from datetime import datetime
+
+          # Load reports
+          compliance = {}
+          governance = {}
+
+          if os.path.exists('compliance-report.json'):
+              with open('compliance-report.json') as f:
+                  compliance = json.load(f)
+
+          if os.path.exists('governance-report.json'):
+              with open('governance-report.json') as f:
+                  governance = json.load(f)
+
+          # Generate summary
+          summary = {
+              'timestamp': datetime.now().isoformat(),
+              'compliance': compliance.get('summary', {}),
+              'governance': governance
+          }
+
+          with open('weekly-summary.json', 'w') as f:
+              json.dump(summary, f, indent=2)
+
+          # Print key metrics
+          comp = compliance.get('summary', {})
+          print(f'::set-output name=total-orgs::{comp.get(\"total_orgs\", 0)}')
+          print(f'::set-output name=total-repos::{comp.get(\"total_repos\", 0)}')
+          print(f'::set-output name=compliant-repos::{comp.get(\"compliant_repos\", 0)}')
+          print(f'::set-output name=compliance-rate::{comp.get(\"compliant_repos\", 0) / max(comp.get(\"total_repos\", 1), 1) * 100:.1f}%')
+          "
+
+      - name: Create compliance issue
+        if: steps.summary.outputs.compliance-rate < 95
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('governance/weekly-summary.json', 'utf8'));
+
+            const complianceRate = summary.compliance.compliant_repos / summary.compliance.total_repos * 100;
+
+            const body = '## Weekly Governance Compliance Report\n\n' +
+              'Generated: ' + new Date().toISOString() + '\n\n' +
+              '### Compliance Summary\n' +
+              '- Organizations: ' + summary.compliance.total_orgs + '\n' +
+              '- Total Repositories: ' + summary.compliance.total_repos + '\n' +
+              '- Compliant Repositories: ' + summary.compliance.compliant_repos + '\n' +
+              '- Compliance Rate: ' + complianceRate.toFixed(1) + '%\n\n' +
+              '### Issues Found\n' +
+              '- Missing Files: ' + summary.compliance.missing_files + '\n' +
+              '- Missing Directories: ' + summary.compliance.missing_dirs + '\n\n' +
+              '### Action Required\n' +
+              (complianceRate < 95 ? 'Compliance rate below 95%. Manual review required.' : 'Compliance rate acceptable.') +
+              '\n\n[View detailed report](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId + ')';
+
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['governance-compliance'],
+              state: 'open'
+            });
+
+            if (issues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Weekly Governance Compliance: ${complianceRate.toFixed(1)}%`,
+                body: body,
+                labels: ['governance-compliance', 'automated']
+              });
+            } else {
+              // Update existing issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                body: body
+              });
+            }
+
+      - name: Upload compliance reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-compliance-reports
+          path: |
+            governance/compliance-report.json
+            governance/governance-report.json
+            governance/weekly-summary.json
+          retention-days: 30
