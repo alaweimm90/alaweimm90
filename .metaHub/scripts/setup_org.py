@@ -5,14 +5,12 @@ setup_org.py - Organization Setup and Standardization
 Sets up organization profiles, .github repos, and standardized configs.
 """
 
-import json
 import subprocess
 import sys
 from pathlib import Path
 from typing import Dict, Any
 
 import click
-import yaml
 
 
 # Organization metadata
