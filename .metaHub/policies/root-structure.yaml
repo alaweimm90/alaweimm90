@@ -184,6 +184,7 @@ forbidden:
     - "*.log"           # Log files
     - ".env"            # Environment files (secrets)
     - ".env.*"          # Environment variations
+    - "alaweimm90"      # User clone directory (should be gitignored)
 
 # =============================================================================
 # MIGRATION RULES

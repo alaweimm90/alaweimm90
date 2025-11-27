@@ -69,6 +69,20 @@ class StructureValidator:
                 return yaml.safe_load(f) or {}
         return {}
 
+    def _is_gitignored(self, path: Path) -> bool:
+        """Check if a path is gitignored using git check-ignore."""
+        import subprocess
+        try:
+            result = subprocess.run(
+                ["git", "check-ignore", "-q", str(path)],
+                cwd=self.base_path,
+                capture_output=True,
+                timeout=5
+            )
+            return result.returncode == 0
+        except Exception:
+            return False
+
     def validate_root_structure(self) -> Dict[str, Any]:
         """Validate root directory against root-structure policy (ADR-002)."""
         import fnmatch
@@ -77,9 +91,11 @@ class StructureValidator:
             "compliant": True,
             "violations": [],
             "warnings": [],
+            "info": [],  # For gitignored items (local-only, acceptable)
             "allowed_files": [],
             "allowed_dirs": [],
             "forbidden_found": [],
+            "forbidden_gitignored": [],  # Forbidden but gitignored (acceptable)
             "unknown_items": []
         }
 
@@ -147,16 +163,26 @@ class StructureValidator:
                     matched_pattern = "specific"
 
                 if is_forbidden:
-                    result["forbidden_found"].append({
-                        "name": name,
-                        "type": "file",
-                        "pattern": matched_pattern
-                    })
-                    if level == "error":
-                        result["violations"].append(f"Forbidden file at root: {name}")
-                        result["compliant"] = False
+                    is_ignored = self._is_gitignored(item)
+                    if is_ignored:
+                        # Gitignored forbidden items are acceptable (local-only)
+                        result["forbidden_gitignored"].append({
+                            "name": name,
+                            "type": "file",
+                            "pattern": matched_pattern
+                        })
+                        result["info"].append(f"Forbidden file at root (gitignored, local-only): {name}")
                     else:
-                        result["warnings"].append(f"Forbidden file at root: {name}")
+                        result["forbidden_found"].append({
+                            "name": name,
+                            "type": "file",
+                            "pattern": matched_pattern
+                        })
+                        if level == "error":
+                            result["violations"].append(f"Forbidden file at root: {name}")
+                            result["compliant"] = False
+                        else:
+                            result["warnings"].append(f"Forbidden file at root: {name}")
                 else:
                     result["unknown_items"].append({"name": name, "type": "file"})
 
@@ -166,7 +192,7 @@ class StructureValidator:
                     result["allowed_dirs"].append(name)
                     continue
 
-                # Check if directory is forbidden by pattern
+                # Check if directory is forbidden by pattern or specific item
                 is_forbidden = False
                 matched_pattern = None
                 for pattern in forbidden_dir_patterns:
@@ -175,17 +201,32 @@ class StructureValidator:
                         matched_pattern = pattern
                         break
 
+                # Also check specific items for directories
+                if not is_forbidden and name in forbidden_specific:
+                    is_forbidden = True
+                    matched_pattern = "specific"
+
                 if is_forbidden:
-                    result["forbidden_found"].append({
-                        "name": name,
-                        "type": "directory",
-                        "pattern": matched_pattern
-                    })
-                    if level == "error":
-                        result["violations"].append(f"Forbidden directory at root: {name}")
-                        result["compliant"] = False
+                    is_ignored = self._is_gitignored(item)
+                    if is_ignored:
+                        # Gitignored forbidden items are acceptable (local-only)
+                        result["forbidden_gitignored"].append({
+                            "name": name,
+                            "type": "directory",
+                            "pattern": matched_pattern
+                        })
+                        result["info"].append(f"Forbidden directory at root (gitignored, local-only): {name}")
                     else:
-                        result["warnings"].append(f"Forbidden directory at root: {name}")
+                        result["forbidden_found"].append({
+                            "name": name,
+                            "type": "directory",
+                            "pattern": matched_pattern
+                        })
+                        if level == "error":
+                            result["violations"].append(f"Forbidden directory at root: {name}")
+                            result["compliant"] = False
+                        else:
+                            result["warnings"].append(f"Forbidden directory at root: {name}")
                 else:
                     result["unknown_items"].append({"name": name, "type": "directory"})
 
@@ -676,8 +717,14 @@ def main(org: Optional[str], repo: Optional[str], root: bool, fix: bool, dry_run
                 lines.append("")
 
             if result["forbidden_found"]:
-                lines.append("FORBIDDEN ITEMS FOUND:")
+                lines.append("FORBIDDEN ITEMS FOUND (tracked in git - must fix):")
                 for item in result["forbidden_found"]:
+                    lines.append(f"  - {item['name']} ({item['type']}, pattern: {item['pattern']})")
+                lines.append("")
+
+            if result.get("forbidden_gitignored"):
+                lines.append("FORBIDDEN ITEMS (gitignored - local-only, acceptable):")
+                for item in result["forbidden_gitignored"]:
                     lines.append(f"  - {item['name']} ({item['type']}, pattern: {item['pattern']})")
                 lines.append("")
 
