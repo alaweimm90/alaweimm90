@@ -50,24 +50,9 @@ allowed_files:
     - name: "package.json"
       purpose: "Node.js dependencies (if needed)"
 
-  # AI Assistant Rules Files (allowed)
-  ai_rules:
-    - name: ".cursorrules"
-      purpose: "Cursor IDE AI rules and context"
-    - name: ".windsurfrules"
-      purpose: "Windsurf IDE AI rules and context"
-    - name: ".aider.conf.yml"
-      purpose: "Aider CLI configuration (auto-approve settings)"
-    - name: ".ai-context.md"
-      purpose: "Unified AI context for all assistants"
-    - name: ".clinerules"
-      purpose: "Cline AI assistant rules"
-    - name: ".kilorules"
-      purpose: "Kilo Code AI rules"
-    - name: ".augmentrules"
-      purpose: "Augment AI assistant rules"
-    - name: ".ai-settings.yaml"
-      purpose: "Unified AI assistant configuration (all 14 tools)"
+  # AI Assistant Rules Files - REMOVED (migrated to .ai/)
+  # All AI configs now live under .ai/ directory
+  # Legacy root-level AI files are FORBIDDEN
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL DIRECTORIES
@@ -93,8 +78,7 @@ allowed_directories:
       purpose: "Governance system unit tests"
     - name: ".vscode"
       purpose: "VS Code workspace settings"
-    - name: ".claude"
-      purpose: "Claude AI assistant configuration"
+    # .claude removed - now forbidden (use .ai/claude/)
 
   # Tool Configuration (allowed, should be hidden)
   tooling:
@@ -113,36 +97,9 @@ allowed_directories:
         - "rules/ - Tool-specific rules files"
         - "<tool>/ - Individual tool configs"
 
-  # AI Assistant Configurations (Legacy - being migrated to .ai/)
-  ai_assistants_legacy:
-    - name: ".claude"
-      purpose: "[LEGACY] Claude Code - migrate to .ai/claude/"
-    - name: ".cursor"
-      purpose: "[LEGACY] Cursor IDE - migrate to .ai/cursor/"
-    - name: ".trae"
-      purpose: "[LEGACY] Trae AI - migrate to .ai/trae/"
-    - name: ".continue"
-      purpose: "[LEGACY] Continue.dev - migrate to .ai/continue/"
-    - name: ".kilocode"
-      purpose: "[LEGACY] Kilo Code - migrate to .ai/kilocode/"
-    - name: ".amazonq"
-      purpose: "[LEGACY] Amazon Q - migrate to .ai/amazonq/"
-    - name: ".aider"
-      purpose: "[LEGACY] Aider CLI - migrate to .ai/aider/"
-    - name: ".cline"
-      purpose: "[LEGACY] Cline - migrate to .ai/cline/"
-    - name: ".windsurf"
-      purpose: "[LEGACY] Windsurf IDE - migrate to .ai/windsurf/"
-    - name: ".blackbox"
-      purpose: "[LEGACY] Blackbox AI - migrate to .ai/blackbox/"
-    - name: ".copilot"
-      purpose: "[LEGACY] GitHub Copilot - migrate to .ai/copilot/"
-    - name: ".gemini"
-      purpose: "[LEGACY] Google Gemini - migrate to .ai/gemini/"
-    - name: ".codex"
-      purpose: "[LEGACY] OpenAI Codex - migrate to .ai/codex/"
-    - name: ".augment"
-      purpose: "[LEGACY] Augment AI - migrate to .ai/augment/"
+  # AI Assistant Configurations (Legacy) - REMOVED
+  # Migration complete: all AI configs now live under .ai/
+  # Legacy root-level AI directories are FORBIDDEN
 
   # Cache (auto-generated, gitignored)
   cache:
@@ -185,6 +142,31 @@ forbidden:
     - ".env"            # Environment files (secrets)
     - ".env.*"          # Environment variations
     - "alaweimm90"      # User clone directory (should be gitignored)
+    # Legacy AI directories (migrated to .ai/)
+    - ".claude"         # Use .ai/claude/
+    - ".cursor"         # Use .ai/cursor/
+    - ".cline"          # Use .ai/cline/
+    - ".amazonq"        # Use .ai/amazonq/
+    - ".continue"       # Use .ai/continue/
+    - ".codex"          # Use .ai/codex/
+    - ".gemini"         # Use .ai/gemini/
+    - ".kilocode"       # Use .ai/kilocode/
+    - ".trae"           # Use .ai/trae/
+    - ".blackbox"       # Use .ai/blackbox/
+    - ".augment"        # Use .ai/augment/
+    - ".aider"          # Use .ai/aider/
+    - ".windsurf"       # Use .ai/windsurf/
+    - ".copilot"        # Use .ai/copilot/
+    # Legacy AI rule files (migrated to .ai/rules/)
+    - ".cursorrules"    # Use .ai/rules/cursor.rules
+    - ".windsurfrules"  # Use .ai/rules/windsurf.rules
+    - ".clinerules"     # Use .ai/rules/cline.rules
+    - ".augmentrules"   # Use .ai/rules/augment.rules
+    - ".kilorules"      # Use .ai/rules/kilo.rules
+    # Legacy unified configs (migrated to .ai/)
+    - ".ai-settings.yaml"  # Use .ai/settings.yaml
+    - ".ai-context.md"     # Use .ai/context.md
+    - ".aider.conf.yml"    # Use .ai/aider/config.yml
 
 # =============================================================================
 # MIGRATION RULES
@@ -211,11 +193,11 @@ migration:
 # ENFORCEMENT
 # =============================================================================
 enforcement:
-  level: "warning"  # warning | error
+  level: "error"  # warning | error - STRICT enforcement enabled
 
   actions:
-    on_forbidden_file: "warn"
-    on_forbidden_dir: "warn"
+    on_forbidden_file: "error"
+    on_forbidden_dir: "error"
     on_missing_required: "error"
 
   exceptions:

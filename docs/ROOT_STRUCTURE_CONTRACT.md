@@ -1,8 +1,9 @@
 # Root Directory Structure Contract
 
-> **Version:** 2.0.0
-> **Status:** Draft
+> **Version:** 2.1.0
+> **Status:** Active
 > **Last Updated:** 2025-11-27
+> **Migration Status:** Complete
 > **Supersedes:** ADR-002-root-structure-policy.md (to be updated)
 
 ---
@@ -475,27 +476,31 @@ governance:
 | `tests/` | ✅ Compliant | Governance tests |
 | `.gitignore` | ✅ Compliant | Patterns defined |
 
-**Deprecated (to be migrated):**
+**Deprecated (MIGRATION COMPLETE):**
 
-| Item | Current | Target | Action |
-|------|---------|--------|--------|
-| `.claude/` | Root | `.ai/claude/` | Migrate |
-| `.cursor/` | Root | `.ai/cursor/` | Migrate |
-| `.cline/` | Root | `.ai/cline/` | Migrate |
-| (12 more AI dirs) | Root | `.ai/` | Migrate |
-| `.ai-settings.yaml` | Root | `.ai/settings.yaml` | Migrate |
-| `.cursorrules` | Root | `.ai/rules/cursor.rules` | Migrate |
+| Item | Previous | Migrated To | Status |
+|------|----------|-------------|--------|
+| `.claude/` | Root symlink | `.ai/claude/` | Removed |
+| `.cursor/` | Root symlink | `.ai/cursor/` | Removed |
+| `.cline/` | Root symlink | `.ai/cline/` | Removed |
+| (12 more AI dirs) | Root symlink | `.ai/<tool>/` | Removed |
+| `.ai-settings.yaml` | Root file | `.ai/settings.yaml` | Removed |
+| `.cursorrules` | Root file | `.ai/rules/cursor.rules` | Removed |
+| `.windsurfrules` | Root file | `.ai/rules/windsurf.rules` | Removed |
+| `.clinerules` | Root file | `.ai/rules/cline.rules` | Removed |
+| `.augmentrules` | Root file | `.ai/rules/augment.rules` | Removed |
+| `.ai-context.md` | Root file | `.ai/context.md` | Removed |
+| `.aider.conf.yml` | Root file | `.ai/aider/config.yml` | Removed |
 
-**Forbidden (should be removed/gitignored):**
+**Forbidden (gitignored, local-only):**
 
 | Item | Issue | Resolution |
 |------|-------|------------|
-| `ai-audit-report.json` | Generated file at root | Add to `.gitignore` |
-| `audit-results.json` | Generated file at root | Add to `.gitignore` |
-| `enforcement-report.json` | Generated file at root | Add to `.gitignore` |
-| `GitHub.code-workspace` | Workspace at root | Move to `.vscode/` or gitignore |
-| `alaweimm90/` | Unknown directory | Review and remove |
-| `new-repos/` | Staging directory | Add to `.gitignore` |
+| `*-report.json` | Generated file at root | Gitignored |
+| `*.code-workspace` | Workspace at root | Gitignored |
+| `alaweimm90/` | Local clone directory | Gitignored |
+| `new-repos/` | Staging directory | Gitignored |
+| `.env` | Environment file | Gitignored |
 
 ### 6.2 Scenario: Adding a New AI Tool
 
@@ -616,26 +621,26 @@ def test_infra_directory_allowed():
 
 ## 7. Next Steps / Implementation Checklist
 
-### Immediate (Week 1)
+### Immediate (Week 1) - COMPLETE
 
-- [ ] Create `.ai/` directory structure
-- [ ] Create symlinks from legacy AI config locations to `.ai/`
-- [ ] Update `.ai-settings.yaml` to reference new locations
-- [ ] Add deprecation warnings to legacy config usage
+- [x] Create `.ai/` directory structure
+- [x] Create symlinks from legacy AI config locations to `.ai/`
+- [x] Update `.ai-settings.yaml` to reference new locations
+- [x] Add deprecation warnings to legacy config usage
 
-### Short-term (Weeks 2-3)
+### Short-term (Weeks 2-3) - COMPLETE
 
-- [ ] Update all AI tools to read from `.ai/`
-- [ ] Update [`structure_validator.py`](../.metaHub/scripts/structure_validator.py) with consolidated AI check
-- [ ] Update [`portfolio-structure.yaml`](../.metaHub/templates/structures/portfolio-structure.yaml) with `portfolio_root` section
-- [ ] Add root structure validation to weekly workflow
+- [x] Update all AI tools to read from `.ai/`
+- [x] Update [`structure_validator.py`](../.metaHub/scripts/structure_validator.py) with consolidated AI check
+- [x] Update [`portfolio-structure.yaml`](../.metaHub/templates/structures/portfolio-structure.yaml) with `portfolio_root` section
+- [x] Add root structure validation to weekly workflow
 
-### Medium-term (Week 4)
+### Medium-term (Week 4) - COMPLETE
 
-- [ ] Remove legacy AI config directories
-- [ ] Update enforcement to error on scattered AI configs
-- [ ] Clean up any remaining forbidden items at root
-- [ ] Update downstream documentation
+- [x] Remove legacy AI config directories (symlinks removed from root)
+- [x] Update enforcement to error on scattered AI configs
+- [x] Clean up any remaining forbidden items at root
+- [x] Update downstream documentation
 
 ### Long-term (Ongoing)
 

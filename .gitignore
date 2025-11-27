@@ -66,6 +66,23 @@ desktop.ini
 .windsurf/cache/
 .cline/cache/
 
+# Legacy AI directories (migrated to .ai/, may be auto-created by tools locally)
+# These are forbidden in git but acceptable as local-only
+.claude/
+.cursor/
+.cline/
+.amazonq/
+.continue/
+.codex/
+.gemini/
+.kilocode/
+.trae/
+.blackbox/
+.augment/
+.aider/
+.windsurf/
+.copilot/
+
 # Testing
 coverage/
 .nyc_output/

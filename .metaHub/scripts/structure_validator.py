@@ -119,7 +119,7 @@ class StructureValidator:
 
         # Collect all allowed directory names
         allowed_dir_names = set()
-        for category in ["required", "recommended", "optional", "tooling", "cache", "ai_consolidated", "ai_assistants_legacy"]:
+        for category in ["required", "recommended", "optional", "tooling", "cache", "ai_consolidated"]:
             for item in allowed_dirs_policy.get(category, []):
                 if isinstance(item, dict):
                     allowed_dir_names.add(item.get("name", ""))
