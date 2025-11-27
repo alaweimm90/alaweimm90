@@ -14,7 +14,11 @@ This document details how to configure each AI coding assistant for maximum auto
 | **Continue** | `.continue/config.json` | `autoApprove: true` | Experimental |
 | **Kilo Code** | `.kilocode/config.yaml` | `auto_approve: true` | Supported |
 | **Amazon Q** | `.amazonq/settings.json` | `autoApprove: true` | Limited |
-| **Cline** | VS Code settings | Extension settings | Limited |
+| **Cline** | `.cline/settings.json` | `bypassApprovals: true` | Supported |
+| **Trae** | `.trae/config.json` | `autoApprove: true` | Supported |
+| **Blackbox** | `.blackbox/config.json` | `yoloMode: true` | Supported |
+| **Gemini** | `.gemini/settings.json` | `autoApprove: true` | Supported |
+| **Codex** | `.codex/config.json` | `autoApprove: true` | Supported |
 
 ## Detailed Configuration
 
@@ -209,13 +213,33 @@ Workaround: Use CLI versions (Aider, Claude Code) which have more control.
 ## Files in This Repository
 
 ```
-.aider.conf.yml          # Aider config
-.cursorrules             # Cursor rules
-.windsurfrules           # Windsurf rules
-.ai-context.md           # Shared AI context
+# Root-level rules files
+.aider.conf.yml          # Aider CLI config (yes-always)
+.cursorrules             # Cursor IDE rules
+.windsurfrules           # Windsurf IDE rules
+.clinerules              # Cline AI rules
+.ai-context.md           # Shared AI context for all tools
+
+# Directory-based configs
 .cursor/settings.json    # Cursor IDE settings
 .continue/config.json    # Continue.dev config
 .kilocode/config.yaml    # Kilo Code config
 .amazonq/settings.json   # Amazon Q settings
-.github/copilot-instructions.md  # Copilot context
+.cline/settings.json     # Cline settings (bypassApprovals)
+.trae/config.json        # Trae AI config
+.blackbox/config.json    # Blackbox AI config (yoloMode)
+.gemini/settings.json    # Google Gemini config
+.codex/config.json       # OpenAI Codex config
+
+# GitHub-specific
+.github/copilot-instructions.md  # Copilot project context
 ```
+
+## Tool Count: 13 AI Assistants Configured
+
+| Category | Tools |
+|----------|-------|
+| **Full Auto-Approve** | Aider, Cursor, Windsurf, Cline, Blackbox |
+| **Supported** | Continue, Kilo, Amazon Q, Trae, Gemini, Codex |
+| **Context Only** | GitHub Copilot |
+| **CLI Flag Required** | Claude Code |

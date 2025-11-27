@@ -135,8 +135,8 @@ docs/api/auto-generated/
 alaweimm90/
 organizations/
 
-# Local tool data
-.trae/
+# Local tool data (AI configs are now tracked)
+# .trae/ - now tracked for AI config sharing
 
 # Local staging for new repos
 new-repos/

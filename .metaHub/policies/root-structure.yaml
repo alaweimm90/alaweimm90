@@ -123,6 +123,10 @@ allowed_directories:
       purpose: "Blackbox AI configuration"
     - name: ".copilot"
       purpose: "GitHub Copilot configuration"
+    - name: ".gemini"
+      purpose: "Google Gemini AI configuration"
+    - name: ".codex"
+      purpose: "OpenAI Codex configuration"
 
   # Cache (auto-generated, gitignored)
   cache:
