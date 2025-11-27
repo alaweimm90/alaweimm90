@@ -1,0 +1,167 @@
+# Root Directory Structure Policy
+# Defines what files and directories are allowed at the repository root level
+# Enforced by structure_validator.py and GitHub Actions
+
+version: "1.0"
+last_updated: "2025-11-27"
+
+# =============================================================================
+# ALLOWED ROOT-LEVEL FILES
+# =============================================================================
+allowed_files:
+  # Standard Documentation (required)
+  required:
+    - name: "README.md"
+      purpose: "Repository overview and getting started guide"
+    - name: "LICENSE"
+      purpose: "Open source license (MIT)"
+    - name: "SECURITY.md"
+      purpose: "Security policy and vulnerability reporting"
+
+  # Standard Documentation (recommended)
+  recommended:
+    - name: "CONTRIBUTING.md"
+      purpose: "Contribution guidelines"
+    - name: "GOVERNANCE.md"
+      purpose: "Portfolio governance documentation"
+    - name: "CHANGELOG.md"
+      purpose: "Version history and changes"
+    - name: "CODE_OF_CONDUCT.md"
+      purpose: "Community guidelines"
+
+  # Configuration Files (allowed)
+  configuration:
+    - name: ".gitignore"
+      purpose: "Git ignore patterns"
+    - name: ".gitattributes"
+      purpose: "Git attributes for line endings, LFS"
+    - name: ".dockerignore"
+      purpose: "Docker build ignore patterns"
+    - name: ".pre-commit-config.yaml"
+      purpose: "Pre-commit hook configuration"
+    - name: ".yamllint.yml"
+      purpose: "YAML linting rules"
+    - name: ".editorconfig"
+      purpose: "Editor configuration"
+    - name: "mkdocs.yml"
+      purpose: "MkDocs documentation site configuration"
+    - name: "pyproject.toml"
+      purpose: "Python project configuration"
+    - name: "package.json"
+      purpose: "Node.js dependencies (if needed)"
+
+# =============================================================================
+# ALLOWED ROOT-LEVEL DIRECTORIES
+# =============================================================================
+allowed_directories:
+  # Core Governance (required)
+  required:
+    - name: ".metaHub"
+      purpose: "Central governance system - scripts, templates, policies"
+    - name: "organizations"
+      purpose: "Organization monorepo templates (gitignored)"
+    - name: ".github"
+      purpose: "GitHub-specific configs, workflows, issue templates"
+
+  # Documentation (recommended)
+  recommended:
+    - name: "docs"
+      purpose: "MkDocs documentation source files"
+
+  # Development (optional)
+  optional:
+    - name: "tests"
+      purpose: "Governance system unit tests"
+    - name: ".vscode"
+      purpose: "VS Code workspace settings"
+    - name: ".claude"
+      purpose: "Claude AI assistant configuration"
+
+  # Tool Configuration (allowed, should be hidden)
+  tooling:
+    - name: ".husky"
+      purpose: "Git hooks (husky)"
+    - name: ".allstar"
+      purpose: "GitHub Allstar security configuration"
+    - name: ".trae"
+      purpose: "Trae AI configuration"
+
+  # Cache (auto-generated, gitignored)
+  cache:
+    - name: ".mypy_cache"
+      purpose: "MyPy type checking cache"
+    - name: ".pytest_cache"
+      purpose: "Pytest cache"
+    - name: ".ruff_cache"
+      purpose: "Ruff linter cache"
+    - name: "__pycache__"
+      purpose: "Python bytecode cache"
+    - name: "node_modules"
+      purpose: "Node.js dependencies"
+
+# =============================================================================
+# FORBIDDEN AT ROOT
+# =============================================================================
+forbidden:
+  file_patterns:
+    - "*.pdf"           # Move to docs/reports/
+    - "*.doc*"          # Move to docs/
+    - "*.xls*"          # Move to docs/
+    - "*.ppt*"          # Move to docs/
+    - "*.zip"           # Should not be in repo
+    - "*.tar.gz"        # Should not be in repo
+    - "*.code-workspace" # Move to .vscode/ or gitignore
+    - "*-report.json"   # Should be gitignored (generated)
+    - "*-results.json"  # Should be gitignored (generated)
+
+  directory_patterns:
+    - "temp-*"          # Temporary directories
+    - "new-*"           # Staging directories (should be gitignored)
+    - "backup*"         # Backup directories
+    - "old*"            # Archived directories
+
+  specific_items:
+    - "Thumbs.db"       # Windows thumbnail cache
+    - ".DS_Store"       # macOS metadata
+    - "*.log"           # Log files
+    - ".env"            # Environment files (secrets)
+    - ".env.*"          # Environment variations
+
+# =============================================================================
+# MIGRATION RULES
+# =============================================================================
+migration:
+  # Files to move
+  relocate:
+    "*.pdf": "docs/reports/"
+    "*.code-workspace": ".vscode/"
+
+  # Files to add to .gitignore
+  gitignore:
+    - "*-report.json"
+    - "*-results.json"
+    - "temp-*/"
+    - "new-*/"
+
+  # Directories to review
+  review:
+    - "alaweimm90/"     # Check if needed, likely remove
+    - "new-repos/"      # Check if needed, add to gitignore
+
+# =============================================================================
+# ENFORCEMENT
+# =============================================================================
+enforcement:
+  level: "warning"  # warning | error
+
+  actions:
+    on_forbidden_file: "warn"
+    on_forbidden_dir: "warn"
+    on_missing_required: "error"
+
+  exceptions:
+    # Files that may temporarily exist during CI/CD
+    ci_exceptions:
+      - "coverage.xml"
+      - "junit.xml"
+      - ".coverage"

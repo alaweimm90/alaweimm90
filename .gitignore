@@ -144,7 +144,19 @@ new-repos/
 # Workspace files
 *.code-workspace
 
-# Temporary enforcement/audit outputs
+# Temporary enforcement/audit outputs (root-structure policy ADR-002)
 enforcement-results.json
+enforcement-report.json
+ai-audit-report.json
+audit-results.json
+*-report.json
+*-results.json
 *-audit.pdf
 *Audit.pdf
+
+# Temporary sync directories
+temp-*-sync/
+temp-*-monorepo/
+
+# Generated site output
+site/
