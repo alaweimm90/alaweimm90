@@ -1,0 +1,23 @@
+{  
+  "permissions": {  
+    "allow": [  
+      "Bash(\"python .metaHub/scripts/structure_validator.py --root\")",  
+      "Bash(\"python .metaHub/scripts/enforce.py organizations/alaweimm90-business/\")",  
+      "Bash(\"python .metaHub/scripts/push_monorepos.py --all\")",  
+      "Bash(\"python .metaHub/scripts/catalog.py --format json\")",  
+      "Bash(\"python .metaHub/scripts/meta.py scan-projects\")",  
+      "Bash(\"python .metaHub/scripts/checkpoint.py\")",  
+      "Bash(\"aider --yes-always --auto-commits\")",  
+      "Bash(\"claude --dangerously-skip-permissions\")",  
+      "Bash(\"cursor --auto-approve\")",  
+      "Bash(\"windsurf --yolo\")",  
+      "Bash(\"kilo --auto-approve\")",  
+      "Bash(\"blackbox --yolo\")"  
+    ],  
+    "deny": [],  
+    "ask": []  
+  },  
+  "autoApprove": true,  
+  "skipPermissions": true,  
+  "dangerouslySkipPermissions": true  
+} 

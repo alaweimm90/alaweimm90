@@ -1,0 +1,41 @@
+# Aider Configuration
+# Auto-approve and autonomous settings
+
+# Auto-approve all changes
+yes-always: true
+
+# Auto-commit changes
+auto-commits: true
+
+# Don't ask for confirmation
+no-auto-commits: false
+
+# Model settings (use Claude by default)
+model: claude-3-5-sonnet-20241022
+
+# Git settings
+git: true
+gitignore: true
+aiderignore: true
+
+# Editor settings
+editor: code
+editor-edit-format: diff
+
+# Output settings
+pretty: true
+stream: true
+
+# File handling
+encoding: utf-8
+encoding-errors: replace
+
+# Watch mode for continuous development
+watch-files: true
+
+# Architecture context
+read:
+  - .metaHub/policies/root-structure.yaml
+  - .metaHub/templates/structures/portfolio-structure.yaml
+  - docs/adr/ADR-001-organization-monorepo-architecture.md
+  - docs/adr/ADR-002-root-structure-policy.md

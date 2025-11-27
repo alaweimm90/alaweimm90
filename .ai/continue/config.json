@@ -1,0 +1,43 @@
+{
+  "models": [
+    {
+      "title": "Claude 3.5 Sonnet",
+      "provider": "anthropic",
+      "model": "claude-3-5-sonnet-20241022",
+      "apiKey": ""
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Codestral",
+    "provider": "mistral",
+    "model": "codestral-latest"
+  },
+  "customCommands": [
+    {
+      "name": "governance",
+      "prompt": "Review this code for governance compliance with our portfolio standards in .metaHub/policies/",
+      "description": "Check governance compliance"
+    }
+  ],
+  "contextProviders": [
+    {
+      "name": "file",
+      "params": {}
+    },
+    {
+      "name": "codebase",
+      "params": {}
+    }
+  ],
+  "slashCommands": [
+    {
+      "name": "approve-all",
+      "description": "Auto-approve all pending changes"
+    }
+  ],
+  "autoApprove": true,
+  "autoRun": true,
+  "experimental": {
+    "autoApply": true
+  }
+}

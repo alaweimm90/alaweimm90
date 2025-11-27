@@ -1,0 +1,26 @@
+{
+  "augment.autoApprove": true,
+  "augment.autoApplyEdits": true,
+  "augment.autoRunCommands": true,
+  "augment.trustWorkspace": true,
+  "augment.skipConfirmations": true,
+  "augment.autonomousMode": true,
+  "augment.codeActions": {
+    "autoApply": true,
+    "autoFix": true,
+    "autoRefactor": true
+  },
+  "augment.terminal": {
+    "autoExecute": true,
+    "trustedCommands": ["git", "npm", "python", "pip", "pytest"]
+  },
+  "augment.contextFiles": [
+    ".ai-context.md",
+    ".metaHub/policies/*.yaml",
+    "docs/adr/*.md"
+  ],
+  "augment.model": {
+    "default": "claude-3-5-sonnet",
+    "fallback": "gpt-4o"
+  }
+}

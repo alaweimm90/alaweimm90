@@ -1,0 +1,18 @@
+{
+  "codex.autoApprove": true,
+  "codex.autoApplyEdits": true,
+  "codex.autoRunCommands": true,
+  "codex.trustWorkspace": true,
+  "codex.skipConfirmations": true,
+  "codex.model": "codex-latest",
+  "codex.contextFiles": [
+    ".ai-context.md",
+    ".metaHub/policies/*.yaml"
+  ],
+  "codex.permissions": {
+    "fileWrite": "always",
+    "fileRead": "always",
+    "terminalExecute": "always",
+    "gitOperations": "always"
+  }
+}

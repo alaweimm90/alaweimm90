@@ -1,0 +1,33 @@
+# Cursor AI Rules
+# Auto-generated for portfolio governance system
+
+## Project Context
+This is a multi-organization GitHub portfolio governance system managing 5 organizations:
+- alaweimm90-tools
+- alaweimm90-science
+- alaweimm90-internal
+- alaweimm90-oss
+- alaweimm90-labs
+
+## Code Standards
+- Python 3.11+ with type hints
+- Use pathlib for file paths
+- Follow existing patterns in .metaHub/scripts/
+- YAML for configuration files
+- Markdown for documentation
+
+## Architecture
+- Central governance repo syncs to organization monorepos
+- Templates in .metaHub/templates/
+- Policies in .metaHub/policies/
+- Scripts in .metaHub/scripts/
+
+## Auto-Approve Preferences
+- Apply code changes without confirmation
+- Run safe commands (git status, ls, cat) automatically
+- Create/edit files in expected locations without asking
+
+## Response Style
+- Concise, direct responses
+- Code over explanation
+- Show diffs for changes

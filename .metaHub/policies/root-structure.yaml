@@ -103,36 +103,46 @@ allowed_directories:
     - name: ".allstar"
       purpose: "GitHub Allstar security configuration"
 
-  # AI Assistant Configurations
-  ai_assistants:
+  # AI Assistant Configurations (Consolidated)
+  ai_consolidated:
+    - name: ".ai"
+      purpose: "Consolidated AI assistant configurations (canonical location)"
+      contains:
+        - "settings.yaml - Unified config for all 14 tools"
+        - "context.md - Shared AI context"
+        - "rules/ - Tool-specific rules files"
+        - "<tool>/ - Individual tool configs"
+
+  # AI Assistant Configurations (Legacy - being migrated to .ai/)
+  ai_assistants_legacy:
     - name: ".claude"
-      purpose: "Claude Code AI assistant configuration"
+      purpose: "[LEGACY] Claude Code - migrate to .ai/claude/"
     - name: ".cursor"
-      purpose: "Cursor IDE AI configuration"
+      purpose: "[LEGACY] Cursor IDE - migrate to .ai/cursor/"
     - name: ".trae"
-      purpose: "Trae AI assistant configuration"
+      purpose: "[LEGACY] Trae AI - migrate to .ai/trae/"
     - name: ".continue"
-      purpose: "Continue.dev AI extension configuration"
+      purpose: "[LEGACY] Continue.dev - migrate to .ai/continue/"
     - name: ".kilocode"
-      purpose: "Kilo Code AI configuration"
+      purpose: "[LEGACY] Kilo Code - migrate to .ai/kilocode/"
     - name: ".amazonq"
-      purpose: "Amazon Q AI assistant configuration"
+      purpose: "[LEGACY] Amazon Q - migrate to .ai/amazonq/"
     - name: ".aider"
-      purpose: "Aider CLI configuration directory"
+      purpose: "[LEGACY] Aider CLI - migrate to .ai/aider/"
     - name: ".cline"
-      purpose: "Cline AI assistant configuration"
+      purpose: "[LEGACY] Cline - migrate to .ai/cline/"
     - name: ".windsurf"
-      purpose: "Windsurf IDE configuration"
+      purpose: "[LEGACY] Windsurf IDE - migrate to .ai/windsurf/"
     - name: ".blackbox"
-      purpose: "Blackbox AI configuration"
+      purpose: "[LEGACY] Blackbox AI - migrate to .ai/blackbox/"
     - name: ".copilot"
-      purpose: "GitHub Copilot configuration"
+      purpose: "[LEGACY] GitHub Copilot - migrate to .ai/copilot/"
     - name: ".gemini"
-      purpose: "Google Gemini AI configuration"
+      purpose: "[LEGACY] Google Gemini - migrate to .ai/gemini/"
     - name: ".codex"
-      purpose: "OpenAI Codex configuration"
+      purpose: "[LEGACY] OpenAI Codex - migrate to .ai/codex/"
     - name: ".augment"
-      purpose: "Augment AI assistant configuration"
+      purpose: "[LEGACY] Augment AI - migrate to .ai/augment/"
 
   # Cache (auto-generated, gitignored)
   cache:

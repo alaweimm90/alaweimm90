@@ -1,0 +1,50 @@
+# Augment AI Rules
+# Auto-generated for portfolio governance system
+
+## Project Context
+
+Multi-organization GitHub portfolio governance system managing 5 organizations:
+- alaweimm90-tools
+- alaweimm90-science
+- alaweimm90-internal
+- alaweimm90-oss
+- alaweimm90-labs
+
+## Auto-Approve Settings
+
+- Auto-approve file edits: YES
+- Auto-approve terminal commands: YES
+- Auto-apply code fixes: YES
+- Auto-apply refactoring: YES
+- Trust workspace: YES
+
+## Code Standards
+
+- Python 3.11+ with type hints
+- pathlib for file paths
+- Click for CLI interfaces
+- PyYAML for configuration
+- UTF-8 encoding
+
+## Key Directories
+
+- .metaHub/scripts/ - Governance enforcement scripts
+- .metaHub/policies/ - YAML policy definitions
+- .metaHub/templates/ - Organization/repo templates
+- docs/adr/ - Architecture decision records
+
+## Autonomous Mode
+
+Execute without confirmation:
+- File read/write operations
+- Git commands (status, diff, add, commit)
+- Python script execution
+- npm/pip package operations
+- Safe terminal commands
+
+## Response Style
+
+- Concise, actionable responses
+- Show code changes as diffs
+- Prefer editing existing files
+- Follow existing patterns in codebase

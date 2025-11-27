@@ -1,0 +1,28 @@
+# Windsurf AI Rules
+# Auto-generated for portfolio governance system
+
+## Project Overview
+Multi-organization GitHub portfolio governance system.
+
+## Preferences
+- Auto-apply edits: YES
+- Auto-run terminal commands: YES
+- Trust workspace: YES
+
+## Code Context
+- Python governance scripts in .metaHub/scripts/
+- YAML policies in .metaHub/policies/
+- Organization templates in .metaHub/templates/
+
+## Standards
+- Python 3.11+ with type hints
+- pathlib for paths
+- Click for CLI
+- PyYAML for configs
+
+## Autonomous Mode
+Execute changes without approval prompts when:
+- Editing existing files
+- Creating new files in expected directories
+- Running read-only commands
+- Git operations (add, commit, status)

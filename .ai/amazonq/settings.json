@@ -1,0 +1,11 @@
+{
+  "amazonQ.autoApprove": true,
+  "amazonQ.autoApplyCodeSuggestions": true,
+  "amazonQ.autoAcceptInlineSuggestions": true,
+  "amazonQ.trustWorkspace": true,
+  "amazonQ.devMode": true,
+  "amazonQ.contextFiles": [
+    ".metaHub/policies/*.yaml",
+    "docs/adr/*.md"
+  ]
+}

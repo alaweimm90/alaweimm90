@@ -1,0 +1,161 @@
+# =============================================================================
+# UNIFIED AI ASSISTANT CONFIGURATION
+# =============================================================================
+# Consolidated configuration for all AI coding assistants
+# Location: .ai/settings.yaml (canonical)
+# Version: 2.0.0 | Last Updated: 2025-11-27
+# =============================================================================
+
+metadata:
+  version: "2.0.0"
+  updated: "2025-11-27"
+  tool_count: 14
+  location: ".ai/"
+  description: "Consolidated AI assistant configurations"
+
+# =============================================================================
+# GLOBAL SETTINGS
+# =============================================================================
+global:
+  auto_approve: true
+  trust_workspace: true
+  skip_confirmations: true
+  autonomous_mode: true
+
+  context_files:
+    - ".ai/context.md"
+    - ".metaHub/policies/*.yaml"
+    - "docs/adr/*.md"
+
+  code_standards:
+    language: "python"
+    version: "3.11+"
+    type_hints: required
+    path_library: "pathlib"
+    cli_framework: "click"
+    encoding: "utf-8"
+
+# =============================================================================
+# TOOL CONFIGURATIONS
+# =============================================================================
+tools:
+
+  aider:
+    enabled: true
+    config_path: ".ai/aider/config.yml"
+    auto_approve_flag: "yes-always: true"
+    status: "fully_supported"
+    best_for: ["Git workflows", "Batch modifications", "CLI operations"]
+
+  cursor:
+    enabled: true
+    config_path: ".ai/cursor/"
+    rules_path: ".ai/rules/cursor.rules"
+    auto_approve_flag: "autoApply: true"
+    status: "fully_supported"
+    best_for: ["Inline completion", "Quick edits", "Tab completion"]
+
+  windsurf:
+    enabled: true
+    config_path: ".ai/windsurf/"
+    rules_path: ".ai/rules/windsurf.rules"
+    auto_approve_flag: "In-file directives"
+    status: "fully_supported"
+    best_for: ["Flow-state coding", "Cascade agent", "Large refactoring"]
+
+  claude_code:
+    enabled: true
+    config_path: ".ai/claude/"
+    auto_approve_flag: "--dangerously-skip-permissions"
+    status: "cli_flag_required"
+    best_for: ["Complex reasoning", "Large context", "Architecture"]
+
+  cline:
+    enabled: true
+    config_path: ".ai/cline/"
+    rules_path: ".ai/rules/cline.rules"
+    auto_approve_flag: "bypassApprovals: true"
+    status: "fully_supported"
+    best_for: ["Browser control", "E2E testing", "Full-stack debugging"]
+
+  github_copilot:
+    enabled: true
+    config_path: ".ai/copilot/"
+    auto_approve_flag: "N/A"
+    status: "context_only"
+    best_for: ["Inline suggestions", "Boilerplate", "Documentation"]
+
+  continue:
+    enabled: true
+    config_path: ".ai/continue/"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["Open-source", "Custom models", "Privacy"]
+
+  kilo_code:
+    enabled: true
+    config_path: ".ai/kilocode/"
+    auto_approve_flag: "auto_approve: true"
+    status: "supported"
+    best_for: ["Methodical changes", "Code review", "Learning"]
+
+  amazon_q:
+    enabled: true
+    config_path: ".ai/amazonq/"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["AWS infrastructure", "CDK", "Lambda"]
+
+  trae:
+    enabled: true
+    config_path: ".ai/trae/"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["Visual development", "UI/UX", "Design-to-code"]
+
+  blackbox:
+    enabled: true
+    config_path: ".ai/blackbox/"
+    auto_approve_flag: "yoloMode: true"
+    status: "fully_supported"
+    best_for: ["YOLO mode", "Rapid prototyping", "Hackathons"]
+
+  gemini:
+    enabled: true
+    config_path: ".ai/gemini/"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["Multimodal", "Long context", "Research"]
+
+  codex:
+    enabled: true
+    config_path: ".ai/codex/"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["Code generation", "Algorithms", "Translation"]
+
+  augment:
+    enabled: true
+    config_path: ".ai/augment/"
+    rules_path: ".ai/rules/augment.rules"
+    auto_approve_flag: "autoApprove: true"
+    status: "supported"
+    best_for: ["Enterprise", "Large codebases", "Team collaboration"]
+
+# =============================================================================
+# WORKFLOW PIPELINES
+# =============================================================================
+workflows:
+  speed: ["blackbox", "cursor", "github_copilot"]
+  quality: ["claude_code", "aider", "cline", "kilo_code"]
+  full_stack: ["gemini", "cursor", "claude_code", "amazon_q"]
+  debug: ["cline", "claude_code", "aider"]
+
+# =============================================================================
+# CATEGORIES
+# =============================================================================
+categories:
+  fully_supported: ["aider", "cursor", "windsurf", "cline", "blackbox", "augment"]
+  supported: ["continue", "kilo_code", "amazon_q", "trae", "gemini", "codex"]
+  context_only: ["github_copilot"]
+  cli_flag_required: ["claude_code"]
