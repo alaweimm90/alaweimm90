@@ -27,16 +27,20 @@ class StructureValidator:
     def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or self._find_base_path()
         self.templates = self._load_templates()
+        self.root_policy = self._load_root_policy()
         self.results: Dict[str, Any] = {
             "validated_at": datetime.now().isoformat(),
             "organizations": {},
+            "root_validation": None,
             "summary": {
                 "total_orgs": 0,
                 "total_repos": 0,
                 "compliant_repos": 0,
                 "non_compliant_repos": 0,
                 "missing_files": 0,
-                "missing_dirs": 0
+                "missing_dirs": 0,
+                "root_violations": 0,
+                "root_warnings": 0
             }
         }
 
@@ -56,6 +60,136 @@ class StructureValidator:
             with open(template_path, 'r', encoding='utf-8') as f:
                 return yaml.safe_load(f)
         return {}
+
+    def _load_root_policy(self) -> Dict[str, Any]:
+        """Load root directory structure policy."""
+        policy_path = self.base_path / ".metaHub/policies/root-structure.yaml"
+        if policy_path.exists():
+            with open(policy_path, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f) or {}
+        return {}
+
+    def validate_root_structure(self) -> Dict[str, Any]:
+        """Validate root directory against root-structure policy (ADR-002)."""
+        import fnmatch
+
+        result = {
+            "compliant": True,
+            "violations": [],
+            "warnings": [],
+            "allowed_files": [],
+            "allowed_dirs": [],
+            "forbidden_found": [],
+            "unknown_items": []
+        }
+
+        if not self.root_policy:
+            result["warnings"].append("Root structure policy not found")
+            return result
+
+        # Build sets of allowed items from policy
+        allowed_files_policy = self.root_policy.get("allowed_files", {})
+        allowed_dirs_policy = self.root_policy.get("allowed_directories", {})
+        forbidden = self.root_policy.get("forbidden", {})
+
+        # Collect all allowed file names
+        allowed_file_names = set()
+        for category in ["required", "recommended", "configuration"]:
+            for item in allowed_files_policy.get(category, []):
+                if isinstance(item, dict):
+                    allowed_file_names.add(item.get("name", ""))
+                else:
+                    allowed_file_names.add(str(item))
+
+        # Collect all allowed directory names
+        allowed_dir_names = set()
+        for category in ["required", "recommended", "optional", "tooling", "cache"]:
+            for item in allowed_dirs_policy.get(category, []):
+                if isinstance(item, dict):
+                    allowed_dir_names.add(item.get("name", ""))
+                else:
+                    allowed_dir_names.add(str(item))
+
+        # Get forbidden patterns
+        forbidden_file_patterns = forbidden.get("file_patterns", [])
+        forbidden_dir_patterns = forbidden.get("directory_patterns", [])
+        forbidden_specific = set(forbidden.get("specific_items", []))
+
+        # Check enforcement level
+        enforcement = self.root_policy.get("enforcement", {})
+        level = enforcement.get("level", "warning")
+
+        # Scan root directory
+        for item in self.base_path.iterdir():
+            name = item.name
+
+            # Skip .git
+            if name == ".git":
+                continue
+
+            if item.is_file():
+                # Check allowed files first (takes precedence over forbidden patterns)
+                if name in allowed_file_names:
+                    result["allowed_files"].append(name)
+                    continue
+
+                # Check if file is forbidden by pattern
+                is_forbidden = False
+                matched_pattern = None
+                for pattern in forbidden_file_patterns:
+                    if fnmatch.fnmatch(name, pattern):
+                        is_forbidden = True
+                        matched_pattern = pattern
+                        break
+
+                if not is_forbidden and name in forbidden_specific:
+                    is_forbidden = True
+                    matched_pattern = "specific"
+
+                if is_forbidden:
+                    result["forbidden_found"].append({
+                        "name": name,
+                        "type": "file",
+                        "pattern": matched_pattern
+                    })
+                    if level == "error":
+                        result["violations"].append(f"Forbidden file at root: {name}")
+                        result["compliant"] = False
+                    else:
+                        result["warnings"].append(f"Forbidden file at root: {name}")
+                else:
+                    result["unknown_items"].append({"name": name, "type": "file"})
+
+            elif item.is_dir():
+                # Check allowed dirs first (takes precedence over forbidden patterns)
+                if name in allowed_dir_names:
+                    result["allowed_dirs"].append(name)
+                    continue
+
+                # Check if directory is forbidden by pattern
+                is_forbidden = False
+                matched_pattern = None
+                for pattern in forbidden_dir_patterns:
+                    if fnmatch.fnmatch(name, pattern):
+                        is_forbidden = True
+                        matched_pattern = pattern
+                        break
+
+                if is_forbidden:
+                    result["forbidden_found"].append({
+                        "name": name,
+                        "type": "directory",
+                        "pattern": matched_pattern
+                    })
+                    if level == "error":
+                        result["violations"].append(f"Forbidden directory at root: {name}")
+                        result["compliant"] = False
+                    else:
+                        result["warnings"].append(f"Forbidden directory at root: {name}")
+                else:
+                    result["unknown_items"].append({"name": name, "type": "directory"})
+
+        return result
 
     def _get_repo_metadata(self, repo_path: Path) -> Optional[Dict[str, Any]]:
         """Read .meta/repo.yaml if it exists."""
@@ -498,15 +632,79 @@ def format_text_report(results: Dict[str, Any]) -> str:
 @click.command()
 @click.option('--org', help='Validate specific organization only')
 @click.option('--repo', help='Validate specific repository only')
+@click.option('--root', is_flag=True, help='Validate root directory structure (ADR-002)')
 @click.option('--fix', is_flag=True, help='Auto-create missing structure')
 @click.option('--dry-run', is_flag=True, help='Show what would be fixed without making changes')
 @click.option('--report', type=click.Choice(['text', 'json', 'summary']), default='text')
 @click.option('--output', '-o', help='Output file path')
-def main(org: Optional[str], repo: Optional[str], fix: bool, dry_run: bool,
+def main(org: Optional[str], repo: Optional[str], root: bool, fix: bool, dry_run: bool,
          report: str, output: Optional[str]):
     """Validate portfolio structure against templates."""
 
     validator = StructureValidator()
+
+    # Root structure validation (ADR-002)
+    if root:
+        result = validator.validate_root_structure()
+
+        if report == 'json':
+            output_text = json.dumps(result, indent=2)
+        elif report == 'summary':
+            status = "COMPLIANT" if result["compliant"] else "NON-COMPLIANT"
+            output_text = (f"Root Structure: {status} | "
+                          f"Violations: {len(result['violations'])} | "
+                          f"Warnings: {len(result['warnings'])} | "
+                          f"Forbidden: {len(result['forbidden_found'])}")
+        else:
+            lines = ["=" * 60, "ROOT DIRECTORY STRUCTURE VALIDATION (ADR-002)", "=" * 60, ""]
+            status = "COMPLIANT" if result["compliant"] else "NON-COMPLIANT"
+            lines.append(f"Status: {status}")
+            lines.append(f"Violations: {len(result['violations'])}")
+            lines.append(f"Warnings: {len(result['warnings'])}")
+            lines.append("")
+
+            if result["violations"]:
+                lines.append("VIOLATIONS:")
+                for v in result["violations"]:
+                    lines.append(f"  [ERROR] {v}")
+                lines.append("")
+
+            if result["warnings"]:
+                lines.append("WARNINGS:")
+                for w in result["warnings"]:
+                    lines.append(f"  [WARN] {w}")
+                lines.append("")
+
+            if result["forbidden_found"]:
+                lines.append("FORBIDDEN ITEMS FOUND:")
+                for item in result["forbidden_found"]:
+                    lines.append(f"  - {item['name']} ({item['type']}, pattern: {item['pattern']})")
+                lines.append("")
+
+            if result["allowed_files"]:
+                lines.append(f"Allowed Files: {', '.join(sorted(result['allowed_files']))}")
+            if result["allowed_dirs"]:
+                lines.append(f"Allowed Dirs: {', '.join(sorted(result['allowed_dirs']))}")
+
+            if result["unknown_items"]:
+                lines.append("")
+                lines.append("UNKNOWN ITEMS (not in policy):")
+                for item in result["unknown_items"]:
+                    lines.append(f"  - {item['name']} ({item['type']})")
+
+            output_text = "\n".join(lines)
+
+        if output:
+            with open(output, 'w', encoding='utf-8') as f:
+                f.write(output_text)
+            click.echo(f"Report saved to: {output}")
+        else:
+            click.echo(output_text)
+
+        # Exit with error code if non-compliant
+        if not result["compliant"]:
+            raise SystemExit(1)
+        return
 
     if repo:
         # Validate single repo
