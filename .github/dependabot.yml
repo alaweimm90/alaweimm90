@@ -1,10 +1,40 @@
 version: 2
 updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/.metaHub/scripts"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(python)"
+    labels: ["dependencies", "python"]
+    groups:
+      python-minor:
+        update-types: ["minor", "patch"]
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(actions)"
+    labels: ["dependencies", "ci"]
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # npm (if any)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     commit-message:
-      prefix: "deps"
-    labels: ["dependencies"]
+      prefix: "deps(npm)"
+    labels: ["dependencies", "javascript"]
+    groups:
+      npm-minor:
+        update-types: ["minor", "patch"]

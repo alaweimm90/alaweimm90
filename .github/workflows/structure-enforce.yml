@@ -1,0 +1,131 @@
+name: Structure Enforcement
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'organizations/**'
+      - '.metaHub/schemas/**'
+      - '.metaHub/templates/structures/**'
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r .metaHub/scripts/requirements.txt
+
+      - name: Check organizations exist
+        id: check
+        run: |
+          if [ -d "organizations" ] && [ "$(ls -A organizations 2>/dev/null)" ]; then
+            echo "has_orgs=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_orgs=false" >> $GITHUB_OUTPUT
+            echo "::notice::No organizations directory - skipping structure validation"
+          fi
+
+      - name: Validate structure
+        if: steps.check.outputs.has_orgs == 'true'
+        id: validate
+        run: |
+          mkdir -p .metaHub/reports
+          python .metaHub/scripts/structure_validator.py \
+            --report json \
+            --output .metaHub/reports/structure-report.json
+
+          # Extract summary
+          COMPLIANT=$(python3 -c "import json; d=json.load(open('.metaHub/reports/structure-report.json')); print(d['summary']['compliant'])")
+          TOTAL=$(python3 -c "import json; d=json.load(open('.metaHub/reports/structure-report.json')); print(d['summary']['total_repos'])")
+          RATE=$(python3 -c "import json; d=json.load(open('.metaHub/reports/structure-report.json')); print(d['summary']['compliance_rate'])")
+
+          echo "compliant=$COMPLIANT" >> $GITHUB_OUTPUT
+          echo "total=$TOTAL" >> $GITHUB_OUTPUT
+          echo "rate=$RATE" >> $GITHUB_OUTPUT
+
+          # Text report for PR comment
+          python .metaHub/scripts/structure_validator.py --report text > .metaHub/reports/structure-report.txt
+
+      - name: Generate summary
+        if: steps.check.outputs.has_orgs == 'true'
+        run: |
+          echo "## Structure Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total Repos | ${{ steps.validate.outputs.total }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Compliant | ${{ steps.validate.outputs.compliant }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Compliance Rate | ${{ steps.validate.outputs.rate }}% |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.validate.outputs.rate }}" != "100.0" ]; then
+            echo "### Non-compliant Repos" >> $GITHUB_STEP_SUMMARY
+            python3 -c "
+          import json
+          d = json.load(open('.metaHub/reports/structure-report.json'))
+          for org, data in d['organizations'].items():
+              for repo in data['repos']:
+                  if not repo['compliant']:
+                      print(f\"- **{org}/{repo['name']}**\")
+                      for f in repo['missing_files']:
+                          print(f\"  - Missing file: {f}\")
+                      for d in repo['missing_dirs']:
+                          print(f\"  - Missing dir: {d}\")
+          " >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.check.outputs.has_orgs == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const rate = '${{ steps.validate.outputs.rate }}';
+            const status = rate === '100.0' ? '[PASS]' : '[WARN]';
+
+            let body = `## ${status} Structure Validation\n\n`;
+            body += `**Compliance Rate:** ${rate}%\n\n`;
+            body += `**Repos:** ${{ steps.validate.outputs.compliant }}/${{ steps.validate.outputs.total }} compliant\n\n`;
+
+            if (rate !== '100.0') {
+              body += `<details>\n<summary>Non-compliant details</summary>\n\n`;
+              body += '```\n';
+              body += fs.readFileSync('.metaHub/reports/structure-report.txt', 'utf8');
+              body += '\n```\n</details>';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+      - name: Upload report
+        if: steps.check.outputs.has_orgs == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: structure-report
+          path: .metaHub/reports/structure-report.json
+          retention-days: 90
+
+      - name: Fail on non-compliance (PR only)
+        if: github.event_name == 'pull_request' && steps.check.outputs.has_orgs == 'true' && steps.validate.outputs.rate != '100.0'
+        run: |
+          echo "::error::Structure compliance is ${{ steps.validate.outputs.rate }}% - must be 100%"
+          exit 1
