@@ -181,6 +181,7 @@ audit-results.json
 .metaHub/orchestration/snapshots/
 .metaHub/orchestration/state/
 .metaHub/orchestration/telemetry/
+.metaHub/orchestration/workflows/
 
 # Temporary collaboration files
 conversation-export.md
