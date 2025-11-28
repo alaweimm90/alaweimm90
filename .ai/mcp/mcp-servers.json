@@ -104,15 +104,80 @@
       },
       "capabilities": ["message_posting", "channel_management", "file_sharing"],
       "tags": ["external_services", "priority-3"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-playwright"],
+      "description": "Playwright browser testing automation for error-free UI workflows",
+      "env": {
+        "PLAYWRIGHT_HEADLESS": "true",
+        "PLAYWRIGHT_TIMEOUT": "60000",
+        "PLAYWRIGHT_BROWSERS_PATH": ".metaHub/playwright-browsers"
+      },
+      "capabilities": ["browser_testing", "ui_validation", "screenshot_compare", "e2e_testing", "test_generation"],
+      "tags": ["testing", "quality_assurance", "priority-1", "devops"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Dynamic and reflective problem-solving for debugging complex issues",
+      "env": {},
+      "capabilities": ["structured_reasoning", "debug_workflows", "problem_decomposition", "step_by_step_analysis"],
+      "tags": ["debugging", "reasoning", "priority-1", "devops"]
+    },
+    "terraform": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "-e", "TFE_ADDRESS", "-e", "TFE_TOKEN", "-e", "ENABLE_TF_OPERATIONS", "hashicorp/terraform-mcp-server:latest"],
+      "description": "HashiCorp Terraform MCP for infrastructure as code automation",
+      "env": {
+        "TFE_ADDRESS": "https://app.terraform.io",
+        "TFE_TOKEN": "${TERRAFORM_TOKEN}",
+        "ENABLE_TF_OPERATIONS": "true"
+      },
+      "capabilities": ["terraform_plan", "terraform_apply", "workspace_management", "state_inspection", "iac_validation"],
+      "tags": ["infrastructure", "iac", "deployment", "priority-1", "devops"]
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "description": "Git operations for local repository management and analysis",
+      "env": {},
+      "capabilities": ["git_operations", "commit_history", "diff_analysis", "branch_management"],
+      "tags": ["code_management", "version_control", "priority-1", "devops"]
+    },
+    "kubernetes": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "-v", "${HOME}/.kube:/root/.kube", "ghcr.io/manusa/kubernetes-mcp-server:latest"],
+      "description": "Kubernetes cluster management and CRUD operations",
+      "env": {
+        "KUBECONFIG": "/root/.kube/config"
+      },
+      "capabilities": ["k8s_crud", "pod_management", "deployment_operations", "service_discovery", "namespace_management"],
+      "tags": ["infrastructure", "container_orchestration", "priority-2", "devops"]
+    },
+    "prometheus": {
+      "command": "python",
+      "args": ["-m", "prometheus_mcp_server"],
+      "description": "Prometheus metrics querying and analysis for observability",
+      "env": {
+        "PROMETHEUS_URL": "${PROMETHEUS_URL}"
+      },
+      "capabilities": ["metrics_query", "performance_analysis", "alert_inspection", "time_series_analysis"],
+      "tags": ["monitoring", "observability", "priority-2", "devops"]
     }
   },
   "serverGroups": {
-    "core": ["context", "github", "filesystem"],
+    "core": ["context", "github", "filesystem", "git"],
     "automation": ["puppeteer", "fetch"],
     "data": ["sqlite", "postgres"],
     "search": ["brave-search"],
     "communication": ["slack"],
-    "orchestration": ["context", "github", "filesystem", "memory"]
+    "orchestration": ["context", "github", "filesystem", "memory"],
+    "devops-critical": ["playwright", "sequential-thinking", "terraform", "git"],
+    "testing": ["playwright", "puppeteer"],
+    "infrastructure": ["terraform", "kubernetes"],
+    "monitoring": ["prometheus"],
+    "error-free-pipeline": ["git", "playwright", "terraform", "sequential-thinking", "prometheus"]
   },
   "providerConfig": {
     "anthropic": {

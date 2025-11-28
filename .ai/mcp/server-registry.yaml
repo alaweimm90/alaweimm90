@@ -178,13 +178,18 @@ servers:
 
   playwright:
     name: "Playwright MCP Server"
-    description: "Cross-browser automation framework"
-    package: "@anthropic/server-playwright"
-    status: "available"
-    category: "browser_automation"
-    priority: 3
+    description: "Cross-browser automation framework for error-free UI testing"
+    package: "@modelcontextprotocol/server-playwright"
+    status: "active"
+    category: "testing"
+    priority: 1
 
     capabilities:
+      - browser_testing
+      - ui_validation
+      - screenshot_compare
+      - e2e_testing
+      - test_generation
       - multi_browser_support
       - mobile_emulation
       - network_interception
@@ -193,11 +198,141 @@ servers:
     config:
       browsers: ["chromium", "firefox", "webkit"]
       trace_enabled: true
+      headless: true
+      timeout_ms: 60000
+      browsers_path: ".metaHub/playwright-browsers"
 
     use_cases:
-      - "Cross-browser testing"
+      - "End-to-end UI testing"
+      - "Cross-browser compatibility testing"
+      - "Visual regression prevention"
       - "Mobile device emulation"
       - "Network request mocking"
+      - "Test code generation"
+
+  # ---------------------------------------------------------------------------
+  # DEVOPS & INFRASTRUCTURE SERVERS
+  # ---------------------------------------------------------------------------
+
+  sequential_thinking:
+    name: "Sequential Thinking MCP Server"
+    description: "Dynamic and reflective problem-solving for debugging"
+    package: "@modelcontextprotocol/server-sequential-thinking"
+    status: "active"
+    category: "debugging"
+    priority: 1
+
+    capabilities:
+      - structured_reasoning
+      - debug_workflows
+      - problem_decomposition
+      - step_by_step_analysis
+      - error_root_cause_analysis
+
+    use_cases:
+      - "Debug complex multi-step failures"
+      - "Root cause analysis for production incidents"
+      - "Structured problem decomposition"
+      - "Error pattern recognition"
+
+  git:
+    name: "Git MCP Server"
+    description: "Git operations for local repository management and analysis"
+    package: "@modelcontextprotocol/server-git"
+    status: "active"
+    category: "code_management"
+    priority: 1
+
+    capabilities:
+      - git_operations
+      - commit_history
+      - diff_analysis
+      - branch_management
+      - merge_operations
+
+    use_cases:
+      - "Analyze commit history and patterns"
+      - "Generate commit messages"
+      - "Branch management automation"
+      - "Code change analysis"
+
+  terraform:
+    name: "Terraform MCP Server"
+    description: "HashiCorp Terraform for infrastructure as code automation"
+    package: "hashicorp/terraform-mcp-server"
+    status: "active"
+    category: "infrastructure"
+    priority: 1
+
+    capabilities:
+      - terraform_plan
+      - terraform_apply
+      - workspace_management
+      - state_inspection
+      - iac_validation
+      - drift_detection
+
+    config:
+      tfe_address: "https://app.terraform.io"
+      enable_operations: true
+
+    use_cases:
+      - "Infrastructure change planning"
+      - "Automated IaC deployment"
+      - "State drift detection"
+      - "Workspace management"
+      - "Error-free infrastructure changes"
+
+  kubernetes:
+    name: "Kubernetes MCP Server"
+    description: "Kubernetes cluster management and CRUD operations"
+    package: "ghcr.io/manusa/kubernetes-mcp-server"
+    status: "active"
+    category: "infrastructure"
+    priority: 2
+
+    capabilities:
+      - k8s_crud
+      - pod_management
+      - deployment_operations
+      - service_discovery
+      - namespace_management
+      - resource_scaling
+
+    config:
+      kubeconfig_path: "${HOME}/.kube/config"
+
+    use_cases:
+      - "Pod lifecycle management"
+      - "Deployment scaling and updates"
+      - "Service discovery and networking"
+      - "Resource troubleshooting"
+      - "Multi-cluster operations"
+
+  prometheus:
+    name: "Prometheus MCP Server"
+    description: "Prometheus metrics querying and analysis for observability"
+    package: "prometheus-mcp-server"
+    status: "active"
+    category: "monitoring"
+    priority: 2
+
+    capabilities:
+      - metrics_query
+      - performance_analysis
+      - alert_inspection
+      - time_series_analysis
+      - anomaly_detection
+
+    config:
+      prometheus_url: "${PROMETHEUS_URL}"
+
+    use_cases:
+      - "Performance metrics analysis"
+      - "Alert investigation"
+      - "Capacity planning"
+      - "SLO/SLA monitoring"
+      - "Anomaly detection"
 
   # ---------------------------------------------------------------------------
   # DATA SERVERS
@@ -318,17 +453,32 @@ servers:
 # =============================================================================
 categories:
   infrastructure:
-    description: "Core servers for orchestration and context management"
-    servers: ["context"]
+    description: "Core servers for orchestration, IaC, and container management"
+    servers: ["context", "terraform", "kubernetes"]
     priority: 1
 
   code_management:
     description: "Source code and repository management"
-    servers: ["github", "filesystem"]
+    servers: ["github", "git", "filesystem"]
     priority: 1
 
+  testing:
+    description: "Testing automation and quality assurance"
+    servers: ["playwright", "puppeteer"]
+    priority: 1
+
+  debugging:
+    description: "Problem-solving and error analysis"
+    servers: ["sequential_thinking"]
+    priority: 1
+
+  monitoring:
+    description: "Observability and performance tracking"
+    servers: ["prometheus"]
+    priority: 2
+
   browser_automation:
-    description: "Web browser control and testing"
+    description: "Web browser control (legacy category, use testing)"
     servers: ["puppeteer", "playwright"]
     priority: 2
 
@@ -380,21 +530,21 @@ agent_frameworks:
 
   MeatheadPhysicist:
     description: "Scientific research and analysis multi-agent system"
-    agents: ["Scientist", "Literature", "Scout", "Theory", "Critic"]
-    mcp_servers: ["brave_search", "context", "filesystem"]
-    use_cases: ["academic_research", "scientific_analysis", "literature_review"]
+    agents: ["Scientist", "Literature", "Scout", "Theory", "Critic", "Visualization"]
+    mcp_servers: ["brave_search", "context", "filesystem", "git", "sequential_thinking"]
+    use_cases: ["academic_research", "scientific_analysis", "literature_review", "structured_reasoning"]
 
   ATLAS:
     description: "Advanced analysis and task orchestration"
-    agents: ["Coordinator", "Analyst", "Synthesizer"]
-    mcp_servers: ["context", "filesystem", "github"]
-    use_cases: ["complex_analysis", "multi_step_tasks"]
+    agents: ["Coordinator", "Analyst", "Synthesizer", "Workflow_Orchestrator"]
+    mcp_servers: ["context", "filesystem", "github", "git", "sequential_thinking", "terraform", "kubernetes"]
+    use_cases: ["complex_analysis", "multi_step_tasks", "infrastructure_automation", "devops_workflows"]
 
   Turingo:
     description: "Code optimization and algorithm design"
-    agents: ["QuantumQuokka", "MLMagician", "PuzzleProdigy", "CodeCowboy"]
-    mcp_servers: ["github", "filesystem", "sqlite"]
-    use_cases: ["performance_optimization", "algorithm_design", "ml_tasks"]
+    agents: ["QuantumQuokka", "MLMagician", "PuzzleProdigy", "CodeCowboy", "VerificationVigilante"]
+    mcp_servers: ["github", "git", "filesystem", "sqlite", "playwright", "sequential_thinking"]
+    use_cases: ["performance_optimization", "algorithm_design", "ml_tasks", "automated_testing", "error_free_code"]
 
   IdeaForge:
     description: "Creative ideation and brainstorming"
