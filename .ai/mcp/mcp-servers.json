@@ -164,6 +164,16 @@
       },
       "capabilities": ["metrics_query", "performance_analysis", "alert_inspection", "time_series_analysis"],
       "tags": ["monitoring", "observability", "priority-2", "devops"]
+    },
+    "semgrep": {
+      "command": "npx",
+      "args": ["-y", "@semgrep/mcp-server"],
+      "description": "Security vulnerability scanning and SAST for error-free security",
+      "env": {
+        "SEMGREP_APP_TOKEN": "${SEMGREP_APP_TOKEN}"
+      },
+      "capabilities": ["security_scanning", "vulnerability_detection", "sast_analysis", "code_quality", "compliance_check"],
+      "tags": ["security", "quality_assurance", "priority-1", "devops"]
     }
   },
   "serverGroups": {
@@ -173,11 +183,12 @@
     "search": ["brave-search"],
     "communication": ["slack"],
     "orchestration": ["context", "github", "filesystem", "memory"],
-    "devops-critical": ["playwright", "sequential-thinking", "terraform", "git"],
+    "devops-critical": ["playwright", "sequential-thinking", "terraform", "git", "semgrep"],
     "testing": ["playwright", "puppeteer"],
     "infrastructure": ["terraform", "kubernetes"],
     "monitoring": ["prometheus"],
-    "error-free-pipeline": ["git", "playwright", "terraform", "sequential-thinking", "prometheus"]
+    "security": ["semgrep"],
+    "error-free-pipeline": ["git", "semgrep", "playwright", "terraform", "sequential-thinking", "prometheus"]
   },
   "providerConfig": {
     "anthropic": {

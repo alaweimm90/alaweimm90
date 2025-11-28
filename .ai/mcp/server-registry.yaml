@@ -334,6 +334,34 @@ servers:
       - "SLO/SLA monitoring"
       - "Anomaly detection"
 
+  semgrep:
+    name: "Semgrep MCP Server"
+    description: "Security vulnerability scanning and SAST analysis"
+    package: "@semgrep/mcp-server"
+    status: "active"
+    category: "security"
+    priority: 1
+
+    capabilities:
+      - security_scanning
+      - vulnerability_detection
+      - sast_analysis
+      - code_quality
+      - compliance_check
+      - cwe_detection
+      - owasp_top_10
+
+    config:
+      semgrep_app_token: "${SEMGREP_APP_TOKEN}"
+
+    use_cases:
+      - "Scan code for security vulnerabilities"
+      - "Detect OWASP Top 10 issues"
+      - "Enforce security policies"
+      - "Code quality analysis"
+      - "Compliance validation"
+      - "Pre-commit security checks"
+
   # ---------------------------------------------------------------------------
   # DATA SERVERS
   # ---------------------------------------------------------------------------
@@ -476,6 +504,11 @@ categories:
     description: "Observability and performance tracking"
     servers: ["prometheus"]
     priority: 2
+
+  security:
+    description: "Security scanning and vulnerability detection"
+    servers: ["semgrep"]
+    priority: 1
 
   browser_automation:
     description: "Web browser control (legacy category, use testing)"
