@@ -1,0 +1,10 @@
+{
+  "category": "monitoring",
+  "name": "grafana-dashboard",
+  "version": "1.0.0",
+  "description": "Grafana dashboard template",
+  "tags": ["monitoring", "grafana", "dashboard", "visualization"],
+  "requiredFiles": ["dashboard.json"],
+  "placeholders": ["PROJECT_NAME"],
+  "dependencies": []
+}

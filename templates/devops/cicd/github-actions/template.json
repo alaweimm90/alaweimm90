@@ -1,0 +1,10 @@
+{
+  "category": "cicd",
+  "name": "github-actions-node-ci",
+  "version": "1.0.0",
+  "description": "GitHub Actions CI workflow for Node.js projects",
+  "tags": ["ci", "github-actions", "node", "typescript"],
+  "requiredFiles": ["ci.yml"],
+  "placeholders": ["PROJECT_NAME"],
+  "dependencies": []
+}

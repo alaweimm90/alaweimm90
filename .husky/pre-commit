@@ -4,15 +4,22 @@ echo "🚨 META GOVERNANCE: Pre-commit hook activated"
 
 # Meta governance repository - policy and documentation checks only
 
-# 1. Security scan (if package.json exists)
+# 0. Run lint-staged for TypeScript/JavaScript files (if available)
+if [ -f "package.json" ] && command -v npx &> /dev/null; then
+    if grep -q "lint-staged" package.json 2>/dev/null; then
+        echo "🔧 Running lint-staged..."
+        npx lint-staged
+        if [ $? -ne 0 ]; then
+            echo "❌ COMMIT BLOCKED: lint-staged failed"
+            exit 1
+        fi
+    fi
+fi
+
+# 1. Security scan (if package.json exists) - warning only, don't block
 if [ -f "package.json" ]; then
     echo "🔒 Running security scan..."
-    npm audit --audit-level=moderate
-    if [ $? -ne 0 ]; then
-        echo "⚠️  WARNING: Security vulnerabilities found"
-        echo "Run 'npm audit fix' to resolve"
-        # Don't block - governance repo may not have immediate fix
-    fi
+    npm audit --audit-level=moderate 2>/dev/null || echo "⚠️  WARNING: Security vulnerabilities found (run 'npm audit fix')"
 fi
 
 # 2. Check for secrets in committed files
@@ -23,9 +30,9 @@ if git diff --cached --name-only | xargs grep -E "(password|secret|api[_-]*key|t
     # Don't block - may be intentional documentation
 fi
 
-# 3. Validate YAML files (workflows and configs)
+# 3. Validate YAML files (workflows and configs, excluding templates with placeholders)
 echo "📋 Validating YAML files..."
-for file in $(git diff --cached --name-only | grep -E '\.(yml|yaml)$'); do
+for file in $(git diff --cached --name-only | grep -E '\.(yml|yaml)$' | grep -v '^templates/'); do
     if [ -f "$file" ]; then
         # Basic YAML syntax check (if yq or python available)
         if command -v python &> /dev/null; then

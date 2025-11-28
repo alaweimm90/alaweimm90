@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+
+    environment {
+        PROJECT_NAME = '{{PROJECT_NAME}}'
+        REGISTRY = '{{REGISTRY}}'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Docker Build') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh "docker build -t ${REGISTRY}/${PROJECT_NAME}:${BUILD_NUMBER} ."
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}

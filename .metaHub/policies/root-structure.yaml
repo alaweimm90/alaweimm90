@@ -48,7 +48,21 @@ allowed_files:
     - name: "pyproject.toml"
       purpose: "Python project configuration"
     - name: "package.json"
-      purpose: "Node.js dependencies (if needed)"
+      purpose: "Node.js dependencies and scripts"
+    - name: "package-lock.json"
+      purpose: "Node.js dependency lock file"
+    - name: "tsconfig.json"
+      purpose: "TypeScript compiler configuration"
+    - name: "eslint.config.js"
+      purpose: "ESLint v9 flat configuration"
+    - name: "vitest.config.ts"
+      purpose: "Vitest test runner configuration"
+    - name: ".prettierrc"
+      purpose: "Prettier code formatter configuration"
+    - name: ".prettierignore"
+      purpose: "Prettier ignore patterns"
+    - name: ".env.example"
+      purpose: "Environment variables template (no secrets)"
 
   # AI Assistant Rules Files - REMOVED (migrated to .ai/)
   # All AI configs now live under .ai/ directory
@@ -75,9 +89,13 @@ allowed_directories:
   # Development (optional)
   optional:
     - name: "tests"
-      purpose: "Governance system unit tests"
+      purpose: "Governance system unit tests (Python and TypeScript)"
     - name: ".vscode"
       purpose: "VS Code workspace settings"
+    - name: "tools"
+      purpose: "DevOps CLI tools (builder, coder, validators)"
+    - name: "templates"
+      purpose: "DevOps template library (CI/CD, K8s, Helm, monitoring)"
     # .claude removed - now forbidden (use .ai/claude/)
 
   # Tool Configuration (allowed, should be hidden)

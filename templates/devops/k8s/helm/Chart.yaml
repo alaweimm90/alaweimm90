@@ -1,0 +1,12 @@
+apiVersion: v2
+name: {{PROJECT_NAME}}
+description: Helm chart for {{PROJECT_NAME}}
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: DevOps Team
+    email: devops@example.com
+keywords:
+  - {{PROJECT_NAME}}
+  - service

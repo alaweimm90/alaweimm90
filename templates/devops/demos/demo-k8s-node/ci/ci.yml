@@ -1,0 +1,49 @@
+name: CI - {{PROJECT_NAME}}
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  REGISTRY: {{REGISTRY}}
+  IMAGE_NAME: {{PROJECT_NAME}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: service/package-lock.json
+
+      - name: Install dependencies
+        run: cd service && npm ci
+
+      - name: Lint
+        run: cd service && npm run lint
+
+      - name: Type check
+        run: cd service && npm run type-check
+
+      - name: Build
+        run: cd service && npm run build
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          cd service
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

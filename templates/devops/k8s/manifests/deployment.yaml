@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{PROJECT_NAME}}
+  labels:
+    app: {{PROJECT_NAME}}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{PROJECT_NAME}}
+  template:
+    metadata:
+      labels:
+        app: {{PROJECT_NAME}}
+    spec:
+      containers:
+        - name: {{PROJECT_NAME}}
+          image: {{REGISTRY}}/{{PROJECT_NAME}}:{{IMAGE_TAG}}
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 5

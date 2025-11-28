@@ -1,0 +1,10 @@
+{
+  "category": "cicd",
+  "name": "circleci-node-ci",
+  "version": "1.0.0",
+  "description": "CircleCI configuration for Node.js projects",
+  "tags": ["ci", "circleci", "node"],
+  "requiredFiles": ["config.yml"],
+  "placeholders": ["PROJECT_NAME"],
+  "dependencies": []
+}

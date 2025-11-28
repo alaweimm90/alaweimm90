@@ -1,0 +1,10 @@
+{
+  "category": "k8s",
+  "name": "helm-chart-base",
+  "version": "1.0.0",
+  "description": "Helm chart base template",
+  "tags": ["helm", "k8s", "kubernetes", "chart"],
+  "requiredFiles": ["Chart.yaml", "values.yaml"],
+  "placeholders": ["PROJECT_NAME", "REGISTRY", "IMAGE_TAG"],
+  "dependencies": []
+}

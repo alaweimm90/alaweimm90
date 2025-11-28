@@ -1,0 +1,22 @@
+{
+  "category": "demo",
+  "name": "demo-k8s-node",
+  "version": "1.0.0",
+  "description": "Complete Node.js service with CI, K8s, Helm, and Prometheus",
+  "tags": ["demo", "k8s", "helm", "prometheus", "node", "complete"],
+  "requiredFiles": [
+    "service/src/index.ts",
+    "service/package.json",
+    "service/tsconfig.json",
+    "service/Dockerfile",
+    "ci/ci.yml",
+    "k8s/deployment.yaml",
+    "k8s/service.yaml",
+    "helm/Chart.yaml",
+    "helm/values.yaml",
+    "monitoring/prometheus.yml",
+    "README.md"
+  ],
+  "placeholders": ["PROJECT_NAME", "REGISTRY", "IMAGE_TAG"],
+  "dependencies": []
+}

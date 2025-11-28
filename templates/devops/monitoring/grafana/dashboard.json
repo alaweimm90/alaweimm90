@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "{{PROJECT_NAME}} Dashboard",
+    "tags": ["{{PROJECT_NAME}}", "service"],
+    "timezone": "browser",
+    "schemaVersion": 30,
+    "version": 1,
+    "refresh": "5s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Request Rate",
+        "type": "graph",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{service=\"{{PROJECT_NAME}}\"}[5m])",
+            "legendFormat": "{{method}} {{path}}"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Response Time",
+        "type": "graph",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{service=\"{{PROJECT_NAME}}\"}[5m]))",
+            "legendFormat": "p95"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Error Rate",
+        "type": "singlestat",
+        "gridPos": { "x": 0, "y": 8, "w": 6, "h": 4 },
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{service=\"{{PROJECT_NAME}}\",status=~\"5..\"}[5m])) / sum(rate(http_requests_total{service=\"{{PROJECT_NAME}}\"}[5m])) * 100",
+            "legendFormat": "Error %"
+          }
+        ]
+      }
+    ]
+  }
+}
