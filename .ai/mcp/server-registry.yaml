@@ -8,10 +8,53 @@
 # =============================================================================
 
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   updated: "2025-11-27"
   description: "MCP server registry for AI orchestration"
   spec_version: "2024-11-05"  # MCP specification version
+
+# =============================================================================
+# MCP CLI INTEGRATION
+# =============================================================================
+# Integration with chrishayuk/mcp-cli for testing and automation
+# See: https://github.com/chrishayuk/mcp-cli
+cli_integration:
+  enabled: true
+  config_file: ".ai/mcp/mcp-servers.json"
+
+  # Installation options
+  installation:
+    preferred: "uvx"  # uvx mcp-cli (recommended)
+    alternatives:
+      - "pip install mcp-cli"
+      - "git clone https://github.com/chrishayuk/mcp-cli.git && pip install -e ."
+
+  # Default provider configuration
+  defaults:
+    provider: "anthropic"
+    model: "claude-sonnet-4-5-20250929"
+    timeout_seconds: 30
+    retries: 3
+
+  # Available modes
+  modes:
+    chat: "Interactive conversational interface with streaming"
+    interactive: "Command-driven shell interface"
+    command: "Unix-friendly automation interface"
+    direct: "Individual command execution"
+
+  # Common commands
+  commands:
+    list_servers: "mcp-cli list-servers"
+    ping_server: "mcp-cli ping --server {server}"
+    list_tools: "mcp-cli tools --server {server}"
+    execute_tool: "mcp-cli cmd --server {server} --tool {tool}"
+    chat_mode: "mcp-cli --server {server} --provider {provider} --model {model}"
+
+  # Wrapper scripts
+  wrapper_scripts:
+    - ".metaHub/scripts/mcp_cli_wrapper.py"
+    - ".metaHub/scripts/mcp_server_tester.py"
 
 # =============================================================================
 # SERVER DEFINITIONS

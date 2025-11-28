@@ -290,10 +290,125 @@ The system integrates with Model Context Protocol (MCP) servers for enhanced cap
 | puppeteer | browser_automation | E2E testing |
 | sqlite/postgres | data_processing | Database operations |
 | brave_search | search | Web research |
+| memory | infrastructure | Persistent key-value storage |
+| fetch | external_services | HTTP API calls |
+| slack | external_services | Team notifications |
 
 ### Server Registry
 
 See `.ai/mcp/server-registry.yaml` for full server definitions and configurations.
+
+## MCP CLI Integration
+
+The orchestration system integrates with [mcp-cli](https://github.com/chrishayuk/mcp-cli) for testing and automation.
+
+### Installation
+
+```bash
+# Recommended: Use uvx (no installation needed)
+uvx mcp-cli --help
+
+# Or install globally
+pip install mcp-cli
+
+# Or clone and install
+git clone https://github.com/chrishayuk/mcp-cli.git
+cd mcp-cli && pip install -e "."
+```
+
+### CLI Modes
+
+| Mode | Command | Description |
+|------|---------|-------------|
+| Chat | `mcp-cli --server github` | Interactive conversation |
+| Interactive | `mcp-cli interactive --server github` | Command shell |
+| Command | `mcp-cli cmd --server github --tool list_repos` | Automation |
+| Direct | `mcp-cli tools --server github` | Single commands |
+
+### Using with Our System
+
+```bash
+# List all configured servers
+python mcp_cli_wrapper.py list-servers
+
+# Ping a server to check availability
+python mcp_cli_wrapper.py ping --server github
+
+# List tools for a server
+python mcp_cli_wrapper.py tools --server filesystem
+
+# Execute a tool
+python mcp_cli_wrapper.py execute --server sqlite --tool list_tables
+
+# Run health check on all servers
+python mcp_cli_wrapper.py health
+
+# List available models
+python mcp_cli_wrapper.py models
+```
+
+### Automated Testing
+
+```bash
+# Test a single server
+python mcp_server_tester.py test --server github
+
+# Test all servers
+python mcp_server_tester.py test-all --save
+
+# Benchmark a server
+python mcp_server_tester.py benchmark --server filesystem --iterations 20
+
+# Generate comprehensive report
+python mcp_server_tester.py report
+```
+
+### MCP Workflows
+
+Pre-built workflow templates are available in `.ai/mcp/workflows/`:
+
+| Workflow | Servers | Description |
+|----------|---------|-------------|
+| `code-review-workflow.yaml` | github, filesystem, context | Automated PR code review |
+| `research-workflow.yaml` | brave-search, filesystem, memory | Research and documentation |
+| `debug-workflow.yaml` | filesystem, puppeteer, sqlite | Debugging and troubleshooting |
+
+### Configuration
+
+The MCP CLI configuration is stored in `.ai/mcp/mcp-servers.json`:
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}" }
+    }
+  },
+  "providerConfig": {
+    "anthropic": {
+      "models": ["claude-sonnet-4-5-20250929", "claude-3-5-sonnet-20241022"],
+      "defaultModel": "claude-sonnet-4-5-20250929"
+    }
+  }
+}
+```
+
+### Environment Variables
+
+Set these for full functionality:
+
+```bash
+# Required for cloud providers
+export ANTHROPIC_API_KEY=sk-ant-...
+export OPENAI_API_KEY=sk-...
+
+# Required for specific servers
+export GITHUB_TOKEN=ghp_...
+export BRAVE_API_KEY=...
+export SLACK_BOT_TOKEN=xoxb-...
+```
 
 ## Agent Framework Integration
 

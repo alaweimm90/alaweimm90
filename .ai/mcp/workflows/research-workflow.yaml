@@ -1,0 +1,168 @@
+# MCP Workflow: Research and Documentation
+# Uses: brave-search, filesystem, memory, context servers
+# Trigger: Manual or scheduled
+
+name: research-documentation
+description: "Research a topic and generate documentation"
+version: "1.0"
+
+# Servers required
+servers:
+  - brave-search  # Web search
+  - filesystem    # File operations
+  - memory        # Persistent memory
+  - context       # Context preservation
+
+# Input parameters
+parameters:
+  topic:
+    type: string
+    required: true
+    description: "Research topic"
+  depth:
+    type: string
+    default: "standard"
+    enum: ["quick", "standard", "comprehensive"]
+  output_format:
+    type: string
+    default: "markdown"
+    enum: ["markdown", "json", "html"]
+
+# Workflow steps
+steps:
+  - id: init_context
+    name: "Initialize Research Context"
+    server: context
+    tool: store
+    inputs:
+      key: "research_${workflow.id}"
+      value:
+        topic: "${parameters.topic}"
+        started_at: "${workflow.timestamp}"
+        depth: "${parameters.depth}"
+
+  - id: web_search
+    name: "Search Web for Topic"
+    server: brave-search
+    tool: search
+    inputs:
+      query: "${parameters.topic}"
+      count: "${parameters.depth == 'quick' ? 5 : parameters.depth == 'comprehensive' ? 20 : 10}"
+    outputs:
+      - results
+      - total_count
+
+  - id: store_results
+    name: "Store Search Results"
+    server: memory
+    tool: set
+    inputs:
+      key: "search_results_${workflow.id}"
+      value: "${web_search.results}"
+    depends_on: [web_search]
+
+  - id: analyze_results
+    name: "Analyze Search Results"
+    action: llm_call
+    provider: anthropic
+    model: claude-sonnet-4-5-20250929
+    prompt: |
+      Analyze these search results about "${parameters.topic}":
+
+      ${web_search.results}
+
+      Extract:
+      1. Key facts and information
+      2. Main themes
+      3. Reliable sources
+      4. Areas needing more research
+    depends_on: [store_results]
+
+  - id: deep_search
+    name: "Deep Search on Key Themes"
+    server: brave-search
+    tool: search
+    inputs:
+      query: "${analyze_results.themes[0]} ${parameters.topic}"
+      count: 5
+    depends_on: [analyze_results]
+    condition: "${parameters.depth != 'quick'}"
+
+  - id: synthesize
+    name: "Synthesize Research"
+    action: llm_call
+    provider: anthropic
+    model: claude-sonnet-4-5-20250929
+    prompt: |
+      Create a comprehensive research summary about "${parameters.topic}":
+
+      Initial Analysis:
+      ${analyze_results.response}
+
+      Additional Research:
+      ${deep_search.results}
+
+      Generate a well-structured document with:
+      1. Executive Summary
+      2. Key Findings
+      3. Detailed Analysis
+      4. Sources and References
+      5. Recommendations for Further Research
+    depends_on: [deep_search]
+
+  - id: format_output
+    name: "Format Output Document"
+    action: llm_call
+    provider: anthropic
+    model: claude-sonnet-4-5-20250929
+    prompt: |
+      Format the following research into ${parameters.output_format}:
+
+      ${synthesize.response}
+    depends_on: [synthesize]
+
+  - id: save_document
+    name: "Save Research Document"
+    server: filesystem
+    tool: write_file
+    inputs:
+      path: "docs/research/${parameters.topic.replace(' ', '-')}.${parameters.output_format == 'markdown' ? 'md' : parameters.output_format}"
+      content: "${format_output.response}"
+    depends_on: [format_output]
+
+  - id: update_context
+    name: "Update Research Context"
+    server: context
+    tool: update
+    inputs:
+      key: "research_${workflow.id}"
+      value:
+        completed_at: "${workflow.timestamp}"
+        output_file: "${save_document.path}"
+        sources_count: "${web_search.total_count}"
+    depends_on: [save_document]
+
+# Checkpoints for recovery
+checkpoints:
+  - after: web_search
+    name: "search_complete"
+  - after: analyze_results
+    name: "analysis_complete"
+  - after: synthesize
+    name: "synthesis_complete"
+
+# Error handling
+error_handling:
+  on_step_failure: "checkpoint_recovery"
+  max_retries: 3
+  retry_delay_seconds: 10
+
+# Metadata
+metadata:
+  created: "2025-11-27"
+  author: "orchestration-system"
+  tags: ["research", "documentation", "search"]
+  estimated_duration_minutes:
+    quick: 2
+    standard: 5
+    comprehensive: 15

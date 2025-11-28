@@ -1,0 +1,115 @@
+# MCP Workflow: Automated Code Review
+# Uses: github, filesystem, context servers
+# Trigger: Pull request or manual
+
+name: code-review
+description: "Automated code review workflow using MCP servers"
+version: "1.0"
+
+# Servers required for this workflow
+servers:
+  - github       # PR and file access
+  - filesystem   # Local file operations
+  - context      # Context preservation
+
+# Workflow steps
+steps:
+  - id: fetch_pr
+    name: "Fetch Pull Request Details"
+    server: github
+    tool: get_pull_request
+    inputs:
+      owner: "${GITHUB_OWNER}"
+      repo: "${GITHUB_REPO}"
+      pull_number: "${PR_NUMBER}"
+    outputs:
+      - pr_title
+      - pr_body
+      - changed_files
+
+  - id: store_context
+    name: "Store Review Context"
+    server: context
+    tool: store
+    inputs:
+      key: "review_${PR_NUMBER}"
+      value:
+        pr_title: "${fetch_pr.pr_title}"
+        pr_body: "${fetch_pr.pr_body}"
+        files: "${fetch_pr.changed_files}"
+    depends_on: [fetch_pr]
+
+  - id: get_diff
+    name: "Get File Diffs"
+    server: github
+    tool: get_pull_request_diff
+    inputs:
+      owner: "${GITHUB_OWNER}"
+      repo: "${GITHUB_REPO}"
+      pull_number: "${PR_NUMBER}"
+    depends_on: [fetch_pr]
+
+  - id: analyze_changes
+    name: "Analyze Code Changes"
+    server: filesystem
+    tool: read_files
+    inputs:
+      paths: "${fetch_pr.changed_files}"
+    depends_on: [get_diff]
+
+  - id: generate_review
+    name: "Generate Review Comments"
+    action: llm_call
+    provider: anthropic
+    model: claude-sonnet-4-5-20250929
+    prompt: |
+      Review the following code changes and provide feedback:
+
+      PR Title: ${fetch_pr.pr_title}
+      PR Description: ${fetch_pr.pr_body}
+
+      Changes:
+      ${get_diff.diff}
+
+      Provide:
+      1. Summary of changes
+      2. Potential issues or bugs
+      3. Code quality suggestions
+      4. Security considerations
+    depends_on: [analyze_changes]
+
+  - id: post_review
+    name: "Post Review Comments"
+    server: github
+    tool: create_review
+    inputs:
+      owner: "${GITHUB_OWNER}"
+      repo: "${GITHUB_REPO}"
+      pull_number: "${PR_NUMBER}"
+      body: "${generate_review.response}"
+      event: "COMMENT"
+    depends_on: [generate_review]
+    condition: "${AUTO_POST_REVIEW}"
+
+# Error handling
+error_handling:
+  on_step_failure: "continue"  # continue | abort | retry
+  max_retries: 2
+  retry_delay_seconds: 5
+
+# Notifications
+notifications:
+  on_completion:
+    - type: slack
+      channel: "#code-reviews"
+      message: "Code review completed for PR #${PR_NUMBER}"
+  on_failure:
+    - type: slack
+      channel: "#code-reviews"
+      message: "Code review failed for PR #${PR_NUMBER}: ${error}"
+
+# Metadata
+metadata:
+  created: "2025-11-27"
+  author: "orchestration-system"
+  tags: ["code-review", "github", "automation"]

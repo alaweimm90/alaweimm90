@@ -1,0 +1,134 @@
+{
+  "$schema": "https://raw.githubusercontent.com/chrishayuk/mcp-cli/main/schemas/mcp-servers.schema.json",
+  "version": "1.0",
+  "description": "MCP Server Configuration for alaweimm90 Orchestration System",
+  "defaults": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-5-20250929",
+    "timeout": 30000,
+    "retries": 3
+  },
+  "mcpServers": {
+    "context": {
+      "command": "npx",
+      "args": ["-y", "@alaweimm90/context-server"],
+      "description": "Centralized context and memory management for AI tool handoffs",
+      "env": {
+        "CONTEXT_STORAGE_PATH": ".metaHub/orchestration/context/",
+        "MAX_CONTEXT_MB": "50",
+        "RETENTION_HOURS": "168"
+      },
+      "capabilities": ["context_storage", "memory_bank", "handoff_state", "session_persistence"],
+      "tags": ["infrastructure", "orchestration", "priority-1"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "description": "GitHub API integration for repository management",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "capabilities": ["repository_management", "pull_request_operations", "issue_tracking", "code_search"],
+      "tags": ["code_management", "priority-1"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "--allowed-directories", "."],
+      "description": "Secure file system access for AI tools",
+      "env": {},
+      "capabilities": ["file_read", "file_write", "directory_listing", "file_search"],
+      "tags": ["code_management", "priority-1"]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "description": "Browser automation for testing and scraping",
+      "env": {
+        "PUPPETEER_HEADLESS": "true",
+        "PUPPETEER_TIMEOUT": "30000"
+      },
+      "capabilities": ["browser_control", "page_navigation", "screenshot_capture", "pdf_generation"],
+      "tags": ["browser_automation", "priority-2"]
+    },
+    "sqlite": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "--db-path", ".metaHub/data/orchestration.db"],
+      "description": "SQLite database for orchestration data",
+      "env": {},
+      "capabilities": ["sql_queries", "schema_inspection", "data_export"],
+      "tags": ["data_processing", "priority-2"]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "description": "PostgreSQL database integration",
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "${POSTGRES_URL}"
+      },
+      "capabilities": ["sql_queries", "schema_management", "connection_pooling"],
+      "tags": ["data_processing", "priority-2"]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "description": "Web search via Brave Search API",
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "capabilities": ["web_search", "news_search", "image_search"],
+      "tags": ["search", "priority-2"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Persistent memory for long-running workflows",
+      "env": {},
+      "capabilities": ["key_value_storage", "session_memory", "workflow_state"],
+      "tags": ["infrastructure", "priority-2"]
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "description": "HTTP fetch capabilities for API interactions",
+      "env": {},
+      "capabilities": ["http_get", "http_post", "api_calls"],
+      "tags": ["external_services", "priority-3"]
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "description": "Slack workspace integration",
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+      },
+      "capabilities": ["message_posting", "channel_management", "file_sharing"],
+      "tags": ["external_services", "priority-3"]
+    }
+  },
+  "serverGroups": {
+    "core": ["context", "github", "filesystem"],
+    "automation": ["puppeteer", "fetch"],
+    "data": ["sqlite", "postgres"],
+    "search": ["brave-search"],
+    "communication": ["slack"],
+    "orchestration": ["context", "github", "filesystem", "memory"]
+  },
+  "providerConfig": {
+    "anthropic": {
+      "models": ["claude-sonnet-4-5-20250929", "claude-3-5-sonnet-20241022", "claude-3-opus-20240229"],
+      "defaultModel": "claude-sonnet-4-5-20250929",
+      "apiKeyEnv": "ANTHROPIC_API_KEY"
+    },
+    "openai": {
+      "models": ["gpt-4o", "gpt-4-turbo", "gpt-4"],
+      "defaultModel": "gpt-4o",
+      "apiKeyEnv": "OPENAI_API_KEY"
+    },
+    "ollama": {
+      "models": ["llama3.3", "qwen2.5-coder", "codellama"],
+      "defaultModel": "llama3.3",
+      "baseUrl": "http://localhost:11434"
+    }
+  }
+}
