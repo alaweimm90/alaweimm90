@@ -171,6 +171,42 @@ audit-results.json
 *-audit.pdf
 *Audit.pdf
 
+# Generated governance reports (tracked separately in .metaHub/reports/)
+.metaHub/reports/enforce-*.json
+.metaHub/reports/meta-audit*.json
+
+# Orchestration runtime state (regenerated on each run)
+.metaHub/orchestration/checkpoints/
+.metaHub/orchestration/recovery.jsonl
+.metaHub/orchestration/snapshots/
+.metaHub/orchestration/state/
+.metaHub/orchestration/telemetry/
+
+# Temporary collaboration files
+conversation-export.md
+to-claude.md
+
+# Claude local settings (user-specific)
+.ai/claude/settings.local.json
+.ai/claude/settings.local.json.tmp
+
+# DevOps CLI generated output (run coder.ts to regenerate)
+.metaHub/ci/
+.metaHub/ci.yml
+.metaHub/deployment.yaml
+.metaHub/helm/
+.metaHub/k8s/
+.metaHub/monitoring/
+.metaHub/service/
+.metaHub/service.yaml
+.metaHub/src/
+.metaHub/.template-meta.json
+.metaHub/.github/
+
+# Checkpoint history (only track latest)
+.metaHub/checkpoints/checkpoint-*.json
+!.metaHub/checkpoints/checkpoint-latest.json
+
 # Temporary sync directories
 temp-*-sync/
 temp-*-monorepo/
