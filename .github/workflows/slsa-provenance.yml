@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
           cache: 'npm'
@@ -82,7 +82,7 @@ jobs:
           echo "hashes=$(cat checksums.txt | base64 -w0)" >> $GITHUB_OUTPUT
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: governance-artifacts-${{ github.sha }}
           path: dist/
@@ -96,7 +96,7 @@ jobs:
       actions: read
       id-token: write
       contents: write
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.10.0
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.1.0
     with:
       base64-subjects: "${{ needs.provenance.outputs.hashes }}"
       upload-assets: true
@@ -109,13 +109,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: governance-artifacts-${{ github.sha }}
           path: dist/
 
       - name: Download provenance
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: governance-provenance.intoto.jsonl
 
@@ -158,13 +158,13 @@ jobs:
       attestations: write
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: governance-artifacts-${{ github.sha }}
           path: dist/
 
       - name: Generate attestations
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: 'dist/*.tar.gz'
 
@@ -177,12 +177,12 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download provenance
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: governance-provenance.intoto.jsonl
           path: provenance/
