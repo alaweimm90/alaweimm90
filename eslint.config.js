@@ -35,6 +35,13 @@ export default tseslint.config(
   },
   // Ignore patterns
   {
-    ignores: ['node_modules/**', 'dist/**', '.metaHub/**', 'organizations/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      '.metaHub/**',
+      'organizations/**',
+      'coverage/**',
+      'templates/**', // Template files contain placeholders, not valid syntax
+    ],
   }
 );
