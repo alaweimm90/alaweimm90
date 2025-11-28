@@ -1,0 +1,296 @@
+{
+  "meathead_physicist": {
+    "framework": "MeatheadPhysicist",
+    "total_agents": 5,
+    "total_mcp_integrations": 17,
+    "mappings": [
+      {
+        "agent_name": "ScientistAgent",
+        "agent_role": "Experimental design and execution",
+        "mcp_servers": [
+          "sequential_thinking",
+          "context",
+          "filesystem"
+        ],
+        "capabilities": [
+          "Structured experimental design",
+          "Step-by-step problem decomposition",
+          "Context-aware research planning"
+        ],
+        "use_cases": [
+          "Design multi-step experiments with error prevention",
+          "Decompose complex physics problems",
+          "Maintain experimental context across sessions"
+        ]
+      },
+      {
+        "agent_name": "LiteratureAgent",
+        "agent_role": "Academic literature search and analysis",
+        "mcp_servers": [
+          "brave_search",
+          "context",
+          "git",
+          "filesystem"
+        ],
+        "capabilities": [
+          "Web search for academic papers",
+          "Version-controlled literature tracking",
+          "Cross-session literature memory"
+        ],
+        "use_cases": [
+          "Search arXiv, Google Scholar via Brave Search",
+          "Track literature discoveries with Git",
+          "Build cumulative knowledge base"
+        ]
+      },
+      {
+        "agent_name": "TheoryAgent",
+        "agent_role": "Theoretical framework development",
+        "mcp_servers": [
+          "sequential_thinking",
+          "context",
+          "filesystem",
+          "git"
+        ],
+        "capabilities": [
+          "Structured theoretical reasoning",
+          "Mathematical derivation tracking",
+          "Theory versioning with Git"
+        ],
+        "use_cases": [
+          "Develop theories with step-by-step logic",
+          "Track theoretical iterations",
+          "Maintain derivation history"
+        ]
+      },
+      {
+        "agent_name": "VisualizationAgent",
+        "agent_role": "Data visualization and plotting",
+        "mcp_servers": [
+          "filesystem",
+          "git",
+          "context"
+        ],
+        "capabilities": [
+          "Save plots with file system access",
+          "Version control visualizations",
+          "Track visualization parameters"
+        ],
+        "use_cases": [
+          "Generate and save publication-ready plots",
+          "Track visualization evolution",
+          "Reproduce historical plots"
+        ]
+      },
+      {
+        "agent_name": "CriticAgent",
+        "agent_role": "Critical review and validation",
+        "mcp_servers": [
+          "sequential_thinking",
+          "context",
+          "git"
+        ],
+        "capabilities": [
+          "Structured critical analysis",
+          "Error pattern recognition",
+          "Historical review tracking"
+        ],
+        "use_cases": [
+          "Systematic peer review simulation",
+          "Identify logical flaws with structured reasoning",
+          "Track review iterations"
+        ]
+      }
+    ]
+  },
+  "turingo": {
+    "framework": "Turingo",
+    "total_agents": 4,
+    "total_mcp_integrations": 14,
+    "mappings": [
+      {
+        "agent_name": "CodeCowboy",
+        "agent_role": "High-performance code implementation",
+        "mcp_servers": [
+          "github",
+          "git",
+          "filesystem",
+          "playwright"
+        ],
+        "capabilities": [
+          "Version-controlled implementation",
+          "Automated testing integration",
+          "Repository management"
+        ],
+        "use_cases": [
+          "Implement optimized algorithms with Git tracking",
+          "Run automated UI tests for benchmarks",
+          "Manage code repositories"
+        ]
+      },
+      {
+        "agent_name": "VerificationVigilante",
+        "agent_role": "Solution verification and validation",
+        "mcp_servers": [
+          "playwright",
+          "sequential_thinking",
+          "git"
+        ],
+        "capabilities": [
+          "Automated test execution",
+          "Structured verification workflows",
+          "Test result versioning"
+        ],
+        "use_cases": [
+          "Run comprehensive Playwright test suites",
+          "Decompose verification into checkpoints",
+          "Track verification history"
+        ]
+      },
+      {
+        "agent_name": "QuantumQuokka",
+        "agent_role": "Quantum algorithm design",
+        "mcp_servers": [
+          "sequential_thinking",
+          "git",
+          "filesystem"
+        ],
+        "capabilities": [
+          "Step-by-step quantum circuit design",
+          "Algorithm versioning",
+          "Circuit file management"
+        ],
+        "use_cases": [
+          "Design QAOA circuits with structured reasoning",
+          "Version quantum algorithms",
+          "Save and load circuit definitions"
+        ]
+      },
+      {
+        "agent_name": "Ringmaster",
+        "agent_role": "Multi-agent orchestration",
+        "mcp_servers": [
+          "context",
+          "sequential_thinking",
+          "git",
+          "github"
+        ],
+        "capabilities": [
+          "Cross-agent context sharing",
+          "Workflow decomposition",
+          "Agent coordination tracking"
+        ],
+        "use_cases": [
+          "Coordinate multi-agent research workflows",
+          "Maintain shared context across agents",
+          "Track orchestration decisions"
+        ]
+      }
+    ]
+  },
+  "atlas": {
+    "framework": "ATLAS",
+    "total_agents": 4,
+    "total_mcp_integrations": 15,
+    "mappings": [
+      {
+        "agent_name": "Workflow_Orchestrator",
+        "agent_role": "DevOps pipeline orchestration",
+        "mcp_servers": [
+          "terraform",
+          "kubernetes",
+          "sequential_thinking",
+          "git",
+          "prometheus"
+        ],
+        "capabilities": [
+          "Infrastructure automation",
+          "Container orchestration",
+          "Pipeline monitoring",
+          "Structured workflow planning"
+        ],
+        "use_cases": [
+          "Orchestrate Terraform deployments",
+          "Manage Kubernetes clusters",
+          "Monitor pipeline health with Prometheus",
+          "Decompose complex DevOps workflows"
+        ]
+      },
+      {
+        "agent_name": "Coordinator",
+        "agent_role": "Task coordination and delegation",
+        "mcp_servers": [
+          "context",
+          "github",
+          "git",
+          "sequential_thinking"
+        ],
+        "capabilities": [
+          "Context-aware task routing",
+          "GitHub project management",
+          "Structured task decomposition"
+        ],
+        "use_cases": [
+          "Coordinate multi-agent tasks with context preservation",
+          "Manage GitHub issues and PRs",
+          "Break down epics into actionable tasks"
+        ]
+      },
+      {
+        "agent_name": "Analyst",
+        "agent_role": "Data and performance analysis",
+        "mcp_servers": [
+          "prometheus",
+          "sequential_thinking",
+          "git"
+        ],
+        "capabilities": [
+          "Metrics analysis",
+          "Performance troubleshooting",
+          "Analysis versioning"
+        ],
+        "use_cases": [
+          "Query Prometheus for performance metrics",
+          "Structured root cause analysis",
+          "Track analysis findings in Git"
+        ]
+      },
+      {
+        "agent_name": "Synthesizer",
+        "agent_role": "Insight integration and reporting",
+        "mcp_servers": [
+          "context",
+          "filesystem",
+          "git"
+        ],
+        "capabilities": [
+          "Cross-domain knowledge synthesis",
+          "Report generation",
+          "Insight versioning"
+        ],
+        "use_cases": [
+          "Synthesize insights from multiple agents",
+          "Generate comprehensive reports",
+          "Track knowledge evolution"
+        ]
+      }
+    ]
+  },
+  "summary": {
+    "total_frameworks": 3,
+    "total_agents": 13,
+    "total_mcp_integrations": 46,
+    "unique_mcps_used": [
+      "brave_search",
+      "sequential_thinking",
+      "filesystem",
+      "context",
+      "kubernetes",
+      "prometheus",
+      "terraform",
+      "playwright",
+      "github",
+      "git"
+    ]
+  }
+}
