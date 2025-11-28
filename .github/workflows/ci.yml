@@ -51,6 +51,37 @@ jobs:
           files: coverage.xml
           fail_ci_if_error: false
 
+  # TypeScript linting, type-checking, and testing for DevOps CLI
+  typescript-ci:
+    name: TypeScript CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Run tests
+        run: npm run test:run
+
+      - name: Verify DevOps CLI
+        run: |
+          npm run devops:list
+          echo "DevOps CLI works"
+
   # Validate governance scripts work correctly
   governance-validation:
     name: Governance Validation

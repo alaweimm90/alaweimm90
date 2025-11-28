@@ -1,0 +1,10 @@
+{
+  "category": "ui",
+  "name": "angular-component",
+  "version": "1.0.0",
+  "description": "Angular standalone component with TypeScript",
+  "tags": ["ui", "angular", "typescript", "component"],
+  "requiredFiles": ["component.ts", "component.html", "component.scss"],
+  "placeholders": ["COMPONENT_NAME"],
+  "dependencies": ["@angular/core", "@angular/common"]
+}

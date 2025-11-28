@@ -1,0 +1,10 @@
+{
+  "category": "ui",
+  "name": "vue-component",
+  "version": "1.0.0",
+  "description": "Vue 3 component with TypeScript and Composition API",
+  "tags": ["ui", "vue", "typescript", "component"],
+  "requiredFiles": ["Component.vue"],
+  "placeholders": ["COMPONENT_NAME"],
+  "dependencies": ["vue"]
+}
