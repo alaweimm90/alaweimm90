@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://alaweimm90.github.io/schemas/handoff-envelope.json",
+  "title": "Handoff Envelope Schema",
+  "description": "Schema for validating tool-to-tool handoff envelopes in the AI orchestration system",
+  "type": "object",
+  "required": ["metadata", "context", "artifacts", "instructions"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Handoff metadata for tracking and correlation",
+      "required": ["source_tool", "target_tool", "timestamp", "correlation_id"],
+      "properties": {
+        "source_tool": {
+          "type": "string",
+          "description": "The tool initiating the handoff",
+          "enum": [
+            "aider", "cline", "cursor", "claude_code", "kilo",
+            "blackbox", "windsurf", "continue", "amazon_q",
+            "gemini", "codex", "augment", "trae", "copilot"
+          ]
+        },
+        "target_tool": {
+          "type": "string",
+          "description": "The tool receiving the handoff",
+          "enum": [
+            "aider", "cline", "cursor", "claude_code", "kilo",
+            "blackbox", "windsurf", "continue", "amazon_q",
+            "gemini", "codex", "augment", "trae", "copilot"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO8601 timestamp of handoff initiation"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique identifier for tracking the workflow"
+        },
+        "parent_task_id": {
+          "type": "string",
+          "description": "ID of the parent task in the workflow"
+        },
+        "sequence_number": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Order of this handoff in the workflow"
+        },
+        "workflow_name": {
+          "type": "string",
+          "description": "Name of the orchestration workflow"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "critical"],
+          "default": "normal"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Task context for the receiving tool",
+      "required": ["task_description"],
+      "properties": {
+        "task_description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Clear description of what needs to be done"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Limitations or requirements for the task"
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "How to determine if the task succeeded"
+        },
+        "relevant_files": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "File paths relevant to the task"
+        },
+        "prior_decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "decision": {"type": "string"},
+              "rationale": {"type": "string"},
+              "made_by": {"type": "string"},
+              "timestamp": {"type": "string", "format": "date-time"}
+            }
+          },
+          "description": "Previous decisions made in this workflow"
+        },
+        "codebase_context": {
+          "type": "object",
+          "properties": {
+            "language": {"type": "string"},
+            "framework": {"type": "string"},
+            "architecture": {"type": "string"},
+            "entry_points": {"type": "array", "items": {"type": "string"}}
+          },
+          "description": "Context about the codebase"
+        },
+        "estimated_complexity": {
+          "type": "string",
+          "enum": ["trivial", "simple", "moderate", "complex", "very_complex"],
+          "description": "Estimated task complexity"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "description": "Outputs from the source tool",
+      "properties": {
+        "primary_output": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "object"}
+          ],
+          "description": "Main output from the source tool"
+        },
+        "supporting_outputs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "path": {"type": "string"},
+              "content": {"type": "string"},
+              "description": {"type": "string"}
+            }
+          },
+          "description": "Additional outputs that support the primary"
+        },
+        "files_modified": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {"type": "string"},
+              "action": {"type": "string", "enum": ["created", "modified", "deleted"]},
+              "lines_changed": {"type": "integer"}
+            }
+          },
+          "description": "Files changed by the source tool"
+        },
+        "validation_results": {
+          "type": "object",
+          "properties": {
+            "tests_passed": {"type": "boolean"},
+            "lint_passed": {"type": "boolean"},
+            "type_check_passed": {"type": "boolean"},
+            "coverage_delta": {"type": "number"},
+            "errors": {"type": "array", "items": {"type": "string"}},
+            "warnings": {"type": "array", "items": {"type": "string"}}
+          },
+          "description": "Validation results from source tool"
+        },
+        "checkpoint_id": {
+          "type": "string",
+          "description": "ID of the checkpoint taken before handoff"
+        }
+      }
+    },
+    "instructions": {
+      "type": "object",
+      "description": "Instructions for the target tool",
+      "required": ["expected_action"],
+      "properties": {
+        "expected_action": {
+          "type": "string",
+          "minLength": 5,
+          "description": "What the target tool should do"
+        },
+        "boundary_conditions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "What the target tool should NOT do"
+        },
+        "rollback_instructions": {
+          "type": "string",
+          "description": "How to revert if the task fails"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 3600,
+          "default": 300,
+          "description": "Maximum time for the target tool to complete"
+        },
+        "require_human_review": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether output needs human review"
+        },
+        "next_handoff": {
+          "type": "object",
+          "properties": {
+            "target_tool": {"type": "string"},
+            "condition": {"type": "string"}
+          },
+          "description": "Next tool in the chain if applicable"
+        }
+      }
+    },
+    "hallucination_check": {
+      "type": "object",
+      "description": "Hallucination verification results from source tool",
+      "properties": {
+        "performed": {"type": "boolean"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "semantic_grounding_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "entity_verification_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "claim_verification_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "flagged_claims": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "additionalProperties": false
+}

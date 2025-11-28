@@ -1,0 +1,372 @@
+# Orchestration Governance Workflow
+# Validates AI tool orchestration, handoff envelopes, and MCP configurations
+# Runs on: push, pull_request, manual trigger
+
+name: Orchestration Governance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.ai/**'
+      - '.metaHub/policies/orchestration-governance.yaml'
+      - '.metaHub/policies/mcp-governance.yaml'
+      - '.metaHub/schemas/**'
+      - '.metaHub/orchestration/**'
+      - '.metaHub/scripts/orchestration_*.py'
+      - '.metaHub/scripts/hallucination_verifier.py'
+      - '.metaHub/scripts/self_healing_workflow.py'
+
+  pull_request:
+    branches: [main]
+    paths:
+      - '.ai/**'
+      - '.metaHub/policies/**'
+      - '.metaHub/schemas/**'
+
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: 'Run full validation suite'
+        required: false
+        default: 'false'
+        type: boolean
+      check_targets:
+        description: 'Check telemetry targets'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  # ==========================================================================
+  # POLICY VALIDATION
+  # ==========================================================================
+  validate-policies:
+    name: Validate Policies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml click jsonschema
+
+      - name: Validate YAML syntax
+        run: |
+          python -c "
+          import yaml
+          import sys
+          from pathlib import Path
+
+          policies = [
+              '.metaHub/policies/orchestration-governance.yaml',
+              '.metaHub/policies/mcp-governance.yaml',
+              '.ai/settings.yaml',
+              '.ai/mcp/server-registry.yaml'
+          ]
+
+          errors = []
+          for policy in policies:
+              path = Path(policy)
+              if path.exists():
+                  try:
+                      with open(path, 'r') as f:
+                          yaml.safe_load(f)
+                      print(f'[OK] {policy}')
+                  except yaml.YAMLError as e:
+                      errors.append(f'{policy}: {e}')
+                      print(f'[FAIL] {policy}')
+              else:
+                  print(f'[SKIP] {policy} (not found)')
+
+          if errors:
+              print('\nErrors found:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+          "
+
+      - name: Validate orchestration policy structure
+        run: |
+          python -c "
+          import yaml
+          import sys
+
+          with open('.metaHub/policies/orchestration-governance.yaml', 'r') as f:
+              policy = yaml.safe_load(f)
+
+          required_sections = [
+              'enforcement',
+              'tool_routing',
+              'handoff_requirements',
+              'context_preservation',
+              'hallucination_prevention',
+              'error_recovery',
+              'metrics'
+          ]
+
+          missing = [s for s in required_sections if s not in policy]
+
+          if missing:
+              print(f'Missing required sections: {missing}')
+              sys.exit(1)
+
+          print('Orchestration policy structure: VALID')
+          print(f'  - Enforcement level: {policy.get(\"enforcement\", {}).get(\"level\", \"unknown\")}')
+          print(f'  - Tool routing rules: {len(policy.get(\"tool_routing\", {}).get(\"rules\", {}))}')
+          print(f'  - Verification layers: {len(policy.get(\"hallucination_prevention\", {}).get(\"verification_layers\", []))}')
+          "
+
+  # ==========================================================================
+  # SCHEMA VALIDATION
+  # ==========================================================================
+  validate-schemas:
+    name: Validate Schemas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install jsonschema
+
+      - name: Validate JSON schemas
+        run: |
+          python -c "
+          import json
+          import sys
+          from pathlib import Path
+
+          schemas = list(Path('.metaHub/schemas').glob('*.json'))
+
+          if not schemas:
+              print('No schemas found')
+              sys.exit(0)
+
+          errors = []
+          for schema_path in schemas:
+              try:
+                  with open(schema_path, 'r') as f:
+                      schema = json.load(f)
+
+                  # Basic schema validation
+                  if '\$schema' not in schema:
+                      errors.append(f'{schema_path.name}: Missing \$schema declaration')
+                  else:
+                      print(f'[OK] {schema_path.name}')
+
+              except json.JSONDecodeError as e:
+                  errors.append(f'{schema_path.name}: Invalid JSON - {e}')
+              except Exception as e:
+                  errors.append(f'{schema_path.name}: {e}')
+
+          if errors:
+              print('\nErrors:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+
+          print(f'\nValidated {len(schemas)} schema(s)')
+          "
+
+  # ==========================================================================
+  # MCP CONFIGURATION VALIDATION
+  # ==========================================================================
+  validate-mcp:
+    name: Validate MCP Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate MCP server registry
+        run: |
+          python -c "
+          import yaml
+          import sys
+
+          with open('.ai/mcp/server-registry.yaml', 'r') as f:
+              registry = yaml.safe_load(f)
+
+          # Check required sections
+          required = ['metadata', 'servers', 'categories']
+          missing = [s for s in required if s not in registry]
+
+          if missing:
+              print(f'Missing sections: {missing}')
+              sys.exit(1)
+
+          # Validate server entries
+          servers = registry.get('servers', {})
+          valid_statuses = ['active', 'available', 'deprecated', 'disabled']
+
+          errors = []
+          for name, config in servers.items():
+              if 'status' not in config:
+                  errors.append(f'{name}: Missing status')
+              elif config['status'] not in valid_statuses:
+                  errors.append(f'{name}: Invalid status \"{config[\"status\"]}\"')
+
+              if 'category' not in config:
+                  errors.append(f'{name}: Missing category')
+
+          if errors:
+              print('Server validation errors:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+
+          print(f'MCP Registry: VALID')
+          print(f'  - Servers defined: {len(servers)}')
+          print(f'  - Active servers: {sum(1 for s in servers.values() if s.get(\"status\") == \"active\")}')
+          print(f'  - Categories: {len(registry.get(\"categories\", {}))}')
+          "
+
+  # ==========================================================================
+  # ORCHESTRATION SCRIPTS TEST
+  # ==========================================================================
+  test-scripts:
+    name: Test Orchestration Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml click jsonschema
+
+      - name: Test script imports
+        run: |
+          cd .metaHub/scripts
+          python -c "
+          import sys
+          scripts = [
+              'orchestration_checkpoint',
+              'orchestration_validator',
+              'orchestration_telemetry',
+              'hallucination_verifier',
+              'self_healing_workflow'
+          ]
+
+          errors = []
+          for script in scripts:
+              try:
+                  __import__(script)
+                  print(f'[OK] {script}.py')
+              except ImportError as e:
+                  errors.append(f'{script}: {e}')
+                  print(f'[FAIL] {script}.py')
+
+          if errors:
+              print('\nImport errors:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+          "
+
+      - name: Test orchestration validator
+        run: |
+          cd .metaHub/scripts
+          python orchestration_validator.py list-tools --json-output
+
+      - name: Test telemetry (record and report)
+        run: |
+          cd .metaHub/scripts
+          python orchestration_telemetry.py record -e tool_invocation -s success -t claude_code --json-output
+          python orchestration_telemetry.py report --period 1h --json-output
+
+  # ==========================================================================
+  # FULL VALIDATION (MANUAL TRIGGER)
+  # ==========================================================================
+  full-validation:
+    name: Full Validation Suite
+    runs-on: ubuntu-latest
+    if: github.event.inputs.full_validation == 'true'
+    needs: [validate-policies, validate-schemas, validate-mcp, test-scripts]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml click jsonschema
+
+      - name: Run full validation
+        run: |
+          echo "Running comprehensive orchestration validation..."
+
+          cd .metaHub/scripts
+
+          echo "=== Checking telemetry targets ==="
+          python orchestration_telemetry.py check-targets --json-output || true
+
+          echo ""
+          echo "=== Listing available tools ==="
+          python orchestration_validator.py list-tools
+
+          echo ""
+          echo "=== Testing task routing ==="
+          python orchestration_validator.py route "implement user authentication" --json-output
+          python orchestration_validator.py route "debug the login issue" --json-output
+          python orchestration_validator.py route "refactor the database layer" --json-output
+
+  # ==========================================================================
+  # SUMMARY
+  # ==========================================================================
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [validate-policies, validate-schemas, validate-mcp, test-scripts]
+    if: always()
+
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## Orchestration Governance Validation Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Policy Validation | ${{ needs.validate-policies.result == 'success' && 'PASSED' || 'FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Schema Validation | ${{ needs.validate-schemas.result == 'success' && 'PASSED' || 'FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| MCP Configuration | ${{ needs.validate-mcp.result == 'success' && 'PASSED' || 'FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Script Tests | ${{ needs.test-scripts.result == 'success' && 'PASSED' || 'FAILED' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Generated by Orchestration Governance workflow_" >> $GITHUB_STEP_SUMMARY
+

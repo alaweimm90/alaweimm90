@@ -96,6 +96,7 @@ allowed_directories:
         - "context.md - Shared AI context"
         - "rules/ - Tool-specific rules files"
         - "<tool>/ - Individual tool configs"
+        - "mcp/ - MCP server registry and configurations"
 
   # AI Assistant Configurations (Legacy) - REMOVED
   # Migration complete: all AI configs now live under .ai/

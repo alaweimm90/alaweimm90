@@ -1,0 +1,345 @@
+# AI Orchestration Governance Policy
+# Defines rules for multi-agent tool orchestration, handoffs, and context preservation
+# Enforced by orchestration_validator.py and GitHub Actions
+
+version: "1.0"
+last_updated: "2025-11-27"
+
+# =============================================================================
+# ENFORCEMENT SETTINGS
+# =============================================================================
+enforcement:
+  level: "warning"  # warning | error - Start permissive, tighten after validation
+
+  actions:
+    on_invalid_handoff: "warn"
+    on_routing_violation: "warn"
+    on_context_overflow: "error"
+    on_hallucination_detected: "warn"
+    on_checkpoint_failure: "error"
+
+# =============================================================================
+# TOOL ROUTING CONFIGURATION
+# =============================================================================
+tool_routing:
+  # Primary routing rules by task type
+  rules:
+    architecture:
+      tools: ["kilo", "claude_code"]
+      description: "System design, architecture planning, technical decisions"
+
+    implementation:
+      tools: ["cline", "cursor", "aider"]
+      description: "Building features, writing code, executing changes"
+
+    rapid_prototyping:
+      tools: ["blackbox", "cursor"]
+      description: "Quick snippets, boilerplate, fast iterations"
+
+    debugging:
+      tools: ["cline", "claude_code", "aider"]
+      description: "Bug fixes, error resolution, troubleshooting"
+
+    refactoring:
+      tools: ["aider", "cline"]
+      description: "Code improvements, optimization, cleanup"
+
+    testing:
+      tools: ["cline", "aider"]
+      description: "Test writing, test execution, coverage"
+
+    research:
+      tools: ["claude_code", "kilo"]
+      description: "Codebase exploration, understanding, analysis"
+
+  # Confidence-weighted routing
+  confidence:
+    threshold: 0.7
+    fallback_chain: ["secondary_tool", "human_escalation"]
+
+  # Intent extraction keywords
+  intent_extraction:
+    enabled: true
+    keywords:
+      architecture: ["design", "architect", "plan", "structure", "system", "diagram"]
+      implementation: ["build", "implement", "create", "develop", "code", "write"]
+      refactoring: ["refactor", "improve", "optimize", "clean", "simplify"]
+      debugging: ["fix", "debug", "error", "issue", "bug", "broken", "failing"]
+      rapid: ["quick", "fast", "prototype", "snippet", "boilerplate", "template"]
+      testing: ["test", "coverage", "spec", "unit", "integration", "e2e"]
+      research: ["find", "search", "understand", "explore", "analyze", "investigate"]
+
+# =============================================================================
+# AGENT FRAMEWORK ROUTING
+# =============================================================================
+agent_framework_routing:
+  # Map complex tasks to existing multi-agent frameworks
+  research_tasks:
+    primary: "MeatheadPhysicist"
+    fallback: "ATLAS"
+    agents: ["Scientist", "Literature", "Scout", "Theory", "Critic"]
+    use_when: ["academic_research", "scientific_analysis", "literature_review"]
+
+  optimization_tasks:
+    primary: "Turingo"
+    fallback: "MEZAN"
+    agents: ["QuantumQuokka", "MLMagician", "PuzzleProdigy", "CodeCowboy"]
+    use_when: ["performance_optimization", "algorithm_design", "ml_tasks"]
+
+  creative_tasks:
+    primary: "IdeaForge"
+    agents: ["WildCard", "ChaosMonkey", "Futurist", "MetaOrchestrator"]
+    use_when: ["brainstorming", "innovation", "breakthrough_ideas"]
+
+  verification_tasks:
+    primary: "Turingo"
+    fallback: "ATLAS"
+    agents: ["VerificationVigilante", "SkepticSorcerer", "Critic", "Ethics Review"]
+    use_when: ["code_review", "validation", "quality_assurance"]
+
+  documentation_tasks:
+    primary: "Multi-Agent Research System"
+    agents: ["Documentation", "Report Generator", "Quality Control"]
+    use_when: ["documentation", "report_generation", "knowledge_consolidation"]
+
+# =============================================================================
+# HANDOFF REQUIREMENTS
+# =============================================================================
+handoff_requirements:
+  # Mandatory fields in every handoff envelope
+  mandatory_fields:
+    - source_tool
+    - target_tool
+    - timestamp
+    - correlation_id
+    - task_description
+    - files_modified
+    - validation_status
+    - next_action
+
+  # Optional but recommended fields
+  recommended_fields:
+    - prior_decisions
+    - constraints
+    - success_criteria
+    - rollback_instructions
+    - context_summary
+
+  # Validation rules
+  validation:
+    require_non_empty_task: true
+    require_valid_tool_names: true
+    require_timestamp_format: "ISO8601"
+    max_context_size_kb: 500
+
+# =============================================================================
+# CONTEXT PRESERVATION
+# =============================================================================
+context_preservation:
+  # Always checkpoint before handoff
+  checkpoint_before_handoff: true
+
+  # Context window limits per tool
+  max_context_tokens_per_tool:
+    kilo: 16000
+    cline: 12000
+    aider: 8000
+    blackbox: 4000
+    claude_code: 100000
+    cursor: 8000
+    continue: 8000
+    amazon_q: 8000
+
+  # Compression settings
+  compression:
+    enabled: true
+    trigger_threshold: 0.8  # Compress when 80% of context used
+    preserve_recent_messages: 5
+    preserve_key_decisions: true
+
+  # Memory externalization
+  memory:
+    use_context_server: true
+    server: "alaweinos-context-server"
+    retention_hours: 168  # 7 days
+
+# =============================================================================
+# HALLUCINATION PREVENTION
+# =============================================================================
+hallucination_prevention:
+  # Three-layer verification cascade
+  verification_layers:
+    - name: "semantic_grounding"
+      description: "Output must reference provided context"
+      weight: 0.4
+
+    - name: "entity_verification"
+      description: "All mentioned files/functions must exist"
+      weight: 0.35
+
+    - name: "claim_verification"
+      description: "Factual claims must be provable"
+      weight: 0.25
+
+  # Confidence threshold for passing
+  confidence_threshold: 0.8
+
+  # Self-consistency check
+  self_consistency:
+    enabled: true
+    num_samples: 3
+    similarity_threshold: 0.8
+
+  # Actions on detection
+  on_hallucination:
+    action: "flag_and_verify"
+    require_human_review: false
+    log_for_analysis: true
+
+# =============================================================================
+# ERROR RECOVERY
+# =============================================================================
+error_recovery:
+  # Retry settings
+  retry:
+    max_attempts: 3
+    backoff: "exponential"
+    base_delay_seconds: 5
+    max_delay_seconds: 60
+
+  # Checkpoint-based recovery
+  checkpoint:
+    enabled: true
+    storage_path: ".metaHub/orchestration/checkpoints/"
+    retention_days: 30
+    integrity_check: true
+
+  # Fallback chain
+  fallback:
+    chain: ["retry_same_tool", "alternative_tool", "simplified_task", "human_escalation"]
+    escalate_after_failures: 3
+
+  # Error patterns for self-healing
+  error_patterns:
+    transient_errors:
+      - "timeout"
+      - "rate_limit"
+      - "connection_refused"
+    context_errors:
+      - "context_window_exceeded"
+      - "memory_error"
+    permanent_errors:
+      - "invalid_request"
+      - "authentication_failed"
+
+# =============================================================================
+# GRACEFUL DEGRADATION
+# =============================================================================
+degradation_levels:
+  level_1_full:
+    description: "All capabilities available"
+    parallel_execution: true
+    all_tools: true
+    context_windows: "full"
+
+  level_2_reduced:
+    trigger: "resource_contention"
+    parallel_execution: false
+    all_tools: true
+    context_windows: "reduced"
+
+  level_3_primary_only:
+    trigger: "multiple_tool_failures"
+    parallel_execution: false
+    tools: ["claude_code", "aider", "cline"]
+    human_checkpoints: "frequent"
+
+  level_4_safe_mode:
+    trigger: "critical_failures"
+    parallel_execution: false
+    tools: ["aider"]
+    human_approval_required: true
+    audit_logging: "verbose"
+
+# =============================================================================
+# WORKFLOW PATTERNS
+# =============================================================================
+workflow_patterns:
+  # Sequential pipeline (dependency-based)
+  sequential:
+    description: "Tasks executed in order, each depends on previous"
+    checkpoint_between_stages: true
+    rollback_on_failure: true
+
+  # Parallel execution
+  parallel:
+    description: "Independent tasks run simultaneously"
+    max_concurrent: 3
+    synchronization_barrier: true
+    merge_results: true
+
+  # Feedback loop
+  feedback:
+    description: "Iterative refinement with quality gates"
+    max_iterations: 5
+    convergence_threshold: 0.02
+    quality_check_between: true
+
+  # Conditional branching
+  conditional:
+    description: "Route based on conditions or confidence scores"
+    evaluate_at_each_step: true
+    branch_on_confidence: true
+
+# =============================================================================
+# METRICS & OBSERVABILITY
+# =============================================================================
+metrics:
+  enabled: true
+
+  execution_metrics:
+    - end_to_end_latency
+    - tool_invocation_latency
+    - context_switch_overhead
+    - handoff_success_rate
+
+  quality_metrics:
+    - first_pass_success_rate
+    - hallucination_rate
+    - code_quality_score
+    - test_coverage_delta
+
+  reliability_metrics:
+    - mean_time_to_recovery
+    - workflow_completion_rate
+    - checkpoint_integrity
+    - error_rate_by_tool
+
+  targets:
+    handoff_success_rate: 0.95
+    hallucination_rate: 0.02
+    first_pass_success: 0.80
+    recovery_time_seconds: 60
+    workflow_completion: 0.90
+
+# =============================================================================
+# MCP INTEGRATION
+# =============================================================================
+mcp_integration:
+  enabled: true
+
+  # Reference to server registry
+  server_registry: ".ai/mcp/server-registry.yaml"
+
+  # Priority servers for orchestration
+  priority_servers:
+    - name: "github"
+      use_for: ["repository_management", "pr_creation", "issue_tracking"]
+
+    - name: "context"
+      use_for: ["handoff_context", "memory_bank", "state_persistence"]
+
+  # Security requirements
+  security:
+    require_authentication: true
+    audit_all_calls: true

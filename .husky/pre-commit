@@ -29,7 +29,7 @@ for file in $(git diff --cached --name-only | grep -E '\.(yml|yaml)$'); do
     if [ -f "$file" ]; then
         # Basic YAML syntax check (if yq or python available)
         if command -v python &> /dev/null; then
-            python -c "import yaml; yaml.safe_load(open('$file'))" 2>/dev/null
+            python -c "import yaml; yaml.safe_load(open('$file', encoding='utf-8'))" 2>/dev/null
             if [ $? -ne 0 ]; then
                 echo "❌ COMMIT BLOCKED: Invalid YAML in $file"
                 exit 1

@@ -1,0 +1,286 @@
+# MCP (Model Context Protocol) Governance Policy
+# Defines rules for MCP server usage, security, and orchestration integration
+# Enforced by orchestration_validator.py and GitHub Actions
+
+version: "1.0"
+last_updated: "2025-11-27"
+
+# =============================================================================
+# ENFORCEMENT SETTINGS
+# =============================================================================
+enforcement:
+  level: "warning"  # warning | error
+
+  actions:
+    on_unauthorized_server: "warn"
+    on_security_violation: "error"
+    on_rate_limit_exceeded: "warn"
+    on_sensitive_operation: "audit"
+
+# =============================================================================
+# SERVER REGISTRATION REQUIREMENTS
+# =============================================================================
+server_registration:
+  # Required fields for each server entry
+  required_fields:
+    - name
+    - description
+    - package
+    - status
+    - category
+    - capabilities
+
+  # Recommended fields
+  recommended_fields:
+    - priority
+    - config
+    - use_cases
+
+  # Valid status values
+  valid_statuses:
+    - active       # Server is deployed and available
+    - available    # Server package exists, not yet deployed
+    - deprecated   # Server being phased out
+    - disabled     # Temporarily disabled
+
+  # Valid categories
+  valid_categories:
+    - infrastructure
+    - code_management
+    - browser_automation
+    - data_processing
+    - search
+    - external_services
+
+# =============================================================================
+# CAPABILITY GOVERNANCE
+# =============================================================================
+capability_governance:
+  # Capabilities that require explicit approval
+  approval_required:
+    - database_write
+    - file_delete
+    - external_api_call
+    - credential_access
+    - network_request
+
+  # Capabilities that must be audited
+  audit_required:
+    - file_write
+    - database_query
+    - browser_navigation
+    - search_query
+
+  # Capabilities allowed without restriction
+  unrestricted:
+    - file_read
+    - directory_listing
+    - schema_inspection
+    - context_storage
+
+# =============================================================================
+# SECURITY POLICIES
+# =============================================================================
+security:
+  # Authentication requirements
+  authentication:
+    require_for_write_ops: true
+    require_for_external_calls: true
+    token_rotation_days: 90
+
+  # Access control
+  access_control:
+    # Paths that are always denied
+    denied_paths:
+      - "**/.env*"
+      - "**/secrets/**"
+      - "**/*.key"
+      - "**/*.pem"
+      - "**/*.p12"
+      - "**/credentials*"
+      - "**/.git/config"
+
+    # Paths that require approval
+    approval_required_paths:
+      - "**/production/**"
+      - "**/prod/**"
+      - "**/.github/workflows/**"
+
+  # Rate limiting
+  rate_limits:
+    default:
+      requests_per_minute: 60
+      requests_per_hour: 1000
+
+    by_category:
+      external_services:
+        requests_per_minute: 30
+        requests_per_hour: 500
+      browser_automation:
+        requests_per_minute: 20
+        requests_per_hour: 200
+      data_processing:
+        requests_per_minute: 100
+        requests_per_hour: 2000
+
+  # Audit logging
+  audit:
+    enabled: true
+    log_path: ".metaHub/logs/mcp-audit.jsonl"
+    retention_days: 30
+    include_request_body: false
+    include_response_summary: true
+
+# =============================================================================
+# ORCHESTRATION INTEGRATION
+# =============================================================================
+orchestration_integration:
+  # How MCP servers integrate with tool handoffs
+  handoff_support:
+    enabled: true
+
+    # Servers used for context transfer
+    context_servers:
+      - context
+
+    # Servers used for validation
+    validation_servers:
+      - github
+      - filesystem
+
+  # Server selection rules for task types
+  task_type_mappings:
+    architecture:
+      required: ["context"]
+      optional: ["github"]
+
+    implementation:
+      required: ["filesystem", "github"]
+      optional: ["context"]
+
+    testing:
+      required: ["puppeteer", "filesystem"]
+      optional: ["sqlite"]
+
+    debugging:
+      required: ["filesystem"]
+      optional: ["puppeteer", "context"]
+
+    research:
+      required: ["brave_search"]
+      optional: ["context", "notion"]
+
+  # Context preservation through MCP
+  context_preservation:
+    use_context_server: true
+    checkpoint_to_context: true
+    max_context_size_mb: 50
+
+# =============================================================================
+# TOOL COMPATIBILITY
+# =============================================================================
+tool_compatibility:
+  # Which tools support MCP natively
+  native_support:
+    - claude_code
+    - cline
+    - cursor
+
+  # Tools requiring adapter
+  adapter_required:
+    - aider
+    - kilo_code
+    - windsurf
+
+  # Tools without MCP support
+  no_support:
+    - blackbox
+    - github_copilot
+
+  # Server availability by tool
+  server_availability:
+    claude_code:
+      available: ["context", "github", "filesystem", "puppeteer", "brave_search"]
+      default: ["context", "github", "filesystem"]
+
+    cline:
+      available: ["puppeteer", "filesystem", "github", "sqlite"]
+      default: ["puppeteer", "filesystem"]
+
+    cursor:
+      available: ["filesystem", "github"]
+      default: ["filesystem"]
+
+# =============================================================================
+# ERROR HANDLING
+# =============================================================================
+error_handling:
+  # Retry configuration
+  retry:
+    max_attempts: 3
+    backoff: "exponential"
+    base_delay_ms: 1000
+    max_delay_ms: 30000
+
+  # Error categories
+  error_categories:
+    transient:
+      - "TIMEOUT"
+      - "RATE_LIMITED"
+      - "CONNECTION_REFUSED"
+      - "SERVICE_UNAVAILABLE"
+    permanent:
+      - "UNAUTHORIZED"
+      - "NOT_FOUND"
+      - "INVALID_REQUEST"
+    recoverable:
+      - "QUOTA_EXCEEDED"
+      - "CONFLICT"
+
+  # Fallback behavior
+  fallback:
+    on_server_failure: "try_alternative"
+    on_category_failure: "degrade_gracefully"
+    on_all_failure: "notify_and_continue"
+
+# =============================================================================
+# METRICS & MONITORING
+# =============================================================================
+metrics:
+  enabled: true
+
+  collect:
+    - request_count
+    - response_time_ms
+    - error_rate
+    - token_usage
+    - capability_usage
+
+  aggregation:
+    interval_minutes: 5
+    retention_hours: 168
+
+  alerts:
+    error_rate_threshold: 0.1
+    response_time_p95_ms: 5000
+    rate_limit_warning_threshold: 0.8
+
+# =============================================================================
+# DEVELOPMENT & TESTING
+# =============================================================================
+development:
+  # Mock server configuration
+  mock_servers:
+    enabled: false
+    config_path: ".ai/mcp/mocks/"
+
+  # Test environment settings
+  test_environment:
+    use_sandbox: true
+    rate_limits_relaxed: true
+    audit_verbose: true
+
+  # Local development
+  local_dev:
+    allow_localhost: true
+    skip_auth_for_local: false
