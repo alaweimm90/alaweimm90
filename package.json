@@ -7,6 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "devops": "tsx tools/cli/devops.ts",
     "devops:list": "tsx tools/devops/builder.ts --search=*",
     "devops:builder": "tsx tools/devops/builder.ts",
     "devops:coder:dry": "tsx tools/devops/coder.ts --action=node-service --dry-run=true",
