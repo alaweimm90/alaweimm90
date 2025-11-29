@@ -14,6 +14,7 @@
     "devops:coder": "tsx tools/devops/coder.ts",
     "devops:bootstrap": "tsx tools/devops/bootstrap.ts",
     "orchestrate": "python tools/cli/orchestrate.py",
+    "mcp": "python tools/cli/mcp.py",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
