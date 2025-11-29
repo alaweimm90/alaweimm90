@@ -13,6 +13,7 @@
     "devops:coder:dry": "tsx tools/devops/coder.ts --action=node-service --dry-run=true",
     "devops:coder": "tsx tools/devops/coder.ts",
     "devops:bootstrap": "tsx tools/devops/bootstrap.ts",
+    "orchestrate": "python tools/cli/orchestrate.py",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
