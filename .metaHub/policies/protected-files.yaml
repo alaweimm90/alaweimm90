@@ -1,0 +1,32 @@
+# Protected Files Policy v1.0
+# Files requiring explicit permission before AI tools can modify
+
+strict:
+  # Never modify without explicit "update/edit [file]" request
+  - README.md
+  - LICENSE
+  - CODEOWNERS
+  - .github/CODEOWNERS
+  - .github/workflows/*.yml
+  - .metaHub/policies/*.yaml
+
+conditional:
+  # Can modify IF task requires it (e.g., "add dependency")
+  - package.json
+  - tsconfig.json
+  - .gitignore
+  - .eslintrc*
+  - .prettierrc*
+
+forbidden:
+  # AI tools should NEVER modify
+  - .env*
+  - "*.key"
+  - "*.pem"
+  - "**/secrets/**"
+  - .git/**
+
+create_ok:
+  # Can create new files, but ASK before modifying existing
+  - docs/**/*.md
+  - tools/**/*
