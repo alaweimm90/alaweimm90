@@ -51,5 +51,26 @@ if command -v markdownlint &> /dev/null; then
     git diff --cached --name-only | grep -E '\.md$' | xargs markdownlint 2>/dev/null || true
 fi
 
+# 5. Check file sizes (KILO enforcement - max 500 lines per file)
+echo "📏 Checking file sizes..."
+MAX_LINES=500
+violations=0
+
+for file in $(git diff --cached --name-only | grep -E '\.(ts|js|py)$' | grep -E '^(tools/cli|tools/lib)'); do
+    if [ -f "$file" ]; then
+        lines=$(wc -l < "$file" 2>/dev/null || echo "0")
+        if [ "$lines" -gt "$MAX_LINES" ]; then
+            echo "❌ $file has $lines lines (max $MAX_LINES)"
+            violations=$((violations + 1))
+        fi
+    fi
+done
+
+if [ $violations -gt 0 ]; then
+    echo "❌ COMMIT BLOCKED: $violations file(s) exceed $MAX_LINES line limit"
+    echo "💡 Refactor large files into smaller, focused modules"
+    exit 1
+fi
+
 echo "✅ META GOVERNANCE CHECKS PASSED - Commit allowed"
 echo "🎉 Governance policies and documentation are valid"
