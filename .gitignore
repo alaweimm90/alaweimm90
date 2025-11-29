@@ -214,3 +214,170 @@ temp-*-monorepo/
 
 # Generated site output
 site/
+
+# =============================================================================
+# AI Documentation - Cloned External Repos (download with scripts)
+# =============================================================================
+# These are external projects cloned for reference. Keep only index/scripts.
+docs/ai-coding-tools/01-major-assistants/*/
+docs/ai-coding-tools/02-terminal-cli/*/
+docs/ai-coding-tools/03-ide-integrations/*/
+docs/ai-coding-tools/04-api-docs/*/
+docs/ai-coding-tools/05-specialized-tools/*/
+docs/ai-coding-tools/06-open-source-llms/*/
+docs/ai-coding-tools/07-code-review/*/
+docs/ai-coding-tools/08-resources/*/
+# Keep the index files
+!docs/ai-coding-tools/*/README.md
+!docs/ai-coding-tools/catalog.json
+!docs/ai-coding-tools/download-ai-docs.*
+
+# =============================================================================
+# Additional Security Patterns
+# =============================================================================
+# AWS
+.aws/
+aws-credentials
+*.aws
+
+# Azure
+.azure/
+azure-credentials
+
+# GCP
+.gcp/
+gcloud/
+*.json.enc
+service-account*.json
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+*.tfvars
+!*.tfvars.example
+
+# Ansible
+*.retry
+vault-password*
+
+# Docker secrets
+docker-compose.override.yml
+.docker/
+
+# Kubernetes secrets
+*-secret.yaml
+*-secrets.yaml
+kubeconfig*
+!*-secret.example.yaml
+
+# =============================================================================
+# Additional Development Patterns
+# =============================================================================
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Rust
+target/
+Cargo.lock
+!Cargo.lock
+
+# Go
+go.sum
+
+# Ruby
+.bundle/
+Gemfile.lock
+
+# Elixir
+_build/
+deps/
+.elixir_ls/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Gradle
+.gradle/
+gradle-app.setting
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+
+# =============================================================================
+# AI/ML Specific
+# =============================================================================
+# Model files (large binary)
+*.bin
+*.onnx
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.ckpt
+*.safetensors
+*.gguf
+*.ggml
+
+# Datasets
+datasets/
+data/raw/
+data/processed/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Weights & Biases
+wandb/
+
+# Hugging Face cache
+.cache/huggingface/
+
+# =============================================================================
+# Misc
+# =============================================================================
+# Local notes and scratch
+SCRATCH.md
+NOTES.md
+TODO.md
+scratch/
+notes/
+
+# Session/conversation exports
+*-conversation.md
+*-session.md
+chat-export-*.md
+
+# Benchmark results (regenerate as needed)
+benchmark-results/
+benchmarks/*.json
+
+# Performance profiles
+*.prof
+*.profile
+
+# Core dumps
+core
+core.*
+*.core
+
+# Lock files from various tools
+.lock
+*.lock
+!package-lock.json
+!pnpm-lock.yaml
+!yarn.lock
+!poetry.lock
+!Pipfile.lock
+
+# Temporary config files
+temp_config.js
+temp_*.js
+temp_*.ts
