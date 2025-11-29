@@ -1,0 +1,6 @@
+{
+  "name": "Standard CI",
+  "description": "Continuous integration using org-wide reusable workflows",
+  "iconName": "octicon workflow",
+  "categories": ["Node", "TypeScript", "JavaScript"]
+}
