@@ -1,0 +1,66 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: supertool-helm-production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project the application belongs to
+  project: default
+
+  # Source configuration
+  source:
+    # Git repository URL
+    repoURL: https://github.com/username/supertool
+    targetRevision: HEAD
+    path: devops/kubernetes/helm/supertool
+
+    # Helm-specific options
+    helm:
+      valueFiles:
+        - values-production.yaml
+      parameters:
+        - name: image.tag
+          value: "1.0.0"
+        - name: replicaCount
+          value: "3"
+      releaseName: supertool
+
+  # Destination configuration
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  # Ignore differences
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+      jsonPointers:
+        - /status
+
+  # Health assessment
+  revisionHistoryLimit: 10

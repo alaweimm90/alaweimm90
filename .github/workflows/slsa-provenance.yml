@@ -164,7 +164,7 @@ jobs:
           path: dist/
 
       - name: Generate attestations
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v2
         with:
           subject-path: 'dist/*.tar.gz'
 

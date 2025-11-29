@@ -1,0 +1,106 @@
+<svg width="1200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A1628;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E3A5F;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#60A5FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#93C5FD;stop-opacity:1" />
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Wavefunction pattern -->
+    <path id="wave" d="M0,125 Q50,105 100,125 T200,125" stroke="#3B82F6" stroke-width="2" fill="none" opacity="0.3"/>
+  </defs>
+
+  <rect width="1200" height="250" fill="url(#bg)"/>
+
+  <!-- Atomic orbital pattern -->
+  <g opacity="0.2">
+    <ellipse cx="200" cy="125" rx="80" ry="30" stroke="#3B82F6" stroke-width="1.5" fill="none" transform="rotate(30 200 125)"/>
+    <ellipse cx="200" cy="125" rx="80" ry="30" stroke="#60A5FA" stroke-width="1.5" fill="none" transform="rotate(90 200 125)"/>
+    <ellipse cx="200" cy="125" rx="80" ry="30" stroke="#93C5FD" stroke-width="1.5" fill="none" transform="rotate(150 200 125)"/>
+    <circle cx="200" cy="125" r="8" fill="#3B82F6"/>
+
+    <!-- Right side orbitals -->
+    <ellipse cx="1000" cy="125" rx="70" ry="25" stroke="#3B82F6" stroke-width="1.5" fill="none" transform="rotate(45 1000 125)"/>
+    <ellipse cx="1000" cy="125" rx="70" ry="25" stroke="#60A5FA" stroke-width="1.5" fill="none" transform="rotate(135 1000 125)"/>
+    <circle cx="1000" cy="125" r="6" fill="#60A5FA"/>
+  </g>
+
+  <!-- Standing wave pattern -->
+  <g opacity="0.3">
+    <path d="M0,200 Q100,180 200,200 T400,200 T600,200 T800,200 T1000,200 T1200,200"
+          stroke="#3B82F6" stroke-width="1.5" fill="none"/>
+    <path d="M0,190 Q100,170 200,190 T400,190 T600,190 T800,190 T1000,190 T1200,190"
+          stroke="#60A5FA" stroke-width="1" fill="none"/>
+  </g>
+
+  <!-- Particle in a box visualization -->
+  <g opacity="0.25">
+    <rect x="80" y="60" width="200" height="2" fill="#3B82F6"/>
+    <rect x="80" y="60" width="2" height="80" fill="#3B82F6"/>
+    <rect x="278" y="60" width="2" height="80" fill="#3B82F6"/>
+
+    <!-- Wave inside box -->
+    <path d="M82,100 Q130,80 180,100 Q230,120 278,100" stroke="#60A5FA" stroke-width="2" fill="none"/>
+    <circle cx="180" cy="100" r="4" fill="#93C5FD">
+      <animate attributeName="cx" values="82;278;82" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Quantum symbols -->
+  <text x="920" y="70" font-family="'SF Mono', 'Courier New', monospace"
+        font-size="20" fill="#3B82F6" opacity="0.4">ħ</text>
+  <text x="100" y="180" font-family="'SF Mono', monospace"
+        font-size="18" fill="#60A5FA" opacity="0.4">ψ(x,t)</text>
+
+  <!-- Main title -->
+  <text x="600" y="95" font-family="'SF Mono', 'Monaco', 'Courier New', monospace"
+        font-size="48" font-weight="bold" text-anchor="middle"
+        fill="url(#text-grad)" filter="url(#glow)">
+    MEATHEAD PHYSICIST
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="135" font-family="'SF Mono', 'Monaco', monospace"
+        font-size="18" text-anchor="middle" fill="#A3BFDE">
+    Making Physics Accessible Through Interactive Simulations
+  </text>
+
+  <!-- Bottom badge -->
+  <g transform="translate(400, 160)">
+    <rect x="0" y="0" width="400" height="38" rx="19"
+          fill="#0A1628" stroke="#3B82F6" stroke-width="2" opacity="0.9"/>
+    <text x="200" y="25" font-family="'SF Mono', monospace"
+          font-size="13" text-anchor="middle" fill="#3B82F6" font-weight="bold">
+      ⚛️ Quantum Mechanics • Solid State • Computational Physics
+    </text>
+  </g>
+
+  <!-- Formula decorations -->
+  <text x="320" y="45" font-family="'SF Mono', monospace"
+        font-size="16" fill="#60A5FA" opacity="0.5">E = mc²</text>
+  <text x="1050" y="215" font-family="'SF Mono', monospace"
+        font-size="16" fill="#93C5FD" opacity="0.5">iℏ∂ψ/∂t</text>
+
+  <!-- Energy level lines -->
+  <g opacity="0.2">
+    <line x1="900" y1="180" x2="960" y2="180" stroke="#3B82F6" stroke-width="2"/>
+    <line x1="900" y1="200" x2="960" y2="200" stroke="#60A5FA" stroke-width="2"/>
+    <line x1="900" y1="220" x2="960" y2="220" stroke="#93C5FD" stroke-width="2"/>
+    <text x="970" y="183" font-family="'SF Mono', monospace" font-size="10" fill="#3B82F6">n=3</text>
+    <text x="970" y="203" font-family="'SF Mono', monospace" font-size="10" fill="#60A5FA">n=2</text>
+    <text x="970" y="223" font-family="'SF Mono', monospace" font-size="10" fill="#93C5FD">n=1</text>
+  </g>
+</svg>

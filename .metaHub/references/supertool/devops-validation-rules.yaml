@@ -1,0 +1,99 @@
+# SuperTool DevOps Governance Validation Rules
+# Synced from: C:\Users\mesha\Desktop\Projects\SuperTool\devops\governance\validation-rules.yaml
+# This is a reference copy for central governance
+
+metadata:
+  name: supertool-devops-governance
+  version: "1.0.0"
+  description: "Governance validation rules for SuperTool DevOps platform"
+  synced_from: "C:/Users/mesha/Desktop/Projects/SuperTool"
+  sync_date: "2025-11-28"
+
+enforcement:
+  level: error
+  fail_on_warning: false
+
+categories:
+  - name: file_organization
+    description: "File structure and naming conventions"
+    rules:
+      - id: FO-001
+        name: "DevOps configs in /devops"
+        severity: error
+
+      - id: FO-002
+        name: "Consistent file naming"
+        severity: warning
+
+      - id: FO-003
+        name: "YAML extension consistency"
+        severity: warning
+
+  - name: security
+    description: "Security compliance rules"
+    rules:
+      - id: SEC-001
+        name: "No hardcoded secrets"
+        severity: error
+
+      - id: SEC-002
+        name: "No hardcoded API keys"
+        severity: error
+
+      - id: SEC-003
+        name: "Non-root containers"
+        severity: warning
+
+      - id: SEC-004
+        name: "Resource limits defined"
+        severity: warning
+
+  - name: infrastructure
+    description: "Infrastructure as Code requirements"
+    rules:
+      - id: IaC-001
+        name: "Terraform configuration exists"
+        severity: error
+
+      - id: IaC-002
+        name: "Terraform variables defined"
+        severity: error
+
+  - name: observability
+    description: "Monitoring and observability requirements"
+    rules:
+      - id: OBS-001
+        name: "Prometheus configuration"
+        severity: error
+
+      - id: OBS-002
+        name: "Alert rules configured"
+        severity: error
+
+  - name: gitops
+    description: "GitOps workflow requirements"
+    rules:
+      - id: GO-001
+        name: "ArgoCD configuration"
+        severity: error
+
+  - name: documentation
+    description: "Documentation requirements"
+    rules:
+      - id: DOC-001
+        name: "Transformation documentation"
+        severity: error
+
+# Alignment with central governance
+central_alignment:
+  root_structure_contract:
+    status: "compliant"
+    deviations: []
+
+  security_governance:
+    status: "compliant"
+    additional_rules: ["SEC-003", "SEC-004"]
+
+  mcp_governance:
+    status: "integrated"
+    agents_supported: ["ATLAS", "Turingo", "MeatheadPhysicist"]

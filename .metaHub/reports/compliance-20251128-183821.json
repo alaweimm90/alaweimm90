@@ -1,0 +1,321 @@
+{
+  "report_type": "unified_compliance",
+  "timestamp": "2025-11-28T18:38:21.188853",
+  "repository": "C:\\Users\\mesha\\Desktop\\GitHub",
+  "supertool": "C:\\Users\\mesha\\Desktop\\Projects\\SuperTool",
+  "domains": {
+    "organizations": {
+      "timestamp": "2025-11-28T18:38:21.151717",
+      "organizations": [
+        {
+          "project": "alaweimm90-business",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
+          "valid": true,
+          "metadata": {
+            "metadata_exists": true
+          },
+          "documentation": {
+            "README.md_exists": true,
+            "CONTRIBUTING.md_exists": true,
+            "SECURITY.md_exists": true,
+            "LICENSE_exists": true
+          },
+          "github_templates": {
+            "issue_template_dir_exists": true,
+            "bug_report_template_exists": true,
+            "feature_request_template_exists": true,
+            "pr_template_exists": true,
+            "codeowners_exists": true
+          },
+          "ci_cd": {
+            "workflows_dir_exists": true,
+            "has_test_workflow": true,
+            "has_lint_workflow": true,
+            "has_security_workflow": true
+          },
+          "pre_commit": {
+            "pre_commit_config_exists": true
+          }
+        },
+        {
+          "project": "alaweimm90-science",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
+          "valid": true,
+          "metadata": {
+            "metadata_exists": true
+          },
+          "documentation": {
+            "README.md_exists": true,
+            "CONTRIBUTING.md_exists": true,
+            "SECURITY.md_exists": true,
+            "LICENSE_exists": true
+          },
+          "github_templates": {
+            "issue_template_dir_exists": true,
+            "bug_report_template_exists": true,
+            "feature_request_template_exists": true,
+            "pr_template_exists": true,
+            "codeowners_exists": true
+          },
+          "ci_cd": {
+            "workflows_dir_exists": true,
+            "has_test_workflow": true,
+            "has_lint_workflow": true,
+            "has_security_workflow": true
+          },
+          "pre_commit": {
+            "pre_commit_config_exists": true
+          }
+        },
+        {
+          "project": "AlaweinOS",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS",
+          "valid": true,
+          "metadata": {
+            "metadata_exists": true
+          },
+          "documentation": {
+            "README.md_exists": true,
+            "CONTRIBUTING.md_exists": true,
+            "SECURITY.md_exists": true,
+            "LICENSE_exists": true
+          },
+          "github_templates": {
+            "issue_template_dir_exists": true,
+            "bug_report_template_exists": true,
+            "feature_request_template_exists": true,
+            "pr_template_exists": true,
+            "codeowners_exists": true
+          },
+          "ci_cd": {
+            "workflows_dir_exists": true,
+            "has_test_workflow": true,
+            "has_lint_workflow": false,
+            "has_security_workflow": false
+          },
+          "pre_commit": {
+            "pre_commit_config_exists": true
+          }
+        },
+        {
+          "project": "MeatheadPhysicist",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
+          "valid": true,
+          "metadata": {
+            "metadata_exists": true
+          },
+          "documentation": {
+            "README.md_exists": true,
+            "CONTRIBUTING.md_exists": true,
+            "SECURITY.md_exists": true,
+            "LICENSE_exists": true
+          },
+          "github_templates": {
+            "issue_template_dir_exists": true,
+            "bug_report_template_exists": true,
+            "feature_request_template_exists": true,
+            "pr_template_exists": true,
+            "codeowners_exists": true
+          },
+          "ci_cd": {
+            "workflows_dir_exists": true,
+            "has_test_workflow": true,
+            "has_lint_workflow": true,
+            "has_security_workflow": true
+          },
+          "pre_commit": {
+            "pre_commit_config_exists": true
+          }
+        }
+      ],
+      "summary": {
+        "total_projects": 4,
+        "valid_projects": 4,
+        "invalid_projects": 0,
+        "compliance_percentage": 100.0
+      }
+    },
+    "devops_cli": {
+      "timestamp": "2025-11-28T18:38:21.160426",
+      "valid": true,
+      "modules": {
+        "modules": {
+          "tools/devops/builder.ts": {
+            "exists": true,
+            "size": 5669
+          },
+          "tools/devops/coder.ts": {
+            "exists": true,
+            "size": 7343
+          },
+          "tools/devops/config.ts": {
+            "exists": true,
+            "size": 1514
+          },
+          "tools/devops/fs.ts": {
+            "exists": true,
+            "size": 4654
+          },
+          "tools/devops/install.ts": {
+            "exists": true,
+            "size": 1606
+          },
+          "tools/devops/bootstrap.ts": {
+            "exists": true,
+            "size": 1535
+          }
+        },
+        "total_modules": 6,
+        "existing_modules": 6,
+        "missing_modules": []
+      },
+      "templates": {
+        "templates_dir_exists": true,
+        "categories": {
+          "cicd": {
+            "exists": true,
+            "template_count": 3
+          },
+          "db": {
+            "exists": true,
+            "template_count": 3
+          },
+          "demos": {
+            "exists": true,
+            "template_count": 1
+          },
+          "iac": {
+            "exists": true,
+            "template_count": 2
+          },
+          "k8s": {
+            "exists": true,
+            "template_count": 2
+          },
+          "logging": {
+            "exists": true,
+            "template_count": 1
+          },
+          "monitoring": {
+            "exists": true,
+            "template_count": 2
+          },
+          "ui": {
+            "exists": true,
+            "template_count": 3
+          }
+        },
+        "total_categories": 8,
+        "existing_categories": 8,
+        "total_templates": 17,
+        "missing_categories": []
+      },
+      "tests": {
+        "tests_dir_exists": true,
+        "test_files": {
+          "devops_cli.test.ts": {
+            "exists": true,
+            "size": 1212
+          },
+          "devops_config.test.ts": {
+            "exists": true,
+            "size": 2752
+          },
+          "devops_validate.test.ts": {
+            "exists": true,
+            "size": 3968
+          },
+          "devops_coder.test.ts": {
+            "exists": true,
+            "size": 2275
+          }
+        },
+        "total_expected": 4,
+        "existing_tests": 4,
+        "missing_tests": []
+      },
+      "config": {
+        "config_files": {
+          "package.json": {
+            "exists": true
+          },
+          "tsconfig.json": {
+            "exists": true
+          },
+          "eslint.config.js": {
+            "exists": true
+          },
+          "vitest.config.ts": {
+            "exists": true
+          },
+          ".prettierrc": {
+            "exists": true
+          }
+        },
+        "total_configs": 5,
+        "existing_configs": 5,
+        "missing_configs": []
+      },
+      "summary": {
+        "modules_complete": true,
+        "templates_complete": true,
+        "tests_complete": true,
+        "config_complete": true,
+        "overall_status": "COMPLIANT"
+      }
+    },
+    "supertool_integration": {
+      "timestamp": "2025-11-28T18:38:21.188853",
+      "valid": true,
+      "central_references": {
+        "reference_files": {
+          ".metaHub/references/supertool/SUMMARY.md": {
+            "exists": true,
+            "size": 2750
+          },
+          ".metaHub/references/supertool/devops-validation-rules.yaml": {
+            "exists": true,
+            "size": 2445
+          }
+        },
+        "total_required": 2,
+        "existing_refs": 2,
+        "missing_refs": []
+      },
+      "supertool_project": {
+        "project_exists": true,
+        "governance_dir": true,
+        "validation_scripts": [
+          "check-resource-limits.sh",
+          "reorganize-files.sh",
+          "sync-governance.sh",
+          "validate-compliance.sh"
+        ],
+        "makefile_targets": 8,
+        "devops_files": 183
+      },
+      "governance_sync": {
+        "sync_script_exists": true,
+        "unified_governance_exists": true,
+        "validation_rules_synced": true,
+        "last_sync_status": "synced"
+      },
+      "summary": {
+        "references_complete": true,
+        "project_configured": true,
+        "sync_configured": true,
+        "overall_status": "SYNCED"
+      }
+    }
+  },
+  "scores": {
+    "organizations": 100.0,
+    "devops_cli": 100.0,
+    "supertool_sync": 100.0
+  },
+  "overall": {
+    "score": 100.0,
+    "status": "COMPLIANT",
+    "grade": "A"
+  }
+}

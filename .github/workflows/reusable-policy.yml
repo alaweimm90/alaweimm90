@@ -9,6 +9,9 @@ on:
         default: .metaHub/policies
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   opa-policy:
     runs-on: ubuntu-latest

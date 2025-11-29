@@ -1,0 +1,87 @@
+# Metadata Schema Template for Governance Compliance
+# Copy this file to .meta/repo.yaml in each project and fill in the details
+
+schema_version: "1.0"
+organization: "alaweimm90"  # Organization name
+project_name: "project-name"  # Project name (kebab-case)
+project_type: "service"  # service|library|tool|research|application
+
+# Project Information
+description: "Brief project description"
+owner: "@username"  # Primary owner GitHub handle
+team: ["@user1", "@user2"]  # Team members
+status: "active"  # active|maintenance|archived
+created_date: "2025-01-01"
+last_updated: "2025-11-28"
+
+# Technology Stack
+languages: ["python", "javascript"]  # Primary languages
+frameworks: ["fastapi", "react"]  # Frameworks used
+databases: ["postgresql", "redis"]  # Databases used
+deployment: ["docker", "kubernetes"]  # Deployment methods
+
+# Compliance Requirements
+testing:
+  framework: "pytest"  # pytest|vitest|jest
+  minimum_coverage: 80  # Minimum code coverage percentage
+  integration_tests: true
+  e2e_tests: false
+  
+security:
+  scanning: true  # Enable security scanning
+  dependency_check: true  # Enable dependency checking
+  sast: true  # Static Application Security Testing
+  
+documentation:
+  readme: true
+  contributing: true
+  security: true
+  architecture: false
+  deployment: false
+  
+ci_cd:
+  provider: "github-actions"  # github-actions|gitlab-ci|circleci
+  required_checks: ["lint", "test", "security"]
+  auto_deploy: false
+  
+code_quality:
+  linter: "ruff"  # ruff|eslint|pylint
+  formatter: "black"  # black|prettier
+  type_checker: "mypy"  # mypy|typescript
+  min_quality_score: 85
+
+# Links
+repository: "https://github.com/..."
+documentation_url: "https://..."
+issue_tracker: "https://github.com/.../issues"
+ci_cd_url: "https://github.com/.../actions"
+
+# Tier Classification
+# Tier 1 (Critical): Full test coverage, SLO monitoring, incident runbooks
+# Tier 2 (Important): 80%+ coverage, basic monitoring
+# Tier 3 (Experimental): Metadata only
+tier: "2"  # 1|2|3
+
+# SLO (Service Level Objectives) - for Tier 1 only
+slo:
+  availability: 99.9  # Percentage
+  response_time_ms: 200
+  error_rate: 0.1  # Percentage
+
+# Dependencies
+dependencies:
+  python_version: "3.11+"
+  node_version: "18+"
+  key_packages: ["fastapi", "sqlalchemy", "pydantic"]
+
+# Maintenance
+maintenance:
+  owner: "@username"
+  schedule: "weekly"  # weekly|monthly|quarterly
+  last_audit: "2025-11-28"
+  next_audit: "2025-12-28"
+
+# Notes
+notes: |
+  Additional notes about the project.
+  Can span multiple lines.

@@ -14,7 +14,12 @@
       "Bash(\"kilo --auto-approve\")",
       "Bash(\"blackbox --yolo\")",
       "Bash(/c/Users/mesha/AppData/Local/Programs/Python/Python311/python.exe \"c:\\Users\\mesha\\Desktop\\GitHub\\.metaHub\\scripts\\structure_validator.py\" --root)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(done)",
+      "Bash(readlink:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

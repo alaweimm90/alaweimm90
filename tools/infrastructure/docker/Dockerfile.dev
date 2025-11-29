@@ -1,0 +1,43 @@
+# SuperTool Development Dockerfile
+# Includes dev dependencies and debugging tools
+
+FROM node:20-alpine
+
+# Install development tools
+RUN apk add --no-cache \
+    git \
+    bash \
+    curl \
+    vim \
+    && npm install -g nodemon
+
+# Add metadata
+LABEL maintainer="Meshal Alawein" \
+      description="SuperTool - Development Environment" \
+      version="1.0.0-dev"
+
+# Create non-root user
+RUN addgroup -g 1001 -S supertool && \
+    adduser -S supertool -u 1001 -G supertool
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY cli/package*.json ./
+
+# Install all dependencies (including dev)
+RUN npm install && npm cache clean --force
+
+# Change ownership
+RUN chown -R supertool:supertool /app
+
+# Switch to non-root user
+USER supertool
+
+# Set environment
+ENV NODE_ENV=development \
+    PATH="/app/bin:${PATH}"
+
+# Default command for interactive development
+CMD ["/bin/sh"]

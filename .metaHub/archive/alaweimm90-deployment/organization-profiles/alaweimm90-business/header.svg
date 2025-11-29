@@ -1,0 +1,140 @@
+<svg width="1200" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A1510;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2D2416;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FBBF24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FCD34D;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="gold-shimmer" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:0.3">
+        <animate attributeName="offset" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#FCD34D;stop-opacity:0.8">
+        <animate attributeName="offset" values="0.5;1;0" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:0.3">
+        <animate attributeName="offset" values="1;0;1" dur="3s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="luxury-glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="250" fill="url(#bg)"/>
+
+  <!-- Luxury pattern - diamonds -->
+  <g opacity="0.15">
+    <path d="M150,80 L165,95 L150,110 L135,95 Z" fill="#F59E0B"/>
+    <path d="M150,85 L160,95 L150,105 L140,95 Z" fill="#FBBF24"/>
+
+    <path d="M1050,80 L1065,95 L1050,110 L1035,95 Z" fill="#F59E0B"/>
+    <path d="M1050,85 L1060,95 L1050,105 L1040,95 Z" fill="#FBBF24"/>
+
+    <path d="M150,170 L165,185 L150,200 L135,185 Z" fill="#F59E0B"/>
+    <path d="M150,175 L160,185 L150,195 L140,185 Z" fill="#FBBF24"/>
+
+    <path d="M1050,170 L1065,185 L1050,200 L1035,185 Z" fill="#F59E0B"/>
+    <path d="M1050,175 L1060,185 L1050,195 L1040,185 Z" fill="#FBBF24"/>
+  </g>
+
+  <!-- Crown icon left -->
+  <g opacity="0.2" transform="translate(80, 115)">
+    <path d="M0,20 L10,5 L20,15 L30,0 L40,15 L50,5 L60,20 L60,30 L0,30 Z"
+          fill="#F59E0B" stroke="#FBBF24" stroke-width="1.5"/>
+    <circle cx="10" cy="5" r="3" fill="#FCD34D"/>
+    <circle cx="30" cy="0" r="3" fill="#FCD34D"/>
+    <circle cx="50" cy="5" r="3" fill="#FCD34D"/>
+  </g>
+
+  <!-- Shopping bag icon right -->
+  <g opacity="0.2" transform="translate(1060, 115)">
+    <rect x="10" y="15" width="40" height="35" rx="2"
+          fill="none" stroke="#F59E0B" stroke-width="2.5"/>
+    <path d="M15,15 Q20,5 25,5 Q30,5 35,5 Q40,5 45,15"
+          fill="none" stroke="#FBBF24" stroke-width="2"/>
+    <circle cx="25" cy="28" r="2" fill="#FCD34D"/>
+    <circle cx="35" cy="28" r="2" fill="#FCD34D"/>
+  </g>
+
+  <!-- Decorative lines -->
+  <g opacity="0.2">
+    <line x1="200" y1="125" x2="420" y2="125" stroke="url(#gold-shimmer)" stroke-width="2"/>
+    <line x1="780" y1="125" x2="1000" y2="125" stroke="url(#gold-shimmer)" stroke-width="2"/>
+  </g>
+
+  <!-- Star decorations -->
+  <g opacity="0.3">
+    <path d="M250,60 L253,68 L262,68 L255,73 L258,82 L250,76 L242,82 L245,73 L238,68 L247,68 Z" fill="#F59E0B"/>
+    <path d="M950,60 L953,68 L962,68 L955,73 L958,82 L950,76 L942,82 L945,73 L938,68 L947,68 Z" fill="#FBBF24"/>
+
+    <path d="M250,190 L253,198 L262,198 L255,203 L258,212 L250,206 L242,212 L245,203 L238,198 L247,198 Z" fill="#F59E0B"/>
+    <path d="M950,190 L953,198 L962,198 L955,203 L958,212 L950,206 L942,212 L945,203 L938,198 L947,198 Z" fill="#FBBF24"/>
+  </g>
+
+  <!-- Main title -->
+  <text x="600" y="105" font-family="'Playfair Display', 'Georgia', serif"
+        font-size="68" font-weight="bold" text-anchor="middle"
+        fill="url(#text-grad)" filter="url(#luxury-glow)">
+    LIVE IT ICONIC
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="145" font-family="'SF Mono', 'Georgia', serif"
+        font-size="18" text-anchor="middle" fill="#D4B896" font-style="italic">
+    Elevated Commerce. Exceptional Experiences.
+  </text>
+
+  <!-- Bottom badge -->
+  <g transform="translate(360, 170)">
+    <rect x="0" y="0" width="480" height="42" rx="21"
+          fill="#1A1510" stroke="#F59E0B" stroke-width="2.5" opacity="0.95"/>
+    <text x="240" y="27" font-family="'SF Mono', sans-serif"
+          font-size="13" text-anchor="middle" fill="#FBBF24" font-weight="600" letter-spacing="1">
+      ✨ CURATED PRODUCTS • PREMIUM BRANDS • SMART RECOMMENDATIONS
+    </text>
+  </g>
+
+  <!-- Sparkle effects -->
+  <g opacity="0.6">
+    <circle cx="470" cy="95" r="2" fill="#FCD34D">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="730" cy="95" r="2" fill="#FCD34D">
+      <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="490" cy="110" r="1.5" fill="#FBBF24">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="710" cy="110" r="1.5" fill="#FBBF24">
+      <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Decorative frame corners -->
+  <g opacity="0.15" stroke="#F59E0B" stroke-width="2" fill="none">
+    <path d="M40,40 L40,60 M40,40 L60,40"/>
+    <path d="M1160,40 L1140,40 M1160,40 L1160,60"/>
+    <path d="M40,210 L40,190 M40,210 L60,210"/>
+    <path d="M1160,210 L1160,190 M1160,210 L1140,210"/>
+  </g>
+</svg>

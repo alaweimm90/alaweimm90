@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: supertool-base
+
+# Common labels applied to all resources
+commonLabels:
+  app: supertool
+  managed-by: kustomize
+
+# Common annotations applied to all resources
+commonAnnotations:
+  documentation: "https://github.com/username/supertool"
+
+# Resources to include
+resources:
+  - deployment.yaml
+  - service.yaml
+  - serviceaccount.yaml
+  - hpa.yaml
+  - pdb.yaml
+  - networkpolicy.yaml
+
+# ConfigMap generator
+configMapGenerator:
+  - name: supertool-config
+    literals:
+      - APP_NAME=supertool
+      - LOG_FORMAT=json
+
+# Images to use
+images:
+  - name: supertool
+    newName: ghcr.io/username/supertool
+    newTag: latest
+
+# Namespace
+namespace: supertool
+
+# Replicas (can be overridden in overlays)
+replicas:
+  - name: supertool
+    count: 3

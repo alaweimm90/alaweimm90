@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: supertool-production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project the application belongs to
+  project: default
+
+  # Source configuration
+  source:
+    # Git repository URL
+    repoURL: https://github.com/username/supertool
+    targetRevision: HEAD  # Can be changed to a specific branch, tag, or commit
+    path: devops/kubernetes/kustomize/overlays/production
+
+    # Kustomize-specific options
+    kustomize:
+      version: v5.0.0
+      commonLabels:
+        deployed-by: argocd
+      commonAnnotations:
+        argocd.argoproj.io/tracking-id: supertool-production
+
+  # Destination configuration
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      # Automatically sync when changes are detected
+      prune: true  # Delete resources that are no longer defined
+      selfHeal: true  # Revert manual changes
+      allowEmpty: false  # Don't delete all resources if path is empty
+
+    syncOptions:
+      - CreateNamespace=true  # Create namespace if it doesn't exist
+      - PrunePropagationPolicy=foreground  # Wait for resources to be deleted
+      - PruneLast=true  # Prune resources as last step
+
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  # Ignore differences in certain fields
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas  # Ignore replica count (managed by HPA)
+    - group: autoscaling
+      kind: HorizontalPodAutoscaler
+      jsonPointers:
+        - /status  # Ignore HPA status
+
+  # Health assessment
+  revisionHistoryLimit: 10

@@ -1,0 +1,129 @@
+{
+  "timestamp": "2025-11-28T16:40:43.199735",
+  "valid": true,
+  "modules": {
+    "modules": {
+      "tools/devops/builder.ts": {
+        "exists": true,
+        "size": 5669
+      },
+      "tools/devops/coder.ts": {
+        "exists": true,
+        "size": 7343
+      },
+      "tools/devops/config.ts": {
+        "exists": true,
+        "size": 1514
+      },
+      "tools/devops/fs.ts": {
+        "exists": true,
+        "size": 4654
+      },
+      "tools/devops/install.ts": {
+        "exists": true,
+        "size": 1606
+      },
+      "tools/devops/bootstrap.ts": {
+        "exists": true,
+        "size": 1535
+      }
+    },
+    "total_modules": 6,
+    "existing_modules": 6,
+    "missing_modules": []
+  },
+  "templates": {
+    "templates_dir_exists": true,
+    "categories": {
+      "cicd": {
+        "exists": true,
+        "template_count": 3
+      },
+      "db": {
+        "exists": true,
+        "template_count": 3
+      },
+      "demos": {
+        "exists": true,
+        "template_count": 1
+      },
+      "iac": {
+        "exists": true,
+        "template_count": 2
+      },
+      "k8s": {
+        "exists": true,
+        "template_count": 2
+      },
+      "logging": {
+        "exists": true,
+        "template_count": 1
+      },
+      "monitoring": {
+        "exists": true,
+        "template_count": 2
+      },
+      "ui": {
+        "exists": true,
+        "template_count": 3
+      }
+    },
+    "total_categories": 8,
+    "existing_categories": 8,
+    "total_templates": 17,
+    "missing_categories": []
+  },
+  "tests": {
+    "tests_dir_exists": true,
+    "test_files": {
+      "devops_cli.test.ts": {
+        "exists": true,
+        "size": 1212
+      },
+      "devops_config.test.ts": {
+        "exists": true,
+        "size": 2752
+      },
+      "devops_validate.test.ts": {
+        "exists": true,
+        "size": 3968
+      },
+      "devops_coder.test.ts": {
+        "exists": true,
+        "size": 2275
+      }
+    },
+    "total_expected": 4,
+    "existing_tests": 4,
+    "missing_tests": []
+  },
+  "config": {
+    "config_files": {
+      "package.json": {
+        "exists": true
+      },
+      "tsconfig.json": {
+        "exists": true
+      },
+      "eslint.config.js": {
+        "exists": true
+      },
+      "vitest.config.ts": {
+        "exists": true
+      },
+      ".prettierrc": {
+        "exists": true
+      }
+    },
+    "total_configs": 5,
+    "existing_configs": 5,
+    "missing_configs": []
+  },
+  "summary": {
+    "modules_complete": true,
+    "templates_complete": true,
+    "tests_complete": true,
+    "config_complete": true,
+    "overall_status": "COMPLIANT"
+  }
+}

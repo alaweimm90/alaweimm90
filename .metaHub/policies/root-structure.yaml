@@ -93,10 +93,11 @@ allowed_directories:
     - name: ".vscode"
       purpose: "VS Code workspace settings"
     - name: "tools"
-      purpose: "DevOps CLI tools (builder, coder, validators)"
+      purpose: "Unified toolkit - AI orchestration, governance, DevOps, security"
     - name: "templates"
       purpose: "DevOps template library (CI/CD, K8s, Helm, monitoring)"
-    # .claude removed - now forbidden (use .ai/claude/)
+    - name: "bin"
+      purpose: "Executable CLI entry points (toolkit command)"
 
   # Tool Configuration (allowed, should be hidden)
   tooling:

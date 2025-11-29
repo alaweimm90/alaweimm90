@@ -1,0 +1,53 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: supertool-production
+
+# Base configuration
+bases:
+  - ../../base
+
+# Namespace for production
+namespace: production
+
+# Common labels for production
+commonLabels:
+  environment: production
+  tier: production
+
+# Common annotations
+commonAnnotations:
+  environment: production
+  managed-by: kustomize
+
+# Image tag for production
+images:
+  - name: supertool
+    newName: ghcr.io/username/supertool
+    newTag: "1.0.0"  # Specific version for production
+
+# ConfigMap generator for production-specific config
+configMapGenerator:
+  - name: supertool-config
+    behavior: merge
+    literals:
+      - NODE_ENV=production
+      - LOG_LEVEL=info
+      - ENVIRONMENT=production
+
+# Replica count for production
+replicas:
+  - name: supertool
+    count: 3
+
+# Patches for production-specific configurations
+patches:
+  - path: deployment-patch.yaml
+  - path: hpa-patch.yaml
+  - path: pdb-patch.yaml
+
+# Resources to add (production-specific)
+resources:
+  - ingress.yaml
+  - servicemonitor.yaml

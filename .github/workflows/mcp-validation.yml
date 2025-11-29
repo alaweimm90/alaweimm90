@@ -13,6 +13,10 @@ on:
       - '.ai/mcp/**'
       - '.metaHub/scripts/**'
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   validate-mcp-config:
     name: Validate MCP Configuration

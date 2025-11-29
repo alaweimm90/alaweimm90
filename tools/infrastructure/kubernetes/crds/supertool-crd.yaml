@@ -1,0 +1,264 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: supertools.devops.supertool.io
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.13.0
+spec:
+  group: devops.supertool.io
+  names:
+    kind: SuperTool
+    listKind: SuperToolList
+    plural: supertools
+    singular: supertool
+    shortNames:
+    - st
+    - stool
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        description: SuperTool is the Schema for the supertools API
+        type: object
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object.'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents.'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: SuperToolSpec defines the desired state of SuperTool
+            type: object
+            required:
+            - version
+            properties:
+              version:
+                description: Version of SuperTool to deploy
+                type: string
+                pattern: '^v?[0-9]+\.[0-9]+\.[0-9]+$'
+              replicas:
+                description: Number of desired pods
+                type: integer
+                minimum: 1
+                maximum: 100
+                default: 3
+              image:
+                description: Container image configuration
+                type: object
+                properties:
+                  repository:
+                    type: string
+                    default: ghcr.io/username/supertool
+                  pullPolicy:
+                    type: string
+                    enum:
+                    - Always
+                    - IfNotPresent
+                    - Never
+                    default: IfNotPresent
+              resources:
+                description: Resource requirements
+                type: object
+                properties:
+                  limits:
+                    type: object
+                    properties:
+                      cpu:
+                        type: string
+                        default: "2000m"
+                      memory:
+                        type: string
+                        default: "4Gi"
+                  requests:
+                    type: object
+                    properties:
+                      cpu:
+                        type: string
+                        default: "500m"
+                      memory:
+                        type: string
+                        default: "1Gi"
+              autoscaling:
+                description: Autoscaling configuration
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    default: true
+                  minReplicas:
+                    type: integer
+                    minimum: 1
+                    default: 3
+                  maxReplicas:
+                    type: integer
+                    minimum: 1
+                    default: 20
+                  targetCPUUtilizationPercentage:
+                    type: integer
+                    minimum: 1
+                    maximum: 100
+                    default: 70
+                  targetMemoryUtilizationPercentage:
+                    type: integer
+                    minimum: 1
+                    maximum: 100
+                    default: 80
+              ingress:
+                description: Ingress configuration
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    default: true
+                  className:
+                    type: string
+                    default: nginx
+                  host:
+                    type: string
+                  tls:
+                    type: boolean
+                    default: true
+                  annotations:
+                    type: object
+                    additionalProperties:
+                      type: string
+              monitoring:
+                description: Monitoring configuration
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    default: true
+                  prometheus:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        default: true
+                      port:
+                        type: integer
+                        default: 9090
+                  grafana:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        default: true
+              security:
+                description: Security configuration
+                type: object
+                properties:
+                  podSecurityStandard:
+                    type: string
+                    enum:
+                    - privileged
+                    - baseline
+                    - restricted
+                    default: restricted
+                  networkPolicy:
+                    type: object
+                    properties:
+                      enabled:
+                        type: boolean
+                        default: true
+                  serviceAccount:
+                    type: object
+                    properties:
+                      create:
+                        type: boolean
+                        default: true
+                      name:
+                        type: string
+              persistence:
+                description: Persistence configuration
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                    default: false
+                  storageClass:
+                    type: string
+                  size:
+                    type: string
+                    default: 10Gi
+                  accessModes:
+                    type: array
+                    items:
+                      type: string
+                    default:
+                    - ReadWriteOnce
+          status:
+            description: SuperToolStatus defines the observed state of SuperTool
+            type: object
+            properties:
+              conditions:
+                description: Conditions represent the latest available observations
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    status:
+                      type: string
+                    lastTransitionTime:
+                      type: string
+                      format: date-time
+                    reason:
+                      type: string
+                    message:
+                      type: string
+              phase:
+                description: Phase represents the current phase of the deployment
+                type: string
+                enum:
+                - Pending
+                - Running
+                - Failed
+                - Succeeded
+              replicas:
+                description: Current number of replicas
+                type: integer
+              readyReplicas:
+                description: Number of ready replicas
+                type: integer
+              availableReplicas:
+                description: Number of available replicas
+                type: integer
+              observedGeneration:
+                description: The generation observed by the controller
+                type: integer
+    subresources:
+      status: {}
+      scale:
+        specReplicasPath: .spec.replicas
+        statusReplicasPath: .status.replicas
+    additionalPrinterColumns:
+    - name: Version
+      type: string
+      description: SuperTool version
+      jsonPath: .spec.version
+    - name: Replicas
+      type: integer
+      description: Number of replicas
+      jsonPath: .spec.replicas
+    - name: Ready
+      type: integer
+      description: Number of ready replicas
+      jsonPath: .status.readyReplicas
+    - name: Phase
+      type: string
+      description: Current phase
+      jsonPath: .status.phase
+    - name: Age
+      type: date
+      jsonPath: .metadata.creationTimestamp

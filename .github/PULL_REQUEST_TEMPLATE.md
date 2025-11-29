@@ -1,48 +1,57 @@
-## Summary
+## Description
 
-<!-- Brief description of changes -->
-
-## Type of Change
-
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would break existing functionality)
-- [ ] Documentation update
-- [ ] Refactoring (no functional changes)
-- [ ] Infrastructure/CI changes
+Brief description of changes.
 
 ## Related Issues
 
-<!-- Link to related issues: Fixes #123, Relates to #456 -->
+Closes #(issue number)
 
-## Changes Made
+## Type of Change
 
-<!-- Bullet list of specific changes -->
--
--
--
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change
+- [ ] Documentation update
+- [ ] Performance improvement
+- [ ] Refactoring
 
 ## Testing
 
-- [ ] Unit tests pass locally
-- [ ] Integration tests pass (if applicable)
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
 - [ ] Manual testing completed
-
-### Test Evidence
-
-<!-- Paste test output or screenshots -->
-```
-```
+- [ ] Test coverage maintained or improved
 
 ## Checklist
 
-- [ ] Code follows project style guidelines
-- [ ] Self-review completed
-- [ ] Comments added for complex code
-- [ ] Documentation updated (if needed)
-- [ ] No new warnings introduced
-- [ ] Dependencies updated in requirements/package files
+- [ ] Code follows style guidelines
+- [ ] Documentation updated
+- [ ] Tests pass locally
+- [ ] No new warnings generated
+- [ ] CHANGELOG updated (if applicable)
+- [ ] Commit messages follow Conventional Commits
+- [ ] No breaking changes (or documented if breaking)
 
-## Reviewer Notes
+### Screenshots (if applicable)
 
-<!-- Anything specific reviewers should focus on? -->
+Add screenshots for UI changes.
+
+### Performance Impact
+
+- [ ] No performance impact
+- [ ] Performance improved
+- [ ] Performance degraded (explain why)
+
+### Security Considerations
+
+- [ ] No security implications
+- [ ] Security reviewed
+- [ ] Security concerns addressed
+
+## Deployment Notes
+
+Any special deployment considerations or migration steps needed?
+
+## Reviewers
+
+@mention reviewers

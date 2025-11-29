@@ -1,0 +1,51 @@
+# Development environment values for SuperTool
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/username/supertool
+  pullPolicy: Always
+  tag: "dev-latest"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+
+autoscaling:
+  enabled: false  # Disabled in dev
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: dev-supertool.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []  # No TLS in dev
+
+env:
+  - name: NODE_ENV
+    value: "development"
+  - name: LOG_LEVEL
+    value: "debug"
+  - name: PORT
+    value: "8080"
+  - name: DEBUG
+    value: "*"
+
+podDisruptionBudget:
+  enabled: false  # Disabled in dev
+
+networkPolicy:
+  enabled: false  # Disabled for easier debugging
+
+serviceMonitor:
+  enabled: false  # Disabled in dev
+
+affinity: {}  # No affinity rules in dev

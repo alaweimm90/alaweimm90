@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: supertool
+  labels:
+    app: supertool
+    environment: production
+spec:
+  selector:
+    matchLabels:
+      app: supertool
+  endpoints:
+  - port: http
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics
