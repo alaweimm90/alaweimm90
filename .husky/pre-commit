@@ -16,13 +16,18 @@ if [ -f "package.json" ] && command -v npx &> /dev/null; then
     fi
 fi
 
-# 1. Security scan (if package.json exists) - warning only, don't block
+# 1. Check protected files
+if [ -f "scripts/check-protected-files.sh" ]; then
+    bash scripts/check-protected-files.sh
+fi
+
+# 2. Security scan (if package.json exists) - warning only, don't block
 if [ -f "package.json" ]; then
     echo "🔒 Running security scan..."
     npm audit --audit-level=moderate 2>/dev/null || echo "⚠️  WARNING: Security vulnerabilities found (run 'npm audit fix')"
 fi
 
-# 2. Check for secrets in committed files
+# 3. Check for secrets in committed files
 echo "🔑 Scanning for secrets..."
 if git diff --cached --name-only | xargs grep -E "(password|secret|api[_-]*key|token)" 2>/dev/null | grep -v ".metaHub/"; then
     echo "⚠️  WARNING: Potential secrets found in staged files"
@@ -30,7 +35,7 @@ if git diff --cached --name-only | xargs grep -E "(password|secret|api[_-]*key|t
     # Don't block - may be intentional documentation
 fi
 
-# 3. Validate YAML files (workflows and configs, excluding templates with placeholders)
+# 4. Validate YAML files (workflows and configs, excluding templates with placeholders)
 echo "📋 Validating YAML files..."
 for file in $(git diff --cached --name-only | grep -E '\.(yml|yaml)$' | grep -v '^templates/'); do
     if [ -f "$file" ]; then
@@ -45,13 +50,13 @@ for file in $(git diff --cached --name-only | grep -E '\.(yml|yaml)$' | grep -v 
     fi
 done
 
-# 4. Validate markdown files (if markdownlint available)
+# 5. Validate markdown files (if markdownlint available)
 if command -v markdownlint &> /dev/null; then
     echo "📝 Validating Markdown files..."
     git diff --cached --name-only | grep -E '\.md$' | xargs markdownlint 2>/dev/null || true
 fi
 
-# 5. Check file sizes (KILO enforcement - max 500 lines per file)
+# 6. Check file sizes (KILO enforcement - max 500 lines per file)
 echo "📏 Checking file sizes..."
 MAX_LINES=500
 violations=0
