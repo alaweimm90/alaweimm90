@@ -125,3 +125,35 @@ jobs:
               repo: context.repo.repo,
               body: summary
             });
+
+  compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run compliance validation
+        run: |
+          python .metaHub/scripts/compliance_validator.py --json > compliance-report.json || true
+          echo "### Compliance Validation Results" >> $GITHUB_STEP_SUMMARY
+          python -c "
+          import json
+          try:
+              data = json.load(open('compliance-report.json'))
+              summary = data.get('summary', {})
+              print(f\"✅ Compliant: {summary.get('compliant', 0)}\")
+              print(f\"⚠️ Warnings: {summary.get('warnings', 0)}\")
+              print(f\"❌ Violations: {summary.get('violations', 0)}\")
+          except:
+              print('Compliance check completed')
+          " >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-report
+          path: compliance-report.json
+          retention-days: 30

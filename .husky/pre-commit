@@ -17,8 +17,8 @@ if [ -f "package.json" ] && command -v npx &> /dev/null; then
 fi
 
 # 1. Check protected files
-if [ -f "scripts/check-protected-files.sh" ]; then
-    bash scripts/check-protected-files.sh
+if [ -f "tools/scripts/check-protected-files.sh" ]; then
+    bash tools/scripts/check-protected-files.sh
 fi
 
 # 2. Security scan (if package.json exists) - warning only, don't block
