@@ -1,3 +1,177 @@
-// ATLAS Core Type Definitions 
-// Multiagent LLM Orchestration System 
- 
+/**
+ * ATLAS Core Type Definitions
+ * Multiagent LLM Orchestration System
+ */
+
+// ============================================================================
+// Agent Types
+// ============================================================================
+
+export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'local' | 'custom';
+
+export type AgentCapability =
+  | 'code_generation'
+  | 'code_review'
+  | 'refactoring'
+  | 'documentation'
+  | 'testing'
+  | 'debugging'
+  | 'analysis'
+  | 'explanation'
+  | 'chat';
+
+export type AgentStatus = 'available' | 'busy' | 'unavailable' | 'circuit_open';
+
+export interface Agent {
+  id: string;
+  name: string;
+  provider: AgentProvider;
+  model: string;
+  capabilities: AgentCapability[];
+  status: AgentStatus;
+  config: AgentConfig;
+  metrics: AgentMetrics;
+  registeredAt: string;
+  lastUsed?: string;
+}
+
+export interface AgentConfig {
+  apiKeyEnv?: string;
+  endpoint?: string;
+  maxTokens: number;
+  temperature: number;
+  timeout: number;
+  retries: number;
+  costPerToken?: number;
+}
+
+export interface AgentMetrics {
+  totalRequests: number;
+  successfulRequests: number;
+  failedRequests: number;
+  avgLatency: number;
+  totalTokens: number;
+  errorRate: number;
+}
+
+// ============================================================================
+// Task Types
+// ============================================================================
+
+export type TaskType =
+  | 'code_generation'
+  | 'code_review'
+  | 'refactoring'
+  | 'documentation'
+  | 'testing'
+  | 'debugging'
+  | 'analysis'
+  | 'explanation'
+  | 'chat';
+
+export type TaskStatus =
+  | 'pending'
+  | 'routing'
+  | 'in_progress'
+  | 'completed'
+  | 'failed'
+  | 'cancelled';
+
+export type TaskPriority = 'critical' | 'high' | 'medium' | 'low';
+
+export interface Task {
+  id: string;
+  type: TaskType;
+  description: string;
+  context: TaskContext;
+  priority: TaskPriority;
+  status: TaskStatus;
+  assignedAgent?: string;
+  result?: TaskResult;
+  createdAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface TaskContext {
+  files?: string[];
+  codeSnippet?: string;
+  language?: string;
+  framework?: string;
+  additionalContext?: string;
+}
+
+export interface TaskResult {
+  success: boolean;
+  output?: string;
+  error?: string;
+  tokensUsed?: number;
+  latency?: number;
+  agentId?: string;
+}
+
+// ============================================================================
+// Routing Types
+// ============================================================================
+
+export interface RoutingDecision {
+  agentId: string;
+  confidence: number;
+  reasoning: string;
+  estimatedCost: number;
+  estimatedTime: number;
+  alternatives?: AlternativeAgent[];
+}
+
+export interface AlternativeAgent {
+  agentId: string;
+  confidence: number;
+  reason: string;
+}
+
+export interface RoutingStrategy {
+  name: string;
+  description: string;
+  selectAgent: (task: Task, agents: Agent[]) => RoutingDecision | null;
+}
+
+// ============================================================================
+// Circuit Breaker Types
+// ============================================================================
+
+export type CircuitState = 'closed' | 'open' | 'half_open';
+
+export interface CircuitBreakerConfig {
+  failureThreshold: number;
+  successThreshold: number;
+  timeout: number;
+  halfOpenRequests: number;
+}
+
+export interface CircuitBreakerState {
+  state: CircuitState;
+  failures: number;
+  successes: number;
+  lastFailure?: string;
+  lastSuccess?: string;
+  openedAt?: string;
+}
+
+// ============================================================================
+// Orchestration Config
+// ============================================================================
+
+export interface OrchestrationConfig {
+  defaultAgent?: string;
+  fallbackChain: string[];
+  circuitBreaker: CircuitBreakerConfig;
+  routing: {
+    strategy: 'capability' | 'load_balance' | 'cost' | 'latency';
+    preferences?: Record<TaskType, string>;
+  };
+  telemetry: {
+    enabled: boolean;
+    metricsPath: string;
+  };
+}
