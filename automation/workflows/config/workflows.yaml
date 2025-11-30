@@ -31,6 +31,15 @@ categories:
       - infrastructure_deploy
       - monitoring_setup
 
+  agentic:
+    description: "Advanced agentic AI workflows"
+    workflows:
+      - react_reasoning
+      - plan_and_execute
+      - self_rag
+      - reflection_loop
+      - multi_agent_debate
+
 # Workflow Definitions
 workflows:
   # Research Workflows
@@ -187,6 +196,140 @@ workflows:
         action: "Deploy to production"
         depends_on: ["deploy_staging"]
         gate: "manual_approval"
+
+  # Agentic Workflows (NEW - State of the Art)
+  react_reasoning:
+    name: "ReAct Reasoning Loop"
+    description: "Iterative reasoning and acting with tool use"
+    pattern: "react"
+    source: "Google Research"
+    stages:
+      - name: "thought"
+        action: "Analyze current situation and plan next step"
+        loop: true
+
+      - name: "action"
+        action: "Execute planned action (tool use, query, etc.)"
+        tools_enabled: true
+
+      - name: "observation"
+        action: "Process action result and update state"
+
+    termination:
+      - condition: "task_complete"
+      - condition: "max_iterations"
+        value: 10
+
+  plan_and_execute:
+    name: "Plan and Execute Workflow"
+    description: "Multi-step task decomposition with execution"
+    pattern: "plan_execute"
+    source: "LangGraph"
+    stages:
+      - name: "plan"
+        agent: "architect_agent"
+        action: "Break task into subtasks with dependencies"
+        outputs: ["task_plan"]
+
+      - name: "execute"
+        action: "Execute each subtask in order"
+        inputs: ["task_plan"]
+        loop: true
+
+      - name: "validate"
+        agent: "qa_engineer_agent"
+        action: "Verify results meet requirements"
+
+      - name: "replan"
+        agent: "architect_agent"
+        action: "Adjust plan if validation fails"
+        condition: "validation_failed"
+
+  self_rag:
+    name: "Self-RAG Adaptive Retrieval"
+    description: "Dynamic retrieval decisions with self-critique"
+    pattern: "self_rag"
+    source: "RAG Research 2024"
+    stages:
+      - name: "assess"
+        action: "Determine if retrieval is needed"
+        outputs: ["needs_retrieval"]
+
+      - name: "retrieve"
+        action: "Fetch relevant documents"
+        condition: "needs_retrieval"
+        outputs: ["documents"]
+
+      - name: "critique"
+        agent: "critic_agent"
+        action: "Evaluate retrieval quality and relevance"
+        inputs: ["documents"]
+
+      - name: "generate"
+        action: "Create grounded response with citations"
+
+      - name: "verify"
+        agent: "critic_agent"
+        action: "Check answer is supported by evidence"
+
+  reflection_loop:
+    name: "Reflection and Self-Critique"
+    description: "Iterative quality improvement through self-review"
+    pattern: "reflection"
+    source: "Constitutional AI, Reflexion"
+    stages:
+      - name: "generate"
+        action: "Create initial response"
+        outputs: ["draft"]
+
+      - name: "critique"
+        agent: "critic_agent"
+        action: "Identify issues and areas for improvement"
+        inputs: ["draft"]
+        outputs: ["feedback"]
+
+      - name: "revise"
+        action: "Improve response based on feedback"
+        inputs: ["draft", "feedback"]
+        outputs: ["revised"]
+
+      - name: "validate"
+        action: "Check if improvements are sufficient"
+        outputs: ["is_acceptable"]
+
+    termination:
+      - condition: "is_acceptable"
+      - condition: "max_iterations"
+        value: 3
+
+  multi_agent_debate:
+    name: "Multi-Agent Debate"
+    description: "Multiple perspectives for better decisions"
+    pattern: "debate"
+    source: "Multi-agent collaboration research"
+    agents:
+      - "scientist_agent"
+      - "critic_agent"
+      - "architect_agent"
+    stages:
+      - name: "propose"
+        action: "Each agent proposes a solution"
+        parallel: true
+        outputs: ["proposals"]
+
+      - name: "critique"
+        action: "Agents critique each other's proposals"
+        inputs: ["proposals"]
+        outputs: ["critiques"]
+
+      - name: "debate"
+        action: "Agents respond to critiques"
+        inputs: ["critiques"]
+        max_rounds: 3
+
+      - name: "consensus"
+        action: "Select best solution based on debate"
+        consensus_threshold: 0.8
 
 # Workflow Templates
 templates:
