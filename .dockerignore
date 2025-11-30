@@ -87,3 +87,13 @@ temp/
 *.tmp
 *.bak
 *.swp
+
+# ATLAS-specific
+.atlas/
+.ai/
+*.db
+*.sqlite
+automation/
+templates/
+.metaHub/
+.husky/

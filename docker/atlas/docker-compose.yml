@@ -1,0 +1,76 @@
+# ATLAS Multi-Agent Orchestration Platform
+# Docker Compose configuration for local development and deployment
+
+services:
+  # ==========================================================================
+  # ATLAS API Server
+  # ==========================================================================
+  atlas-api:
+    build:
+      context: ../..
+      dockerfile: docker/atlas/Dockerfile
+    container_name: atlas-api
+    ports:
+      - "${ATLAS_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - ATLAS_API_KEY=${ATLAS_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GOOGLE_AI_API_KEY=${GOOGLE_AI_API_KEY:-}
+      - ATLAS_STORAGE_BACKEND=${ATLAS_STORAGE_BACKEND:-sqlite}
+    volumes:
+      # Persistent storage for SQLite database and data
+      - atlas-data:/app/.atlas
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - atlas-network
+
+  # ==========================================================================
+  # ATLAS Development Server (with hot reload)
+  # ==========================================================================
+  atlas-dev:
+    build:
+      context: ../..
+      dockerfile: docker/atlas/Dockerfile
+      target: builder
+    container_name: atlas-dev
+    ports:
+      - "${ATLAS_DEV_PORT:-3001}:3000"
+    environment:
+      - NODE_ENV=development
+      - ATLAS_API_KEY=${ATLAS_API_KEY:-dev-key}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GOOGLE_AI_API_KEY=${GOOGLE_AI_API_KEY:-}
+    volumes:
+      # Mount source for hot reload
+      - ../../tools:/app/tools:ro
+      - atlas-dev-data:/app/.atlas
+    command: ["npx", "tsx", "watch", "tools/atlas/api/cli.ts"]
+    profiles:
+      - dev
+    networks:
+      - atlas-network
+
+# =============================================================================
+# Volumes
+# =============================================================================
+volumes:
+  atlas-data:
+    driver: local
+  atlas-dev-data:
+    driver: local
+
+# =============================================================================
+# Networks
+# =============================================================================
+networks:
+  atlas-network:
+    driver: bridge
