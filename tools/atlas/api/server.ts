@@ -1,11 +1,21 @@
 /**
  * ATLAS REST API Server
- * Lightweight HTTP server for multi-agent orchestration
+ * Lightweight HTTP server with JWT auth and RBAC
  */
 
 import * as http from 'http';
 import { URL } from 'url';
 import { router } from './router.js';
+import {
+  authenticate as authAuthenticate,
+  authorize,
+  pathToResource,
+  methodToAction,
+  logAuditEntry,
+  getAuthConfig,
+  AuthConfig,
+  User,
+} from './auth.js';
 
 // ============================================================================
 // Types
@@ -17,6 +27,7 @@ export interface APIRequest {
   query: Record<string, string>;
   body: unknown;
   headers: http.IncomingHttpHeaders;
+  user?: User;
 }
 
 export interface APIResponse {
@@ -29,6 +40,9 @@ export interface ServerConfig {
   port: number;
   host: string;
   apiKey?: string;
+  jwtSecret?: string;
+  jwtExpiry?: number;
+  enableRBAC?: boolean;
 }
 
 // ============================================================================
@@ -90,34 +104,37 @@ function sendError(res: http.ServerResponse, status: number, message: string): v
 }
 
 // ============================================================================
-// Authentication
+// Authentication & Authorization
 // ============================================================================
 
-function authenticate(
+function authenticateRequest(
   req: http.IncomingMessage,
-  config: ServerConfig
-): { valid: boolean; error?: string } {
-  if (!config.apiKey) {
-    return { valid: true }; // No auth required
+  config: ServerConfig,
+  authConfig: AuthConfig
+): { valid: boolean; user?: User; error?: string } {
+  // Build headers object
+  const headers: Record<string, string | string[] | undefined> = {};
+  Object.entries(req.headers).forEach(([key, value]) => {
+    headers[key] = value;
+  });
+
+  return authAuthenticate(headers, authConfig);
+}
+
+function authorizeRequest(
+  user: User | undefined,
+  path: string,
+  method: string,
+  enableRBAC: boolean
+): boolean {
+  if (!enableRBAC) {
+    return true; // RBAC disabled
   }
 
-  const authHeader = req.headers['authorization'];
-  const apiKeyHeader = req.headers['x-api-key'];
+  const resource = pathToResource(path);
+  const action = methodToAction(method);
 
-  // Check Bearer token
-  if (authHeader?.startsWith('Bearer ')) {
-    const token = authHeader.slice(7);
-    if (token === config.apiKey) {
-      return { valid: true };
-    }
-  }
-
-  // Check X-API-Key header
-  if (apiKeyHeader === config.apiKey) {
-    return { valid: true };
-  }
-
-  return { valid: false, error: 'Invalid or missing API key' };
+  return authorize(user, resource, action);
 }
 
 // ============================================================================
@@ -127,8 +144,11 @@ function authenticate(
 async function handleRequest(
   req: http.IncomingMessage,
   res: http.ServerResponse,
-  config: ServerConfig
+  config: ServerConfig,
+  authConfig: AuthConfig
 ): Promise<void> {
+  const ip = req.socket.remoteAddress;
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, {
@@ -144,12 +164,45 @@ async function handleRequest(
   // Parse request
   const url = new URL(req.url || '/', `http://${req.headers.host}`);
   const path = url.pathname;
+  const method = req.method || 'GET';
 
-  // Skip auth for health check
-  if (path !== '/health' && path !== '/') {
-    const auth = authenticate(req, config);
+  // Skip auth for health check and root
+  const isPublicPath = path === '/health' || path === '/' || path === '/auth/login';
+  let user: User | undefined;
+
+  if (!isPublicPath) {
+    const auth = authenticateRequest(req, config, authConfig);
+
     if (!auth.valid) {
+      logAuditEntry({
+        action: 'authenticate',
+        resource: pathToResource(path),
+        method,
+        path,
+        ip,
+        success: false,
+        error: auth.error,
+      });
       sendError(res, 401, auth.error || 'Unauthorized');
+      return;
+    }
+
+    user = auth.user;
+
+    // Check authorization (RBAC)
+    if (!authorizeRequest(user, path, method, config.enableRBAC ?? false)) {
+      logAuditEntry({
+        userId: user?.id,
+        username: user?.username,
+        action: 'authorize',
+        resource: pathToResource(path),
+        method,
+        path,
+        ip,
+        success: false,
+        error: 'Forbidden',
+      });
+      sendError(res, 403, 'Forbidden - insufficient permissions');
       return;
     }
   }
@@ -157,14 +210,27 @@ async function handleRequest(
   try {
     const body = await parseBody(req);
     const apiRequest: APIRequest = {
-      method: req.method || 'GET',
+      method,
       path,
       query: parseQuery(url),
       body,
       headers: req.headers,
+      user,
     };
 
     const response = await router(apiRequest);
+
+    // Log successful request
+    logAuditEntry({
+      userId: user?.id,
+      username: user?.username,
+      action: methodToAction(method),
+      resource: pathToResource(path),
+      method,
+      path,
+      ip,
+      success: true,
+    });
 
     if (response.headers) {
       Object.entries(response.headers).forEach(([key, value]) => {
@@ -176,6 +242,19 @@ async function handleRequest(
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal server error';
     console.error('API Error:', error);
+
+    logAuditEntry({
+      userId: user?.id,
+      username: user?.username,
+      action: methodToAction(method),
+      resource: pathToResource(path),
+      method,
+      path,
+      ip,
+      success: false,
+      error: message,
+    });
+
     sendError(res, 500, message);
   }
 }
@@ -189,11 +268,21 @@ export function createServer(config: Partial<ServerConfig> = {}): http.Server {
     port: parseInt(process.env.ATLAS_API_PORT || '3200', 10),
     host: process.env.ATLAS_API_HOST || '127.0.0.1',
     apiKey: process.env.ATLAS_API_KEY,
+    jwtSecret: process.env.ATLAS_JWT_SECRET,
+    jwtExpiry: parseInt(process.env.ATLAS_JWT_EXPIRY || '86400', 10),
+    enableRBAC: process.env.ATLAS_ENABLE_RBAC === 'true',
     ...config,
   };
 
+  const authConfig: AuthConfig = {
+    ...getAuthConfig(),
+    apiKey: fullConfig.apiKey,
+    jwtSecret: fullConfig.jwtSecret || getAuthConfig().jwtSecret,
+    jwtExpiry: fullConfig.jwtExpiry || 86400,
+  };
+
   const server = http.createServer((req, res) => {
-    handleRequest(req, res, fullConfig).catch((error) => {
+    handleRequest(req, res, fullConfig, authConfig).catch((error) => {
       console.error('Unhandled error:', error);
       sendError(res, 500, 'Internal server error');
     });
@@ -208,6 +297,9 @@ export function startServer(config: Partial<ServerConfig> = {}): Promise<http.Se
       port: parseInt(process.env.ATLAS_API_PORT || '3200', 10),
       host: process.env.ATLAS_API_HOST || '127.0.0.1',
       apiKey: process.env.ATLAS_API_KEY,
+      jwtSecret: process.env.ATLAS_JWT_SECRET,
+      jwtExpiry: parseInt(process.env.ATLAS_JWT_EXPIRY || '86400', 10),
+      enableRBAC: process.env.ATLAS_ENABLE_RBAC === 'true',
       ...config,
     };
 
@@ -217,10 +309,13 @@ export function startServer(config: Partial<ServerConfig> = {}): Promise<http.Se
 
     server.listen(fullConfig.port, fullConfig.host, () => {
       console.log(`ATLAS API server running at http://${fullConfig.host}:${fullConfig.port}`);
-      if (fullConfig.apiKey) {
-        console.log('API key authentication enabled');
+      if (fullConfig.apiKey || fullConfig.jwtSecret) {
+        console.log('Authentication enabled (API key + JWT)');
       } else {
-        console.log('WARNING: No API key configured - authentication disabled');
+        console.log('WARNING: No authentication configured');
+      }
+      if (fullConfig.enableRBAC) {
+        console.log('RBAC authorization enabled');
       }
       resolve(server);
     });

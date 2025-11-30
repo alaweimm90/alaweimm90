@@ -16,6 +16,18 @@ import {
   getAdapterStatuses,
 } from '../adapters/index.js';
 import { Task, TaskType, TaskPriority } from '../types/index.js';
+import {
+  createJWT,
+  verifyCredentials,
+  createUser,
+  getUser,
+  listUsers,
+  deleteUser,
+  getAuditLog,
+  getAuthConfig,
+  ROLE_PERMISSIONS,
+  Role,
+} from './auth.js';
 
 // ============================================================================
 // Route Definitions
@@ -412,6 +424,212 @@ addRoute('POST', '/route', async (req) => {
         confidence: alt.confidence,
         reason: alt.reason,
       })),
+    },
+  };
+});
+
+// ============================================================================
+// Authentication Endpoints
+// ============================================================================
+
+addRoute('POST', '/auth/login', async (req) => {
+  const body = req.body as {
+    username?: string;
+    password?: string;
+  };
+
+  if (!body.username || !body.password) {
+    return {
+      status: 400,
+      body: { error: 'Missing required fields: username, password' },
+    };
+  }
+
+  const user = verifyCredentials(body.username, body.password);
+  if (!user) {
+    return {
+      status: 401,
+      body: { error: 'Invalid credentials' },
+    };
+  }
+
+  const authConfig = getAuthConfig();
+  const token = createJWT(
+    {
+      sub: user.id,
+      username: user.username,
+      role: user.role,
+      permissions: user.permissions,
+    },
+    authConfig
+  );
+
+  return {
+    status: 200,
+    body: {
+      token,
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+      },
+      expiresIn: authConfig.jwtExpiry,
+    },
+  };
+});
+
+addRoute('GET', '/auth/me', async (req) => {
+  if (!req.user) {
+    return { status: 401, body: { error: 'Not authenticated' } };
+  }
+
+  return {
+    status: 200,
+    body: {
+      user: req.user,
+      permissions: req.user.permissions || ROLE_PERMISSIONS[req.user.role],
+    },
+  };
+});
+
+addRoute('POST', '/auth/refresh', async (req) => {
+  if (!req.user) {
+    return { status: 401, body: { error: 'Not authenticated' } };
+  }
+
+  const authConfig = getAuthConfig();
+  const token = createJWT(
+    {
+      sub: req.user.id,
+      username: req.user.username,
+      role: req.user.role,
+      permissions: req.user.permissions,
+    },
+    authConfig
+  );
+
+  return {
+    status: 200,
+    body: {
+      token,
+      expiresIn: authConfig.jwtExpiry,
+    },
+  };
+});
+
+// ============================================================================
+// User Management Endpoints
+// ============================================================================
+
+addRoute('GET', '/users', async (req) => {
+  // Only admin and operator can list users
+  if (req.user && !['admin', 'operator'].includes(req.user.role)) {
+    return { status: 403, body: { error: 'Forbidden' } };
+  }
+
+  const users = listUsers();
+  return {
+    status: 200,
+    body: { users },
+  };
+});
+
+addRoute('POST', '/users', async (req) => {
+  // Only admin can create users
+  if (req.user?.role !== 'admin') {
+    return { status: 403, body: { error: 'Forbidden - admin only' } };
+  }
+
+  const body = req.body as {
+    username?: string;
+    password?: string;
+    role?: Role;
+  };
+
+  if (!body.username || !body.password) {
+    return {
+      status: 400,
+      body: { error: 'Missing required fields: username, password' },
+    };
+  }
+
+  const validRoles: Role[] = ['admin', 'operator', 'user', 'readonly'];
+  const role = body.role && validRoles.includes(body.role) ? body.role : 'user';
+
+  const user = createUser(body.username, body.password, role);
+
+  return {
+    status: 201,
+    body: { user },
+  };
+});
+
+addRoute('GET', '/users/:id', async (req) => {
+  const match = req.path.match(/\/users\/([^/]+)/);
+  const id = match?.[1];
+
+  if (!id) {
+    return { status: 400, body: { error: 'User ID required' } };
+  }
+
+  // Users can view themselves, admin/operator can view anyone
+  if (req.user && req.user.id !== id && !['admin', 'operator'].includes(req.user.role)) {
+    return { status: 403, body: { error: 'Forbidden' } };
+  }
+
+  const user = getUser(id);
+  if (!user) {
+    return { status: 404, body: { error: `User '${id}' not found` } };
+  }
+
+  return {
+    status: 200,
+    body: { user },
+  };
+});
+
+addRoute('DELETE', '/users/:id', async (req) => {
+  // Only admin can delete users
+  if (req.user?.role !== 'admin') {
+    return { status: 403, body: { error: 'Forbidden - admin only' } };
+  }
+
+  const match = req.path.match(/\/users\/([^/]+)/);
+  const id = match?.[1];
+
+  if (!id) {
+    return { status: 400, body: { error: 'User ID required' } };
+  }
+
+  const success = deleteUser(id);
+  if (!success) {
+    return { status: 404, body: { error: `User '${id}' not found` } };
+  }
+
+  return {
+    status: 200,
+    body: { message: `User '${id}' deleted` },
+  };
+});
+
+// ============================================================================
+// Audit Log Endpoints
+// ============================================================================
+
+addRoute('GET', '/audit', async (req) => {
+  // Only admin can view audit logs
+  if (req.user?.role !== 'admin') {
+    return { status: 403, body: { error: 'Forbidden - admin only' } };
+  }
+
+  const limit = parseInt(req.query.limit || '100', 10);
+  const entries = getAuditLog(limit);
+
+  return {
+    status: 200,
+    body: {
+      entries,
+      total: entries.length,
     },
   };
 });
