@@ -32,6 +32,57 @@ Meta-governance repository with DevOps templates, governance tools, and AI codin
 - `*.key`, `*.pem` files
 - `**/secrets/**`
 
+## FORBIDDEN DELETION OPERATIONS
+
+**CRITICAL: NEVER delete these directories without EXPLICIT written user confirmation:**
+
+### Protected Directories (NEVER DELETE)
+
+```
+automation/           # Python automation system
+automation-ts/        # TypeScript automation CLI
+.ai/                  # AI orchestration hub
+.metaHub/             # DevOps governance
+organizations/        # All business/science projects
+```
+
+### Before ANY Deletion Command
+
+**You MUST follow this protocol:**
+
+1. **State the exact path** being deleted
+2. **List what will be lost** (files, configs, node_modules)
+3. **Wait for explicit user confirmation** (e.g., "yes, delete it")
+4. **Never delete parent directories** of code projects
+5. **Never run cleanup scripts** that recursively delete without listing targets first
+
+### Forbidden Commands Without Confirmation
+
+```powershell
+# NEVER run these without explicit approval:
+Remove-Item -Recurse -Force [any-project-folder]
+rm -rf [any-project-folder]
+del /s /q [any-project-folder]
+```
+
+### Safe Cleanup Targets (OK to delete without asking)
+
+```
+node_modules/         # Can be reinstalled
+.cache/               # Temporary cache
+.mypy_cache/          # Python cache
+dist/                 # Build output (can rebuild)
+*.log                 # Log files
+```
+
+### Recovery Protocol
+
+If a project folder is accidentally deleted:
+1. Check git: `git reflog` and `git checkout`
+2. Check recycle bin
+3. Notify user immediately
+4. Do NOT attempt to recreate from memory without user approval
+
 ## AI Orchestration Context
 
 **Before starting any task, check these files for context:**

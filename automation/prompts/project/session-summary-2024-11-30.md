@@ -156,9 +156,46 @@ The `automation-ts/` folder was deleted **at least twice** during this session:
 
 ---
 
+## Investigation Findings
+
+### Shell History Analysis
+
+Searched PowerShell history for deletion commands. Found:
+
+- Multiple `Remove-Item -Recurse -Force node_modules` commands (safe)
+- Cleanup scripts targeting `.mypy_cache`, `.cache`, `dist` (safe)
+- No explicit `Remove-Item automation-ts` found in history
+
+### Possible Causes
+
+1. **Cleanup script side effect** - A recursive cleanup may have caught it
+2. **IDE/tool action** - Some tools auto-clean unused folders
+3. **Manual deletion** - User may have deleted accidentally
+4. **Git operation** - Could have been removed during a reset/checkout
+
+### Other Claude Session Response
+
+The other Claude session confirmed:
+
+- They only worked in `tools/atlas/`, `sdk/python/`, `k8s/atlas/`, `docs/atlas/`
+- Never ran deletion commands on `automation-ts/`
+- Claude sessions are isolated and don't share memory
+
+### Protections Added
+
+Added to `CLAUDE.md`:
+
+- Protected directories list (automation/, automation-ts/, .ai/, .metaHub/, organizations/)
+- Deletion protocol requiring explicit confirmation
+- Forbidden commands list
+- Safe cleanup targets (node_modules, .cache, etc.)
+- Recovery protocol
+
+---
+
 ## Next Steps
 
-1. **Investigate deletion**: Determine cause of automation-ts disappearance
-2. **Rebuild automation-ts**: If needed, recreate the TypeScript CLI
+1. ~~Investigate deletion~~ ✅ Completed - no definitive cause found
+2. **Rebuild automation-ts**: Recreate the TypeScript CLI when ready
 3. **Test new assets**: Validate all new prompts, agents, workflows work
-4. **Update memory**: Store new asset counts in system memory
+4. **Git commit**: Commit all new automation/ changes to preserve them
