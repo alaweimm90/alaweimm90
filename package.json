@@ -27,6 +27,8 @@
     "test:coverage": "vitest run --coverage",
     "prepare": "husky",
     "atlas": "tsx tools/atlas/cli/index.ts",
+    "atlas:api": "tsx tools/atlas/api/cli.ts",
+    "atlas:api:start": "tsx tools/atlas/api/cli.ts",
     "ai": "tsx tools/ai/index.ts",
     "ai:tools": "tsx tools/ai/index.ts",
     "ai:start": "tsx tools/ai/orchestrator.ts start",
