@@ -1,0 +1,214 @@
+# Workflow Registry - Centralized Workflow Definitions
+# Following Anthropic's workflow patterns (predefined code paths)
+# Reference: https://www.anthropic.com/research/building-effective-agents
+
+version: "1.0"
+metadata:
+  created: "2024-11-29"
+  description: "Centralized workflow definitions for automation pipelines"
+
+# Workflow Categories
+categories:
+  research:
+    description: "Research and analysis workflows"
+    workflows:
+      - literature_review
+      - hypothesis_testing
+      - data_analysis
+
+  development:
+    description: "Software development workflows"
+    workflows:
+      - code_review
+      - feature_implementation
+      - bug_fix
+      - refactoring
+
+  devops:
+    description: "DevOps and deployment workflows"
+    workflows:
+      - ci_cd_pipeline
+      - infrastructure_deploy
+      - monitoring_setup
+
+# Workflow Definitions
+workflows:
+  # Research Workflows
+  literature_review:
+    name: "Literature Review Pipeline"
+    description: "Systematic literature search and synthesis"
+    pattern: "prompt_chaining"  # Anthropic pattern
+    stages:
+      - name: "search"
+        agent: "scout_agent"
+        action: "Search academic databases for relevant papers"
+        outputs: ["paper_list"]
+
+      - name: "filter"
+        agent: "scientist_agent"
+        action: "Filter papers by relevance and quality"
+        inputs: ["paper_list"]
+        outputs: ["filtered_papers"]
+
+      - name: "summarize"
+        agent: "writer_agent"
+        action: "Create summaries of key papers"
+        inputs: ["filtered_papers"]
+        outputs: ["summaries"]
+
+      - name: "synthesize"
+        agent: "theory_agent"
+        action: "Synthesize findings into coherent narrative"
+        inputs: ["summaries"]
+        outputs: ["synthesis_report"]
+
+    success_criteria:
+      - "At least 10 relevant papers identified"
+      - "Synthesis report generated"
+
+    timeout_minutes: 60
+
+  hypothesis_testing:
+    name: "Hypothesis Testing Workflow"
+    description: "Test scientific hypotheses with data"
+    pattern: "orchestrator_workers"  # Anthropic pattern
+    orchestrator: "scientist_agent"
+    workers:
+      - "theory_agent"
+      - "visualization_agent"
+    stages:
+      - name: "formulate"
+        action: "Formalize hypothesis mathematically"
+      - name: "design"
+        action: "Design experimental test"
+      - name: "execute"
+        action: "Run analysis"
+      - name: "evaluate"
+        action: "Evaluate results against hypothesis"
+
+  # Development Workflows
+  code_review:
+    name: "Code Review Pipeline"
+    description: "Automated code review with human oversight"
+    pattern: "evaluator_optimizer"  # Anthropic pattern
+    stages:
+      - name: "static_analysis"
+        agent: "reviewer_agent"
+        action: "Run static analysis tools"
+
+      - name: "security_scan"
+        agent: "reviewer_agent"
+        action: "Check for security vulnerabilities"
+
+      - name: "style_check"
+        agent: "reviewer_agent"
+        action: "Verify code style compliance"
+
+      - name: "logic_review"
+        agent: "critic_agent"
+        action: "Review logic and architecture"
+
+      - name: "generate_report"
+        agent: "writer_agent"
+        action: "Generate review report"
+
+    gates:
+      - stage: "security_scan"
+        condition: "no_critical_vulnerabilities"
+        on_fail: "block"
+
+  feature_implementation:
+    name: "Feature Implementation Workflow"
+    description: "End-to-end feature development"
+    pattern: "prompt_chaining"
+    stages:
+      - name: "requirements"
+        action: "Parse and validate requirements"
+      - name: "design"
+        action: "Create technical design"
+      - name: "implement"
+        action: "Write implementation code"
+      - name: "test"
+        action: "Write and run tests"
+      - name: "document"
+        action: "Update documentation"
+      - name: "review"
+        action: "Self-review before PR"
+
+  bug_fix:
+    name: "Bug Fix Workflow"
+    description: "Systematic bug investigation and fix"
+    pattern: "routing"  # Anthropic pattern
+    stages:
+      - name: "reproduce"
+        agent: "debugger_agent"
+        action: "Reproduce the bug"
+
+      - name: "diagnose"
+        agent: "debugger_agent"
+        action: "Identify root cause"
+
+      - name: "fix"
+        agent: "coder_agent"
+        action: "Implement fix"
+
+      - name: "verify"
+        agent: "reviewer_agent"
+        action: "Verify fix doesn't introduce regressions"
+
+  # DevOps Workflows
+  ci_cd_pipeline:
+    name: "CI/CD Pipeline"
+    description: "Continuous integration and deployment"
+    pattern: "parallelization"  # Anthropic pattern
+    stages:
+      - name: "parallel_checks"
+        parallel: true
+        tasks:
+          - "lint"
+          - "type_check"
+          - "unit_tests"
+          - "security_scan"
+
+      - name: "build"
+        action: "Build application"
+        depends_on: ["parallel_checks"]
+
+      - name: "integration_tests"
+        action: "Run integration tests"
+        depends_on: ["build"]
+
+      - name: "deploy_staging"
+        action: "Deploy to staging"
+        depends_on: ["integration_tests"]
+        gate: "manual_approval"
+
+      - name: "deploy_production"
+        action: "Deploy to production"
+        depends_on: ["deploy_staging"]
+        gate: "manual_approval"
+
+# Workflow Templates
+templates:
+  quick_task:
+    description: "Simple single-agent task"
+    pattern: "direct"
+    stages:
+      - name: "execute"
+        action: "{{task_description}}"
+    timeout_minutes: 15
+
+  multi_agent_debate:
+    description: "Multiple agents discuss to reach consensus"
+    pattern: "evaluator_optimizer"
+    agents: ["{{agent_1}}", "{{agent_2}}", "{{critic_agent}}"]
+    max_rounds: 3
+    consensus_threshold: 0.8
+
+# Execution Settings
+execution:
+  default_timeout_minutes: 30
+  max_retries: 3
+  retry_backoff_seconds: [5, 15, 60]
+  checkpoint_enabled: true
+  telemetry_enabled: true

@@ -1,0 +1,255 @@
+{
+  "version": "1.0.0",
+  "description": "ATLAS Continuous Optimization Service Configuration",
+
+  "optimizer": {
+    "schedule": {
+      "enabled": true,
+      "intervalMinutes": 60,
+      "maxConcurrentJobs": 3,
+      "workingHours": {
+        "enabled": false,
+        "start": "09:00",
+        "end": "18:00",
+        "timezone": "America/Los_Angeles"
+      }
+    },
+
+    "thresholds": {
+      "chaosThreshold": 0.7,
+      "complexityThreshold": 0.8,
+      "minConfidence": 0.6,
+      "maxFileSize": 1000000,
+      "maxChangesPerCommit": 50
+    },
+
+    "safety": {
+      "rateLimitPerHour": 10,
+      "circuitBreakerThreshold": 5,
+      "rollbackEnabled": true,
+      "manualOverride": false,
+      "dryRunByDefault": false,
+      "maxExecutionTimeMinutes": 30
+    },
+
+    "repositories": [
+      {
+        "name": "atlas-core",
+        "path": "/path/to/atlas/repository",
+        "enabled": true,
+        "branch": "main",
+        "priority": "high",
+        "excludedPaths": [
+          "node_modules/**",
+          "dist/**",
+          "build/**",
+          "*.log",
+          ".git/**"
+        ],
+        "includedExtensions": [".ts", ".js", ".tsx", ".jsx", ".py", ".java"],
+        "customRules": {
+          "maxComplexity": 15,
+          "maxLinesPerFunction": 50
+        }
+      }
+    ]
+  },
+
+  "monitor": {
+    "polling": {
+      "enabled": true,
+      "intervalSeconds": 300
+    },
+
+    "filesystem": {
+      "watchEnabled": true,
+      "debounceMs": 2000,
+      "ignorePatterns": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/*.log",
+        "**/.git/**",
+        "**/coverage/**",
+        "**/*.tmp"
+      ]
+    },
+
+    "triggers": {
+      "onFileChange": true,
+      "onCommit": true,
+      "onPush": false,
+      "minChangesThreshold": 5,
+      "maxFrequencyMs": 300000,
+      "cooldownPeriodMs": 60000
+    },
+
+    "analysis": {
+      "incremental": true,
+      "cacheResults": true,
+      "cacheTtlMinutes": 30,
+      "parallelAnalysis": true,
+      "maxConcurrency": 2
+    }
+  },
+
+  "dashboard": {
+    "port": 8080,
+    "host": "localhost",
+    "enableWebSocket": true,
+    "enableREST": true,
+
+    "telemetry": {
+      "retentionPeriodDays": 30,
+      "maxEvents": 10000,
+      "enableMetrics": true,
+      "enableTracing": false
+    },
+
+    "security": {
+      "enableAuth": false,
+      "apiKeys": [],
+      "corsOrigins": ["*"]
+    },
+
+    "ui": {
+      "theme": "dark",
+      "refreshIntervalMs": 5000,
+      "maxChartPoints": 100
+    }
+  },
+
+  "refactoring": {
+    "enabledRules": [
+      "remove-unused-imports",
+      "simplify-conditionals",
+      "extract-methods",
+      "rename-variables",
+      "add-type-annotations",
+      "remove-dead-code",
+      "optimize-loops",
+      "consolidate-duplicates"
+    ],
+
+    "disabledRules": [
+      "aggressive-renaming",
+      "major-restructuring"
+    ],
+
+    "safetyChecks": {
+      "requireTests": false,
+      "checkBuild": true,
+      "validateTypes": true,
+      "performanceRegressionCheck": false
+    },
+
+    "limits": {
+      "maxFilesPerOperation": 10,
+      "maxChangesPerFile": 20,
+      "maxTotalChanges": 100
+    }
+  },
+
+  "agents": {
+    "defaultAgent": "atlas-optimizer",
+    "fallbackAgents": ["atlas-refactor", "atlas-analyzer"],
+    "timeouts": {
+      "analysis": 300000,
+      "refactoring": 600000,
+      "validation": 120000
+    },
+    "retryPolicy": {
+      "maxRetries": 3,
+      "backoffMultiplier": 2,
+      "initialDelayMs": 1000
+    }
+  },
+
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "outputs": ["console", "file"],
+    "file": {
+      "path": "logs/atlas-optimization.log",
+      "maxSize": "10m",
+      "maxFiles": 5
+    },
+    "remote": {
+      "enabled": false,
+      "endpoint": "",
+      "apiKey": ""
+    }
+  },
+
+  "notifications": {
+    "enabled": true,
+    "channels": {
+      "console": true,
+      "file": false,
+      "webhook": false,
+      "email": false
+    },
+
+    "triggers": {
+      "onOptimizationComplete": true,
+      "onOptimizationFailure": true,
+      "onHighChaosDetected": true,
+      "onSystemError": true,
+      "onCircuitBreakerOpen": true
+    },
+
+    "webhook": {
+      "url": "",
+      "headers": {},
+      "timeoutMs": 5000
+    },
+
+    "email": {
+      "smtp": {
+        "host": "",
+        "port": 587,
+        "secure": false,
+        "auth": {
+          "user": "",
+          "pass": ""
+        }
+      },
+      "from": "atlas@company.com",
+      "to": ["devops@company.com"]
+    }
+  },
+
+  "backup": {
+    "enabled": true,
+    "strategy": "git-commit",
+    "preOptimizationBackup": true,
+    "postOptimizationBackup": true,
+    "backupBranch": "atlas-backup-{timestamp}",
+    "retention": {
+      "maxBackups": 10,
+      "maxAgeDays": 7
+    }
+  },
+
+  "performance": {
+    "memoryLimit": "512m",
+    "cpuLimit": "50%",
+    "concurrencyLimits": {
+      "analysis": 2,
+      "refactoring": 1,
+      "fileOperations": 5
+    },
+    "timeouts": {
+      "fileOperation": 30000,
+      "networkRequest": 10000,
+      "analysis": 300000
+    }
+  },
+
+  "experimental": {
+    "aiPoweredSuggestions": false,
+    "predictiveOptimization": false,
+    "autoScaling": false,
+    "federatedLearning": false
+  }
+}

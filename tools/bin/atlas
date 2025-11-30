@@ -1,0 +1,222 @@
+#!/bin/bash
+# Mock ATLAS CLI for demonstration purposes
+# Simulates ATLAS functionality when full services are not available
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+log() {
+    echo -e "${BLUE}[$(date +'%Y-%m-%d %H:%M:%S')] ATLAS CLI: $1${NC}"
+}
+
+error() {
+    echo -e "${RED}Error: $1${NC}" >&2
+    exit 1
+}
+
+success() {
+    echo -e "${GREEN}✓ $1${NC}"
+}
+
+# Mock analysis functions
+mock_repo_analysis() {
+    local repo_path="$1"
+    local format="${2:-table}"
+
+    log "Analyzing repository: $repo_path"
+
+    # Simulate analysis time
+    sleep 1
+
+    if [ "$format" = "json" ]; then
+        cat << EOF
+{
+  "repository": "$(basename "$repo_path")",
+  "filesAnalyzed": 5,
+  "totalLines": 284,
+  "complexity": {
+    "average": 7.2,
+    "max": 15,
+    "min": 3
+  },
+  "issues": {
+    "critical": 2,
+    "high": 5,
+    "medium": 12,
+    "low": 8
+  },
+  "languages": {
+    "python": 1,
+    "javascript": 1,
+    "typescript": 1
+  },
+  "timestamp": "$(date -Iseconds)"
+}
+EOF
+    else
+        echo "Repository Analysis Report"
+        echo "========================"
+        echo "Repository: $(basename "$repo_path")"
+        echo "Files analyzed: 5"
+        echo "Total lines: 284"
+        echo "Complexity: avg=7.2, max=15, min=3"
+        echo "Issues: 2 critical, 5 high, 12 medium, 8 low"
+    fi
+
+    success "Repository analysis completed"
+}
+
+mock_complexity_analysis() {
+    local repo_path="$1"
+
+    log "Analyzing complexity: $repo_path"
+
+    sleep 0.5
+
+    echo "Complexity Analysis Report"
+    echo "========================="
+    echo "Repository: $(basename "$repo_path")"
+    echo ""
+    echo "Cyclomatic Complexity:"
+    echo "  Average: 7.2"
+    echo "  Maximum: 15 (main.py:42)"
+    echo "  Minimum: 3"
+    echo ""
+    echo "Cognitive Complexity:"
+    echo "  Average: 8.5"
+    echo "  Maximum: 18 (service.ts:67)"
+    echo ""
+    echo "Maintainability Index:"
+    echo "  Average: 65.3"
+    echo "  Range: 45.2 - 82.1"
+
+    success "Complexity analysis completed"
+}
+
+mock_chaos_analysis() {
+    local repo_path="$1"
+    local detailed="${2:-false}"
+
+    log "Analyzing code chaos: $repo_path"
+
+    sleep 0.5
+
+    echo "Code Chaos Analysis Report"
+    echo "=========================="
+    echo "Repository: $(basename "$repo_path")"
+    echo ""
+    echo "Chaos Metrics:"
+    echo "  Spaghetti Factor: 7.8/10"
+    echo "  Coupling Index: 6.2/10"
+    echo "  Cohesion Index: 3.1/10"
+    echo ""
+    echo "Issues Found:"
+    echo "  - Global state usage: 3 instances"
+    echo "  - Long functions: 2 functions > 50 lines"
+    echo "  - Deep nesting: 4 levels max"
+    echo "  - Mixed responsibilities: 3 classes"
+
+    if [ "$detailed" = "true" ]; then
+        echo ""
+        echo "Detailed Breakdown:"
+        echo "  main.py:"
+        echo "    - Uses global variables for configuration"
+        echo "    - Process function is 45 lines long"
+        echo "    - Mixed data processing and I/O logic"
+    fi
+
+    success "Chaos analysis completed"
+}
+
+mock_scan() {
+    local repo_path="$1"
+
+    log "Quick scanning: $repo_path"
+
+    sleep 0.3
+
+    echo "Quick Scan Results"
+    echo "=================="
+    echo "Repository: $(basename "$repo_path")"
+    echo ""
+    echo "Files scanned: 5"
+    echo "Issues found: 27"
+    echo ""
+    echo "Top Issues:"
+    echo "  1. Use of global variables (3 instances)"
+    echo "  2. Missing error handling (5 locations)"
+    echo "  3. Code duplication (2 blocks)"
+    echo "  4. Long functions (2 functions)"
+    echo "  5. Inconsistent naming (8 variables)"
+
+    success "Quick scan completed"
+}
+
+# Main command dispatcher
+case "$1" in
+    --version|-v)
+        echo "ATLAS CLI v1.0.0 (Demo Mode)"
+        ;;
+    analyze)
+        shift
+        case "$1" in
+            repo)
+                shift
+                format="table"
+                if [ "$1" = "--format" ]; then
+                    format="$2"
+                    shift 2
+                fi
+                mock_repo_analysis "$1" "$format"
+                ;;
+            complexity)
+                shift
+                mock_complexity_analysis "$1"
+                ;;
+            chaos)
+                shift
+                detailed="false"
+                if [ "$1" = "--detailed" ]; then
+                    detailed="true"
+                    shift
+                fi
+                mock_chaos_analysis "$1" "$detailed"
+                ;;
+            scan)
+                shift
+                mock_scan "$1"
+                ;;
+            *)
+                error "Unknown analyze command: $1"
+                ;;
+        esac
+        ;;
+    --help|-h)
+        echo "ATLAS CLI - Repository Analysis Tool"
+        echo ""
+        echo "Usage: atlas <command> [options]"
+        echo ""
+        echo "Commands:"
+        echo "  analyze repo <path> [--format json|table]  Analyze repository"
+        echo "  analyze complexity <path>                  Analyze code complexity"
+        echo "  analyze chaos <path> [--detailed]          Analyze code chaos"
+        echo "  analyze scan <path>                        Quick repository scan"
+        echo ""
+        echo "Options:"
+        echo "  --version, -v    Show version"
+        echo "  --help, -h       Show this help"
+        ;;
+    *)
+        error "Unknown command: $1. Use 'atlas --help' for usage."
+        ;;
+esac</instructions>
+</edit_file>

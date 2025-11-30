@@ -1,0 +1,201 @@
+# Evaluator-Optimizer Pattern
+# Iterative refinement with evaluation feedback loop
+
+name: "evaluator_optimizer"
+description: |
+  Generate output, evaluate against criteria, and iteratively refine
+  until quality threshold is met or max iterations reached.
+
+# When to use this pattern
+use_when:
+  - "Clear evaluation criteria exist"
+  - "Iterative improvement is valuable"
+  - "First attempt unlikely to be optimal"
+  - "Quality is more important than speed"
+
+# When NOT to use
+avoid_when:
+  - "No clear success criteria"
+  - "Speed is critical"
+  - "Task is simple enough for single pass"
+  - "Diminishing returns after first attempt"
+
+# Pattern structure
+structure:
+  type: "iterative"
+  components:
+    - "input"
+    - "generator"
+    - "evaluator"
+    - "optimizer"
+    - "loop_controller"
+    - "output"
+
+# Evaluation dimensions
+evaluation_dimensions:
+  correctness:
+    weight: 0.35
+    criteria:
+      - "Solves the stated problem"
+      - "No logical errors"
+      - "Handles edge cases"
+
+  completeness:
+    weight: 0.25
+    criteria:
+      - "All requirements addressed"
+      - "No missing components"
+      - "No TODO placeholders"
+
+  quality:
+    weight: 0.25
+    criteria:
+      - "Well-structured"
+      - "Follows best practices"
+      - "Maintainable"
+
+  efficiency:
+    weight: 0.15
+    criteria:
+      - "Reasonable performance"
+      - "No unnecessary complexity"
+      - "Resource efficient"
+
+# Loop control
+loop_control:
+  max_iterations: 5
+
+  termination_conditions:
+    - type: "score_threshold"
+      threshold: 0.85
+      action: "accept"
+
+    - type: "no_improvement"
+      consecutive_rounds: 2
+      action: "accept_best"
+
+    - type: "max_iterations"
+      action: "accept_best_with_warning"
+
+# Example implementation
+example:
+  name: "code_optimizer"
+
+  generator:
+    agent: "coder_agent"
+    initial_prompt: |
+      Write code to solve: {{task_description}}
+      Requirements: {{requirements}}
+
+  evaluator:
+    agent: "critic_agent"
+    prompt: |
+      Evaluate this code against these criteria:
+
+      Code:
+      ```
+      {{generated_code}}
+      ```
+
+      Criteria:
+      1. Correctness: Does it solve the problem?
+      2. Completeness: Are all requirements met?
+      3. Quality: Is it well-structured?
+      4. Efficiency: Is it performant?
+
+      Provide scores (0-1) and specific feedback for improvement.
+
+    output_format:
+      scores:
+        correctness: float
+        completeness: float
+        quality: float
+        efficiency: float
+      overall_score: float
+      feedback: string
+      improvements: list
+
+  optimizer:
+    agent: "coder_agent"
+    prompt: |
+      Improve this code based on the feedback:
+
+      Current code:
+      ```
+      {{current_code}}
+      ```
+
+      Feedback:
+      {{feedback}}
+
+      Specific improvements needed:
+      {{improvements}}
+
+      Provide the improved code.
+
+  loop_config:
+    max_iterations: 4
+    target_score: 0.85
+    improvement_threshold: 0.05
+
+# Optimization strategies
+optimization_strategies:
+  focused:
+    description: "Address one issue at a time"
+    use_when: "Issues are independent"
+
+  comprehensive:
+    description: "Address all issues together"
+    use_when: "Issues are interrelated"
+
+  prioritized:
+    description: "Address highest-impact issues first"
+    use_when: "Limited iterations available"
+
+# Best practices
+best_practices:
+  - "Define clear, measurable evaluation criteria"
+  - "Set realistic score thresholds"
+  - "Limit iterations to prevent infinite loops"
+  - "Track improvement trajectory"
+  - "Preserve best version in case of regression"
+  - "Provide specific, actionable feedback"
+
+# Metrics to track
+metrics:
+  - "Initial score"
+  - "Final score"
+  - "Number of iterations"
+  - "Score improvement per iteration"
+  - "Time per iteration"
+  - "Total optimization time"
+
+# Template
+template: |
+  evaluator_optimizer:
+    generator:
+      agent: "{{generator_agent}}"
+      prompt: |
+        {{generator_prompt}}
+
+    evaluator:
+      agent: "{{evaluator_agent}}"
+      dimensions:
+        {{#each dimensions}}
+        - name: "{{name}}"
+          weight: {{weight}}
+          criteria: [{{criteria}}]
+        {{/each}}
+      target_score: {{target_score}}
+
+    optimizer:
+      agent: "{{optimizer_agent}}"
+      strategy: "{{strategy}}"
+
+    loop_control:
+      max_iterations: {{max_iterations}}
+      improvement_threshold: {{improvement_threshold}}
+      termination:
+        - score_reached: {{target_score}}
+        - no_improvement_rounds: 2
+        - max_iterations_reached: true

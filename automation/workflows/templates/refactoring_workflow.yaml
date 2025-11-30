@@ -1,0 +1,232 @@
+# Refactoring Workflow
+# Safe, incremental code improvement
+
+name: "refactoring"
+description: "Systematic code refactoring with safety checks"
+version: "1.0"
+
+pattern: "evaluator_optimizer"
+
+triggers:
+  - type: "keyword"
+    keywords: ["refactor", "clean", "improve", "simplify", "optimize", "consolidate"]
+
+inputs:
+  required:
+    - name: "target_code"
+      type: "string"
+      description: "Code or file path to refactor"
+  optional:
+    - name: "refactoring_goals"
+      type: "array"
+      description: "Specific improvements to make"
+    - name: "constraints"
+      type: "array"
+      description: "Things that must not change"
+    - name: "style_guide"
+      type: "string"
+      description: "Code style guide to follow"
+
+stages:
+  - name: "analyze"
+    description: "Analyze code for refactoring opportunities"
+    agent: "reviewer_agent"
+    action: |
+      Analyze code quality:
+      1. Identify code smells
+      2. Measure complexity metrics
+      3. Find duplication
+      4. Check naming conventions
+      5. Assess test coverage
+    inputs:
+      - "target_code"
+    outputs:
+      - "analysis_report"
+      - "refactoring_opportunities"
+    timeout_minutes: 15
+
+  - name: "plan"
+    description: "Create refactoring plan"
+    agent: "architect_agent"
+    action: |
+      Create refactoring plan:
+      1. Prioritize improvements by impact
+      2. Order changes to minimize risk
+      3. Identify safe stopping points
+      4. Plan test strategy
+    inputs:
+      - "analysis_report"
+      - "refactoring_goals"
+      - "constraints"
+    outputs:
+      - "refactoring_plan"
+    timeout_minutes: 10
+    depends_on:
+      - "analyze"
+
+  - name: "baseline_tests"
+    description: "Ensure tests pass before refactoring"
+    agent: "coder_agent"
+    action: |
+      Establish baseline:
+      1. Run existing tests
+      2. Add characterization tests if needed
+      3. Document current behavior
+      4. Create safety net
+    inputs:
+      - "target_code"
+    outputs:
+      - "baseline_test_results"
+      - "characterization_tests"
+    timeout_minutes: 15
+    depends_on:
+      - "plan"
+
+  - name: "refactor"
+    description: "Apply refactoring changes"
+    agent: "coder_agent"
+    action: |
+      Apply refactoring:
+      1. Make one change at a time
+      2. Run tests after each change
+      3. Commit at safe points
+      4. Document changes made
+    inputs:
+      - "target_code"
+      - "refactoring_plan"
+      - "style_guide"
+    outputs:
+      - "refactored_code"
+      - "change_log"
+    timeout_minutes: 45
+    depends_on:
+      - "baseline_tests"
+
+  - name: "evaluate"
+    description: "Evaluate refactoring quality"
+    agent: "critic_agent"
+    action: |
+      Evaluate improvements:
+      1. Compare metrics before/after
+      2. Verify behavior unchanged
+      3. Check style compliance
+      4. Assess readability improvement
+    inputs:
+      - "target_code"
+      - "refactored_code"
+      - "analysis_report"
+    outputs:
+      - "evaluation_report"
+      - "improvement_score"
+    timeout_minutes: 15
+    depends_on:
+      - "refactor"
+
+  - name: "iterate"
+    description: "Iterate if improvement needed"
+    agent: "coder_agent"
+    action: |
+      Address evaluation feedback:
+      1. Review evaluation report
+      2. Make additional improvements
+      3. Re-run tests
+    inputs:
+      - "refactored_code"
+      - "evaluation_report"
+    outputs:
+      - "improved_code"
+    timeout_minutes: 20
+    depends_on:
+      - "evaluate"
+    condition: "improvement_score < 0.8"
+
+  - name: "final_review"
+    description: "Final code review"
+    agent: "reviewer_agent"
+    action: |
+      Final review:
+      1. Verify all tests pass
+      2. Check for regressions
+      3. Approve or request changes
+    inputs:
+      - "improved_code"
+      - "baseline_test_results"
+    outputs:
+      - "final_review_result"
+    timeout_minutes: 10
+    depends_on:
+      - "iterate"
+
+# Evaluator-optimizer loop configuration
+evaluation_loop:
+  max_iterations: 3
+  target_score: 0.8
+
+  dimensions:
+    complexity_reduction:
+      weight: 0.3
+      measure: "cyclomatic_complexity_delta"
+
+    duplication_reduction:
+      weight: 0.2
+      measure: "duplicate_lines_delta"
+
+    readability:
+      weight: 0.3
+      measure: "maintainability_index"
+
+    test_coverage:
+      weight: 0.2
+      measure: "coverage_percentage"
+
+gates:
+  - after_stage: "baseline_tests"
+    condition: "all_tests_pass"
+    on_fail: "block"
+    message: "Cannot refactor: existing tests failing"
+
+  - after_stage: "refactor"
+    condition: "all_tests_pass"
+    on_fail: "rollback"
+
+success_criteria:
+  - "All tests pass"
+  - "Complexity reduced or unchanged"
+  - "No behavior changes"
+  - "Code style compliant"
+
+error_handling:
+  test_failure:
+    action: "rollback_last_change"
+    retry: true
+
+  behavior_change:
+    action: "rollback_all"
+    alert: true
+
+outputs:
+  format: "mixed"
+  include:
+    - "refactored_code"
+    - "change_log"
+    - "evaluation_report"
+
+  metrics:
+    - "complexity_before"
+    - "complexity_after"
+    - "lines_changed"
+    - "duplication_removed"
+
+execution:
+  timeout_minutes: 120
+  checkpoint_enabled: true
+  telemetry_enabled: true
+  rollback_enabled: true
+
+metadata:
+  created: "2024-11-29"
+  category: "development"
+  tags:
+    - refactoring
+    - code_quality
+    - maintenance

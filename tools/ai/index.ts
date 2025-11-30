@@ -9,7 +9,7 @@ export { cache } from './cache.ts';
 export { compliance } from './compliance.ts';
 export { errorHandler, ErrorCodes, AIOperationError } from './errors.ts';
 export { issueManager } from './issues.ts';
-export { monitor, circuitBreaker } from './monitor.ts';
+export { monitor } from './monitor.ts';
 export { telemetry } from './telemetry.ts';
 
 // ============================================================================

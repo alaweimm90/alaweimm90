@@ -1,0 +1,204 @@
+# Orchestration Configuration - Routing & Strategy Definitions
+# Following Anthropic's agent patterns and LangChain's architecture
+# Reference: https://www.anthropic.com/research/building-effective-agents
+
+version: "1.0"
+metadata:
+  created: "2024-11-29"
+  description: "Centralized orchestration configuration for AI agent routing"
+
+# Orchestration Patterns (from Anthropic)
+patterns:
+  prompt_chaining:
+    description: "Sequential task decomposition with gates"
+    use_when:
+      - "Task can be cleanly decomposed into fixed subtasks"
+      - "Each step builds on previous output"
+    example: "Document generation, data processing pipelines"
+
+  routing:
+    description: "Classify input and route to specialized handler"
+    use_when:
+      - "Different categories require different handling"
+      - "Classification is straightforward"
+    example: "Customer support triage, code review routing"
+
+  parallelization:
+    description: "Run independent tasks simultaneously"
+    use_when:
+      - "Tasks are independent"
+      - "Speed is important"
+    variants:
+      - sectioning: "Split task into independent parts"
+      - voting: "Multiple attempts for consensus"
+
+  orchestrator_workers:
+    description: "Central LLM delegates to specialized workers"
+    use_when:
+      - "Complex tasks requiring different expertise"
+      - "Subtasks not predictable in advance"
+    example: "Research projects, complex coding tasks"
+
+  evaluator_optimizer:
+    description: "Iterative refinement with evaluation loop"
+    use_when:
+      - "Clear evaluation criteria exist"
+      - "Iterative improvement is valuable"
+    example: "Code optimization, writing refinement"
+
+# Tool Routing Rules
+tool_routing:
+  intent_extraction:
+    enabled: true
+    keywords:
+      architecture:
+        - "design"
+        - "architect"
+        - "structure"
+        - "plan"
+        - "system"
+      implementation:
+        - "implement"
+        - "code"
+        - "build"
+        - "create"
+        - "develop"
+      debugging:
+        - "debug"
+        - "fix"
+        - "error"
+        - "bug"
+        - "issue"
+      refactoring:
+        - "refactor"
+        - "clean"
+        - "simplify"
+        - "optimize"
+        - "consolidate"
+      testing:
+        - "test"
+        - "verify"
+        - "validate"
+        - "check"
+      research:
+        - "research"
+        - "analyze"
+        - "investigate"
+        - "study"
+        - "explore"
+
+  rules:
+    architecture:
+      tools: ["claude_code", "cursor", "kilo"]
+      confidence_threshold: 0.7
+    implementation:
+      tools: ["aider", "cline", "cursor", "claude_code"]
+      confidence_threshold: 0.6
+    debugging:
+      tools: ["cline", "cursor", "claude_code"]
+      confidence_threshold: 0.6
+    refactoring:
+      tools: ["kilo", "aider", "claude_code"]
+      confidence_threshold: 0.7
+    testing:
+      tools: ["aider", "cline", "cursor"]
+      confidence_threshold: 0.6
+    research:
+      tools: ["claude_code", "cursor"]
+      confidence_threshold: 0.5
+
+# Agent Framework Routing
+agent_framework_routing:
+  single_agent:
+    primary: "claude_code"
+    fallback: "cursor"
+    use_when:
+      - "simple task"
+      - "single file"
+      - "quick fix"
+
+  multi_agent:
+    primary: "crewai"
+    fallback: "langchain"
+    use_when:
+      - "complex research"
+      - "multi-step analysis"
+      - "requires multiple perspectives"
+    agents:
+      - "scientist_agent"
+      - "theory_agent"
+      - "writer_agent"
+      - "critic_agent"
+
+  autonomous:
+    primary: "autogpt"
+    fallback: "crewai"
+    use_when:
+      - "open-ended exploration"
+      - "long-running task"
+      - "minimal supervision"
+
+# Handoff Requirements
+handoff_requirements:
+  mandatory_fields:
+    - "task_description"
+    - "source_tool"
+    - "target_tool"
+    - "timestamp"
+    - "context"
+
+  validation:
+    max_context_size_kb: 500
+    require_timestamp_format: "ISO8601"
+    require_success_criteria: true
+
+# Confidence Thresholds
+confidence:
+  routing:
+    high: 0.8      # Auto-route
+    medium: 0.6    # Suggest with confirmation
+    low: 0.4       # Request clarification
+
+  output_verification:
+    accept: 0.9
+    review: 0.7
+    reject: 0.5
+
+# Recovery Strategies
+recovery:
+  strategies:
+    retry:
+      description: "Retry with exponential backoff"
+      max_attempts: 3
+      backoff_multiplier: 2
+      initial_delay_seconds: 5
+
+    fallback:
+      description: "Switch to fallback tool"
+      enabled: true
+
+    simplify:
+      description: "Break task into smaller steps"
+      enabled: true
+
+    escalate:
+      description: "Request human intervention"
+      enabled: true
+      threshold: "after_3_failures"
+
+# Telemetry Configuration
+telemetry:
+  enabled: true
+  metrics:
+    - "task_duration"
+    - "success_rate"
+    - "tool_usage"
+    - "error_frequency"
+  retention_days: 30
+  export_format: "json"
+
+# Enforcement Level
+enforcement:
+  level: "warning"  # Options: strict, warning, permissive
+  block_on_validation_failure: false
+  require_handoff_envelope: true

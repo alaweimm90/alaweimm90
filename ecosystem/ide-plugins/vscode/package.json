@@ -1,0 +1,224 @@
+{
+  "name": "atlas-vscode",
+  "displayName": "ATLAS - AI Code Assistant",
+  "description": "VSCode extension for ATLAS multiagent LLM orchestration platform with real-time code analysis, inline suggestions, and dashboard integration",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "atlas.analyzeCode",
+        "title": "ATLAS: Analyze Code",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.generateCode",
+        "title": "ATLAS: Generate Code",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.reviewCode",
+        "title": "ATLAS: Review Code",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.refactorCode",
+        "title": "ATLAS: Refactor Code",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.showDashboard",
+        "title": "ATLAS: Show Dashboard",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.configureApiKey",
+        "title": "ATLAS: Configure API Key",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.viewTasks",
+        "title": "ATLAS: View Tasks",
+        "category": "ATLAS"
+      },
+      {
+        "command": "atlas.viewAgents",
+        "title": "ATLAS: View Agents",
+        "category": "ATLAS"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "atlas.analyzeCode",
+          "when": "editorHasSelection",
+          "group": "7_modification@1"
+        },
+        {
+          "command": "atlas.generateCode",
+          "when": "editorHasSelection",
+          "group": "7_modification@2"
+        },
+        {
+          "command": "atlas.reviewCode",
+          "when": "editorHasSelection",
+          "group": "7_modification@3"
+        },
+        {
+          "command": "atlas.refactorCode",
+          "when": "editorHasSelection",
+          "group": "7_modification@4"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "atlas.analyzeCode"
+        },
+        {
+          "command": "atlas.generateCode"
+        },
+        {
+          "command": "atlas.reviewCode"
+        },
+        {
+          "command": "atlas.refactorCode"
+        },
+        {
+          "command": "atlas.showDashboard"
+        },
+        {
+          "command": "atlas.configureApiKey"
+        },
+        {
+          "command": "atlas.viewTasks"
+        },
+        {
+          "command": "atlas.viewAgents"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "ATLAS",
+      "properties": {
+        "atlas.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "ATLAS API Key for authentication"
+        },
+        "atlas.apiUrl": {
+          "type": "string",
+          "default": "https://api.atlas-platform.com/v1",
+          "description": "ATLAS API base URL"
+        },
+        "atlas.enableInlineSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable inline code suggestions from ATLAS"
+        },
+        "atlas.enableRealTimeAnalysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time code analysis as you type"
+        },
+        "atlas.analysisDebounceMs": {
+          "type": "number",
+          "default": 1000,
+          "minimum": 100,
+          "maximum": 5000,
+          "description": "Debounce time for real-time analysis (milliseconds)"
+        },
+        "atlas.maxTokens": {
+          "type": "number",
+          "default": 4000,
+          "minimum": 1000,
+          "maximum": 8000,
+          "description": "Maximum tokens for code generation tasks"
+        },
+        "atlas.preferredProviders": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "anthropic",
+              "openai",
+              "google"
+            ]
+          },
+          "default": [
+            "anthropic",
+            "openai"
+          ],
+          "description": "Preferred AI providers for tasks"
+        }
+      }
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "atlasTasks",
+          "name": "ATLAS Tasks",
+          "icon": "$(list-unordered)",
+          "contextualTitle": "ATLAS Tasks"
+        },
+        {
+          "id": "atlasAgents",
+          "name": "ATLAS Agents",
+          "icon": "$(robot)",
+          "contextualTitle": "ATLAS Agents"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "atlasTasks",
+        "contents": "No ATLAS API key configured.\n[Configure API Key](command:atlas.configureApiKey)\n\nOnce configured, your recent tasks will appear here."
+      },
+      {
+        "view": "atlasAgents",
+        "contents": "No ATLAS API key configured.\n[Configure API Key](command:atlas.configureApiKey)\n\nOnce configured, your registered agents will appear here."
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "eslint": "^8.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/atlas-vscode-extension.git"
+  },
+  "publisher": "atlas-platform",
+  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/your-org/atlas-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/your-org/atlas-vscode-extension#readme"
+}

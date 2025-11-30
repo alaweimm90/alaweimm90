@@ -19,7 +19,7 @@ policies:
 
 # Template library location
 templates:
-  root: templates/devops/
+  root: infrastructure/templates/devops/
   categories:
     - cicd
     - k8s

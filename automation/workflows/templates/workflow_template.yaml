@@ -1,0 +1,102 @@
+# Workflow Template
+# Copy this file and customize for new workflows
+
+# Workflow identification
+name: "workflow_name"
+description: "Brief description of what this workflow accomplishes"
+version: "1.0"
+
+# Workflow pattern (from Anthropic's patterns)
+# Options: prompt_chaining, routing, parallelization, orchestrator_workers, evaluator_optimizer
+pattern: "prompt_chaining"
+
+# Trigger conditions
+triggers:
+  - type: "manual"
+  - type: "keyword"
+    keywords: ["trigger", "words"]
+  # - type: "schedule"
+  #   cron: "0 9 * * 1"  # Every Monday at 9am
+
+# Input requirements
+inputs:
+  required:
+    - name: "task_description"
+      type: "string"
+      description: "What needs to be done"
+  optional:
+    - name: "context"
+      type: "object"
+      description: "Additional context"
+
+# Workflow stages
+stages:
+  - name: "stage_1"
+    description: "First stage description"
+    agent: "agent_name"
+    action: "What the agent should do"
+    inputs:
+      - "task_description"
+    outputs:
+      - "stage_1_output"
+    timeout_minutes: 15
+
+  - name: "stage_2"
+    description: "Second stage description"
+    agent: "another_agent"
+    action: "What this agent should do"
+    inputs:
+      - "stage_1_output"
+    outputs:
+      - "final_output"
+    timeout_minutes: 15
+    depends_on:
+      - "stage_1"
+
+# Quality gates between stages
+gates:
+  - after_stage: "stage_1"
+    condition: "output_not_empty"
+    on_fail: "retry"
+    max_retries: 2
+
+# Success criteria for the workflow
+success_criteria:
+  - "Criterion 1 that must be met"
+  - "Criterion 2 that must be met"
+
+# Error handling
+error_handling:
+  default_strategy: "retry"
+  strategies:
+    timeout:
+      action: "retry"
+      max_attempts: 3
+    validation_failure:
+      action: "revise"
+      max_attempts: 2
+    agent_error:
+      action: "fallback"
+      fallback_agent: "backup_agent"
+
+# Output specification
+outputs:
+  format: "markdown"
+  include:
+    - "final_output"
+    - "execution_summary"
+
+# Execution settings
+execution:
+  timeout_minutes: 60
+  checkpoint_enabled: true
+  telemetry_enabled: true
+  parallel_stages: false
+
+# Metadata
+metadata:
+  created: "2024-11-29"
+  author: "your_name"
+  tags:
+    - category1
+    - category2

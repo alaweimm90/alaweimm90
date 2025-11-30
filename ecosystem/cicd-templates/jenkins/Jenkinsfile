@@ -1,0 +1,323 @@
+pipeline {
+    agent any
+
+    environment {
+        ATLAS_API_KEY = credentials('atlas-api-key')
+        ATLAS_API_URL = credentials('atlas-api-url')
+        DOCKER_REGISTRY = 'atlas-platform'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Security Scan') {
+            steps {
+                script {
+                    // Run Trivy security scan
+                    sh '''
+                        docker run --rm \
+                            -v $WORKSPACE:/src \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            aquasecurity/trivy:latest fs \
+                            --format sarif \
+                            --output /src/trivy-results.sarif \
+                            /src
+                    '''
+                }
+                publishCoverage adapters: [sarifAdapter(path: 'trivy-results.sarif')]
+            }
+        }
+
+        stage('Parallel Testing') {
+            parallel {
+                stage('Node.js Tests') {
+                    agent { docker 'node:18' }
+                    when {
+                        anyOf {
+                            expression { fileExists('package.json') }
+                        }
+                    }
+                    steps {
+                        sh '''
+                            npm ci
+                            npm run lint || true
+                            npm test
+                        '''
+                    }
+                    post {
+                        always {
+                            junit '**/test-results.xml'
+                            publishCoverage adapters: [coberturaAdapter('**/coverage.xml')]
+                        }
+                    }
+                }
+
+                stage('Python Tests') {
+                    agent { docker 'python:3.11' }
+                    when {
+                        anyOf {
+                            expression { fileExists('requirements.txt') }
+                            expression { fileExists('setup.py') }
+                        }
+                    }
+                    steps {
+                        sh '''
+                            pip install -r requirements.txt
+                            pip install -e . || true
+                            python -m pytest --junitxml=test-results.xml --cov=. || python -m unittest discover
+                        '''
+                    }
+                    post {
+                        always {
+                            junit '**/test-results.xml'
+                            publishCoverage adapters: [coberturaAdapter('**/coverage.xml')]
+                        }
+                    }
+                }
+
+                stage('Java Tests') {
+                    agent { docker 'maven:3.9-eclipse-temurin-17' }
+                    when {
+                        anyOf {
+                            expression { fileExists('pom.xml') }
+                        }
+                    }
+                    steps {
+                        sh '''
+                            mvn clean test
+                        '''
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                            jacoco()
+                        }
+                    }
+                }
+
+                stage('Go Tests') {
+                    agent { docker 'golang:1.21' }
+                    when {
+                        anyOf {
+                            expression { fileExists('go.mod') }
+                        }
+                    }
+                    steps {
+                        sh '''
+                            go mod download
+                            go test -v -race -coverprofile=coverage.out ./...
+                            go tool cover -html=coverage.out -o coverage.html
+                        '''
+                    }
+                    post {
+                        always {
+                            junit '**/test-results.xml'
+                            publishCoverage adapters: [golangCoberturaAdapter('coverage.xml')]
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('ATLAS Integration Tests') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                    changeRequest()
+                }
+            }
+            steps {
+                script {
+                    // Install ATLAS CLI
+                    sh '''
+                        npm install -g @atlas/cli
+                    '''
+
+                    // Run ATLAS integration analysis
+                    if (env.CHANGE_ID) {
+                        sh """
+                            atlas task submit \\
+                                --type analysis \\
+                                --description "Run integration tests for PR #${env.CHANGE_ID}" \\
+                                --context "{\\"repository_path\\": \\".\\", \\"analysis_type\\": \\"integration\\", \\"pull_request\\": \\"${env.CHANGE_ID}\\"}" \\
+                                --wait
+                        """
+                    } else {
+                        sh '''
+                            atlas task submit \
+                                --type analysis \
+                                --description "Run integration tests" \
+                                --context "{\"repository_path\": \".\", \"analysis_type\": \"integration\"}" \
+                                --wait
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
+            steps {
+                script {
+                    def imageTag = env.BRANCH_NAME == 'main' ? 'latest' : env.BRANCH_NAME
+                    sh """
+                        docker build -t ${DOCKER_REGISTRY}:${imageTag} .
+                        docker tag ${DOCKER_REGISTRY}:${imageTag} ${DOCKER_REGISTRY}:${env.BUILD_NUMBER}
+                    """
+                }
+            }
+        }
+
+        stage('Deploy to Staging') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                script {
+                    // Deploy to staging environment
+                    sh '''
+                        echo "Deploying to staging..."
+                        # Add your staging deployment commands here
+                        # kubectl apply -f k8s/staging/
+                        # or docker-compose up -d for staging
+                    '''
+
+                    // Run post-deployment validation
+                    sh '''
+                        atlas task submit \
+                            --type analysis \
+                            --description "Validate staging deployment" \
+                            --context "{\"type\": \"deployment_validation\", \"environment\": \"staging\"}" \
+                            --wait
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            when {
+                branch 'main'
+            }
+            input {
+                message "Deploy to production?"
+                ok "Deploy"
+            }
+            steps {
+                script {
+                    // Deploy to production
+                    sh '''
+                        echo "Deploying to production..."
+                        # Add your production deployment commands here
+                        # kubectl apply -f k8s/production/
+                        # helm upgrade atlas ./helm/atlas
+                    '''
+
+                    // Run post-deployment validation
+                    sh '''
+                        atlas task submit \
+                            --type analysis \
+                            --description "Validate production deployment" \
+                            --context "{\"type\": \"deployment_validation\", \"environment\": \"production\"}" \
+                            --wait
+                    '''
+                }
+            }
+        }
+
+        stage('Performance Monitoring') {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'develop'
+                }
+            }
+            steps {
+                script {
+                    def environment = env.BRANCH_NAME == 'main' ? 'production' : 'staging'
+                    sh """
+                        atlas task submit \
+                            --type analysis \
+                            --description "Run performance benchmarks" \
+                            --context "{\\"type\\": \\"performance\\", \\"environment\\": \\"${environment}\\"}" \
+                            --wait
+                    """
+                }
+            }
+        }
+
+        stage('Update Documentation') {
+            when {
+                branch 'main'
+            }
+            steps {
+                script {
+                    // Generate and deploy documentation
+                    sh '''
+                        # Generate API documentation
+                        atlas task submit \
+                            --type analysis \
+                            --description "Generate API documentation" \
+                            --context "{\"type\": \"documentation\", \"format\": \"html\"}" \
+                            --wait
+
+                        # Deploy docs (add your deployment commands)
+                        # rsync -av docs/build/ user@docs.atlas-platform.com:/var/www/html/
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up
+            sh 'docker system prune -f || true'
+
+            // Send notifications
+            script {
+                def status = currentBuild.currentResult
+                def color = status == 'SUCCESS' ? 'good' : 'danger'
+                def message = "Pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} ${status}"
+
+                // Slack notification (if configured)
+                // slackSend(color: color, message: message)
+            }
+        }
+
+        success {
+            script {
+                // Notify success
+                sh '''
+                    if [ -n "$SLACK_WEBHOOK_URL" ]; then
+                        curl -X POST $SLACK_WEBHOOK_URL \
+                            -H 'Content-type: application/json' \
+                            -d "{\"text\":\"✅ ATLAS pipeline completed successfully!\"}"
+                    fi
+                '''
+            }
+        }
+
+        failure {
+            script {
+                // Notify failure
+                sh '''
+                    if [ -n "$SLACK_WEBHOOK_URL" ]; then
+                        curl -X POST $SLACK_WEBHOOK_URL \
+                            -H 'Content-type: application/json' \
+                            -d "{\"text\":\"❌ ATLAS pipeline failed!\"}"
+                    fi
+                '''
+            }
+        }
+    }
+}

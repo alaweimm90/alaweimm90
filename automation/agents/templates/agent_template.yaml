@@ -1,0 +1,64 @@
+# Agent Template
+# Copy this file and customize for new agents
+
+# Required fields
+name: "agent_name"
+role: "Agent Role Title"
+goal: "Primary objective of this agent"
+
+# Agent backstory/persona (helps LLM understand context)
+backstory: |
+  You are an expert in [domain]. You have deep experience with
+  [specific skills]. You approach problems by [methodology].
+  Your strengths include [strengths].
+
+# Tools this agent can use
+tools:
+  - web_search
+  - calculator
+  # Add more tools from tools.yaml
+
+# LLM configuration
+llm_config:
+  model: "claude-3-sonnet"  # Options: claude-3-opus, claude-3-sonnet, gpt-4
+  temperature: 0.3          # 0.0-1.0, lower = more focused
+  max_tokens: 4096          # Maximum response length
+
+# Behavioral settings
+verbose: true               # Show detailed reasoning
+allow_delegation: false     # Can delegate to other agents
+max_iterations: 10          # Max reasoning loops
+memory: true                # Remember previous interactions
+
+# Input/Output specifications
+input_schema:
+  required:
+    - task_description
+  optional:
+    - context
+    - constraints
+
+output_schema:
+  format: "markdown"        # Options: markdown, json, code
+  sections:
+    - analysis
+    - solution
+    - next_steps
+
+# Guardrails
+guardrails:
+  max_response_length: 10000
+  forbidden_actions:
+    - "delete files without confirmation"
+    - "execute destructive commands"
+  required_validations:
+    - "verify sources for claims"
+
+# Metadata
+metadata:
+  version: "1.0"
+  created: "2024-11-29"
+  author: "your_name"
+  tags:
+    - category1
+    - category2

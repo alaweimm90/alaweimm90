@@ -381,3 +381,11 @@ core.*
 temp_config.js
 temp_*.js
 temp_*.ts
+
+# Python caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Auto-generated AI state files
+.ai/*.json

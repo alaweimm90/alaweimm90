@@ -1,0 +1,183 @@
+# Bug Fix Workflow
+# Systematic bug investigation and resolution
+
+name: "bug_fix"
+description: "Systematic approach to investigating and fixing bugs"
+version: "1.0"
+
+pattern: "prompt_chaining"
+
+triggers:
+  - type: "keyword"
+    keywords: ["bug", "fix", "error", "broken", "issue", "crash"]
+
+inputs:
+  required:
+    - name: "bug_description"
+      type: "string"
+      description: "Description of the bug or error"
+  optional:
+    - name: "error_logs"
+      type: "string"
+      description: "Relevant error logs or stack traces"
+    - name: "reproduction_steps"
+      type: "array"
+      description: "Steps to reproduce the bug"
+    - name: "affected_files"
+      type: "array"
+      description: "Known affected files"
+
+stages:
+  - name: "understand"
+    description: "Understand the bug report"
+    agent: "debugger_agent"
+    action: |
+      Analyze the bug report:
+      1. Parse the error description
+      2. Identify affected components
+      3. Determine severity and impact
+      4. List initial hypotheses
+    inputs:
+      - "bug_description"
+      - "error_logs"
+    outputs:
+      - "bug_analysis"
+    timeout_minutes: 10
+
+  - name: "reproduce"
+    description: "Attempt to reproduce the bug"
+    agent: "debugger_agent"
+    action: |
+      Create reproduction steps:
+      1. Set up test environment
+      2. Follow reported steps
+      3. Verify bug occurs
+      4. Document exact conditions
+    inputs:
+      - "bug_analysis"
+      - "reproduction_steps"
+    outputs:
+      - "reproduction_result"
+    timeout_minutes: 15
+    depends_on:
+      - "understand"
+
+  - name: "diagnose"
+    description: "Identify root cause"
+    agent: "debugger_agent"
+    action: |
+      Root cause analysis:
+      1. Trace execution path
+      2. Identify failure point
+      3. Analyze state at failure
+      4. Determine root cause
+      5. Document findings
+    inputs:
+      - "reproduction_result"
+      - "affected_files"
+    outputs:
+      - "diagnosis"
+    timeout_minutes: 20
+    depends_on:
+      - "reproduce"
+
+  - name: "fix"
+    description: "Implement the fix"
+    agent: "coder_agent"
+    action: |
+      Implement fix:
+      1. Create minimal fix for root cause
+      2. Avoid side effects
+      3. Add defensive code if needed
+      4. Write regression test
+    inputs:
+      - "diagnosis"
+    outputs:
+      - "fix_implementation"
+      - "regression_test"
+    timeout_minutes: 30
+    depends_on:
+      - "diagnose"
+
+  - name: "verify"
+    description: "Verify the fix"
+    agent: "reviewer_agent"
+    action: |
+      Verify fix:
+      1. Run regression test
+      2. Verify bug no longer occurs
+      3. Check for side effects
+      4. Review code quality
+    inputs:
+      - "fix_implementation"
+      - "regression_test"
+      - "reproduction_result"
+    outputs:
+      - "verification_result"
+    timeout_minutes: 15
+    depends_on:
+      - "fix"
+
+  - name: "document"
+    description: "Document the fix"
+    agent: "writer_agent"
+    action: |
+      Create fix documentation:
+      1. Summary of bug
+      2. Root cause explanation
+      3. Fix description
+      4. Testing performed
+      5. Any follow-up needed
+    inputs:
+      - "diagnosis"
+      - "fix_implementation"
+      - "verification_result"
+    outputs:
+      - "fix_documentation"
+    timeout_minutes: 10
+    depends_on:
+      - "verify"
+
+gates:
+  - after_stage: "reproduce"
+    condition: "bug_reproduced"
+    on_fail: "request_more_info"
+
+  - after_stage: "verify"
+    condition: "all_tests_pass"
+    on_fail: "return_to_fix"
+
+success_criteria:
+  - "Root cause identified"
+  - "Fix implemented"
+  - "Regression test passes"
+  - "No new issues introduced"
+
+error_handling:
+  cannot_reproduce:
+    action: "request_clarification"
+    message: "Unable to reproduce bug. Please provide more details."
+
+  fix_causes_regression:
+    action: "rollback_and_retry"
+    max_attempts: 2
+
+outputs:
+  format: "markdown"
+  include:
+    - "fix_documentation"
+    - "fix_implementation"
+    - "regression_test"
+
+execution:
+  timeout_minutes: 90
+  checkpoint_enabled: true
+  telemetry_enabled: true
+
+metadata:
+  created: "2024-11-29"
+  category: "development"
+  tags:
+    - bug_fix
+    - debugging
+    - maintenance

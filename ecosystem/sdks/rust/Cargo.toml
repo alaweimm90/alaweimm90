@@ -1,0 +1,24 @@
+[package]
+name = "atlas-sdk"
+version = "1.0.0"
+edition = "2021"
+authors = ["ATLAS Platform <support@atlas-platform.com>"]
+description = "Rust SDK for ATLAS multiagent LLM orchestration platform"
+license = "MIT"
+repository = "https://github.com/your-org/atlas-rust-sdk"
+keywords = ["atlas", "ai", "llm", "orchestration", "sdk"]
+categories = ["api-bindings", "asynchronous"]
+
+[dependencies]
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "rustls-tls"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+futures = "0.3"
+async-trait = "0.1"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockito = "1.0"

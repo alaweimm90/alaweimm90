@@ -1,0 +1,171 @@
+# Code Review Workflow
+# Automated code review with multiple quality checks
+
+name: "code_review"
+description: "Comprehensive automated code review with security, quality, and style checks"
+version: "1.0"
+
+pattern: "prompt_chaining"
+
+triggers:
+  - type: "manual"
+  - type: "keyword"
+    keywords: ["review", "code review", "check code"]
+
+inputs:
+  required:
+    - name: "code_path"
+      type: "string"
+      description: "Path to code file or directory to review"
+  optional:
+    - name: "focus_areas"
+      type: "array"
+      description: "Specific areas to focus on (security, performance, style)"
+    - name: "severity_threshold"
+      type: "string"
+      default: "warning"
+      description: "Minimum severity to report (error, warning, info)"
+
+stages:
+  - name: "static_analysis"
+    description: "Run static analysis tools"
+    agent: "reviewer_agent"
+    action: |
+      Run static analysis on the provided code:
+      1. Check for syntax errors
+      2. Identify type issues
+      3. Find code smells
+    inputs:
+      - "code_path"
+    outputs:
+      - "static_analysis_report"
+    timeout_minutes: 10
+
+  - name: "security_scan"
+    description: "Check for security vulnerabilities"
+    agent: "reviewer_agent"
+    action: |
+      Scan code for security issues:
+      1. Hardcoded secrets
+      2. SQL injection vulnerabilities
+      3. XSS vulnerabilities
+      4. Insecure dependencies
+    inputs:
+      - "code_path"
+    outputs:
+      - "security_report"
+    timeout_minutes: 10
+
+  - name: "style_check"
+    description: "Verify code style compliance"
+    agent: "reviewer_agent"
+    action: |
+      Check code style:
+      1. Formatting consistency
+      2. Naming conventions
+      3. Documentation coverage
+    inputs:
+      - "code_path"
+    outputs:
+      - "style_report"
+    timeout_minutes: 5
+
+  - name: "logic_review"
+    description: "Review code logic and architecture"
+    agent: "critic_agent"
+    action: |
+      Analyze code logic:
+      1. Algorithm correctness
+      2. Edge case handling
+      3. Error handling
+      4. Performance considerations
+      5. Architectural patterns
+    inputs:
+      - "code_path"
+      - "static_analysis_report"
+    outputs:
+      - "logic_report"
+    timeout_minutes: 15
+    depends_on:
+      - "static_analysis"
+
+  - name: "generate_report"
+    description: "Compile final review report"
+    agent: "writer_agent"
+    action: |
+      Create comprehensive review report combining all findings:
+      1. Executive summary
+      2. Critical issues (must fix)
+      3. Warnings (should fix)
+      4. Suggestions (nice to have)
+      5. Positive observations
+    inputs:
+      - "static_analysis_report"
+      - "security_report"
+      - "style_report"
+      - "logic_report"
+    outputs:
+      - "final_review_report"
+    timeout_minutes: 10
+    depends_on:
+      - "static_analysis"
+      - "security_scan"
+      - "style_check"
+      - "logic_review"
+
+gates:
+  - after_stage: "security_scan"
+    condition: "no_critical_vulnerabilities"
+    on_fail: "block"
+    message: "Critical security vulnerabilities found - review blocked"
+
+success_criteria:
+  - "No critical security vulnerabilities"
+  - "Static analysis completed without errors"
+  - "Final report generated"
+
+error_handling:
+  default_strategy: "continue"
+  strategies:
+    timeout:
+      action: "skip"
+      log: true
+    validation_failure:
+      action: "continue"
+      log: true
+
+outputs:
+  format: "markdown"
+  include:
+    - "final_review_report"
+  template: |
+    # Code Review Report
+
+    ## Summary
+    {{summary}}
+
+    ## Critical Issues
+    {{critical_issues}}
+
+    ## Warnings
+    {{warnings}}
+
+    ## Suggestions
+    {{suggestions}}
+
+    ## Positive Observations
+    {{positives}}
+
+execution:
+  timeout_minutes: 45
+  checkpoint_enabled: true
+  telemetry_enabled: true
+  parallel_stages: true  # Run security, style checks in parallel
+
+metadata:
+  created: "2024-11-29"
+  category: "development"
+  tags:
+    - code_review
+    - quality
+    - security

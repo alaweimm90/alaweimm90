@@ -1,0 +1,153 @@
+# Research Crew - Multi-Agent Research Team
+# Based on CrewAI crew pattern
+
+name: "research_crew"
+description: "A coordinated team of agents for comprehensive research tasks"
+version: "1.0"
+
+# Crew composition
+agents:
+  - name: "lead_researcher"
+    agent_ref: "scientist_agent"
+    role_in_crew: "Lead Researcher"
+    responsibilities:
+      - "Define research questions"
+      - "Coordinate team efforts"
+      - "Synthesize final findings"
+    delegation_authority: true
+
+  - name: "literature_scout"
+    agent_ref: "scout_agent"
+    role_in_crew: "Literature Scout"
+    responsibilities:
+      - "Search academic databases"
+      - "Filter relevant papers"
+      - "Extract key metadata"
+    delegation_authority: false
+
+  - name: "theorist"
+    agent_ref: "theory_agent"
+    role_in_crew: "Theoretical Analyst"
+    responsibilities:
+      - "Analyze theoretical frameworks"
+      - "Identify mathematical foundations"
+      - "Validate logical consistency"
+    delegation_authority: false
+
+  - name: "critic"
+    agent_ref: "critic_agent"
+    role_in_crew: "Critical Reviewer"
+    responsibilities:
+      - "Evaluate evidence quality"
+      - "Identify gaps and weaknesses"
+      - "Challenge assumptions"
+    delegation_authority: false
+
+  - name: "writer"
+    agent_ref: "writer_agent"
+    role_in_crew: "Report Writer"
+    responsibilities:
+      - "Draft research reports"
+      - "Create summaries"
+      - "Format citations"
+    delegation_authority: false
+
+# Task definitions for this crew
+tasks:
+  - name: "define_scope"
+    description: "Define research scope and questions"
+    assigned_to: "lead_researcher"
+    expected_output: "Research plan with questions and methodology"
+
+  - name: "literature_search"
+    description: "Search and collect relevant literature"
+    assigned_to: "literature_scout"
+    depends_on: ["define_scope"]
+    expected_output: "Annotated bibliography with 10-20 papers"
+
+  - name: "theoretical_analysis"
+    description: "Analyze theoretical foundations"
+    assigned_to: "theorist"
+    depends_on: ["literature_search"]
+    expected_output: "Theoretical framework analysis"
+
+  - name: "critical_review"
+    description: "Critically evaluate findings"
+    assigned_to: "critic"
+    depends_on: ["theoretical_analysis"]
+    expected_output: "Critical assessment with confidence ratings"
+
+  - name: "synthesis"
+    description: "Synthesize all findings"
+    assigned_to: "lead_researcher"
+    depends_on: ["critical_review"]
+    expected_output: "Integrated synthesis of research"
+
+  - name: "report_writing"
+    description: "Write final research report"
+    assigned_to: "writer"
+    depends_on: ["synthesis"]
+    expected_output: "Complete research report"
+
+# Crew process configuration
+process:
+  type: "sequential"  # Options: sequential, hierarchical, parallel
+
+  # For hierarchical process
+  manager: "lead_researcher"
+
+  # Communication settings
+  communication:
+    verbose: true
+    share_context: true
+    max_context_tokens: 8000
+
+# Quality gates
+quality_gates:
+  - after_task: "literature_search"
+    condition: "min_papers >= 5"
+    on_fail: "expand_search"
+
+  - after_task: "critical_review"
+    condition: "confidence >= 0.6"
+    on_fail: "flag_for_review"
+
+# Output configuration
+output:
+  format: "markdown"
+  sections:
+    - "executive_summary"
+    - "methodology"
+    - "findings"
+    - "analysis"
+    - "conclusions"
+    - "references"
+
+  deliverables:
+    - name: "research_report"
+      type: "document"
+      format: "markdown"
+    - name: "bibliography"
+      type: "data"
+      format: "json"
+
+# Execution settings
+execution:
+  max_iterations: 3
+  timeout_minutes: 120
+  checkpoint_enabled: true
+
+  # Error handling
+  on_error:
+    strategy: "retry_with_simplification"
+    max_retries: 2
+    escalate_after: 2
+
+# Metadata
+metadata:
+  created: "2024-11-29"
+  category: "research"
+  tags:
+    - research
+    - multi-agent
+    - literature-review

@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+"""
+MetaHub Benchmark CLI
+
+Universal benchmarking tool for all projects.
+
+Uses: .metaHub/libs/benchmarking
+Replaces: Scattered benchmark scripts across projects
+
+Originally from: organizations/AlaweinOS/Benchmarks/
+Consolidated: 2025-01-29
+
+Usage:
+    bench run MODULE.FUNCTION --iterations 1000
+    bench config CONFIG.yaml
+    bench visualize RESULTS_DIR
+    bench report RESULTS_DIR
+"""
+
+import sys
+import click
+from pathlib import Path
+
+# Add metahub to path
+METAHUB_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(METAHUB_ROOT))
+
+from libs.benchmarking import (
+    BenchmarkRunner,
+    run_benchmark,
+    format_results,
+    create_performance_chart,
+    create_summary_table,
+    generate_markdown_report,
+    load_latest_results
+)
+
+
+@click.group()
+@click.version_option(version='1.0.0')
+def cli():
+    """Universal benchmarking CLI for all MetaHub projects."""
+    pass
+
+
+@cli.command()
+@click.argument('module')
+@click.argument('function')
+@click.option('--iterations', '-n', default=100, help='Number of iterations')
+@click.option('--warmup', '-w', default=10, help='Warmup iterations')
+@click.option('--output', '-o', default='./results', help='Output directory')
+def run(module, function, iterations, warmup, output):
+    """
+    Benchmark a Python function.
+
+    Examples:
+
+        bench run my_module my_function --iterations 1000
+
+        bench run organizations.AlaweinOS.MEZAN.optimizer optimize -n 500
+    """
+    try:
+        # Import module dynamically
+        import importlib
+        mod = importlib.import_module(module)
+        func = getattr(mod, function)
+
+        click.echo(f"🔬 Benchmarking {module}.{function}...")
+        click.echo(f"   Iterations: {iterations}, Warmup: {warmup}\n")
+
+        results = run_benchmark(func, iterations=iterations, warmup=warmup)
+
+        click.echo(format_results(results))
+
+        # Save results
+        output_dir = Path(output)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        import json
+        import time
+        result_file = output_dir / f"benchmark_{function}_{int(time.time())}.json"
+        with open(result_file, 'w') as f:
+            json.dump({
+                'module': module,
+                'function': function,
+                'results': results
+            }, f, indent=2)
+
+        click.echo(f"\n✅ Results saved: {result_file}")
+
+    except Exception as e:
+        click.echo(f"❌ Error: {e}", err=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@cli.command()
+@click.argument('config_file', type=click.Path(exists=True))
+@click.option('--output', '-o', default='./results', help='Output directory')
+def config(config_file, output):
+    """
+    Run benchmarks from YAML configuration file.
+
+    Config format:
+        benchmarks:
+          - name: "Test 1"
+            module: "my_module"
+            function: "my_function"
+            iterations: 100
+          - name: "Test 2"
+            ...
+    """
+    try:
+        import yaml
+
+        click.echo(f"📋 Loading config: {config_file}\n")
+
+        with open(config_file) as f:
+            cfg = yaml.safe_load(f)
+
+        runner = BenchmarkRunner(Path(output))
+
+        for bench_cfg in cfg.get('benchmarks', []):
+            click.echo(f"  Adding: {bench_cfg['name']}")
+
+            import importlib
+            mod = importlib.import_module(bench_cfg['module'])
+            func = getattr(mod, bench_cfg['function'])
+
+            runner.add_benchmark(
+                name=bench_cfg['name'],
+                target=func,
+                iterations=bench_cfg.get('iterations', 100),
+                warmup=bench_cfg.get('warmup', 10),
+                metadata=bench_cfg.get('metadata', {})
+            )
+
+        click.echo(f"\n🚀 Running {len(runner.benchmarks)} benchmarks...\n")
+        runner.run_all()
+        runner.print_summary()
+        runner.save_results()
+
+        click.echo("\n✅ Benchmark suite completed!")
+
+    except Exception as e:
+        click.echo(f"❌ Error: {e}", err=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@cli.command()
+@click.argument('results_dir', type=click.Path(exists=True))
+@click.option('--output', '-o', help='Output directory (defaults to results_dir)')
+def visualize(results_dir, output):
+    """
+    Create visualizations from benchmark results.
+
+    Generates:
+    - Performance charts
+    - Summary tables
+    - Comparison graphs
+    """
+    try:
+        results_path = Path(results_dir)
+        output_path = Path(output) if output else results_path
+
+        click.echo(f"📊 Creating visualizations from: {results_path}\n")
+
+        data = load_latest_results(results_path)
+        click.echo(f"✅ Loaded {len(data.get('results', []))} results\n")
+
+        click.echo("🎨 Generating charts...")
+        create_performance_chart(data, output_path)
+        create_summary_table(data, output_path)
+
+        click.echo(f"\n✅ Visualizations created in: {output_path}")
+
+    except Exception as e:
+        click.echo(f"❌ Error: {e}", err=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+@cli.command()
+@click.argument('results_dir', type=click.Path(exists=True))
+@click.option('--output', '-o', help='Output directory (defaults to results_dir)')
+def report(results_dir, output):
+    """
+    Generate markdown report from benchmark results.
+    """
+    try:
+        results_path = Path(results_dir)
+        output_path = Path(output) if output else results_path
+
+        click.echo(f"📝 Generating report from: {results_path}\n")
+
+        data = load_latest_results(results_path)
+        report_file = generate_markdown_report(data, output_path)
+
+        click.echo(f"\n✅ Report created: {report_file}")
+
+    except Exception as e:
+        click.echo(f"❌ Error: {e}", err=True)
+        sys.exit(1)
+
+
+@cli.command()
+def info():
+    """Show MetaHub benchmarking system information."""
+    click.echo("╔═══════════════════════════════════════════════════════╗")
+    click.echo("║        MetaHub Benchmarking System v1.0.0             ║")
+    click.echo("╚═══════════════════════════════════════════════════════╝")
+    click.echo()
+    click.echo("📍 Location: .metaHub/clis/bench")
+    click.echo("📚 Library:  .metaHub/libs/benchmarking/")
+    click.echo()
+    click.echo("🏗️  Architecture: Hub-Spoke Pattern")
+    click.echo("   • Hub: Shared benchmarking infrastructure")
+    click.echo("   • Spokes: Projects consume hub functionality")
+    click.echo("   • Archive: Original code preserved")
+    click.echo()
+    click.echo("📖 Usage:")
+    click.echo("   bench run MODULE.FUNCTION --iterations 1000")
+    click.echo("   bench config benchmarks.yaml")
+    click.echo("   bench visualize ./results")
+    click.echo("   bench report ./results")
+    click.echo()
+    click.echo("🔗 Documentation: docs/HUB_SPOKE_ARCHITECTURE.md")
+
+
+if __name__ == '__main__':
+    cli()

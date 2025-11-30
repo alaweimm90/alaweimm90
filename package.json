@@ -27,7 +27,6 @@
     "test:coverage": "vitest run --coverage",
     "prepare": "husky",
     "atlas": "tsx tools/atlas/cli/index.ts",
-    "codemap": "tsx scripts/generate-codemap.ts",
     "ai": "tsx tools/ai/index.ts",
     "ai:tools": "tsx tools/ai/index.ts",
     "ai:start": "tsx tools/ai/orchestrator.ts start",
@@ -59,7 +58,13 @@
     "ai:issues": "tsx tools/ai/issues.ts",
     "ai:issues:list": "tsx tools/ai/issues.ts list",
     "ai:issues:critical": "tsx tools/ai/issues.ts critical",
-    "ai:issues:stats": "tsx tools/ai/issues.ts stats"
+    "ai:issues:stats": "tsx tools/ai/issues.ts stats",
+    "ai:mcp": "tsx tools/ai/mcp/server.ts",
+    "ai:mcp:start": "tsx tools/ai/mcp/server.ts start",
+    "ai:mcp:tools": "tsx tools/ai/mcp/server.ts tools",
+    "ai:mcp:resources": "tsx tools/ai/mcp/server.ts resources",
+    "ai:api": "tsx tools/ai/api/server.ts",
+    "ai:api:start": "tsx tools/ai/api/server.ts start"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

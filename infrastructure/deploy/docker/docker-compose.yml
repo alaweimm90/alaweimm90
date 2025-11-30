@@ -1,0 +1,235 @@
+version: '3.8'
+
+services:
+  # API Gateway - Main entry point
+  api-gateway:
+    build:
+      context: ..
+      dockerfile: docker/api-gateway/Dockerfile
+    ports:
+      - "3000:3000"
+      - "9090:9090"
+    environment:
+      - SERVICE_NAME=api-gateway
+      - SERVICE_PORT=3000
+      - METRICS_PORT=9090
+      - REDIS_URL=redis://redis:6379
+      - ORCHESTRATION_URL=http://orchestration:3001
+      - EXECUTION_URL=http://execution:3002
+      - OPTIMIZATION_URL=http://optimization:3003
+      - STORAGE_URL=http://storage:3004
+      - JWT_SECRET=${JWT_SECRET:-atlas-jwt-secret-key}
+      - API_RATE_LIMIT_REQUESTS=1000
+      - API_RATE_LIMIT_WINDOW=900000
+    depends_on:
+      - redis
+      - orchestration
+      - execution
+      - optimization
+      - storage
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Orchestration Service - Task routing and agent management
+  orchestration:
+    build:
+      context: ..
+      dockerfile: docker/orchestration/Dockerfile
+    ports:
+      - "3001:3001"
+      - "9091:9091"
+    environment:
+      - SERVICE_NAME=orchestration
+      - SERVICE_PORT=3001
+      - METRICS_PORT=9091
+      - REDIS_URL=redis://redis:6379
+      - STORAGE_URL=http://storage:3004
+      - EXECUTION_URL=http://execution:3002
+    depends_on:
+      - redis
+      - storage
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Execution Service - AI agent adapters
+  execution:
+    build:
+      context: ..
+      dockerfile: docker/execution/Dockerfile
+    ports:
+      - "3002:3002"
+      - "9092:9092"
+    environment:
+      - SERVICE_NAME=execution
+      - SERVICE_PORT=3002
+      - METRICS_PORT=9092
+      - REDIS_URL=redis://redis:6379
+      - STORAGE_URL=http://storage:3004
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - RATE_LIMIT_REQUESTS=100
+      - RATE_LIMIT_WINDOW=900000
+    depends_on:
+      - redis
+      - storage
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Optimization Service - Repository analysis and refactoring
+  optimization:
+    build:
+      context: ..
+      dockerfile: docker/optimization/Dockerfile
+    ports:
+      - "3003:3003"
+      - "9093:9093"
+    environment:
+      - SERVICE_NAME=optimization
+      - SERVICE_PORT=3003
+      - METRICS_PORT=9093
+      - REDIS_URL=redis://redis:6379
+      - STORAGE_URL=http://storage:3004
+      - ANALYSIS_DEPTH=3
+      - REFACTORING_ENABLED=true
+      - SCHEDULER_INTERVAL=3600000
+    depends_on:
+      - redis
+      - storage
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Storage Service - Data persistence
+  storage:
+    build:
+      context: ..
+      dockerfile: docker/storage/Dockerfile
+    ports:
+      - "3004:3004"
+      - "9094:9094"
+    environment:
+      - SERVICE_NAME=storage
+      - SERVICE_PORT=3004
+      - METRICS_PORT=9094
+      - POSTGRES_HOST=atlas-postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=atlas
+      - POSTGRES_USER=atlas
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-atlas-password}
+      - REDIS_URL=redis://redis:6379
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - METRICS_RETENTION_DAYS=90
+      - HISTORY_RETENTION_DAYS=365
+      - STATE_BACKUP_INTERVAL=3600000
+    depends_on:
+      - atlas-postgres
+      - redis
+      - elasticsearch
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # PostgreSQL Database
+  atlas-postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=atlas
+      - POSTGRES_USER=atlas
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-atlas-password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Elasticsearch for logging and search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - atlas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
+
+networks:
+  atlas-network:
+    driver: bridge</instructions>

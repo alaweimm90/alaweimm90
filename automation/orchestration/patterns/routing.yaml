@@ -1,0 +1,164 @@
+# Routing Pattern
+# Classify input and route to specialized handler
+
+name: "routing"
+description: |
+  Classify incoming requests and route them to the most appropriate
+  specialized handler. Uses intent extraction and confidence scoring.
+
+# When to use this pattern
+use_when:
+  - "Different input categories require different handling"
+  - "Classification is relatively straightforward"
+  - "You have specialized handlers for each category"
+  - "Routing decision can be made upfront"
+
+# When NOT to use
+avoid_when:
+  - "All inputs need the same handling"
+  - "Classification is complex or ambiguous"
+  - "Routing needs to change mid-task"
+
+# Pattern structure
+structure:
+  type: "branching"
+  components:
+    - "input"
+    - "classifier"
+    - "router"
+    - "specialized_handlers[]"
+    - "output"
+
+# Classification methods
+classification_methods:
+  keyword_matching:
+    description: "Match keywords to categories"
+    speed: "fast"
+    accuracy: "medium"
+    example:
+      categories:
+        bug_fix: ["bug", "error", "fix", "broken", "issue"]
+        feature: ["add", "new", "implement", "create"]
+        refactor: ["refactor", "clean", "improve", "optimize"]
+
+  llm_classification:
+    description: "Use LLM to classify intent"
+    speed: "slow"
+    accuracy: "high"
+    prompt: |
+      Classify this request into one of: {{categories}}
+      Request: {{input}}
+      Category:
+
+  hybrid:
+    description: "Keyword first, LLM for ambiguous"
+    speed: "medium"
+    accuracy: "high"
+    threshold: 0.6
+
+# Routing rules
+routing_rules:
+  high_confidence:
+    threshold: 0.8
+    action: "auto_route"
+
+  medium_confidence:
+    threshold: 0.6
+    action: "route_with_logging"
+
+  low_confidence:
+    threshold: 0.4
+    action: "request_clarification"
+
+  no_match:
+    action: "default_handler"
+
+# Example implementation
+example:
+  name: "support_ticket_router"
+
+  classifier:
+    method: "hybrid"
+    categories:
+      - name: "technical"
+        keywords: ["error", "bug", "crash", "not working"]
+        handler: "technical_support_agent"
+      - name: "billing"
+        keywords: ["payment", "invoice", "charge", "refund"]
+        handler: "billing_agent"
+      - name: "feature_request"
+        keywords: ["wish", "would be nice", "suggestion", "add"]
+        handler: "product_agent"
+      - name: "general"
+        keywords: []
+        handler: "general_support_agent"
+        is_default: true
+
+  handlers:
+    technical_support_agent:
+      prompt: "Help resolve this technical issue: {{input}}"
+      tools: ["log_analyzer", "debugger"]
+
+    billing_agent:
+      prompt: "Handle this billing inquiry: {{input}}"
+      tools: ["billing_system"]
+
+    product_agent:
+      prompt: "Process this feature request: {{input}}"
+      tools: ["ticket_system"]
+
+    general_support_agent:
+      prompt: "Assist with this general inquiry: {{input}}"
+      tools: ["knowledge_base"]
+
+# Fallback strategies
+fallback:
+  ambiguous_input:
+    strategy: "ask_clarification"
+    max_attempts: 2
+
+  no_matching_handler:
+    strategy: "use_default"
+    log: true
+
+  handler_failure:
+    strategy: "escalate"
+    escalation_target: "human_agent"
+
+# Best practices
+best_practices:
+  - "Keep categories mutually exclusive when possible"
+  - "Have a default handler for edge cases"
+  - "Log routing decisions for analysis"
+  - "Monitor classification accuracy"
+  - "Regularly update keyword lists"
+
+# Template
+template: |
+  routing:
+    classifier:
+      method: "{{method}}"
+
+      categories:
+        {{#each categories}}
+        - name: "{{name}}"
+          keywords: [{{keywords}}]
+          handler: "{{handler}}"
+          {{#if is_default}}
+          is_default: true
+          {{/if}}
+        {{/each}}
+
+    confidence_thresholds:
+      auto_route: {{auto_route_threshold}}
+      clarify: {{clarify_threshold}}
+
+    handlers:
+      {{#each handlers}}
+      {{name}}:
+        agent: "{{agent}}"
+        prompt: "{{prompt}}"
+      {{/each}}
+
+    fallback:
+      default_handler: "{{default_handler}}"

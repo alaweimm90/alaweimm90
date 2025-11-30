@@ -1,0 +1,353 @@
+# Deployment Registry
+# Centralized index of all deployment configurations across organizations
+
+version: "1.0"
+updated: "2024-11-29"
+
+organizations:
+  AlaweinOS:
+    projects:
+      - name: MEZAN
+        type: kubernetes
+        path: organizations/AlaweinOS/MEZAN
+        deployment_guide: organizations/AlaweinOS/DEPLOYMENT_RUNBOOK.md
+        stack:
+          - kubernetes
+          - docker
+          - prometheus
+          - grafana
+        environments:
+          - development
+          - production
+
+      - name: HELIOS
+        type: web-app
+        path: organizations/AlaweinOS/HELIOS
+        deployment_guide: organizations/AlaweinOS/HELIOS/docs/DEPLOYMENT.md
+        stack:
+          - nextjs
+          - vercel
+
+      - name: SimCore
+        type: web-app
+        path: organizations/AlaweinOS/SimCore
+        deployment_guides:
+          - organizations/AlaweinOS/SimCore/docs/DEPLOY_REPLIT.md
+          - organizations/AlaweinOS/SimCore/docs/DEPLOY_LOVABLE.md
+        platforms:
+          - replit
+          - lovable
+
+      - name: QAPlibria
+        type: scientific
+        path: organizations/AlaweinOS/QAPlibria
+        deployment_guides:
+          - organizations/AlaweinOS/QAPlibria/docs/deployment/DEPLOYMENT_GUIDE.md
+          - organizations/AlaweinOS/QAPlibria/docs/deployment/PRODUCTION_DEPLOYMENT.md
+        stack:
+          - python
+          - docker
+
+      - name: LLMWorks
+        type: ai-service
+        path: organizations/AlaweinOS/LLMWorks
+        deployment_guide: organizations/AlaweinOS/LLMWorks/docs/DEPLOYMENT_TROUBLESHOOTING.md
+
+      - name: Attributa
+        type: web-app
+        path: organizations/AlaweinOS/Attributa
+        deployment_guide: organizations/AlaweinOS/Attributa/DEPLOYMENT.md
+
+      - name: Optilibria
+        type: optimization-library
+        path: organizations/AlaweinOS/Optilibria
+        stack:
+          - python
+          - numpy
+          - scipy
+        description: Optimization algorithms library for QAP and combinatorial problems
+
+      - name: QMLab
+        type: scientific
+        path: organizations/AlaweinOS/QMLab
+        stack:
+          - python
+          - quantum
+        description: Quantum mechanics laboratory simulations
+
+      - name: FitnessApp
+        type: mobile-app
+        path: organizations/AlaweinOS/FitnessApp
+        stack:
+          - react-native
+          - expo
+
+      - name: TalAI
+        type: ai-service
+        path: organizations/AlaweinOS/TalAI
+        stack:
+          - python
+          - llm
+
+      - name: CrazyIdeas
+        type: experimental
+        path: organizations/AlaweinOS/CrazyIdeas
+        description: Experimental projects and prototypes
+
+  alaweimm90-business:
+    projects:
+      - name: LiveItIconic
+        type: e-commerce
+        path: organizations/alaweimm90-business/LiveItIconic
+        deployment_guides:
+          - organizations/alaweimm90-business/LiveItIconic/DEPLOYMENT.md
+          - organizations/alaweimm90-business/LiveItIconic/DEPLOYMENT_INFRASTRUCTURE_PLAN.md
+          - organizations/alaweimm90-business/LiveItIconic/docs/DEPLOYMENT.md
+        stack:
+          - nextjs
+          - supabase
+          - stripe
+          - vercel
+        domain: liveiticonic.com
+
+      - name: Repz
+        type: platform
+        path: organizations/alaweimm90-business/Repz
+        deployment_guides:
+          - organizations/alaweimm90-business/Repz/DEPLOY_NOW.md
+          - organizations/alaweimm90-business/Repz/REPZ/platform/DEPLOYMENT_GUIDE.md
+          - organizations/alaweimm90-business/Repz/REPZ/platform/FINAL-DEPLOYMENT-GUIDE.md
+          - organizations/alaweimm90-business/Repz/REPZ/platform/PRODUCTION-DEPLOYMENT-GUIDE.md
+          - organizations/alaweimm90-business/Repz/REPZ/platform/QUICK_START_DEPLOYMENT.md
+        stack:
+          - react
+          - node
+          - postgresql
+        status: production-ready
+
+      - name: CallaLilyCouture
+        type: e-commerce
+        path: organizations/alaweimm90-business/CallaLilyCouture
+        deployment_guide: organizations/alaweimm90-business/CallaLilyCouture/DEPLOYMENT_GUIDE.md
+        stack:
+          - shopify
+
+      - name: BenchBarrier
+        type: web-app
+        path: organizations/alaweimm90-business/BenchBarrier
+        deployment_guide: organizations/alaweimm90-business/BenchBarrier/DEPLOYMENT_GUIDE.md
+
+      - name: DrAloweinPortfolio
+        type: portfolio
+        path: organizations/alaweimm90-business/DrAloweinPortfolio
+        stack:
+          - nextjs
+          - tailwind
+        description: Professional portfolio website
+
+      - name: MarketingAutomation
+        type: automation
+        path: organizations/alaweimm90-business/MarketingAutomation
+        stack:
+          - python
+          - n8n
+        description: Marketing automation workflows
+
+  alaweimm90-science:
+    projects:
+      - name: SciComp
+        type: scientific
+        path: organizations/alaweimm90-science/SciComp
+        deployment_guides:
+          - organizations/alaweimm90-science/SciComp/DEPLOYMENT_CHECKLIST.md
+          - organizations/alaweimm90-science/SciComp/FINAL_DEPLOYMENT_REPORT.md
+        stack:
+          - python
+          - jupyter
+          - docker
+
+      - name: MagLogic
+        type: scientific
+        path: organizations/alaweimm90-science/MagLogic
+        stack:
+          - python
+          - numpy
+        description: Magnetic logic simulations
+
+      - name: QMatSim
+        type: scientific
+        path: organizations/alaweimm90-science/QMatSim
+        stack:
+          - python
+          - quantum
+        description: Quantum materials simulation
+
+      - name: QubeML
+        type: ml-library
+        path: organizations/alaweimm90-science/QubeML
+        stack:
+          - python
+          - pytorch
+          - quantum
+        description: Quantum machine learning library
+
+      - name: SpinCirc
+        type: scientific
+        path: organizations/alaweimm90-science/SpinCirc
+        stack:
+          - python
+          - qiskit
+        description: Spin circuit simulations
+
+      - name: TalAI
+        type: ai-service
+        path: organizations/alaweimm90-science/TalAI
+        stack:
+          - python
+          - llm
+        description: AI assistant for scientific research
+
+  MeatheadPhysicist:
+    projects:
+      - name: Platform
+        type: scientific-platform
+        path: organizations/MeatheadPhysicist
+        deployment_guide: organizations/MeatheadPhysicist/Deployment/docs/DEPLOYMENT_GUIDE.md
+        stack:
+          - python
+          - docker
+          - kubernetes
+          - celery
+          - prometheus
+          - grafana
+        features:
+          - zero-downtime
+          - blue-green
+          - canary-releases
+          - auto-rollback
+
+      - name: Dashboard
+        type: web-app
+        path: organizations/MeatheadPhysicist/Dashboard
+        stack:
+          - react
+          - grafana
+
+      - name: Frontend
+        type: web-app
+        path: organizations/MeatheadPhysicist/Frontend
+        stack:
+          - react
+          - typescript
+
+      - name: API
+        type: api-service
+        path: organizations/MeatheadPhysicist/API
+        stack:
+          - python
+          - fastapi
+
+      - name: MLOps
+        type: mlops
+        path: organizations/MeatheadPhysicist/MLOps
+        stack:
+          - python
+          - mlflow
+          - kubeflow
+
+      - name: Quantum
+        type: scientific
+        path: organizations/MeatheadPhysicist/Quantum
+        stack:
+          - python
+          - qiskit
+
+      - name: GHPages
+        type: static-site
+        path: organizations/MeatheadPhysicist/GHPages
+        stack:
+          - html
+          - css
+          - javascript
+        platform: github-pages
+
+# Deployment patterns by type
+patterns:
+  kubernetes:
+    template: automation/deployment/templates/kubernetes.yaml
+    tools:
+      - kubectl
+      - helm
+      - kustomize
+
+  docker-compose:
+    template: automation/deployment/templates/docker-compose.yaml
+    tools:
+      - docker
+      - docker-compose
+
+  vercel:
+    template: automation/deployment/templates/vercel.json
+    tools:
+      - vercel-cli
+    commands:
+      deploy: vercel --prod
+      preview: vercel
+
+  netlify:
+    template: automation/deployment/templates/netlify.toml
+    tools:
+      - netlify-cli
+    commands:
+      deploy: netlify deploy --prod
+      preview: netlify deploy
+
+  github-pages:
+    template: automation/deployment/templates/github-pages.yaml
+    branch: gh-pages
+
+# Common stacks
+stacks:
+  nextjs:
+    build: npm run build
+    output: .next
+    platforms:
+      - vercel
+      - netlify
+      - docker
+
+  react:
+    build: npm run build
+    output: build
+    platforms:
+      - vercel
+      - netlify
+      - github-pages
+
+  python:
+    build: pip install -r requirements.txt
+    platforms:
+      - docker
+      - kubernetes
+      - heroku
+
+# Statistics
+stats:
+  total_projects: 30
+  total_guides: 26
+  organizations: 4
+  platforms_used:
+    - vercel
+    - netlify
+    - kubernetes
+    - docker
+    - replit
+    - github-pages
+  stacks_used:
+    - nextjs
+    - react
+    - python
+    - node
+    - quantum
+    - pytorch
+    - fastapi

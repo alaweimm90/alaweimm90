@@ -1,0 +1,207 @@
+stages:
+  - security
+  - test
+  - atlas-integration
+  - deploy
+  - performance
+  - docs
+
+variables:
+  ATLAS_API_KEY: $ATLAS_API_KEY
+  ATLAS_API_URL: $ATLAS_API_URL
+  DOCKER_DRIVER: overlay2
+
+# Security Scanning
+security_scan:
+  stage: security
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker run --rm -v $(pwd):/src aquasecurity/trivy:0.40.0 fs --format sarif --output /src/trivy-results.sarif /src
+    - |
+      if [ -f trivy-results.sarif ]; then
+        echo "Trivy scan completed"
+      fi
+  artifacts:
+    reports:
+      sast: trivy-results.sarif
+    expire_in: 1 week
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Multi-language Testing
+test:
+  stage: test
+  image: ubuntu:20.04
+  services:
+    - docker:dind
+  parallel:
+    matrix:
+      - LANGUAGE: [nodejs, python, java, go]
+        VERSION: [16, 18, 20]
+  script:
+    - apt-get update && apt-get install -y curl wget gnupg
+    - |
+      case $LANGUAGE in
+        nodejs)
+          curl -fsSL https://deb.nodesource.com/setup_$VERSION.x | bash -
+          apt-get install -y nodejs
+          if [ -f package.json ]; then
+            npm ci
+            npm test
+          fi
+          ;;
+        python)
+          apt-get install -y python$VERSION python$VERSION-pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+            python -m pytest || python -m unittest discover
+          fi
+          ;;
+        java)
+          apt-get install -y openjdk-$VERSION-jdk maven
+          if [ -f pom.xml ]; then
+            mvn test
+          fi
+          ;;
+        go)
+          wget https://golang.org/dl/go1.$VERSION.linux-amd64.tar.gz
+          tar -C /usr/local -xzf go1.$VERSION.linux-amd64.tar.gz
+          export PATH=$PATH:/usr/local/go/bin
+          if [ -f go.mod ]; then
+            go test ./...
+          fi
+          ;;
+      esac
+  artifacts:
+    reports:
+      junit: "**/test-results.xml"
+      coverage_report:
+        coverage_format: cobertura
+        path: "**/coverage.xml"
+    expire_in: 1 week
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# ATLAS Integration Tests
+atlas_integration:
+  stage: atlas-integration
+  image: node:18
+  script:
+    - npm install -g @atlas/cli
+    - |
+      atlas task submit \
+        --type analysis \
+        --description "Run ATLAS integration tests for MR !$CI_MERGE_REQUEST_IID" \
+        --context "{\"repository_path\": \".\", \"analysis_type\": \"integration\", \"merge_request\": \"$CI_MERGE_REQUEST_IID\"}" \
+        --wait
+  dependencies:
+    - test
+  only:
+    - merge_requests
+
+# Deploy to Staging
+deploy_staging:
+  stage: deploy
+  image: google/cloud-sdk:alpine
+  environment:
+    name: staging
+    url: https://staging.atlas-platform.com
+  script:
+    - echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA .
+    - gcloud run deploy atlas-platform-staging \
+        --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
+        --platform managed \
+        --region us-central1 \
+        --allow-unauthenticated
+  dependencies:
+    - security_scan
+    - test
+    - atlas_integration
+  only:
+    - develop
+
+# Deploy to Production
+deploy_production:
+  stage: deploy
+  image: google/cloud-sdk:alpine
+  environment:
+    name: production
+    url: https://atlas-platform.com
+  script:
+    - echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+    - gcloud config set project $GCP_PROJECT_ID
+    - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA .
+    - gcloud run deploy atlas-platform \
+        --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
+        --platform managed \
+        --region us-central1 \
+        --allow-unauthenticated
+    - |
+      # Run post-deployment validation
+      npm install -g @atlas/cli
+      atlas task submit \
+        --type analysis \
+        --description "Validate production deployment" \
+        --context "{\"type\": \"deployment_validation\", \"environment\": \"production\"}" \
+        --wait
+  dependencies:
+    - security_scan
+    - test
+    - atlas_integration
+  only:
+    - main
+  when: manual
+
+# Performance Monitoring
+performance_monitoring:
+  stage: performance
+  image: node:18
+  script:
+    - npm install -g @atlas/cli
+    - |
+      atlas task submit \
+        --type analysis \
+        --description "Run performance benchmarks" \
+        --context "{\"type\": \"performance\", \"environment\": \"$CI_ENVIRONMENT_NAME\"}" \
+        --wait
+  dependencies:
+    - deploy_staging
+    - deploy_production
+  only:
+    - develop
+    - main
+
+# Documentation Update
+docs_update:
+  stage: docs
+  image: node:18
+  script:
+    - npm ci
+    - npm run docs:build
+    - npm install -g @atlas/cli
+    - |
+      atlas task submit \
+        --type analysis \
+        --description "Generate API documentation" \
+        --context "{\"type\": \"documentation\", \"format\": \"html\"}" \
+        --wait
+    - cp -r docs/build/* public/
+  artifacts:
+    paths:
+      - public/
+    expire_in: 1 year
+  dependencies:
+    - deploy_production
+  only:
+    - main
+    - develop
