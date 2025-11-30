@@ -4,10 +4,10 @@
  * Watches for changes, triggers analysis, manages circuit breakers
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
 import { EventEmitter } from 'events';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
@@ -214,15 +214,7 @@ class AIMonitor extends EventEmitter {
 
   // Load monitor state from disk
   private loadState(): MonitorState {
-    if (fs.existsSync(MONITOR_STATE_FILE)) {
-      try {
-        return JSON.parse(fs.readFileSync(MONITOR_STATE_FILE, 'utf8'));
-      } catch {
-        // Fall through to default
-      }
-    }
-
-    return {
+    const defaultState: MonitorState = {
       lastTriggerTime: null,
       changeBuffer: [],
       circuitBreakers: {},
@@ -234,6 +226,8 @@ class AIMonitor extends EventEmitter {
         lastActivity: null,
       },
     };
+
+    return loadJson<MonitorState>(MONITOR_STATE_FILE, defaultState) ?? defaultState;
   }
 
   // Save state to disk
@@ -243,11 +237,7 @@ class AIMonitor extends EventEmitter {
       this.state.circuitBreakers[name] = cb.getState();
     }
 
-    try {
-      fs.writeFileSync(MONITOR_STATE_FILE, JSON.stringify(this.state, null, 2));
-    } catch {
-      // Silent fail
-    }
+    saveJson(MONITOR_STATE_FILE, this.state);
   }
 
   // Get or create circuit breaker

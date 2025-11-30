@@ -7,9 +7,16 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
+
+// Output file paths
+const RECENT_CHANGES_PATH = path.join(AI_DIR, 'recent-changes.json');
+const TEMPLATE_INVENTORY_PATH = path.join(AI_DIR, 'template-inventory.json');
+const WORKFLOW_INVENTORY_PATH = path.join(AI_DIR, 'workflow-inventory.json');
+const GOVERNANCE_STATUS_PATH = path.join(AI_DIR, 'governance-status.json');
 
 interface SyncResult {
   action: string;
@@ -40,18 +47,10 @@ function syncRecentChanges(): SyncResult {
       })
       .filter(Boolean);
 
-    const outputPath = path.join(AI_DIR, 'recent-changes.json');
-    fs.writeFileSync(
-      outputPath,
-      JSON.stringify(
-        {
-          updated_at: new Date().toISOString(),
-          changes,
-        },
-        null,
-        2
-      )
-    );
+    saveJson(RECENT_CHANGES_PATH, {
+      updated_at: new Date().toISOString(),
+      changes,
+    });
 
     return {
       action: 'sync-recent-changes',
@@ -70,7 +69,7 @@ function syncRecentChanges(): SyncResult {
 // Sync template inventory
 function syncTemplates(): SyncResult {
   try {
-    const templatesDir = path.join(ROOT, 'templates', 'devops');
+    const templatesDir = path.join(ROOT, 'infrastructure', 'templates', 'devops');
     if (!fs.existsSync(templatesDir)) {
       return {
         action: 'sync-templates',
@@ -94,16 +93,14 @@ function syncTemplates(): SyncResult {
         if (entry.isDirectory()) {
           walk(fullPath);
         } else if (entry.name === 'template.json') {
-          try {
-            const manifest = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+          const manifest = loadJson<{ name: string; category: string; version: string }>(fullPath);
+          if (manifest) {
             templates.push({
               name: manifest.name,
               category: manifest.category,
               version: manifest.version,
               path: path.relative(ROOT, fullPath),
             });
-          } catch {
-            // Skip invalid manifests
           }
         }
       }
@@ -111,19 +108,11 @@ function syncTemplates(): SyncResult {
 
     walk(templatesDir);
 
-    const outputPath = path.join(AI_DIR, 'template-inventory.json');
-    fs.writeFileSync(
-      outputPath,
-      JSON.stringify(
-        {
-          updated_at: new Date().toISOString(),
-          count: templates.length,
-          templates,
-        },
-        null,
-        2
-      )
-    );
+    saveJson(TEMPLATE_INVENTORY_PATH, {
+      updated_at: new Date().toISOString(),
+      count: templates.length,
+      templates,
+    });
 
     return {
       action: 'sync-templates',
@@ -159,19 +148,11 @@ function syncWorkflows(): SyncResult {
         path: `.github/workflows/${f}`,
       }));
 
-    const outputPath = path.join(AI_DIR, 'workflow-inventory.json');
-    fs.writeFileSync(
-      outputPath,
-      JSON.stringify(
-        {
-          updated_at: new Date().toISOString(),
-          count: workflows.length,
-          workflows,
-        },
-        null,
-        2
-      )
-    );
+    saveJson(WORKFLOW_INVENTORY_PATH, {
+      updated_at: new Date().toISOString(),
+      count: workflows.length,
+      workflows,
+    });
 
     return {
       action: 'sync-workflows',
@@ -187,29 +168,26 @@ function syncWorkflows(): SyncResult {
   }
 }
 
-// Update codemap if needed
+// Update codemap if needed (currently disabled - codemap script removed)
 function updateCodemap(): SyncResult {
-  try {
-    execSync('npm run codemap', { cwd: ROOT, stdio: 'pipe' });
-    return {
-      action: 'update-codemap',
-      status: 'success',
-      details: 'Codemap updated',
-    };
-  } catch (error) {
-    return {
-      action: 'update-codemap',
-      status: 'error',
-      details: String(error),
-    };
-  }
+  return {
+    action: 'update-codemap',
+    status: 'skipped',
+    details: 'Codemap generation disabled',
+  };
 }
 
 // Sync governance status
 function syncGovernance(): SyncResult {
   try {
     const catalogPath = path.join(ROOT, '.metaHub', 'catalog', 'catalog.json');
-    if (!fs.existsSync(catalogPath)) {
+    const catalog = loadJson<{
+      version: string;
+      generated_at: string;
+      organizations?: { repos?: unknown[] }[];
+    }>(catalogPath);
+
+    if (!catalog) {
       return {
         action: 'sync-governance',
         status: 'skipped',
@@ -217,22 +195,16 @@ function syncGovernance(): SyncResult {
       };
     }
 
-    const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
-
     const summary = {
       updated_at: new Date().toISOString(),
       catalog_version: catalog.version,
       catalog_generated: catalog.generated_at,
       organizations: catalog.organizations?.length || 0,
       total_repos:
-        catalog.organizations?.reduce(
-          (sum: number, org: { repos?: unknown[] }) => sum + (org.repos?.length || 0),
-          0
-        ) || 0,
+        catalog.organizations?.reduce((sum: number, org) => sum + (org.repos?.length || 0), 0) || 0,
     };
 
-    const outputPath = path.join(AI_DIR, 'governance-status.json');
-    fs.writeFileSync(outputPath, JSON.stringify(summary, null, 2));
+    saveJson(GOVERNANCE_STATUS_PATH, summary);
 
     return {
       action: 'sync-governance',

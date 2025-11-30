@@ -4,9 +4,9 @@
  * Automated issue creation, tracking, and remediation
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
@@ -188,15 +188,7 @@ class IssueManager {
   }
 
   private loadState(): IssueState {
-    if (fs.existsSync(ISSUES_FILE)) {
-      try {
-        return JSON.parse(fs.readFileSync(ISSUES_FILE, 'utf8'));
-      } catch {
-        // Fall through
-      }
-    }
-
-    return {
+    const defaultState: IssueState = {
       issues: [],
       stats: {
         total: 0,
@@ -219,14 +211,12 @@ class IssueManager {
         avgResolutionTime: 0,
       },
     };
+
+    return loadJson<IssueState>(ISSUES_FILE, defaultState) ?? defaultState;
   }
 
   private saveState(): void {
-    try {
-      fs.writeFileSync(ISSUES_FILE, JSON.stringify(this.state, null, 2));
-    } catch {
-      // Silent fail
-    }
+    saveJson(ISSUES_FILE, this.state);
   }
 
   private generateId(): string {

@@ -1,0 +1,13 @@
+# Archived files - no longer maintained
+.archive/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Generated files
+*.generated.*

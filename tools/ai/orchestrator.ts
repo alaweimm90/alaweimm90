@@ -7,9 +7,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'yaml';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
+const TASK_HISTORY_PATH = path.join(AI_DIR, 'task-history.json');
+const CURRENT_TASK_PATH = path.join(AI_DIR, 'current-task.json');
+const METRICS_PATH = path.join(AI_DIR, 'metrics.json');
 
 interface Task {
   id: string;
@@ -59,24 +63,21 @@ function loadContext(): Context | null {
   }
 }
 
-// Load task history
-function loadTaskHistory(): { tasks: Task[]; patterns: Record<string, string[]> } {
-  const historyPath = path.join(AI_DIR, 'task-history.json');
-  if (!fs.existsSync(historyPath)) {
-    return { tasks: [], patterns: {} };
-  }
+interface TaskHistory {
+  tasks: Task[];
+  patterns: Record<string, string[]>;
+}
 
-  try {
-    return JSON.parse(fs.readFileSync(historyPath, 'utf8'));
-  } catch {
-    return { tasks: [], patterns: {} };
-  }
+const DEFAULT_HISTORY: TaskHistory = { tasks: [], patterns: {} };
+
+// Load task history
+function loadTaskHistory(): TaskHistory {
+  return loadJson<TaskHistory>(TASK_HISTORY_PATH, DEFAULT_HISTORY) ?? DEFAULT_HISTORY;
 }
 
 // Save task history
-function saveTaskHistory(history: { tasks: Task[]; patterns: Record<string, string[]> }): void {
-  const historyPath = path.join(AI_DIR, 'task-history.json');
-  fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
+function saveTaskHistory(history: TaskHistory): void {
+  saveJson(TASK_HISTORY_PATH, history);
 }
 
 // Generate task ID
@@ -106,8 +107,7 @@ function startTask(type: Task['type'], scope: string[], description: string): Ta
   };
 
   // Save current task
-  const currentTaskPath = path.join(AI_DIR, 'current-task.json');
-  fs.writeFileSync(currentTaskPath, JSON.stringify(task, null, 2));
+  saveJson(CURRENT_TASK_PATH, task);
 
   console.log(`🚀 Task started: ${task.id}`);
   console.log(`   Type: ${type}`);
@@ -126,13 +126,11 @@ function completeTask(
   rating?: number,
   notes?: string
 ): void {
-  const currentTaskPath = path.join(AI_DIR, 'current-task.json');
-  if (!fs.existsSync(currentTaskPath)) {
+  const task = loadJson<Task>(CURRENT_TASK_PATH);
+  if (!task) {
     console.error('❌ No current task found');
     return;
   }
-
-  const task: Task = JSON.parse(fs.readFileSync(currentTaskPath, 'utf8'));
   const startTime = new Date(task.timestamp);
   const duration = Math.round((Date.now() - startTime.getTime()) / 60000);
 
@@ -155,7 +153,9 @@ function completeTask(
   saveTaskHistory(history);
 
   // Remove current task file
-  fs.unlinkSync(currentTaskPath);
+  if (fs.existsSync(CURRENT_TASK_PATH)) {
+    fs.unlinkSync(CURRENT_TASK_PATH);
+  }
 
   console.log(`✅ Task completed: ${task.id}`);
   console.log(`   Outcome: ${task.outcome}`);
@@ -169,7 +169,6 @@ function completeTask(
 // Update metrics based on task history
 function updateMetrics(): void {
   const history = loadTaskHistory();
-  const metricsPath = path.join(AI_DIR, 'metrics.json');
 
   const successful = history.tasks.filter((t) => t.outcome === 'success').length;
   const failed = history.tasks.filter((t) => t.outcome === 'failure').length;
@@ -204,7 +203,7 @@ function updateMetrics(): void {
     updated_at: new Date().toISOString(),
   };
 
-  fs.writeFileSync(metricsPath, JSON.stringify(metrics, null, 2));
+  saveJson(METRICS_PATH, metrics);
   console.log('📊 Metrics updated');
 }
 
@@ -301,8 +300,8 @@ function main(): void {
 
     case 'metrics': {
       updateMetrics();
-      const metricsPath = path.join(AI_DIR, 'metrics.json');
-      console.log(fs.readFileSync(metricsPath, 'utf8'));
+      const metrics = loadJson(METRICS_PATH);
+      console.log(JSON.stringify(metrics, null, 2));
       break;
     }
 

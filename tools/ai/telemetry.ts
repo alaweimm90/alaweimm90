@@ -4,9 +4,9 @@
  * Comprehensive metrics collection, performance tracking, and alerting
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 import { EventEmitter } from 'events';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const AI_DIR = path.join(process.cwd(), '.ai');
 const TELEMETRY_FILE = path.join(AI_DIR, 'telemetry.json');
@@ -139,15 +139,7 @@ class Telemetry extends EventEmitter {
 
   // Load state from disk
   private loadState(): TelemetryState {
-    if (fs.existsSync(TELEMETRY_FILE)) {
-      try {
-        return JSON.parse(fs.readFileSync(TELEMETRY_FILE, 'utf8'));
-      } catch {
-        // Fall through
-      }
-    }
-
-    return {
+    const defaultState: TelemetryState = {
       events: [],
       metrics: [],
       alerts: [],
@@ -159,20 +151,18 @@ class Telemetry extends EventEmitter {
         lastUpdated: new Date().toISOString(),
       },
     };
+
+    return loadJson<TelemetryState>(TELEMETRY_FILE, defaultState) ?? defaultState;
   }
 
   // Save state to disk
   private saveState(): void {
-    try {
-      // Trim to max sizes
-      this.state.events = this.state.events.slice(-this.maxEvents);
-      this.state.metrics = this.state.metrics.slice(-this.maxMetrics);
-      this.state.alerts = this.state.alerts.slice(-this.maxAlerts);
+    // Trim to max sizes
+    this.state.events = this.state.events.slice(-this.maxEvents);
+    this.state.metrics = this.state.metrics.slice(-this.maxMetrics);
+    this.state.alerts = this.state.alerts.slice(-this.maxAlerts);
 
-      fs.writeFileSync(TELEMETRY_FILE, JSON.stringify(this.state, null, 2));
-    } catch {
-      // Silent fail
-    }
+    saveJson(TELEMETRY_FILE, this.state);
   }
 
   // Generate unique ID

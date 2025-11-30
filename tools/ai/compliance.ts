@@ -6,9 +6,11 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
+const COMPLIANCE_REPORT_PATH = path.join(AI_DIR, 'compliance-report.json');
 
 // ============================================================================
 // Types
@@ -576,8 +578,7 @@ function main(): void {
       displayReport(report);
 
       // Save report
-      const reportPath = path.join(AI_DIR, 'compliance-report.json');
-      fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+      saveJson(COMPLIANCE_REPORT_PATH, report);
       break;
     }
 

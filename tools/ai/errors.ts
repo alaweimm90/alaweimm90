@@ -4,9 +4,9 @@
  * Structured error types with automatic recovery strategies
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 import { EventEmitter } from 'events';
+import { loadJson, saveJson } from './utils/file-persistence.js';
 
 const AI_DIR = path.join(process.cwd(), '.ai');
 const ERROR_LOG_FILE = path.join(AI_DIR, 'error-log.json');
@@ -218,15 +218,7 @@ class ErrorHandler extends EventEmitter {
   }
 
   private loadState(): ErrorLogState {
-    if (fs.existsSync(ERROR_LOG_FILE)) {
-      try {
-        return JSON.parse(fs.readFileSync(ERROR_LOG_FILE, 'utf8'));
-      } catch {
-        // Fall through to default
-      }
-    }
-
-    return {
+    const defaultState: ErrorLogState = {
       errors: [],
       stats: {
         total: 0,
@@ -250,16 +242,14 @@ class ErrorHandler extends EventEmitter {
         unresolvedCount: 0,
       },
     };
+
+    return loadJson<ErrorLogState>(ERROR_LOG_FILE, defaultState) ?? defaultState;
   }
 
   private saveState(): void {
-    try {
-      // Trim to max size
-      this.state.errors = this.state.errors.slice(-this.maxLogSize);
-      fs.writeFileSync(ERROR_LOG_FILE, JSON.stringify(this.state, null, 2));
-    } catch {
-      // Silent fail
-    }
+    // Trim to max size
+    this.state.errors = this.state.errors.slice(-this.maxLogSize);
+    saveJson(ERROR_LOG_FILE, this.state);
   }
 
   private generateId(): string {

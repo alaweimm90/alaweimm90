@@ -7,6 +7,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';
+import { saveJson } from './utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const AI_DIR = path.join(ROOT, '.ai');
@@ -478,11 +479,7 @@ class SecurityScanner {
     };
 
     // Save report
-    try {
-      fs.writeFileSync(SECURITY_REPORT_FILE, JSON.stringify(report, null, 2));
-    } catch {
-      // Silent fail
-    }
+    saveJson(SECURITY_REPORT_FILE, report);
 
     return report;
   }

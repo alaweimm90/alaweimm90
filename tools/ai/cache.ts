@@ -4,17 +4,16 @@
  * Enterprise-grade caching with semantic similarity, TTL management, and LRU eviction
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
+import { loadJson, saveJson, ensureDir } from './utils/file-persistence.js';
 
 const AI_DIR = path.join(process.cwd(), '.ai');
 const CACHE_DIR = path.join(AI_DIR, 'cache');
+const CACHE_FILE = path.join(CACHE_DIR, 'cache.json');
 
 // Ensure cache directory exists
-if (!fs.existsSync(CACHE_DIR)) {
-  fs.mkdirSync(CACHE_DIR, { recursive: true });
-}
+ensureDir(CACHE_DIR);
 
 // ============================================================================
 // Types
@@ -355,36 +354,29 @@ class AICache {
   private saveToDisk(): void {
     if (!this.config.persistToDisk) return;
 
-    const cacheFile = path.join(CACHE_DIR, 'cache.json');
     const data = {
       entries: Object.fromEntries(this.memoryCache),
       stats: this.stats,
       savedAt: new Date().toISOString(),
     };
 
-    try {
-      fs.writeFileSync(cacheFile, JSON.stringify(data, null, 2));
-    } catch {
-      // Silent fail for cache persistence
-    }
+    saveJson(CACHE_FILE, data);
   }
 
   // Load cache from disk
   private loadFromDisk(): void {
     if (!this.config.persistToDisk) return;
 
-    const cacheFile = path.join(CACHE_DIR, 'cache.json');
-    if (!fs.existsSync(cacheFile)) return;
+    const data = loadJson<{
+      entries: Record<string, CacheEntry<unknown>>;
+      stats: CacheStats;
+    }>(CACHE_FILE);
 
-    try {
-      const data = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+    if (data) {
       this.memoryCache = new Map(Object.entries(data.entries || {}));
       this.stats = data.stats || this.stats;
-
       // Clear expired entries on load
       this.clearExpired();
-    } catch {
-      // Silent fail, start with empty cache
     }
   }
 }
