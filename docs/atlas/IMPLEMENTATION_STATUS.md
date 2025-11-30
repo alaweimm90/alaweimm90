@@ -1,7 +1,7 @@
 # ATLAS Implementation Status
 
-**Last Updated:** 2024-11-30
-**Honest Assessment Version:** 1.3
+**Last Updated:** 2025-11-30
+**Honest Assessment Version:** 1.4
 
 ---
 
@@ -79,12 +79,14 @@ This document provides an honest assessment of ATLAS feature implementation stat
 
 ### Storage & Persistence
 
-| Feature            | Status             | Notes                          |
-| ------------------ | ------------------ | ------------------------------ |
-| File-based State   | ✅ IMPLEMENTED     | JSON files in `.ai/`           |
-| Metrics Database   | ⚠️ STUB            | Uses JSON files, not a real DB |
-| PostgreSQL Support | ❌ NOT IMPLEMENTED | Documentation only             |
-| Redis Support      | ❌ NOT IMPLEMENTED | Documentation only             |
+| Feature             | Status             | Notes                                   |
+| ------------------- | ------------------ | --------------------------------------- |
+| Storage Abstraction | ✅ IMPLEMENTED     | Pluggable backend interface             |
+| JSON Backend        | ✅ IMPLEMENTED     | `tools/atlas/storage/json-backend.ts`   |
+| File-based State    | ✅ IMPLEMENTED     | JSON files in `.atlas/data/`            |
+| SQLite Backend      | ⚠️ STUB            | Interface ready, implementation pending |
+| PostgreSQL Support  | ❌ NOT IMPLEMENTED | Interface ready, needs adapter          |
+| Redis Support       | ❌ NOT IMPLEMENTED | Documentation only                      |
 
 ### Caching
 
@@ -184,6 +186,12 @@ This document provides an honest assessment of ATLAS feature implementation stat
     - LRU eviction
     - TTL management
 
+12. **Storage Abstraction** (`tools/atlas/storage/`)
+    - Pluggable backend interface
+    - JSON backend with caching
+    - Typed accessors for all collections
+    - Foundation for SQLite/PostgreSQL
+
 ---
 
 ## Recommended Priority for Implementation
@@ -193,33 +201,34 @@ This document provides an honest assessment of ATLAS feature implementation stat
 1. ~~**Multi-Agent Routing**~~ ✅ DONE - Full routing with fallback chains
 2. ~~**Agent Adapters**~~ ✅ DONE - Anthropic, OpenAI, Google adapters
 3. ~~**REST API**~~ ✅ DONE - Native HTTP server with auth
-4. **Real Database** - Move from JSON files to SQLite/PostgreSQL
+4. ~~**Storage Abstraction**~~ ✅ DONE - Pluggable backend interface
+5. **SQLite Implementation** - Add SQLite backend to storage layer
 
 ### Medium Priority (Production Readiness)
 
-5. **npm Package Publishing** - Make CLI installable
-6. **Docker Containerization** - Enable easy deployment
-7. ~~**Authentication**~~ ✅ DONE - API key via X-API-Key or Bearer
+1. **npm Package Publishing** - Make CLI installable
+2. **Docker Containerization** - Enable easy deployment
+3. ~~**Authentication**~~ ✅ DONE - API key via X-API-Key or Bearer
 
 ### Low Priority (Nice to Have)
 
-8. **Python SDK**
-9. **IDE Plugins**
-10. **Kubernetes Deployment**
+1. **Python SDK**
+2. **IDE Plugins**
+3. **Kubernetes Deployment**
 
 ---
 
 ## Documentation vs Reality Score
 
-| Category      | Documentation Claims | Actually Implemented   | Gap          |
-| ------------- | -------------------- | ---------------------- | ------------ |
-| Orchestration | Full multi-agent     | Routing + fallback     | 10%          |
-| Agents        | 4 providers          | 3 with full adapters   | 25%          |
-| APIs          | REST + 3 SDKs        | REST API + CLI         | 60%          |
-| Storage       | PostgreSQL/Redis     | JSON files             | 100%         |
-| Security      | Enterprise-grade     | Basic auth + patterns  | 70%          |
-| Deployment    | K8s/Docker           | Local only             | 100%         |
-| **Overall**   | Enterprise Platform  | Full Multi-Agent + API | **~35% gap** |
+| Category      | Documentation Claims | Actually Implemented       | Gap          |
+| ------------- | -------------------- | -------------------------- | ------------ |
+| Orchestration | Full multi-agent     | Routing + fallback         | 10%          |
+| Agents        | 4 providers          | 3 with full adapters       | 25%          |
+| APIs          | REST + 3 SDKs        | REST API + CLI             | 60%          |
+| Storage       | PostgreSQL/Redis     | Abstraction + JSON backend | 70%          |
+| Security      | Enterprise-grade     | Basic auth + patterns      | 70%          |
+| Deployment    | K8s/Docker           | Local only                 | 100%         |
+| **Overall**   | Enterprise Platform  | Full Multi-Agent + API     | **~30% gap** |
 
 ---
 
@@ -248,7 +257,7 @@ The **core platform is now complete**. Missing pieces are deployment and persist
 
 ---
 
-## Recent Progress (v1.3)
+## Recent Progress (v1.4)
 
 - **v1.1:** Implemented AgentRegistry, TaskRouter, FallbackManager
 - **v1.2:** Implemented LLM adapters for all 3 major providers
@@ -258,12 +267,18 @@ The **core platform is now complete**. Missing pieces are deployment and persist
   - Convenience: /generate, /review, /explain, /chat
   - API key authentication (X-API-Key or Bearer)
   - CORS support for browser clients
-- Gap reduced from ~45% to ~35%
+- **v1.4:** Added storage abstraction layer
+  - Pluggable backend interface (JSON, SQLite, PostgreSQL)
+  - JsonStorageBackend with caching and debounced writes
+  - Typed accessors for agents, circuits, metrics, tasks, cache
+  - Foundation for database migration
+- Gap reduced from ~45% to ~30%
 
 ## Next Steps
 
 1. ~~Update main README to reflect actual status~~ ✅ Done
 2. ~~Implement agent adapters for actual API calls~~ ✅ Done
 3. ~~Add REST API for external access~~ ✅ Done
-4. Migrate storage to SQLite
-5. Add Docker containerization
+4. ~~Add storage abstraction layer~~ ✅ Done
+5. Implement SQLite backend
+6. Add Docker containerization
