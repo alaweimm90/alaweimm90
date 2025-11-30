@@ -2,9 +2,26 @@
 
 **ATLAS (Autonomous Technical Leadership & Adaptive System)**
 
-**Version:** 1.0.0  
-**Status:** Production Ready  
-**License:** MIT  
+**Version:** 0.1.0-alpha
+**Status:** Development / Alpha
+**License:** MIT
+
+> **Important:** See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for an honest assessment of what features are actually implemented vs documented.
+
+---
+
+## Current Reality vs Vision
+
+This documentation describes the **vision** for ATLAS. The current implementation is a **development-stage CLI tool** with:
+
+| Category      | Documented                       | Implemented         |
+| ------------- | -------------------------------- | ------------------- |
+| Agent Support | Claude, GPT-4, Gemini, Local     | CLI interface only  |
+| APIs          | REST + Python/TypeScript/Go SDKs | TypeScript CLI only |
+| Storage       | PostgreSQL/Redis                 | JSON files          |
+| Deployment    | Kubernetes/Docker                | Local execution     |
+
+See [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) for full details.
 
 ---
 
@@ -45,24 +62,28 @@ atlas task submit \
 ## Documentation Structure
 
 ### 🚀 Getting Started
+
 - **[Quick Start Guide](getting-started/quick-start.md)** - Get up and running in 5 minutes
 - **[Installation Guide](getting-started/installation.md)** - Complete installation instructions
 - **[First Tasks](getting-started/first-tasks.md)** - Your first ATLAS operations
 - **[Configuration](getting-started/configuration.md)** - Basic configuration setup
 
 ### 🏗️ Architecture
+
 - **[System Overview](architecture/overview.md)** - High-level system architecture
 - **[Component Details](architecture/components.md)** - Detailed component specifications
 - **[Data Models](architecture/data-models.md)** - Data structures and schemas
 - **[Integration Points](architecture/integration.md)** - How ATLAS integrates with other systems
 
 ### 🔌 API Reference
+
 - **[REST API](api/rest-api.md)** - Complete REST API documentation
 - **[Python SDK](api/python-sdk.md)** - Python client library
 - **[TypeScript SDK](api/typescript-sdk.md)** - TypeScript client library
 - **[Webhooks](api/webhooks.md)** - Event-driven integrations
 
 ### 💻 CLI Reference
+
 - **[Command Overview](cli/overview.md)** - CLI structure and concepts
 - **[Agent Commands](cli/agents.md)** - Managing AI agents
 - **[Task Commands](cli/tasks.md)** - Task submission and management
@@ -70,18 +91,21 @@ atlas task submit \
 - **[Optimization Commands](cli/optimization.md)** - Automated optimization
 
 ### 🔗 Integration Guides
+
 - **[KILO Integration](integration/kilo-integration.md)** - Complete ATLAS-KILO integration
 - **[CI/CD Integration](integration/cicd-integration.md)** - Integrate with CI/CD pipelines
 - **[IDE Integration](integration/ide-integration.md)** - IDE plugins and extensions
 - **[Custom Agents](integration/custom-agents.md)** - Building custom AI agents
 
 ### ✅ Best Practices
+
 - **[Agent Selection](best-practices/agent-selection.md)** - Choosing the right agent for tasks
 - **[Performance Optimization](best-practices/performance.md)** - Optimizing for speed and cost
 - **[Security Guidelines](best-practices/security.md)** - Security best practices
 - **[Monitoring & Alerting](best-practices/monitoring.md)** - Observability and alerting
 
 ### 🔧 Troubleshooting
+
 - **[Common Issues](troubleshooting/common-issues.md)** - Frequently encountered problems
 - **[Debugging Guide](troubleshooting/debugging.md)** - Debugging ATLAS operations
 - **[Performance Issues](troubleshooting/performance.md)** - Resolving performance problems
@@ -92,18 +116,21 @@ atlas task submit \
 ## Use Cases
 
 ### For Development Teams
+
 - **Code Generation**: Generate high-quality code with AI assistance
 - **Code Review**: Automated code review with multiple AI perspectives
 - **Refactoring**: Intelligent code refactoring suggestions
 - **Documentation**: Automated documentation generation
 
 ### For DevOps Teams
+
 - **Repository Analysis**: Continuous code quality monitoring
 - **Technical Debt Management**: Automated technical debt reduction
 - **Compliance Checking**: Ensure code meets organizational standards
 - **Performance Optimization**: Automated performance improvements
 
 ### For Organizations
+
 - **Multi-Agent Orchestration**: Route tasks to optimal AI agents
 - **Cost Optimization**: Minimize AI API costs through intelligent routing
 - **Governance Integration**: Maintain compliance with organizational policies
@@ -114,18 +141,21 @@ atlas task submit \
 ## System Requirements
 
 ### Minimum Requirements
+
 - **Node.js**: 16.0.0 or higher
 - **Memory**: 4GB RAM
 - **Storage**: 1GB free disk space
 - **Network**: Internet connection for AI API access
 
 ### Recommended Requirements
+
 - **Node.js**: 18.0.0 or higher
 - **Memory**: 8GB RAM
 - **Storage**: 5GB free disk space
 - **Network**: High-speed internet for optimal performance
 
 ### Supported Platforms
+
 - **Operating Systems**: Linux, macOS, Windows
 - **Architectures**: x64, ARM64
 - **Containers**: Docker, Kubernetes
@@ -135,17 +165,20 @@ atlas task submit \
 ## Community & Support
 
 ### Getting Help
+
 - **📖 Documentation**: Comprehensive guides and API reference
 - **💬 Community Forum**: Join discussions with other ATLAS users
 - **🐛 Issue Tracker**: Report bugs and request features
 - **📧 Enterprise Support**: Premium support for enterprise customers
 
 ### Contributing
+
 - **📝 Contribution Guide**: How to contribute to ATLAS
 - **🔧 Development Setup**: Setting up a development environment
 - **📋 Code of Conduct**: Community guidelines and standards
 
 ### Resources
+
 - **🌐 Website**: [atlas-platform.com](https://atlas-platform.com)
 - **📚 Blog**: Latest news and technical articles
 - **🎥 Videos**: Tutorials and deep-dive sessions
