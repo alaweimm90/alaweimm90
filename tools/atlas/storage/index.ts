@@ -11,9 +11,11 @@ import {
   QueryResult,
 } from './types.js';
 import { JsonStorageBackend } from './json-backend.js';
+import { SqliteStorageBackend } from './sqlite-backend.js';
 
 export * from './types.js';
 export { JsonStorageBackend } from './json-backend.js';
+export { SqliteStorageBackend } from './sqlite-backend.js';
 
 // ============================================================================
 // Storage Factory
@@ -29,11 +31,10 @@ export function createStorage(config: Partial<StorageConfig> = {}): StorageBacke
     case 'json':
       return new JsonStorageBackend(fullConfig.basePath);
 
-    case 'sqlite':
-      // SQLite backend can be added as an optional dependency
-      throw new Error(
-        'SQLite backend not available. Install @atlas/storage-sqlite for SQLite support.'
-      );
+    case 'sqlite': {
+      const dbPath = fullConfig.connectionString || '.atlas/atlas.db';
+      return new SqliteStorageBackend(dbPath);
+    }
 
     case 'postgres':
       // PostgreSQL backend requires external connection
