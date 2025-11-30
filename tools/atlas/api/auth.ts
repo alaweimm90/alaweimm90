@@ -54,9 +54,7 @@ export interface AuthResult {
 // ============================================================================
 
 export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
-  admin: [
-    { resource: '*', actions: ['read', 'write', 'execute', 'admin'] },
-  ],
+  admin: [{ resource: '*', actions: ['read', 'write', 'execute', 'admin'] }],
   operator: [
     { resource: 'agents', actions: ['read', 'write', 'execute'] },
     { resource: 'tasks', actions: ['read', 'write', 'execute'] },
@@ -100,7 +98,10 @@ function createSignature(data: string, secret: string): string {
 /**
  * Create a JWT token
  */
-export function createJWT(payload: Omit<JWTPayload, 'iat' | 'exp' | 'iss'>, config: AuthConfig): string {
+export function createJWT(
+  payload: Omit<JWTPayload, 'iat' | 'exp' | 'iss'>,
+  config: AuthConfig
+): string {
   const header = {
     alg: 'HS256',
     typ: 'JWT',
@@ -124,7 +125,10 @@ export function createJWT(payload: Omit<JWTPayload, 'iat' | 'exp' | 'iss'>, conf
 /**
  * Verify and decode a JWT token
  */
-export function verifyJWT(token: string, config: AuthConfig): { valid: boolean; payload?: JWTPayload; error?: string } {
+export function verifyJWT(
+  token: string,
+  config: AuthConfig
+): { valid: boolean; payload?: JWTPayload; error?: string } {
   const parts = token.split('.');
   if (parts.length !== 3) {
     return { valid: false, error: 'Invalid token format' };
@@ -282,17 +286,17 @@ export function pathToResource(path: string): string {
 
   // Map common paths
   const resourceMap: Record<string, string> = {
-    'health': 'health',
-    'status': 'health',
-    'agents': 'agents',
-    'execute': 'tasks',
-    'generate': 'tasks',
-    'review': 'tasks',
-    'explain': 'tasks',
-    'chat': 'tasks',
-    'users': 'users',
-    'auth': 'auth',
-    'metrics': 'metrics',
+    health: 'health',
+    status: 'health',
+    agents: 'agents',
+    execute: 'tasks',
+    generate: 'tasks',
+    review: 'tasks',
+    explain: 'tasks',
+    chat: 'tasks',
+    users: 'users',
+    auth: 'auth',
+    metrics: 'metrics',
   };
 
   return resourceMap[parts[0]] || parts[0];
@@ -329,17 +333,16 @@ const userStore = new Map<string, User & { passwordHash: string }>();
  * Hash a password using SHA-256
  */
 function hashPassword(password: string, salt: string): string {
-  return crypto.createHash('sha256').update(password + salt).digest('hex');
+  return crypto
+    .createHash('sha256')
+    .update(password + salt)
+    .digest('hex');
 }
 
 /**
  * Create a new user
  */
-export function createUser(
-  username: string,
-  password: string,
-  role: Role = 'user'
-): User {
+export function createUser(username: string, password: string, role: Role = 'user'): User {
   const id = crypto.randomUUID();
   const salt = crypto.randomBytes(16).toString('hex');
   const passwordHash = hashPassword(password, salt);
@@ -355,6 +358,7 @@ export function createUser(
   userStore.set(id, user);
   userStore.set(username, user);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -362,10 +366,7 @@ export function createUser(
 /**
  * Verify user credentials
  */
-export function verifyCredentials(
-  username: string,
-  password: string
-): User | null {
+export function verifyCredentials(username: string, password: string): User | null {
   const user = userStore.get(username);
   if (!user) {
     return null;
@@ -381,6 +382,7 @@ export function verifyCredentials(
   // Update last login
   user.lastLogin = new Date().toISOString();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -394,6 +396,7 @@ export function getUser(id: string): User | null {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -408,6 +411,7 @@ export function listUsers(): User[] {
   userStore.forEach((user) => {
     if (!seen.has(user.id)) {
       seen.add(user.id);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { passwordHash: _, ...publicUser } = user;
       users.push(publicUser);
     }
@@ -484,7 +488,9 @@ export function logAuditEntry(entry: Omit<AuditEntry, 'timestamp'>): void {
   // Log to console in development
   if (process.env.NODE_ENV !== 'production') {
     const status = entry.success ? '✓' : '✗';
-    console.log(`[AUDIT] ${status} ${entry.method} ${entry.path} - ${entry.username || 'anonymous'}`);
+    console.log(
+      `[AUDIT] ${status} ${entry.method} ${entry.path} - ${entry.username || 'anonymous'}`
+    );
   }
 }
 
