@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "period": {
+    "start": "2025-11-29",
+    "end": "2025-11-29"
+  },
+  "summary": {
+    "total_tasks": 2,
+    "successful_tasks": 2,
+    "failed_tasks": 0,
+    "success_rate": 100,
+    "avg_duration_minutes": 22.5,
+    "total_lines_added": 916,
+    "total_lines_removed": 5,
+    "governance_compliance": 100
+  },
+  "by_type": {
+    "feature": {
+      "count": 1,
+      "success_rate": 100,
+      "avg_duration": 15
+    },
+    "documentation": {
+      "count": 1,
+      "success_rate": 100,
+      "avg_duration": 30
+    },
+    "bug_fix": {
+      "count": 0,
+      "success_rate": 0,
+      "avg_duration": 0
+    },
+    "refactoring": {
+      "count": 0,
+      "success_rate": 0,
+      "avg_duration": 0
+    }
+  },
+  "by_ai_tool": {
+    "claude": {
+      "tasks": 2,
+      "success_rate": 100,
+      "avg_duration": 22.5,
+      "strengths": ["complex features", "documentation", "multi-file changes"],
+      "areas_for_improvement": []
+    },
+    "kilo": {
+      "tasks": 0,
+      "success_rate": 0,
+      "avg_duration": 0,
+      "strengths": [],
+      "areas_for_improvement": []
+    },
+    "copilot": {
+      "tasks": 0,
+      "success_rate": 0,
+      "avg_duration": 0,
+      "strengths": [],
+      "areas_for_improvement": []
+    }
+  },
+  "codemap_effectiveness": {
+    "times_referenced": 5,
+    "accuracy_score": 95,
+    "last_updated": "2025-11-29",
+    "sections_most_used": ["System Overview", "CLI Command Flow", "Template Library"]
+  },
+  "context_injection": {
+    "files_provided": 12,
+    "files_actually_used": 10,
+    "relevance_score": 83
+  },
+  "trends": {
+    "task_completion_improving": true,
+    "governance_violations_decreasing": true,
+    "codemap_usage_increasing": true
+  }
+}

@@ -32,6 +32,38 @@ Meta-governance repository with DevOps templates, governance tools, and AI codin
 - `*.key`, `*.pem` files
 - `**/secrets/**`
 
+## AI Orchestration Context
+
+**Before starting any task, check these files for context:**
+
+1. `.ai/context.yaml` - Current AI configuration and routing
+2. `docs/CODEMAP.md` - Interactive system architecture diagrams
+3. `docs/ARCHITECTURE.md` - Detailed system design
+4. `.ai/task-history.json` - Similar past tasks and patterns
+
+**Task Tracking:**
+
+```bash
+# Start tracking a task
+npm run ai:start feature auth,api "Add OAuth authentication"
+
+# Get context for a task type
+npm run ai:context feature auth
+
+# Complete and log a task
+npm run ai:complete true "file1.ts,file2.ts" 150 20 5 "Notes"
+
+# View metrics
+npm run ai:metrics
+```
+
+**Routing Preferences:**
+
+- Complex features → Claude Code
+- Refactoring → Kilo Code
+- Quick fixes → Copilot
+- Code review → Claude Code
+
 ## Code Style
 
 - TypeScript with ES modules (no CommonJS require())

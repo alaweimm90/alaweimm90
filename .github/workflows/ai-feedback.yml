@@ -1,0 +1,182 @@
+name: AI Feedback Collection
+
+on:
+  pull_request:
+    types: [opened, synchronize, closed]
+  push:
+    branches: [main]
+    paths:
+      - "tools/**"
+      - "templates/**"
+      - ".ai/**"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  collect-feedback:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Collect PR metrics
+        id: metrics
+        run: |
+          # Get PR stats
+          FILES_CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | wc -l)
+          LINES_ADDED=$(git diff --stat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | tail -1 | grep -oP '\d+(?= insertion)' || echo "0")
+          LINES_REMOVED=$(git diff --stat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | tail -1 | grep -oP '\d+(?= deletion)' || echo "0")
+
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "lines_added=$LINES_ADDED" >> $GITHUB_OUTPUT
+          echo "lines_removed=$LINES_REMOVED" >> $GITHUB_OUTPUT
+
+      - name: Update feedback log
+        run: |
+          # Create feedback entry
+          cat >> .ai/feedback/pr-feedback.jsonl << EOF
+          {"pr": ${{ github.event.pull_request.number }}, "title": "${{ github.event.pull_request.title }}", "merged_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "files_changed": ${{ steps.metrics.outputs.files_changed }}, "lines_added": ${{ steps.metrics.outputs.lines_added }}, "lines_removed": ${{ steps.metrics.outputs.lines_removed }}, "reviews": ${{ github.event.pull_request.review_comments }}, "time_to_merge_hours": $(( ($(date +%s) - $(date -d "${{ github.event.pull_request.created_at }}" +%s)) / 3600 ))}
+          EOF
+
+      - name: Update metrics
+        run: npm run ai:metrics
+
+      - name: Commit feedback
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .ai/
+          git diff --staged --quiet || git commit -m "chore(ai): update feedback metrics from PR #${{ github.event.pull_request.number }}"
+          git push
+
+  analyze-changes:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for codemap updates needed
+        id: codemap-check
+        run: |
+          # Check if template or tool structure changed
+          STRUCTURE_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -E '^(templates/|tools/)' | wc -l)
+          if [ "$STRUCTURE_CHANGED" -gt 0 ]; then
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update codemap
+        if: steps.codemap-check.outputs.needs_update == 'true'
+        run: npm run codemap
+
+      - name: Update recent changes log
+        run: |
+          # Log recent changes for AI context
+          git log --oneline -10 --pretty=format:'{"hash":"%h","message":"%s","date":"%ci"}' > .ai/recent-changes.json
+
+      - name: Commit updates
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .ai/ docs/CODEMAP.md
+          git diff --staged --quiet || git commit -m "chore(ai): sync context after push"
+          git push
+
+  pr-context-comment:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze PR scope
+        id: scope
+        run: |
+          # Determine what areas are affected
+          FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" \
+            | jq -r '.[].filename')
+
+          SCOPE=""
+          echo "$FILES" | grep -q "^tools/" && SCOPE="${SCOPE}tools,"
+          echo "$FILES" | grep -q "^templates/" && SCOPE="${SCOPE}templates,"
+          echo "$FILES" | grep -q "^.github/" && SCOPE="${SCOPE}workflows,"
+          echo "$FILES" | grep -q "^docs/" && SCOPE="${SCOPE}docs,"
+
+          echo "scope=${SCOPE%,}" >> $GITHUB_OUTPUT
+
+      - name: Get AI context
+        id: context
+        run: |
+          CONTEXT=$(npm run ai:context feature "${{ steps.scope.outputs.scope }}" 2>/dev/null | tail -n +2)
+          echo "context<<EOF" >> $GITHUB_OUTPUT
+          echo "$CONTEXT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment with context
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const context = `${{ steps.context.outputs.context }}`;
+            const scope = `${{ steps.scope.outputs.scope }}`;
+
+            const body = `## 🤖 AI Context for this PR
+
+            **Affected areas:** ${scope || 'general'}
+
+            <details>
+            <summary>📚 Relevant Documentation & History</summary>
+
+            ${context}
+
+            </details>
+
+            ---
+            *Auto-generated by AI Orchestration System*
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

@@ -27,7 +27,15 @@
     "test:coverage": "vitest run --coverage",
     "prepare": "husky",
     "atlas": "tsx tools/atlas/cli/index.ts",
-    "codemap": "tsx scripts/generate-codemap.ts"
+    "codemap": "tsx scripts/generate-codemap.ts",
+    "ai": "tsx tools/ai/orchestrator.ts",
+    "ai:start": "tsx tools/ai/orchestrator.ts start",
+    "ai:complete": "tsx tools/ai/orchestrator.ts complete",
+    "ai:context": "tsx tools/ai/orchestrator.ts context",
+    "ai:metrics": "tsx tools/ai/orchestrator.ts metrics",
+    "ai:history": "tsx tools/ai/orchestrator.ts history",
+    "ai:sync": "tsx tools/ai/sync.ts",
+    "ai:dashboard": "tsx tools/ai/dashboard.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
@@ -68,6 +76,7 @@
   "dependencies": {
     "chalk": "5.6.2",
     "commander": "14.0.2",
-    "ora": "9.0.0"
+    "ora": "9.0.0",
+    "yaml": "^2.3.4"
   }
 }
