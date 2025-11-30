@@ -12,10 +12,12 @@ import {
 } from './types.js';
 import { JsonStorageBackend } from './json-backend.js';
 import { SqliteStorageBackend } from './sqlite-backend.js';
+import { PostgresStorageBackend } from './postgres-backend.js';
 
 export * from './types.js';
 export { JsonStorageBackend } from './json-backend.js';
 export { SqliteStorageBackend } from './sqlite-backend.js';
+export { PostgresStorageBackend } from './postgres-backend.js';
 
 // ============================================================================
 // Storage Factory
@@ -36,11 +38,10 @@ export function createStorage(config: Partial<StorageConfig> = {}): StorageBacke
       return new SqliteStorageBackend(dbPath);
     }
 
-    case 'postgres':
-      // PostgreSQL backend requires external connection
-      throw new Error(
-        'PostgreSQL backend not available. Install @atlas/storage-postgres for PostgreSQL support.'
-      );
+    case 'postgres': {
+      const connString = fullConfig.connectionString || 'postgresql://localhost:5432/atlas';
+      return new PostgresStorageBackend(connString);
+    }
 
     default:
       throw new Error(`Unknown storage backend: ${fullConfig.backend}`);
