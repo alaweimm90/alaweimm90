@@ -1,0 +1,40 @@
+# ATLAS Multi-Agent Orchestration Platform
+# Kubernetes Service Configuration
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-api
+  labels:
+    app: atlas
+    component: api
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+  selector:
+    app: atlas
+    component: api
+
+---
+# LoadBalancer service for external access (optional)
+apiVersion: v1
+kind: Service
+metadata:
+  name: atlas-api-lb
+  labels:
+    app: atlas
+    component: api
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+  selector:
+    app: atlas
+    component: api

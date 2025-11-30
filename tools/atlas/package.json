@@ -1,0 +1,79 @@
+{
+  "name": "@atlas/cli",
+  "version": "0.1.0",
+  "description": "ATLAS Multi-Agent Orchestration Platform - CLI and API",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "atlas": "dist/cli/index.js",
+    "atlas-api": "dist/api/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js"
+    },
+    "./storage": {
+      "types": "./dist/storage/index.d.ts",
+      "import": "./dist/storage/index.js"
+    },
+    "./adapters": {
+      "types": "./dist/adapters/index.d.ts",
+      "import": "./dist/adapters/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx watch cli/index.ts",
+    "start": "node dist/cli/index.js",
+    "api": "node dist/api/cli.js",
+    "api:dev": "tsx watch api/cli.ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "multi-agent",
+    "orchestration",
+    "claude",
+    "gpt",
+    "gemini",
+    "api",
+    "cli"
+  ],
+  "author": "ATLAS Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/atlas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/atlas/issues"
+  },
+  "homepage": "https://github.com/your-org/atlas#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  }
+}
