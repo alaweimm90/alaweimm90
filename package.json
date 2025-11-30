@@ -35,7 +35,19 @@
     "ai:metrics": "tsx tools/ai/orchestrator.ts metrics",
     "ai:history": "tsx tools/ai/orchestrator.ts history",
     "ai:sync": "tsx tools/ai/sync.ts",
-    "ai:dashboard": "tsx tools/ai/dashboard.ts"
+    "ai:dashboard": "tsx tools/ai/dashboard.ts",
+    "ai:cache": "tsx tools/ai/cache.ts",
+    "ai:cache:stats": "tsx tools/ai/cache.ts stats",
+    "ai:cache:clear": "tsx tools/ai/cache.ts clear",
+    "ai:monitor": "tsx tools/ai/monitor.ts",
+    "ai:monitor:status": "tsx tools/ai/monitor.ts status",
+    "ai:monitor:check": "tsx tools/ai/monitor.ts check",
+    "ai:compliance": "tsx tools/ai/compliance.ts",
+    "ai:compliance:check": "tsx tools/ai/compliance.ts check",
+    "ai:compliance:score": "tsx tools/ai/compliance.ts score",
+    "ai:telemetry": "tsx tools/ai/telemetry.ts",
+    "ai:telemetry:status": "tsx tools/ai/telemetry.ts status",
+    "ai:telemetry:alerts": "tsx tools/ai/telemetry.ts alerts"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
