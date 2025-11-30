@@ -1,4 +1,4 @@
-name: AI Feedback Collection
+name: AI Feedback & Compliance
 
 on:
   pull_request:
@@ -9,13 +9,371 @@ on:
       - "tools/**"
       - "templates/**"
       - ".ai/**"
+  schedule:
+    # Run security scan daily at 2am UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      run_security_scan:
+        description: "Run full security scan"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
   pull-requests: write
+  issues: write
+  security-events: write
+
+env:
+  NODE_VERSION: "20"
 
 jobs:
+  # ==========================================================================
+  # PR Compliance Check - Runs on every PR update
+  # ==========================================================================
+  pr-compliance:
+    name: 📋 Compliance Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    outputs:
+      score: ${{ steps.compliance.outputs.score }}
+      grade: ${{ steps.compliance.outputs.grade }}
+      violations: ${{ steps.compliance.outputs.violations }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get changed files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | tr '\n' ',' | sed 's/,$//')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Run compliance check
+        id: compliance
+        run: |
+          # Run compliance check on changed files
+          RESULT=$(npm run ai:compliance:check -- ${{ steps.changed.outputs.files }} 2>&1 || true)
+
+          # Extract score and grade from output
+          SCORE=$(echo "$RESULT" | grep -oP 'Score: \K\d+' || echo "0")
+          GRADE=$(echo "$RESULT" | grep -oP 'Grade: \K[A-F]' || echo "F")
+          VIOLATIONS=$(echo "$RESULT" | grep -c "VIOLATION" || echo "0")
+
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "grade=$GRADE" >> $GITHUB_OUTPUT
+          echo "violations=$VIOLATIONS" >> $GITHUB_OUTPUT
+
+          # Save full report
+          echo "$RESULT" > compliance-report.txt
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-report
+          path: compliance-report.txt
+
+      - name: Add PR label based on compliance
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const score = parseInt('${{ steps.compliance.outputs.score }}');
+            const grade = '${{ steps.compliance.outputs.grade }}';
+
+            // Remove existing compliance labels
+            const existingLabels = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            for (const label of existingLabels.data) {
+              if (label.name.startsWith('compliance:')) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: label.name
+                }).catch(() => {});
+              }
+            }
+
+            // Add new compliance label
+            const labelColor = score >= 90 ? '0e8a16' : score >= 70 ? 'fbca04' : 'd93f0b';
+            const labelName = `compliance:${grade}`;
+
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: labelName,
+                color: labelColor,
+                description: `Compliance score: ${score}/100`
+              });
+            } catch (e) {
+              // Label might already exist
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: [labelName]
+            });
+
+      - name: Comment compliance results
+        if: github.event.action == 'opened' || github.event.action == 'synchronize'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const score = '${{ steps.compliance.outputs.score }}';
+            const grade = '${{ steps.compliance.outputs.grade }}';
+            const violations = '${{ steps.compliance.outputs.violations }}';
+            const files = '${{ steps.changed.outputs.files }}'.split(',').filter(f => f);
+
+            const emoji = grade === 'A' ? '🏆' : grade === 'B' ? '✅' : grade === 'C' ? '⚠️' : '❌';
+            const statusBar = '█'.repeat(Math.floor(score / 10)) + '░'.repeat(10 - Math.floor(score / 10));
+
+            const body = `## ${emoji} Compliance Report
+
+            | Metric | Value |
+            |--------|-------|
+            | **Score** | ${score}/100 |
+            | **Grade** | ${grade} |
+            | **Violations** | ${violations} |
+            | **Files Checked** | ${files.length} |
+
+            \`\`\`
+            [${statusBar}] ${score}%
+            \`\`\`
+
+            ${parseInt(violations) > 0 ? '⚠️ **Please address compliance violations before merging.**' : '✅ All compliance checks passed!'}
+
+            <details>
+            <summary>📁 Files Analyzed</summary>
+
+            ${files.map(f => `- \`${f}\``).join('\n')}
+
+            </details>
+
+            ---
+            *🤖 Auto-generated by AI Compliance System*
+            `;
+
+            // Find and update existing comment or create new one
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Compliance Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }
+
+  # ==========================================================================
+  # Security Scanning - Runs on PRs and scheduled
+  # ==========================================================================
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request' ||
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_dispatch' && inputs.run_security_scan)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm audit
+        id: audit
+        continue-on-error: true
+        run: |
+          npm audit --json > audit-report.json 2>&1 || true
+          VULNS=$(cat audit-report.json | jq '.metadata.vulnerabilities | .critical + .high' 2>/dev/null || echo "0")
+          echo "vulnerabilities=$VULNS" >> $GITHUB_OUTPUT
+
+      - name: Scan for secrets
+        id: secrets
+        run: |
+          # Scan for potential secrets
+          FINDINGS=0
+
+          # Check for common secret patterns
+          for pattern in "api[_-]?key" "password" "secret" "token" "credential" "private[_-]?key"; do
+            COUNT=$(grep -riE "$pattern\s*[:=]\s*['\"][^'\"]+['\"]" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | grep -v ".git" | wc -l || echo "0")
+            FINDINGS=$((FINDINGS + COUNT))
+          done
+
+          echo "findings=$FINDINGS" >> $GITHUB_OUTPUT
+
+      - name: Check for sensitive files
+        id: sensitive
+        run: |
+          # Check for files that shouldn't be committed
+          SENSITIVE_FILES=""
+          for pattern in "*.env" "*.key" "*.pem" "*credentials*" "*secrets*"; do
+            FILES=$(find . -name "$pattern" -not -path "./node_modules/*" -not -path "./.git/*" 2>/dev/null || true)
+            if [ -n "$FILES" ]; then
+              SENSITIVE_FILES="$SENSITIVE_FILES $FILES"
+            fi
+          done
+
+          echo "files=$SENSITIVE_FILES" >> $GITHUB_OUTPUT
+          if [ -n "$SENSITIVE_FILES" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create security report
+        id: report
+        run: |
+          cat > security-report.json << EOF
+          {
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "npm_vulnerabilities": ${{ steps.audit.outputs.vulnerabilities }},
+            "secret_findings": ${{ steps.secrets.outputs.findings }},
+            "sensitive_files_found": ${{ steps.sensitive.outputs.found }},
+            "sensitive_files": "${{ steps.sensitive.outputs.files }}"
+          }
+          EOF
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: |
+            security-report.json
+            audit-report.json
+
+      - name: Create issue for critical vulnerabilities
+        if: steps.audit.outputs.vulnerabilities > 0 && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const vulns = '${{ steps.audit.outputs.vulnerabilities }}';
+            const secrets = '${{ steps.secrets.outputs.findings }}';
+
+            // Check if issue already exists
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'security,automated'
+            });
+
+            const existingIssue = issues.find(i =>
+              i.title.includes('Security Alert')
+            );
+
+            const body = `## 🚨 Security Scan Results
+
+            | Category | Findings |
+            |----------|----------|
+            | NPM Vulnerabilities (critical/high) | ${vulns} |
+            | Potential Secret Exposures | ${secrets} |
+
+            ### Recommended Actions
+
+            1. Run \`npm audit fix\` to address npm vulnerabilities
+            2. Review flagged files for secret exposure
+            3. Update dependencies to patched versions
+
+            ### Commands
+
+            \`\`\`bash
+            # Fix npm vulnerabilities
+            npm audit fix
+
+            # Run full security scan
+            npm run ai:compliance:check
+            \`\`\`
+
+            ---
+            *🤖 Auto-generated by Security Scanner*
+            `;
+
+            if (existingIssue) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                body: body
+              });
+            } else if (parseInt(vulns) > 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 Security Alert: Vulnerabilities Detected',
+                body: body,
+                labels: ['security', 'automated', 'priority:high']
+              });
+            }
+
+      - name: Fail on critical findings
+        if: github.event_name == 'pull_request'
+        run: |
+          VULNS=${{ steps.audit.outputs.vulnerabilities }}
+          SECRETS=${{ steps.secrets.outputs.findings }}
+          SENSITIVE=${{ steps.sensitive.outputs.found }}
+
+          if [ "$VULNS" -gt 5 ] || [ "$SECRETS" -gt 0 ] || [ "$SENSITIVE" = "true" ]; then
+            echo "❌ Security check failed!"
+            echo "  - Critical/High vulnerabilities: $VULNS"
+            echo "  - Potential secrets: $SECRETS"
+            echo "  - Sensitive files: $SENSITIVE"
+            exit 1
+          fi
+
+          echo "✅ Security checks passed"
+
+  # ==========================================================================
+  # Collect Feedback - Runs on merged PRs
+  # ==========================================================================
   collect-feedback:
+    name: 📊 Collect Feedback
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
 
@@ -28,7 +386,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
@@ -37,20 +395,27 @@ jobs:
       - name: Collect PR metrics
         id: metrics
         run: |
-          # Get PR stats
           FILES_CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | wc -l)
           LINES_ADDED=$(git diff --stat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | tail -1 | grep -oP '\d+(?= insertion)' || echo "0")
           LINES_REMOVED=$(git diff --stat ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | tail -1 | grep -oP '\d+(?= deletion)' || echo "0")
+
+          # Calculate time to merge
+          CREATED_AT="${{ github.event.pull_request.created_at }}"
+          MERGED_AT="${{ github.event.pull_request.merged_at }}"
 
           echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
           echo "lines_added=$LINES_ADDED" >> $GITHUB_OUTPUT
           echo "lines_removed=$LINES_REMOVED" >> $GITHUB_OUTPUT
 
+      - name: Record telemetry event
+        run: |
+          npm run ai:telemetry -- record task.complete pr-merge
+
       - name: Update feedback log
         run: |
-          # Create feedback entry
+          mkdir -p .ai/feedback
           cat >> .ai/feedback/pr-feedback.jsonl << EOF
-          {"pr": ${{ github.event.pull_request.number }}, "title": "${{ github.event.pull_request.title }}", "merged_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)", "files_changed": ${{ steps.metrics.outputs.files_changed }}, "lines_added": ${{ steps.metrics.outputs.lines_added }}, "lines_removed": ${{ steps.metrics.outputs.lines_removed }}, "reviews": ${{ github.event.pull_request.review_comments }}, "time_to_merge_hours": $(( ($(date +%s) - $(date -d "${{ github.event.pull_request.created_at }}" +%s)) / 3600 ))}
+          {"pr": ${{ github.event.pull_request.number }}, "title": "${{ github.event.pull_request.title }}", "merged_at": "${{ github.event.pull_request.merged_at }}", "files_changed": ${{ steps.metrics.outputs.files_changed }}, "lines_added": ${{ steps.metrics.outputs.lines_added }}, "lines_removed": ${{ steps.metrics.outputs.lines_removed }}, "reviews": ${{ github.event.pull_request.review_comments }}, "author": "${{ github.event.pull_request.user.login }}"}
           EOF
 
       - name: Update metrics
@@ -64,7 +429,11 @@ jobs:
           git diff --staged --quiet || git commit -m "chore(ai): update feedback metrics from PR #${{ github.event.pull_request.number }}"
           git push
 
+  # ==========================================================================
+  # Analyze Changes - Runs on push to main
+  # ==========================================================================
   analyze-changes:
+    name: 🔍 Analyze Changes
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
@@ -77,43 +446,52 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Check for codemap updates needed
-        id: codemap-check
+      - name: Check for structural changes
+        id: check
         run: |
-          # Check if template or tool structure changed
           STRUCTURE_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -E '^(templates/|tools/)' | wc -l)
-          if [ "$STRUCTURE_CHANGED" -gt 0 ]; then
-            echo "needs_update=true" >> $GITHUB_OUTPUT
-          else
-            echo "needs_update=false" >> $GITHUB_OUTPUT
-          fi
+          DOCS_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -E '^docs/' | wc -l)
+          AI_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep -E '^\.ai/' | wc -l)
 
-      - name: Update codemap
-        if: steps.codemap-check.outputs.needs_update == 'true'
+          echo "structure_changed=$STRUCTURE_CHANGED" >> $GITHUB_OUTPUT
+          echo "docs_changed=$DOCS_CHANGED" >> $GITHUB_OUTPUT
+          echo "ai_changed=$AI_CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Update codemap if needed
+        if: steps.check.outputs.structure_changed > 0
         run: npm run codemap
 
-      - name: Update recent changes log
-        run: |
-          # Log recent changes for AI context
-          git log --oneline -10 --pretty=format:'{"hash":"%h","message":"%s","date":"%ci"}' > .ai/recent-changes.json
+      - name: Sync AI context
+        run: npm run ai:sync
+
+      - name: Run compliance check
+        run: npm run ai:compliance:score
+
+      - name: Update telemetry
+        run: npm run ai:telemetry -- record sync.complete main-push
 
       - name: Commit updates
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .ai/ docs/CODEMAP.md
-          git diff --staged --quiet || git commit -m "chore(ai): sync context after push"
+          git diff --staged --quiet || git commit -m "chore(ai): sync context after push to main"
           git push
 
+  # ==========================================================================
+  # PR Context Comment - Runs on new PRs
+  # ==========================================================================
   pr-context-comment:
+    name: 💬 PR Context
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    needs: [pr-compliance]
 
     steps:
       - name: Checkout
@@ -122,7 +500,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
 
       - name: Install dependencies
@@ -131,7 +509,6 @@ jobs:
       - name: Analyze PR scope
         id: scope
         run: |
-          # Determine what areas are affected
           FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files" \
             | jq -r '.[].filename')
@@ -141,6 +518,7 @@ jobs:
           echo "$FILES" | grep -q "^templates/" && SCOPE="${SCOPE}templates,"
           echo "$FILES" | grep -q "^.github/" && SCOPE="${SCOPE}workflows,"
           echo "$FILES" | grep -q "^docs/" && SCOPE="${SCOPE}docs,"
+          echo "$FILES" | grep -q "^.ai/" && SCOPE="${SCOPE}ai,"
 
           echo "scope=${SCOPE%,}" >> $GITHUB_OUTPUT
 
@@ -158,10 +536,13 @@ jobs:
           script: |
             const context = `${{ steps.context.outputs.context }}`;
             const scope = `${{ steps.scope.outputs.scope }}`;
+            const score = '${{ needs.pr-compliance.outputs.score }}';
+            const grade = '${{ needs.pr-compliance.outputs.grade }}';
 
             const body = `## 🤖 AI Context for this PR
 
-            **Affected areas:** ${scope || 'general'}
+            **Affected areas:** \`${scope || 'general'}\`
+            **Initial Compliance:** ${score}/100 (Grade: ${grade})
 
             <details>
             <summary>📚 Relevant Documentation & History</summary>
@@ -170,8 +551,21 @@ jobs:
 
             </details>
 
+            ### Quick Commands
+
+            \`\`\`bash
+            # Run compliance check locally
+            npm run ai:compliance:check
+
+            # View AI dashboard
+            npm run ai:dashboard
+
+            # Get context for this scope
+            npm run ai:context feature ${scope}
+            \`\`\`
+
             ---
-            *Auto-generated by AI Orchestration System*
+            *🤖 Auto-generated by AI Orchestration System*
             `;
 
             github.rest.issues.createComment({

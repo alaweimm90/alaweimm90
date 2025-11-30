@@ -47,7 +47,18 @@
     "ai:compliance:score": "tsx tools/ai/compliance.ts score",
     "ai:telemetry": "tsx tools/ai/telemetry.ts",
     "ai:telemetry:status": "tsx tools/ai/telemetry.ts status",
-    "ai:telemetry:alerts": "tsx tools/ai/telemetry.ts alerts"
+    "ai:telemetry:alerts": "tsx tools/ai/telemetry.ts alerts",
+    "ai:errors": "tsx tools/ai/errors.ts",
+    "ai:errors:list": "tsx tools/ai/errors.ts list",
+    "ai:errors:stats": "tsx tools/ai/errors.ts stats",
+    "ai:security": "tsx tools/ai/security.ts",
+    "ai:security:scan": "tsx tools/ai/security.ts scan",
+    "ai:security:secrets": "tsx tools/ai/security.ts secrets",
+    "ai:security:vulns": "tsx tools/ai/security.ts vulns",
+    "ai:issues": "tsx tools/ai/issues.ts",
+    "ai:issues:list": "tsx tools/ai/issues.ts list",
+    "ai:issues:critical": "tsx tools/ai/issues.ts critical",
+    "ai:issues:stats": "tsx tools/ai/issues.ts stats"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
