@@ -73,6 +73,13 @@ Project-specific prompts that define the context, goals, and constraints for eac
 | `AI_ML_INTEGRATION_SUPERPROMPT.md` | AI/ML | LLM integration, RAG, MLOps |
 | `PROMPT_OPTIMIZATION_SUPERPROMPT.md` | Prompts | Prompt engineering, IDE optimization |
 
+### Enterprise & Architecture (State-of-the-Art)
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `ENTERPRISE_AGENTIC_AI_SUPERPROMPT.md` | Enterprise AI | Multi-layer caching, continuous intelligence, policy validation |
+| `KILO_CONSOLIDATION_SUPERPROMPT.md` | Architecture | Radical simplification, tool consolidation, shared libraries |
+
 ---
 
 ## 🔧 Task Prompts (`tasks/`)
@@ -202,10 +209,10 @@ Add your new prompt to the appropriate table above.
 
 | Category | Count | Total Size |
 |----------|-------|------------|
-| Project Superprompts | 22 | ~180 KB |
+| Project Superprompts | 24 | ~220 KB |
 | Task Prompts | 16 | ~450 KB |
 | System Prompts | 9 | ~45 KB |
-| **Total** | **47** | **~675 KB** |
+| **Total** | **49** | **~715 KB** |
 
 ---
 
