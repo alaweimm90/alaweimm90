@@ -20,6 +20,8 @@ prompts/
 
 Project-specific prompts that define the context, goals, and constraints for each project.
 
+### Scientific & Research Projects
+
 | File | Project | Description |
 |------|---------|-------------|
 | `SIMCORE_CLAUDE_CODE_SUPERPROMPT.md` | SimCore | Simulation core development prompt |
@@ -31,6 +33,45 @@ Project-specific prompts that define the context, goals, and constraints for eac
 | `QMAT_SIM_SUPERPROMPT.md` | QMatSim | Quantum materials simulation |
 | `REPZ_SUPERPROMPT.md` | Repz | Business/reputation system |
 | `LOCAL_AI_ORCHESTRATION_SUPERPROMPT.md` | MEZAN | Local AI orchestration |
+
+### Engineering & Development
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `api-development.md` | API | API development and integration standards |
+| `data-engineering-pipeline.md` | Data | Data engineering pipeline framework |
+| `ml-pipeline-development.md` | ML/AI | ML/AI pipeline development guide |
+| `automation-ts-implementation.md` | Automation | TypeScript automation CLI implementation |
+
+### Testing & Quality Assurance
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `TESTING_QA_SUPERPROMPT.md` | Testing | Unit, integration, E2E testing framework |
+| `CICD_PIPELINE_SUPERPROMPT.md` | CI/CD | CI/CD pipeline design and automation |
+| `GATING_APPROVAL_SUPERPROMPT.md` | Gating | Code review, approval workflows, security gates |
+
+### Architecture & Organization
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `MONOREPO_ARCHITECTURE_SUPERPROMPT.md` | Architecture | Monorepo management, modular design |
+| `GOVERNANCE_COMPLIANCE_SUPERPROMPT.md` | Governance | Compliance, ethics, access controls |
+
+### UI/UX & Platforms
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `UI_UX_DESIGN_SUPERPROMPT.md` | Design | UI/UX, accessibility, design systems |
+| `PLATFORM_DEPLOYMENT_SUPERPROMPT.md` | Deployment | Cloud infrastructure, SEO, performance |
+
+### Security & AI
+
+| File | Domain | Description |
+|------|--------|-------------|
+| `SECURITY_CYBERSECURITY_SUPERPROMPT.md` | Security | AppSec, DevSecOps, threat modeling |
+| `AI_ML_INTEGRATION_SUPERPROMPT.md` | AI/ML | LLM integration, RAG, MLOps |
+| `PROMPT_OPTIMIZATION_SUPERPROMPT.md` | Prompts | Prompt engineering, IDE optimization |
 
 ---
 
@@ -161,11 +202,11 @@ Add your new prompt to the appropriate table above.
 
 | Category | Count | Total Size |
 |----------|-------|------------|
-| Project Superprompts | 9 | ~38 KB |
-| Task Prompts | 13 | ~428 KB |
-| System Prompts | 0 | - |
-| **Total** | **22** | **~466 KB** |
+| Project Superprompts | 22 | ~180 KB |
+| Task Prompts | 16 | ~450 KB |
+| System Prompts | 9 | ~45 KB |
+| **Total** | **47** | **~675 KB** |
 
 ---
 
-*Last updated: 2024-11-29*
+**Last updated: 2024-11-30**
