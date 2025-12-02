@@ -4,22 +4,22 @@ This document details how to configure each AI coding assistant for maximum auto
 
 ## Quick Reference
 
-| Tool | Config Location | Auto-Approve Flag | Status |
-|------|-----------------|-------------------|--------|
-| **Aider** | `.aider.conf.yml` | `yes-always: true` | Fully supported |
-| **Cursor** | `.cursor/settings.json` | `autoApply: true` | Supported |
-| **Windsurf** | `.windsurfrules` | In-file settings | Supported |
-| **Claude Code** | `.claude/settings.json` | `--dangerously-skip-permissions` | CLI flag |
-| **GitHub Copilot** | `.github/copilot-instructions.md` | Context only | No auto-approve |
-| **Continue** | `.continue/config.json` | `autoApprove: true` | Experimental |
-| **Kilo Code** | `.kilocode/config.yaml` | `auto_approve: true` | Supported |
-| **Amazon Q** | `.amazonq/settings.json` | `autoApprove: true` | Limited |
-| **Cline** | `.cline/settings.json` | `bypassApprovals: true` | Supported |
-| **Trae** | `.trae/config.json` | `autoApprove: true` | Supported |
-| **Blackbox** | `.blackbox/config.json` | `yoloMode: true` | Supported |
-| **Gemini** | `.gemini/settings.json` | `autoApprove: true` | Supported |
-| **Codex** | `.codex/config.json` | `autoApprove: true` | Supported |
-| **Augment** | `.augment/settings.json` | `autoApprove: true` | Supported |
+| Tool               | Config Location                   | Auto-Approve Flag                | Status          |
+| ------------------ | --------------------------------- | -------------------------------- | --------------- |
+| **Aider**          | `.aider.conf.yml`                 | `yes-always: true`               | Fully supported |
+| **Cursor**         | `.cursor/settings.json`           | `autoApply: true`                | Supported       |
+| **Windsurf**       | `.windsurfrules`                  | In-file settings                 | Supported       |
+| **Claude Code**    | `.claude/settings.json`           | `--dangerously-skip-permissions` | CLI flag        |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Context only                     | No auto-approve |
+| **Continue**       | `.continue/config.json`           | `autoApprove: true`              | Experimental    |
+| **Kilo Code**      | `.kilocode/config.yaml`           | `auto_approve: true`             | Supported       |
+| **Amazon Q**       | `.amazonq/settings.json`          | `autoApprove: true`              | Limited         |
+| **Cline**          | `.cline/settings.json`            | `bypassApprovals: true`          | Supported       |
+| **Trae**           | `.trae/config.json`               | `autoApprove: true`              | Supported       |
+| **Blackbox**       | `.blackbox/config.json`           | `yoloMode: true`                 | Supported       |
+| **Gemini**         | `.gemini/settings.json`           | `autoApprove: true`              | Supported       |
+| **Codex**          | `.codex/config.json`              | `autoApprove: true`              | Supported       |
+| **Augment**        | `.augment/settings.json`          | `autoApprove: true`              | Supported       |
 
 ## Detailed Configuration
 
@@ -35,6 +35,7 @@ model: claude-3-5-sonnet-20241022
 ```
 
 **CLI Override:**
+
 ```bash
 aider --yes-always --auto-commits
 ```
@@ -59,6 +60,7 @@ aider --yes-always --auto-commits
 **Location:** `.windsurfrules` (root)
 
 Include these directives in the rules file:
+
 ```
 ## Preferences
 - Auto-apply edits: YES
@@ -69,11 +71,13 @@ Include these directives in the rules file:
 ### Claude Code CLI
 
 **CLI Flag:**
+
 ```bash
 claude --dangerously-skip-permissions
 ```
 
 **Environment Variable:**
+
 ```bash
 export CLAUDE_SKIP_PERMISSIONS=1
 ```
@@ -206,6 +210,7 @@ Auto-approve modes bypass safety prompts. Use with caution:
 ### Still Getting Prompts
 
 Some tools have hardcoded safety prompts that can't be bypassed:
+
 - GitHub Copilot Chat (Microsoft policy)
 - Some VS Code extension actions
 
@@ -240,9 +245,9 @@ Workaround: Use CLI versions (Aider, Claude Code) which have more control.
 
 ## Tool Count: 14 AI Assistants Configured
 
-| Category | Tools |
-|----------|-------|
+| Category              | Tools                                             |
+| --------------------- | ------------------------------------------------- |
 | **Full Auto-Approve** | Aider, Cursor, Windsurf, Cline, Blackbox, Augment |
-| **Supported** | Continue, Kilo, Amazon Q, Trae, Gemini, Codex |
-| **Context Only** | GitHub Copilot |
-| **CLI Flag Required** | Claude Code |
+| **Supported**         | Continue, Kilo, Amazon Q, Trae, Gemini, Codex     |
+| **Context Only**      | GitHub Copilot                                    |
+| **CLI Flag Required** | Claude Code                                       |

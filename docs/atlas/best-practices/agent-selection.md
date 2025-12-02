@@ -23,6 +23,7 @@ ATLAS uses intelligent routing to select the best AI agent for each task based o
 ### Claude (Anthropic)
 
 **Best For:**
+
 - Code generation and refactoring
 - Complex reasoning tasks
 - Security analysis
@@ -30,17 +31,20 @@ ATLAS uses intelligent routing to select the best AI agent for each task based o
 - Documentation
 
 **Strengths:**
+
 - Excellent code quality
 - Strong reasoning capabilities
 - Good at following complex instructions
 - Reliable for enterprise use
 
 **Considerations:**
+
 - Higher cost per token
 - Slower response times
 - Best for quality-critical tasks
 
 **Optimal Use Cases:**
+
 ```bash
 # Complex architecture decisions
 atlas task submit --type architecture --description "Design microservices architecture"
@@ -55,6 +59,7 @@ atlas task submit --type refactoring --description "Optimize database queries fo
 ### GPT-4 (OpenAI)
 
 **Best For:**
+
 - Creative tasks
 - Rapid prototyping
 - Broad knowledge tasks
@@ -62,17 +67,20 @@ atlas task submit --type refactoring --description "Optimize database queries fo
 - Research and analysis
 
 **Strengths:**
+
 - Fast response times
 - Broad knowledge base
 - Good at creative solutions
 - Cost-effective for many tasks
 
 **Considerations:**
+
 - Variable code quality
 - May need more iteration
 - Less consistent than Claude
 
 **Optimal Use Cases:**
+
 ```bash
 # Rapid prototyping
 atlas task submit --type code_generation --description "Create a basic CRUD API quickly"
@@ -87,6 +95,7 @@ atlas task submit --type documentation --description "Create comprehensive API d
 ### Gemini (Google)
 
 **Best For:**
+
 - Data processing tasks
 - Fast, simple tasks
 - Cost-sensitive workflows
@@ -94,17 +103,20 @@ atlas task submit --type documentation --description "Create comprehensive API d
 - Basic code reviews
 
 **Strengths:**
+
 - Lowest cost per token
 - Fast response times
 - Good for straightforward tasks
 - Efficient for bulk operations
 
 **Considerations:**
+
 - Limited reasoning depth
 - May struggle with complex tasks
 - Less sophisticated code generation
 
 **Optimal Use Cases:**
+
 ```bash
 # Simple code reviews
 atlas task submit --type code_review --description "Check for basic syntax and style issues"
@@ -122,13 +134,14 @@ atlas task submit --type refactoring --description "Rename variables for clarity
 
 ### Code Generation
 
-| Task Complexity | Primary Agent | Secondary Agent | Tertiary Agent |
-|----------------|----------------|-----------------|----------------|
-| Simple (CRUD, basic functions) | Gemini | GPT-4 | Claude |
-| Medium (APIs, components) | GPT-4 | Claude | Gemini |
-| Complex (architectures, algorithms) | Claude | GPT-4 | Gemini |
+| Task Complexity                     | Primary Agent | Secondary Agent | Tertiary Agent |
+| ----------------------------------- | ------------- | --------------- | -------------- |
+| Simple (CRUD, basic functions)      | Gemini        | GPT-4           | Claude         |
+| Medium (APIs, components)           | GPT-4         | Claude          | Gemini         |
+| Complex (architectures, algorithms) | Claude        | GPT-4           | Gemini         |
 
 **Decision Logic:**
+
 ```typescript
 if (task.requiresHighQuality && task.complexity > 7) {
   return CLAUDE;
@@ -141,29 +154,29 @@ if (task.requiresHighQuality && task.complexity > 7) {
 
 ### Code Review
 
-| Focus Area | Primary Agent | Secondary Agent | Rationale |
-|------------|---------------|-----------------|-----------|
-| Security | Claude | GPT-4 | Deep reasoning for vulnerabilities |
-| Performance | Claude | GPT-4 | Complex optimization analysis |
-| Code Quality | GPT-4 | Claude | Broad pattern recognition |
-| Style/Conventions | Gemini | GPT-4 | Fast, rule-based checking |
+| Focus Area        | Primary Agent | Secondary Agent | Rationale                          |
+| ----------------- | ------------- | --------------- | ---------------------------------- |
+| Security          | Claude        | GPT-4           | Deep reasoning for vulnerabilities |
+| Performance       | Claude        | GPT-4           | Complex optimization analysis      |
+| Code Quality      | GPT-4         | Claude          | Broad pattern recognition          |
+| Style/Conventions | Gemini        | GPT-4           | Fast, rule-based checking          |
 
 ### Refactoring
 
-| Refactoring Type | Primary Agent | Secondary Agent | Considerations |
-|------------------|---------------|-----------------|----------------|
-| Extract Method | Claude | GPT-4 | Complex logic analysis |
-| Rename/Style | Gemini | GPT-4 | Fast, mechanical changes |
-| Architecture | Claude | GPT-4 | System-level understanding |
-| Performance | Claude | GPT-4 | Optimization expertise |
+| Refactoring Type | Primary Agent | Secondary Agent | Considerations             |
+| ---------------- | ------------- | --------------- | -------------------------- |
+| Extract Method   | Claude        | GPT-4           | Complex logic analysis     |
+| Rename/Style     | Gemini        | GPT-4           | Fast, mechanical changes   |
+| Architecture     | Claude        | GPT-4           | System-level understanding |
+| Performance      | Claude        | GPT-4           | Optimization expertise     |
 
 ### Testing
 
-| Test Type | Primary Agent | Secondary Agent | Best Practices |
-|-----------|---------------|-----------------|----------------|
-| Unit Tests | GPT-4 | Claude | Broad coverage scenarios |
-| Integration Tests | Claude | GPT-4 | Complex interaction testing |
-| API Tests | Gemini | GPT-4 | Fast endpoint validation |
+| Test Type         | Primary Agent | Secondary Agent | Best Practices              |
+| ----------------- | ------------- | --------------- | --------------------------- |
+| Unit Tests        | GPT-4         | Claude          | Broad coverage scenarios    |
+| Integration Tests | Claude        | GPT-4           | Complex interaction testing |
+| API Tests         | Gemini        | GPT-4           | Fast endpoint validation    |
 
 ---
 
@@ -172,6 +185,7 @@ if (task.requiresHighQuality && task.complexity > 7) {
 ### Response Time Optimization
 
 **Fast Tasks (< 30 seconds):**
+
 ```bash
 # Use Gemini for quick tasks
 atlas task submit --type code_generation \
@@ -180,6 +194,7 @@ atlas task submit --type code_generation \
 ```
 
 **Balanced Tasks (30s - 2min):**
+
 ```bash
 # Use GPT-4 for good balance
 atlas task submit --type code_review \
@@ -188,6 +203,7 @@ atlas task submit --type code_review \
 ```
 
 **Quality Tasks (2min+):**
+
 ```bash
 # Use Claude for complex tasks
 atlas task submit --type architecture \
@@ -236,6 +252,7 @@ atlas metrics costs --period 7d --format report
 ### Quality vs. Speed Trade-offs
 
 #### Quality-First Approach
+
 ```bash
 # Critical business logic
 atlas task submit --type code_generation \
@@ -246,6 +263,7 @@ atlas task submit --type code_generation \
 ```
 
 #### Speed-First Approach
+
 ```bash
 # Prototyping and experimentation
 atlas task submit --type code_generation \
@@ -256,6 +274,7 @@ atlas task submit --type code_generation \
 ```
 
 #### Balanced Approach
+
 ```bash
 # Regular development tasks
 atlas task submit --type code_generation \
@@ -448,11 +467,13 @@ atlas metrics budget --current-month
 #### Poor Task Routing
 
 **Symptoms:**
+
 - Tasks going to wrong agents
 - Inconsistent results
 - Higher than expected costs
 
 **Solutions:**
+
 ```bash
 # Check routing configuration
 atlas config show routing
@@ -470,11 +491,13 @@ atlas config set log.level debug
 #### Agent Performance Issues
 
 **Symptoms:**
+
 - Slow response times
 - High failure rates
 - Quality degradation
 
 **Solutions:**
+
 ```bash
 # Check agent health
 atlas agent health <agent-id>
@@ -492,11 +515,13 @@ atlas agent remove <agent-id>
 #### Cost Optimization Problems
 
 **Symptoms:**
+
 - Unexpected high costs
 - Budget overruns
 - Inefficient agent usage
 
 **Solutions:**
+
 ```bash
 # Analyze cost patterns
 atlas metrics costs --analyze
@@ -577,29 +602,29 @@ Automatically scale agent pools based on demand:
 
 ### Task Completion Times
 
-| Task Type | Claude | GPT-4 | Gemini |
-|-----------|--------|-------|--------|
-| Simple Code Gen | 45s | 25s | 15s |
-| Complex Code Gen | 180s | 120s | 90s |
-| Code Review | 90s | 60s | 30s |
-| Architecture | 300s | 240s | 180s |
+| Task Type        | Claude | GPT-4 | Gemini |
+| ---------------- | ------ | ----- | ------ |
+| Simple Code Gen  | 45s    | 25s   | 15s    |
+| Complex Code Gen | 180s   | 120s  | 90s    |
+| Code Review      | 90s    | 60s   | 30s    |
+| Architecture     | 300s   | 240s  | 180s   |
 
 ### Success Rates (Typical)
 
-| Task Type | Claude | GPT-4 | Gemini |
-|-----------|--------|-------|--------|
-| Code Generation | 95% | 88% | 82% |
-| Code Review | 92% | 90% | 85% |
-| Refactoring | 89% | 85% | 78% |
-| Testing | 87% | 91% | 88% |
+| Task Type       | Claude | GPT-4 | Gemini |
+| --------------- | ------ | ----- | ------ |
+| Code Generation | 95%    | 88%   | 82%    |
+| Code Review     | 92%    | 90%   | 85%    |
+| Refactoring     | 89%    | 85%   | 78%    |
+| Testing         | 87%    | 91%   | 88%    |
 
 ### Cost Efficiency
 
-| Metric | Claude | GPT-4 | Gemini |
-|--------|--------|-------|--------|
-| Cost per Task | $0.15 | $0.08 | $0.02 |
-| Quality Score | 9.2 | 8.5 | 7.8 |
-| Cost/Quality Ratio | 0.016 | 0.009 | 0.003 |
+| Metric             | Claude | GPT-4 | Gemini |
+| ------------------ | ------ | ----- | ------ |
+| Cost per Task      | $0.15  | $0.08 | $0.02  |
+| Quality Score      | 9.2    | 8.5   | 7.8    |
+| Cost/Quality Ratio | 0.016  | 0.009 | 0.003  |
 
 ---
 
@@ -608,6 +633,7 @@ Automatically scale agent pools based on demand:
 Effective agent selection in ATLAS requires balancing multiple factors: task requirements, performance needs, cost constraints, and quality standards. By understanding each agent's strengths and configuring appropriate routing rules, you can optimize your AI-assisted development workflow.
 
 **Key Takeaways:**
+
 1. **Match agent capabilities to task complexity**
 2. **Consider cost constraints and quality requirements**
 3. **Use fallback chains for reliability**

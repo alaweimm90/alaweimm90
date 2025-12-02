@@ -78,73 +78,78 @@ automation/
 
 ## Agent Categories
 
-| Category | Agents |
-|----------|--------|
-| **Research** | scientist, theory, scout, data_analyst |
+| Category        | Agents                                       |
+| --------------- | -------------------------------------------- |
+| **Research**    | scientist, theory, scout, data_analyst       |
 | **Development** | coder, reviewer, debugger, architect, devops |
-| **Content** | writer, critic, visualization, editor |
-| **Security** | security, compliance |
-| **Operations** | monitor, incident |
+| **Content**     | writer, critic, visualization, editor        |
+| **Security**    | security, compliance                         |
+| **Operations**  | monitor, incident                            |
 
 ## Workflow Patterns
 
-| Pattern | Use When |
-|---------|----------|
-| **Prompt Chaining** | Fixed sequential steps |
-| **Routing** | Different inputs need different handling |
-| **Parallelization** | Independent tasks, speed matters |
-| **Orchestrator-Workers** | Complex, unpredictable subtasks |
-| **Evaluator-Optimizer** | Iterative refinement needed |
+| Pattern                  | Use When                                 |
+| ------------------------ | ---------------------------------------- |
+| **Prompt Chaining**      | Fixed sequential steps                   |
+| **Routing**              | Different inputs need different handling |
+| **Parallelization**      | Independent tasks, speed matters         |
+| **Orchestrator-Workers** | Complex, unpredictable subtasks          |
+| **Evaluator-Optimizer**  | Iterative refinement needed              |
 
 ## Task Routing Keywords
 
-| Type | Keywords |
-|------|----------|
-| **Architecture** | design, architect, structure, plan |
-| **Implementation** | implement, code, build, create |
-| **Debugging** | debug, fix, error, bug, issue |
-| **Refactoring** | refactor, clean, simplify, optimize |
-| **Testing** | test, verify, validate, check |
-| **Research** | research, analyze, investigate, study |
+| Type               | Keywords                              |
+| ------------------ | ------------------------------------- |
+| **Architecture**   | design, architect, structure, plan    |
+| **Implementation** | implement, code, build, create        |
+| **Debugging**      | debug, fix, error, bug, issue         |
+| **Refactoring**    | refactor, clean, simplify, optimize   |
+| **Testing**        | test, verify, validate, check         |
+| **Research**       | research, analyze, investigate, study |
 
 ## Creating New Assets
 
 ### New Agent
+
 ```yaml
 # automation/agents/templates/agent_template.yaml
-name: "my_agent"
-role: "My Role"
-goal: "What this agent does"
+name: 'my_agent'
+role: 'My Role'
+goal: 'What this agent does'
 backstory: |
   Background and expertise...
 tools:
   - web_search
   - calculator
 llm_config:
-  model: "claude-3-sonnet"
+  model: 'claude-3-sonnet'
   temperature: 0.3
 ```
 
 ### New Workflow
+
 ```yaml
 # automation/workflows/templates/workflow_template.yaml
-name: "my_workflow"
-pattern: "prompt_chaining"
+name: 'my_workflow'
+pattern: 'prompt_chaining'
 stages:
-  - name: "step_1"
-    agent: "agent_name"
-    action: "What to do"
+  - name: 'step_1'
+    agent: 'agent_name'
+    action: 'What to do'
 ```
 
 ### New Prompt
+
 ```markdown
 # automation/prompts/tasks/MY_PROMPT.md
 
 # My Prompt Title
 
 ## Purpose
+
 What this prompt does
 
 ## Instructions
+
 The actual prompt content...
 ```

@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **TalAI** is an AI-powered talent acquisition platform. It uses:
+
 - NLP/ML for resume parsing & matching
 - Candidate scoring algorithms
 - Integration with job boards
@@ -20,34 +21,41 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 Work as 5 parallel agent teams optimized for TalAI:
 
 **Team 1: ML/NLP Agents** (resume parsing, matching, scoring)
+
 - Algorithm analysis
 - Model optimization
 - Training data quality
 
 **Team 2: Backend Agents** (API, database, integrations)
+
 - Performance optimization
 - Data pipeline efficiency
 - Third-party integrations
 
 **Team 3: Frontend Agents** (UI, UX, dashboards)
+
 - User experience improvements
 - Real-time updates
 - Data visualization
 
 **Team 4: DevOps Agents** (CI/CD, deployment, monitoring)
+
 - Pipeline optimization
 - Performance monitoring
 - Cost efficiency
 
 **Team 5: Learning Agents** (pattern recognition, optimization)
+
 - Identify bottlenecks
 - Suggest improvements
 - Document learnings
 
 ### Execution Style
+
 - ⚡ **Fast:** 2-3 sec analysis max
 - 🔄 **Parallel:** All 5 teams simultaneously
 - 💬 **Brief:** Update with ✅/🔧/⚠️ only
@@ -145,14 +153,14 @@ Create API documentation for candidate endpoints
 
 ## 📞 Quick Reference
 
-| Need | Command |
-|------|---------|
-| Analyze | `Analyze TalAI in...` |
-| Fix Bug | `Find and fix [issue]` |
-| Improve | `Optimize [component]` |
+| Need     | Command                      |
+| -------- | ---------------------------- |
+| Analyze  | `Analyze TalAI in...`        |
+| Fix Bug  | `Find and fix [issue]`       |
+| Improve  | `Optimize [component]`       |
 | Document | `Generate docs for [module]` |
-| Test | `Improve test coverage` |
-| Deploy | `Create deployment pipeline` |
+| Test     | `Improve test coverage`      |
+| Deploy   | `Create deployment pipeline` |
 
 ---
 

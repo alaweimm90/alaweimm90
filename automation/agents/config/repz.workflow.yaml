@@ -1,0 +1,31 @@
+id: repz-release
+name: REPZ Release
+env: prod
+steps:
+  - id: repz-build
+    task: code_generation
+    description: Build REPZ platform
+    action: buildArtifacts
+    inputs:
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm ci; npm run build"'
+  - id: repz-test
+    task: testing
+    description: Run REPZ tests
+    dependsOn: [repz-build]
+    action: runTests
+    inputs:
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm run test:run"'
+  - id: security-scan
+    task: analysis
+    description: Security scan REPZ
+    dependsOn: [repz-build]
+    action: imageScan
+    inputs:
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm run ai:security scan"'
+  - id: repz-deploy
+    task: documentation
+    description: Deploy REPZ (preview)
+    dependsOn: [repz-test, security-scan]
+    action: k8sDeploy
+    inputs:
+      command: 'echo deploy placeholder (configure vercel or k8s)'

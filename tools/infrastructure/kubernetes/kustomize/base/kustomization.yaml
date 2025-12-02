@@ -11,7 +11,7 @@ commonLabels:
 
 # Common annotations applied to all resources
 commonAnnotations:
-  documentation: "https://github.com/username/supertool"
+  documentation: 'https://github.com/username/supertool'
 
 # Resources to include
 resources:

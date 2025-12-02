@@ -1,0 +1,5 @@
+# MetaHub CLI dependencies
+click>=8.1.0
+pyyaml>=6.0
+jsonschema>=4.17.0
+rich>=13.0.0

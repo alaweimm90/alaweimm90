@@ -1,6 +1,11 @@
 // ATLAS Enterprise - Compliance Manager
 
-import { ComplianceCheckResult, ComplianceFramework, ComplianceRequirement, ComplianceViolation } from './types.js';
+import {
+  ComplianceCheckResult,
+  ComplianceFramework,
+  ComplianceRequirement,
+  ComplianceViolation,
+} from './types.js';
 
 /**
  * Compliance Manager for enterprise frameworks
@@ -55,7 +60,7 @@ export class ComplianceManager {
           severity: this.getRequirementSeverity(requirement),
           description: `Requirement ${requirement.id} is not compliant`,
           impact: requirement.description,
-          remediation: requirement.remediation || 'Implement required controls'
+          remediation: requirement.remediation || 'Implement required controls',
         });
       }
     }
@@ -68,7 +73,7 @@ export class ComplianceManager {
       overallCompliance,
       requirements,
       violations,
-      recommendations: this.generateRecommendations(violations, framework)
+      recommendations: this.generateRecommendations(violations, framework),
     };
   }
 
@@ -123,7 +128,9 @@ export class ComplianceManager {
     }
   }
 
-  private getRequirementSeverity(requirement: ComplianceRequirement): 'critical' | 'high' | 'medium' | 'low' {
+  private getRequirementSeverity(
+    requirement: ComplianceRequirement
+  ): 'critical' | 'high' | 'medium' | 'low' {
     if (requirement.id.includes('security') || requirement.id.includes('encryption')) {
       return 'high';
     }
@@ -133,22 +140,25 @@ export class ComplianceManager {
     return 'low';
   }
 
-  private generateRecommendations(violations: ComplianceViolation[], framework: ComplianceFramework): string[] {
+  private generateRecommendations(
+    violations: ComplianceViolation[],
+    framework: ComplianceFramework
+  ): string[] {
     const recommendations: string[] = [];
 
-    if (violations.some(v => v.requirementId.includes('encryption'))) {
+    if (violations.some((v) => v.requirementId.includes('encryption'))) {
       recommendations.push('Implement end-to-end encryption for all sensitive data');
     }
 
-    if (violations.some(v => v.requirementId.includes('access'))) {
+    if (violations.some((v) => v.requirementId.includes('access'))) {
       recommendations.push('Implement role-based access control (RBAC)');
     }
 
-    if (violations.some(v => v.requirementId.includes('audit'))) {
+    if (violations.some((v) => v.requirementId.includes('audit'))) {
       recommendations.push('Enable comprehensive audit logging');
     }
 
-    if (violations.some(v => v.requirementId.includes('backup'))) {
+    if (violations.some((v) => v.requirementId.includes('backup'))) {
       recommendations.push('Implement regular automated backups with encryption');
     }
 
@@ -161,32 +171,33 @@ export class ComplianceManager {
         id: 'soc2-1',
         title: 'Security',
         description: 'Information and systems are protected against unauthorized access',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'soc2-2',
         title: 'Availability',
         description: 'Information and systems are available for operation and use',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'soc2-3',
         title: 'Processing Integrity',
         description: 'System processing is complete, valid, accurate, timely, and authorized',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'soc2-4',
         title: 'Confidentiality',
         description: 'Information designated as confidential is protected',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'soc2-5',
         title: 'Privacy',
-        description: 'Personal information is collected, used, retained, disclosed, and disposed of properly',
-        status: 'compliant'
-      }
+        description:
+          'Personal information is collected, used, retained, disclosed, and disposed of properly',
+        status: 'compliant',
+      },
     ];
   }
 
@@ -195,33 +206,36 @@ export class ComplianceManager {
       {
         id: 'gdpr-1',
         title: 'Lawful Processing',
-        description: 'Personal data shall be processed lawfully, fairly and in a transparent manner',
-        status: 'compliant'
+        description:
+          'Personal data shall be processed lawfully, fairly and in a transparent manner',
+        status: 'compliant',
       },
       {
         id: 'gdpr-2',
         title: 'Purpose Limitation',
-        description: 'Personal data shall be collected for specified, explicit and legitimate purposes',
-        status: 'compliant'
+        description:
+          'Personal data shall be collected for specified, explicit and legitimate purposes',
+        status: 'compliant',
       },
       {
         id: 'gdpr-3',
         title: 'Data Minimization',
         description: 'Personal data shall be adequate, relevant and limited to what is necessary',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'gdpr-4',
         title: 'Accuracy',
         description: 'Personal data shall be accurate and kept up to date',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'gdpr-5',
         title: 'Storage Limitation',
-        description: 'Personal data shall be kept in a form which permits identification for no longer than necessary',
-        status: 'compliant'
-      }
+        description:
+          'Personal data shall be kept in a form which permits identification for no longer than necessary',
+        status: 'compliant',
+      },
     ];
   }
 
@@ -231,26 +245,26 @@ export class ComplianceManager {
         id: 'hipaa-1',
         title: 'Privacy Rule',
         description: 'Protect individually identifiable health information',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'hipaa-2',
         title: 'Security Rule',
         description: 'Implement administrative, physical, and technical safeguards',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'hipaa-3',
         title: 'Breach Notification',
         description: 'Notify affected individuals of breaches of unsecured PHI',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'hipaa-4',
         title: 'Access Controls',
         description: 'Implement policies and procedures for authorizing access',
-        status: 'compliant'
-      }
+        status: 'compliant',
+      },
     ];
   }
 
@@ -260,27 +274,26 @@ export class ComplianceManager {
         id: 'pci-1',
         title: 'Build and Maintain Network Security',
         description: 'Install and maintain network security controls',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'pci-2',
         title: 'Protect Cardholder Data',
         description: 'Protect stored cardholder data',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'pci-3',
         title: 'Maintain Vulnerability Management',
         description: 'Maintain a vulnerability management program',
-        status: 'compliant'
+        status: 'compliant',
       },
       {
         id: 'pci-4',
         title: 'Implement Strong Access Control',
         description: 'Implement strong access control measures',
-        status: 'compliant'
-      }
+        status: 'compliant',
+      },
     ];
   }
-}</content>
-</edit_file>
+}

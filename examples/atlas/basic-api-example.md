@@ -76,6 +76,7 @@ atlas task submit \
 ```
 
 **Expected Output:**
+
 ```
 📁 project structure created:
 ├── src/
@@ -105,50 +106,54 @@ atlas task submit \
 ```
 
 **Generated User Model:**
+
 ```javascript
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: 3,
-    maxlength: 50
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      minlength: 3,
+      maxlength: 50,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email'],
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-});
+);
 
 // Hash password before saving
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
 // Compare password method
-userSchema.methods.comparePassword = async function(candidatePassword) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -156,55 +161,61 @@ module.exports = mongoose.model('User', userSchema);
 ```
 
 **Generated Task Model:**
+
 ```javascript
 const mongoose = require('mongoose');
 
-const taskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-    maxlength: 200
+const taskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 200,
+    },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: 2000,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'in_progress', 'completed', 'cancelled'],
+      default: 'pending',
+    },
+    priority: {
+      type: String,
+      enum: ['low', 'medium', 'high', 'urgent'],
+      default: 'medium',
+    },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    dueDate: {
+      type: Date,
+    },
+    tags: [
+      {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+    ],
+    completedAt: {
+      type: Date,
+    },
   },
-  description: {
-    type: String,
-    trim: true,
-    maxlength: 2000
-  },
-  status: {
-    type: String,
-    enum: ['pending', 'in_progress', 'completed', 'cancelled'],
-    default: 'pending'
-  },
-  priority: {
-    type: String,
-    enum: ['low', 'medium', 'high', 'urgent'],
-    default: 'medium'
-  },
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  dueDate: {
-    type: Date
-  },
-  tags: [{
-    type: String,
-    trim: true,
-    lowercase: true
-  }],
-  completedAt: {
-    type: Date
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-});
+);
 
 // Index for performance
 taskSchema.index({ assignedTo: 1, status: 1 });
@@ -229,6 +240,7 @@ atlas task submit \
 ```
 
 **Generated Authentication Middleware:**
+
 ```javascript
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
@@ -305,6 +317,7 @@ atlas task submit \
 ```
 
 **Generated Auth Routes:**
+
 ```javascript
 const express = require('express');
 const Joi = require('joi');
@@ -317,12 +330,12 @@ const router = express.Router();
 const registerSchema = Joi.object({
   username: Joi.string().min(3).max(50).required(),
   email: Joi.string().email().required(),
-  password: Joi.string().min(6).required()
+  password: Joi.string().min(6).required(),
 });
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().required()
+  password: Joi.string().required(),
 });
 
 // Register new user
@@ -337,7 +350,7 @@ router.post('/register', async (req, res) => {
 
     // Check if user already exists
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }]
+      $or: [{ email }, { username }],
     });
 
     if (existingUser) {
@@ -347,11 +360,7 @@ router.post('/register', async (req, res) => {
     const user = new User({ username, email, password });
     await user.save();
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.status(201).json({
       message: 'User registered successfully',
@@ -359,9 +368,9 @@ router.post('/register', async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
-      token
+      token,
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -388,11 +397,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.json({
       message: 'Login successful',
@@ -400,9 +405,9 @@ router.post('/login', async (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
-      token
+      token,
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -431,15 +436,14 @@ router.put('/profile', auth, async (req, res) => {
       }
     }
 
-    const user = await User.findByIdAndUpdate(
-      req.user._id,
-      updates,
-      { new: true, runValidators: true }
-    ).select('-password');
+    const user = await User.findByIdAndUpdate(req.user._id, updates, {
+      new: true,
+      runValidators: true,
+    }).select('-password');
 
     res.json({
       message: 'Profile updated successfully',
-      user
+      user,
     });
   } catch (error) {
     if (error.code === 11000) {
@@ -468,6 +472,7 @@ atlas task submit \
 ```
 
 **Generated Task Routes:**
+
 ```javascript
 const express = require('express');
 const Joi = require('joi');
@@ -483,7 +488,7 @@ const createTaskSchema = Joi.object({
   priority: Joi.string().valid('low', 'medium', 'high', 'urgent').default('medium'),
   assignedTo: Joi.string().required(),
   dueDate: Joi.date().iso().allow(null),
-  tags: Joi.array().items(Joi.string()).default([])
+  tags: Joi.array().items(Joi.string()).default([]),
 });
 
 const updateTaskSchema = Joi.object({
@@ -493,7 +498,7 @@ const updateTaskSchema = Joi.object({
   priority: Joi.string().valid('low', 'medium', 'high', 'urgent'),
   assignedTo: Joi.string(),
   dueDate: Joi.date().iso().allow(null),
-  tags: Joi.array().items(Joi.string())
+  tags: Joi.array().items(Joi.string()),
 });
 
 // Get all tasks with filtering and pagination
@@ -515,10 +520,7 @@ router.get('/', auth, async (req, res) => {
 
     // Only show tasks user can access
     if (req.user.role !== 'admin') {
-      filter.$or = [
-        { assignedTo: req.user._id },
-        { createdBy: req.user._id }
-      ];
+      filter.$or = [{ assignedTo: req.user._id }, { createdBy: req.user._id }];
     }
 
     // Build sort
@@ -542,8 +544,8 @@ router.get('/', auth, async (req, res) => {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
@@ -562,9 +564,11 @@ router.get('/:id', auth, async (req, res) => {
     }
 
     // Check permissions
-    if (req.user.role !== 'admin' &&
-        task.assignedTo._id.toString() !== req.user._id.toString() &&
-        task.createdBy._id.toString() !== req.user._id.toString()) {
+    if (
+      req.user.role !== 'admin' &&
+      task.assignedTo._id.toString() !== req.user._id.toString() &&
+      task.createdBy._id.toString() !== req.user._id.toString()
+    ) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -584,7 +588,7 @@ router.post('/', auth, async (req, res) => {
 
     const taskData = {
       ...req.body,
-      createdBy: req.user._id
+      createdBy: req.user._id,
     };
 
     const task = new Task(taskData);
@@ -595,7 +599,7 @@ router.post('/', auth, async (req, res) => {
 
     res.status(201).json({
       message: 'Task created successfully',
-      task
+      task,
     });
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -620,8 +624,7 @@ router.put('/:id', auth, async (req, res) => {
     }
 
     // Check permissions
-    if (req.user.role !== 'admin' &&
-        task.createdBy.toString() !== req.user._id.toString()) {
+    if (req.user.role !== 'admin' && task.createdBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -640,7 +643,7 @@ router.put('/:id', auth, async (req, res) => {
 
     res.json({
       message: 'Task updated successfully',
-      task
+      task,
     });
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -660,8 +663,7 @@ router.delete('/:id', auth, async (req, res) => {
     }
 
     // Check permissions
-    if (req.user.role !== 'admin' &&
-        task.createdBy.toString() !== req.user._id.toString()) {
+    if (req.user.role !== 'admin' && task.createdBy.toString() !== req.user._id.toString()) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -812,12 +814,14 @@ atlas optimize start --repository . --schedule hourly
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - Register new user
 - `POST /api/auth/login` - User login
 - `GET /api/auth/profile` - Get user profile
 - `PUT /api/auth/profile` - Update user profile
 
 ### Tasks
+
 - `GET /api/tasks` - List tasks (with filtering/pagination)
 - `GET /api/tasks/:id` - Get single task
 - `POST /api/tasks` - Create new task

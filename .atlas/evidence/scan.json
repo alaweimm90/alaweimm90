@@ -1,0 +1,8 @@
+{
+  "stepId": "scan",
+  "timestamp": "2025-12-01T08:39:29.009Z",
+  "success": false,
+  "error": "execution_failed",
+  "latency": 60025,
+  "agentId": "claude-opus"
+}

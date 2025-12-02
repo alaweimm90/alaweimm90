@@ -2,109 +2,112 @@ import * as vscode from 'vscode';
 import { AtlasAPI, AtlasMetrics, AtlasTask } from './atlas-api';
 
 class AtlasDashboardProvider implements vscode.WebviewViewProvider {
-    public static readonly viewType = 'atlas-dashboard';
-    private _view?: vscode.WebviewView;
+  public static readonly viewType = 'atlas-dashboard';
+  private _view?: vscode.WebviewView;
 
-    constructor(private readonly _extensionUri: vscode.Uri, private atlasAPI?: AtlasAPI) {}
+  constructor(
+    private readonly _extensionUri: vscode.Uri,
+    private atlasAPI?: AtlasAPI
+  ) {}
 
-    public resolveWebviewView(
-        webviewView: vscode.WebviewView,
-        context: vscode.WebviewViewResolveContext,
-        _token: vscode.CancellationToken,
-    ) {
-        this._view = webviewView;
+  public resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    context: vscode.WebviewViewResolveContext,
+    _token: vscode.CancellationToken
+  ) {
+    this._view = webviewView;
 
-        webviewView.webview.options = {
-            enableScripts: true,
-            localResourceRoots: [this._extensionUri]
-        };
+    webviewView.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [this._extensionUri],
+    };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-        // Handle messages from the webview
-        webviewView.webview.onDidReceiveMessage(
-            async (message) => {
-                switch (message.type) {
-                    case 'refresh':
-                        await this.refresh();
-                        break;
-                    case 'submitTask':
-                        await this.handleSubmitTask(message.data);
-                        break;
-                    case 'cancelTask':
-                        await this.handleCancelTask(message.taskId);
-                        break;
-                }
-            },
-            undefined,
-            context.subscriptions
-        );
-
-        // Initial load
-        this.refresh();
-    }
-
-    private async refresh() {
-        if (!this.atlasAPI || !this._view) {
-            this._view?.webview.postMessage({
-                type: 'update',
-                data: { configured: false }
-            });
-            return;
-        }
-
-        try {
-            const [metrics, tasks, health] = await Promise.all([
-                this.atlasAPI.getMetrics('24h'),
-                this.atlasAPI.listTasks({ limit: 10 }),
-                this.atlasAPI.getHealth()
-            ]);
-
-            this._view.webview.postMessage({
-                type: 'update',
-                data: {
-                    configured: true,
-                    metrics,
-                    recentTasks: tasks.tasks,
-                    health
-                }
-            });
-        } catch (error) {
-            this._view?.webview.postMessage({
-                type: 'error',
-                data: { message: error.message }
-            });
-        }
-    }
-
-    private async handleSubmitTask(data: any) {
-        if (!this.atlasAPI) return;
-
-        try {
-            const task = await this.atlasAPI.submitTask(data.type, data.description, data.context);
-            vscode.window.showInformationMessage(`ATLAS: Task submitted - ${task.task_id}`);
+    // Handle messages from the webview
+    webviewView.webview.onDidReceiveMessage(
+      async (message) => {
+        switch (message.type) {
+          case 'refresh':
             await this.refresh();
-        } catch (error) {
-            vscode.window.showErrorMessage(`ATLAS: Failed to submit task - ${error.message}`);
+            break;
+          case 'submitTask':
+            await this.handleSubmitTask(message.data);
+            break;
+          case 'cancelTask':
+            await this.handleCancelTask(message.taskId);
+            break;
         }
+      },
+      undefined,
+      context.subscriptions
+    );
+
+    // Initial load
+    this.refresh();
+  }
+
+  private async refresh() {
+    if (!this.atlasAPI || !this._view) {
+      this._view?.webview.postMessage({
+        type: 'update',
+        data: { configured: false },
+      });
+      return;
     }
 
-    private async handleCancelTask(taskId: string) {
-        if (!this.atlasAPI) return;
+    try {
+      const [metrics, tasks, health] = await Promise.all([
+        this.atlasAPI.getMetrics('24h'),
+        this.atlasAPI.listTasks({ limit: 10 }),
+        this.atlasAPI.getHealth(),
+      ]);
 
-        try {
-            await this.atlasAPI.cancelTask(taskId);
-            vscode.window.showInformationMessage(`ATLAS: Task cancelled - ${taskId}`);
-            await this.refresh();
-        } catch (error) {
-            vscode.window.showErrorMessage(`ATLAS: Failed to cancel task - ${error.message}`);
-        }
+      this._view.webview.postMessage({
+        type: 'update',
+        data: {
+          configured: true,
+          metrics,
+          recentTasks: tasks.tasks,
+          health,
+        },
+      });
+    } catch (error) {
+      this._view?.webview.postMessage({
+        type: 'error',
+        data: { message: error.message },
+      });
     }
+  }
 
-    private _getHtmlForWebview(webview: vscode.Webview) {
-        const nonce = getNonce();
+  private async handleSubmitTask(data: any) {
+    if (!this.atlasAPI) return;
 
-        return `<!DOCTYPE html>
+    try {
+      const task = await this.atlasAPI.submitTask(data.type, data.description, data.context);
+      vscode.window.showInformationMessage(`ATLAS: Task submitted - ${task.task_id}`);
+      await this.refresh();
+    } catch (error) {
+      vscode.window.showErrorMessage(`ATLAS: Failed to submit task - ${error.message}`);
+    }
+  }
+
+  private async handleCancelTask(taskId: string) {
+    if (!this.atlasAPI) return;
+
+    try {
+      await this.atlasAPI.cancelTask(taskId);
+      vscode.window.showInformationMessage(`ATLAS: Task cancelled - ${taskId}`);
+      await this.refresh();
+    } catch (error) {
+      vscode.window.showErrorMessage(`ATLAS: Failed to cancel task - ${error.message}`);
+    }
+  }
+
+  private _getHtmlForWebview(webview: vscode.Webview) {
+    const nonce = getNonce();
+
+    return `<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -406,39 +409,48 @@ class AtlasDashboardProvider implements vscode.WebviewViewProvider {
             </script>
         </body>
         </html>`;
-    }
+  }
 }
 
 function getNonce() {
-    let text = '';
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 32; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
+  let text = '';
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
 }
 
 let dashboardProvider: AtlasDashboardProvider;
 
-export function registerDashboard(context: vscode.ExtensionContext, atlasAPI: AtlasAPI | undefined) {
-    dashboardProvider = new AtlasDashboardProvider(context.extensionUri, atlasAPI);
+export function registerDashboard(
+  context: vscode.ExtensionContext,
+  atlasAPI: AtlasAPI | undefined
+) {
+  dashboardProvider = new AtlasDashboardProvider(context.extensionUri, atlasAPI);
 
-    context.subscriptions.push(
-        vscode.window.registerWebviewViewProvider(AtlasDashboardProvider.viewType, dashboardProvider)
-    );
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(AtlasDashboardProvider.viewType, dashboardProvider)
+  );
 
-    // Listen for API key changes to update dashboard
-    context.subscriptions.push(
-        vscode.workspace.onDidChangeConfiguration(e => {
-            if (e.affectsConfiguration('atlas.apiKey') || e.affectsConfiguration('atlas.apiUrl')) {
-                const apiKey = vscode.workspace.getConfiguration('atlas').get('apiKey') as string;
-                const apiUrl = vscode.workspace.getConfiguration('atlas').get('apiUrl') as string;
+  // Listen for API key changes to update dashboard
+  context.subscriptions.push(
+    vscode.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration('atlas.apiKey') || e.affectsConfiguration('atlas.apiUrl')) {
+        const apiKey = vscode.workspace.getConfiguration('atlas').get('apiKey') as string;
+        const apiUrl = vscode.workspace.getConfiguration('atlas').get('apiUrl') as string;
 
-                if (apiKey) {
-                    dashboardProvider = new AtlasDashboardProvider(context.extensionUri, new AtlasAPI(apiKey, apiUrl));
-                    vscode.window.registerWebviewViewProvider(AtlasDashboardProvider.viewType, dashboardProvider);
-                }
-            }
-        })
-    );
+        if (apiKey) {
+          dashboardProvider = new AtlasDashboardProvider(
+            context.extensionUri,
+            new AtlasAPI(apiKey, apiUrl)
+          );
+          vscode.window.registerWebviewViewProvider(
+            AtlasDashboardProvider.viewType,
+            dashboardProvider
+          );
+        }
+      }
+    })
+  );
 }

@@ -1,9 +1,9 @@
 ---
-name: "AI/ML Integration Superprompt"
-version: "1.0"
-category: "project"
-tags: ["ai", "ml", "llm", "integration", "mlops", "inference"]
-created: "2024-11-30"
+name: 'AI/ML Integration Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['ai', 'ml', 'llm', 'integration', 'mlops', 'inference']
+created: '2024-11-30'
 ---
 
 # AI/ML Integration Superprompt
@@ -73,7 +73,7 @@ export class LLMClient {
 
   constructor(config: LLMConfig) {
     this.config = config;
-    
+
     if (config.provider === 'anthropic') {
       this.anthropic = new Anthropic({
         apiKey: process.env.ANTHROPIC_API_KEY,
@@ -94,25 +94,20 @@ export class LLMClient {
     throw new Error(`Unsupported provider: ${this.config.provider}`);
   }
 
-  private async chatAnthropic(
-    messages: Message[],
-    systemPrompt?: string
-  ): Promise<LLMResponse> {
+  private async chatAnthropic(messages: Message[], systemPrompt?: string): Promise<LLMResponse> {
     const response = await this.anthropic!.messages.create({
       model: this.config.model,
       max_tokens: this.config.maxTokens || 4096,
       temperature: this.config.temperature || 0.7,
       system: systemPrompt,
-      messages: messages.map(m => ({
+      messages: messages.map((m) => ({
         role: m.role as 'user' | 'assistant',
         content: m.content,
       })),
     });
 
     return {
-      content: response.content[0].type === 'text' 
-        ? response.content[0].text 
-        : '',
+      content: response.content[0].type === 'text' ? response.content[0].text : '',
       usage: {
         inputTokens: response.usage.input_tokens,
         outputTokens: response.usage.output_tokens,
@@ -122,10 +117,7 @@ export class LLMClient {
     };
   }
 
-  private async chatOpenAI(
-    messages: Message[],
-    systemPrompt?: string
-  ): Promise<LLMResponse> {
+  private async chatOpenAI(messages: Message[], systemPrompt?: string): Promise<LLMResponse> {
     const allMessages = systemPrompt
       ? [{ role: 'system' as const, content: systemPrompt }, ...messages]
       : messages;
@@ -149,26 +141,20 @@ export class LLMClient {
   }
 
   // Streaming support
-  async *chatStream(
-    messages: Message[],
-    systemPrompt?: string
-  ): AsyncGenerator<string> {
+  async *chatStream(messages: Message[], systemPrompt?: string): AsyncGenerator<string> {
     if (this.config.provider === 'anthropic') {
       const stream = await this.anthropic!.messages.stream({
         model: this.config.model,
         max_tokens: this.config.maxTokens || 4096,
         system: systemPrompt,
-        messages: messages.map(m => ({
+        messages: messages.map((m) => ({
           role: m.role as 'user' | 'assistant',
           content: m.content,
         })),
       });
 
       for await (const event of stream) {
-        if (
-          event.type === 'content_block_delta' &&
-          event.delta.type === 'text_delta'
-        ) {
+        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
           yield event.delta.text;
         }
       }
@@ -219,14 +205,14 @@ export class RAGSystem {
   // Index documents
   async indexDocuments(documents: Document[]): Promise<void> {
     const index = this.pinecone.Index(this.indexName);
-    
+
     // Generate embeddings in batches
     const batchSize = 100;
     for (let i = 0; i < documents.length; i += batchSize) {
       const batch = documents.slice(i, i + batchSize);
-      const texts = batch.map(d => d.content);
+      const texts = batch.map((d) => d.content);
       const embeddings = await this.embeddings.embedDocuments(texts);
-      
+
       const vectors = batch.map((doc, idx) => ({
         id: doc.id,
         values: embeddings[idx],
@@ -235,7 +221,7 @@ export class RAGSystem {
           ...doc.metadata,
         },
       }));
-      
+
       await index.upsert(vectors);
     }
   }
@@ -244,21 +230,23 @@ export class RAGSystem {
   async search(query: string, topK: number = 5): Promise<SearchResult[]> {
     const index = this.pinecone.Index(this.indexName);
     const queryEmbedding = await this.embeddings.embedQuery(query);
-    
+
     const results = await index.query({
       vector: queryEmbedding,
       topK,
       includeMetadata: true,
     });
-    
-    return results.matches?.map(match => ({
-      document: {
-        id: match.id,
-        content: match.metadata?.content as string,
-        metadata: match.metadata as Record<string, unknown>,
-      },
-      score: match.score || 0,
-    })) || [];
+
+    return (
+      results.matches?.map((match) => ({
+        document: {
+          id: match.id,
+          content: match.metadata?.content as string,
+          metadata: match.metadata as Record<string, unknown>,
+        },
+        score: match.score || 0,
+      })) || []
+    );
   }
 
   // RAG query with context
@@ -268,15 +256,13 @@ export class RAGSystem {
     options: { topK?: number; systemPrompt?: string } = {}
   ): Promise<string> {
     const { topK = 5, systemPrompt } = options;
-    
+
     // Retrieve relevant documents
     const results = await this.search(question, topK);
-    
+
     // Build context
-    const context = results
-      .map((r, i) => `[${i + 1}] ${r.document.content}`)
-      .join('\n\n');
-    
+    const context = results.map((r, i) => `[${i + 1}] ${r.document.content}`).join('\n\n');
+
     // Generate response with context
     const augmentedPrompt = `
 Use the following context to answer the question. If the context doesn't contain 
@@ -291,9 +277,10 @@ Answer:`;
 
     const response = await llmClient.chat(
       [{ role: 'user', content: augmentedPrompt }],
-      systemPrompt || 'You are a helpful assistant that answers questions based on the provided context.'
+      systemPrompt ||
+        'You are a helpful assistant that answers questions based on the provided context.'
     );
-    
+
     return response.content;
   }
 }
@@ -325,9 +312,13 @@ Show your reasoning at each step.`,
   fewShot: (examples: Array<{ input: string; output: string }>, newInput: string) => `
 Here are some examples:
 
-${examples.map((ex, i) => `Example ${i + 1}:
+${examples
+  .map(
+    (ex, i) => `Example ${i + 1}:
 Input: ${ex.input}
-Output: ${ex.output}`).join('\n\n')}
+Output: ${ex.output}`
+  )
+  .join('\n\n')}
 
 Now, please process this new input:
 Input: ${newInput}
@@ -379,11 +370,7 @@ ${JSON.stringify(schema, null, 2)}
 Ensure your response is valid JSON that matches this schema exactly.`,
 
   // Code Generation
-  codeGeneration: (
-    language: string,
-    task: string,
-    context?: string
-  ) => `
+  codeGeneration: (language: string, task: string, context?: string) => `
 Generate ${language} code for the following task:
 
 ${task}
@@ -428,15 +415,13 @@ export class PromptBuilder {
   }
 
   constraints(items: string[]): this {
-    const constraintsText = items.map(c => `- ${c}`).join('\n');
+    const constraintsText = items.map((c) => `- ${c}`).join('\n');
     this.parts.push(`<constraints>\n${constraintsText}\n</constraints>`);
     return this;
   }
 
   outputFormat(format: string | object): this {
-    const formatText = typeof format === 'string' 
-      ? format 
-      : JSON.stringify(format, null, 2);
+    const formatText = typeof format === 'string' ? format : JSON.stringify(format, null, 2);
     this.parts.push(`<output_format>\n${formatText}\n</output_format>`);
     return this;
   }
@@ -448,12 +433,12 @@ export class PromptBuilder {
 
   build(): string {
     let prompt = this.parts.join('\n\n');
-    
+
     // Replace variables
     for (const [name, value] of this.variables) {
       prompt = prompt.replace(new RegExp(`{{${name}}}`, 'g'), value);
     }
-    
+
     return prompt;
   }
 }
@@ -513,14 +498,14 @@ async def load_models():
     model_configs = [
         {"name": "default", "path": "distilbert-base-uncased-finetuned-sst-2-english"},
     ]
-    
+
     for config in model_configs:
         models[config["name"]] = AutoModelForSequenceClassification.from_pretrained(
             config["path"]
         )
         tokenizers[config["name"]] = AutoTokenizer.from_pretrained(config["path"])
         models[config["name"]].eval()
-        
+
         # Move to GPU if available
         if torch.cuda.is_available():
             models[config["name"]].cuda()
@@ -529,15 +514,15 @@ async def load_models():
 async def predict(request: PredictionRequest):
     """Single prediction endpoint."""
     start_time = time.time()
-    
+
     if request.model_name not in models:
         PREDICTION_COUNTER.labels(model_name=request.model_name, status="error").inc()
         raise HTTPException(status_code=404, detail=f"Model {request.model_name} not found")
-    
+
     try:
         model = models[request.model_name]
         tokenizer = tokenizers[request.model_name]
-        
+
         # Tokenize
         inputs = tokenizer(
             request.text,
@@ -545,28 +530,28 @@ async def predict(request: PredictionRequest):
             truncation=True,
             max_length=512
         )
-        
+
         if torch.cuda.is_available():
             inputs = {k: v.cuda() for k, v in inputs.items()}
-        
+
         # Predict
         with torch.no_grad():
             outputs = model(**inputs)
             probs = torch.softmax(outputs.logits, dim=-1)
             prediction = torch.argmax(probs, dim=-1).item()
             confidence = probs[0][prediction].item()
-        
+
         latency_ms = (time.time() - start_time) * 1000
-        
+
         PREDICTION_COUNTER.labels(model_name=request.model_name, status="success").inc()
         PREDICTION_LATENCY.labels(model_name=request.model_name).observe(latency_ms / 1000)
-        
+
         return PredictionResponse(
             prediction=model.config.id2label[prediction],
             confidence=confidence,
             latency_ms=latency_ms
         )
-        
+
     except Exception as e:
         PREDICTION_COUNTER.labels(model_name=request.model_name, status="error").inc()
         raise HTTPException(status_code=500, detail=str(e))
@@ -576,10 +561,10 @@ async def predict_batch(request: BatchPredictionRequest):
     """Batch prediction endpoint."""
     if request.model_name not in models:
         raise HTTPException(status_code=404, detail=f"Model {request.model_name} not found")
-    
+
     model = models[request.model_name]
     tokenizer = tokenizers[request.model_name]
-    
+
     # Tokenize batch
     inputs = tokenizer(
         request.texts,
@@ -588,17 +573,17 @@ async def predict_batch(request: BatchPredictionRequest):
         padding=True,
         max_length=512
     )
-    
+
     if torch.cuda.is_available():
         inputs = {k: v.cuda() for k, v in inputs.items()}
-    
+
     # Predict
     with torch.no_grad():
         outputs = model(**inputs)
         probs = torch.softmax(outputs.logits, dim=-1)
         predictions = torch.argmax(probs, dim=-1).tolist()
         confidences = probs.max(dim=-1).values.tolist()
-    
+
     return {
         "predictions": [
             {
@@ -635,31 +620,31 @@ metadata:
   name: model-training-pipeline
 spec:
   entrypoint: training-pipeline
-  
+
   templates:
     - name: training-pipeline
       dag:
         tasks:
           - name: data-validation
             template: validate-data
-            
+
           - name: feature-engineering
             template: engineer-features
             dependencies: [data-validation]
-            
+
           - name: train-model
             template: train
             dependencies: [feature-engineering]
-            
+
           - name: evaluate-model
             template: evaluate
             dependencies: [train-model]
-            
+
           - name: register-model
             template: register
             dependencies: [evaluate-model]
-            when: "{{tasks.evaluate-model.outputs.parameters.passed}} == true"
-            
+            when: '{{tasks.evaluate-model.outputs.parameters.passed}} == true'
+
           - name: deploy-model
             template: deploy
             dependencies: [register-model]
@@ -671,7 +656,7 @@ spec:
         args:
           - --input-path={{workflow.parameters.data-path}}
           - --output-path=/tmp/validated-data
-          
+
     - name: engineer-features
       container:
         image: ml-pipeline:latest
@@ -679,7 +664,7 @@ spec:
         args:
           - --input-path=/tmp/validated-data
           - --output-path=/tmp/features
-          
+
     - name: train
       container:
         image: ml-pipeline:latest
@@ -691,7 +676,7 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
-            
+
     - name: evaluate
       container:
         image: ml-pipeline:latest
@@ -704,7 +689,7 @@ spec:
           - name: passed
             valueFrom:
               path: /tmp/evaluation-passed
-              
+
     - name: register
       container:
         image: ml-pipeline:latest
@@ -712,7 +697,7 @@ spec:
         args:
           - --model-path=/tmp/model
           - --model-name={{workflow.parameters.model-name}}
-          
+
     - name: deploy
       container:
         image: ml-pipeline:latest
@@ -754,7 +739,7 @@ class ModelMonitor:
         self.feature_names = feature_names
         self.drift_threshold = drift_threshold
         self.reference_stats = self._compute_stats(reference_data)
-        
+
     def _compute_stats(self, data: np.ndarray) -> Dict:
         """Compute statistical summary of data."""
         return {
@@ -768,21 +753,21 @@ class ModelMonitor:
                 '75': np.percentile(data, 75, axis=0).tolist(),
             }
         }
-    
+
     def detect_drift(self, current_data: np.ndarray) -> List[DriftReport]:
         """Detect data drift using Kolmogorov-Smirnov test."""
         reports = []
         current_stats = self._compute_stats(current_data)
-        
+
         for i, feature_name in enumerate(self.feature_names):
             # KS test for each feature
             statistic, p_value = stats.ks_2samp(
                 self.reference_data[:, i],
                 current_data[:, i]
             )
-            
+
             drift_detected = p_value < self.drift_threshold
-            
+
             reports.append(DriftReport(
                 feature_name=feature_name,
                 drift_score=statistic,
@@ -798,9 +783,9 @@ class ModelMonitor:
                 },
                 timestamp=datetime.utcnow()
             ))
-            
+
         return reports
-    
+
     def detect_prediction_drift(
         self,
         reference_predictions: np.ndarray,
@@ -811,7 +796,7 @@ class ModelMonitor:
             reference_predictions,
             current_predictions
         )
-        
+
         return {
             'drift_score': statistic,
             'p_value': p_value,
@@ -825,7 +810,7 @@ class ModelMonitor:
                 'std': float(np.std(current_predictions)),
             }
         }
-    
+
     def check_data_quality(self, data: np.ndarray) -> Dict:
         """Check data quality metrics."""
         return {
@@ -835,25 +820,25 @@ class ModelMonitor:
             'out_of_range': self._check_out_of_range(data),
             'duplicate_rows': self._count_duplicates(data),
         }
-    
+
     def _check_out_of_range(self, data: np.ndarray) -> Dict:
         """Check for values outside reference range."""
         out_of_range = {}
         for i, feature_name in enumerate(self.feature_names):
             ref_min = self.reference_stats['min'][i]
             ref_max = self.reference_stats['max'][i]
-            
+
             below_min = (data[:, i] < ref_min).sum()
             above_max = (data[:, i] > ref_max).sum()
-            
+
             if below_min > 0 or above_max > 0:
                 out_of_range[feature_name] = {
                     'below_min': int(below_min),
                     'above_max': int(above_max),
                 }
-                
+
         return out_of_range
-    
+
     def _count_duplicates(self, data: np.ndarray) -> int:
         """Count duplicate rows."""
         unique_rows = np.unique(data, axis=0)
@@ -894,4 +879,4 @@ class ModelMonitor:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

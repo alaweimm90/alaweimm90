@@ -17,4 +17,3 @@ Display ASCII metrics dashboard
 ```bash
 npm run ai:dashboard
 ```
-

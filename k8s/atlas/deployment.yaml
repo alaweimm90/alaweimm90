@@ -35,11 +35,11 @@ spec:
               protocol: TCP
           env:
             - name: NODE_ENV
-              value: "production"
+              value: 'production'
             - name: ATLAS_PORT
-              value: "3000"
+              value: '3000'
             - name: ATLAS_STORAGE_BACKEND
-              value: "sqlite"
+              value: 'sqlite'
             - name: ATLAS_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -65,11 +65,11 @@ spec:
                   optional: true
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: '256Mi'
+              cpu: '100m'
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: '512Mi'
+              cpu: '500m'
           livenessProbe:
             httpGet:
               path: /health

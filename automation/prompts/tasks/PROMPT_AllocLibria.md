@@ -14,6 +14,7 @@ AllocLibria implements constrained Thompson Sampling for multi-agent resource al
 **Core Innovation**: Constrained Thompson Sampling with fairness (🟢 MODERATE-STRONG novelty)
 
 **Research Contributions**:
+
 - **ALLOC-C1**: Constrained Thompson Sampling for Resource Allocation
 - **ALLOC-C2**: Fairness-Aware Bandits with Budget Constraints
 
@@ -27,6 +28,7 @@ AllocLibria implements constrained Thompson Sampling for multi-agent resource al
 
 **Resource Allocation**:
 Given:
+
 - n agents requiring resources
 - K resource types (e.g., compute, memory, bandwidth)
 - Budget constraints: B = [B₁, B₂, ..., Bₖ]
@@ -34,6 +36,7 @@ Given:
 - Historical rewards: {(aᵢ, rᵢ, reward_i)}
 
 Objectives:
+
 1. Maximize total reward: ∑ reward(aᵢ, rᵢ)
 2. Satisfy budget: ∑ rᵢ ≤ B (element-wise)
 3. Ensure fairness: min-max allocation or proportional fairness
@@ -43,6 +46,7 @@ Find allocation policy π: (agents, B) → {(a₁, r₁), ..., (aₙ, rₙ)}
 ### 1.2 Core Algorithm
 
 **AllocLibria Architecture**:
+
 ```
 Input: Agents, Budget B, Fairness constraints
 │
@@ -517,11 +521,13 @@ class BudgetTracker:
 ### 2.1 Novel Contributions
 
 **ALLOC-C1: Constrained Thompson Sampling for Resource Allocation**
+
 - **Gap**: Standard TS assumes unlimited resources; no work on multi-dimensional budget constraints
 - **Approach**: Combine TS with integer programming for constrained optimization
 - **Impact**: 15-25% improvement over UCB-based allocation
 
 **ALLOC-C2: Fairness-Aware Bandits with Budget Constraints**
+
 - **Gap**: Fairness bandits (Patil et al. 2021) don't handle budgets; budget bandits don't handle fairness
 - **Approach**: Proportional fairness + max-min fairness in constrained TS
 - **Impact**: 30-40% reduction in Gini coefficient while maintaining 90%+ reward
@@ -546,16 +552,19 @@ class BudgetTracker:
 ### 2.3 Benchmark Datasets
 
 **Synthetic Benchmarks**:
+
 - Multi-dimensional knapsack instances
 - Varying budget tightness (loose/tight)
 - Varying agent heterogeneity
 
 **Real-World Datasets**:
+
 - Cloud resource allocation logs
 - ATLAS agent compute allocation
 - Multi-tenant resource sharing
 
 **Expected Performance**:
+
 - 15-25% reward improvement over UCB
 - 30-40% Gini reduction with fairness modes
 - Near-optimal (95%+) compared to oracle
@@ -565,7 +574,9 @@ class BudgetTracker:
 ## 3. Implementation Roadmap
 
 ### Phase 1: Core Algorithm (Weeks 1-2)
+
 ### Phase 2: Benchmarking (Weeks 3-5)
+
 ### Phase 3: Paper Writing (Weeks 6-8)
 
 ---

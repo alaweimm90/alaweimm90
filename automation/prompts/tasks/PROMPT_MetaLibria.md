@@ -24,14 +24,15 @@ MetaLibria implements tournament-based solver selection using a Swiss-system tou
 ### 1.1 Problem Statement
 
 Given:
+
 - Set of solvers S = {s₁, s₂, ..., sₖ}
 - Historical performance database D = {(x_i, s_j, p_ij)}ₙ where:
   - x_i: problem instance features
   - s_j: solver that was used
   - p_ij: performance metric (e.g., solution quality, runtime)
-- New problem instance x*
+- New problem instance x\*
 
-Objective: Select solver s* ∈ S that maximizes expected performance E[p(x*, s*)]
+Objective: Select solver s* ∈ S that maximizes expected performance E[p(x*, s\*)]
 
 ### 1.2 Core Algorithm
 
@@ -397,6 +398,7 @@ class FeatureExtractor:
 **META-C1: Tournament-Based Meta-Learning for Multi-Agent Solver Selection**
 
 **Research Gap**: Existing meta-learning approaches (SATzilla, AutoFolio, SMAC) use:
+
 - Pairwise performance prediction
 - Regression-based models
 - Independent solver evaluation
@@ -404,6 +406,7 @@ class FeatureExtractor:
 **Novel Approach**: Swiss-system tournament with cluster-specific Elo ratings discovers complementary solver synergies through competitive dynamics.
 
 **Expected Impact**:
+
 - 15-25% performance improvement over pairwise selection
 - Improved generalization through tournament dynamics
 - Interpretable solver rankings via Elo ratings
@@ -426,6 +429,7 @@ Implement and compare against 10 state-of-the-art methods:
 ### 2.3 Benchmark Datasets
 
 **ASlib (Algorithm Selection Library)**: 30+ benchmark scenarios
+
 - SAT solving: SAT11-HAND, SAT11-INDU, SAT11-RAND
 - QBF solving: QBFEVAL
 - CSP solving: CSP-2010
@@ -433,6 +437,7 @@ Implement and compare against 10 state-of-the-art methods:
 - Traveling Salesman: TSP instances
 
 **Expected Performance**:
+
 - Par10 score improvement: 20-30% over best baseline
 - Selection accuracy: 70-80% (selecting top-3 solver)
 - Computational overhead: <5% of solver runtime
@@ -444,6 +449,7 @@ Implement and compare against 10 state-of-the-art methods:
 ### Phase 1: Core Algorithm (Weeks 1-2)
 
 **Week 1**:
+
 - [ ] Implement `MetaLibria` base class
 - [ ] Implement `FeatureExtractor` with generic feature extraction
 - [ ] Implement Elo rating system (global + per-cluster)
@@ -451,6 +457,7 @@ Implement and compare against 10 state-of-the-art methods:
 - [ ] Unit tests for core components
 
 **Week 2**:
+
 - [ ] Implement UCB-based solver selection
 - [ ] Implement online Elo updates
 - [ ] Integration with `LibriaSolver` base class
@@ -461,6 +468,7 @@ Implement and compare against 10 state-of-the-art methods:
 ### Phase 2: Baseline Implementation (Weeks 3-4)
 
 **Week 3**:
+
 - [ ] Implement SATzilla wrapper
 - [ ] Implement AutoFolio wrapper
 - [ ] Implement SMAC wrapper
@@ -468,6 +476,7 @@ Implement and compare against 10 state-of-the-art methods:
 - [ ] Implement BOHB wrapper
 
 **Week 4**:
+
 - [ ] Implement Neural Algorithm Selection
 - [ ] Implement Random Forest baseline
 - [ ] Implement LinUCB baseline
@@ -479,6 +488,7 @@ Implement and compare against 10 state-of-the-art methods:
 ### Phase 3: Benchmarking (Weeks 5-7)
 
 **Week 5-6**:
+
 - [ ] Download and preprocess ASlib datasets (30 scenarios)
 - [ ] Implement Par10 metric
 - [ ] Implement selection accuracy metric
@@ -486,6 +496,7 @@ Implement and compare against 10 state-of-the-art methods:
 - [ ] Run all 8 baselines on all 30 scenarios
 
 **Week 7**:
+
 - [ ] Statistical significance testing (Wilcoxon signed-rank)
 - [ ] Performance analysis and debugging
 - [ ] Hyperparameter tuning via cross-validation
@@ -506,18 +517,21 @@ Implement and compare against 10 state-of-the-art methods:
 ### Phase 5: Paper Writing (Weeks 9-11)
 
 **Week 9**: Draft writing
+
 - [ ] Introduction (problem motivation, contributions)
 - [ ] Related work (meta-learning, algorithm selection)
 - [ ] Method (algorithm description, complexity analysis)
 - [ ] Experimental setup (datasets, baselines, metrics)
 
 **Week 10**: Results and analysis
+
 - [ ] Results section (tables, plots, statistical tests)
 - [ ] Ablation studies
 - [ ] Case studies (qualitative analysis)
 - [ ] Discussion
 
 **Week 11**: Finalization
+
 - [ ] Abstract and conclusion
 - [ ] Supplementary materials
 - [ ] Proofreading and formatting
@@ -922,6 +936,7 @@ print(f"Wilcoxon test: statistic={stat}, p-value={p_value}")
 ### 7.1 Target Venue
 
 **AutoML Conference 2025**
+
 - Location: Vancouver, Canada
 - Dates: September 8-11, 2025
 - Submission Deadline: March 31, 2025 (🔴 CRITICAL)
@@ -929,6 +944,7 @@ print(f"Wilcoxon test: statistic={stat}, p-value={p_value}")
 - Camera-ready: July 15, 2025
 
 **Backup Venues**:
+
 - NeurIPS 2025 (if AutoML rejection)
 - ICML 2026
 - AAAI 2026
@@ -938,6 +954,7 @@ print(f"Wilcoxon test: statistic={stat}, p-value={p_value}")
 **Title**: "Tournament-Based Meta-Learning for Multi-Agent Solver Selection"
 
 **Abstract** (250 words):
+
 ```
 Meta-learning for algorithm selection has traditionally relied on pairwise
 performance prediction or regression-based models that treat solvers
@@ -966,6 +983,7 @@ Itqān Libria Suite for multi-agent optimization.
 ```
 
 **Section Outline**:
+
 1. Introduction (2 pages)
 2. Related Work (1.5 pages)
 3. Method (3 pages)
@@ -984,6 +1002,7 @@ Itqān Libria Suite for multi-agent optimization.
 6. Conclusion (0.5 pages)
 
 **Supplementary Materials**:
+
 - Complete algorithm pseudocode
 - Hyperparameter sensitivity analysis
 - Extended ablation studies
@@ -992,19 +1011,19 @@ Itqān Libria Suite for multi-agent optimization.
 
 ### 7.3 Writing Timeline
 
-| Week | Milestone | Deadline |
-|------|-----------|----------|
-| 9 | Introduction + Related Work | Feb 12 |
-| 9 | Method section | Feb 14 |
-| 10 | Experimental setup | Feb 19 |
-| 10 | Results + Ablations | Feb 21 |
-| 10 | Discussion + Conclusion | Feb 23 |
-| 11 | Supplementary materials | Feb 26 |
-| 11 | First internal review | Feb 28 |
-| 11 | Address review feedback | Mar 5 |
-| 12 | Second internal review | Mar 12 |
-| 12 | Final proofreading | Mar 24 |
-| 12 | **SUBMIT** | **Mar 31** |
+| Week | Milestone                   | Deadline   |
+| ---- | --------------------------- | ---------- |
+| 9    | Introduction + Related Work | Feb 12     |
+| 9    | Method section              | Feb 14     |
+| 10   | Experimental setup          | Feb 19     |
+| 10   | Results + Ablations         | Feb 21     |
+| 10   | Discussion + Conclusion     | Feb 23     |
+| 11   | Supplementary materials     | Feb 26     |
+| 11   | First internal review       | Feb 28     |
+| 11   | Address review feedback     | Mar 5      |
+| 12   | Second internal review      | Mar 12     |
+| 12   | Final proofreading          | Mar 24     |
+| 12   | **SUBMIT**                  | **Mar 31** |
 
 ---
 
@@ -1065,6 +1084,7 @@ libria-meta/
 ### Risk 1: AutoML Deadline (March 31, 2025)
 
 **Mitigation**:
+
 - Start immediately (Week 1)
 - Parallel work: algorithm implementation + baseline setup
 - Weekly progress reviews
@@ -1073,6 +1093,7 @@ libria-meta/
 ### Risk 2: ASlib Benchmark Complexity
 
 **Mitigation**:
+
 - Start with subset (10 scenarios) for prototyping
 - Expand to full 30 scenarios in Week 6
 - Use parallel computation for evaluation
@@ -1080,6 +1101,7 @@ libria-meta/
 ### Risk 3: Baseline Implementation Effort
 
 **Mitigation**:
+
 - Use existing implementations where possible (SATzilla code available)
 - Focus on 5 strongest baselines if time-constrained
 - Simplify baseline configurations
@@ -1087,6 +1109,7 @@ libria-meta/
 ### Risk 4: Statistical Significance
 
 **Mitigation**:
+
 - Plan for 10-fold cross-validation
 - Wilcoxon signed-rank test for paired comparison
 - If results marginal, expand scenarios or add problem instances
@@ -1096,6 +1119,7 @@ libria-meta/
 ## 10. Success Criteria
 
 **Minimum Viable Submission**:
+
 - ✅ MetaLibria implementation complete
 - ✅ Evaluated on 20+ ASlib scenarios
 - ✅ Compared against 5 baselines (SATzilla, AutoFolio, RF, LinUCB, SMAC)
@@ -1105,6 +1129,7 @@ libria-meta/
 - ✅ 8-page paper + supplementary materials
 
 **Strong Submission** (target):
+
 - ✅ Evaluated on all 30 ASlib scenarios
 - ✅ Compared against 8 baselines
 - ✅ 20-30% Par10 improvement
@@ -1117,6 +1142,7 @@ libria-meta/
 ## 11. Next Actions
 
 **Immediate (Week 1)**:
+
 1. Set up repository: `libria-meta/`
 2. Implement `MetaLibria` base class
 3. Implement `FeatureExtractor`
@@ -1124,18 +1150,21 @@ libria-meta/
 5. Write unit tests
 
 **Short-term (Week 2-4)**:
+
 1. Complete MetaLibria implementation
 2. Implement 5 key baselines
 3. Download ASlib datasets
 4. Set up evaluation harness
 
 **Mid-term (Week 5-8)**:
+
 1. Run full benchmarks
 2. Ablation studies
 3. Statistical analysis
 4. Generate plots
 
 **Long-term (Week 9-12)**:
+
 1. Write paper draft
 2. Internal reviews
 3. Finalize submission

@@ -34,7 +34,12 @@ export interface SecurityRecommendation {
   title: string;
   description: string;
   priority: 'high' | 'medium' | 'low';
-  category: 'authentication' | 'authorization' | 'encryption' | 'input-validation' | 'configuration';
+  category:
+    | 'authentication'
+    | 'authorization'
+    | 'encryption'
+    | 'input-validation'
+    | 'configuration';
   implementation: string;
 }
 
@@ -183,5 +188,4 @@ export interface SecurityConfig {
     defaultPolicy: 'allow' | 'deny';
     mfaRequired: boolean;
   };
-}</content>
-</edit_file>
+}

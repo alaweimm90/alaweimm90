@@ -28,7 +28,12 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       },
-      "capabilities": ["repository_management", "pull_request_operations", "issue_tracking", "code_search"],
+      "capabilities": [
+        "repository_management",
+        "pull_request_operations",
+        "issue_tracking",
+        "code_search"
+      ],
       "tags": ["code_management", "priority-1"]
     },
     "filesystem": {
@@ -47,12 +52,22 @@
         "PUPPETEER_HEADLESS": "true",
         "PUPPETEER_TIMEOUT": "30000"
       },
-      "capabilities": ["browser_control", "page_navigation", "screenshot_capture", "pdf_generation"],
+      "capabilities": [
+        "browser_control",
+        "page_navigation",
+        "screenshot_capture",
+        "pdf_generation"
+      ],
       "tags": ["browser_automation", "priority-2"]
     },
     "sqlite": {
       "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-sqlite", "--db-path", ".metaHub/data/orchestration.db"],
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        ".metaHub/data/orchestration.db"
+      ],
       "description": "SQLite database for orchestration data",
       "env": {},
       "capabilities": ["sql_queries", "schema_inspection", "data_export"],
@@ -114,7 +129,13 @@
         "PLAYWRIGHT_TIMEOUT": "60000",
         "PLAYWRIGHT_BROWSERS_PATH": ".metaHub/playwright-browsers"
       },
-      "capabilities": ["browser_testing", "ui_validation", "screenshot_compare", "e2e_testing", "test_generation"],
+      "capabilities": [
+        "browser_testing",
+        "ui_validation",
+        "screenshot_compare",
+        "e2e_testing",
+        "test_generation"
+      ],
       "tags": ["testing", "quality_assurance", "priority-1", "devops"]
     },
     "sequential-thinking": {
@@ -122,19 +143,41 @@
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
       "description": "Dynamic and reflective problem-solving for debugging complex issues",
       "env": {},
-      "capabilities": ["structured_reasoning", "debug_workflows", "problem_decomposition", "step_by_step_analysis"],
+      "capabilities": [
+        "structured_reasoning",
+        "debug_workflows",
+        "problem_decomposition",
+        "step_by_step_analysis"
+      ],
       "tags": ["debugging", "reasoning", "priority-1", "devops"]
     },
     "terraform": {
       "command": "docker",
-      "args": ["run", "--rm", "-i", "-e", "TFE_ADDRESS", "-e", "TFE_TOKEN", "-e", "ENABLE_TF_OPERATIONS", "hashicorp/terraform-mcp-server:latest"],
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "TFE_ADDRESS",
+        "-e",
+        "TFE_TOKEN",
+        "-e",
+        "ENABLE_TF_OPERATIONS",
+        "hashicorp/terraform-mcp-server:latest"
+      ],
       "description": "HashiCorp Terraform MCP for infrastructure as code automation",
       "env": {
         "TFE_ADDRESS": "https://app.terraform.io",
         "TFE_TOKEN": "${TERRAFORM_TOKEN}",
         "ENABLE_TF_OPERATIONS": "true"
       },
-      "capabilities": ["terraform_plan", "terraform_apply", "workspace_management", "state_inspection", "iac_validation"],
+      "capabilities": [
+        "terraform_plan",
+        "terraform_apply",
+        "workspace_management",
+        "state_inspection",
+        "iac_validation"
+      ],
       "tags": ["infrastructure", "iac", "deployment", "priority-1", "devops"]
     },
     "git": {
@@ -147,12 +190,25 @@
     },
     "kubernetes": {
       "command": "docker",
-      "args": ["run", "--rm", "-i", "-v", "${HOME}/.kube:/root/.kube", "ghcr.io/manusa/kubernetes-mcp-server:latest"],
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "${HOME}/.kube:/root/.kube",
+        "ghcr.io/manusa/kubernetes-mcp-server:latest"
+      ],
       "description": "Kubernetes cluster management and CRUD operations",
       "env": {
         "KUBECONFIG": "/root/.kube/config"
       },
-      "capabilities": ["k8s_crud", "pod_management", "deployment_operations", "service_discovery", "namespace_management"],
+      "capabilities": [
+        "k8s_crud",
+        "pod_management",
+        "deployment_operations",
+        "service_discovery",
+        "namespace_management"
+      ],
       "tags": ["infrastructure", "container_orchestration", "priority-2", "devops"]
     },
     "prometheus": {
@@ -162,7 +218,12 @@
       "env": {
         "PROMETHEUS_URL": "${PROMETHEUS_URL}"
       },
-      "capabilities": ["metrics_query", "performance_analysis", "alert_inspection", "time_series_analysis"],
+      "capabilities": [
+        "metrics_query",
+        "performance_analysis",
+        "alert_inspection",
+        "time_series_analysis"
+      ],
       "tags": ["monitoring", "observability", "priority-2", "devops"]
     },
     "semgrep": {
@@ -172,7 +233,13 @@
       "env": {
         "SEMGREP_APP_TOKEN": "${SEMGREP_APP_TOKEN}"
       },
-      "capabilities": ["security_scanning", "vulnerability_detection", "sast_analysis", "code_quality", "compliance_check"],
+      "capabilities": [
+        "security_scanning",
+        "vulnerability_detection",
+        "sast_analysis",
+        "code_quality",
+        "compliance_check"
+      ],
       "tags": ["security", "quality_assurance", "priority-1", "devops"]
     }
   },
@@ -188,11 +255,22 @@
     "infrastructure": ["terraform", "kubernetes"],
     "monitoring": ["prometheus"],
     "security": ["semgrep"],
-    "error-free-pipeline": ["git", "semgrep", "playwright", "terraform", "sequential-thinking", "prometheus"]
+    "error-free-pipeline": [
+      "git",
+      "semgrep",
+      "playwright",
+      "terraform",
+      "sequential-thinking",
+      "prometheus"
+    ]
   },
   "providerConfig": {
     "anthropic": {
-      "models": ["claude-sonnet-4-5-20250929", "claude-3-5-sonnet-20241022", "claude-3-opus-20240229"],
+      "models": [
+        "claude-sonnet-4-5-20250929",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-opus-20240229"
+      ],
       "defaultModel": "claude-sonnet-4-5-20250929",
       "apiKeyEnv": "ANTHROPIC_API_KEY"
     },

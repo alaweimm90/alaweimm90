@@ -342,13 +342,12 @@ flowchart LR
 
 _Generated from codebase analysis. View on GitHub for interactive diagrams._
 
-
 ## Codebase Statistics
 
-| Metric | Count |
-|--------|-------|
-| Templates | 17 |
-| Workflows | 23 |
-| Template Categories | 8 |
+| Metric              | Count |
+| ------------------- | ----- |
+| Templates           | 17    |
+| Workflows           | 23    |
+| Template Categories | 8     |
 
-*Auto-generated on 2025-11-30*
+_Auto-generated on 2025-11-30_

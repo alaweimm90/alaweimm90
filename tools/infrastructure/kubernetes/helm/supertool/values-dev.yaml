@@ -5,7 +5,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/username/supertool
   pullPolicy: Always
-  tag: "dev-latest"
+  tag: 'dev-latest'
 
 resources:
   limits:
@@ -16,36 +16,36 @@ resources:
     memory: 256Mi
 
 autoscaling:
-  enabled: false  # Disabled in dev
+  enabled: false # Disabled in dev
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: 'nginx'
   annotations: {}
   hosts:
     - host: dev-supertool.example.com
       paths:
         - path: /
           pathType: Prefix
-  tls: []  # No TLS in dev
+  tls: [] # No TLS in dev
 
 env:
   - name: NODE_ENV
-    value: "development"
+    value: 'development'
   - name: LOG_LEVEL
-    value: "debug"
+    value: 'debug'
   - name: PORT
-    value: "8080"
+    value: '8080'
   - name: DEBUG
-    value: "*"
+    value: '*'
 
 podDisruptionBudget:
-  enabled: false  # Disabled in dev
+  enabled: false # Disabled in dev
 
 networkPolicy:
-  enabled: false  # Disabled for easier debugging
+  enabled: false # Disabled for easier debugging
 
 serviceMonitor:
-  enabled: false  # Disabled in dev
+  enabled: false # Disabled in dev
 
-affinity: {}  # No affinity rules in dev
+affinity: {} # No affinity rules in dev

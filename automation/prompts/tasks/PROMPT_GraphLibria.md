@@ -14,6 +14,7 @@ GraphLibria implements information-theoretic network topology optimization for m
 **Core Innovation**: Information-theoretic topology optimization (🟢 STRONG novelty)
 
 **Research Contributions**:
+
 - **GRAPH-C1**: Mutual Information Maximization for Topology Design
 - **GRAPH-C2**: Spectral Graph Learning with Communication Constraints
 
@@ -27,16 +28,19 @@ GraphLibria implements information-theoretic network topology optimization for m
 
 **Network Topology Optimization**:
 Given:
+
 - n agents with state variables {s₁, s₂, ..., sₙ}
 - Historical communication logs: {(i, j, message_ij, outcome)}
 - Constraints: max_degree, budget, latency
 
-Find adjacency matrix A* maximizing:
+Find adjacency matrix A\* maximizing:
+
 ```
 I(S; A) = Mutual Information between states and topology
 ```
 
 Subject to:
+
 - Degree constraints: ∑ⱼ A[i,j] ≤ max_degree
 - Budget: ∑ᵢⱼ A[i,j] × cost[i,j] ≤ B
 - Connectivity: Graph is connected
@@ -46,6 +50,7 @@ Subject to:
 ### 1.2 Core Algorithm
 
 **GraphLibria Architecture**:
+
 ```
 Input: Agent states, Communication history, Constraints
 │
@@ -457,11 +462,13 @@ class BinningMIEstimator:
 ### 2.1 Novel Contributions
 
 **GRAPH-C1: Mutual Information Maximization for Topology Design**
+
 - **Gap**: Existing work (ARG-DESIGNER, G-Designer) use heuristics or RL, no explicit MI objective
 - **Approach**: Direct MI maximization using neural estimation + spectral optimization
 - **Impact**: 20-30% improvement in task performance via better information flow
 
 **GRAPH-C2: Spectral Graph Learning with Communication Constraints**
+
 - **Gap**: Spectral methods for graph learning don't handle degree/budget constraints
 - **Approach**: Projected gradient descent with Fiedler value regularization
 - **Impact**: Guarantees connectivity while optimizing MI
@@ -487,15 +494,18 @@ class BinningMIEstimator:
 ### 2.3 Benchmark Datasets
 
 **Multi-Agent Coordination Tasks**:
+
 - Graph Neural Networks benchmarks
 - Multi-agent pathfinding
 - Distributed optimization
 
 **ATLAS Workflows**:
+
 - Research agent communication patterns
 - Dialectical workflows
 
 **Expected Performance**:
+
 - 20-30% task performance improvement
 - Higher algebraic connectivity (better information flow)
 - Lower diameter (faster convergence)
@@ -505,7 +515,9 @@ class BinningMIEstimator:
 ## 3. Implementation Roadmap
 
 ### Phase 1: Core Algorithm (Weeks 1-2)
+
 ### Phase 2: Benchmarking (Weeks 3-5)
+
 ### Phase 3: Paper Writing (Weeks 6-8)
 
 ---

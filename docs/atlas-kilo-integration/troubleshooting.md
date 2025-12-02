@@ -27,11 +27,13 @@ atlas doctor
 ### Problem: Bridge Not Responding
 
 **Symptoms:**
+
 - Commands hang or timeout
 - Bridge status shows "unhealthy"
 - Error: "Bridge communication failed"
 
 **Diagnosis:**
+
 ```bash
 # Check bridge status
 atlas bridge status --detailed
@@ -47,17 +49,20 @@ curl -I https://kilo-api.example.com/health
 **Solutions:**
 
 1. **Restart Bridge Services**
+
    ```bash
    atlas bridge restart
    ```
 
 2. **Check Configuration**
+
    ```bash
    atlas config show bridges
    # Verify endpoint URLs and credentials
    ```
 
 3. **Network Issues**
+
    ```bash
    # Check firewall settings
    # Verify DNS resolution
@@ -74,11 +79,13 @@ curl -I https://kilo-api.example.com/health
 ### Problem: Authentication Failures
 
 **Symptoms:**
+
 - HTTP 401/403 errors
 - "Invalid credentials" messages
 - Bridge status shows authentication errors
 
 **Diagnosis:**
+
 ```bash
 # Check API key configuration
 echo $KILO_API_KEY
@@ -93,6 +100,7 @@ atlas config show kilo.apiKey
 **Solutions:**
 
 1. **Update API Keys**
+
    ```bash
    # Set new API key
    atlas config set kilo.apiKey "new-api-key"
@@ -107,6 +115,7 @@ atlas config show kilo.apiKey
    - Confirm repository permissions
 
 3. **Certificate Issues**
+
    ```bash
    # Check certificate validity
    openssl s_client -connect kilo-api.example.com:443
@@ -120,11 +129,13 @@ atlas config show kilo.apiKey
 ### Problem: Configuration Not Loading
 
 **Symptoms:**
+
 - "Configuration file not found" errors
 - Settings not taking effect
 - Default values being used
 
 **Diagnosis:**
+
 ```bash
 # Check configuration file location
 ls -la atlas.config.json
@@ -142,6 +153,7 @@ atlas config show --debug
 **Solutions:**
 
 1. **File Location Issues**
+
    ```bash
    # Create configuration file
    atlas init --config-only
@@ -151,6 +163,7 @@ atlas config show --debug
    ```
 
 2. **JSON Syntax Errors**
+
    ```bash
    # Validate and fix JSON
    atlas config validate ./atlas.config.json --fix
@@ -160,6 +173,7 @@ atlas config show --debug
    ```
 
 3. **Permission Issues**
+
    ```bash
    # Fix file permissions
    chmod 644 atlas.config.json
@@ -171,11 +185,13 @@ atlas config show --debug
 ### Problem: Configuration Overrides Not Working
 
 **Symptoms:**
+
 - Environment variables ignored
 - Command-line flags not applied
 - Configuration precedence issues
 
 **Diagnosis:**
+
 ```bash
 # Check precedence order
 atlas config show --effective --debug
@@ -191,6 +207,7 @@ atlas --help | grep config
 **Solutions:**
 
 1. **Environment Variable Issues**
+
    ```bash
    # Export variables correctly
    export ATLAS_CONFIG_FILE="./atlas.config.json"
@@ -201,6 +218,7 @@ atlas --help | grep config
    ```
 
 2. **Command-line Precedence**
+
    ```bash
    # Use correct flag syntax
    atlas --config ./config.json command
@@ -214,11 +232,13 @@ atlas --help | grep config
 ### Problem: Validation Taking Too Long
 
 **Symptoms:**
+
 - Validation timeouts
 - Slow response times
 - Performance degradation
 
 **Diagnosis:**
+
 ```bash
 # Check validation performance
 atlas bridge test --performance
@@ -233,6 +253,7 @@ atlas analyze repo . --depth shallow --format json
 **Solutions:**
 
 1. **Optimize Validation Settings**
+
    ```bash
    # Adjust timeout settings
    atlas config set bridges.a2k.validation.timeoutMs 120000
@@ -245,6 +266,7 @@ atlas analyze repo . --depth shallow --format json
    ```
 
 2. **Reduce Operation Scope**
+
    ```bash
    # Use shallower analysis
    atlas analyze repo . --depth shallow
@@ -257,6 +279,7 @@ atlas analyze repo . --depth shallow --format json
    ```
 
 3. **Performance Tuning**
+
    ```bash
    # Increase connection pool
    atlas config set bridges.a2k.connection.poolSize 10
@@ -268,11 +291,13 @@ atlas analyze repo . --depth shallow --format json
 ### Problem: False Positive Validations
 
 **Symptoms:**
+
 - Valid code flagged as invalid
 - Overly strict validation rules
 - Policy conflicts
 
 **Diagnosis:**
+
 ```bash
 # Check validation rules
 atlas config show bridges.a2k.validation
@@ -288,6 +313,7 @@ atlas config show kilo.policies
 **Solutions:**
 
 1. **Adjust Validation Strictness**
+
    ```bash
    # Use lenient validation for development
    atlas config set bridges.a2k.validation.strictness lenient
@@ -297,6 +323,7 @@ atlas config show kilo.policies
    ```
 
 2. **Customize Policies**
+
    ```bash
    # Override specific policies
    atlas config set kilo.policies.overrides.security.maxPasswordLength 256
@@ -306,6 +333,7 @@ atlas config show kilo.policies
    ```
 
 3. **Policy Conflicts**
+
    ```bash
    # Review policy precedence
    atlas compliance check . --policies security --debug
@@ -319,11 +347,13 @@ atlas config show kilo.policies
 ### Problem: Template Not Found
 
 **Symptoms:**
+
 - "Template not found" errors
 - Empty template responses
 - Template list not showing expected items
 
 **Diagnosis:**
+
 ```bash
 # List available templates
 atlas template list --all
@@ -341,6 +371,7 @@ atlas template list --cache-info
 **Solutions:**
 
 1. **Template Repository Issues**
+
    ```bash
    # Update template repository
    atlas config set kilo.templates.branch main
@@ -353,6 +384,7 @@ atlas template list --cache-info
    ```
 
 2. **Template Path Issues**
+
    ```bash
    # Verify template paths
    atlas config set bridges.a2k.templates.basePath "./templates/devops"
@@ -362,6 +394,7 @@ atlas template list --cache-info
    ```
 
 3. **Version Conflicts**
+
    ```bash
    # Use latest version
    atlas template get cicd/github-actions --version latest
@@ -373,11 +406,13 @@ atlas template list --cache-info
 ### Problem: Template Parameter Errors
 
 **Symptoms:**
+
 - Template generation fails
 - Placeholder replacement issues
 - Invalid parameter errors
 
 **Diagnosis:**
+
 ```bash
 # Validate template parameters
 atlas template validate cicd/github-actions --parameters ./params.json
@@ -392,6 +427,7 @@ atlas template get cicd/github-actions --param.test value --dry-run
 **Solutions:**
 
 1. **Parameter Format Issues**
+
    ```json
    // Correct parameter format
    {
@@ -402,6 +438,7 @@ atlas template get cicd/github-actions --param.test value --dry-run
    ```
 
 2. **Missing Required Parameters**
+
    ```bash
    # Check template requirements
    atlas template get cicd/github-actions --help
@@ -411,6 +448,7 @@ atlas template get cicd/github-actions --param.test value --dry-run
    ```
 
 3. **Placeholder Conflicts**
+
    ```bash
    # Escape special characters
    atlas template get cicd/github-actions --param.command "npm run build"
@@ -424,11 +462,13 @@ atlas template get cicd/github-actions --param.test value --dry-run
 ### Problem: Compliance Score Inconsistent
 
 **Symptoms:**
+
 - Varying compliance scores for same code
 - Unexpected violations
 - Compliance check failures
 
 **Diagnosis:**
+
 ```bash
 # Run compliance check with debug
 atlas compliance check . --debug --format json
@@ -444,6 +484,7 @@ atlas compliance check . --policies code_quality --format detailed
 **Solutions:**
 
 1. **Policy Version Issues**
+
    ```bash
    # Update policy versions
    atlas config set kilo.policies.version latest
@@ -453,6 +494,7 @@ atlas compliance check . --policies code_quality --format detailed
    ```
 
 2. **Inconsistent Rule Application**
+
    ```bash
    # Standardize rule settings
    atlas config set kilo.policies.strictMode true
@@ -462,6 +504,7 @@ atlas compliance check . --policies code_quality --format detailed
    ```
 
 3. **Context-Aware Issues**
+
    ```bash
    # Provide proper context
    atlas compliance check ./src/auth.js --context framework=express
@@ -475,11 +518,13 @@ atlas compliance check . --policies code_quality --format detailed
 ### Problem: Slow Operations
 
 **Symptoms:**
+
 - Commands taking too long
 - Timeout errors
 - High resource usage
 
 **Diagnosis:**
+
 ```bash
 # Performance profiling
 atlas bridge test --performance --duration 60
@@ -495,6 +540,7 @@ free -h
 **Solutions:**
 
 1. **Caching Optimization**
+
    ```bash
    # Enable all caches
    atlas config set bridges.a2k.templates.cacheEnabled true
@@ -505,6 +551,7 @@ free -h
    ```
 
 2. **Connection Pooling**
+
    ```bash
    # Optimize connection settings
    atlas config set bridges.a2k.connection.poolSize 20
@@ -512,6 +559,7 @@ free -h
    ```
 
 3. **Batch Processing**
+
    ```bash
    # Enable batch operations
    atlas config set bridges.a2k.validation.batchSize 10
@@ -556,13 +604,13 @@ grep "duration" ~/.atlas/logs/atlas.log | sort -n
 
 ### Common Log Messages
 
-| Log Message | Meaning | Action |
-|-------------|---------|--------|
-| `Bridge connection failed` | Network/connectivity issue | Check network, restart services |
-| `Validation timeout` | Operation taking too long | Increase timeout, optimize operation |
-| `Template not found` | Template repository issue | Update repository, refresh cache |
-| `Configuration invalid` | Config file problem | Validate config, check syntax |
-| `Authentication failed` | Credential issue | Update API keys, check permissions |
+| Log Message                | Meaning                    | Action                               |
+| -------------------------- | -------------------------- | ------------------------------------ |
+| `Bridge connection failed` | Network/connectivity issue | Check network, restart services      |
+| `Validation timeout`       | Operation taking too long  | Increase timeout, optimize operation |
+| `Template not found`       | Template repository issue  | Update repository, refresh cache     |
+| `Configuration invalid`    | Config file problem        | Validate config, check syntax        |
+| `Authentication failed`    | Credential issue           | Update API keys, check permissions   |
 
 ## Preventive Maintenance
 

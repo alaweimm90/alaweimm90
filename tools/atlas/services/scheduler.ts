@@ -1,1 +1,1 @@
-// ATLAS Scheduler - Automated optimization scheduling and execution 
+// ATLAS Scheduler - Automated optimization scheduling and execution

@@ -7,14 +7,14 @@ on:
   pull_request:
     branches: [main, master]
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
-  workflow_dispatch:  # Allow manual trigger
+    - cron: '0 */6 * * *' # Every 6 hours
+  workflow_dispatch: # Allow manual trigger
 
 # Explicit minimal permissions - security hardening
 permissions:
   contents: read
-  actions: write  # For artifact upload
-  pull-requests: write  # For PR comments
+  actions: write # For artifact upload
+  pull-requests: write # For PR comments
 
 jobs:
   enforce:

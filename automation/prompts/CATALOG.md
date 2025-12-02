@@ -22,63 +22,63 @@ Project-specific prompts that define the context, goals, and constraints for eac
 
 ### Scientific & Research Projects
 
-| File | Project | Description |
-|------|---------|-------------|
-| `SIMCORE_CLAUDE_CODE_SUPERPROMPT.md` | SimCore | Simulation core development prompt |
-| `TALAI_SUPERPROMPT.md` | TalAI | AI research assistant prompt |
-| `SPIN_CIRC_SUPERPROMPT.md` | SpinCirc | Spintronics circuit design |
-| `MAG_LOGIC_SUPERPROMPT.md` | MagLogic | Magnetic logic systems |
-| `SCI_COMP_SUPERPROMPT.md` | SciComp | Scientific computing |
-| `QUBE_ML_SUPERPROMPT.md` | QubeML | Quantum ML systems |
-| `QMAT_SIM_SUPERPROMPT.md` | QMatSim | Quantum materials simulation |
-| `REPZ_SUPERPROMPT.md` | Repz | Business/reputation system |
-| `LOCAL_AI_ORCHESTRATION_SUPERPROMPT.md` | MEZAN | Local AI orchestration |
+| File                                    | Project  | Description                        |
+| --------------------------------------- | -------- | ---------------------------------- |
+| `SIMCORE_CLAUDE_CODE_SUPERPROMPT.md`    | SimCore  | Simulation core development prompt |
+| `TALAI_SUPERPROMPT.md`                  | TalAI    | AI research assistant prompt       |
+| `SPIN_CIRC_SUPERPROMPT.md`              | SpinCirc | Spintronics circuit design         |
+| `MAG_LOGIC_SUPERPROMPT.md`              | MagLogic | Magnetic logic systems             |
+| `SCI_COMP_SUPERPROMPT.md`               | SciComp  | Scientific computing               |
+| `QUBE_ML_SUPERPROMPT.md`                | QubeML   | Quantum ML systems                 |
+| `QMAT_SIM_SUPERPROMPT.md`               | QMatSim  | Quantum materials simulation       |
+| `REPZ_SUPERPROMPT.md`                   | Repz     | Business/reputation system         |
+| `LOCAL_AI_ORCHESTRATION_SUPERPROMPT.md` | MEZAN    | Local AI orchestration             |
 
 ### Engineering & Development
 
-| File | Domain | Description |
-|------|--------|-------------|
-| `api-development.md` | API | API development and integration standards |
-| `data-engineering-pipeline.md` | Data | Data engineering pipeline framework |
-| `ml-pipeline-development.md` | ML/AI | ML/AI pipeline development guide |
-| `automation-ts-implementation.md` | Automation | TypeScript automation CLI implementation |
+| File                              | Domain     | Description                               |
+| --------------------------------- | ---------- | ----------------------------------------- |
+| `api-development.md`              | API        | API development and integration standards |
+| `data-engineering-pipeline.md`    | Data       | Data engineering pipeline framework       |
+| `ml-pipeline-development.md`      | ML/AI      | ML/AI pipeline development guide          |
+| `automation-ts-implementation.md` | Automation | TypeScript automation CLI implementation  |
 
 ### Testing & Quality Assurance
 
-| File | Domain | Description |
-|------|--------|-------------|
-| `TESTING_QA_SUPERPROMPT.md` | Testing | Unit, integration, E2E testing framework |
-| `CICD_PIPELINE_SUPERPROMPT.md` | CI/CD | CI/CD pipeline design and automation |
-| `GATING_APPROVAL_SUPERPROMPT.md` | Gating | Code review, approval workflows, security gates |
+| File                             | Domain  | Description                                     |
+| -------------------------------- | ------- | ----------------------------------------------- |
+| `TESTING_QA_SUPERPROMPT.md`      | Testing | Unit, integration, E2E testing framework        |
+| `CICD_PIPELINE_SUPERPROMPT.md`   | CI/CD   | CI/CD pipeline design and automation            |
+| `GATING_APPROVAL_SUPERPROMPT.md` | Gating  | Code review, approval workflows, security gates |
 
 ### Architecture & Organization
 
-| File | Domain | Description |
-|------|--------|-------------|
+| File                                   | Domain       | Description                         |
+| -------------------------------------- | ------------ | ----------------------------------- |
 | `MONOREPO_ARCHITECTURE_SUPERPROMPT.md` | Architecture | Monorepo management, modular design |
-| `GOVERNANCE_COMPLIANCE_SUPERPROMPT.md` | Governance | Compliance, ethics, access controls |
+| `GOVERNANCE_COMPLIANCE_SUPERPROMPT.md` | Governance   | Compliance, ethics, access controls |
 
 ### UI/UX & Platforms
 
-| File | Domain | Description |
-|------|--------|-------------|
-| `UI_UX_DESIGN_SUPERPROMPT.md` | Design | UI/UX, accessibility, design systems |
+| File                                 | Domain     | Description                            |
+| ------------------------------------ | ---------- | -------------------------------------- |
+| `UI_UX_DESIGN_SUPERPROMPT.md`        | Design     | UI/UX, accessibility, design systems   |
 | `PLATFORM_DEPLOYMENT_SUPERPROMPT.md` | Deployment | Cloud infrastructure, SEO, performance |
 
 ### Security & AI
 
-| File | Domain | Description |
-|------|--------|-------------|
-| `SECURITY_CYBERSECURITY_SUPERPROMPT.md` | Security | AppSec, DevSecOps, threat modeling |
-| `AI_ML_INTEGRATION_SUPERPROMPT.md` | AI/ML | LLM integration, RAG, MLOps |
-| `PROMPT_OPTIMIZATION_SUPERPROMPT.md` | Prompts | Prompt engineering, IDE optimization |
+| File                                    | Domain   | Description                          |
+| --------------------------------------- | -------- | ------------------------------------ |
+| `SECURITY_CYBERSECURITY_SUPERPROMPT.md` | Security | AppSec, DevSecOps, threat modeling   |
+| `AI_ML_INTEGRATION_SUPERPROMPT.md`      | AI/ML    | LLM integration, RAG, MLOps          |
+| `PROMPT_OPTIMIZATION_SUPERPROMPT.md`    | Prompts  | Prompt engineering, IDE optimization |
 
 ### Enterprise & Architecture (State-of-the-Art)
 
-| File | Domain | Description |
-|------|--------|-------------|
+| File                                   | Domain        | Description                                                     |
+| -------------------------------------- | ------------- | --------------------------------------------------------------- |
 | `ENTERPRISE_AGENTIC_AI_SUPERPROMPT.md` | Enterprise AI | Multi-layer caching, continuous intelligence, policy validation |
-| `KILO_CONSOLIDATION_SUPERPROMPT.md` | Architecture | Radical simplification, tool consolidation, shared libraries |
+| `KILO_CONSOLIDATION_SUPERPROMPT.md`    | Architecture  | Radical simplification, tool consolidation, shared libraries    |
 
 ---
 
@@ -88,33 +88,33 @@ Reusable prompts for common development and research tasks.
 
 ### Optimization & Cleanup
 
-| File | Purpose |
-|------|---------|
-| `PROMPT_OPTIMIZER.md` | Optimize prompts for better AI responses |
-| `ATLAS_PROMPT_OPTIMIZER.md` | Atlas-specific prompt optimization |
-| `MASTER_CLEANUP_PROMPT.md` | Repository cleanup and organization |
+| File                        | Purpose                                  |
+| --------------------------- | ---------------------------------------- |
+| `PROMPT_OPTIMIZER.md`       | Optimize prompts for better AI responses |
+| `ATLAS_PROMPT_OPTIMIZER.md` | Atlas-specific prompt optimization       |
+| `MASTER_CLEANUP_PROMPT.md`  | Repository cleanup and organization      |
 
 ### Design & Architecture
 
-| File | Purpose |
-|------|---------|
-| `DESIGN_SYSTEM_PROMPTS.md` | UI/UX design system prompts |
-| `BRAINSTORMING_PROMPTS.md` | Creative ideation and brainstorming |
-| `CRAZY_IDEAS_MASTER_PROMPT.md` | Unconventional problem-solving |
+| File                           | Purpose                             |
+| ------------------------------ | ----------------------------------- |
+| `DESIGN_SYSTEM_PROMPTS.md`     | UI/UX design system prompts         |
+| `BRAINSTORMING_PROMPTS.md`     | Creative ideation and brainstorming |
+| `CRAZY_IDEAS_MASTER_PROMPT.md` | Unconventional problem-solving      |
 
 ### Libria Optimization Suite
 
 Specialized prompts for optimization problem domains:
 
-| File | Domain |
-|------|--------|
-| `PROMPT_QAPLibria.md` | Quadratic Assignment Problem |
-| `PROMPT_FlowLibria.md` | Network Flow Optimization |
-| `PROMPT_GraphLibria.md` | Graph Optimization |
-| `PROMPT_AllocLibria.md` | Resource Allocation |
-| `PROMPT_DualLibria.md` | Dual Optimization |
-| `PROMPT_EvoLibria.md` | Evolutionary Algorithms |
-| `PROMPT_MetaLibria.md` | Meta-heuristics |
+| File                    | Domain                       |
+| ----------------------- | ---------------------------- |
+| `PROMPT_QAPLibria.md`   | Quadratic Assignment Problem |
+| `PROMPT_FlowLibria.md`  | Network Flow Optimization    |
+| `PROMPT_GraphLibria.md` | Graph Optimization           |
+| `PROMPT_AllocLibria.md` | Resource Allocation          |
+| `PROMPT_DualLibria.md`  | Dual Optimization            |
+| `PROMPT_EvoLibria.md`   | Evolutionary Algorithms      |
+| `PROMPT_MetaLibria.md`  | Meta-heuristics              |
 
 ---
 
@@ -142,7 +142,7 @@ def build_context(project: str, task: str) -> str:
     """Build context by combining project and task prompts."""
     project_prompt = load_prompt("project", project)
     task_prompt = load_prompt("tasks", task)
-    
+
     return f"""
 # Project Context
 {project_prompt}
@@ -171,22 +171,25 @@ def build_context(project: str, task: str) -> str:
 
 ```markdown
 ---
-name: "Prompt Name"
-version: "1.0"
-category: "project|tasks|system"
-tags: ["optimization", "research", "development"]
-created: "2024-11-29"
+name: 'Prompt Name'
+version: '1.0'
+category: 'project|tasks|system'
+tags: ['optimization', 'research', 'development']
+created: '2024-11-29'
 ---
 
 # Prompt Title
 
 ## Purpose
+
 [What this prompt does]
 
 ## Usage
+
 [How to use this prompt]
 
 ## Prompt Content
+
 [The actual prompt]
 ```
 
@@ -207,12 +210,12 @@ Add your new prompt to the appropriate table above.
 
 ## 📊 Statistics
 
-| Category | Count | Total Size |
-|----------|-------|------------|
-| Project Superprompts | 24 | ~220 KB |
-| Task Prompts | 16 | ~450 KB |
-| System Prompts | 9 | ~45 KB |
-| **Total** | **49** | **~715 KB** |
+| Category             | Count  | Total Size  |
+| -------------------- | ------ | ----------- |
+| Project Superprompts | 24     | ~220 KB     |
+| Task Prompts         | 16     | ~450 KB     |
+| System Prompts       | 9      | ~45 KB      |
+| **Total**            | **49** | **~715 KB** |
 
 ---
 

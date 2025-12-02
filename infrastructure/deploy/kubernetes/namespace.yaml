@@ -7,4 +7,4 @@ metadata:
     app: atlas
     environment: production
   annotations:
-    description: "ATLAS AI orchestration platform production namespace"
+    description: 'ATLAS AI orchestration platform production namespace'

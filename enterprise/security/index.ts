@@ -30,7 +30,10 @@ export class EnterpriseSecurityManager {
   /**
    * Perform comprehensive security scan
    */
-  async performSecurityScan(target: string, scanType: 'full' | 'quick' | 'compliance' = 'full'): Promise<any> {
+  async performSecurityScan(
+    target: string,
+    scanType: 'full' | 'quick' | 'compliance' = 'full'
+  ): Promise<any> {
     console.log(`Performing ${scanType} security scan on ${target}...`);
 
     const results = await this.scanner.scan(target, scanType);
@@ -41,7 +44,7 @@ export class EnterpriseSecurityManager {
       target,
       scanType,
       results: results.summary,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return results;
@@ -60,7 +63,7 @@ export class EnterpriseSecurityManager {
       action: 'compliance_check',
       framework,
       results: results.summary,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return results;
@@ -87,7 +90,7 @@ export class EnterpriseSecurityManager {
       resource,
       requestedAction: action,
       allowed,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     return allowed;
@@ -109,7 +112,7 @@ export class EnterpriseSecurityManager {
     await this.audit.logEvent({
       action: 'policy_update',
       policy: policy.name,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -124,7 +127,7 @@ export class EnterpriseSecurityManager {
       action: 'security_incident',
       incident,
       severity: incident.severity || 'high',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     // Trigger incident response
@@ -150,5 +153,4 @@ export async function initializeEnterpriseSecurity(): Promise<EnterpriseSecurity
 
   console.log('Enterprise Security initialized');
   return security;
-}</content>
-</edit_file>
+}

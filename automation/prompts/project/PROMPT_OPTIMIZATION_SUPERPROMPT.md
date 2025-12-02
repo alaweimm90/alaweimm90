@@ -1,9 +1,9 @@
 ---
-name: "Prompt Optimization Superprompt"
-version: "1.0"
-category: "project"
-tags: ["prompt-engineering", "optimization", "llm", "blackbox", "ide"]
-created: "2024-11-30"
+name: 'Prompt Optimization Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['prompt-engineering', 'optimization', 'llm', 'blackbox', 'ide']
+created: '2024-11-30'
 ---
 
 # Prompt Optimization Superprompt
@@ -47,20 +47,20 @@ token_optimization:
     - Leverage structured formats (YAML, JSON)
     - Use abbreviations where clear
     - Prioritize high-value context
-    
+
   techniques:
     compression:
       - Replace verbose phrases with keywords
       - Use bullet points over paragraphs
       - Consolidate similar instructions
       - Remove filler words
-      
+
     prioritization:
       - Most important context first
       - Recent context over historical
       - Specific over general
       - Examples over explanations
-      
+
     chunking:
       - Split large tasks into subtasks
       - Use continuation prompts
@@ -79,25 +79,25 @@ code_generation_template:
       - Language/framework
       - Project structure
       - Relevant dependencies
-      
+
     2_task: |
       # Task (5-10% of tokens)
       - Clear, specific objective
       - Expected behavior
       - Constraints
-      
+
     3_examples: |
       # Examples (20-30% of tokens)
       - Input/output pairs
       - Edge cases
       - Style reference
-      
+
     4_output_spec: |
       # Output Specification (5% of tokens)
       - Format requirements
       - Naming conventions
       - Documentation needs
-      
+
     5_reserved: |
       # Reserved for response (50-60% of tokens)
       - Leave room for complete response
@@ -114,23 +114,23 @@ code_generation_template:
 blackbox_optimization:
   features:
     code_autocomplete:
-      trigger: "Start typing code"
+      trigger: 'Start typing code'
       optimization:
         - Write clear function signatures
         - Use descriptive variable names
         - Add type hints for better suggestions
         - Include docstrings for context
-        
+
     code_chat:
-      trigger: "Select code + ask question"
+      trigger: 'Select code + ask question'
       optimization:
         - Select minimal relevant code
         - Ask specific, focused questions
         - Reference line numbers when helpful
         - Request specific output format
-        
+
     code_generation:
-      trigger: "Describe what you need"
+      trigger: 'Describe what you need'
       optimization:
         - Start with language/framework
         - Specify function signature
@@ -145,14 +145,14 @@ blackbox_optimization:
       - Output: {return type and description}
       - Behavior: {specific behavior}
       - Handle: {error cases}
-      
+
     refactoring: |
       Refactor this {language} code:
       - Goal: {optimization goal}
       - Maintain: {preserved behavior}
       - Improve: {specific improvements}
       - Constraints: {limitations}
-      
+
     debugging: |
       Debug this {language} code:
       - Error: {error message}
@@ -167,23 +167,23 @@ blackbox_optimization:
 cursor_optimization:
   features:
     cmd_k:
-      description: "Inline code generation"
+      description: 'Inline code generation'
       optimization:
         - Select context code first
         - Use natural language descriptions
         - Specify output location
         - Reference existing patterns
-        
+
     cmd_l:
-      description: "Chat with codebase"
+      description: 'Chat with codebase'
       optimization:
         - Ask about specific files/functions
         - Request explanations with examples
         - Use for architecture decisions
         - Leverage for code review
-        
+
     composer:
-      description: "Multi-file editing"
+      description: 'Multi-file editing'
       optimization:
         - Describe full feature scope
         - List all affected files
@@ -193,23 +193,23 @@ cursor_optimization:
   prompt_templates:
     feature_implementation: |
       Implement {feature_name}:
-      
+
       Files to modify:
       - {file1}: {changes}
       - {file2}: {changes}
-      
+
       Requirements:
       - {requirement1}
       - {requirement2}
-      
+
       Follow patterns from: {reference_file}
-      
+
     codebase_question: |
       In this codebase:
       - How does {component} work?
       - Where is {functionality} implemented?
       - What's the pattern for {pattern_type}?
-      
+
       Focus on: {specific_aspect}
 ```
 
@@ -224,7 +224,7 @@ copilot_optimization:
         - Use consistent naming patterns
         - Provide type annotations
         - Structure code predictably
-        
+
     copilot_chat:
       optimization:
         - Use /commands effectively
@@ -238,7 +238,7 @@ copilot_optimization:
       // Input: {params}
       // Output: {return}
       // Example: {usage}
-      
+
     algorithm_hint: |
       // Algorithm: {name}
       // Time: O({complexity})
@@ -246,7 +246,7 @@ copilot_optimization:
       // Steps:
       // 1. {step1}
       // 2. {step2}
-      
+
     pattern_hint: |
       // Pattern: {pattern_name}
       // Use case: {when_to_use}
@@ -353,48 +353,46 @@ interface ContextItem {
 export class ContextManager {
   private maxTokens: number;
   private items: ContextItem[] = [];
-  
+
   constructor(maxTokens: number = 8000) {
     this.maxTokens = maxTokens;
   }
-  
+
   add(item: Omit<ContextItem, 'tokens'>): void {
     const tokens = this.estimateTokens(item.content);
     this.items.push({ ...item, tokens });
   }
-  
+
   build(): string {
     // Sort by priority (higher first)
     const sorted = [...this.items].sort((a, b) => b.priority - a.priority);
-    
+
     let totalTokens = 0;
     const included: ContextItem[] = [];
-    
+
     for (const item of sorted) {
       if (totalTokens + item.tokens <= this.maxTokens) {
         included.push(item);
         totalTokens += item.tokens;
       }
     }
-    
+
     // Reorder by type for coherent prompt
     const ordered = this.orderByType(included);
-    
-    return ordered.map(item => item.content).join('\n\n');
+
+    return ordered.map((item) => item.content).join('\n\n');
   }
-  
+
   private orderByType(items: ContextItem[]): ContextItem[] {
     const typeOrder = ['system', 'code', 'example', 'history'];
-    return items.sort((a, b) => 
-      typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type)
-    );
+    return items.sort((a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type));
   }
-  
+
   private estimateTokens(text: string): number {
     // Rough estimation: ~4 characters per token
     return Math.ceil(text.length / 4);
   }
-  
+
   getUsage(): { used: number; max: number; percentage: number } {
     const used = this.items.reduce((sum, item) => sum + item.tokens, 0);
     return {
@@ -462,22 +460,20 @@ interface TestResult {
 
 export class PromptTester {
   private llmClient: LLMClient;
-  
+
   constructor(llmClient: LLMClient) {
     this.llmClient = llmClient;
   }
-  
+
   async runTest(test: PromptTest): Promise<TestResult> {
-    const response = await this.llmClient.chat([
-      { role: 'user', content: test.prompt }
-    ]);
-    
+    const response = await this.llmClient.chat([{ role: 'user', content: test.prompt }]);
+
     const content = response.content;
-    
+
     // Check expected patterns
     const patternsMatched: string[] = [];
     const patternsMissed: string[] = [];
-    
+
     for (const pattern of test.expectedPatterns) {
       if (pattern.test(content)) {
         patternsMatched.push(pattern.source);
@@ -485,7 +481,7 @@ export class PromptTester {
         patternsMissed.push(pattern.source);
       }
     }
-    
+
     // Check forbidden patterns
     const forbiddenFound: string[] = [];
     for (const pattern of test.forbiddenPatterns) {
@@ -493,18 +489,18 @@ export class PromptTester {
         forbiddenFound.push(pattern.source);
       }
     }
-    
+
     // Run quality checks
-    const qualityResults = test.qualityChecks.map(check => ({
+    const qualityResults = test.qualityChecks.map((check) => ({
       name: check.name,
       passed: check.check(content),
     }));
-    
-    const passed = 
+
+    const passed =
       patternsMissed.length === 0 &&
       forbiddenFound.length === 0 &&
-      qualityResults.every(r => r.passed);
-    
+      qualityResults.every((r) => r.passed);
+
     return {
       name: test.name,
       passed,
@@ -516,15 +512,15 @@ export class PromptTester {
       },
     };
   }
-  
+
   async runSuite(tests: PromptTest[]): Promise<TestResult[]> {
     const results: TestResult[] = [];
-    
+
     for (const test of tests) {
       const result = await this.runTest(test);
       results.push(result);
     }
-    
+
     return results;
   }
 }
@@ -542,8 +538,8 @@ Include: type annotations, error handling, JSDoc comments.`,
       /throw|Error/,
     ],
     forbiddenPatterns: [
-      /any(?!\w)/,  // No 'any' type
-      /console\.log/,  // No console.log in production code
+      /any(?!\w)/, // No 'any' type
+      /console\.log/, // No console.log in production code
     ],
     qualityChecks: [
       {
@@ -575,21 +571,21 @@ prompt_optimization_checklist:
     - [ ] Verify context relevance
     - [ ] Check token count vs limit
     - [ ] Validate output format specification
-    
+
   structure:
     - [ ] Clear task definition first
     - [ ] Relevant context included
     - [ ] Examples provided if complex
     - [ ] Output format specified
     - [ ] Constraints clearly stated
-    
+
   quality:
     - [ ] Specific over vague language
     - [ ] Actionable instructions
     - [ ] Measurable success criteria
     - [ ] Edge cases addressed
     - [ ] Error handling specified
-    
+
   ide_specific:
     - [ ] Leverage IDE features
     - [ ] Use appropriate triggers
@@ -631,4 +627,4 @@ prompt_optimization_checklist:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

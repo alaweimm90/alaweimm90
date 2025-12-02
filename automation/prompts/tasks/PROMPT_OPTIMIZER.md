@@ -22,75 +22,90 @@ This system analyzes and optimizes prompts across 8 critical dimensions, giving 
 Score your prompt on each dimension (0-10). **Target: 70+/80 total.**
 
 ### 1. **Clarity** (0-10)
+
 **What it measures:** Is the request unambiguous and easy to understand?
 
 **Scoring:**
+
 - 0-3: Vague, confusing, multiple interpretations possible
 - 4-6: Generally clear but some ambiguity
 - 7-8: Clear with minor room for interpretation
 - 9-10: Crystal clear, zero ambiguity
 
 **Red flags:**
+
 - ❌ "Make it better"
 - ❌ "Fix the issues"
 - ❌ "Improve performance"
 
 **Good examples:**
+
 - ✅ "Refactor the UserAuth class to use async/await instead of callbacks"
 - ✅ "Add input validation for email field (RFC 5322 compliant)"
 
 ---
 
 ### 2. **Specificity** (0-10)
+
 **What it measures:** Does the prompt specify WHAT, WHERE, and HOW?
 
 **Scoring:**
+
 - 0-3: Generic, no details
 - 4-6: Some details but missing key info
 - 7-8: Specific with minor gaps
 - 9-10: Exact files, functions, requirements specified
 
 **Red flags:**
+
 - ❌ "Update the API"
 - ❌ "Fix the bug in the code"
 - ❌ "Add a new feature"
 
 **Good examples:**
+
 - ✅ "In src/api/users.ts, add rate limiting (100 req/min per IP) to the POST /api/users/login endpoint using express-rate-limit"
 - ✅ "Create a new React component <PricingCard> in src/components/pricing/ that displays: title, price, features list, CTA button. Use Tailwind for styling."
 
 ---
 
 ### 3. **Context** (0-10)
+
 **What it measures:** Does the prompt provide necessary background information?
 
 **Scoring:**
+
 - 0-3: No context, Claude must guess intent
 - 4-6: Basic context but missing key details
 - 7-8: Good context with minor gaps
 - 9-10: Complete context including constraints, goals, existing patterns
 
 **Red flags:**
+
 - ❌ No mention of existing architecture
 - ❌ No explanation of WHY the change is needed
 - ❌ No constraints mentioned (performance, compatibility, etc.)
 
 **Good examples:**
+
 - ✅ "We're migrating from REST to GraphQL. Update the user fetching logic in src/services/UserService.ts to use Apollo Client instead of fetch(). Keep the same return types to avoid breaking existing components."
-- ✅ "Our tests are failing because we upgraded Jest from v27 to v29. Fix the failing test in __tests__/UserAuth.test.ts - specifically the mock implementation of localStorage."
+- ✅ "Our tests are failing because we upgraded Jest from v27 to v29. Fix the failing test in **tests**/UserAuth.test.ts - specifically the mock implementation of localStorage."
 
 ---
 
 ### 4. **Constraints** (0-10)
+
 **What it measures:** Are limitations and requirements explicitly stated?
 
 **Scoring:**
+
 - 0-3: No constraints mentioned
 - 4-6: Some constraints but incomplete
 - 7-8: Most constraints specified
 - 9-10: All constraints clear (performance, compatibility, style, security, etc.)
 
 **Key constraint types:**
+
 - **Performance:** "Must complete in <100ms"
 - **Compatibility:** "Must work on Node 16+"
 - **Style:** "Follow existing patterns in auth module"
@@ -99,88 +114,105 @@ Score your prompt on each dimension (0-10). **Target: 70+/80 total.**
 - **Breaking changes:** "Must not break existing API"
 
 **Good examples:**
+
 - ✅ "Add email validation WITHOUT using external libraries (use regex). Must handle RFC 5322 edge cases."
 - ✅ "Optimize the image processing to handle 10MB files in under 2 seconds. Must maintain backward compatibility with existing uploads."
 
 ---
 
 ### 5. **Expected Output** (0-10)
+
 **What it measures:** Is it clear what the end result should be?
 
 **Scoring:**
+
 - 0-3: Unclear what success looks like
 - 4-6: General idea but vague
 - 7-8: Clear output with minor ambiguity
 - 9-10: Exact format, structure, and acceptance criteria defined
 
 **Red flags:**
+
 - ❌ "Build a dashboard"
 - ❌ "Create tests"
 - ❌ "Document the API"
 
 **Good examples:**
+
 - ✅ "Create a JSON API endpoint that returns: { users: [...], total: number, page: number }. Include Swagger/OpenAPI documentation."
 - ✅ "Write 5 unit tests covering: (1) successful login, (2) wrong password, (3) missing email, (4) rate limit exceeded, (5) database timeout. Use Jest + Supertest."
 
 ---
 
 ### 6. **Actionability** (0-10)
+
 **What it measures:** Can Claude immediately start working, or must it ask questions?
 
 **Scoring:**
+
 - 0-3: Multiple critical unknowns, can't proceed
 - 4-6: Some unknowns but can make educated guesses
 - 7-8: Minor clarifications needed
 - 9-10: Zero questions needed, can execute immediately
 
 **Red flags:**
+
 - ❌ Referencing undefined variables/files
 - ❌ Missing file paths
 - ❌ Unclear which approach to use
 - ❌ Ambiguous requirements ("fast", "good UX", etc.)
 
 **Good examples:**
+
 - ✅ "In src/components/Dashboard.tsx lines 45-67, refactor the useEffect hook to use React Query's useQuery() instead. Keep the same loading/error states."
 - ✅ "Add these 3 environment variables to .env.example: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_ID. Use the same format as existing vars."
 
 ---
 
 ### 7. **Scope Definition** (0-10)
+
 **What it measures:** Is the scope appropriately bounded?
 
 **Scoring:**
+
 - 0-3: Scope too broad ("build an app") or too narrow ("fix line 5")
 - 4-6: Scope somewhat clear but could be better bounded
 - 7-8: Well-scoped with minor edge cases
 - 9-10: Perfect scope - not too big, not too small, edges defined
 
 **Red flags:**
+
 - ❌ "Rewrite the entire codebase"
 - ❌ "Build a user authentication system" (too broad without details)
 - ❌ "Change this variable name" (too trivial for a prompt)
 
 **Good examples:**
+
 - ✅ "Refactor the 3 SQL queries in src/db/users.ts to use parameterized queries (prevent SQL injection). Do NOT refactor other files yet."
 - ✅ "Add dark mode toggle to the Settings page ONLY. Don't implement the actual theming logic - just the UI control that saves preference to localStorage."
 
 ---
 
 ### 8. **Testability** (0-10)
+
 **What it measures:** Can the result be verified objectively?
 
 **Scoring:**
+
 - 0-3: No way to verify success
 - 4-6: Some verification possible but subjective
 - 7-8: Clear success criteria with minor subjectivity
 - 9-10: 100% objective verification criteria
 
 **Red flags:**
+
 - ❌ "Make it look better"
 - ❌ "Improve code quality"
 - ❌ "Optimize performance" (without metrics)
 
 **Good examples:**
-- ✅ "Reduce the bundle size of src/App.tsx by at least 20%. Measure using: npm run build && ls -lh dist/assets/App-*.js"
+
+- ✅ "Reduce the bundle size of src/App.tsx by at least 20%. Measure using: npm run build && ls -lh dist/assets/App-\*.js"
 - ✅ "Add TypeScript types to user.service.ts such that npm run type-check passes with zero errors."
 
 ---
@@ -191,21 +223,24 @@ Copy this template and fill it out for any prompt you want to optimize:
 
 ```markdown
 ### MY PROMPT
+
 [Paste your prompt here]
 
 ### SCORING
-1. Clarity:          __/10
-2. Specificity:      __/10
-3. Context:          __/10
-4. Constraints:      __/10
-5. Expected Output:  __/10
-6. Actionability:    __/10
-7. Scope Definition: __/10
-8. Testability:      __/10
 
-**TOTAL: __/80**
+1. Clarity: \_\_/10
+2. Specificity: \_\_/10
+3. Context: \_\_/10
+4. Constraints: \_\_/10
+5. Expected Output: \_\_/10
+6. Actionability: \_\_/10
+7. Scope Definition: \_\_/10
+8. Testability: \_\_/10
+
+**TOTAL: \_\_/80**
 
 ### IDENTIFIED WEAKNESSES
+
 - [ ] Missing file paths
 - [ ] Unclear requirements
 - [ ] No context provided
@@ -213,9 +248,10 @@ Copy this template and fill it out for any prompt you want to optimize:
 - [ ] Expected output vague
 - [ ] Can't verify success
 - [ ] Scope too broad/narrow
-- [ ] Other: ___________
+- [ ] Other: ****\_\_\_****
 
 ### OPTIMIZATION ACTIONS
+
 1. [ ] Add specific file paths
 2. [ ] Define success criteria
 3. [ ] Provide background context
@@ -223,13 +259,15 @@ Copy this template and fill it out for any prompt you want to optimize:
 5. [ ] Specify exact output format
 6. [ ] Bound the scope clearly
 7. [ ] Make objectively testable
-8. [ ] Other: ___________
+8. [ ] Other: ****\_\_\_****
 
 ### OPTIMIZED PROMPT
+
 [Paste improved version here]
 
 ### EXPECTED IMPROVEMENT
-Before: __/80 → After: __/80 (Gain: +__)
+
+Before: **/80 → After: **/80 (Gain: +\_\_)
 ```
 
 ---
@@ -239,12 +277,14 @@ Before: __/80 → After: __/80 (Gain: +__)
 Use this checklist to systematically improve any prompt:
 
 ### ✅ Clarity Boosters
+
 - [ ] Replace vague verbs ("improve" → "refactor to use async/await")
 - [ ] Remove ambiguous words ("better", "faster", "cleaner")
 - [ ] Use concrete nouns (specific files, functions, endpoints)
 - [ ] Break multi-part requests into numbered steps
 
 ### ✅ Specificity Boosters
+
 - [ ] Add file paths (src/components/UserProfile.tsx)
 - [ ] Add line numbers when relevant (lines 45-67)
 - [ ] Specify technologies/frameworks (React Query, Tailwind, Jest)
@@ -252,6 +292,7 @@ Use this checklist to systematically improve any prompt:
 - [ ] Define data formats (JSON structure, API schema)
 
 ### ✅ Context Boosters
+
 - [ ] Explain WHY you need this change
 - [ ] Describe current state vs desired state
 - [ ] Mention relevant architectural patterns in use
@@ -259,6 +300,7 @@ Use this checklist to systematically improve any prompt:
 - [ ] Note any recent changes that matter
 
 ### ✅ Constraint Boosters
+
 - [ ] Performance requirements ("under 100ms", "handle 10MB files")
 - [ ] Compatibility requirements ("Node 16+", "iOS 15+")
 - [ ] Style/pattern requirements ("follow existing auth pattern")
@@ -267,6 +309,7 @@ Use this checklist to systematically improve any prompt:
 - [ ] Breaking change constraints ("must not break existing API")
 
 ### ✅ Output Boosters
+
 - [ ] Specify file types (.tsx, .test.ts, .json)
 - [ ] Define data structures (interfaces, schemas)
 - [ ] List required test coverage
@@ -274,6 +317,7 @@ Use this checklist to systematically improve any prompt:
 - [ ] Include documentation requirements
 
 ### ✅ Actionability Boosters
+
 - [ ] Verify all referenced files exist
 - [ ] Ensure all variables/functions are defined
 - [ ] Remove conditional language ("maybe", "if possible")
@@ -281,12 +325,14 @@ Use this checklist to systematically improve any prompt:
 - [ ] Include error messages to fix (if debugging)
 
 ### ✅ Scope Boosters
+
 - [ ] Use "ONLY" to limit scope ("Settings page ONLY")
 - [ ] Use "Do NOT" to exclude areas ("Do NOT refactor tests yet")
 - [ ] Break large requests into phases
 - [ ] Specify what to defer to later
 
 ### ✅ Testability Boosters
+
 - [ ] Add measurable criteria ("reduce by 20%", "pass all tests")
 - [ ] Specify commands to verify ("npm run test", "npm run build")
 - [ ] Include expected output samples
@@ -299,11 +345,13 @@ Use this checklist to systematically improve any prompt:
 ### Example 1: Vague → Specific
 
 ❌ **BEFORE (Score: 32/80)**
+
 ```
 Fix the login bug
 ```
 
 **Issues:**
+
 - Clarity: 3/10 - What bug?
 - Specificity: 2/10 - Where? What's broken?
 - Context: 2/10 - No background
@@ -314,6 +362,7 @@ Fix the login bug
 - Testability: 5/10 - How to verify?
 
 ✅ **AFTER (Score: 78/80)**
+
 ```
 In src/auth/LoginForm.tsx, fix the bug where clicking "Login" with valid credentials shows "Invalid password" error.
 
@@ -328,6 +377,7 @@ Expected: Login works with correct credentials, test suite passes (npm run test:
 ```
 
 **Improvements:**
+
 - Clarity: 3 → 10 (specific error described)
 - Specificity: 2 → 10 (files, lines, exact issue)
 - Context: 2 → 9 (recent change, relevant code location)
@@ -342,11 +392,13 @@ Expected: Login works with correct credentials, test suite passes (npm run test:
 ### Example 2: Too Broad → Well-Scoped
 
 ❌ **BEFORE (Score: 28/80)**
+
 ```
 Build a user authentication system
 ```
 
 **Issues:**
+
 - Clarity: 5/10 - Clear goal but no details
 - Specificity: 1/10 - No technical details
 - Context: 2/10 - No architecture info
@@ -357,6 +409,7 @@ Build a user authentication system
 - Testability: 3/10 - Unclear success criteria
 
 ✅ **AFTER (Score: 76/80)**
+
 ```
 Create email/password authentication for our Next.js app using SuperTokens.
 
@@ -392,6 +445,7 @@ Test Criteria:
 ```
 
 **Improvements:**
+
 - Clarity: 5 → 9 (specific technology, clear requirements)
 - Specificity: 1 → 9 (tech stack, file structure, patterns)
 - Context: 2 → 9 (framework, existing code, patterns)
@@ -406,11 +460,13 @@ Test Criteria:
 ### Example 3: Missing Context → Rich Context
 
 ❌ **BEFORE (Score: 35/80)**
+
 ```
 The tests are failing, please fix them
 ```
 
 **Issues:**
+
 - Clarity: 4/10 - Clear request but vague
 - Specificity: 2/10 - Which tests?
 - Context: 1/10 - No background
@@ -421,18 +477,21 @@ The tests are failing, please fix them
 - Testability: 7/10 - Clear (tests must pass)
 
 ✅ **AFTER (Score: 77/80)**
+
 ```
 Fix the 3 failing tests in __tests__/api/users.test.ts after we migrated from Jest 27 to Jest 29.
 
 Error messages:
 ```
-FAIL __tests__/api/users.test.ts
-  ● GET /api/users › returns user list
-    ReferenceError: TextEncoder is not defined
-  ● POST /api/users › creates new user
-    TypeError: Cannot read property 'json' of undefined
-  ● DELETE /api/users/:id › deletes user
-    ReferenceError: TextEncoder is not defined
+
+FAIL **tests**/api/users.test.ts
+● GET /api/users › returns user list
+ReferenceError: TextEncoder is not defined
+● POST /api/users › creates new user
+TypeError: Cannot read property 'json' of undefined
+● DELETE /api/users/:id › deletes user
+ReferenceError: TextEncoder is not defined
+
 ```
 
 Context:
@@ -461,6 +520,7 @@ Likely Fix:
 ```
 
 **Improvements:**
+
 - Clarity: 4 → 10 (specific tests, exact errors)
 - Specificity: 2 → 10 (file, error messages)
 - Context: 1 → 10 (what changed, what broke, known issues)
@@ -475,6 +535,7 @@ Likely Fix:
 ## 🧠 Advanced Techniques
 
 ### 1. **The Constraint Sandwich**
+
 Structure: Context → Request → Constraints
 
 ```
@@ -488,6 +549,7 @@ Structure: Context → Request → Constraints
 ---
 
 ### 2. **The Example Pattern**
+
 When output format is complex, provide examples.
 
 ```
@@ -505,6 +567,7 @@ Expected output:
 ---
 
 ### 3. **The Decision Tree**
+
 For conditional logic, spell out all branches.
 
 ```
@@ -530,6 +593,7 @@ IF network error:
 ---
 
 ### 4. **The Anti-Pattern List**
+
 Tell Claude what NOT to do.
 
 ```
@@ -553,6 +617,7 @@ DO:
 ---
 
 ### 5. **The Success Criteria Matrix**
+
 For complex tasks, create a checklist.
 
 ```
@@ -575,14 +640,14 @@ Success criteria:
 
 ## 📏 Prompt Scoring Guide
 
-| Score | Rating | Description | Action |
-|-------|--------|-------------|--------|
-| 0-20 | 🔴 Critical | Unusable, too vague | Complete rewrite needed |
-| 21-40 | 🟠 Poor | Major gaps, requires clarification | Significant improvements needed |
-| 41-55 | 🟡 Mediocre | Some clarity but missing key info | Add context, constraints, specifics |
-| 56-65 | 🟢 Acceptable | Workable but room for improvement | Polish specificity and testability |
-| 66-75 | 🔵 Good | Clear and actionable | Minor tweaks for optimization |
-| 76-80 | 🟣 Excellent | Professional grade, ready to execute | Ship it! |
+| Score | Rating        | Description                          | Action                              |
+| ----- | ------------- | ------------------------------------ | ----------------------------------- |
+| 0-20  | 🔴 Critical   | Unusable, too vague                  | Complete rewrite needed             |
+| 21-40 | 🟠 Poor       | Major gaps, requires clarification   | Significant improvements needed     |
+| 41-55 | 🟡 Mediocre   | Some clarity but missing key info    | Add context, constraints, specifics |
+| 56-65 | 🟢 Acceptable | Workable but room for improvement    | Polish specificity and testability  |
+| 66-75 | 🔵 Good       | Clear and actionable                 | Minor tweaks for optimization       |
+| 76-80 | 🟣 Excellent  | Professional grade, ready to execute | Ship it!                            |
 
 **Target:** Aim for 70+ on all prompts sent to Claude Code.
 
@@ -662,6 +727,7 @@ Success Criteria:
 ```
 
 **Improvements:**
+
 - Added specific file (src/pages/Dashboard.tsx)
 - Defined measurable target (3.2s → <1s)
 - Provided context (bottleneck analysis)
@@ -676,6 +742,7 @@ Success Criteria:
 ## 🚀 Pro Tips
 
 ### 1. **Front-load the Critical Info**
+
 Put file paths and key requirements in the first sentence.
 
 ❌ "We need to update the authentication logic because we're getting security warnings. Can you help?"
@@ -685,6 +752,7 @@ Put file paths and key requirements in the first sentence.
 ---
 
 ### 2. **Use Absolute Metrics, Not Relative**
+
 ❌ "Make it faster"
 ✅ "Reduce response time from 500ms to under 100ms"
 
@@ -697,6 +765,7 @@ Put file paths and key requirements in the first sentence.
 ---
 
 ### 3. **Reference Existing Patterns**
+
 ❌ "Add authentication"
 ✅ "Add authentication following the same pattern as src/auth/apiAuth.ts (JWT with refresh tokens)"
 
@@ -705,6 +774,7 @@ Put file paths and key requirements in the first sentence.
 ---
 
 ### 4. **Specify the "Done" State**
+
 Every prompt should answer: "How will I know this is complete?"
 
 ✅ "Done when: npm run test passes, npm run build completes without warnings, manual testing shows login works"
@@ -712,6 +782,7 @@ Every prompt should answer: "How will I know this is complete?"
 ---
 
 ### 5. **Include Failure Scenarios**
+
 Don't just describe the happy path.
 
 ```
@@ -734,6 +805,7 @@ Failures to handle:
 **Score: 12/80** 🔴 **Critical**
 
 **Issues:**
+
 - No code provided
 - No error message
 - No context
@@ -741,15 +813,18 @@ Failures to handle:
 - Can't even begin
 
 **Optimization:**
+
 ```
 Debug the "TypeError: Cannot read property 'length' of undefined" error in src/utils/validators.ts:23.
 
 Code (lines 20-25):
 ```
+
 function validateEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return email.length > 0 && emailRegex.test(email)  // Line 23 fails
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+return email.length > 0 && emailRegex.test(email) // Line 23 fails
 }
+
 ```
 
 Error occurs when: User submits login form without entering email
@@ -765,14 +840,14 @@ Context: This started appearing after we made email field optional in LoginForm.
 
 ## 💡 Common Mistakes & Fixes
 
-| Mistake | Fix |
-|---------|-----|
-| "Fix the bug" | "Fix the TypeError at line 45 in auth.ts where user.email is undefined" |
-| "Make it responsive" | "Add mobile breakpoints (<768px) to Dashboard.tsx using Tailwind's md: prefix. Stack sidebar below header." |
-| "Add tests" | "Add Jest tests for 5 scenarios in userService.test.ts: create, read, update, delete, error handling" |
-| "Improve performance" | "Reduce API response time from 800ms to <200ms by adding Redis caching (5min TTL)" |
-| "Better UI" | "Update Button component to match Tailwind UI design: rounded-lg, shadow-sm, transition-colors" |
-| "Refactor this" | "Refactor UserProfile.tsx to extract 3 sub-components: Avatar, Bio, Stats. Keep same props interface." |
+| Mistake               | Fix                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- |
+| "Fix the bug"         | "Fix the TypeError at line 45 in auth.ts where user.email is undefined"                                     |
+| "Make it responsive"  | "Add mobile breakpoints (<768px) to Dashboard.tsx using Tailwind's md: prefix. Stack sidebar below header." |
+| "Add tests"           | "Add Jest tests for 5 scenarios in userService.test.ts: create, read, update, delete, error handling"       |
+| "Improve performance" | "Reduce API response time from 800ms to <200ms by adding Redis caching (5min TTL)"                          |
+| "Better UI"           | "Update Button component to match Tailwind UI design: rounded-lg, shadow-sm, transition-colors"             |
+| "Refactor this"       | "Refactor UserProfile.tsx to extract 3 sub-components: Avatar, Bio, Stats. Keep same props interface."      |
 
 ---
 
@@ -795,6 +870,7 @@ Context: This started appearing after we made email field optional in LoginForm.
 ### Templates for Common Tasks
 
 **Debug Request Template:**
+
 ```
 Debug [ERROR_MESSAGE] in [FILE:LINE]
 
@@ -809,6 +885,7 @@ Context: [WHY_THIS_IS_BREAKING]
 ```
 
 **Feature Request Template:**
+
 ```
 Add [FEATURE_NAME] to [LOCATION]
 
@@ -829,6 +906,7 @@ Success criteria:
 ```
 
 **Refactor Request Template:**
+
 ```
 Refactor [FILE/FUNCTION] to [GOAL]
 
@@ -875,4 +953,4 @@ Success: [VERIFICATION_METHOD]
 
 **Built for builders who demand excellence from their tools.** 🚀
 
-*Now go optimize every prompt you send!*
+_Now go optimize every prompt you send!_

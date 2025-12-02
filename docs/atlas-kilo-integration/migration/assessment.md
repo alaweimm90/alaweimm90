@@ -127,7 +127,7 @@ fi
 if command -v kilo &> /dev/null; then
     echo "Gathering KILO policy information..."
     kilo policy list --format json > "$OUTPUT_DIR/kilo-policies.json" 2>/dev/null || echo "KILO policy list failed"
-    
+
     echo "Analyzing compliance status..."
     kilo compliance check . --format json > "$OUTPUT_DIR/kilo-compliance-current.json" 2>/dev/null || echo "KILO compliance check failed"
 fi
@@ -193,12 +193,12 @@ cat > "$OUTPUT_FILE" << 'EOF'
 
 ### Current Development Workflow
 1. **Code Development**: Manual or IDE-based
-2. **Quality Checks**: 
+2. **Quality Checks**:
    - Linting: $(find . -name ".eslintrc*" -o -name "eslint.config.*" | wc -l) ESLint configs
    - Testing: $(find . -name "*test*" -name "*.js" -o -name "*.ts" | wc -l) test files
    - Code Review: Manual process
 
-3. **Governance**: 
+3. **Governance**:
    - Policy Checks: $(find . -name "*policy*" -o -name "*governance*" | wc -l) policy files
    - Compliance: $(find . -name "*compliance*" | wc -l) compliance files
 
@@ -292,12 +292,14 @@ echo "Integration opportunities assessment complete: $OUTPUT_FILE"
 Use this checklist to ensure comprehensive assessment coverage:
 
 ### Pre-Assessment Preparation
+
 - [ ] Identify assessment team members
 - [ ] Schedule stakeholder interviews
 - [ ] Prepare assessment scripts and tools
 - [ ] Set up assessment environment
 
 ### Technical Assessment
+
 - [ ] Run system inventory script
 - [ ] Analyze current ATLAS usage patterns
 - [ ] Analyze current KILO usage patterns
@@ -305,18 +307,21 @@ Use this checklist to ensure comprehensive assessment coverage:
 - [ ] Assess integration package compatibility
 
 ### Workflow Assessment
+
 - [ ] Document current development processes
 - [ ] Identify manual vs automated steps
 - [ ] Map governance touchpoints
 - [ ] Analyze pain points and bottlenecks
 
 ### Organizational Assessment
+
 - [ ] Assess team size and distribution
 - [ ] Evaluate current tool adoption rates
 - [ ] Identify change champions
 - [ ] Assess training and support needs
 
 ### Risk Assessment
+
 - [ ] Identify high-risk workflows
 - [ ] Assess business criticality
 - [ ] Evaluate rollback capabilities

@@ -30,7 +30,7 @@ This metadata must be:
 # .meta/repo.yaml
 name: my-service
 tier: 2
-owner: "@alaweimm90"
+owner: '@alaweimm90'
 language: python
 status: active
 visibility: public
@@ -41,12 +41,12 @@ dependencies:
 
 ## Rationale
 
-| Factor | JSON Schema | Custom Validation |
-|--------|-------------|-------------------|
-| **Tooling** | Excellent (IDE, CI, editors) | Must build |
-| **Standards** | IETF RFC 8927 | Proprietary |
-| **Documentation** | Self-documenting | Separate docs |
-| **Extensibility** | $ref, allOf, oneOf | Custom code |
+| Factor            | JSON Schema                  | Custom Validation |
+| ----------------- | ---------------------------- | ----------------- |
+| **Tooling**       | Excellent (IDE, CI, editors) | Must build        |
+| **Standards**     | IETF RFC 8927                | Proprietary       |
+| **Documentation** | Self-documenting             | Separate docs     |
+| **Extensibility** | $ref, allOf, oneOf           | Custom code       |
 
 JSON Schema provides:
 

@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **QMAT-Sim** is a quantum material simulation platform featuring:
+
 - Material property calculations
 - Quantum chemistry simulation
 - Performance optimization
@@ -20,6 +21,7 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 5 parallel agent teams optimized for QMAT-Sim:
 
 **Team 1:** Quantum chemistry & accuracy
@@ -29,6 +31,7 @@
 **Team 5:** Optimization & research
 
 ### Execution Style
+
 - ⚡ Fast: 2-3 sec analysis max
 - 🔄 Parallel: All teams simultaneously
 - 💬 Brief: Minimal output

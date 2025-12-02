@@ -32,12 +32,12 @@ Consolidated configurations for all 14 AI coding assistants.
 
 ## Tool Categories
 
-| Category | Tools | Auto-Approve |
-|----------|-------|--------------|
-| **Fully Supported** | Aider, Cursor, Windsurf, Cline, Blackbox, Augment | Yes |
-| **Supported** | Continue, Kilo, Amazon Q, Trae, Gemini, Codex | Yes |
-| **Context Only** | GitHub Copilot | N/A |
-| **CLI Flag** | Claude Code | `--dangerously-skip-permissions` |
+| Category            | Tools                                             | Auto-Approve                     |
+| ------------------- | ------------------------------------------------- | -------------------------------- |
+| **Fully Supported** | Aider, Cursor, Windsurf, Cline, Blackbox, Augment | Yes                              |
+| **Supported**       | Continue, Kilo, Amazon Q, Trae, Gemini, Codex     | Yes                              |
+| **Context Only**    | GitHub Copilot                                    | N/A                              |
+| **CLI Flag**        | Claude Code                                       | `--dangerously-skip-permissions` |
 
 ## Usage
 

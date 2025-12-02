@@ -9,44 +9,44 @@ const fs = require('fs');
 const path = require('path');
 
 class DashboardGenerator {
-    constructor(dashboardDir = null) {
-        this.dashboardDir = dashboardDir || path.join(__dirname, '..', 'dashboards');
-        this.ensureDashboardDir();
+  constructor(dashboardDir = null) {
+    this.dashboardDir = dashboardDir || path.join(__dirname, '..', 'dashboards');
+    this.ensureDashboardDir();
+  }
+
+  ensureDashboardDir() {
+    if (!fs.existsSync(this.dashboardDir)) {
+      fs.mkdirSync(this.dashboardDir, { recursive: true });
+    }
+  }
+
+  generateHTMLDashboard(metricsFile, outputFile = null) {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const outputPath = outputFile || path.join(this.dashboardDir, `dashboard-${timestamp}.html`);
+
+    // Read metrics data
+    let metricsData = {};
+    if (fs.existsSync(metricsFile)) {
+      try {
+        metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
+      } catch (e) {
+        console.error('Error reading metrics file:', e.message);
+        return null;
+      }
     }
 
-    ensureDashboardDir() {
-        if (!fs.existsSync(this.dashboardDir)) {
-            fs.mkdirSync(this.dashboardDir, { recursive: true });
-        }
-    }
+    const html = this.createHTML(metricsData, timestamp);
+    fs.writeFileSync(outputPath, html);
 
-    generateHTMLDashboard(metricsFile, outputFile = null) {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const outputPath = outputFile || path.join(this.dashboardDir, `dashboard-${timestamp}.html`);
+    console.log(`Dashboard generated: ${outputPath}`);
+    return outputPath;
+  }
 
-        // Read metrics data
-        let metricsData = {};
-        if (fs.existsSync(metricsFile)) {
-            try {
-                metricsData = JSON.parse(fs.readFileSync(metricsFile, 'utf8'));
-            } catch (e) {
-                console.error('Error reading metrics file:', e.message);
-                return null;
-            }
-        }
+  createHTML(metricsData, timestamp) {
+    const repositories = metricsData.repositories || {};
+    const benchmarks = metricsData.benchmarks || {};
 
-        const html = this.createHTML(metricsData, timestamp);
-        fs.writeFileSync(outputPath, html);
-
-        console.log(`Dashboard generated: ${outputPath}`);
-        return outputPath;
-    }
-
-    createHTML(metricsData, timestamp) {
-        const repositories = metricsData.repositories || {};
-        const benchmarks = metricsData.benchmarks || {};
-
-        return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -336,40 +336,40 @@ class DashboardGenerator {
     </script>
 </body>
 </html>`;
+  }
+
+  generateComparisonDashboard(beforeFile, afterFile, outputFile = null) {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const outputPath = outputFile || path.join(this.dashboardDir, `comparison-${timestamp}.html`);
+
+    let beforeData = {};
+    let afterData = {};
+
+    if (fs.existsSync(beforeFile)) {
+      try {
+        beforeData = JSON.parse(fs.readFileSync(beforeFile, 'utf8'));
+      } catch (e) {
+        console.error('Error reading before file:', e.message);
+      }
     }
 
-    generateComparisonDashboard(beforeFile, afterFile, outputFile = null) {
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const outputPath = outputFile || path.join(this.dashboardDir, `comparison-${timestamp}.html`);
-
-        let beforeData = {};
-        let afterData = {};
-
-        if (fs.existsSync(beforeFile)) {
-            try {
-                beforeData = JSON.parse(fs.readFileSync(beforeFile, 'utf8'));
-            } catch (e) {
-                console.error('Error reading before file:', e.message);
-            }
-        }
-
-        if (fs.existsSync(afterFile)) {
-            try {
-                afterData = JSON.parse(fs.readFileSync(afterFile, 'utf8'));
-            } catch (e) {
-                console.error('Error reading after file:', e.message);
-            }
-        }
-
-        const html = this.createComparisonHTML(beforeData, afterData, timestamp);
-        fs.writeFileSync(outputPath, html);
-
-        console.log(`Comparison dashboard generated: ${outputPath}`);
-        return outputPath;
+    if (fs.existsSync(afterFile)) {
+      try {
+        afterData = JSON.parse(fs.readFileSync(afterFile, 'utf8'));
+      } catch (e) {
+        console.error('Error reading after file:', e.message);
+      }
     }
 
-    createComparisonHTML(beforeData, afterData, timestamp) {
-        return `<!DOCTYPE html>
+    const html = this.createComparisonHTML(beforeData, afterData, timestamp);
+    fs.writeFileSync(outputPath, html);
+
+    console.log(`Comparison dashboard generated: ${outputPath}`);
+    return outputPath;
+  }
+
+  createComparisonHTML(beforeData, afterData, timestamp) {
+    return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -456,26 +456,26 @@ class DashboardGenerator {
     </script>
 </body>
 </html>`;
-    }
+  }
 }
 
 module.exports = DashboardGenerator;
 
 // CLI usage
 if (require.main === module) {
-    const generator = new DashboardGenerator();
+  const generator = new DashboardGenerator();
 
-    const args = process.argv.slice(2);
-    if (args.length === 0) {
-        console.log('Usage:');
-        console.log('  node generate-dashboard.js <metrics-file> [output-file]');
-        console.log('  node generate-dashboard.js compare <before-file> <after-file> [output-file]');
-        process.exit(1);
-    }
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.log('Usage:');
+    console.log('  node generate-dashboard.js <metrics-file> [output-file]');
+    console.log('  node generate-dashboard.js compare <before-file> <after-file> [output-file]');
+    process.exit(1);
+  }
 
-    if (args[0] === 'compare') {
-        generator.generateComparisonDashboard(args[1], args[2], args[3]);
-    } else {
-        generator.generateHTMLDashboard(args[0], args[1]);
-    }
+  if (args[0] === 'compare') {
+    generator.generateComparisonDashboard(args[1], args[2], args[3]);
+  } else {
+    generator.generateHTMLDashboard(args[0], args[1]);
+  }
 }

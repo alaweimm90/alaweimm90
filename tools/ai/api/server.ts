@@ -25,7 +25,12 @@ const AI_DIR = path.join(ROOT, '.ai');
 interface RouteHandler {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   path: string;
-  handler: (req: IncomingMessage, res: ServerResponse, params: URLSearchParams, body?: unknown) => Promise<void>;
+  handler: (
+    req: IncomingMessage,
+    res: ServerResponse,
+    params: URLSearchParams,
+    body?: unknown
+  ) => Promise<void>;
 }
 
 interface ApiResponse<T = unknown> {
@@ -49,7 +54,11 @@ function success<T>(res: ServerResponse, data: T): void {
 }
 
 function error(res: ServerResponse, status: number, message: string): void {
-  jsonResponse(res, status, { success: false, error: message, timestamp: new Date().toISOString() });
+  jsonResponse(res, status, {
+    success: false,
+    error: message,
+    timestamp: new Date().toISOString(),
+  });
 }
 
 async function parseBody(req: IncomingMessage): Promise<unknown> {
@@ -260,9 +269,11 @@ const routes: RouteHandler[] = [
         const category = params.get('category');
         const status = params.get('status');
         const priority = params.get('priority');
-        if (category) list = list.filter((i: unknown) => (i as { category: string }).category === category);
+        if (category)
+          list = list.filter((i: unknown) => (i as { category: string }).category === category);
         if (status) list = list.filter((i: unknown) => (i as { status: string }).status === status);
-        if (priority) list = list.filter((i: unknown) => (i as { priority: string }).priority === priority);
+        if (priority)
+          list = list.filter((i: unknown) => (i as { priority: string }).priority === priority);
         success(res, { issues: list });
       } else {
         success(res, { issues: [] });
@@ -276,7 +287,9 @@ const routes: RouteHandler[] = [
       const issues = readJsonFile(path.join(AI_DIR, 'issues.json'));
       if (issues) {
         const critical = ((issues as { issues: unknown[] }).issues || []).filter(
-          (i: unknown) => (i as { priority: string }).priority === 'critical' && (i as { status: string }).status === 'open'
+          (i: unknown) =>
+            (i as { priority: string }).priority === 'critical' &&
+            (i as { status: string }).status === 'open'
         );
         success(res, { issues: critical });
       } else {
@@ -356,7 +369,11 @@ const routes: RouteHandler[] = [
     path: '/tasks/start',
     handler: async (_req, res, _params, body) => {
       try {
-        const { type, scope, description } = body as { type: string; scope?: string; description: string };
+        const { type, scope, description } = body as {
+          type: string;
+          scope?: string;
+          description: string;
+        };
         runCommand(`npm run ai:start ${type} ${scope || ''} "${description}"`);
         success(res, { message: 'Task started' });
       } catch (err) {
@@ -369,8 +386,14 @@ const routes: RouteHandler[] = [
     path: '/tasks/complete',
     handler: async (_req, res, _params, body) => {
       try {
-        const { success: taskSuccess, filesChanged, notes } = body as { success: boolean; filesChanged?: string; notes?: string };
-        runCommand(`npm run ai:complete ${taskSuccess} "${filesChanged || ''}" 0 0 0 "${notes || ''}"`);
+        const {
+          success: taskSuccess,
+          filesChanged,
+          notes,
+        } = body as { success: boolean; filesChanged?: string; notes?: string };
+        runCommand(
+          `npm run ai:complete ${taskSuccess} "${filesChanged || ''}" 0 0 0 "${notes || ''}"`
+        );
         success(res, { message: 'Task completed' });
       } catch (err) {
         error(res, 500, err instanceof Error ? err.message : 'Failed to complete task');

@@ -5,11 +5,7 @@
   "gemini.trustWorkspace": true,
   "gemini.skipConfirmations": true,
   "gemini.model": "gemini-2.0-flash",
-  "gemini.contextFiles": [
-    ".ai-context.md",
-    ".metaHub/policies/*.yaml",
-    "docs/adr/*.md"
-  ],
+  "gemini.contextFiles": [".ai-context.md", ".metaHub/policies/*.yaml", "docs/adr/*.md"],
   "gemini.codeExecution": {
     "autoApprove": true,
     "sandboxMode": false

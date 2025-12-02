@@ -8,9 +8,5 @@
   "cline.alwaysAllowWrite": true,
   "cline.alwaysAllowExecute": true,
   "cline.skipConfirmations": true,
-  "cline.contextFiles": [
-    ".clinerules",
-    ".ai-context.md",
-    ".metaHub/policies/*.yaml"
-  ]
+  "cline.contextFiles": [".clinerules", ".ai-context.md", ".metaHub/policies/*.yaml"]
 }

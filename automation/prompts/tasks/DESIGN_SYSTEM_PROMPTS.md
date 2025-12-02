@@ -1,6 +1,7 @@
 # Design System Superprompts Collection
 
 ## Table of Contents
+
 1. [Anti-Generic Design Principles](#anti-generic-design-principles)
 2. [Authentic Content & Copy](#authentic-content--copy)
 3. [Sophisticated Visual Design](#sophisticated-visual-design)
@@ -47,6 +48,7 @@ ELIMINATE:
 ## Sophisticated Visual Design
 
 ### Typography System
+
 ```css
 /* Mathematical Type Scale */
 --type-scale-ratio: 1.25; /* Major Third */
@@ -72,6 +74,7 @@ ELIMINATE:
 ```
 
 ### Color Sophistication
+
 ```css
 /* Nuanced Color System using HSL */
 --color-neutral-50: hsl(210, 20%, 98%);
@@ -93,6 +96,7 @@ ELIMINATE:
 ```
 
 ### Spacing System
+
 ```css
 /* Golden Ratio Spacing */
 --space-phi: 1.618;
@@ -108,6 +112,7 @@ ELIMINATE:
 ## Elegant Animation Patterns
 
 ### Micro-Interactions
+
 ```css
 /* Sophisticated Timing Functions */
 --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
@@ -137,20 +142,20 @@ ELIMINATE:
 }
 
 .magnetic-hover:hover {
-  transform: translate(
-    calc(var(--mouse-x) * 0.3px),
-    calc(var(--mouse-y) * 0.3px)
-  );
+  transform: translate(calc(var(--mouse-x) * 0.3px), calc(var(--mouse-y) * 0.3px));
 }
 ```
 
 ### Performance-First Animations
+
 ```css
 /* GPU-Accelerated Properties Only */
 .performant-transition {
   will-change: transform, opacity;
   transform: translateZ(0); /* Force GPU layer */
-  transition: transform 0.3s, opacity 0.3s;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
 }
 
 /* Reduced Motion Support */
@@ -169,12 +174,13 @@ ELIMINATE:
 ## Component Design Excellence
 
 ### Glass Morphism Panel
+
 ```css
 .glass-panel {
   background: hsl(0 0% 100% / 0.02);
   backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid hsl(0 0% 100% / 0.05);
-  box-shadow: 
+  box-shadow:
     0 0 0 1px hsl(0 0% 0% / 0.03),
     0 2px 4px hsl(0 0% 0% / 0.04),
     0 8px 16px hsl(0 0% 0% / 0.06),
@@ -183,12 +189,13 @@ ELIMINATE:
 ```
 
 ### Sophisticated Button States
+
 ```css
 .button-elegant {
   position: relative;
   overflow: hidden;
   transition: all 0.3s var(--ease-out-expo);
-  
+
   /* Multi-layer shadow */
   box-shadow:
     0 1px 2px hsl(0 0% 0% / 0.05),
@@ -225,7 +232,9 @@ ELIMINATE:
   border-radius: 50%;
   background: hsl(0 0% 100% / 0.3);
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition:
+    width 0.6s,
+    height 0.6s;
 }
 
 .button-elegant:active::after {
@@ -237,6 +246,7 @@ ELIMINATE:
 ## Professional Polish Details
 
 ### Custom Selection
+
 ```css
 ::selection {
   background: hsl(var(--accent-primary) / 0.2);
@@ -266,11 +276,12 @@ ELIMINATE:
 ```
 
 ### Focus States
+
 ```css
 /* Custom Focus Ring */
 :focus-visible {
   outline: none;
-  box-shadow: 
+  box-shadow:
     0 0 0 2px hsl(var(--background)),
     0 0 0 4px hsl(var(--accent-primary));
 }
@@ -285,14 +296,15 @@ ELIMINATE:
 ## Modern Layout Techniques
 
 ### Advanced Grid System
+
 ```css
 /* Named Grid Areas */
 .app-layout {
   display: grid;
   grid-template-areas:
-    "header header header"
-    "nav main aside"
-    "footer footer footer";
+    'header header header'
+    'nav main aside'
+    'footer footer footer';
   grid-template-columns: 240px 1fr 320px;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
@@ -322,6 +334,7 @@ ELIMINATE:
 ## Color & Theme Sophistication
 
 ### Dynamic Theme Variables
+
 ```css
 :root {
   /* Semantic Color Tokens */
@@ -332,7 +345,7 @@ ELIMINATE:
   --color-text-primary: hsl(210 30% 8%);
   --color-text-secondary: hsl(210 20% 35%);
   --color-text-muted: hsl(210 15% 55%);
-  
+
   /* State Colors */
   --color-hover: hsl(210 40% 96%);
   --color-active: hsl(210 40% 92%);
@@ -340,7 +353,7 @@ ELIMINATE:
   --color-focus: hsl(210 100% 50% / 0.2);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --color-background: hsl(210 30% 8%);
   --color-surface: hsl(210 25% 12%);
   --color-surface-elevated: hsl(210 25% 16%);
@@ -354,6 +367,7 @@ ELIMINATE:
 ## Typography Excellence
 
 ### Variable Font Controls
+
 ```css
 @font-face {
   font-family: 'Inter var';
@@ -364,13 +378,13 @@ ELIMINATE:
 }
 
 .heading-refined {
-  font-variation-settings: 
+  font-variation-settings:
     'wght' 650,
     'slnt' 0,
     'opsz' 32;
   letter-spacing: -0.02em;
   font-kerning: normal;
-  font-feature-settings: 
+  font-feature-settings:
     'kern' 1,
     'liga' 1,
     'calt' 1,
@@ -438,6 +452,7 @@ REQUIREMENTS:
 ### Visual/UX/UI + Performance + Layout Audit Framework
 
 #### 0) Positioning & Information Architecture (Open-Source Focus)
+
 ```
 1. Eliminate SaaS tropes:
    - No "pricing", "free trial", "trusted by N users"
@@ -453,7 +468,7 @@ REQUIREMENTS:
    - "Join community"
 
 3. Open-source IA skeleton:
-   Home · Playground · Docs · Examples · Benchmarks · 
+   Home · Playground · Docs · Examples · Benchmarks ·
    Roadmap · GitHub · Community · Contribute · License · Privacy
 
 4. Repository hygiene:
@@ -464,6 +479,7 @@ REQUIREMENTS:
 ```
 
 #### 1) Heuristic Usability Review (Nielsen Norman Group)
+
 ```
 Score each heuristic (0-3):
 1. Visibility of system status
@@ -481,6 +497,7 @@ For severity ≥2: problem → violated heuristic → before/after redesign
 ```
 
 #### 2) Accessibility (WCAG 2.2 AA)
+
 ```
 Audit Checklist:
 - Contrast: text ≥4.5:1, large text ≥3:1, UI elements ≥3:1
@@ -493,6 +510,7 @@ Output: Issue table (SC id · element/URL · evidence · fix)
 ```
 
 #### 3) Interaction Ergonomics
+
 ```
 - Touch targets: iOS ≥44×44 pt, Material ≥48 dp
 - Fitts's law: T = a + b × log₂(1 + D/W)
@@ -500,6 +518,7 @@ Output: Issue table (SC id · element/URL · evidence · fix)
 ```
 
 #### 4) Visual Design & Design Tokens
+
 ```json
 {
   "typography": {
@@ -539,6 +558,7 @@ Output: Issue table (SC id · element/URL · evidence · fix)
 ```
 
 #### 5) Performance (Core Web Vitals)
+
 ```
 Targets:
 - LCP ≤2.5s
@@ -553,6 +573,7 @@ Optimizations:
 ```
 
 #### 6) Prioritized Backlog (RICE Scoring)
+
 ```
 | Title | Standard | Impact | Effort | Owner | ETA |
 |-------|----------|--------|--------|-------|-----|
@@ -568,6 +589,7 @@ Optimizations:
 ### Quick Start Protocol
 
 #### Step 1: Platform Discovery (5 minutes)
+
 ```
 1. What is the platform called and what does it do?
    - Current name:
@@ -586,6 +608,7 @@ Optimizations:
 ```
 
 #### Step 2: Strategic Vision
+
 ```
 Rebranding Objectives:
 - Market repositioning
@@ -601,6 +624,7 @@ Success Metrics:
 ```
 
 #### Step 3: Design Direction
+
 ```
 Brand Personality:
 □ Professional  □ Innovative  □ Approachable
@@ -619,6 +643,7 @@ Visual Style:
 #### Step 4: Implementation Paths
 
 ##### Path A: Quick Brand Refresh (2-3 days)
+
 ```
 - New visual identity
 - Updated messaging
@@ -627,6 +652,7 @@ Visual Style:
 ```
 
 ##### Path B: Strategic Reboot (1-2 weeks)
+
 ```
 - Architecture analysis
 - User journey redesign
@@ -635,6 +661,7 @@ Visual Style:
 ```
 
 ##### Path C: Full Platform Charter
+
 ```
 - Technical specification
 - Multi-workspace architecture
@@ -644,6 +671,7 @@ Visual Style:
 ```
 
 ### Rebranding Deliverables
+
 ```
 1. Brand Guidelines
    - Logo system
@@ -676,6 +704,7 @@ Visual Style:
 ## Additional Sophistication Patterns
 
 ### Noise Texture Overlays
+
 ```css
 .subtle-texture {
   position: relative;
@@ -685,20 +714,20 @@ Visual Style:
   content: '';
   position: absolute;
   inset: 0;
-  background-image: 
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 35px,
-      hsl(0 0% 0% / 0.01) 35px,
-      hsl(0 0% 0% / 0.01) 70px
-    );
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 35px,
+    hsl(0 0% 0% / 0.01) 35px,
+    hsl(0 0% 0% / 0.01) 70px
+  );
   pointer-events: none;
   mix-blend-mode: multiply;
 }
 ```
 
 ### Gradient Borders
+
 ```css
 .gradient-border {
   position: relative;
@@ -710,17 +739,14 @@ Visual Style:
   content: '';
   position: absolute;
   inset: -1px;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--accent-primary)),
-    hsl(var(--accent-secondary))
-  );
+  background: linear-gradient(135deg, hsl(var(--accent-primary)), hsl(var(--accent-secondary)));
   border-radius: inherit;
   z-index: -1;
 }
 ```
 
 ### Asymmetric Layouts
+
 ```css
 .asymmetric-grid {
   display: grid;
@@ -730,16 +756,12 @@ Visual Style:
 }
 
 .hero-asymmetric {
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - 4vw),
-    0 100%
-  );
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4vw), 0 100%);
 }
 ```
 
 ### Command Palette Interface
+
 ```css
 .command-palette {
   position: fixed;
@@ -756,7 +778,7 @@ Visual Style:
   padding: var(--space-lg);
   background: hsl(var(--surface));
   border-radius: 12px;
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px hsl(0 0% 0% / 0.25),
     0 0 0 1px hsl(0 0% 0% / 0.05);
 }
@@ -767,6 +789,7 @@ Visual Style:
 ## Testing & Quality Assurance
 
 ### Accessibility Testing Checklist
+
 ```
 □ Keyboard navigation complete
 □ Screen reader tested (NVDA/JAWS/VoiceOver)
@@ -781,6 +804,7 @@ Visual Style:
 ```
 
 ### Performance Testing
+
 ```
 □ Lighthouse score ≥90
 □ First paint <1s
@@ -795,6 +819,7 @@ Visual Style:
 ```
 
 ### Cross-Browser Testing
+
 ```
 □ Chrome (latest)
 □ Firefox (latest)
@@ -808,5 +833,5 @@ Visual Style:
 
 ---
 
-*Last Updated: 2025*
-*Version: 1.0.0*
+_Last Updated: 2025_
+_Version: 1.0.0_

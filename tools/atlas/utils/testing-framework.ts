@@ -1,4 +1,4 @@
-// ATLAS Testing Framework  
-// Comprehensive testing and validation suite for ATLAS components  
-  
-import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest'; 
+// ATLAS Testing Framework
+// Comprehensive testing and validation suite for ATLAS components
+
+// Vitest globals are available in test files via vitest.config.ts

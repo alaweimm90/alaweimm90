@@ -100,7 +100,10 @@ export const commands: VSCodeCommand[] = [
         const output = runNpmCommand('ai:dashboard');
         return { success: true, message: 'Dashboard loaded', data: output };
       } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : 'Failed to load dashboard' };
+        return {
+          success: false,
+          message: error instanceof Error ? error.message : 'Failed to load dashboard',
+        };
       }
     },
   },
@@ -114,7 +117,10 @@ export const commands: VSCodeCommand[] = [
         const report = readJsonFile(path.join(AI_DIR, 'compliance-report.json'));
         return { success: true, message: 'Compliance check complete', data: report };
       } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : 'Compliance check failed' };
+        return {
+          success: false,
+          message: error instanceof Error ? error.message : 'Compliance check failed',
+        };
       }
     },
   },
@@ -128,7 +134,10 @@ export const commands: VSCodeCommand[] = [
         const report = readJsonFile(path.join(AI_DIR, 'security-report.json'));
         return { success: true, message: 'Security scan complete', data: report };
       } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : 'Security scan failed' };
+        return {
+          success: false,
+          message: error instanceof Error ? error.message : 'Security scan failed',
+        };
       }
     },
   },
@@ -190,7 +199,10 @@ export const commands: VSCodeCommand[] = [
         runNpmCommand('ai:cache:clear');
         return { success: true, message: 'Cache cleared' };
       } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : 'Failed to clear cache' };
+        return {
+          success: false,
+          message: error instanceof Error ? error.message : 'Failed to clear cache',
+        };
       }
     },
   },
@@ -328,7 +340,13 @@ export function getTreeViewData(): TreeViewItem[] {
 
   // Errors section
   const errorLog = readJsonFile<{
-    errors: Array<{ id: string; code: string; message: string; severity: string; resolved: boolean }>;
+    errors: Array<{
+      id: string;
+      code: string;
+      message: string;
+      severity: string;
+      resolved: boolean;
+    }>;
   }>(path.join(AI_DIR, 'error-log.json'));
 
   if (errorLog) {
@@ -404,7 +422,12 @@ export function getDiagnostics(): DiagnosticItem[] {
         line: finding.line || 1,
         column: 1,
         message: finding.description,
-        severity: finding.severity === 'critical' ? 'error' : finding.severity === 'high' ? 'warning' : 'info',
+        severity:
+          finding.severity === 'critical'
+            ? 'error'
+            : finding.severity === 'high'
+              ? 'warning'
+              : 'info',
         source: 'AI Security',
         code: finding.type,
       });

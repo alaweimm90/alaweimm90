@@ -11,7 +11,7 @@ The ATLAS REST API provides programmatic access to all ATLAS functionality, enab
 **Base URL:** `https://api.atlas-platform.com/v1`  
 **Protocol:** HTTPS only  
 **Authentication:** API Key or JWT Token  
-**Rate Limiting:** 1000 requests per hour per API key  
+**Rate Limiting:** 1000 requests per hour per API key
 
 ---
 
@@ -81,14 +81,14 @@ All API responses follow a consistent JSON structure:
 
 ### Common Error Codes
 
-| Code | Description | HTTP Status |
-|------|-------------|-------------|
-| `VALIDATION_ERROR` | Invalid request parameters | 400 |
-| `AUTHENTICATION_ERROR` | Invalid or missing credentials | 401 |
-| `AUTHORIZATION_ERROR` | Insufficient permissions | 403 |
-| `NOT_FOUND` | Resource not found | 404 |
-| `RATE_LIMIT_EXCEEDED` | Too many requests | 429 |
-| `INTERNAL_ERROR` | Server error | 500 |
+| Code                   | Description                    | HTTP Status |
+| ---------------------- | ------------------------------ | ----------- |
+| `VALIDATION_ERROR`     | Invalid request parameters     | 400         |
+| `AUTHENTICATION_ERROR` | Invalid or missing credentials | 401         |
+| `AUTHORIZATION_ERROR`  | Insufficient permissions       | 403         |
+| `NOT_FOUND`            | Resource not found             | 404         |
+| `RATE_LIMIT_EXCEEDED`  | Too many requests              | 429         |
+| `INTERNAL_ERROR`       | Server error                   | 500         |
 
 ---
 
@@ -103,18 +103,14 @@ POST /agents
 ```
 
 **Request Body:**
+
 ```json
 {
   "agent_id": "claude-sonnet-4",
   "name": "Claude Sonnet 4",
   "provider": "anthropic",
   "model": "claude-sonnet-4.5",
-  "capabilities": [
-    "code_generation",
-    "code_review",
-    "refactoring",
-    "debugging"
-  ],
+  "capabilities": ["code_generation", "code_review", "refactoring", "debugging"],
   "constraints": {
     "max_tokens": 200000,
     "max_concurrent_tasks": 5,
@@ -132,6 +128,7 @@ POST /agents
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "success": true,
@@ -145,6 +142,7 @@ POST /agents
 ```
 
 **Curl Example:**
+
 ```bash
 curl -X POST https://api.atlas-platform.com/v1/agents \
   -H "Authorization: Bearer YOUR_API_KEY" \
@@ -167,6 +165,7 @@ GET /agents
 ```
 
 **Query Parameters:**
+
 - `provider` - Filter by provider (anthropic, openai, google)
 - `capability` - Filter by capability
 - `status` - Filter by status (active, inactive)
@@ -174,6 +173,7 @@ GET /agents
 - `offset` - Pagination offset (default: 0)
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -212,6 +212,7 @@ GET /agents/{agent_id}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -220,12 +221,7 @@ GET /agents/{agent_id}
     "name": "Claude Sonnet 4",
     "provider": "anthropic",
     "model": "claude-sonnet-4.5",
-    "capabilities": [
-      "code_generation",
-      "code_review",
-      "refactoring",
-      "debugging"
-    ],
+    "capabilities": ["code_generation", "code_review", "refactoring", "debugging"],
     "constraints": {
       "max_tokens": 200000,
       "max_concurrent_tasks": 5,
@@ -261,6 +257,7 @@ PUT /agents/{agent_id}
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Updated Claude Agent",
@@ -296,6 +293,7 @@ POST /tasks
 ```
 
 **Request Body:**
+
 ```json
 {
   "type": "code_generation",
@@ -313,7 +311,7 @@ POST /tasks
     "priority": "high"
   },
   "constraints": {
-    "max_cost_usd": 0.50,
+    "max_cost_usd": 0.5,
     "preferred_providers": ["anthropic", "openai"],
     "excluded_agents": []
   },
@@ -325,6 +323,7 @@ POST /tasks
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
   "success": true,
@@ -338,6 +337,7 @@ POST /tasks
 ```
 
 **Curl Example:**
+
 ```bash
 curl -X POST https://api.atlas-platform.com/v1/tasks \
   -H "Authorization: Bearer YOUR_API_KEY" \
@@ -364,6 +364,7 @@ GET /tasks/{task_id}
 ```
 
 **Response (200 OK) - Running:**
+
 ```json
 {
   "success": true,
@@ -383,6 +384,7 @@ GET /tasks/{task_id}
 ```
 
 **Response (200 OK) - Completed:**
+
 ```json
 {
   "success": true,
@@ -392,11 +394,7 @@ GET /tasks/{task_id}
     "result": {
       "code": "const express = require('express');\nconst router = express.Router();\n\nconst authenticateUser = async (req, res) => {\n  try {\n    const { email, password } = req.body;\n    \n    // Authentication logic here\n    \n    res.json({ success: true, token: 'jwt_token' });\n  } catch (error) {\n    res.status(401).json({ error: 'Authentication failed' });\n  }\n};\n\nrouter.post('/login', authenticateUser);\n\nmodule.exports = router;",
       "explanation": "Created a basic authentication endpoint with error handling",
-      "suggestions": [
-        "Add input validation",
-        "Implement JWT token generation",
-        "Add rate limiting"
-      ]
+      "suggestions": ["Add input validation", "Implement JWT token generation", "Add rate limiting"]
     },
     "agent_id": "claude-sonnet-4",
     "tier": 0,
@@ -417,6 +415,7 @@ GET /tasks
 ```
 
 **Query Parameters:**
+
 - `status` - Filter by status (queued, running, completed, failed)
 - `type` - Filter by task type
 - `agent_id` - Filter by agent
@@ -427,6 +426,7 @@ GET /tasks
 - `offset` - Pagination offset
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -459,6 +459,7 @@ DELETE /tasks/{task_id}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -479,6 +480,7 @@ POST /tasks/{task_id}/retry
 ```
 
 **Request Body (optional):**
+
 ```json
 {
   "agent_id": "gpt-4-turbo",
@@ -487,6 +489,7 @@ POST /tasks/{task_id}/retry
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
   "success": true,
@@ -511,6 +514,7 @@ POST /analyze
 ```
 
 **Request Body:**
+
 ```json
 {
   "repository_path": "/path/to/repo",
@@ -529,6 +533,7 @@ POST /analyze
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
   "success": true,
@@ -549,6 +554,7 @@ GET /analyze/{analysis_id}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -600,6 +606,7 @@ GET /analyze
 ```
 
 **Query Parameters:**
+
 - `repository` - Filter by repository
 - `status` - Filter by status
 - `since` - Filter by start date
@@ -618,6 +625,7 @@ POST /refactor
 ```
 
 **Request Body:**
+
 ```json
 {
   "opportunity_id": "opp_123",
@@ -632,6 +640,7 @@ POST /refactor
 ```
 
 **Response (202 Accepted):**
+
 ```json
 {
   "success": true,
@@ -652,6 +661,7 @@ GET /refactor/{refactoring_id}
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -695,10 +705,12 @@ GET /metrics
 ```
 
 **Query Parameters:**
+
 - `period` - Time period (1h, 24h, 7d, 30d)
 - `metric_type` - Type of metrics (performance, cost, quality)
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -729,6 +741,7 @@ GET /metrics/agents/{agent_id}
 ```
 
 **Query Parameters:**
+
 - `period` - Time period
 - `detailed` - Include detailed breakdowns
 
@@ -745,6 +758,7 @@ GET /health
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -779,6 +793,7 @@ GET /status
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "success": true,
@@ -816,16 +831,12 @@ POST /webhooks
 ```
 
 **Request Body:**
+
 ```json
 {
   "url": "https://my-app.com/webhooks/atlas",
   "secret": "webhook_secret",
-  "events": [
-    "task.completed",
-    "task.failed",
-    "analysis.completed",
-    "refactoring.applied"
-  ],
+  "events": ["task.completed", "task.failed", "analysis.completed", "refactoring.applied"],
   "active": true
 }
 ```
@@ -833,6 +844,7 @@ POST /webhooks
 ### Webhook Payloads
 
 **Task Completed:**
+
 ```json
 {
   "event": "task.completed",
@@ -849,6 +861,7 @@ POST /webhooks
 ```
 
 **Analysis Completed:**
+
 ```json
 {
   "event": "analysis.completed",
@@ -924,7 +937,7 @@ const atlas = new ATLAS({ apiKey: 'your_api_key' });
 const result = await atlas.tasks.submit({
   type: 'code_generation',
   description: 'Create user registration endpoint',
-  context: { language: 'javascript', framework: 'express' }
+  context: { language: 'javascript', framework: 'express' },
 });
 
 console.log(result.code);
@@ -957,6 +970,7 @@ curl https://api.atlas-platform.com/v1/tasks/task_123 \
 ### Common Error Scenarios
 
 **Invalid API Key:**
+
 ```json
 {
   "success": false,
@@ -968,6 +982,7 @@ curl https://api.atlas-platform.com/v1/tasks/task_123 \
 ```
 
 **Rate Limit Exceeded:**
+
 ```json
 {
   "success": false,
@@ -984,6 +999,7 @@ curl https://api.atlas-platform.com/v1/tasks/task_123 \
 ```
 
 **Validation Error:**
+
 ```json
 {
   "success": false,

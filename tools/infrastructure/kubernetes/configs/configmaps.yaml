@@ -11,32 +11,32 @@ metadata:
     app.kubernetes.io/component: config
 data:
   # Application settings
-  NODE_ENV: "production"
-  LOG_LEVEL: "info"
-  PORT: "3000"
+  NODE_ENV: 'production'
+  LOG_LEVEL: 'info'
+  PORT: '3000'
 
   # Feature flags
-  ENABLE_METRICS: "true"
-  ENABLE_TRACING: "true"
-  ENABLE_PROFILING: "false"
+  ENABLE_METRICS: 'true'
+  ENABLE_TRACING: 'true'
+  ENABLE_PROFILING: 'false'
 
   # Performance tuning
-  MAX_WORKERS: "4"
-  WORKER_TIMEOUT: "30000"
-  REQUEST_TIMEOUT: "60000"
+  MAX_WORKERS: '4'
+  WORKER_TIMEOUT: '30000'
+  REQUEST_TIMEOUT: '60000'
 
   # Cache settings
-  CACHE_TTL: "3600"
-  CACHE_MAX_SIZE: "1000"
+  CACHE_TTL: '3600'
+  CACHE_MAX_SIZE: '1000'
 
   # Rate limiting
-  RATE_LIMIT_WINDOW: "60000"
-  RATE_LIMIT_MAX_REQUESTS: "100"
+  RATE_LIMIT_WINDOW: '60000'
+  RATE_LIMIT_MAX_REQUESTS: '100'
 
   # Database settings (non-sensitive)
-  DB_POOL_MIN: "2"
-  DB_POOL_MAX: "10"
-  DB_CONNECTION_TIMEOUT: "5000"
+  DB_POOL_MIN: '2'
+  DB_POOL_MAX: '10'
+  DB_CONNECTION_TIMEOUT: '5000'
 
   # Application config file
   app-config.json: |
@@ -84,14 +84,14 @@ metadata:
     app.kubernetes.io/component: feature-flags
 data:
   # Feature toggles
-  FEATURE_NEW_UI: "true"
-  FEATURE_ADVANCED_ANALYTICS: "true"
-  FEATURE_BETA_API: "false"
-  FEATURE_EXPERIMENTAL_MODE: "false"
+  FEATURE_NEW_UI: 'true'
+  FEATURE_ADVANCED_ANALYTICS: 'true'
+  FEATURE_BETA_API: 'false'
+  FEATURE_EXPERIMENTAL_MODE: 'false'
 
   # A/B Testing
-  AB_TEST_NEW_DASHBOARD: "50"  # 50% of users
-  AB_TEST_NEW_WORKFLOW: "25"    # 25% of users
+  AB_TEST_NEW_DASHBOARD: '50' # 50% of users
+  AB_TEST_NEW_WORKFLOW: '25' # 25% of users
 
 ---
 # SuperTool Logging Configuration
@@ -247,14 +247,14 @@ metadata:
     app.kubernetes.io/instance: supertool-staging
     environment: staging
 data:
-  NODE_ENV: "staging"
-  LOG_LEVEL: "debug"
-  PORT: "3000"
-  ENABLE_METRICS: "true"
-  ENABLE_TRACING: "true"
-  ENABLE_PROFILING: "true"
-  MAX_WORKERS: "2"
-  CACHE_TTL: "1800"
+  NODE_ENV: 'staging'
+  LOG_LEVEL: 'debug'
+  PORT: '3000'
+  ENABLE_METRICS: 'true'
+  ENABLE_TRACING: 'true'
+  ENABLE_PROFILING: 'true'
+  MAX_WORKERS: '2'
+  CACHE_TTL: '1800'
 
 ---
 # SuperTool Environment-Specific Config (Dev)
@@ -268,11 +268,11 @@ metadata:
     app.kubernetes.io/instance: supertool-dev
     environment: development
 data:
-  NODE_ENV: "development"
-  LOG_LEVEL: "debug"
-  PORT: "3000"
-  ENABLE_METRICS: "false"
-  ENABLE_TRACING: "false"
-  ENABLE_PROFILING: "true"
-  MAX_WORKERS: "1"
-  CACHE_TTL: "300"
+  NODE_ENV: 'development'
+  LOG_LEVEL: 'debug'
+  PORT: '3000'
+  ENABLE_METRICS: 'false'
+  ENABLE_TRACING: 'false'
+  ENABLE_PROFILING: 'true'
+  MAX_WORKERS: '1'
+  CACHE_TTL: '300'

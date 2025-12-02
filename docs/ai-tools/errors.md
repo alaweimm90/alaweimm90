@@ -16,9 +16,9 @@ List recent errors
 
 **Arguments:**
 
-| Name | Type | Required | Description | Default |
-|------|------|----------|-------------|---------|
-| severity | string | No | Filter by severity (low, medium, high, critical) | - |
+| Name     | Type   | Required | Description                                      | Default |
+| -------- | ------ | -------- | ------------------------------------------------ | ------- |
+| severity | string | No       | Filter by severity (low, medium, high, critical) | -       |
 
 ### `npm run ai:errors:stats`
 
@@ -43,4 +43,3 @@ npm run ai:errors:list critical
 ```bash
 npm run ai:errors:stats
 ```
-

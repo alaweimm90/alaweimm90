@@ -9,6 +9,7 @@ ATLAS Phase 8 implements a comprehensive continuous optimization service that or
 The optimization service consists of three main components:
 
 ### 1. ContinuousOptimizer (`optimizer.ts`)
+
 **Main orchestration service** that manages the optimization lifecycle:
 
 - **Scheduling**: Automated optimization runs based on configurable intervals
@@ -18,12 +19,14 @@ The optimization service consists of three main components:
 - **Safety Controls**: Manual override capabilities and rollback support
 
 **Key Features:**
+
 - Configurable optimization schedules and thresholds
 - Real-time job progress tracking
 - Automatic repository analysis and refactoring
 - Comprehensive error handling and recovery
 
 ### 2. RepositoryMonitor (`monitor.ts`)
+
 **Continuous monitoring service** that watches repositories for changes:
 
 - **File System Watching**: Real-time monitoring of repository changes
@@ -33,12 +36,14 @@ The optimization service consists of three main components:
 - **Parallel Processing**: Concurrent analysis of multiple repositories
 
 **Key Features:**
+
 - Configurable trigger thresholds and frequencies
 - Incremental analysis with caching
 - Comprehensive ignore patterns and filtering
 - Real-time change detection and analysis
 
 ### 3. DashboardService (`dashboard.ts`)
+
 **Real-time monitoring and telemetry service**:
 
 - **REST API**: HTTP endpoints for dashboard data and controls
@@ -48,6 +53,7 @@ The optimization service consists of three main components:
 - **Export Capabilities**: Data export in JSON/CSV formats
 
 **Key Features:**
+
 - Real-time metrics and event streaming
 - Configurable telemetry retention
 - RESTful API with authentication support
@@ -56,12 +62,14 @@ The optimization service consists of three main components:
 ## Configuration System
 
 ### Configuration Loader (`config/loader.ts`)
+
 - **File-based Configuration**: JSON configuration with validation
 - **Hot Reloading**: Automatic configuration updates without restart
 - **Version Compatibility**: Backward-compatible configuration versioning
 - **Default Generation**: Automatic creation of default configurations
 
 ### Configuration Structure (`config/optimization.json`)
+
 ```json
 {
   "optimizer": {
@@ -83,21 +91,25 @@ The optimization service consists of three main components:
 ## Safety & Reliability Features
 
 ### Rate Limiting
+
 - Token bucket algorithm with configurable rates
 - Automatic refill based on time windows
 - Per-operation cost calculation
 
 ### Circuit Breaker Pattern
+
 - Automatic failure detection and recovery
 - Configurable failure thresholds
 - Half-open state for gradual recovery
 
 ### Rollback Mechanisms
+
 - Pre-optimization backups
 - Git-based rollback capabilities
 - Automatic recovery procedures
 
 ### Manual Override Controls
+
 - Administrative override capabilities
 - Emergency stop functionality
 - Manual job cancellation
@@ -114,12 +126,14 @@ The service integrates with existing ATLAS components:
 ## API Endpoints
 
 ### REST API
+
 - `GET /api/dashboard` - Current dashboard data
 - `GET /api/events` - Telemetry events with filtering
 - `GET /api/health` - System health status
 - `GET /api/metrics` - Performance metrics
 
 ### WebSocket
+
 - Real-time dashboard updates
 - Live event streaming
 - System status notifications
@@ -127,6 +141,7 @@ The service integrates with existing ATLAS components:
 ## Usage Examples
 
 ### Basic Setup
+
 ```typescript
 import { initializeAtlasServices, startAtlasServices } from './services';
 
@@ -135,47 +150,53 @@ await startAtlasServices(services);
 ```
 
 ### Manual Optimization
+
 ```typescript
 const result = await services.optimizer.optimizeRepository('/path/to/repo', {
   force: true,
-  dryRun: false
+  dryRun: false,
 });
 ```
 
 ### Repository Monitoring
+
 ```typescript
 await services.monitor.addRepository({
   name: 'my-repo',
   path: '/path/to/repo',
   enabled: true,
-  branch: 'main'
+  branch: 'main',
 });
 ```
 
 ### Configuration Management
+
 ```typescript
 await services.config.update({
   optimizer: {
-    safety: { rateLimitPerHour: 20 }
-  }
+    safety: { rateLimitPerHour: 20 },
+  },
 });
 ```
 
 ## Monitoring & Observability
 
 ### Telemetry Events
+
 - **Optimization Events**: Job start/complete/fail
 - **Analysis Events**: Repository analysis results
 - **System Events**: Health checks and status changes
 - **Error Events**: Failures and exceptions
 
 ### Metrics Collection
+
 - Optimization success/failure rates
 - Analysis performance metrics
 - System resource usage
 - Repository health scores
 
 ### Health Checks
+
 - Service availability monitoring
 - Resource usage validation
 - Circuit breaker status
@@ -184,17 +205,20 @@ await services.config.update({
 ## Deployment & Operations
 
 ### Service Lifecycle
+
 1. **Initialization**: Load configuration and validate setup
 2. **Startup**: Initialize all services in dependency order
 3. **Monitoring**: Continuous health checks and telemetry
 4. **Shutdown**: Graceful service termination with cleanup
 
 ### Configuration Management
+
 - Environment-specific configurations
 - Configuration validation and migration
 - Hot-reload capabilities for zero-downtime updates
 
 ### Backup & Recovery
+
 - Automatic backup before optimizations
 - Git-based rollback mechanisms
 - Configuration backup and restore

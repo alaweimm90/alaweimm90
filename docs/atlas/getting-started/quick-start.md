@@ -41,6 +41,7 @@ atlas init
 ```
 
 This creates the necessary configuration files and directories:
+
 - `.atlas/` - ATLAS configuration directory
 - `.atlas/config.json` - Main configuration file
 - `.atlas/agents/` - Agent registry storage
@@ -137,6 +138,7 @@ atlas task submit \
 ```
 
 ATLAS will:
+
 1. Analyze your request
 2. Select the best agent (Claude Sonnet 4)
 3. Execute the task
@@ -170,6 +172,7 @@ atlas task result <task-id>
 ```
 
 The output will include:
+
 - Generated code
 - Implementation explanation
 - Usage examples
@@ -196,6 +199,7 @@ atlas analyze repo . --type quick
 ```
 
 This performs a quick analysis of your codebase and provides:
+
 - Code complexity metrics
 - Technical debt assessment
 - Refactoring opportunities
@@ -238,15 +242,18 @@ atlas task list --limit 10
 ### Common Issues
 
 **"Command not found: atlas"**
+
 - Ensure npm global packages are in your PATH
 - Try `npx @atlas/cli` instead of `atlas`
 
 **"Agent registration failed"**
+
 - Verify your API key is valid
 - Check your internet connection
 - Ensure the API key has sufficient permissions
 
 **"Task submission failed"**
+
 - Verify an agent is registered and healthy
 - Check your task description is clear and specific
 - Ensure you have sufficient API quota

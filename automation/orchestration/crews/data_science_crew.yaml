@@ -2,13 +2,13 @@
 # End-to-end ML model development and deployment
 
 name: data_science_crew
-description: "Multi-agent crew for ML model development and deployment"
-version: "1.0"
+description: 'Multi-agent crew for ML model development and deployment'
+version: '1.0'
 
 agents:
   - name: data_lead
     agent_ref: data_engineer_agent
-    role_in_crew: "Data Engineering Lead"
+    role_in_crew: 'Data Engineering Lead'
     responsibilities:
       - Design data pipelines
       - Ensure data quality
@@ -17,7 +17,7 @@ agents:
 
   - name: ml_lead
     agent_ref: ml_engineer_agent
-    role_in_crew: "ML Engineering Lead"
+    role_in_crew: 'ML Engineering Lead'
     responsibilities:
       - Design model architecture
       - Train and evaluate models
@@ -26,7 +26,7 @@ agents:
 
   - name: analyst
     agent_ref: data_analyst_agent
-    role_in_crew: "Data Analyst"
+    role_in_crew: 'Data Analyst'
     responsibilities:
       - Exploratory data analysis
       - Feature engineering
@@ -35,7 +35,7 @@ agents:
 
   - name: mlops_lead
     agent_ref: mlops_agent
-    role_in_crew: "MLOps Lead"
+    role_in_crew: 'MLOps Lead'
     responsibilities:
       - Model deployment
       - Monitoring setup
@@ -44,7 +44,7 @@ agents:
 
   - name: reviewer
     agent_ref: critic_agent
-    role_in_crew: "Model Reviewer"
+    role_in_crew: 'Model Reviewer'
     responsibilities:
       - Validate model performance
       - Check for bias and fairness
@@ -53,51 +53,51 @@ agents:
 
 tasks:
   - name: data_ingestion
-    description: "Set up data ingestion pipeline"
+    description: 'Set up data ingestion pipeline'
     assigned_to: data_lead
-    expected_output: "Working data pipeline with validation"
+    expected_output: 'Working data pipeline with validation'
     priority: 1
 
   - name: exploratory_analysis
-    description: "Perform EDA and feature analysis"
+    description: 'Perform EDA and feature analysis'
     assigned_to: analyst
     depends_on: [data_ingestion]
-    expected_output: "EDA report with insights"
+    expected_output: 'EDA report with insights'
     priority: 2
 
   - name: feature_engineering
-    description: "Create and validate features"
+    description: 'Create and validate features'
     assigned_to: analyst
     depends_on: [exploratory_analysis]
-    expected_output: "Feature set with documentation"
+    expected_output: 'Feature set with documentation'
     priority: 3
 
   - name: model_development
-    description: "Train and evaluate models"
+    description: 'Train and evaluate models'
     assigned_to: ml_lead
     depends_on: [feature_engineering]
-    expected_output: "Trained model with metrics"
+    expected_output: 'Trained model with metrics'
     priority: 4
 
   - name: model_review
-    description: "Review model for quality and bias"
+    description: 'Review model for quality and bias'
     assigned_to: reviewer
     depends_on: [model_development]
-    expected_output: "Model review report"
+    expected_output: 'Model review report'
     priority: 5
 
   - name: model_deployment
-    description: "Deploy model to production"
+    description: 'Deploy model to production'
     assigned_to: mlops_lead
     depends_on: [model_review]
-    expected_output: "Deployed model with monitoring"
+    expected_output: 'Deployed model with monitoring'
     priority: 6
 
   - name: monitoring_setup
-    description: "Set up model monitoring and alerts"
+    description: 'Set up model monitoring and alerts'
     assigned_to: mlops_lead
     depends_on: [model_deployment]
-    expected_output: "Monitoring dashboard and alerts"
+    expected_output: 'Monitoring dashboard and alerts'
     priority: 7
 
 process:
@@ -129,19 +129,19 @@ process:
 
 quality_gates:
   - name: data_quality
-    condition: "Data validation passes with < 1% errors"
+    condition: 'Data validation passes with < 1% errors'
     blocking: true
 
   - name: model_performance
-    condition: "Model meets baseline metrics"
+    condition: 'Model meets baseline metrics'
     blocking: true
 
   - name: bias_check
-    condition: "No significant bias detected"
+    condition: 'No significant bias detected'
     blocking: true
 
   - name: latency_requirement
-    condition: "Inference latency < 100ms p99"
+    condition: 'Inference latency < 100ms p99'
     blocking: false
 
 metrics:

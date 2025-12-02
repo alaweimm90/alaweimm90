@@ -1,1 +1,1 @@
-// ATLAS Complexity Calculator - Code complexity and quality metrics 
+// ATLAS Complexity Calculator - Code complexity and quality metrics

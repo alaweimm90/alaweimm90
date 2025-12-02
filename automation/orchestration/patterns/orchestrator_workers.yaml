@@ -1,7 +1,7 @@
 # Orchestrator-Workers Pattern
 # Central LLM dynamically delegates to specialized workers
 
-name: "orchestrator_workers"
+name: 'orchestrator_workers'
 description: |
   A central orchestrator LLM analyzes the task, breaks it down dynamically,
   and delegates subtasks to specialized worker agents. The orchestrator
@@ -9,72 +9,72 @@ description: |
 
 # When to use this pattern
 use_when:
-  - "Complex tasks requiring different expertise"
-  - "Subtasks are not predictable in advance"
-  - "Need dynamic decision-making during execution"
-  - "Task requires coordination between specialists"
+  - 'Complex tasks requiring different expertise'
+  - 'Subtasks are not predictable in advance'
+  - 'Need dynamic decision-making during execution'
+  - 'Task requires coordination between specialists'
 
 # When NOT to use
 avoid_when:
-  - "Task is simple and predictable"
-  - "Fixed workflow is sufficient"
-  - "Low latency is critical"
+  - 'Task is simple and predictable'
+  - 'Fixed workflow is sufficient'
+  - 'Low latency is critical'
 
 # Pattern structure
 structure:
-  type: "hierarchical"
+  type: 'hierarchical'
   components:
-    - "input"
-    - "orchestrator"
-    - "dynamic_delegation"
-    - "workers[]"
-    - "synthesis"
-    - "output"
+    - 'input'
+    - 'orchestrator'
+    - 'dynamic_delegation'
+    - 'workers[]'
+    - 'synthesis'
+    - 'output'
 
 # Orchestrator responsibilities
 orchestrator:
   responsibilities:
-    - "Analyze incoming task"
-    - "Decompose into subtasks"
-    - "Select appropriate workers"
-    - "Delegate with clear instructions"
-    - "Monitor progress"
-    - "Synthesize results"
-    - "Iterate if needed"
+    - 'Analyze incoming task'
+    - 'Decompose into subtasks'
+    - 'Select appropriate workers'
+    - 'Delegate with clear instructions'
+    - 'Monitor progress'
+    - 'Synthesize results'
+    - 'Iterate if needed'
 
   decision_points:
-    - "Which workers to engage"
-    - "Order of subtasks"
-    - "When to iterate"
-    - "When task is complete"
+    - 'Which workers to engage'
+    - 'Order of subtasks'
+    - 'When to iterate'
+    - 'When task is complete'
 
 # Worker types
 worker_types:
   specialist:
-    description: "Expert in specific domain"
+    description: 'Expert in specific domain'
     examples:
-      - "security_expert"
-      - "performance_optimizer"
-      - "documentation_writer"
+      - 'security_expert'
+      - 'performance_optimizer'
+      - 'documentation_writer'
 
   generalist:
-    description: "Can handle various tasks"
+    description: 'Can handle various tasks'
     examples:
-      - "coder_agent"
-      - "reviewer_agent"
+      - 'coder_agent'
+      - 'reviewer_agent'
 
   tool_user:
-    description: "Specialized in using specific tools"
+    description: 'Specialized in using specific tools'
     examples:
-      - "search_agent"
-      - "analysis_agent"
+      - 'search_agent'
+      - 'analysis_agent'
 
 # Example implementation
 example:
-  name: "complex_refactoring"
+  name: 'complex_refactoring'
 
   orchestrator:
-    agent: "architect_agent"
+    agent: 'architect_agent'
     initial_prompt: |
       Analyze this codebase for refactoring opportunities.
       You have access to these specialists:
@@ -86,51 +86,51 @@ example:
       Break down the task and delegate appropriately.
 
   workers:
-    - name: "code_analyzer"
-      agent: "reviewer_agent"
-      capabilities: ["static_analysis", "metrics", "complexity"]
+    - name: 'code_analyzer'
+      agent: 'reviewer_agent'
+      capabilities: ['static_analysis', 'metrics', 'complexity']
 
-    - name: "security_expert"
-      agent: "security_agent"
-      capabilities: ["vulnerability_scan", "best_practices"]
+    - name: 'security_expert'
+      agent: 'security_agent'
+      capabilities: ['vulnerability_scan', 'best_practices']
 
-    - name: "performance_expert"
-      agent: "performance_agent"
-      capabilities: ["profiling", "optimization"]
+    - name: 'performance_expert'
+      agent: 'performance_agent'
+      capabilities: ['profiling', 'optimization']
 
-    - name: "refactoring_agent"
-      agent: "coder_agent"
-      capabilities: ["code_transformation", "testing"]
+    - name: 'refactoring_agent'
+      agent: 'coder_agent'
+      capabilities: ['code_transformation', 'testing']
 
   synthesis:
-    method: "orchestrator_summary"
+    method: 'orchestrator_summary'
     include_worker_outputs: true
 
 # Communication protocol
 communication:
   delegation_format:
-    task_id: "unique_id"
-    worker: "worker_name"
-    instruction: "Clear task description"
-    context: "Relevant context from previous steps"
-    expected_output: "What to return"
-    timeout: "minutes"
+    task_id: 'unique_id'
+    worker: 'worker_name'
+    instruction: 'Clear task description'
+    context: 'Relevant context from previous steps'
+    expected_output: 'What to return'
+    timeout: 'minutes'
 
   response_format:
-    task_id: "matching_id"
-    status: "success|failure|partial"
-    output: "Task result"
-    confidence: "0.0-1.0"
-    notes: "Any observations"
+    task_id: 'matching_id'
+    status: 'success|failure|partial'
+    output: 'Task result'
+    confidence: '0.0-1.0'
+    notes: 'Any observations'
 
 # Best practices
 best_practices:
-  - "Give orchestrator clear overview of available workers"
-  - "Define worker capabilities explicitly"
-  - "Include context in delegations"
-  - "Set iteration limits to prevent loops"
-  - "Log all delegations for debugging"
-  - "Allow orchestrator to ask clarifying questions"
+  - 'Give orchestrator clear overview of available workers'
+  - 'Define worker capabilities explicitly'
+  - 'Include context in delegations'
+  - 'Set iteration limits to prevent loops'
+  - 'Log all delegations for debugging'
+  - 'Allow orchestrator to ask clarifying questions'
 
 # Template
 template: |

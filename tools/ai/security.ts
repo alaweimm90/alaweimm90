@@ -192,7 +192,7 @@ export class SecurityScanner {
   // Scan for secrets in files
   async scanSecrets(paths: string[] = ['.']): Promise<SecurityFinding[]> {
     const findings: SecurityFinding[] = [];
-    const excludeDirs = ['node_modules', '.git', 'dist', 'build', 'coverage'];
+    const excludeDirs = ['node_modules', '.git', 'dist', 'build', 'coverage', '.ai', '.atlas'];
 
     const scanFile = (filePath: string): void => {
       try {

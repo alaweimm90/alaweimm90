@@ -3,23 +3,23 @@ kind: Ingress
 metadata:
   name: supertool
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rate-limit: "100"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/rate-limit: '100'
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - supertool.example.com
-    secretName: supertool-tls
+    - hosts:
+        - supertool.example.com
+      secretName: supertool-tls
   rules:
-  - host: supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool
-            port:
-              number: 80
+    - host: supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool
+                port:
+                  number: 80

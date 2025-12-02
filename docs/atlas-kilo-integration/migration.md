@@ -56,12 +56,14 @@ atlas config validate --against kilo
 ### Risk Assessment
 
 **High Risk Factors:**
+
 - Complex custom workflows
 - Heavy reliance on specific features
 - Large team size requiring extensive training
 - Critical production systems
 
 **Mitigation Strategies:**
+
 - Pilot migration with small team/project
 - Maintain parallel systems during transition
 - Comprehensive testing and rollback plans
@@ -157,12 +159,14 @@ atlas bridge status --health-check
 ### 2.1 Pilot Migration
 
 **Select Pilot Project:**
+
 - Small, self-contained project
 - Representative of typical workflows
 - Non-critical to business operations
 - Team open to trying new processes
 
 **Pilot Workflow:**
+
 ```bash
 # In pilot project directory
 cd pilot-project
@@ -184,6 +188,7 @@ atlas compliance report --output pilot-report.html
 #### CI/CD Pipeline Migration
 
 **Before (Separate Systems):**
+
 ```yaml
 # .github/workflows/separate-systems.yml
 name: Separate Analysis
@@ -204,6 +209,7 @@ jobs:
 ```
 
 **After (Integrated System):**
+
 ```yaml
 # .github/workflows/integrated-analysis.yml
 name: Integrated ATLAS-KILO Analysis
@@ -242,6 +248,7 @@ jobs:
 #### Development Workflow Migration
 
 **Before (Manual Process):**
+
 ```bash
 # Developer workflow
 atlas analyze repo .
@@ -253,6 +260,7 @@ kilo compliance check .
 ```
 
 **After (Integrated Workflow):**
+
 ```bash
 # Integrated developer workflow
 atlas analyze repo . --governance-check --auto-refactor
@@ -373,12 +381,14 @@ atlas config set monitoring.alerts.governance.channels '["email", "slack"]'
 ### 4.1 Team Training
 
 **Training Materials:**
+
 - Integration overview presentation
 - Hands-on workshop
 - Command reference cheat sheet
 - Best practices guide
 
 **Training Sessions:**
+
 ```bash
 # Demo integrated workflow
 atlas workflow run demo-workflow
@@ -407,6 +417,7 @@ echo "See docs/integration.md for details." >> README.md
 ### 4.3 Legacy System Decommissioning
 
 **Gradual Decommissioning:**
+
 ```bash
 # Phase out separate systems gradually
 # Maintain parallel operation during transition
@@ -456,6 +467,7 @@ atlas config set bridges.a2k.validation.enabled true
 ## Migration Checklist
 
 ### Pre-Migration
+
 - [ ] Assess current ATLAS and KILO usage
 - [ ] Identify integration points and dependencies
 - [ ] Plan migration phases and timeline
@@ -463,6 +475,7 @@ atlas config set bridges.a2k.validation.enabled true
 - [ ] Backup all configurations
 
 ### During Migration
+
 - [ ] Set up integration infrastructure
 - [ ] Configure bridges and endpoints
 - [ ] Test connectivity and basic functionality
@@ -470,6 +483,7 @@ atlas config set bridges.a2k.validation.enabled true
 - [ ] Gather feedback and adjust approach
 
 ### Post-Migration
+
 - [ ] Complete full migration
 - [ ] Update documentation and training
 - [ ] Monitor performance and issues
@@ -479,36 +493,44 @@ atlas config set bridges.a2k.validation.enabled true
 ## Common Migration Challenges
 
 ### Challenge 1: Workflow Disruption
+
 **Problem:** Teams accustomed to separate workflows resist change.
 
 **Solution:**
+
 - Start with pilot groups
 - Provide comprehensive training
 - Show clear benefits and time savings
 - Offer support during transition period
 
 ### Challenge 2: Configuration Conflicts
+
 **Problem:** Existing configurations conflict with integrated setup.
 
 **Solution:**
+
 - Use configuration migration tools
 - Test configurations thoroughly
 - Maintain backup of original configs
 - Use gradual rollout approach
 
 ### Challenge 3: Performance Concerns
+
 **Problem:** Integration adds latency to existing workflows.
 
 **Solution:**
+
 - Enable caching and optimization
 - Use asynchronous processing where possible
 - Monitor and tune performance
 - Set appropriate timeouts and limits
 
 ### Challenge 4: Learning Curve
+
 **Problem:** New commands and workflows require learning.
 
 **Solution:**
+
 - Provide cheat sheets and quick references
 - Create automated workflows for common tasks
 - Offer hands-on training sessions
@@ -517,12 +539,14 @@ atlas config set bridges.a2k.validation.enabled true
 ## Success Metrics
 
 ### Quantitative Metrics
+
 - **Workflow Efficiency**: Time saved per development cycle
 - **Error Reduction**: Decrease in policy violations and bugs
 - **Compliance Score**: Average compliance score improvement
 - **Template Usage**: Increase in standardized template adoption
 
 ### Qualitative Metrics
+
 - **Developer Satisfaction**: Team feedback on new workflows
 - **Process Consistency**: Reduction in manual processes
 - **Knowledge Sharing**: Improved collaboration across teams
@@ -531,12 +555,14 @@ atlas config set bridges.a2k.validation.enabled true
 ## Support and Resources
 
 ### During Migration
+
 - **Migration Support Team**: Dedicated support for migration issues
 - **Documentation Access**: Comprehensive guides and examples
 - **Community Forums**: Peer support and shared experiences
 - **Professional Services**: Expert consultation and implementation
 
 ### Post-Migration
+
 - **Ongoing Support**: Help desk and technical support
 - **Training Resources**: Advanced workshops and certifications
 - **Best Practices**: Regularly updated guides and recommendations
@@ -550,6 +576,7 @@ atlas config set bridges.a2k.validation.enabled true
 **Challenge:** Managing multiple development tools across teams
 **Solution:** ATLAS-KILO integration with custom workflows
 **Results:**
+
 - 40% reduction in development cycle time
 - 60% improvement in code compliance
 - 80% adoption of standardized templates
@@ -561,6 +588,7 @@ atlas config set bridges.a2k.validation.enabled true
 **Challenge:** Rapid growth requiring better governance
 **Solution:** Phased migration starting with CI/CD integration
 **Results:**
+
 - Maintained development velocity during migration
 - Improved code quality without slowing delivery
 - Better compliance with industry standards

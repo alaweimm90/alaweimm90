@@ -2,8 +2,9 @@
 # Defines what files and directories are allowed at the repository root level
 # Enforced by structure_validator.py and GitHub Actions
 
-version: "1.0"
-last_updated: "2025-11-27"
+version: "2.0"
+last_updated: "2025-11-30"
+updated_by: "repository-reorganization-plan"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL FILES
@@ -17,6 +18,8 @@ allowed_files:
       purpose: "Open source license (MIT)"
     - name: "SECURITY.md"
       purpose: "Security policy and vulnerability reporting"
+    - name: "CLAUDE.md"
+      purpose: "Claude Code AI assistant instructions"
 
   # Standard Documentation (recommended)
   recommended:
@@ -39,11 +42,11 @@ allowed_files:
       purpose: "Docker build ignore patterns"
     - name: ".pre-commit-config.yaml"
       purpose: "Pre-commit hook configuration"
-    - name: ".yamllint.yml"
+    - name: ".yamllint.yaml"
       purpose: "YAML linting rules"
     - name: ".editorconfig"
       purpose: "Editor configuration"
-    - name: "mkdocs.yml"
+    - name: "mkdocs.yaml"
       purpose: "MkDocs documentation site configuration"
     - name: "pyproject.toml"
       purpose: "Python project configuration"
@@ -61,12 +64,10 @@ allowed_files:
       purpose: "Prettier code formatter configuration"
     - name: ".prettierignore"
       purpose: "Prettier ignore patterns"
+    - name: ".eslintignore"
+      purpose: "ESLint ignore patterns"
     - name: ".env.example"
       purpose: "Environment variables template (no secrets)"
-
-  # AI Assistant Rules Files - REMOVED (migrated to .ai/)
-  # All AI configs now live under .ai/ directory
-  # Legacy root-level AI files are FORBIDDEN
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL DIRECTORIES
@@ -81,47 +82,80 @@ allowed_directories:
     - name: ".github"
       purpose: "GitHub-specific configs, workflows, issue templates"
 
+  # AI & Orchestration (required)
+  ai_infrastructure:
+    - name: ".ai"
+      purpose: "Consolidated AI assistant configurations (canonical location)"
+    - name: ".atlas"
+      purpose: "ATLAS agent framework runtime state and metrics"
+    - name: ".claude"
+      purpose: "Claude Code specific configurations"
+
   # Documentation (recommended)
   recommended:
     - name: "docs"
       purpose: "MkDocs documentation source files"
 
-  # Development (optional)
-  optional:
+  # Development (required for this repo)
+  development:
     - name: "tests"
       purpose: "Governance system unit tests (Python and TypeScript)"
-    - name: ".vscode"
-      purpose: "VS Code workspace settings"
     - name: "tools"
       purpose: "Unified toolkit - AI orchestration, governance, DevOps, security"
+    - name: "src"
+      purpose: "Service implementations and core business logic"
     - name: "templates"
       purpose: "DevOps template library (CI/CD, K8s, Helm, monitoring)"
     - name: "bin"
-      purpose: "Executable CLI entry points (toolkit command)"
+      purpose: "Executable CLI entry points"
+
+  # Automation Systems
+  automation:
+    - name: "automation"
+      purpose: "Python automation system with agents and workflows"
+    - name: "automation-ts"
+      purpose: "TypeScript automation CLI (rebuild)"
+
+  # Enterprise & Infrastructure
+  enterprise:
+    - name: "enterprise"
+      purpose: "Enterprise features (analytics, BI, marketplace, security)"
+    - name: "infrastructure"
+      purpose: "Kubernetes configs, deployment templates, monitoring"
+    - name: "k8s"
+      purpose: "Kubernetes manifests and Helm charts"
+    - name: "docker"
+      purpose: "Docker configurations"
+
+  # Supporting Directories
+  supporting:
+    - name: "ecosystem"
+      purpose: "API integrations, SDKs, CI/CD templates, IDE plugins"
+    - name: "demo"
+      purpose: "Demo dashboards, scenarios, test repos"
+    - name: "examples"
+      purpose: "Example implementations"
+    - name: "sdk"
+      purpose: "SDK implementations"
+    - name: "backup-recovery"
+      purpose: "Backup and recovery utilities"
+    - name: "maintenance"
+      purpose: "Maintenance scripts and documentation"
+    - name: "troubleshooting"
+      purpose: "Troubleshooting guides"
+    - name: "scaling"
+      purpose: "Scaling documentation"
 
   # Tool Configuration (allowed, should be hidden)
   tooling:
     - name: ".husky"
       purpose: "Git hooks (husky)"
+    - name: ".vscode"
+      purpose: "VS Code workspace settings"
     - name: ".allstar"
       purpose: "GitHub Allstar security configuration"
 
-  # AI Assistant Configurations (Consolidated)
-  ai_consolidated:
-    - name: ".ai"
-      purpose: "Consolidated AI assistant configurations (canonical location)"
-      contains:
-        - "settings.yaml - Unified config for all 14 tools"
-        - "context.md - Shared AI context"
-        - "rules/ - Tool-specific rules files"
-        - "<tool>/ - Individual tool configs"
-        - "mcp/ - MCP server registry and configurations"
-
-  # AI Assistant Configurations (Legacy) - REMOVED
-  # Migration complete: all AI configs now live under .ai/
-  # Legacy root-level AI directories are FORBIDDEN
-
-  # Cache (auto-generated, gitignored)
+  # Cache & Build (auto-generated, gitignored)
   cache:
     - name: ".mypy_cache"
       purpose: "MyPy type checking cache"
@@ -133,6 +167,10 @@ allowed_directories:
       purpose: "Python bytecode cache"
     - name: "node_modules"
       purpose: "Node.js dependencies"
+    - name: "dist"
+      purpose: "Build output"
+    - name: ".archive"
+      purpose: "Archived files and historical data"
 
 # =============================================================================
 # FORBIDDEN AT ROOT
@@ -148,12 +186,15 @@ forbidden:
     - "*.code-workspace" # Move to .vscode/ or gitignore
     - "*-report.json"   # Should be gitignored (generated)
     - "*-results.json"  # Should be gitignored (generated)
+    - "temp_*.js"       # Temporary files - delete immediately
+    - "temp_*.ts"       # Temporary files - delete immediately
 
   directory_patterns:
     - "temp-*"          # Temporary directories
     - "new-*"           # Staging directories (should be gitignored)
-    - "backup*"         # Backup directories
     - "old*"            # Archived directories
+    - "*}/"             # Malformed directory names (stray braces)
+    - "-*"              # Directories starting with dash (invalid)
 
   specific_items:
     - "Thumbs.db"       # Windows thumbnail cache
@@ -161,9 +202,8 @@ forbidden:
     - "*.log"           # Log files
     - ".env"            # Environment files (secrets)
     - ".env.*"          # Environment variations
-    - "alaweimm90"      # User clone directory (should be gitignored)
+    - "nul"             # Windows null device / garbage files
     # Legacy AI directories (migrated to .ai/)
-    - ".claude"         # Use .ai/claude/
     - ".cursor"         # Use .ai/cursor/
     - ".cline"          # Use .ai/cline/
     - ".amazonq"        # Use .ai/amazonq/
@@ -187,6 +227,12 @@ forbidden:
     - ".ai-settings.yaml"  # Use .ai/settings.yaml
     - ".ai-context.md"     # Use .ai/context.md
     - ".aider.conf.yml"    # Use .ai/aider/config.yml
+    # Report files (should be in docs/ or .archive/)
+    - "KILO-*.md"
+    - "AUDIT_SUMMARY.md"
+    - "COMMIT_PLAN.md"
+    - "TODO-REPORT.txt"
+    - "REPOSITORY_AUDIT_*.md"
 
 # =============================================================================
 # MIGRATION RULES
@@ -196,6 +242,9 @@ migration:
   relocate:
     "*.pdf": "docs/reports/"
     "*.code-workspace": ".vscode/"
+    "KILO-*.md": ".archive/reports/"
+    "*_AUDIT*.md": ".archive/reports/"
+    "*_REPORT*.txt": ".archive/reports/"
 
   # Files to add to .gitignore
   gitignore:
@@ -203,11 +252,14 @@ migration:
     - "*-results.json"
     - "temp-*/"
     - "new-*/"
+    - "temp_*.js"
+    - "temp_*.ts"
 
   # Directories to review
   review:
-    - "alaweimm90/"     # Check if needed, likely remove
-    - "new-repos/"      # Check if needed, add to gitignore
+    - "Check all new directories have README.md"
+    - "Verify no duplicate utilities exist"
+    - "Ensure all AI configs are in .ai/"
 
 # =============================================================================
 # ENFORCEMENT
@@ -219,6 +271,7 @@ enforcement:
     on_forbidden_file: "error"
     on_forbidden_dir: "error"
     on_missing_required: "error"
+    on_missing_readme: "warning"
 
   exceptions:
     # Files that may temporarily exist during CI/CD
@@ -226,3 +279,15 @@ enforcement:
       - "coverage.xml"
       - "junit.xml"
       - ".coverage"
+
+    # Build artifacts that may exist temporarily
+    build_exceptions:
+      - "*.tsbuildinfo"
+
+# =============================================================================
+# VALIDATION SCRIPT
+# =============================================================================
+validation:
+  script: ".metaHub/scripts/compliance/structure_validator.py"
+  workflow: ".github/workflows/structure-validation.yml"
+  pre_commit_hook: true

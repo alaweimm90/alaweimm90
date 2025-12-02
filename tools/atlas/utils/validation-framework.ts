@@ -1,1 +1,1 @@
-// ATLAS Validation Framework - System validation and quality assurance 
+// ATLAS Validation Framework - System validation and quality assurance

@@ -42,9 +42,6 @@ jobs:
           RENOVATE_AUTODISCOVER: false
           RENOVATE_GIT_AUTHOR: 'Renovate Bot <bot@renovateapp.com>'
           RENOVATE_PR_FOOTER: |
-            
-
-            
 
       - name: Create summary
         if: always()

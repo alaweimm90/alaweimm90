@@ -17,7 +17,7 @@ services:
     networks:
       - supertool-network
     restart: unless-stopped
-    command: ["--help"]
+    command: ['--help']
 
   # Development service with hot reload
   supertool-dev:
@@ -40,7 +40,7 @@ services:
     restart: unless-stopped
     stdin_open: true
     tty: true
-    command: ["/bin/sh"]
+    command: ['/bin/sh']
 
 networks:
   supertool-network:

@@ -29,13 +29,13 @@ organizations/
 
 ## Rationale
 
-| Factor | Monorepo | Multi-repo |
-|--------|----------|------------|
-| **Atomic changes** | Single commit across projects | Multiple PRs required |
-| **Shared governance** | One policy set | Duplicated configs |
-| **CI/CD complexity** | Centralized | Scattered |
-| **Discoverability** | High (one place) | Low (search needed) |
-| **Dependencies** | Direct imports | Version coordination |
+| Factor                | Monorepo                      | Multi-repo            |
+| --------------------- | ----------------------------- | --------------------- |
+| **Atomic changes**    | Single commit across projects | Multiple PRs required |
+| **Shared governance** | One policy set                | Duplicated configs    |
+| **CI/CD complexity**  | Centralized                   | Scattered             |
+| **Discoverability**   | High (one place)              | Low (search needed)   |
+| **Dependencies**      | Direct imports                | Version coordination  |
 
 ## Consequences
 

@@ -12,7 +12,11 @@ vi.mock('fs', async () => {
   return {
     ...actual,
     existsSync: vi.fn().mockReturnValue(true),
-    readFileSync: vi.fn().mockReturnValue('# README\n\nThis is a comprehensive README with more than 100 characters of content for testing purposes.'),
+    readFileSync: vi
+      .fn()
+      .mockReturnValue(
+        '# README\n\nThis is a comprehensive README with more than 100 characters of content for testing purposes.'
+      ),
     writeFileSync: vi.fn(),
   };
 });
@@ -42,15 +46,7 @@ describe('AI Compliance Module', () => {
 
   describe('Grade Calculation', () => {
     const calculateGrade = (score: number): 'A' | 'B' | 'C' | 'D' | 'F' => {
-      return score >= 90
-        ? 'A'
-        : score >= 80
-          ? 'B'
-          : score >= 70
-            ? 'C'
-            : score >= 60
-              ? 'D'
-              : 'F';
+      return score >= 90 ? 'A' : score >= 80 ? 'B' : score >= 70 ? 'C' : score >= 60 ? 'D' : 'F';
     };
 
     it('should return A for score >= 90', () => {
@@ -231,7 +227,13 @@ describe('AI Compliance Module', () => {
   });
 
   describe('Category Scoring', () => {
-    type ComplianceCategory = 'security' | 'governance' | 'code-quality' | 'documentation' | 'testing' | 'architecture';
+    type ComplianceCategory =
+      | 'security'
+      | 'governance'
+      | 'code-quality'
+      | 'documentation'
+      | 'testing'
+      | 'architecture';
 
     it('should aggregate scores by category', () => {
       const results: Array<{ category: ComplianceCategory; score: number }> = [

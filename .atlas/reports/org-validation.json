@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-12-01T05:21:14.011Z",
+  "root": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations",
+  "items": [
+    {
+      "name": ".github",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\.github",
+      "type": "org",
+      "requiredFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "missingFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "recommendedSubdirs": ["website", "portal", "app"],
+      "missingSubdirs": ["website", "portal", "app"]
+    },
+    {
+      "name": "alaweimm90-business",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
+      "type": "portfolio",
+      "requiredFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "missingFiles": [],
+      "recommendedSubdirs": ["website", "portal", "app"],
+      "missingSubdirs": ["website", "portal", "app"]
+    },
+    {
+      "name": "alaweimm90-science",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
+      "type": "org",
+      "requiredFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "missingFiles": [],
+      "recommendedSubdirs": ["website", "portal", "app"],
+      "missingSubdirs": ["website", "portal", "app"]
+    },
+    {
+      "name": "AlaweinOS",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS",
+      "type": "org",
+      "requiredFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "missingFiles": [],
+      "recommendedSubdirs": ["website", "portal", "app"],
+      "missingSubdirs": ["website", "portal", "app"]
+    },
+    {
+      "name": "MeatheadPhysicist",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
+      "type": "org",
+      "requiredFiles": ["README.md", "LICENSE", "SECURITY.md"],
+      "missingFiles": [],
+      "recommendedSubdirs": ["website", "portal", "app"],
+      "missingSubdirs": ["website", "portal", "app"]
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "compliant": 4,
+    "nonCompliant": 1
+  }
+}

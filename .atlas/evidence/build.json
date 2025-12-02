@@ -1,0 +1,8 @@
+{
+  "stepId": "build",
+  "timestamp": "2025-12-01T08:38:27.189Z",
+  "success": true,
+  "output": "ok",
+  "latency": 122,
+  "agentId": "claude-sonnet"
+}

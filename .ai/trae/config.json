@@ -5,11 +5,7 @@
   "trae.trustWorkspace": true,
   "trae.skipConfirmations": true,
   "trae.autonomousMode": true,
-  "trae.contextFiles": [
-    ".ai-context.md",
-    ".metaHub/policies/*.yaml",
-    "docs/adr/*.md"
-  ],
+  "trae.contextFiles": [".ai-context.md", ".metaHub/policies/*.yaml", "docs/adr/*.md"],
   "trae.model": {
     "default": "claude-3-5-sonnet",
     "fallback": "gpt-4o"

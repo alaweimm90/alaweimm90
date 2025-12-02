@@ -1,0 +1,8 @@
+{
+  "stepId": "tests",
+  "timestamp": "2025-12-01T08:38:27.323Z",
+  "success": true,
+  "output": "tests ok",
+  "latency": 129,
+  "agentId": "claude-opus"
+}

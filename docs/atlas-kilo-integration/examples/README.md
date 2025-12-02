@@ -5,16 +5,19 @@ This section provides practical examples of common workflows that leverage the A
 ## Code Quality Assurance Workflow
 
 ### Scenario
+
 A development team wants to ensure all code changes meet quality standards and organizational policies before merging.
 
 ### Workflow Steps
 
 1. **Initial Code Analysis**
+
    ```bash
    atlas analyze repo . --governance-check --format table
    ```
 
    **Expected Output:**
+
    ```
    Repository Analysis Results
    ┌─────────────────┬─────────────┬─────────┐
@@ -32,11 +35,13 @@ A development team wants to ensure all code changes meet quality standards and o
    ```
 
 2. **Compliance Verification**
+
    ```bash
    atlas compliance check . --policies security,code_quality --format summary
    ```
 
    **Expected Output:**
+
    ```
    Compliance Summary
    ==================
@@ -59,6 +64,7 @@ A development team wants to ensure all code changes meet quality standards and o
    ```
 
 ### Integration Benefits
+
 - **Unified Analysis**: Single command combines ATLAS analysis with KILO governance
 - **Policy Enforcement**: Automatic validation against organizational standards
 - **Consistent Quality**: Standardized quality checks across all repositories
@@ -66,6 +72,7 @@ A development team wants to ensure all code changes meet quality standards and o
 ## CI/CD Pipeline Integration
 
 ### Scenario
+
 Integrate quality checks and automated deployment preparation into CI/CD pipelines.
 
 ### GitHub Actions Example
@@ -211,6 +218,7 @@ pipeline {
 ## Development Workflow Automation
 
 ### Scenario
+
 Automate common development tasks with integrated quality checks.
 
 ### Pre-commit Hook Setup
@@ -286,6 +294,7 @@ echo "Ready for development or deployment!"
 ## Infrastructure as Code Workflow
 
 ### Scenario
+
 Generate and validate infrastructure templates with compliance checking.
 
 ### Kubernetes Deployment Setup
@@ -330,6 +339,7 @@ atlas compliance report --path ./iac/ --format html --output infra-compliance.ht
 ## Security-First Development
 
 ### Scenario
+
 Implement security-focused development practices with automated validation.
 
 ### Security Analysis Workflow
@@ -391,6 +401,7 @@ jq -r '.complianceScore' security-before.json security-after.json
 ## Multi-Repository Governance
 
 ### Scenario
+
 Apply consistent governance across multiple repositories.
 
 ### Organization-Wide Analysis
@@ -448,6 +459,7 @@ atlas compliance check ./dashboard/ --policies security
 ## Performance Optimization Workflow
 
 ### Scenario
+
 Identify and fix performance issues with automated refactoring.
 
 ### Performance Analysis and Optimization
@@ -487,6 +499,7 @@ atlas analyze repo . --include-patterns "migrations/*.sql" --governance-check
 ## Custom Workflow Creation
 
 ### Scenario
+
 Create reusable workflows for specific project needs.
 
 ### Workflow Definition
@@ -545,6 +558,7 @@ atlas workflow create ./workflows/my-workflow.json
 ## Integration Testing Workflow
 
 ### Scenario
+
 Ensure integration components work correctly together.
 
 ### Bridge Testing Workflow

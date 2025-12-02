@@ -1,0 +1,156 @@
+{
+  "timestamp": "2025-12-01T01:44:00.009Z",
+  "python": {
+    "files": 15,
+    "longFunctions": [
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\cli.py",
+        "name": "cmd_deploy_portfolio",
+        "lines": 39
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\cli.py",
+        "name": "cmd_generate_web",
+        "lines": 38
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\cli.py",
+        "name": "cmd_organize_downloads",
+        "lines": 26
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\cli.py",
+        "name": "_build_parser",
+        "lines": 33
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "deploy_netlify",
+        "lines": 23
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "deploy_docker",
+        "lines": 22
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "cmd_list",
+        "lines": 23
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "cmd_info",
+        "lines": 30
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "cmd_deploy",
+        "lines": 30
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "cmd_template",
+        "lines": 30
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "cmd_templates",
+        "lines": 24
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\deployment\\deploy.py",
+        "name": "main",
+        "lines": 48
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\utils.py",
+        "name": "get_automation_path",
+        "lines": 24
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\utils.py",
+        "name": "list_files_recursive",
+        "lines": 22
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\validation.py",
+        "name": "validate_agents_file",
+        "lines": 41
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\validation.py",
+        "name": "validate_workflows_file",
+        "lines": 25
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\validation.py",
+        "name": "validate_prompt",
+        "lines": 31
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation\\validation.py",
+        "name": "validate_all_prompts",
+        "lines": 23
+      }
+    ]
+  },
+  "typescript": {
+    "files": 13,
+    "longFunctions": [
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\crews\\index.ts",
+        "name": "validateCrew",
+        "lines": 40
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\deployment\\index.ts",
+        "name": "getProjectStats",
+        "lines": 29
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\deployment\\index.ts",
+        "name": "getDeploymentConfig",
+        "lines": 21
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\index.ts",
+        "name": "loadPrompts",
+        "lines": 23
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\utils\\file.ts",
+        "name": "listFilesRecursive",
+        "lines": 25
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\validation\\index.ts",
+        "name": "validateAll",
+        "lines": 29
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\validation\\index.ts",
+        "name": "validateAgents",
+        "lines": 35
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\validation\\index.ts",
+        "name": "validateWorkflows",
+        "lines": 35
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\validation\\index.ts",
+        "name": "validatePrompts",
+        "lines": 26
+      },
+      {
+        "file": "C:\\Users\\mesha\\Desktop\\GitHub\\automation-ts\\src\\validation\\index.ts",
+        "name": "validateCrossReferences",
+        "lines": 67
+      }
+    ]
+  },
+  "duplicates": {
+    "functionsByName": {}
+  }
+}

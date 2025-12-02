@@ -4,8 +4,5 @@
   "amazonQ.autoAcceptInlineSuggestions": true,
   "amazonQ.trustWorkspace": true,
   "amazonQ.devMode": true,
-  "amazonQ.contextFiles": [
-    ".metaHub/policies/*.yaml",
-    "docs/adr/*.md"
-  ]
+  "amazonQ.contextFiles": [".metaHub/policies/*.yaml", "docs/adr/*.md"]
 }

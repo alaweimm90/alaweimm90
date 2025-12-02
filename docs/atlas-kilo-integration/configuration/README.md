@@ -180,53 +180,53 @@ The main configuration file is `atlas.config.json` (or `atlas.config.yaml`):
 
 ### Core Integration Variables
 
-| Variable | Description | Default | Required |
-|----------|-------------|---------|----------|
-| `ATLAS_KILO_ENABLED` | Enable/disable integration | `true` | No |
-| `ATLAS_CONFIG_FILE` | Configuration file path | `./atlas.config.json` | No |
-| `KILO_ENDPOINT` | KILO API endpoint | - | Yes |
-| `KILO_API_KEY` | KILO API authentication key | - | Yes |
-| `KILO_TIMEOUT_MS` | KILO API timeout | `10000` | No |
+| Variable             | Description                 | Default               | Required |
+| -------------------- | --------------------------- | --------------------- | -------- |
+| `ATLAS_KILO_ENABLED` | Enable/disable integration  | `true`                | No       |
+| `ATLAS_CONFIG_FILE`  | Configuration file path     | `./atlas.config.json` | No       |
+| `KILO_ENDPOINT`      | KILO API endpoint           | -                     | Yes      |
+| `KILO_API_KEY`       | KILO API authentication key | -                     | Yes      |
+| `KILO_TIMEOUT_MS`    | KILO API timeout            | `10000`               | No       |
 
 ### Bridge-Specific Variables
 
 #### K2A Bridge Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `K2A_ENABLED` | Enable K2A bridge | `true` |
-| `K2A_EVENT_TYPES` | Comma-separated event types | `policy_violation,security_issue` |
-| `K2A_SEVERITY_THRESHOLD` | Minimum severity to process | `medium` |
-| `K2A_QUEUE_SIZE` | Event queue size | `1000` |
-| `K2A_PROCESSING_INTERVAL` | Processing interval (ms) | `5000` |
+| Variable                  | Description                 | Default                           |
+| ------------------------- | --------------------------- | --------------------------------- |
+| `K2A_ENABLED`             | Enable K2A bridge           | `true`                            |
+| `K2A_EVENT_TYPES`         | Comma-separated event types | `policy_violation,security_issue` |
+| `K2A_SEVERITY_THRESHOLD`  | Minimum severity to process | `medium`                          |
+| `K2A_QUEUE_SIZE`          | Event queue size            | `1000`                            |
+| `K2A_PROCESSING_INTERVAL` | Processing interval (ms)    | `5000`                            |
 
 #### A2K Bridge Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `A2K_ENABLED` | Enable A2K bridge | `true` |
-| `A2K_VALIDATION_STRICTNESS` | Validation strictness | `standard` |
-| `A2K_TEMPLATE_CACHE_ENABLED` | Enable template caching | `true` |
-| `A2K_TEMPLATE_CACHE_TTL` | Cache TTL (ms) | `3600000` |
-| `A2K_COMPLIANCE_POLICIES` | Enabled policies | `security,code_quality` |
+| Variable                     | Description             | Default                 |
+| ---------------------------- | ----------------------- | ----------------------- |
+| `A2K_ENABLED`                | Enable A2K bridge       | `true`                  |
+| `A2K_VALIDATION_STRICTNESS`  | Validation strictness   | `standard`              |
+| `A2K_TEMPLATE_CACHE_ENABLED` | Enable template caching | `true`                  |
+| `A2K_TEMPLATE_CACHE_TTL`     | Cache TTL (ms)          | `3600000`               |
+| `A2K_COMPLIANCE_POLICIES`    | Enabled policies        | `security,code_quality` |
 
 ### Security Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ATLAS_ENCRYPTION_KEY` | Configuration encryption key | - |
-| `KILO_CLIENT_CERT` | Client certificate path | - |
-| `KILO_CLIENT_KEY` | Client key path | - |
-| `TLS_SKIP_VERIFY` | Skip TLS verification | `false` |
+| Variable               | Description                  | Default |
+| ---------------------- | ---------------------------- | ------- |
+| `ATLAS_ENCRYPTION_KEY` | Configuration encryption key | -       |
+| `KILO_CLIENT_CERT`     | Client certificate path      | -       |
+| `KILO_CLIENT_KEY`      | Client key path              | -       |
+| `TLS_SKIP_VERIFY`      | Skip TLS verification        | `false` |
 
 ### Performance Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ATLAS_MAX_CONCURRENT` | Max concurrent operations | `10` |
-| `BRIDGE_CONNECTION_POOL` | Connection pool size | `5` |
-| `CACHE_MAX_SIZE` | Maximum cache size | `100MB` |
-| `METRICS_RETENTION_DAYS` | Metrics retention period | `30` |
+| Variable                 | Description               | Default |
+| ------------------------ | ------------------------- | ------- |
+| `ATLAS_MAX_CONCURRENT`   | Max concurrent operations | `10`    |
+| `BRIDGE_CONNECTION_POOL` | Connection pool size      | `5`     |
+| `CACHE_MAX_SIZE`         | Maximum cache size        | `100MB` |
+| `METRICS_RETENTION_DAYS` | Metrics retention period  | `30`    |
 
 ## Configuration Precedence
 
@@ -349,8 +349,8 @@ const bridge = new AtlasKiloBridge();
 await bridge.updateConfig({
   validation: {
     strictness: 'strict',
-    timeoutMs: 45000
-  }
+    timeoutMs: 45000,
+  },
 });
 ```
 
@@ -366,7 +366,7 @@ const result = await validator.validate(config);
 
 if (!result.isValid) {
   console.error('Configuration errors:');
-  result.errors.forEach(error => {
+  result.errors.forEach((error) => {
     console.error(`- ${error.path}: ${error.message}`);
   });
 }
@@ -608,6 +608,7 @@ Track configuration changes for audit purposes:
 ### Common Issues
 
 **Configuration Not Loading**
+
 ```bash
 # Check file permissions
 ls -la atlas.config.json
@@ -620,6 +621,7 @@ atlas config show --config ./atlas.config.json
 ```
 
 **Environment Variables Not Working**
+
 ```bash
 # Check variable is set
 echo $KILO_API_KEY
@@ -632,6 +634,7 @@ atlas config show | grep kilo
 ```
 
 **Bridge Configuration Conflicts**
+
 ```bash
 # Check for conflicts
 atlas bridge status --validate-config

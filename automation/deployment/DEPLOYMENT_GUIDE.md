@@ -43,12 +43,12 @@ generator.generate_dashboard(sections=[...], stats={...})
 
 ### Supported Platforms
 
-| Platform | Command | Requirements |
-|----------|---------|--------------|
-| **Netlify** | `--platform netlify` | `netlify-cli` installed |
-| **Vercel** | `--platform vercel` | `vercel` CLI installed |
-| **GitHub Pages** | `--platform github-pages` | Git repository |
-| **Local** | `--platform local` | None |
+| Platform         | Command                   | Requirements            |
+| ---------------- | ------------------------- | ----------------------- |
+| **Netlify**      | `--platform netlify`      | `netlify-cli` installed |
+| **Vercel**       | `--platform vercel`       | `vercel` CLI installed  |
+| **GitHub Pages** | `--platform github-pages` | Git repository          |
+| **Local**        | `--platform local`        | None                    |
 
 ### Configuration
 
@@ -94,17 +94,17 @@ Source → Validate → Build → Accessibility → Manifest → Deploy
 
 Files are automatically organized into:
 
-| Category | Extensions |
-|----------|------------|
-| **Documents** | .md, .txt, .pdf, .doc, .docx |
-| **Code** | .py, .js, .ts, .java, .cpp, .go |
-| **Data** | .json, .yaml, .csv, .sql |
-| **Images** | .png, .jpg, .gif, .svg, .webp |
-| **Archives** | .zip, .tar, .gz, .rar |
-| **Config** | .env, .ini, .toml |
-| **Web** | .html, .css, .scss |
-| **Notebooks** | .ipynb |
-| **Media** | .mp3, .mp4, .wav |
+| Category      | Extensions                      |
+| ------------- | ------------------------------- |
+| **Documents** | .md, .txt, .pdf, .doc, .docx    |
+| **Code**      | .py, .js, .ts, .java, .cpp, .go |
+| **Data**      | .json, .yaml, .csv, .sql        |
+| **Images**    | .png, .jpg, .gif, .svg, .webp   |
+| **Archives**  | .zip, .tar, .gz, .rar           |
+| **Config**    | .env, .ini, .toml               |
+| **Web**       | .html, .css, .scss              |
+| **Notebooks** | .ipynb                          |
+| **Media**     | .mp3, .mp4, .wav                |
 
 ### Web Interface Features
 
@@ -215,6 +215,7 @@ Options:
 ### Common Issues
 
 **Build fails with npm error**
+
 ```bash
 # Ensure Node.js is installed
 node --version
@@ -224,6 +225,7 @@ npm cache clean --force
 ```
 
 **Netlify CLI not found**
+
 ```bash
 # Install Netlify CLI
 npm install -g netlify-cli
@@ -233,6 +235,7 @@ netlify login
 ```
 
 **Permission denied on output directory**
+
 ```bash
 # Check permissions
 ls -la ./output

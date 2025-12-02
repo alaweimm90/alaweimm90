@@ -18,54 +18,55 @@ metadata:
   labels:
     app.kubernetes.io/name: supertool-operator
 rules:
-# SuperTool CRD permissions
-- apiGroups: ["devops.supertool.io"]
-  resources: ["supertools"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: ["devops.supertool.io"]
-  resources: ["supertools/status"]
-  verbs: ["get", "update", "patch"]
-- apiGroups: ["devops.supertool.io"]
-  resources: ["supertools/finalizers"]
-  verbs: ["update"]
+  # SuperTool CRD permissions
+  - apiGroups: ['devops.supertool.io']
+    resources: ['supertools']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
+  - apiGroups: ['devops.supertool.io']
+    resources: ['supertools/status']
+    verbs: ['get', 'update', 'patch']
+  - apiGroups: ['devops.supertool.io']
+    resources: ['supertools/finalizers']
+    verbs: ['update']
 
-# Core resources
-- apiGroups: [""]
-  resources: ["pods", "services", "serviceaccounts", "configmaps", "secrets", "persistentvolumeclaims"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-- apiGroups: [""]
-  resources: ["events"]
-  verbs: ["create", "patch"]
+  # Core resources
+  - apiGroups: ['']
+    resources:
+      ['pods', 'services', 'serviceaccounts', 'configmaps', 'secrets', 'persistentvolumeclaims']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
+  - apiGroups: ['']
+    resources: ['events']
+    verbs: ['create', 'patch']
 
-# Apps resources
-- apiGroups: ["apps"]
-  resources: ["deployments", "statefulsets", "daemonsets", "replicasets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Apps resources
+  - apiGroups: ['apps']
+    resources: ['deployments', 'statefulsets', 'daemonsets', 'replicasets']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
-# Autoscaling
-- apiGroups: ["autoscaling"]
-  resources: ["horizontalpodautoscalers"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Autoscaling
+  - apiGroups: ['autoscaling']
+    resources: ['horizontalpodautoscalers']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
-# Networking
-- apiGroups: ["networking.k8s.io"]
-  resources: ["ingresses", "networkpolicies"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Networking
+  - apiGroups: ['networking.k8s.io']
+    resources: ['ingresses', 'networkpolicies']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
-# Policy
-- apiGroups: ["policy"]
-  resources: ["poddisruptionbudgets"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Policy
+  - apiGroups: ['policy']
+    resources: ['poddisruptionbudgets']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
-# RBAC
-- apiGroups: ["rbac.authorization.k8s.io"]
-  resources: ["roles", "rolebindings"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # RBAC
+  - apiGroups: ['rbac.authorization.k8s.io']
+    resources: ['roles', 'rolebindings']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
-# Monitoring
-- apiGroups: ["monitoring.coreos.com"]
-  resources: ["servicemonitors"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Monitoring
+  - apiGroups: ['monitoring.coreos.com']
+    resources: ['servicemonitors']
+    verbs: ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete']
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -79,9 +80,9 @@ roleRef:
   kind: ClusterRole
   name: supertool-operator
 subjects:
-- kind: ServiceAccount
-  name: supertool-operator
-  namespace: supertool-system
+  - kind: ServiceAccount
+    name: supertool-operator
+    namespace: supertool-system
 
 ---
 apiVersion: apps/v1
@@ -92,7 +93,7 @@ metadata:
   labels:
     app.kubernetes.io/name: supertool-operator
     app.kubernetes.io/component: operator
-    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/version: '1.0.0'
 spec:
   replicas: 1
   selector:
@@ -110,67 +111,67 @@ spec:
         runAsUser: 1001
         fsGroup: 1001
       containers:
-      - name: operator
-        image: ghcr.io/username/supertool-operator:1.0.0
-        imagePullPolicy: IfNotPresent
-        command:
-        - /manager
-        args:
-        - --leader-elect
-        - --metrics-bind-address=:8080
-        - --health-probe-bind-address=:8081
-        env:
-        - name: WATCH_NAMESPACE
-          value: ""  # Watch all namespaces
-        - name: POD_NAME
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: OPERATOR_NAME
-          value: "supertool-operator"
-        ports:
-        - name: metrics
-          containerPort: 8080
-          protocol: TCP
-        - name: health
-          containerPort: 8081
-          protocol: TCP
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: health
-          initialDelaySeconds: 15
-          periodSeconds: 20
-          timeoutSeconds: 1
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /readyz
-            port: health
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-        resources:
-          limits:
-            cpu: 500m
-            memory: 512Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-        securityContext:
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          capabilities:
-            drop:
-            - ALL
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
+        - name: operator
+          image: ghcr.io/username/supertool-operator:1.0.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - /manager
+          args:
+            - --leader-elect
+            - --metrics-bind-address=:8080
+            - --health-probe-bind-address=:8081
+          env:
+            - name: WATCH_NAMESPACE
+              value: '' # Watch all namespaces
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: 'supertool-operator'
+          ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+            - name: health
+              containerPort: 8081
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
       volumes:
-      - name: tmp
-        emptyDir: {}
+        - name: tmp
+          emptyDir: {}
       terminationGracePeriodSeconds: 10
 
 ---
@@ -185,10 +186,10 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: metrics
-    port: 8080
-    targetPort: metrics
-    protocol: TCP
+    - name: metrics
+      port: 8080
+      targetPort: metrics
+      protocol: TCP
   selector:
     app.kubernetes.io/name: supertool-operator
 
@@ -205,6 +206,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: supertool-operator
   endpoints:
-  - port: metrics
-    interval: 30s
-    path: /metrics
+    - port: metrics
+      interval: 30s
+      path: /metrics

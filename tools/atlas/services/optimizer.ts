@@ -8,6 +8,8 @@ import { RefactoringEngine } from '../refactoring/engine';
 import { TaskRouter } from '../orchestration/router';
 import { agentRegistry } from '../agents/registry';
 import { EventEmitter } from 'events';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export interface OptimizationConfig {
   schedule: {
@@ -83,9 +85,13 @@ export class ContinuousOptimizer extends EventEmitter {
   private refactoringEngine: RefactoringEngine;
   private taskRouter: TaskRouter;
   private activeJobs: Map<string, OptimizationJob> = new Map();
+  private jobQueue: JobQueue;
   private rateLimiter: RateLimiter;
   private circuitBreaker: CircuitBreaker;
   private scheduler: OptimizationScheduler;
+  private telemetry: TelemetryRecorder;
+  private rollbackStore: Map<string, RollbackData> = new Map();
+  private watchers: Map<string, fs.FSWatcher> = new Map();
 
   constructor(config: OptimizationConfig) {
     super();
@@ -93,9 +99,11 @@ export class ContinuousOptimizer extends EventEmitter {
     this.analyzer = new RepositoryAnalyzer();
     this.refactoringEngine = new RefactoringEngine();
     this.taskRouter = new TaskRouter({ maxConcurrency: config.schedule.maxConcurrent });
+    this.jobQueue = new JobQueue(config.schedule.maxConcurrent);
     this.rateLimiter = new RateLimiter(config.safety.rateLimit);
     this.circuitBreaker = new CircuitBreaker(config.safety.circuitBreakerThreshold);
     this.scheduler = new OptimizationScheduler(this);
+    this.telemetry = new TelemetryRecorder();
 
     this.setupEventHandlers();
   }
@@ -112,7 +120,7 @@ export class ContinuousOptimizer extends EventEmitter {
     }
 
     // Initialize monitoring for all enabled repositories
-    for (const repo of this.config.repositories.filter(r => r.enabled)) {
+    for (const repo of this.config.repositories.filter((r) => r.enabled)) {
       await this.monitorRepository(repo);
     }
 
@@ -131,12 +139,15 @@ export class ContinuousOptimizer extends EventEmitter {
   /**
    * Manually trigger optimization for a specific repository
    */
-  async optimizeRepository(repositoryPath: string, options: {
-    force?: boolean;
-    dryRun?: boolean;
-    manual?: boolean;
-  } = {}): Promise<OptimizationResult> {
-    const repository = this.config.repositories.find(r => r.path === repositoryPath);
+  async optimizeRepository(
+    repositoryPath: string,
+    options: {
+      force?: boolean;
+      dryRun?: boolean;
+      manual?: boolean;
+    } = {}
+  ): Promise<OptimizationResult> {
+    const repository = this.config.repositories.find((r) => r.path === repositoryPath);
     if (!repository) {
       throw new Error(`Repository not found: ${repositoryPath}`);
     }
@@ -162,7 +173,7 @@ export class ContinuousOptimizer extends EventEmitter {
       repository,
       status: 'running',
       progress: 0,
-      startTime: new Date()
+      startTime: new Date(),
     };
 
     this.activeJobs.set(jobId, job);
@@ -190,7 +201,7 @@ export class ContinuousOptimizer extends EventEmitter {
         changes: [],
         metrics: { before: {} as any, after: {} as any },
         rollbackAvailable: false,
-        error: error.message
+        error: error.message,
       };
 
       this.emit('job:fail', job);
@@ -216,10 +227,10 @@ export class ContinuousOptimizer extends EventEmitter {
     return {
       service: this.scheduler.isRunning() ? 'running' : 'stopped',
       activeJobs: this.activeJobs.size,
-      queuedJobs: 0, // TODO: implement job queue
+      queuedJobs: this.jobQueue.size(),
       circuitBreaker: this.circuitBreaker.getState(),
       rateLimitRemaining: this.rateLimiter.getRemaining(),
-      repositories: this.config.repositories
+      repositories: this.config.repositories,
     };
   }
 
@@ -242,8 +253,40 @@ export class ContinuousOptimizer extends EventEmitter {
    * Rollback a completed optimization
    */
   async rollbackOptimization(resultId: string): Promise<void> {
-    // TODO: implement rollback mechanism
-    this.emit('rollback:complete', { resultId, timestamp: new Date() });
+    const rollbackData = this.rollbackStore.get(resultId);
+    if (!rollbackData) {
+      throw new Error(`No rollback data found for result: ${resultId}`);
+    }
+
+    this.emit('rollback:start', { resultId, timestamp: new Date() });
+
+    try {
+      // Restore each file from the backup
+      for (const [filePath, originalContent] of rollbackData.fileBackups) {
+        await fs.promises.writeFile(filePath, originalContent, 'utf8');
+      }
+
+      // Clean up rollback data after successful rollback
+      this.rollbackStore.delete(resultId);
+      this.emit('rollback:complete', { resultId, timestamp: new Date() });
+    } catch (error) {
+      this.emit('rollback:error', { resultId, error: error.message, timestamp: new Date() });
+      throw error;
+    }
+  }
+
+  /**
+   * Store rollback data for a completed optimization
+   */
+  private storeRollbackData(resultId: string, changes: CodeChange[], backups: Map<string, string>): void {
+    if (this.config.safety.rollbackEnabled) {
+      this.rollbackStore.set(resultId, {
+        resultId,
+        timestamp: new Date(),
+        changes,
+        fileBackups: backups,
+      });
+    }
   }
 
   /**
@@ -277,7 +320,7 @@ export class ContinuousOptimizer extends EventEmitter {
       complexityScore: analysis.complexityScore || 0,
       fileCount: analysis.files?.length || 0,
       totalLines: analysis.totalLines || 0,
-      issuesCount: analysis.issues?.length || 0
+      issuesCount: analysis.issues?.length || 0,
     };
 
     // Step 2: Check if optimization is needed
@@ -289,7 +332,7 @@ export class ContinuousOptimizer extends EventEmitter {
         success: true,
         changes: [],
         metrics: { before: metrics, after: metrics },
-        rollbackAvailable: false
+        rollbackAvailable: false,
       };
     }
 
@@ -304,11 +347,13 @@ export class ContinuousOptimizer extends EventEmitter {
     this.emit('job:progress', job);
 
     const routingDecisions = await Promise.all(
-      suggestions.map(suggestion => this.taskRouter.route({
-        type: 'refactoring',
-        data: suggestion,
-        priority: 'normal'
-      }))
+      suggestions.map((suggestion) =>
+        this.taskRouter.route({
+          type: 'refactoring',
+          data: suggestion,
+          priority: 'normal',
+        })
+      )
     );
 
     // Step 5: Execute optimizations
@@ -341,7 +386,7 @@ export class ContinuousOptimizer extends EventEmitter {
       complexityScore: finalAnalysis.complexityScore || 0,
       fileCount: finalAnalysis.files?.length || 0,
       totalLines: finalAnalysis.totalLines || 0,
-      issuesCount: finalAnalysis.issues?.length || 0
+      issuesCount: finalAnalysis.issues?.length || 0,
     };
 
     const result: OptimizationResult = {
@@ -351,7 +396,7 @@ export class ContinuousOptimizer extends EventEmitter {
       success: true,
       changes,
       metrics: { before: metrics, after: finalMetrics },
-      rollbackAvailable: this.config.safety.rollbackEnabled
+      rollbackAvailable: this.config.safety.rollbackEnabled,
     };
 
     // Update repository history
@@ -362,14 +407,13 @@ export class ContinuousOptimizer extends EventEmitter {
   }
 
   private shouldOptimize(metrics: RepositoryMetrics): boolean {
-    return metrics.chaosScore > this.config.thresholds.chaosThreshold ||
-           metrics.complexityScore > this.config.thresholds.complexityThreshold;
+    return (
+      metrics.chaosScore > this.config.thresholds.chaosThreshold ||
+      metrics.complexityScore > this.config.thresholds.complexityThreshold
+    );
   }
 
-  private async executeRefactoring(
-    suggestion: any,
-    routingDecision: any
-  ): Promise<CodeChange> {
+  private async executeRefactoring(suggestion: any, routingDecision: any): Promise<CodeChange> {
     // Route to appropriate agent via task router
     const agent = agentRegistry.getAgent(routingDecision.agentId);
     if (!agent) {
@@ -380,7 +424,7 @@ export class ContinuousOptimizer extends EventEmitter {
     const result = await agent.execute({
       type: 'refactor',
       data: suggestion,
-      context: routingDecision
+      context: routingDecision,
     });
 
     return {
@@ -388,18 +432,85 @@ export class ContinuousOptimizer extends EventEmitter {
       type: suggestion.type,
       description: suggestion.description,
       confidence: routingDecision.confidence,
-      applied: result.success
+      applied: result.success,
     };
   }
 
   private async monitorRepository(repository: RepositoryTarget): Promise<void> {
-    // TODO: implement file system monitoring for changes
-    // This would watch for file changes and trigger optimization when needed
+    // Watch for file changes and trigger optimization when needed
+    if (this.watchers.has(repository.path)) {
+      return; // Already monitoring
+    }
+
+    try {
+      const watcher = fs.watch(
+        repository.path,
+        { recursive: true },
+        (eventType, filename) => {
+          if (filename && this.shouldTriggerOptimization(filename)) {
+            this.emit('repository:change', {
+              repository: repository.name,
+              eventType,
+              filename,
+              timestamp: new Date(),
+            });
+
+            // Debounce optimization triggers
+            this.scheduleOptimization(repository);
+          }
+        }
+      );
+
+      this.watchers.set(repository.path, watcher);
+      this.emit('monitor:start', { repository: repository.name, timestamp: new Date() });
+    } catch (error) {
+      this.emit('monitor:error', { repository: repository.name, error: error.message });
+    }
+  }
+
+  private shouldTriggerOptimization(filename: string): boolean {
+    // Only trigger for source code files
+    const sourceExtensions = ['.ts', '.tsx', '.js', '.jsx', '.py', '.go', '.rs', '.java'];
+    const ext = path.extname(filename).toLowerCase();
+    return sourceExtensions.includes(ext);
+  }
+
+  private optimizationDebounce: Map<string, NodeJS.Timeout> = new Map();
+
+  private scheduleOptimization(repository: RepositoryTarget): void {
+    // Clear existing timeout for this repository
+    const existing = this.optimizationDebounce.get(repository.path);
+    if (existing) {
+      clearTimeout(existing);
+    }
+
+    // Schedule optimization after 5 seconds of no changes
+    const timeout = setTimeout(async () => {
+      this.optimizationDebounce.delete(repository.path);
+      try {
+        await this.optimizeRepository(repository.path, { manual: true });
+      } catch (error) {
+        this.emit('optimization:auto-trigger-error', { repository: repository.name, error: error.message });
+      }
+    }, 5000);
+
+    this.optimizationDebounce.set(repository.path, timeout);
+  }
+
+  /**
+   * Stop monitoring a repository
+   */
+  stopMonitoring(repositoryPath: string): void {
+    const watcher = this.watchers.get(repositoryPath);
+    if (watcher) {
+      watcher.close();
+      this.watchers.delete(repositoryPath);
+    }
   }
 
   private async cancelAllJobs(): Promise<void> {
     const jobs = Array.from(this.activeJobs.values());
-    await Promise.all(jobs.map(job => this.cancelJob(job.id)));
+    await Promise.all(jobs.map((job) => this.cancelJob(job.id)));
   }
 
   private generateJobId(): string {
@@ -408,16 +519,42 @@ export class ContinuousOptimizer extends EventEmitter {
 
   private setupEventHandlers(): void {
     // Set up internal event handlers for telemetry and monitoring
-    this.on('job:start', (job) => {
-      // TODO: record telemetry
+    this.on('job:start', (job: OptimizationJob) => {
+      this.telemetry.record({
+        type: 'job_start',
+        jobId: job.id,
+        repository: job.repository.name,
+        timestamp: new Date(),
+      });
     });
 
-    this.on('job:complete', (job) => {
-      // TODO: record telemetry
+    this.on('job:complete', (job: OptimizationJob) => {
+      this.telemetry.record({
+        type: 'job_complete',
+        jobId: job.id,
+        repository: job.repository.name,
+        duration: job.endTime && job.startTime ? job.endTime.getTime() - job.startTime.getTime() : 0,
+        changesApplied: job.result?.changes?.length || 0,
+        timestamp: new Date(),
+      });
     });
 
-    this.on('job:fail', (job) => {
-      // TODO: record telemetry and potentially trigger alerts
+    this.on('job:fail', (job: OptimizationJob) => {
+      this.telemetry.record({
+        type: 'job_fail',
+        jobId: job.id,
+        repository: job.repository.name,
+        error: job.result?.error,
+        timestamp: new Date(),
+      });
+
+      // Trigger alert if configured
+      if (this.circuitBreaker.getState() === 'open') {
+        this.emit('alert:circuit-open', {
+          message: 'Circuit breaker opened due to repeated failures',
+          timestamp: new Date(),
+        });
+      }
     });
   }
 }
@@ -535,9 +672,12 @@ class OptimizationScheduler {
 
   start(intervalMinutes: number): void {
     this.intervalMinutes = intervalMinutes;
-    this.intervalId = setInterval(() => {
-      this.runScheduledOptimization();
-    }, intervalMinutes * 60 * 1000);
+    this.intervalId = setInterval(
+      () => {
+        this.runScheduledOptimization();
+      },
+      intervalMinutes * 60 * 1000
+    );
   }
 
   stop(): void {
@@ -560,11 +700,11 @@ class OptimizationScheduler {
     const status = this.optimizer.getStatus();
 
     // Only run if we have capacity
-    if (status.activeJobs < status.repositories.filter(r => r.enabled).length) {
+    if (status.activeJobs < status.repositories.filter((r) => r.enabled).length) {
       // Find repositories that need optimization
       const reposToOptimize = status.repositories
-        .filter(r => r.enabled)
-        .filter(r => {
+        .filter((r) => r.enabled)
+        .filter((r) => {
           if (!r.lastOptimized) return true;
           const hoursSinceLast = (Date.now() - r.lastOptimized.getTime()) / (1000 * 60 * 60);
           return hoursSinceLast >= 24; // At least 24 hours since last optimization
@@ -573,9 +713,106 @@ class OptimizationScheduler {
       // Optimize repositories in parallel (respecting max concurrent limit)
       const promises = reposToOptimize
         .slice(0, status.repositories.length - status.activeJobs)
-        .map(repo => this.optimizer.optimizeRepository(repo.path));
+        .map((repo) => this.optimizer.optimizeRepository(repo.path));
 
       await Promise.allSettled(promises);
     }
   }
+}
+
+/**
+ * Job queue for managing optimization tasks
+ */
+class JobQueue {
+  private queue: Array<{ repository: RepositoryTarget; options: any }> = [];
+  private maxConcurrent: number;
+
+  constructor(maxConcurrent: number) {
+    this.maxConcurrent = maxConcurrent;
+  }
+
+  enqueue(repository: RepositoryTarget, options: any): void {
+    this.queue.push({ repository, options });
+  }
+
+  dequeue(): { repository: RepositoryTarget; options: any } | undefined {
+    return this.queue.shift();
+  }
+
+  size(): number {
+    return this.queue.length;
+  }
+
+  clear(): void {
+    this.queue = [];
+  }
+
+  peek(): { repository: RepositoryTarget; options: any } | undefined {
+    return this.queue[0];
+  }
+}
+
+/**
+ * Telemetry recorder for tracking optimization metrics
+ */
+interface TelemetryEvent {
+  type: string;
+  timestamp: Date;
+  [key: string]: any;
+}
+
+class TelemetryRecorder {
+  private events: TelemetryEvent[] = [];
+  private maxEvents: number = 1000;
+
+  record(event: TelemetryEvent): void {
+    this.events.push(event);
+
+    // Trim old events to prevent memory growth
+    if (this.events.length > this.maxEvents) {
+      this.events = this.events.slice(-this.maxEvents);
+    }
+  }
+
+  getEvents(type?: string): TelemetryEvent[] {
+    if (type) {
+      return this.events.filter((e) => e.type === type);
+    }
+    return [...this.events];
+  }
+
+  getMetrics(): {
+    totalJobs: number;
+    completedJobs: number;
+    failedJobs: number;
+    averageDuration: number;
+  } {
+    const starts = this.events.filter((e) => e.type === 'job_start');
+    const completes = this.events.filter((e) => e.type === 'job_complete');
+    const fails = this.events.filter((e) => e.type === 'job_fail');
+
+    const durations = completes.map((e) => e.duration || 0).filter((d) => d > 0);
+    const avgDuration = durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0;
+
+    return {
+      totalJobs: starts.length,
+      completedJobs: completes.length,
+      failedJobs: fails.length,
+      averageDuration: avgDuration,
+    };
+  }
+
+  clear(): void {
+    this.events = [];
+  }
+}
+
+/**
+ * Rollback data structure for storing file backups
+ */
+interface RollbackData {
+  resultId: string;
+  timestamp: Date;
+  changes: CodeChange[];
+  fileBackups: Map<string, string>;
 }

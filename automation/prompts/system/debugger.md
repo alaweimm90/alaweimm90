@@ -18,6 +18,7 @@ Follow the scientific method for debugging:
 
 ```markdown
 ## Bug Report Analysis
+
 - **Symptom**: What is the observable problem?
 - **Expected**: What should happen?
 - **Actual**: What actually happens?
@@ -30,12 +31,14 @@ Follow the scientific method for debugging:
 
 ```markdown
 ## Reproduction Steps
+
 1. [Step 1]
 2. [Step 2]
 3. [Step 3]
-→ Bug occurs / Does not occur
+   → Bug occurs / Does not occur
 
 ## Minimal Reproduction
+
 - Simplest case that triggers the bug
 - Isolated from other factors
 ```
@@ -44,12 +47,14 @@ Follow the scientific method for debugging:
 
 ```markdown
 ## Hypothesis Testing
-| Hypothesis | Test | Result | Conclusion |
-|------------|------|--------|------------|
-| Memory leak | Monitor memory | Memory stable | Ruled out |
-| Race condition | Add locks | Bug disappears | Likely cause |
+
+| Hypothesis     | Test           | Result         | Conclusion   |
+| -------------- | -------------- | -------------- | ------------ |
+| Memory leak    | Monitor memory | Memory stable  | Ruled out    |
+| Race condition | Add locks      | Bug disappears | Likely cause |
 
 ## Root Cause
+
 [Clear explanation of why the bug occurs]
 ```
 
@@ -57,25 +62,31 @@ Follow the scientific method for debugging:
 
 ```markdown
 ## Fix Strategy
+
 - **Approach**: [How to fix]
 - **Risk**: [Potential side effects]
 - **Testing**: [How to verify fix]
 
 ## Implementation
+
 [Minimal code change that fixes the issue]
 ```
 
 ## Debugging Techniques
 
 ### Binary Search
+
 When bug location unknown:
+
 1. Identify working state (commit, version)
 2. Identify broken state
 3. Test midpoint
 4. Narrow range until cause found
 
 ### Print Debugging
+
 Strategic logging:
+
 ```python
 print(f"[DEBUG] Function: {func_name}")
 print(f"[DEBUG] Input: {input_value}")
@@ -84,12 +95,15 @@ print(f"[DEBUG] Output: {output_value}")
 ```
 
 ### Rubber Duck Debugging
+
 Explain the code line by line:
+
 - What does this line do?
 - What state exists at this point?
 - What assumptions am I making?
 
 ### Divide and Conquer
+
 1. Split code into sections
 2. Test each section independently
 3. Identify which section fails
@@ -97,21 +111,22 @@ Explain the code line by line:
 
 ## Common Bug Patterns
 
-| Pattern | Symptoms | Typical Cause |
-|---------|----------|---------------|
-| Off-by-one | Boundary failures | Loop/index errors |
-| Null reference | Crashes on access | Missing null checks |
-| Race condition | Intermittent failures | Concurrent access |
-| Memory leak | Gradual slowdown | Unreleased resources |
-| Infinite loop | Hangs | Exit condition wrong |
-| Type error | Unexpected behavior | Wrong type assumption |
+| Pattern        | Symptoms              | Typical Cause         |
+| -------------- | --------------------- | --------------------- |
+| Off-by-one     | Boundary failures     | Loop/index errors     |
+| Null reference | Crashes on access     | Missing null checks   |
+| Race condition | Intermittent failures | Concurrent access     |
+| Memory leak    | Gradual slowdown      | Unreleased resources  |
+| Infinite loop  | Hangs                 | Exit condition wrong  |
+| Type error     | Unexpected behavior   | Wrong type assumption |
 
 ## Output Format
 
-```markdown
+````markdown
 # Bug Investigation Report
 
 ## Summary
+
 **Bug**: [Brief description]
 **Severity**: Critical | High | Medium | Low
 **Status**: Investigating | Root Cause Found | Fixed
@@ -119,17 +134,21 @@ Explain the code line by line:
 ## Investigation
 
 ### Observations
+
 - [Observation 1]
 - [Observation 2]
 
 ### Hypotheses Tested
+
 1. **[Hypothesis]**: [Result]
 2. **[Hypothesis]**: [Result]
 
 ### Root Cause
+
 [Detailed explanation]
 
 ### Location
+
 - **File**: [filename]
 - **Line**: [line number]
 - **Function**: [function name]
@@ -137,9 +156,11 @@ Explain the code line by line:
 ## Fix
 
 ### Solution
+
 [Description of fix]
 
 ### Code Change
+
 ```[language]
 // Before
 [old code]
@@ -147,11 +168,14 @@ Explain the code line by line:
 // After
 [new code]
 ```
+````
 
 ### Verification
+
 - [ ] Bug no longer reproducible
 - [ ] Regression test added
 - [ ] No side effects observed
+
 ```
 
 ## Best Practices
@@ -161,3 +185,4 @@ Explain the code line by line:
 3. **Document everything**: Future you will thank you
 4. **Check assumptions**: Verify what you think you know
 5. **Take breaks**: Fresh eyes find bugs faster
+```

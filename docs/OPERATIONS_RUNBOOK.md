@@ -5,6 +5,7 @@ This document provides operational procedures for deploying, monitoring, and mai
 ## Overview
 
 The Golden Path Governance System consists of three core components:
+
 1. **enforce.py** - Policy enforcement engine
 2. **catalog.py** - Service catalog generator
 3. **checkpoint.py** - Drift detection system
@@ -25,20 +26,20 @@ pip install -r .metaHub/scripts/requirements.txt
 
 Set the following environment variables:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `GOLDEN_PATH_ROOT` | Path to central governance repo | Auto-detected |
-| `GOVERN_STRICT` | Enable strict mode (warnings fail) | `false` |
+| Variable           | Description                        | Default       |
+| ------------------ | ---------------------------------- | ------------- |
+| `GOLDEN_PATH_ROOT` | Path to central governance repo    | Auto-detected |
+| `GOVERN_STRICT`    | Enable strict mode (warnings fail) | `false`       |
 
 ### GitHub Actions Deployment
 
 The system runs automatically via GitHub Actions:
 
-| Workflow | Schedule | Trigger |
-|----------|----------|---------|
-| `enforce.yml` | Every 6 hours | Push to organizations/, manual |
-| `catalog.yml` | Daily at 8 AM UTC | Push to organizations/, manual |
-| `checkpoint.yml` | Weekly on Monday 8 AM UTC | Manual |
+| Workflow         | Schedule                  | Trigger                        |
+| ---------------- | ------------------------- | ------------------------------ |
+| `enforce.yml`    | Every 6 hours             | Push to organizations/, manual |
+| `catalog.yml`    | Daily at 8 AM UTC         | Push to organizations/, manual |
+| `checkpoint.yml` | Weekly on Monday 8 AM UTC | Manual                         |
 
 ### Manual Deployment
 
@@ -61,12 +62,12 @@ python .metaHub/scripts/checkpoint.py --baseline
 
 Monitor these metrics from enforcement reports:
 
-| Metric | Description | Alert Threshold |
-|--------|-------------|-----------------|
-| `total_violations` | Policy violations across portfolio | > 10 new violations |
-| `total_warnings` | Policy warnings | > 50 new warnings |
-| `compliance_degraded` | Repos losing compliance | Any |
-| `new_repos` | Newly discovered repositories | Informational |
+| Metric                | Description                        | Alert Threshold     |
+| --------------------- | ---------------------------------- | ------------------- |
+| `total_violations`    | Policy violations across portfolio | > 10 new violations |
+| `total_warnings`      | Policy warnings                    | > 50 new warnings   |
+| `compliance_degraded` | Repos losing compliance            | Any                 |
+| `new_repos`           | Newly discovered repositories      | Informational       |
 
 ### Dashboard Queries
 
@@ -94,6 +95,7 @@ for repo, data in d['repositories'].items():
 ### Alerting
 
 The system automatically creates GitHub Issues when:
+
 - Compliance degrades (repos lose compliance)
 - New policy violations are detected
 
@@ -114,7 +116,7 @@ To customize alerting, modify `.github/workflows/checkpoint.yml`:
 
 1. **Review enforcement reports**
    - Check GitHub Actions for failed runs
-   - Review violations in enforcement-*.json artifacts
+   - Review violations in enforcement-\*.json artifacts
 
 2. **Monitor catalog updates**
    - Verify catalog.json is current
@@ -149,11 +151,14 @@ To customize alerting, modify `.github/workflows/checkpoint.yml`:
 
 **Symptom:** Enforcement workflow fails
 **Diagnosis:**
+
 ```bash
 # Check workflow logs in GitHub Actions
 # Look for Python errors or missing dependencies
 ```
+
 **Resolution:**
+
 - Verify Python version in workflow
 - Check requirements.txt is up to date
 - Review repository path existence
@@ -162,6 +167,7 @@ To customize alerting, modify `.github/workflows/checkpoint.yml`:
 
 **Symptom:** Repositories failing schema validation
 **Diagnosis:**
+
 ```bash
 python3 -c "
 import json, yaml, jsonschema
@@ -170,7 +176,9 @@ metadata = yaml.safe_load(open('path/to/.meta/repo.yaml'))
 jsonschema.validate(metadata, schema)
 "
 ```
+
 **Resolution:**
+
 - Update .meta/repo.yaml to match schema
 - Check for typos in field names
 - Verify required fields are present
@@ -179,6 +187,7 @@ jsonschema.validate(metadata, schema)
 
 **Symptom:** Repositories not appearing in catalog
 **Diagnosis:**
+
 ```bash
 # Check organizations directory structure
 ls -la organizations/*/
@@ -186,7 +195,9 @@ ls -la organizations/*/
 # Verify .meta/repo.yaml exists
 find organizations -name "repo.yaml" -path "*/.meta/*"
 ```
+
 **Resolution:**
+
 - Ensure repository is in organizations/ directory
 - Create .meta/repo.yaml if missing
 - Re-run catalog generation
@@ -195,12 +206,15 @@ find organizations -name "repo.yaml" -path "*/.meta/*"
 
 **Symptom:** Drift not detected or false positives
 **Diagnosis:**
+
 ```bash
 # Compare checkpoints
 diff <(jq -S '.repositories' checkpoint-prev.json) \
      <(jq -S '.repositories' checkpoint-latest.json)
 ```
+
 **Resolution:**
+
 - Verify previous checkpoint exists
 - Check file hash calculation
 - Review compliance check logic
@@ -210,6 +224,7 @@ diff <(jq -S '.repositories' checkpoint-prev.json) \
 ### Restore from Checkpoint
 
 If catalog becomes corrupted:
+
 ```bash
 # Restore catalog from checkpoint
 cp .metaHub/checkpoints/checkpoint-latest.json .metaHub/catalog/catalog.json
@@ -221,6 +236,7 @@ python .metaHub/scripts/catalog.py
 ### Reset Baseline
 
 To start fresh:
+
 ```bash
 # Archive old checkpoints
 mkdir -p .metaHub/checkpoints/archive
@@ -233,6 +249,7 @@ python .metaHub/scripts/checkpoint.py --baseline
 ### Rollback Policy Changes
 
 If policy changes cause issues:
+
 ```bash
 # Revert policy file
 git checkout HEAD~1 -- .metaHub/policies/problematic-policy.rego
@@ -246,11 +263,13 @@ python .metaHub/scripts/enforce.py organizations/ --report text
 ### Large Portfolios (100+ repos)
 
 For large portfolios, consider:
+
 1. **Parallel execution** in workflows
 2. **Incremental scanning** for changed repos only
 3. **Caching** dependency installation
 
 Example parallel workflow:
+
 ```yaml
 jobs:
   enforce:
@@ -264,6 +283,7 @@ jobs:
 ### Memory Optimization
 
 For memory-constrained environments:
+
 ```bash
 # Process one organization at a time
 for org in organizations/*/; do
@@ -274,33 +294,33 @@ done
 
 ## Support Escalation
 
-| Level | Contact | Response Time |
-|-------|---------|---------------|
-| L1 | Repository owner | Same day |
-| L2 | Platform team | 24 hours |
-| L3 | Security team | Critical issues only |
+| Level | Contact          | Response Time        |
+| ----- | ---------------- | -------------------- |
+| L1    | Repository owner | Same day             |
+| L2    | Platform team    | 24 hours             |
+| L3    | Security team    | Critical issues only |
 
 ## Appendix
 
 ### File Locations
 
-| File | Purpose |
-|------|---------|
-| `.metaHub/scripts/enforce.py` | Policy enforcement |
-| `.metaHub/scripts/catalog.py` | Catalog generation |
-| `.metaHub/scripts/checkpoint.py` | Drift detection |
-| `.metaHub/catalog/catalog.json` | Current catalog |
-| `.metaHub/checkpoints/` | Checkpoint history |
-| `.metaHub/schemas/repo-schema.json` | Metadata schema |
-| `.metaHub/policies/` | OPA/Rego policies |
+| File                                | Purpose            |
+| ----------------------------------- | ------------------ |
+| `.metaHub/scripts/enforce.py`       | Policy enforcement |
+| `.metaHub/scripts/catalog.py`       | Catalog generation |
+| `.metaHub/scripts/checkpoint.py`    | Drift detection    |
+| `.metaHub/catalog/catalog.json`     | Current catalog    |
+| `.metaHub/checkpoints/`             | Checkpoint history |
+| `.metaHub/schemas/repo-schema.json` | Metadata schema    |
+| `.metaHub/policies/`                | OPA/Rego policies  |
 
 ### Exit Codes
 
-| Code | Meaning |
-|------|---------|
-| 0 | Success |
-| 1 | Violations found (enforce.py) |
-| 1 | Error (catalog.py, checkpoint.py) |
+| Code | Meaning                           |
+| ---- | --------------------------------- |
+| 0    | Success                           |
+| 1    | Violations found (enforce.py)     |
+| 1    | Error (catalog.py, checkpoint.py) |
 
 ---
 

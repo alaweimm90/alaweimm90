@@ -372,7 +372,7 @@ export class PostgresStorageBackend implements StorageBackend {
     );
     const recordsResult = await this.pool!.query('SELECT COUNT(*) as count FROM collections');
     const sizeResult = await this.pool!.query(
-      "SELECT pg_size_pretty(pg_database_size(current_database())) as size"
+      'SELECT pg_size_pretty(pg_database_size(current_database())) as size'
     );
 
     return {
@@ -412,7 +412,10 @@ export class PostgresStorageBackend implements StorageBackend {
     // Build query
     let query = `SELECT key, value FROM collections
                  WHERE collection = $1 AND value @> $2::jsonb`;
-    const params: (string | number | object)[] = [collection, JSON.stringify({ [jsonPath]: value })];
+    const params: (string | number | object)[] = [
+      collection,
+      JSON.stringify({ [jsonPath]: value }),
+    ];
     let paramIndex = 3;
 
     if (options?.orderBy) {

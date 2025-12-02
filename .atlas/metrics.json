@@ -1,0 +1,296 @@
+[
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:21:11.725Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T00:21:11.726Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T00:21:11.729Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T00:21:11.730Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "deploy",
+    "timestamp": "2025-12-01T00:21:11.733Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:27:03.618Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T00:27:03.620Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T00:27:03.621Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T00:27:03.623Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:30:39.362Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T00:30:39.364Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T00:30:39.367Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T00:30:39.369Z",
+    "success": true,
+    "latency": 0,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:33:14.290Z",
+    "success": true,
+    "latency": 111,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T00:33:14.298Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T00:33:14.424Z",
+    "success": true,
+    "latency": 121,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T00:33:14.602Z",
+    "success": true,
+    "latency": 172,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:38:29.319Z",
+    "success": false,
+    "latency": 17715,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:49:44.984Z",
+    "success": false,
+    "latency": 11233,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T00:52:51.080Z",
+    "success": false,
+    "latency": 15822,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "repz-build",
+    "timestamp": "2025-12-01T05:23:26.393Z",
+    "success": false,
+    "latency": 48839,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T05:52:56.596Z",
+    "success": false,
+    "latency": 15348,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:04:15.651Z",
+    "success": false,
+    "latency": 37801,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:10:10.314Z",
+    "success": false,
+    "latency": 14059,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:12:14.010Z",
+    "success": false,
+    "latency": 12531,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:13:24.438Z",
+    "success": false,
+    "latency": 17273,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:33:22.187Z",
+    "success": false,
+    "latency": 60119,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:40:50.414Z",
+    "success": false,
+    "latency": 16978,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:41:16.990Z",
+    "success": true,
+    "latency": 233,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T06:41:17.007Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T06:41:17.122Z",
+    "success": false,
+    "latency": 119,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "secrets",
+    "timestamp": "2025-12-01T06:41:19.818Z",
+    "success": false,
+    "latency": 2823,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T06:42:11.299Z",
+    "success": false,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T07:08:49.572Z",
+    "success": true,
+    "latency": 92,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T07:08:49.585Z",
+    "success": false,
+    "agentId": ""
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T07:08:49.665Z",
+    "success": true,
+    "latency": 83,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "secrets",
+    "timestamp": "2025-12-01T07:08:50.693Z",
+    "success": false,
+    "latency": 1116,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T07:09:20.505Z",
+    "success": true,
+    "latency": 26250,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "build",
+    "timestamp": "2025-12-01T08:38:27.187Z",
+    "success": true,
+    "latency": 122,
+    "agentId": "claude-sonnet"
+  },
+  {
+    "stepId": "tests",
+    "timestamp": "2025-12-01T08:38:27.322Z",
+    "success": true,
+    "latency": 129,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "image",
+    "timestamp": "2025-12-01T08:38:27.442Z",
+    "success": true,
+    "latency": 172,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "secrets",
+    "timestamp": "2025-12-01T08:38:28.976Z",
+    "success": false,
+    "latency": 1774,
+    "agentId": "claude-opus"
+  },
+  {
+    "stepId": "scan",
+    "timestamp": "2025-12-01T08:39:29.007Z",
+    "success": false,
+    "latency": 60025,
+    "agentId": "claude-opus"
+  }
+]

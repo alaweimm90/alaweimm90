@@ -1,0 +1,15 @@
+{
+  "claude-sonnet": {
+    "state": "closed",
+    "failures": 0,
+    "successes": 2,
+    "lastSuccess": "2025-12-01T08:38:27.186Z"
+  },
+  "claude-opus": {
+    "state": "closed",
+    "failures": 3,
+    "successes": 4,
+    "lastSuccess": "2025-12-01T08:38:27.441Z",
+    "lastFailure": "2025-12-01T08:39:29.005Z"
+  }
+}

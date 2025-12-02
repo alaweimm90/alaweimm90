@@ -1,85 +1,85 @@
 # Prompt Chaining Pattern
 # Sequential task decomposition with quality gates
 
-name: "prompt_chaining"
+name: 'prompt_chaining'
 description: |
   Break a task into sequential steps where each step's output feeds into the next.
   Include quality gates between steps to catch issues early.
 
 # When to use this pattern
 use_when:
-  - "Task can be cleanly decomposed into fixed subtasks"
-  - "Each step builds on the output of the previous step"
-  - "You want to validate intermediate results"
-  - "The workflow is predictable and repeatable"
+  - 'Task can be cleanly decomposed into fixed subtasks'
+  - 'Each step builds on the output of the previous step'
+  - 'You want to validate intermediate results'
+  - 'The workflow is predictable and repeatable'
 
 # When NOT to use
 avoid_when:
-  - "Subtasks are unpredictable"
-  - "Steps can run independently"
-  - "Task requires dynamic decision-making"
+  - 'Subtasks are unpredictable'
+  - 'Steps can run independently'
+  - 'Task requires dynamic decision-making'
 
 # Pattern structure
 structure:
-  type: "sequential"
+  type: 'sequential'
   components:
-    - "input"
-    - "step_1"
-    - "gate_1"
-    - "step_2"
-    - "gate_2"
-    - "step_n"
-    - "output"
+    - 'input'
+    - 'step_1'
+    - 'gate_1'
+    - 'step_2'
+    - 'gate_2'
+    - 'step_n'
+    - 'output'
 
 # Example implementation
 example:
-  name: "document_generation"
+  name: 'document_generation'
   steps:
-    - name: "outline"
-      prompt: "Create an outline for: {{topic}}"
-      output: "outline"
+    - name: 'outline'
+      prompt: 'Create an outline for: {{topic}}'
+      output: 'outline'
 
-    - name: "gate_outline"
-      type: "gate"
-      condition: "outline contains at least 3 sections"
-      on_fail: "revise_outline"
+    - name: 'gate_outline'
+      type: 'gate'
+      condition: 'outline contains at least 3 sections'
+      on_fail: 'revise_outline'
 
-    - name: "draft"
-      prompt: "Write a draft based on this outline: {{outline}}"
-      output: "draft"
+    - name: 'draft'
+      prompt: 'Write a draft based on this outline: {{outline}}'
+      output: 'draft'
 
-    - name: "gate_draft"
-      type: "gate"
-      condition: "draft length > 500 words"
-      on_fail: "expand_draft"
+    - name: 'gate_draft'
+      type: 'gate'
+      condition: 'draft length > 500 words'
+      on_fail: 'expand_draft'
 
-    - name: "polish"
-      prompt: "Polish and improve this draft: {{draft}}"
-      output: "final_document"
+    - name: 'polish'
+      prompt: 'Polish and improve this draft: {{draft}}'
+      output: 'final_document'
 
 # Gate types
 gate_types:
   validation:
-    description: "Check output meets criteria"
-    actions: ["pass", "fail", "revise"]
+    description: 'Check output meets criteria'
+    actions: ['pass', 'fail', 'revise']
 
   quality:
-    description: "Score output quality"
+    description: 'Score output quality'
     threshold: 0.7
-    actions: ["pass", "revise", "reject"]
+    actions: ['pass', 'revise', 'reject']
 
   human:
-    description: "Require human approval"
+    description: 'Require human approval'
     timeout_minutes: 60
-    actions: ["approve", "reject", "modify"]
+    actions: ['approve', 'reject', 'modify']
 
 # Best practices
 best_practices:
-  - "Keep each step focused on one task"
-  - "Make gates specific and measurable"
-  - "Include rollback capability"
-  - "Log intermediate outputs for debugging"
-  - "Set reasonable timeouts per step"
+  - 'Keep each step focused on one task'
+  - 'Make gates specific and measurable'
+  - 'Include rollback capability'
+  - 'Log intermediate outputs for debugging'
+  - 'Set reasonable timeouts per step'
 
 # Template
 template: |

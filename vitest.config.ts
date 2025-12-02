@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/**/*.test.ts', 'automation/**/*.test.ts'],
     exclude: ['tests/**/*.py', 'tests/__pycache__/**'],
     coverage: {
       provider: 'v8',

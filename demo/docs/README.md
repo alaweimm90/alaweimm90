@@ -42,6 +42,7 @@ demo/
 ### Running the Full Demo
 
 **Option 1: Bash (Linux/Mac)**
+
 ```bash
 cd demo/scripts
 chmod +x run-demo.sh
@@ -49,6 +50,7 @@ chmod +x run-demo.sh
 ```
 
 **Option 2: PowerShell (Windows)**
+
 ```powershell
 cd demo/scripts
 .\run-demo.ps1
@@ -57,11 +59,13 @@ cd demo/scripts
 ### Running Individual Components
 
 **Agent Validation:**
+
 ```bash
 node demo/scripts/validate-agents.cjs
 ```
 
 **Performance Benchmarking:**
+
 ```bash
 cd demo/scripts
 chmod +x benchmark.sh
@@ -69,11 +73,13 @@ chmod +x benchmark.sh
 ```
 
 **Validation Tests:**
+
 ```bash
 node demo/scripts/validation-tests.js
 ```
 
 **Generate Dashboard:**
+
 ```bash
 node demo/dashboards/generate-dashboard.js demo/logs/metrics_*.json
 ```
@@ -81,9 +87,11 @@ node demo/dashboards/generate-dashboard.js demo/logs/metrics_*.json
 ## Demo Scenarios
 
 ### 1. End-to-End Workflow
+
 **File:** `demo/scenarios/end-to-end-workflow/run-scenario.sh`
 
 Demonstrates the complete ATLAS workflow:
+
 1. Initial code analysis
 2. Metric collection
 3. Optimization recommendations
@@ -91,15 +99,18 @@ Demonstrates the complete ATLAS workflow:
 5. Before/after comparisons
 
 ### 2. CLI Operations Demo
+
 **File:** `demo/scenarios/cli-demo/run-scenario.sh`
 
 Showcases all major ATLAS CLI commands:
+
 - Repository analysis with different formats
 - Complexity analysis
 - Chaos analysis
 - Quick scanning
 
 ### 3. KILO Integration
+
 **File:** `demo/scenarios/kilo-integration/`
 
 Demonstrates governance and compliance checking workflows.
@@ -107,14 +118,17 @@ Demonstrates governance and compliance checking workflows.
 ## Test Repositories
 
 ### Messy Python (`demo/test-repos/messy-python/`)
+
 - **Issues:** Global variables, long functions, poor separation of concerns
 - **ATLAS Focus:** Complexity analysis, refactoring suggestions
 
 ### Complex JavaScript (`demo/test-repos/complex-js/`)
+
 - **Issues:** Deep callback nesting, complex async patterns
 - **ATLAS Focus:** Chaos analysis, maintainability metrics
 
 ### Spaghetti TypeScript (`demo/test-repos/spaghetti-ts/`)
+
 - **Issues:** Mixed concerns, `any` types, large classes
 - **ATLAS Focus:** Type safety, architectural analysis
 
@@ -123,26 +137,31 @@ Demonstrates governance and compliance checking workflows.
 The demo validates these key ATLAS capabilities:
 
 ✅ **Agent Registration & Capability Mapping**
+
 - Agent discovery and registration
 - Capability mapping and routing
 - Load balancing and health monitoring
 
 ✅ **Code Analysis Accuracy**
+
 - Complexity metric calculation
 - Chaos level assessment
 - Maintainability scoring
 
 ✅ **CLI Completeness**
+
 - All major commands functional
 - Multiple output formats supported
 - Error handling and validation
 
 ✅ **KILO Integration**
+
 - Governance policy enforcement
 - Compliance checking
 - Audit trail generation
 
 ✅ **Safety & Performance**
+
 - All transformations validated as safe
 - Performance benchmarks within acceptable ranges
 - Comprehensive error handling
@@ -152,6 +171,7 @@ The demo validates these key ATLAS capabilities:
 After running the demo, these files are generated:
 
 ### Logs (`demo/logs/`)
+
 - `demo_*.log` - Main demo execution log
 - `*_analysis_*.json` - Repository analysis results
 - `*_complexity_*.txt` - Complexity analysis output
@@ -160,22 +180,26 @@ After running the demo, these files are generated:
 - `validation-report-*.json` - System validation results
 
 ### Dashboards (`demo/dashboards/`)
+
 - `dashboard_*.html` - Interactive HTML dashboard
 - `metrics_*.json` - Raw metrics data
 
 ## Understanding Results
 
 ### Complexity Scores
+
 - **0-2:** Good (maintainable)
 - **2-5:** Warning (needs attention)
 - **5+:** Bad (refactoring required)
 
 ### Chaos Levels
+
 - **0-2:** Low chaos (well-structured)
 - **2-5:** Moderate chaos (some issues)
 - **5+:** High chaos (major refactoring needed)
 
 ### Maintainability Index
+
 - **8+:** Good maintainability
 - **6-8:** Moderate maintainability
 - **<6:** Poor maintainability
@@ -185,21 +209,25 @@ After running the demo, these files are generated:
 ### Common Issues
 
 **ATLAS CLI not found:**
+
 ```bash
 npm install
 npm run atlas --version
 ```
 
 **Permission denied on scripts:**
+
 ```bash
 chmod +x demo/scripts/*.sh
 ```
 
 **Dashboard not loading:**
+
 - Ensure modern browser with JavaScript enabled
 - Check console for Chart.js loading errors
 
 **Analysis fails:**
+
 - Verify test repositories exist
 - Check file permissions
 - Ensure Node.js modules are installed

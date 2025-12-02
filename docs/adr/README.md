@@ -11,11 +11,11 @@ Architecture Decision Records capture significant architectural decisions along 
 
 ## Index
 
-| ADR | Title | Status |
-|-----|-------|--------|
-| [ADR-001](./ADR-001-organization-monorepos.md) | Organization-Level Monorepos | Accepted |
-| [ADR-002](./ADR-002-opa-policy-enforcement.md) | OPA/Rego for Policy Enforcement | Accepted |
-| [ADR-003](./ADR-003-json-schema-metadata.md) | JSON Schema for Metadata Validation | Accepted |
+| ADR                                            | Title                               | Status   |
+| ---------------------------------------------- | ----------------------------------- | -------- |
+| [ADR-001](./ADR-001-organization-monorepos.md) | Organization-Level Monorepos        | Accepted |
+| [ADR-002](./ADR-002-opa-policy-enforcement.md) | OPA/Rego for Policy Enforcement     | Accepted |
+| [ADR-003](./ADR-003-json-schema-metadata.md)   | JSON Schema for Metadata Validation | Accepted |
 
 ## Template
 
@@ -25,18 +25,23 @@ When adding new ADRs, use this structure:
 # ADR-NNN: Title
 
 ## Context
+
 What is the issue that we're seeing that motivates this decision?
 
 ## Decision
+
 What is the change that we're proposing and/or doing?
 
 ## Rationale
+
 Why is this the best choice among alternatives?
 
 ## Consequences
+
 What becomes easier or harder as a result?
 
 ## Status
+
 Proposed | Accepted | Deprecated | Superseded
 ```
 

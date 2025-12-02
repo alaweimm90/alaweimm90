@@ -1,8 +1,8 @@
 # AI Context Configuration
 # This file provides structured context to AI coding tools
 
-version: "1.0"
-updated: "2025-11-29"
+version: '1.0'
+updated: '2025-11-29'
 
 # Core documentation for understanding the codebase
 documentation:
@@ -52,10 +52,10 @@ feedback:
 
 # AI routing preferences
 routing:
-  complex_features: claude  # Use Claude for complex multi-file features
-  refactoring: kilo         # Use Kilo for refactoring tasks
-  quick_fixes: copilot      # Use Copilot for quick fixes
-  code_review: claude       # Use Claude for thorough code review
+  complex_features: claude # Use Claude for complex multi-file features
+  refactoring: kilo # Use Kilo for refactoring tasks
+  quick_fixes: copilot # Use Copilot for quick fixes
+  code_review: claude # Use Claude for thorough code review
 
 # Context injection rules
 injection:

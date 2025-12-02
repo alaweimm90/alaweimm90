@@ -7,11 +7,11 @@
 # =============================================================================
 
 metadata:
-  version: "2.0.0"
-  updated: "2025-11-27"
+  version: '2.0.0'
+  updated: '2025-11-27'
   tool_count: 14
-  location: ".ai/"
-  description: "Consolidated AI assistant configurations"
+  location: '.ai/'
+  description: 'Consolidated AI assistant configurations'
 
 # =============================================================================
 # GLOBAL SETTINGS
@@ -23,142 +23,141 @@ global:
   autonomous_mode: true
 
   context_files:
-    - ".ai/context.md"
-    - ".metaHub/policies/*.yaml"
-    - "docs/adr/*.md"
+    - '.ai/context.md'
+    - '.metaHub/policies/*.yaml'
+    - 'docs/adr/*.md'
 
   code_standards:
-    language: "python"
-    version: "3.11+"
+    language: 'python'
+    version: '3.11+'
     type_hints: required
-    path_library: "pathlib"
-    cli_framework: "click"
-    encoding: "utf-8"
+    path_library: 'pathlib'
+    cli_framework: 'click'
+    encoding: 'utf-8'
 
 # =============================================================================
 # TOOL CONFIGURATIONS
 # =============================================================================
 tools:
-
   aider:
     enabled: true
-    config_path: ".ai/aider/config.yml"
-    auto_approve_flag: "yes-always: true"
-    status: "fully_supported"
-    best_for: ["Git workflows", "Batch modifications", "CLI operations"]
+    config_path: '.ai/aider/config.yml'
+    auto_approve_flag: 'yes-always: true'
+    status: 'fully_supported'
+    best_for: ['Git workflows', 'Batch modifications', 'CLI operations']
 
   cursor:
     enabled: true
-    config_path: ".ai/cursor/"
-    rules_path: ".ai/rules/cursor.rules"
-    auto_approve_flag: "autoApply: true"
-    status: "fully_supported"
-    best_for: ["Inline completion", "Quick edits", "Tab completion"]
+    config_path: '.ai/cursor/'
+    rules_path: '.ai/rules/cursor.rules'
+    auto_approve_flag: 'autoApply: true'
+    status: 'fully_supported'
+    best_for: ['Inline completion', 'Quick edits', 'Tab completion']
 
   windsurf:
     enabled: true
-    config_path: ".ai/windsurf/"
-    rules_path: ".ai/rules/windsurf.rules"
-    auto_approve_flag: "In-file directives"
-    status: "fully_supported"
-    best_for: ["Flow-state coding", "Cascade agent", "Large refactoring"]
+    config_path: '.ai/windsurf/'
+    rules_path: '.ai/rules/windsurf.rules'
+    auto_approve_flag: 'In-file directives'
+    status: 'fully_supported'
+    best_for: ['Flow-state coding', 'Cascade agent', 'Large refactoring']
 
   claude_code:
     enabled: true
-    config_path: ".ai/claude/"
-    auto_approve_flag: "--dangerously-skip-permissions"
-    status: "cli_flag_required"
-    best_for: ["Complex reasoning", "Large context", "Architecture"]
+    config_path: '.ai/claude/'
+    auto_approve_flag: '--dangerously-skip-permissions'
+    status: 'cli_flag_required'
+    best_for: ['Complex reasoning', 'Large context', 'Architecture']
 
   cline:
     enabled: true
-    config_path: ".ai/cline/"
-    rules_path: ".ai/rules/cline.rules"
-    auto_approve_flag: "bypassApprovals: true"
-    status: "fully_supported"
-    best_for: ["Browser control", "E2E testing", "Full-stack debugging"]
+    config_path: '.ai/cline/'
+    rules_path: '.ai/rules/cline.rules'
+    auto_approve_flag: 'bypassApprovals: true'
+    status: 'fully_supported'
+    best_for: ['Browser control', 'E2E testing', 'Full-stack debugging']
 
   github_copilot:
     enabled: true
-    config_path: ".ai/copilot/"
-    auto_approve_flag: "N/A"
-    status: "context_only"
-    best_for: ["Inline suggestions", "Boilerplate", "Documentation"]
+    config_path: '.ai/copilot/'
+    auto_approve_flag: 'N/A'
+    status: 'context_only'
+    best_for: ['Inline suggestions', 'Boilerplate', 'Documentation']
 
   continue:
     enabled: true
-    config_path: ".ai/continue/"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["Open-source", "Custom models", "Privacy"]
+    config_path: '.ai/continue/'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['Open-source', 'Custom models', 'Privacy']
 
   kilo_code:
     enabled: true
-    config_path: ".ai/kilocode/"
-    auto_approve_flag: "auto_approve: true"
-    status: "supported"
-    best_for: ["Methodical changes", "Code review", "Learning"]
+    config_path: '.ai/kilocode/'
+    auto_approve_flag: 'auto_approve: true'
+    status: 'supported'
+    best_for: ['Methodical changes', 'Code review', 'Learning']
 
   amazon_q:
     enabled: true
-    config_path: ".ai/amazonq/"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["AWS infrastructure", "CDK", "Lambda"]
+    config_path: '.ai/amazonq/'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['AWS infrastructure', 'CDK', 'Lambda']
 
   trae:
     enabled: true
-    config_path: ".ai/trae/"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["Visual development", "UI/UX", "Design-to-code"]
+    config_path: '.ai/trae/'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['Visual development', 'UI/UX', 'Design-to-code']
 
   blackbox:
     enabled: true
-    config_path: ".ai/blackbox/"
-    auto_approve_flag: "yoloMode: true"
-    status: "fully_supported"
-    best_for: ["YOLO mode", "Rapid prototyping", "Hackathons"]
+    config_path: '.ai/blackbox/'
+    auto_approve_flag: 'yoloMode: true'
+    status: 'fully_supported'
+    best_for: ['YOLO mode', 'Rapid prototyping', 'Hackathons']
 
   gemini:
     enabled: true
-    config_path: ".ai/gemini/"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["Multimodal", "Long context", "Research"]
+    config_path: '.ai/gemini/'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['Multimodal', 'Long context', 'Research']
 
   codex:
     enabled: true
-    config_path: ".ai/codex/"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["Code generation", "Algorithms", "Translation"]
+    config_path: '.ai/codex/'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['Code generation', 'Algorithms', 'Translation']
 
   augment:
     enabled: true
-    config_path: ".ai/augment/"
-    rules_path: ".ai/rules/augment.rules"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
-    best_for: ["Enterprise", "Large codebases", "Team collaboration"]
+    config_path: '.ai/augment/'
+    rules_path: '.ai/rules/augment.rules'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
+    best_for: ['Enterprise', 'Large codebases', 'Team collaboration']
 
 # =============================================================================
 # WORKFLOW PIPELINES
 # =============================================================================
 workflows:
-  speed: ["blackbox", "cursor", "github_copilot"]
-  quality: ["claude_code", "aider", "cline", "kilo_code"]
-  full_stack: ["gemini", "cursor", "claude_code", "amazon_q"]
-  debug: ["cline", "claude_code", "aider"]
+  speed: ['blackbox', 'cursor', 'github_copilot']
+  quality: ['claude_code', 'aider', 'cline', 'kilo_code']
+  full_stack: ['gemini', 'cursor', 'claude_code', 'amazon_q']
+  debug: ['cline', 'claude_code', 'aider']
 
 # =============================================================================
 # CATEGORIES
 # =============================================================================
 categories:
-  fully_supported: ["aider", "cursor", "windsurf", "cline", "blackbox", "augment"]
-  supported: ["continue", "kilo_code", "amazon_q", "trae", "gemini", "codex"]
-  context_only: ["github_copilot"]
-  cli_flag_required: ["claude_code"]
+  fully_supported: ['aider', 'cursor', 'windsurf', 'cline', 'blackbox', 'augment']
+  supported: ['continue', 'kilo_code', 'amazon_q', 'trae', 'gemini', 'codex']
+  context_only: ['github_copilot']
+  cli_flag_required: ['claude_code']
 
 # =============================================================================
 # ORCHESTRATION ROUTING
@@ -167,45 +166,45 @@ categories:
 # See: .metaHub/policies/orchestration-governance.yaml for full policy
 orchestration:
   enabled: true
-  policy_path: ".metaHub/policies/orchestration-governance.yaml"
-  schema_path: ".metaHub/schemas/handoff-envelope-schema.json"
+  policy_path: '.metaHub/policies/orchestration-governance.yaml'
+  schema_path: '.metaHub/schemas/handoff-envelope-schema.json'
 
   # Task type routing - which tools handle which task types best
   routing:
     architecture:
-      primary: "claude_code"
-      secondary: ["kilo_code"]
-      description: "System design, architecture planning, technical decisions"
+      primary: 'claude_code'
+      secondary: ['kilo_code']
+      description: 'System design, architecture planning, technical decisions'
 
     implementation:
-      primary: "cline"
-      secondary: ["cursor", "aider"]
-      description: "Building features, writing code, executing changes"
+      primary: 'cline'
+      secondary: ['cursor', 'aider']
+      description: 'Building features, writing code, executing changes'
 
     rapid_prototyping:
-      primary: "blackbox"
-      secondary: ["cursor"]
-      description: "Quick snippets, boilerplate, fast iterations"
+      primary: 'blackbox'
+      secondary: ['cursor']
+      description: 'Quick snippets, boilerplate, fast iterations'
 
     debugging:
-      primary: "cline"
-      secondary: ["claude_code", "aider"]
-      description: "Bug fixes, error resolution, troubleshooting"
+      primary: 'cline'
+      secondary: ['claude_code', 'aider']
+      description: 'Bug fixes, error resolution, troubleshooting'
 
     refactoring:
-      primary: "aider"
-      secondary: ["cline", "windsurf"]
-      description: "Code improvements, optimization, cleanup"
+      primary: 'aider'
+      secondary: ['cline', 'windsurf']
+      description: 'Code improvements, optimization, cleanup'
 
     testing:
-      primary: "cline"
-      secondary: ["aider"]
-      description: "Test writing, test execution, coverage"
+      primary: 'cline'
+      secondary: ['aider']
+      description: 'Test writing, test execution, coverage'
 
     research:
-      primary: "claude_code"
-      secondary: ["kilo_code", "gemini"]
-      description: "Codebase exploration, understanding, analysis"
+      primary: 'claude_code'
+      secondary: ['kilo_code', 'gemini']
+      description: 'Codebase exploration, understanding, analysis'
 
   # Context window limits for routing decisions
   context_limits:
@@ -232,7 +231,7 @@ orchestration:
 # =============================================================================
 mcp:
   enabled: true
-  registry_path: ".ai/mcp/server-registry.yaml"
+  registry_path: '.ai/mcp/server-registry.yaml'
 
   # Priority servers for orchestration
   priority_servers:
@@ -243,7 +242,7 @@ mcp:
 
   # Server categories
   categories:
-    code_management: ["github", "filesystem"]
-    browser_automation: ["puppeteer", "playwright"]
-    data_processing: ["sqlite", "postgres"]
-    external_services: ["slack", "notion"]
+    code_management: ['github', 'filesystem']
+    browser_automation: ['puppeteer', 'playwright']
+    data_processing: ['sqlite', 'postgres']
+    external_services: ['slack', 'notion']

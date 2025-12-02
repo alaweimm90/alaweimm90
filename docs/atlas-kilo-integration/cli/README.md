@@ -10,14 +10,14 @@ atlas <command> [subcommand] [options] [arguments]
 
 ## Global Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--help`, `-h` | Show help information | - |
-| `--version`, `-v` | Show version information | - |
-| `--config <file>` | Specify configuration file | `atlas.config.json` |
-| `--verbose` | Enable verbose output | `false` |
-| `--quiet` | Suppress non-error output | `false` |
-| `--json` | Output results in JSON format | `false` |
+| Option            | Description                   | Default             |
+| ----------------- | ----------------------------- | ------------------- |
+| `--help`, `-h`    | Show help information         | -                   |
+| `--version`, `-v` | Show version information      | -                   |
+| `--config <file>` | Specify configuration file    | `atlas.config.json` |
+| `--verbose`       | Enable verbose output         | `false`             |
+| `--quiet`         | Suppress non-error output     | `false`             |
+| `--json`          | Output results in JSON format | `false`             |
 
 ## Analysis Commands
 
@@ -30,9 +30,11 @@ atlas analyze repo <path> [options]
 ```
 
 **Arguments:**
+
 - `path`: Path to the repository directory
 
 **Options:**
+
 - `--format <format>`: Output format (`table`, `json`, `summary`) (default: `table`)
 - `--depth <depth>`: Analysis depth (`shallow`, `medium`, `deep`) (default: `medium`)
 - `--include-patterns <patterns>`: File patterns to include (comma-separated)
@@ -58,6 +60,7 @@ atlas analyze repo ./my-project --auto-refactor --compliance-level strict
 ```
 
 **Output:**
+
 ```
 Repository Analysis Results
 ┌─────────────────┬─────────────┬─────────┐
@@ -83,9 +86,11 @@ atlas analyze complexity <path> [options]
 ```
 
 **Arguments:**
+
 - `path`: Path to analyze
 
 **Options:**
+
 - `--threshold <number>`: Complexity threshold (default: 10)
 - `--language <lang>`: Target programming language
 - `--validate-policies`: Check against KILO complexity policies
@@ -109,9 +114,11 @@ atlas analyze chaos <path> [options]
 ```
 
 **Arguments:**
+
 - `path`: Path to analyze
 
 **Options:**
+
 - `--detailed`: Show detailed breakdown
 - `--governance-integration`: Include KILO governance metrics
 
@@ -134,9 +141,11 @@ atlas analyze scan <path> [options]
 ```
 
 **Arguments:**
+
 - `path`: Path to scan
 
 **Options:**
+
 - `--health-check`: Include repository health assessment
 - `--governance-summary`: Include KILO governance summary
 
@@ -161,9 +170,11 @@ atlas template list [category] [options]
 ```
 
 **Arguments:**
+
 - `category`: Template category (`cicd`, `db`, `iac`, `k8s`, `logging`, `monitoring`, `ui`)
 
 **Options:**
+
 - `--all`: List all templates across categories
 - `--search <term>`: Search templates by name or description
 - `--format <format>`: Output format (`table`, `json`, `list`)
@@ -190,9 +201,11 @@ atlas template get <category>/<name> [options]
 ```
 
 **Arguments:**
+
 - `category/name`: Template identifier (e.g., `cicd/github-actions`)
 
 **Options:**
+
 - `--version <version>`: Template version (default: `latest`)
 - `--output <dir>`: Output directory (default: `./generated`)
 - `--parameters <file>`: Parameter file (JSON)
@@ -200,6 +213,7 @@ atlas template get <category>/<name> [options]
 - `--apply`: Automatically apply the template
 
 **Parameter Options:**
+
 - `--param.<key>=<value>`: Set template parameters
 
 **Examples:**
@@ -227,9 +241,11 @@ atlas template validate <category>/<name> [options]
 ```
 
 **Arguments:**
+
 - `category/name`: Template identifier
 
 **Options:**
+
 - `--parameters <file>`: Parameter file to validate
 - `--strict`: Enable strict validation
 - `--policy-check`: Validate against KILO policies
@@ -255,6 +271,7 @@ atlas bridge status [options]
 ```
 
 **Options:**
+
 - `--k2a`: Show only K2A bridge status
 - `--a2k`: Show only A2K bridge status
 - `--detailed`: Show detailed status information
@@ -274,6 +291,7 @@ atlas bridge status --health-check
 ```
 
 **Output:**
+
 ```
 ATLAS-KILO Bridge Status
 ========================
@@ -302,9 +320,11 @@ atlas bridge configure <bridge> [options]
 ```
 
 **Arguments:**
+
 - `bridge`: Bridge to configure (`k2a` or `a2k`)
 
 **Options:**
+
 - `--config <file>`: Configuration file
 - `--set <key>=<value>`: Set configuration value
 - `--reset`: Reset to default configuration
@@ -331,9 +351,11 @@ atlas bridge test [bridge] [options]
 ```
 
 **Arguments:**
+
 - `bridge`: Bridge to test (`k2a`, `a2k`, or both if omitted)
 
 **Options:**
+
 - `--comprehensive`: Run comprehensive tests
 - `--performance`: Include performance benchmarks
 - `--report <file>`: Save test report to file
@@ -362,9 +384,11 @@ atlas compliance check <path> [options]
 ```
 
 **Arguments:**
+
 - `path`: Path to check (file or directory)
 
 **Options:**
+
 - `--policies <list>`: Comma-separated list of policies to check
 - `--language <lang>`: Programming language
 - `--format <format>`: Output format (`table`, `json`, `summary`)
@@ -393,6 +417,7 @@ atlas compliance report [options]
 ```
 
 **Options:**
+
 - `--path <path>`: Target path (default: current directory)
 - `--output <file>`: Output file
 - `--format <format>`: Report format (`html`, `pdf`, `json`, `markdown`)
@@ -423,9 +448,11 @@ atlas workflow run <workflow> [options]
 ```
 
 **Arguments:**
+
 - `workflow`: Workflow name
 
 **Options:**
+
 - `--config <file>`: Workflow configuration file
 - `--param.<key>=<value>`: Workflow parameters
 - `--dry-run`: Show what would be executed without running
@@ -453,6 +480,7 @@ atlas workflow list [options]
 ```
 
 **Options:**
+
 - `--category <category>`: Filter by category
 - `--search <term>`: Search workflows
 - `--format <format>`: Output format
@@ -481,9 +509,11 @@ atlas config show [section] [options]
 ```
 
 **Arguments:**
+
 - `section`: Configuration section to show
 
 **Options:**
+
 - `--format <format>`: Output format (`json`, `yaml`, `table`)
 - `--defaults`: Show default values
 - `--effective`: Show effective configuration (with overrides)
@@ -510,10 +540,12 @@ atlas config set <key> <value> [options]
 ```
 
 **Arguments:**
+
 - `key`: Configuration key
 - `value`: Configuration value
 
 **Options:**
+
 - `--global`: Set global configuration
 - `--local`: Set local configuration (default)
 - `--type <type>`: Value type (`string`, `number`, `boolean`, `json`)
@@ -540,9 +572,11 @@ atlas config reset [section] [options]
 ```
 
 **Arguments:**
+
 - `section`: Configuration section to reset
 
 **Options:**
+
 - `--confirm`: Require confirmation before reset
 - `--backup`: Create backup before reset
 
@@ -570,6 +604,7 @@ atlas init [options]
 ```
 
 **Options:**
+
 - `--template <template>`: Initialization template
 - `--force`: Overwrite existing configuration
 - `--skip-tests`: Skip integration tests
@@ -596,6 +631,7 @@ atlas doctor [options]
 ```
 
 **Options:**
+
 - `--fix`: Automatically fix issues where possible
 - `--report <file>`: Save diagnostic report
 - `--verbose`: Show detailed diagnostic information
@@ -622,6 +658,7 @@ atlas version [options]
 ```
 
 **Options:**
+
 - `--all`: Show versions of all components
 - `--check-updates`: Check for available updates
 - `--format <format>`: Output format
@@ -641,27 +678,27 @@ atlas version --all --format json
 
 ## Exit Codes
 
-| Code | Description |
-|------|-------------|
-| 0 | Success |
-| 1 | General error |
-| 2 | Configuration error |
-| 3 | Bridge communication error |
-| 4 | Validation error |
-| 5 | Template error |
-| 6 | Compliance violation |
-| 10 | KILO service unavailable |
-| 11 | ATLAS service unavailable |
+| Code | Description                |
+| ---- | -------------------------- |
+| 0    | Success                    |
+| 1    | General error              |
+| 2    | Configuration error        |
+| 3    | Bridge communication error |
+| 4    | Validation error           |
+| 5    | Template error             |
+| 6    | Compliance violation       |
+| 10   | KILO service unavailable   |
+| 11   | ATLAS service unavailable  |
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `ATLAS_CONFIG` | Configuration file path | `./atlas.config.json` |
-| `KILO_ENDPOINT` | KILO service endpoint | - |
-| `ATLAS_BRIDGE_DEBUG` | Enable bridge debug logging | `false` |
-| `ATLAS_CACHE_DIR` | Cache directory | `~/.atlas/cache` |
-| `ATLAS_LOG_LEVEL` | Logging level | `info` |
+| Variable             | Description                 | Default               |
+| -------------------- | --------------------------- | --------------------- |
+| `ATLAS_CONFIG`       | Configuration file path     | `./atlas.config.json` |
+| `KILO_ENDPOINT`      | KILO service endpoint       | -                     |
+| `ATLAS_BRIDGE_DEBUG` | Enable bridge debug logging | `false`               |
+| `ATLAS_CACHE_DIR`    | Cache directory             | `~/.atlas/cache`      |
+| `ATLAS_LOG_LEVEL`    | Logging level               | `info`                |
 
 ## Examples
 

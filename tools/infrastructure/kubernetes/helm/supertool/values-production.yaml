@@ -5,7 +5,7 @@ replicaCount: 3
 image:
   repository: ghcr.io/username/supertool
   pullPolicy: IfNotPresent
-  tag: "1.0.0"  # Use specific version tags in production
+  tag: '1.0.0' # Use specific version tags in production
 
 resources:
   limits:
@@ -24,11 +24,11 @@ autoscaling:
 
 ingress:
   enabled: true
-  className: "nginx"
+  className: 'nginx'
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/rate-limit: "100"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/rate-limit: '100'
   hosts:
     - host: supertool.example.com
       paths:
@@ -41,11 +41,11 @@ ingress:
 
 env:
   - name: NODE_ENV
-    value: "production"
+    value: 'production'
   - name: LOG_LEVEL
-    value: "info"
+    value: 'info'
   - name: PORT
-    value: "8080"
+    value: '8080'
 
 podDisruptionBudget:
   enabled: true
@@ -62,10 +62,10 @@ serviceMonitor:
 affinity:
   podAntiAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchExpressions:
-        - key: app.kubernetes.io/name
-          operator: In
-          values:
-          - supertool
-      topologyKey: kubernetes.io/hostname
+      - labelSelector:
+          matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+                - supertool
+        topologyKey: kubernetes.io/hostname

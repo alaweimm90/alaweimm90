@@ -11,7 +11,7 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
+    - Ingress
 
 ---
 # Default Deny All Egress Traffic
@@ -26,7 +26,7 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Egress
+    - Egress
 
 ---
 # Allow SuperTool Pod Traffic
@@ -43,32 +43,32 @@ spec:
     matchLabels:
       app.kubernetes.io/name: supertool
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  # Allow from ingress controller
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ingress-nginx
-    ports:
-    - protocol: TCP
-      port: 3000
-  # Allow from same namespace
-  - from:
-    - podSelector:
-        matchLabels:
-          app.kubernetes.io/name: supertool
-    ports:
-    - protocol: TCP
-      port: 3000
-  # Allow health checks from kube-system
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: kube-system
-    ports:
-    - protocol: TCP
-      port: 3000
+    # Allow from ingress controller
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 3000
+    # Allow from same namespace
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: supertool
+      ports:
+        - protocol: TCP
+          port: 3000
+    # Allow health checks from kube-system
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: TCP
+          port: 3000
 
 ---
 # Allow SuperTool Egress Traffic
@@ -85,44 +85,44 @@ spec:
     matchLabels:
       app.kubernetes.io/name: supertool
   policyTypes:
-  - Egress
+    - Egress
   egress:
-  # Allow DNS
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: kube-system
-    ports:
-    - protocol: UDP
-      port: 53
-  # Allow HTTPS to external services
-  - to:
-    - podSelector: {}
-    ports:
-    - protocol: TCP
-      port: 443
-  # Allow HTTP to external services
-  - to:
-    - podSelector: {}
-    ports:
-    - protocol: TCP
-      port: 80
-  # Allow database access
-  - to:
-    - podSelector:
-        matchLabels:
-          app: postgres
-    ports:
-    - protocol: TCP
-      port: 5432
-  # Allow Redis access
-  - to:
-    - podSelector:
-        matchLabels:
-          app: redis
-    ports:
-    - protocol: TCP
-      port: 6379
+    # Allow DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+    # Allow HTTPS to external services
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 443
+    # Allow HTTP to external services
+    - to:
+        - podSelector: {}
+      ports:
+        - protocol: TCP
+          port: 80
+    # Allow database access
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+    # Allow Redis access
+    - to:
+        - podSelector:
+            matchLabels:
+              app: redis
+      ports:
+        - protocol: TCP
+          port: 6379
 
 ---
 # Allow Prometheus Scraping
@@ -139,18 +139,18 @@ spec:
     matchLabels:
       app.kubernetes.io/name: supertool
   policyTypes:
-  - Ingress
+    - Ingress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: monitoring
-      podSelector:
-        matchLabels:
-          app: prometheus
-    ports:
-    - protocol: TCP
-      port: 9090
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: monitoring
+          podSelector:
+            matchLabels:
+              app: prometheus
+      ports:
+        - protocol: TCP
+          port: 9090
 
 ---
 # Isolate Sensitive Workloads
@@ -167,26 +167,26 @@ spec:
     matchLabels:
       security: high
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  # Only allow from pods with specific label
-  - from:
-    - podSelector:
-        matchLabels:
-          access: sensitive
-    ports:
-    - protocol: TCP
-      port: 3000
+    # Only allow from pods with specific label
+    - from:
+        - podSelector:
+            matchLabels:
+              access: sensitive
+      ports:
+        - protocol: TCP
+          port: 3000
   egress:
-  # Only allow to specific endpoints
-  - to:
-    - podSelector:
-        matchLabels:
-          tier: backend
-    ports:
-    - protocol: TCP
-      port: 443
+    # Only allow to specific endpoints
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: backend
+      ports:
+        - protocol: TCP
+          port: 443
 
 ---
 # Namespace Isolation
@@ -201,21 +201,21 @@ metadata:
 spec:
   podSelector: {}
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  # Allow from same namespace only
-  - from:
-    - podSelector: {}
+    # Allow from same namespace only
+    - from:
+        - podSelector: {}
   egress:
-  # Allow to same namespace only (except DNS and external)
-  - to:
-    - podSelector: {}
-  # Allow DNS
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          name: kube-system
-    ports:
-    - protocol: UDP
-      port: 53
+    # Allow to same namespace only (except DNS and external)
+    - to:
+        - podSelector: {}
+    # Allow DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53

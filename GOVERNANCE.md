@@ -13,12 +13,12 @@ Each organization directory is a logical unit containing related projects as sub
 
 ### Why This Approach
 
-| Benefit | Description |
-|---------|-------------|
-| **Logical Grouping** | Projects within orgs are related (science, tools, etc.) |
-| **Shared Governance** | Consistent CI/CD, CODEOWNERS, policies |
-| **Atomic Commits** | Cross-project changes in single commits |
-| **Simplified Management** | Fewer repos to manage vs. 80+ separate repos |
+| Benefit                   | Description                                             |
+| ------------------------- | ------------------------------------------------------- |
+| **Logical Grouping**      | Projects within orgs are related (science, tools, etc.) |
+| **Shared Governance**     | Consistent CI/CD, CODEOWNERS, policies                  |
+| **Atomic Commits**        | Cross-project changes in single commits                 |
+| **Simplified Management** | Fewer repos to manage vs. 80+ separate repos            |
 
 ### Structure
 
@@ -37,11 +37,11 @@ organizations/
 
 A subdirectory qualifies as a "project" if it has:
 
-| Requirement | File |
-|-------------|------|
-| Build config | `pyproject.toml` or `package.json` |
-| Deployment config | `Dockerfile` |
-| Independent release | Semantic versioning capability |
+| Requirement         | File                               |
+| ------------------- | ---------------------------------- |
+| Build config        | `pyproject.toml` or `package.json` |
+| Deployment config   | `Dockerfile`                       |
+| Independent release | Semantic versioning capability     |
 
 ---
 
@@ -56,11 +56,11 @@ A subdirectory qualifies as a "project" if it has:
 
 ### Tier-Based Requirements
 
-| Tier | Requirements |
-|------|--------------|
-| **1** (Critical) | Full test coverage, SLO monitoring, incident runbooks |
-| **2** (Important) | 80%+ coverage, basic monitoring |
-| **3** (Experimental) | Metadata only |
+| Tier                 | Requirements                                          |
+| -------------------- | ----------------------------------------------------- |
+| **1** (Critical)     | Full test coverage, SLO monitoring, incident runbooks |
+| **2** (Important)    | 80%+ coverage, basic monitoring                       |
+| **3** (Experimental) | Metadata only                                         |
 
 ---
 
@@ -68,18 +68,18 @@ A subdirectory qualifies as a "project" if it has:
 
 Major architectural decisions are documented as ADRs in `docs/adr/`.
 
-| ADR | Decision |
-|-----|----------|
-| ADR-001 | Organization-level monorepos |
-| ADR-002 | OPA/Rego for policy enforcement |
+| ADR     | Decision                            |
+| ------- | ----------------------------------- |
+| ADR-001 | Organization-level monorepos        |
+| ADR-002 | OPA/Rego for policy enforcement     |
 | ADR-003 | JSON Schema for metadata validation |
 
 ---
 
 ## Maintainers
 
-| Role | Contact |
-|------|---------|
+| Role | Contact                                      |
+| ---- | -------------------------------------------- |
 | Lead | [@alaweimm90](https://github.com/alaweimm90) |
 
 ---

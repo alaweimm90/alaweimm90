@@ -6,13 +6,13 @@ Multi-organization GitHub portfolio governance system managing 5 organizations w
 
 ## Organizations
 
-| Org | Purpose |
-|-----|---------|
-| alaweimm90-tools | Developer tools and utilities |
-| alaweimm90-science | Scientific computing projects |
-| alaweimm90-internal | Internal company tools |
-| alaweimm90-oss | Open source projects |
-| alaweimm90-labs | Experimental projects |
+| Org                 | Purpose                       |
+| ------------------- | ----------------------------- |
+| alaweimm90-tools    | Developer tools and utilities |
+| alaweimm90-science  | Scientific computing projects |
+| alaweimm90-internal | Internal company tools        |
+| alaweimm90-oss      | Open source projects          |
+| alaweimm90-labs     | Experimental projects         |
 
 ## Architecture
 
@@ -51,30 +51,30 @@ All AI assistants should:
 
 ### C(13,1) - Single Tool Selection
 
-| Task Type | Primary Tool | Reasoning |
-|-----------|--------------|-----------|
-| Quick edits | Cursor | Fastest inline completion |
-| Complex refactoring | Claude Code | Best reasoning, context window |
-| Debugging | Cline | Browser + terminal integration |
-| Documentation | Copilot | Trained on markdown patterns |
-| Code generation | Codex | Optimized for code synthesis |
+| Task Type           | Primary Tool | Reasoning                      |
+| ------------------- | ------------ | ------------------------------ |
+| Quick edits         | Cursor       | Fastest inline completion      |
+| Complex refactoring | Claude Code  | Best reasoning, context window |
+| Debugging           | Cline        | Browser + terminal integration |
+| Documentation       | Copilot      | Trained on markdown patterns   |
+| Code generation     | Codex        | Optimized for code synthesis   |
 
 ### C(13,2) - Optimal Tool Pairs
 
-| Workflow | Tool 1 | Tool 2 | Use Case |
-|----------|--------|--------|----------|
-| Write + Review | Cursor | Claude | Fast generation + deep review |
-| Code + Test | Aider | Cline | Auto-commit + browser testing |
-| Design + Implement | Gemini | Windsurf | Multimodal design + IDE execution |
-| Prototype + Polish | Blackbox | Kilo | Rapid YOLO + careful refinement |
+| Workflow           | Tool 1   | Tool 2   | Use Case                          |
+| ------------------ | -------- | -------- | --------------------------------- |
+| Write + Review     | Cursor   | Claude   | Fast generation + deep review     |
+| Code + Test        | Aider    | Cline    | Auto-commit + browser testing     |
+| Design + Implement | Gemini   | Windsurf | Multimodal design + IDE execution |
+| Prototype + Polish | Blackbox | Kilo     | Rapid YOLO + careful refinement   |
 
 ### C(13,3) - Power Workflows
 
-| Pipeline | Tools | Best For |
-|----------|-------|----------|
-| Full-Stack | Cursor → Cline → Claude | Frontend → Integration → Backend |
-| CI/CD | Aider → Copilot → Amazon Q | Code → Docs → AWS Deploy |
-| Research | Gemini → Claude → Codex | Analysis → Reasoning → Implementation |
+| Pipeline   | Tools                      | Best For                              |
+| ---------- | -------------------------- | ------------------------------------- |
+| Full-Stack | Cursor → Cline → Claude    | Frontend → Integration → Backend      |
+| CI/CD      | Aider → Copilot → Amazon Q | Code → Docs → AWS Deploy              |
+| Research   | Gemini → Claude → Codex    | Analysis → Reasoning → Implementation |
 
 ## Task-Tool Mapping (Set Theory)
 

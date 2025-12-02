@@ -15,7 +15,7 @@ export class MarketplaceRegistry {
   async searchPlugins(query: string, category?: string): Promise<PluginManifest[]> {
     const params = new URLSearchParams({
       q: query,
-      ...(category && { category })
+      ...(category && { category }),
     });
 
     const response = await fetch(`${this.baseUrl}/api/plugins/search?${params}`);
@@ -108,7 +108,7 @@ export class MarketplaceRegistry {
 
     const response = await fetch(`${this.baseUrl}/api/plugins/publish`, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
 
     if (!response.ok) {
@@ -124,9 +124,9 @@ export class MarketplaceRegistry {
     const response = await fetch(`${this.baseUrl}/api/plugins/${pluginId}`, {
       method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updates)
+      body: JSON.stringify(updates),
     });
 
     if (!response.ok) {
@@ -139,7 +139,7 @@ export class MarketplaceRegistry {
    */
   async deletePlugin(pluginId: string): Promise<void> {
     const response = await fetch(`${this.baseUrl}/api/plugins/${pluginId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     });
 
     if (!response.ok) {
@@ -167,9 +167,9 @@ export class MarketplaceRegistry {
     const response = await fetch(`${this.baseUrl}/api/plugins/${pluginId}/reviews`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ rating, comment })
+      body: JSON.stringify({ rating, comment }),
     });
 
     if (!response.ok) {
@@ -214,5 +214,4 @@ export class MarketplaceRegistry {
     const fs = await import('fs');
     return fs.readFileSync(filePath);
   }
-}</content>
-</edit_file>
+}

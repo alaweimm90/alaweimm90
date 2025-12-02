@@ -1,9 +1,9 @@
 ---
-name: "Governance & Compliance Superprompt"
-version: "1.0"
-category: "project"
-tags: ["governance", "compliance", "standards", "ethics", "access-control"]
-created: "2024-11-30"
+name: 'Governance & Compliance Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['governance', 'compliance', 'standards', 'ethics', 'access-control']
+created: '2024-11-30'
 ---
 
 # Governance & Compliance Superprompt
@@ -48,14 +48,14 @@ governance_hierarchy:
       - access-control-policy.yaml
       - ai-ethics-policy.yaml
     enforcement: mandatory
-    
+
   team_level:
     policies:
       - code-review-policy.yaml
       - deployment-policy.yaml
       - testing-standards.yaml
     enforcement: required
-    
+
   project_level:
     policies:
       - project-specific-rules.yaml
@@ -75,6 +75,7 @@ This document defines the governance standards, compliance requirements, and eth
 ## Compliance Requirements
 
 ### Applicable Standards
+
 - [ ] SOC2 Type II
 - [ ] GDPR
 - [ ] HIPAA
@@ -82,24 +83,27 @@ This document defines the governance standards, compliance requirements, and eth
 - [ ] ISO 27001
 
 ### Data Classification
-| Classification | Description | Handling Requirements |
-|---------------|-------------|----------------------|
-| Public | Non-sensitive data | Standard controls |
-| Internal | Business data | Access logging |
-| Confidential | Sensitive business data | Encryption required |
-| Restricted | PII/PHI/Financial | Full compliance controls |
+
+| Classification | Description             | Handling Requirements    |
+| -------------- | ----------------------- | ------------------------ |
+| Public         | Non-sensitive data      | Standard controls        |
+| Internal       | Business data           | Access logging           |
+| Confidential   | Sensitive business data | Encryption required      |
+| Restricted     | PII/PHI/Financial       | Full compliance controls |
 
 ## Access Control
 
 ### Role Definitions
-| Role | Permissions | Scope |
-|------|-------------|-------|
-| Owner | Full access | All resources |
-| Admin | Manage settings | Project-wide |
+
+| Role      | Permissions     | Scope          |
+| --------- | --------------- | -------------- |
+| Owner     | Full access     | All resources  |
+| Admin     | Manage settings | Project-wide   |
 | Developer | Read/Write code | Assigned repos |
-| Viewer | Read-only | Assigned repos |
+| Viewer    | Read-only       | Assigned repos |
 
 ### Authentication Requirements
+
 - Multi-factor authentication: Required
 - SSO integration: Enabled
 - Session timeout: 8 hours
@@ -108,12 +112,14 @@ This document defines the governance standards, compliance requirements, and eth
 ## Code Review Requirements
 
 ### Mandatory Reviews
+
 - All production code changes
 - Security-sensitive modifications
 - Infrastructure changes
 - Database migrations
 
 ### Review Criteria
+
 - [ ] Code quality standards met
 - [ ] Security best practices followed
 - [ ] Test coverage adequate
@@ -122,6 +128,7 @@ This document defines the governance standards, compliance requirements, and eth
 ## Ethical AI Guidelines
 
 ### Principles
+
 1. **Transparency**: AI decisions must be explainable
 2. **Fairness**: No discriminatory outcomes
 3. **Privacy**: Data minimization and protection
@@ -129,6 +136,7 @@ This document defines the governance standards, compliance requirements, and eth
 5. **Safety**: Robust testing and monitoring
 
 ### Required Practices
+
 - Bias testing for ML models
 - Data provenance documentation
 - Model versioning and audit trails
@@ -137,12 +145,14 @@ This document defines the governance standards, compliance requirements, and eth
 ## Audit Requirements
 
 ### Logging
+
 - All access attempts logged
 - Data modifications tracked
 - API calls recorded
 - Authentication events captured
 
 ### Retention
+
 - Security logs: 1 year
 - Access logs: 90 days
 - Audit trails: 7 years
@@ -151,14 +161,16 @@ This document defines the governance standards, compliance requirements, and eth
 ## Incident Response
 
 ### Severity Levels
-| Level | Description | Response Time |
-|-------|-------------|---------------|
-| P1 | Critical security breach | 15 minutes |
-| P2 | Major compliance violation | 1 hour |
-| P3 | Minor policy violation | 24 hours |
-| P4 | Informational | 1 week |
+
+| Level | Description                | Response Time |
+| ----- | -------------------------- | ------------- |
+| P1    | Critical security breach   | 15 minutes    |
+| P2    | Major compliance violation | 1 hour        |
+| P3    | Minor policy violation     | 24 hours      |
+| P4    | Informational              | 1 week        |
 
 ### Escalation Path
+
 1. On-call engineer
 2. Team lead
 3. Security team
@@ -323,39 +335,39 @@ warn[msg] {
 # access-control/rbac.yaml
 roles:
   organization_owner:
-    description: "Full organization access"
+    description: 'Full organization access'
     permissions:
       - org:*
       - repo:*
       - team:*
       - billing:*
-    
+
   security_admin:
-    description: "Security management"
+    description: 'Security management'
     permissions:
       - security:*
       - audit:read
       - repo:security_settings
-      
+
   team_lead:
-    description: "Team management"
+    description: 'Team management'
     permissions:
       - team:manage
       - repo:admin
       - pr:merge
       - deploy:staging
-      
+
   developer:
-    description: "Standard development"
+    description: 'Standard development'
     permissions:
       - repo:read
       - repo:write
       - pr:create
       - pr:review
       - issues:*
-      
+
   contractor:
-    description: "Limited external access"
+    description: 'Limited external access'
     permissions:
       - repo:read
       - pr:create
@@ -367,15 +379,15 @@ roles:
 
 # Role assignments
 assignments:
-  - user: "@security-team"
+  - user: '@security-team'
     role: security_admin
     scope: organization
-    
-  - user: "@team-leads"
+
+  - user: '@team-leads'
     role: team_lead
     scope: team
-    
-  - user: "@developers"
+
+  - user: '@developers'
     role: developer
     scope: assigned_repos
 ```
@@ -390,23 +402,23 @@ zero_trust_policy:
     - least_privilege_access
     - assume_breach
     - verify_explicitly
-    
+
   authentication:
     mfa_required: true
     session_duration: 8h
     re_auth_for_sensitive: true
     device_trust_required: true
-    
+
   authorization:
     continuous_verification: true
     context_aware: true
     just_in_time_access: true
-    
+
   network:
     micro_segmentation: true
     encrypted_traffic: true
     no_implicit_trust: true
-    
+
   monitoring:
     all_access_logged: true
     anomaly_detection: true
@@ -431,7 +443,7 @@ ethical_ai_principles:
       - Use interpretable models where possible
       - Implement SHAP/LIME for explanations
       - Maintain model cards for all deployments
-      
+
   fairness:
     requirements:
       - No discriminatory outcomes
@@ -441,7 +453,7 @@ ethical_ai_principles:
       - Fairness metrics in CI/CD
       - Protected attribute monitoring
       - Bias mitigation techniques
-      
+
   privacy:
     requirements:
       - Data minimization
@@ -451,7 +463,7 @@ ethical_ai_principles:
       - Differential privacy where applicable
       - Data anonymization pipelines
       - Consent tracking system
-      
+
   accountability:
     requirements:
       - Clear ownership
@@ -461,7 +473,7 @@ ethical_ai_principles:
       - Model registry with owners
       - Decision logging
       - Escalation procedures
-      
+
   safety:
     requirements:
       - Robust testing
@@ -478,13 +490,13 @@ model_governance:
     - data_sheet
     - risk_assessment
     - bias_report
-    
+
   approval_gates:
     - data_quality_review
     - bias_assessment
     - security_review
     - ethics_review
-    
+
   monitoring:
     - performance_metrics
     - fairness_metrics
@@ -498,6 +510,7 @@ model_governance:
 # Model Card: [Model Name]
 
 ## Model Details
+
 - **Developer**: [Team/Individual]
 - **Model Date**: [Date]
 - **Model Version**: [Version]
@@ -505,45 +518,53 @@ model_governance:
 - **License**: [License]
 
 ## Intended Use
+
 - **Primary Use Cases**: [Description]
 - **Primary Users**: [Description]
 - **Out-of-Scope Uses**: [Description]
 
 ## Training Data
+
 - **Dataset**: [Name/Description]
 - **Size**: [Number of samples]
 - **Collection Method**: [Description]
 - **Preprocessing**: [Description]
 
 ## Evaluation Data
+
 - **Dataset**: [Name/Description]
 - **Motivation**: [Why this dataset]
 
 ## Metrics
-| Metric | Value |
-|--------|-------|
-| Accuracy | X% |
-| Precision | X% |
-| Recall | X% |
-| F1 Score | X |
+
+| Metric    | Value |
+| --------- | ----- |
+| Accuracy  | X%    |
+| Precision | X%    |
+| Recall    | X%    |
+| F1 Score  | X     |
 
 ## Fairness Analysis
-| Group | Metric | Value |
-|-------|--------|-------|
-| Group A | Accuracy | X% |
-| Group B | Accuracy | X% |
-| Disparity | | X% |
+
+| Group     | Metric   | Value |
+| --------- | -------- | ----- |
+| Group A   | Accuracy | X%    |
+| Group B   | Accuracy | X%    |
+| Disparity |          | X%    |
 
 ## Ethical Considerations
+
 - **Potential Harms**: [Description]
 - **Mitigations**: [Description]
 - **Human Oversight**: [Description]
 
 ## Limitations
+
 - [Limitation 1]
 - [Limitation 2]
 
 ## Recommendations
+
 - [Recommendation 1]
 - [Recommendation 2]
 ```
@@ -563,7 +584,7 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    - cron: '0 0 * * 0'  # Weekly
+    - cron: '0 0 * * 0' # Weekly
 
 jobs:
   governance-check:
@@ -571,25 +592,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run OPA policies
         uses: open-policy-agent/opa-action@v2
         with:
           policy: policies/
           input: governance-input.json
-          
+
       - name: Check repository structure
         run: |
           ./scripts/check-structure.sh
-          
+
       - name: Verify CODEOWNERS
         run: |
           ./scripts/verify-codeowners.sh
-          
+
       - name: Generate compliance report
         run: |
           ./scripts/generate-compliance-report.sh
-          
+
       - name: Upload report
         uses: actions/upload-artifact@v4
         with:
@@ -601,16 +622,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Audit repository access
         run: |
           gh api repos/${{ github.repository }}/collaborators \
             --jq '.[] | {login, permissions}' > access-audit.json
-            
+
       - name: Check for stale access
         run: |
           ./scripts/check-stale-access.sh
-          
+
       - name: Verify MFA compliance
         run: |
           ./scripts/verify-mfa.sh
@@ -620,15 +641,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Scan for PII
         run: |
           ./scripts/scan-pii.sh
-          
+
       - name: Check data retention
         run: |
           ./scripts/check-retention.sh
-          
+
       - name: Verify encryption
         run: |
           ./scripts/verify-encryption.sh
@@ -648,35 +669,35 @@ audit_configuration:
       - logout
       - mfa_challenge
       - session_timeout
-      
+
     authorization:
       - access_granted
       - access_denied
       - permission_change
       - role_assignment
-      
+
     data_access:
       - read
       - write
       - delete
       - export
-      
+
     administrative:
       - config_change
       - policy_update
       - user_management
       - system_change
-      
+
   retention:
     security_events: 365 days
     access_logs: 90 days
     audit_trails: 7 years
-    
+
   storage:
     primary: elasticsearch
     backup: s3
     encryption: AES-256
-    
+
   alerting:
     critical_events:
       - multiple_failed_logins
@@ -719,4 +740,4 @@ audit_configuration:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

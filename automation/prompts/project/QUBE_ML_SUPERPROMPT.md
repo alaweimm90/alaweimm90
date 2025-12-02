@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **QUBE-ML** combines quantum computing with machine learning:
+
 - Hybrid quantum-classical algorithms
 - Model training & inference
 - Performance optimization
@@ -20,6 +21,7 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 5 parallel agent teams optimized for QUBE-ML:
 
 **Team 1:** Quantum algorithms & optimization
@@ -29,6 +31,7 @@
 **Team 5:** Research & improvements
 
 ### Execution Style
+
 - ⚡ Fast: 2-3 sec analysis max
 - 🔄 Parallel: All teams simultaneously
 - 💬 Brief: Minimal output

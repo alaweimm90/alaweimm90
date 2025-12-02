@@ -1,9 +1,9 @@
 ---
-name: "Testing & Quality Assurance Superprompt"
-version: "1.0"
-category: "project"
-tags: ["testing", "qa", "unit-testing", "integration-testing", "e2e", "coverage"]
-created: "2024-11-30"
+name: 'Testing & Quality Assurance Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['testing', 'qa', 'unit-testing', 'integration-testing', 'e2e', 'coverage']
+created: '2024-11-30'
 ---
 
 # Testing & Quality Assurance Superprompt
@@ -46,10 +46,10 @@ unit_testing:
     - Mock external dependencies
     - Fast execution (<100ms per test)
     - High coverage of business logic
-    
+
   patterns:
     arrange_act_assert:
-      description: "Standard test structure"
+      description: 'Standard test structure'
       example: |
         // Arrange
         const calculator = new Calculator();
@@ -57,9 +57,9 @@ unit_testing:
         const result = calculator.add(2, 3);
         // Assert
         expect(result).toBe(5);
-    
+
     given_when_then:
-      description: "BDD-style structure"
+      description: 'BDD-style structure'
       example: |
         describe('Calculator', () => {
           describe('given two positive numbers', () => {
@@ -68,7 +68,7 @@ unit_testing:
             });
           });
         });
-  
+
   coverage_targets:
     statements: 80%
     branches: 75%
@@ -85,18 +85,18 @@ integration_testing:
     - API endpoints
     - Service-to-service communication
     - External API integrations
-    
+
   strategies:
     contract_testing:
-      tool: "Pact"
-      purpose: "Verify API contracts between services"
-      
+      tool: 'Pact'
+      purpose: 'Verify API contracts between services'
+
     database_testing:
-      approach: "Use test containers or in-memory DBs"
-      cleanup: "Transaction rollback or truncation"
-      
+      approach: 'Use test containers or in-memory DBs'
+      cleanup: 'Transaction rollback or truncation'
+
     api_testing:
-      tool: "Supertest / httpx"
+      tool: 'Supertest / httpx'
       coverage:
         - Happy path scenarios
         - Error handling
@@ -109,17 +109,17 @@ integration_testing:
 ```yaml
 e2e_testing:
   frameworks:
-    web: ["Playwright", "Cypress"]
-    mobile: ["Detox", "Appium"]
-    api: ["Postman/Newman", "k6"]
-    
+    web: ['Playwright', 'Cypress']
+    mobile: ['Detox', 'Appium']
+    api: ['Postman/Newman', 'k6']
+
   best_practices:
     - Test critical user journeys only
     - Use stable selectors (data-testid)
     - Implement retry logic for flaky tests
     - Run in isolated environments
     - Parallelize for speed
-    
+
   critical_paths:
     - User registration/login
     - Core business workflows
@@ -141,34 +141,34 @@ from myapp.services import UserService
 
 class TestUserService:
     """Unit tests for UserService."""
-    
+
     @pytest.fixture
     def mock_repository(self):
         """Create mock repository."""
         return Mock()
-    
+
     @pytest.fixture
     def service(self, mock_repository):
         """Create service with mocked dependencies."""
         return UserService(repository=mock_repository)
-    
+
     def test_create_user_success(self, service, mock_repository):
         """Test successful user creation."""
         # Arrange
         mock_repository.save.return_value = {"id": 1, "name": "Test"}
-        
+
         # Act
         result = service.create_user(name="Test", email="test@example.com")
-        
+
         # Assert
         assert result["id"] == 1
         mock_repository.save.assert_called_once()
-    
+
     def test_create_user_invalid_email_raises(self, service):
         """Test that invalid email raises ValidationError."""
         with pytest.raises(ValidationError, match="Invalid email"):
             service.create_user(name="Test", email="invalid")
-    
+
     @pytest.mark.parametrize("name,email,expected", [
         ("John", "john@example.com", True),
         ("", "john@example.com", False),
@@ -191,25 +191,25 @@ def client():
 
 class TestUserAPI:
     """Integration tests for User API."""
-    
+
     def test_create_user_endpoint(self, client, db_session):
         """Test POST /users endpoint."""
         response = client.post("/users", json={
             "name": "Test User",
             "email": "test@example.com"
         })
-        
+
         assert response.status_code == 201
         assert response.json()["name"] == "Test User"
-    
+
     def test_create_user_duplicate_email(self, client, db_session):
         """Test duplicate email returns 409."""
         # Create first user
         client.post("/users", json={"name": "User1", "email": "test@example.com"})
-        
+
         # Try duplicate
         response = client.post("/users", json={"name": "User2", "email": "test@example.com"})
-        
+
         assert response.status_code == 409
 ```
 
@@ -231,7 +231,7 @@ describe('UserService', () => {
       findById: vi.fn(),
       findByEmail: vi.fn(),
     } as any;
-    
+
     service = new UserService(mockRepository);
   });
 
@@ -268,15 +268,15 @@ test.describe('User Registration Flow', () => {
   test('should register new user successfully', async ({ page }) => {
     // Navigate to registration
     await page.goto('/register');
-    
+
     // Fill form
     await page.fill('[data-testid="name-input"]', 'Test User');
     await page.fill('[data-testid="email-input"]', 'test@example.com');
     await page.fill('[data-testid="password-input"]', 'SecurePass123!');
-    
+
     // Submit
     await page.click('[data-testid="submit-button"]');
-    
+
     // Verify success
     await expect(page.locator('[data-testid="success-message"]')).toBeVisible();
     await expect(page).toHaveURL('/dashboard');
@@ -284,10 +284,10 @@ test.describe('User Registration Flow', () => {
 
   test('should show validation errors for invalid input', async ({ page }) => {
     await page.goto('/register');
-    
+
     // Submit empty form
     await page.click('[data-testid="submit-button"]');
-    
+
     // Verify errors
     await expect(page.locator('[data-testid="name-error"]')).toContainText('Name is required');
     await expect(page.locator('[data-testid="email-error"]')).toContainText('Email is required');
@@ -338,7 +338,7 @@ testpaths = tests
 python_files = test_*.py
 python_classes = Test*
 python_functions = test_*
-addopts = 
+addopts =
     -v
     --strict-markers
     --cov=src
@@ -366,10 +366,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [
-    ['html'],
-    ['junit', { outputFile: 'test-results/junit.xml' }],
-  ],
+  reporter: [['html'], ['junit', { outputFile: 'test-results/junit.xml' }]],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
@@ -399,21 +396,21 @@ quality_gates:
     minimum: 80%
     target: 90%
     blocking: true
-    
+
   test_execution:
     unit_max_duration: 5m
     integration_max_duration: 15m
     e2e_max_duration: 30m
-    
+
   code_quality:
     max_complexity: 10
     max_file_length: 500
     max_function_length: 50
-    
+
   security:
     dependency_vulnerabilities: 0 critical
     sast_findings: 0 high
-    
+
   performance:
     api_response_p95: 200ms
     page_load_p95: 3s
@@ -478,24 +475,28 @@ jobs:
 ## Execution Phases
 
 ### Phase 1: Test Foundation
+
 - [ ] Set up test frameworks and configurations
 - [ ] Create test utilities and fixtures
 - [ ] Implement first unit tests for core modules
 - [ ] Configure coverage reporting
 
 ### Phase 2: Comprehensive Coverage
+
 - [ ] Achieve 80% unit test coverage
 - [ ] Add integration tests for all APIs
 - [ ] Implement contract tests for services
 - [ ] Set up mutation testing
 
 ### Phase 3: E2E & Performance
+
 - [ ] Create E2E tests for critical paths
 - [ ] Add performance benchmarks
 - [ ] Implement visual regression tests
 - [ ] Configure parallel test execution
 
 ### Phase 4: CI/CD Integration
+
 - [ ] Integrate tests into CI pipeline
 - [ ] Set up quality gates
 - [ ] Configure test result reporting
@@ -503,4 +504,4 @@ jobs:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

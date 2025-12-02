@@ -75,6 +75,7 @@ atlas analyze repo . --governance-check --format table
 ```
 
 This command will:
+
 1. Analyze your code with ATLAS
 2. Validate results against KILO policies
 3. Display combined results
@@ -108,12 +109,14 @@ atlas compliance check . --policies security --format detailed
 ### For Development Teams
 
 1. **Set up pre-commit hooks:**
+
    ```bash
    # Add to .git/hooks/pre-commit
    atlas analyze scan . --governance-check
    ```
 
 2. **Configure CI/CD integration:**
+
    ```yaml
    # Add to your CI pipeline
    - run: atlas analyze repo . --governance-check --format json
@@ -128,12 +131,14 @@ atlas compliance check . --policies security --format detailed
 ### For DevOps Teams
 
 1. **Set up monitoring:**
+
    ```bash
    atlas config set monitoring.enabled true
    atlas template get monitoring/grafana --apply
    ```
 
 2. **Configure automated remediation:**
+
    ```bash
    atlas config set integration.autoRemediate true
    ```

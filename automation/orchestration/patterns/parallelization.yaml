@@ -1,108 +1,108 @@
 # Parallelization Pattern
 # Run independent tasks simultaneously for speed
 
-name: "parallelization"
+name: 'parallelization'
 description: |
   Execute multiple independent tasks in parallel, then aggregate results.
   Two variants: sectioning (split task) and voting (multiple attempts).
 
 # When to use this pattern
 use_when:
-  - "Tasks are independent of each other"
-  - "Speed is important"
-  - "You want multiple perspectives (voting)"
-  - "Task can be split into independent parts (sectioning)"
+  - 'Tasks are independent of each other'
+  - 'Speed is important'
+  - 'You want multiple perspectives (voting)'
+  - 'Task can be split into independent parts (sectioning)'
 
 # When NOT to use
 avoid_when:
-  - "Tasks have dependencies"
-  - "Order matters"
-  - "Resources are limited"
+  - 'Tasks have dependencies'
+  - 'Order matters'
+  - 'Resources are limited'
 
 # Variants
 variants:
   sectioning:
-    description: "Split task into independent parts, process in parallel"
-    example: "Process different sections of a document simultaneously"
-    aggregation: "concatenate"
+    description: 'Split task into independent parts, process in parallel'
+    example: 'Process different sections of a document simultaneously'
+    aggregation: 'concatenate'
 
   voting:
-    description: "Run same task multiple times, aggregate for consensus"
-    example: "Get multiple code review opinions"
-    aggregation: "majority_vote"
+    description: 'Run same task multiple times, aggregate for consensus'
+    example: 'Get multiple code review opinions'
+    aggregation: 'majority_vote'
 
 # Pattern structure
 structure:
-  type: "parallel"
+  type: 'parallel'
   components:
-    - "input"
-    - "split/duplicate"
-    - "parallel_workers[]"
-    - "aggregate"
-    - "output"
+    - 'input'
+    - 'split/duplicate'
+    - 'parallel_workers[]'
+    - 'aggregate'
+    - 'output'
 
 # Example: Sectioning
 example_sectioning:
-  name: "parallel_code_analysis"
+  name: 'parallel_code_analysis'
   split:
-    method: "by_file"
-    input: "codebase"
+    method: 'by_file'
+    input: 'codebase'
   workers:
-    - agent: "reviewer_agent"
-      task: "Analyze {{file}} for issues"
+    - agent: 'reviewer_agent'
+      task: 'Analyze {{file}} for issues'
   aggregate:
-    method: "concatenate"
+    method: 'concatenate'
     deduplicate: true
-  output: "combined_analysis"
+  output: 'combined_analysis'
 
 # Example: Voting
 example_voting:
-  name: "consensus_review"
+  name: 'consensus_review'
   duplicate:
     count: 3
-    input: "code_to_review"
+    input: 'code_to_review'
   workers:
-    - agent: "reviewer_agent_1"
+    - agent: 'reviewer_agent_1'
       temperature: 0.3
-    - agent: "reviewer_agent_2"
+    - agent: 'reviewer_agent_2'
       temperature: 0.5
-    - agent: "reviewer_agent_3"
+    - agent: 'reviewer_agent_3'
       temperature: 0.7
   aggregate:
-    method: "majority_vote"
+    method: 'majority_vote'
     threshold: 0.66
-  output: "consensus_review"
+  output: 'consensus_review'
 
 # Aggregation methods
 aggregation_methods:
   concatenate:
-    description: "Combine all outputs"
-    use_for: "sectioning"
+    description: 'Combine all outputs'
+    use_for: 'sectioning'
 
   majority_vote:
-    description: "Take most common answer"
-    use_for: "voting"
+    description: 'Take most common answer'
+    use_for: 'voting'
     threshold: 0.5
 
   weighted_average:
-    description: "Average with confidence weights"
-    use_for: "scoring tasks"
+    description: 'Average with confidence weights'
+    use_for: 'scoring tasks'
 
   union:
-    description: "Combine unique items"
-    use_for: "finding issues"
+    description: 'Combine unique items'
+    use_for: 'finding issues'
 
   intersection:
-    description: "Keep only common items"
-    use_for: "high-confidence findings"
+    description: 'Keep only common items'
+    use_for: 'high-confidence findings'
 
 # Best practices
 best_practices:
-  - "Ensure tasks are truly independent"
-  - "Set appropriate timeouts for slowest task"
-  - "Handle partial failures gracefully"
-  - "Use voting for critical decisions"
-  - "Consider resource limits"
+  - 'Ensure tasks are truly independent'
+  - 'Set appropriate timeouts for slowest task'
+  - 'Handle partial failures gracefully'
+  - 'Use voting for critical decisions'
+  - 'Consider resource limits'
 
 # Template
 template: |

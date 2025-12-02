@@ -9,7 +9,7 @@ export enum GovernanceEventType {
   COMPLIANCE_FAILURE = 'compliance_failure',
   STRUCTURE_VIOLATION = 'structure_violation',
   SECURITY_ISSUE = 'security_issue',
-  DEPENDENCY_RISK = 'dependency_risk'
+  DEPENDENCY_RISK = 'dependency_risk',
 }
 
 export interface GovernanceEvent {
@@ -36,5 +36,4 @@ export class KiloAtlasBridge implements K2ABridge {
   }
 }
 
-export default KiloAtlasBridge;</code>
-</edit_file>
+export default KiloAtlasBridge;

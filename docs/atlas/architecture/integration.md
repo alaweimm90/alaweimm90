@@ -19,9 +19,11 @@ ATLAS integrates deeply with KILO for governance and DevOps automation. See [KIL
 ## API Integrations
 
 ### REST API
+
 ATLAS provides a comprehensive REST API for programmatic access. See [REST API Reference](../api/rest-api.md).
 
 ### Webhooks
+
 Event-driven integrations via webhooks. See [Webhooks](../api/webhooks.md).
 
 ---
@@ -29,9 +31,11 @@ Event-driven integrations via webhooks. See [Webhooks](../api/webhooks.md).
 ## Development Tool Integrations
 
 ### IDE Integration
+
 ATLAS integrates with popular IDEs through plugins and extensions. See [IDE Integration](../integration/ide-integration.md).
 
 ### CI/CD Integration
+
 Automated integration with CI/CD pipelines. See [CI/CD Integration](../integration/cicd-integration.md).
 
 ---
@@ -39,8 +43,9 @@ Automated integration with CI/CD pipelines. See [CI/CD Integration](../integrati
 ## Custom Integrations
 
 ### Custom Agents
+
 Building and integrating custom AI agents. See [Custom Agents](../integration/custom-agents.md).
 
 ---
 
-*This documentation is under development. Check back for comprehensive integration guides.*</instructions>
+_This documentation is under development. Check back for comprehensive integration guides._</instructions>

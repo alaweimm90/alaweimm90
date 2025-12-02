@@ -48,15 +48,15 @@ The system routes tasks to the optimal tool based on task type and intent extrac
 
 ### Task Type Mappings
 
-| Task Type | Primary Tool | Secondary Tools | Description |
-|-----------|--------------|-----------------|-------------|
-| Architecture | claude_code | kilo_code | System design, planning, technical decisions |
-| Implementation | cline | cursor, aider | Building features, writing code |
-| Rapid Prototyping | blackbox | cursor | Quick snippets, boilerplate |
-| Debugging | cline | claude_code, aider | Bug fixes, troubleshooting |
-| Refactoring | aider | cline, windsurf | Code improvements, cleanup |
-| Testing | cline | aider | Test writing, coverage |
-| Research | claude_code | kilo_code, gemini | Codebase exploration, analysis |
+| Task Type         | Primary Tool | Secondary Tools    | Description                                  |
+| ----------------- | ------------ | ------------------ | -------------------------------------------- |
+| Architecture      | claude_code  | kilo_code          | System design, planning, technical decisions |
+| Implementation    | cline        | cursor, aider      | Building features, writing code              |
+| Rapid Prototyping | blackbox     | cursor             | Quick snippets, boilerplate                  |
+| Debugging         | cline        | claude_code, aider | Bug fixes, troubleshooting                   |
+| Refactoring       | aider        | cline, windsurf    | Code improvements, cleanup                   |
+| Testing           | cline        | aider              | Test writing, coverage                       |
+| Research          | claude_code  | kilo_code, gemini  | Codebase exploration, analysis               |
 
 ### Intent Extraction Keywords
 
@@ -98,15 +98,11 @@ When switching between tools, use structured handoff envelopes to preserve conte
   "context": {
     "task_description": "Implement user authentication flow",
     "relevant_files": ["src/auth/", "src/api/users.py"],
-    "prior_decisions": [
-      {"decision": "Use JWT tokens", "rationale": "Stateless, scalable"}
-    ],
+    "prior_decisions": [{ "decision": "Use JWT tokens", "rationale": "Stateless, scalable" }],
     "success_criteria": ["Users can login", "Tokens expire correctly"]
   },
   "artifacts": {
-    "files_modified": [
-      {"path": "src/auth/jwt.py", "action": "created", "lines_changed": 45}
-    ],
+    "files_modified": [{ "path": "src/auth/jwt.py", "action": "created", "lines_changed": 45 }],
     "validation_results": {
       "tests_passed": true,
       "lint_passed": true
@@ -199,20 +195,20 @@ The system automatically handles failures with intelligent recovery strategies.
 
 ### Error Categories
 
-| Category | Examples | Recovery Action |
-|----------|----------|-----------------|
-| Transient | timeout, rate_limit | Retry with backoff |
-| Context | context_window_exceeded | Compress context |
-| Permanent | authentication_failed | Escalate to human |
+| Category  | Examples                | Recovery Action    |
+| --------- | ----------------------- | ------------------ |
+| Transient | timeout, rate_limit     | Retry with backoff |
+| Context   | context_window_exceeded | Compress context   |
+| Permanent | authentication_failed   | Escalate to human  |
 
 ### Degradation Levels
 
-| Level | Description | Available Tools |
-|-------|-------------|-----------------|
-| 1 - Full | All capabilities | All 14 tools |
-| 2 - Reduced | Sequential execution | All tools, reduced context |
-| 3 - Primary Only | Limited tools | claude_code, aider, cline |
-| 4 - Safe Mode | Human approval required | aider only |
+| Level            | Description             | Available Tools            |
+| ---------------- | ----------------------- | -------------------------- |
+| 1 - Full         | All capabilities        | All 14 tools               |
+| 2 - Reduced      | Sequential execution    | All tools, reduced context |
+| 3 - Primary Only | Limited tools           | claude_code, aider, cline  |
+| 4 - Safe Mode    | Human approval required | aider only                 |
 
 ### Using Self-Healing
 
@@ -269,12 +265,12 @@ python orchestration_telemetry.py check-targets
 
 ### Target Metrics
 
-| Metric | Target |
-|--------|--------|
-| Handoff Success Rate | ≥95% |
-| Hallucination Rate | ≤2% |
-| Workflow Completion | ≥90% |
-| First Pass Success | ≥80% |
+| Metric               | Target |
+| -------------------- | ------ |
+| Handoff Success Rate | ≥95%   |
+| Hallucination Rate   | ≤2%    |
+| Workflow Completion  | ≥90%   |
+| First Pass Success   | ≥80%   |
 
 ## MCP Server Integration
 
@@ -282,17 +278,17 @@ The system integrates with Model Context Protocol (MCP) servers for enhanced cap
 
 ### Available Servers
 
-| Server | Category | Use Case |
-|--------|----------|----------|
-| context | infrastructure | Handoff state, memory |
-| github | code_management | PRs, issues, workflows |
-| filesystem | code_management | File operations |
-| puppeteer | browser_automation | E2E testing |
-| sqlite/postgres | data_processing | Database operations |
-| brave_search | search | Web research |
-| memory | infrastructure | Persistent key-value storage |
-| fetch | external_services | HTTP API calls |
-| slack | external_services | Team notifications |
+| Server          | Category           | Use Case                     |
+| --------------- | ------------------ | ---------------------------- |
+| context         | infrastructure     | Handoff state, memory        |
+| github          | code_management    | PRs, issues, workflows       |
+| filesystem      | code_management    | File operations              |
+| puppeteer       | browser_automation | E2E testing                  |
+| sqlite/postgres | data_processing    | Database operations          |
+| brave_search    | search             | Web research                 |
+| memory          | infrastructure     | Persistent key-value storage |
+| fetch           | external_services  | HTTP API calls               |
+| slack           | external_services  | Team notifications           |
 
 ### Server Registry
 
@@ -318,12 +314,12 @@ cd mcp-cli && pip install -e "."
 
 ### CLI Modes
 
-| Mode | Command | Description |
-|------|---------|-------------|
-| Chat | `mcp-cli --server github` | Interactive conversation |
-| Interactive | `mcp-cli interactive --server github` | Command shell |
-| Command | `mcp-cli cmd --server github --tool list_repos` | Automation |
-| Direct | `mcp-cli tools --server github` | Single commands |
+| Mode        | Command                                         | Description              |
+| ----------- | ----------------------------------------------- | ------------------------ |
+| Chat        | `mcp-cli --server github`                       | Interactive conversation |
+| Interactive | `mcp-cli interactive --server github`           | Command shell            |
+| Command     | `mcp-cli cmd --server github --tool list_repos` | Automation               |
+| Direct      | `mcp-cli tools --server github`                 | Single commands          |
 
 ### Using with Our System
 
@@ -367,11 +363,11 @@ python mcp_server_tester.py report
 
 Pre-built workflow templates are available in `.ai/mcp/workflows/`:
 
-| Workflow | Servers | Description |
-|----------|---------|-------------|
-| `code-review-workflow.yaml` | github, filesystem, context | Automated PR code review |
-| `research-workflow.yaml` | brave-search, filesystem, memory | Research and documentation |
-| `debug-workflow.yaml` | filesystem, puppeteer, sqlite | Debugging and troubleshooting |
+| Workflow                    | Servers                          | Description                   |
+| --------------------------- | -------------------------------- | ----------------------------- |
+| `code-review-workflow.yaml` | github, filesystem, context      | Automated PR code review      |
+| `research-workflow.yaml`    | brave-search, filesystem, memory | Research and documentation    |
+| `debug-workflow.yaml`       | filesystem, puppeteer, sqlite    | Debugging and troubleshooting |
 
 ### Configuration
 
@@ -415,62 +411,76 @@ export SLACK_BOT_TOKEN=xoxb-...
 The orchestration system integrates with existing multi-agent frameworks:
 
 ### MeatheadPhysicist
+
 - **Use for**: Academic research, scientific analysis
 - **Agents**: Scientist, Literature, Scout, Theory, Critic
 
 ### Turingo
+
 - **Use for**: Performance optimization, algorithm design
 - **Agents**: QuantumQuokka, MLMagician, PuzzleProdigy, CodeCowboy
 
 ### IdeaForge
+
 - **Use for**: Brainstorming, innovation
 - **Agents**: WildCard, ChaosMonkey, Futurist, MetaOrchestrator
 
 ### ATLAS
+
 - **Use for**: Complex multi-step analysis
 - **Agents**: Coordinator, Analyst, Synthesizer
 
 ## Best Practices
 
 ### 1. Always Create Checkpoints Before Handoffs
+
 ```bash
 # Before switching tools
 python orchestration_checkpoint.py create --workflow "my-feature" --tool current_tool
 ```
 
 ### 2. Use Structured Handoff Envelopes
+
 Don't just switch tools - pass context through validated envelopes.
 
 ### 3. Monitor Hallucination Rates
+
 Regularly check telemetry for hallucination spikes:
+
 ```bash
 python orchestration_telemetry.py check-targets
 ```
 
 ### 4. Progressive Degradation
+
 Let the system degrade gracefully instead of failing completely.
 
 ### 5. Review Flagged Claims
+
 When the verifier flags claims, review before proceeding.
 
 ## Troubleshooting
 
 ### High Hallucination Rate
+
 - Check if context is being passed correctly
 - Verify file references exist
 - Review flagged claims in output
 
 ### Frequent Handoff Failures
+
 - Check tool availability
 - Verify envelope schema compliance
 - Review context size (max 500KB)
 
 ### Checkpoint Validation Failures
+
 - Run integrity check: `python orchestration_checkpoint.py validate --id X`
 - Check file snapshots exist
 - Verify checksum matches
 
 ### Degradation Level Stuck
+
 - Reset workflow: `python self_healing_workflow.py reset --workflow X`
 - Check error patterns in recovery log
 
@@ -482,4 +492,4 @@ When the verifier flags claims, review before proceeding.
 
 ---
 
-*Last updated: 2025-11-27*
+_Last updated: 2025-11-27_

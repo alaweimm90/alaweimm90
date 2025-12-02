@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **Mag-Logic** implements magnetic logic systems with:
+
 - Logic gate designs
 - Circuit simulation
 - Performance optimization
@@ -20,6 +21,7 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 5 parallel agent teams optimized for Mag-Logic:
 
 **Team 1:** Logic design & optimization
@@ -29,6 +31,7 @@
 **Team 5:** Learning & improvements
 
 ### Execution Style
+
 - ⚡ Fast: 2-3 sec analysis max
 - 🔄 Parallel: All teams simultaneously
 - 💬 Brief: Minimal output

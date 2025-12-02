@@ -39,8 +39,7 @@ Meta-governance repository with DevOps templates, governance tools, and AI codin
 ### Protected Directories (NEVER DELETE)
 
 ```
-automation/           # Python automation system
-automation-ts/        # TypeScript automation CLI
+automation/           # Unified automation system (Python + TypeScript consolidated)
 .ai/                  # AI orchestration hub
 .metaHub/             # DevOps governance
 organizations/        # All business/science projects
@@ -78,6 +77,7 @@ dist/                 # Build output (can rebuild)
 ### Recovery Protocol
 
 If a project folder is accidentally deleted:
+
 1. Check git: `git reflog` and `git checkout`
 2. Check recycle bin
 3. Notify user immediately

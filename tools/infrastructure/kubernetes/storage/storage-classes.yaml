@@ -8,13 +8,13 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: storage
   annotations:
-    storageclass.kubernetes.io/is-default-class: "false"
-provisioner: kubernetes.io/aws-ebs  # Change based on cloud provider
+    storageclass.kubernetes.io/is-default-class: 'false'
+provisioner: kubernetes.io/aws-ebs # Change based on cloud provider
 parameters:
   type: gp3
-  iopsPerGB: "50"
+  iopsPerGB: '50'
   fsType: ext4
-  encrypted: "true"
+  encrypted: 'true'
 allowVolumeExpansion: true
 reclaimPolicy: Retain
 volumeBindingMode: WaitForFirstConsumer
@@ -31,12 +31,12 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: storage
   annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
+    storageclass.kubernetes.io/is-default-class: 'true'
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: st1
   fsType: ext4
-  encrypted: "true"
+  encrypted: 'true'
 allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer

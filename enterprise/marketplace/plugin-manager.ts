@@ -35,7 +35,7 @@ export class PluginManager {
     // Create plugin instance
     const plugin: AgentPlugin = {
       ...manifest,
-      config: this.createDefaultConfig(manifest)
+      config: this.createDefaultConfig(manifest),
     };
 
     this.plugins.set(manifest.id, plugin);
@@ -114,7 +114,7 @@ export class PluginManager {
     // Create plugin instance
     const plugin: AgentPlugin = {
       ...manifest,
-      instance: new pluginModule.default(this.createPluginContext(manifest))
+      instance: new pluginModule.default(this.createPluginContext(manifest)),
     };
 
     this.plugins.set(pluginId, plugin);
@@ -151,7 +151,7 @@ export class PluginManager {
     return {
       enabled: true,
       settings: {},
-      permissions: manifest.security.permissions
+      permissions: manifest.security.permissions,
     };
   }
 
@@ -160,7 +160,7 @@ export class PluginManager {
       atlas: {}, // ATLAS core instance would be injected here
       config: this.createDefaultConfig(manifest),
       logger: console,
-      storage: {} // Storage interface would be injected here
+      storage: {}, // Storage interface would be injected here
     };
   }
 
@@ -171,7 +171,7 @@ export class PluginManager {
       version: manifest.version,
       installedAt: new Date().toISOString(),
       checksum: manifest.security.checksum,
-      config: this.createDefaultConfig(manifest)
+      config: this.createDefaultConfig(manifest),
     };
 
     records.push(record);
@@ -180,7 +180,7 @@ export class PluginManager {
 
   private removeInstallationRecord(pluginId: string): void {
     const records = this.loadInstallationRecords();
-    const filtered = records.filter(r => r.pluginId !== pluginId);
+    const filtered = records.filter((r) => r.pluginId !== pluginId);
     this.saveInstallationRecords(filtered);
   }
 
@@ -196,5 +196,4 @@ export class PluginManager {
     const recordPath = path.join(this.pluginDir, 'installations.json');
     fs.writeFileSync(recordPath, JSON.stringify(records, null, 2));
   }
-}</content>
-</edit_file>
+}

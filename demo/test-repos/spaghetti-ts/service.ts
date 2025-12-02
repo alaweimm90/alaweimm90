@@ -34,22 +34,22 @@ class DataService {
     // Simulate loading data
     this.users = [
       { id: 1, name: 'John Doe', email: 'john@example.com', active: true },
-      { id: 2, name: 'Jane Smith', email: 'jane@example.com', active: false }
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com', active: false },
     ];
     this.products = [
       { id: 1, name: 'Laptop', price: 999.99, category: 'Electronics' },
-      { id: 2, name: 'Book', price: 19.99, category: 'Education' }
+      { id: 2, name: 'Book', price: 19.99, category: 'Education' },
     ];
     this.orders = [
-      { id: 1, userId: 1, productId: 1, quantity: 1, total: 999.99, status: 'pending' }
+      { id: 1, userId: 1, productId: 1, quantity: 1, total: 999.99, status: 'pending' },
     ];
   }
 
   public processOrder(userId: any, productId: any, quantity: any): any {
-    const user = this.users.find(u => u.id === userId);
+    const user = this.users.find((u) => u.id === userId);
     if (!user) throw new Error('User not found');
 
-    const product = this.products.find(p => p.id === productId);
+    const product = this.products.find((p) => p.id === productId);
     if (!product) throw new Error('Product not found');
 
     if (quantity <= 0) throw new Error('Invalid quantity');
@@ -77,13 +77,17 @@ class DataService {
       productId,
       quantity,
       total: discountedTotal,
-      status: 'pending'
+      status: 'pending',
     };
 
     this.orders.push(order);
 
     // Send email notification
-    this.sendEmail(user.email, `Order ${order.id} placed`, `Your order for ${product.name} has been placed.`);
+    this.sendEmail(
+      user.email,
+      `Order ${order.id} placed`,
+      `Your order for ${product.name} has been placed.`
+    );
 
     // Log the order
     console.log(`Order ${order.id} processed for user ${user.name}`);
@@ -92,15 +96,15 @@ class DataService {
   }
 
   public getUserOrders(userId: any): any {
-    const userOrders = this.orders.filter(o => o.userId === userId);
-    const enrichedOrders = userOrders.map(order => {
-      const user = this.users.find(u => u.id === order.userId);
-      const product = this.products.find(p => p.id === order.productId);
+    const userOrders = this.orders.filter((o) => o.userId === userId);
+    const enrichedOrders = userOrders.map((order) => {
+      const user = this.users.find((u) => u.id === order.userId);
+      const product = this.products.find((p) => p.id === order.productId);
       return {
         ...order,
         userName: user ? user.name : 'Unknown',
         productName: product ? product.name : 'Unknown',
-        productCategory: product ? product.category : 'Unknown'
+        productCategory: product ? product.category : 'Unknown',
       };
     });
     return enrichedOrders;
@@ -110,7 +114,7 @@ class DataService {
     let orders = this.orders;
     if (startDate && endDate) {
       // In a real app, orders would have dates
-      orders = orders.filter(o => true); // Placeholder
+      orders = orders.filter((o) => true); // Placeholder
     }
 
     const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
@@ -118,8 +122,8 @@ class DataService {
     const avgOrderValue = orderCount > 0 ? totalRevenue / orderCount : 0;
 
     const categoryRevenue: any = {};
-    orders.forEach(order => {
-      const product = this.products.find(p => p.id === order.productId);
+    orders.forEach((order) => {
+      const product = this.products.find((p) => p.id === order.productId);
       if (product) {
         categoryRevenue[product.category] = (categoryRevenue[product.category] || 0) + order.total;
       }
@@ -129,12 +133,12 @@ class DataService {
       totalRevenue,
       orderCount,
       avgOrderValue,
-      categoryRevenue
+      categoryRevenue,
     };
   }
 
   public updateOrderStatus(orderId: any, status: any): any {
-    const order = this.orders.find(o => o.id === orderId);
+    const order = this.orders.find((o) => o.id === orderId);
     if (!order) throw new Error('Order not found');
 
     const validStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
@@ -145,9 +149,13 @@ class DataService {
     order.status = status;
 
     // Send status update email
-    const user = this.users.find(u => u.id === order.userId);
+    const user = this.users.find((u) => u.id === order.userId);
     if (user) {
-      this.sendEmail(user.email, `Order ${order.id} status updated`, `Your order status is now: ${status}`);
+      this.sendEmail(
+        user.email,
+        `Order ${order.id} status updated`,
+        `Your order status is now: ${status}`
+      );
     }
 
     return order;
@@ -160,7 +168,7 @@ class DataService {
 
   public getDashboardData(): any {
     const userCount = this.users.length;
-    const activeUserCount = this.users.filter(u => u.active).length;
+    const activeUserCount = this.users.filter((u) => u.active).length;
     const productCount = this.products.length;
     const orderCount = this.orders.length;
     const revenue = this.calculateRevenue();
@@ -171,7 +179,7 @@ class DataService {
       productCount,
       orderCount,
       revenue: revenue.totalRevenue,
-      avgOrderValue: revenue.avgOrderValue
+      avgOrderValue: revenue.avgOrderValue,
     };
   }
 }

@@ -20,7 +20,7 @@ context:
   exclude:
     - node_modules/**
     - .git/**
-    - "**/*.pyc"
+    - '**/*.pyc'
 
 permissions:
   file_edit: always

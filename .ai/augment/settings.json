@@ -14,11 +14,7 @@
     "autoExecute": true,
     "trustedCommands": ["git", "npm", "python", "pip", "pytest"]
   },
-  "augment.contextFiles": [
-    ".ai-context.md",
-    ".metaHub/policies/*.yaml",
-    "docs/adr/*.md"
-  ],
+  "augment.contextFiles": [".ai-context.md", ".metaHub/policies/*.yaml", "docs/adr/*.md"],
   "augment.model": {
     "default": "claude-3-5-sonnet",
     "fallback": "gpt-4o"

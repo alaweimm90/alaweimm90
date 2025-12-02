@@ -14,6 +14,7 @@ EvoLibria implements evolutionary architecture search for multi-agent coordinati
 **Core Innovation**: Quality-diversity search for multi-agent architectures (🟢 MODERATE-STRONG novelty)
 
 **Research Contributions**:
+
 - **EVO-C1**: MAP-Elites for Multi-Agent Coordination Patterns
 - **EVO-C2**: Behavioral Diversity Metrics for Agent Architectures
 
@@ -27,16 +28,19 @@ EvoLibria implements evolutionary architecture search for multi-agent coordinati
 
 **Multi-Agent Architecture Search**:
 Given:
+
 - Task distribution T
 - Performance metric f(architecture, task) → quality
 - Behavioral descriptors B(architecture) → (b₁, b₂, ..., bₖ)
 
 Find:
+
 - Archive of architectures A = {arch₁, arch₂, ..., archₙ}
 - Maximizing quality within each behavioral niche
 - Spanning diverse coordination patterns
 
 **MAP-Elites Objective**:
+
 ```
 For each behavioral bin (b₁, b₂):
   Find architecture maximizing quality
@@ -44,6 +48,7 @@ For each behavioral bin (b₁, b₂):
 ```
 
 **Behavioral Descriptors** (examples):
+
 - Communication frequency
 - Hierarchical depth
 - Specialization degree
@@ -52,6 +57,7 @@ For each behavioral bin (b₁, b₂):
 ### 1.2 Core Algorithm
 
 **EvoLibria Architecture**:
+
 ```
 Input: Task distribution, Performance metric, Behavioral descriptors
 │
@@ -490,11 +496,13 @@ class EvoLibria(LibriaSolver):
 ### 2.1 Novel Contributions
 
 **EVO-C1: MAP-Elites for Multi-Agent Coordination Patterns**
+
 - **Gap**: Existing NAS (AutoMaAS, MANAS) uses single-objective optimization; no quality-diversity
 - **Approach**: MAP-Elites to discover diverse architectures spanning behavioral niches
 - **Impact**: 10-20% performance improvement + diverse solutions for different contexts
 
 **EVO-C2: Behavioral Diversity Metrics for Agent Architectures**
+
 - **Gap**: No standard behavioral descriptors for multi-agent systems
 - **Approach**: Communication frequency, specialization, hierarchy depth, redundancy
 - **Impact**: Enables systematic exploration of architectural design space
@@ -518,14 +526,17 @@ class EvoLibria(LibriaSolver):
 ### 2.3 Benchmark Datasets
 
 **Multi-Agent Tasks**:
+
 - Cooperative navigation
 - Multi-robot coordination
 - Distributed optimization
 
 **ATLAS Workflows**:
+
 - Research synthesis (varying team sizes, communication patterns)
 
 **Expected Performance**:
+
 - 10-20% quality improvement over single-objective NAS
 - 60-80% behavioral coverage
 - Pareto front discovery
@@ -535,7 +546,9 @@ class EvoLibria(LibriaSolver):
 ## 3. Implementation Roadmap
 
 ### Phase 1: Core Algorithm (Weeks 1-2)
+
 ### Phase 2: Benchmarking (Weeks 3-5)
+
 ### Phase 3: Paper Writing (Weeks 6-8)
 
 ---

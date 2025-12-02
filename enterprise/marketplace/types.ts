@@ -159,5 +159,4 @@ export interface PluginContext {
   config: PluginConfig;
   logger: any;
   storage: any;
-}</content>
-</edit_file>
+}

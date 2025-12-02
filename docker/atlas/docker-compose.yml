@@ -11,7 +11,7 @@ services:
       dockerfile: docker/atlas/Dockerfile
     container_name: atlas-api
     ports:
-      - "${ATLAS_PORT:-3000}:3000"
+      - '${ATLAS_PORT:-3000}:3000'
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - ATLAS_API_KEY=${ATLAS_API_KEY:-}
@@ -23,7 +23,7 @@ services:
       # Persistent storage for SQLite database and data
       - atlas-data:/app/.atlas
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      test: ['CMD', 'wget', '--no-verbose', '--tries=1', '--spider', 'http://localhost:3000/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -42,7 +42,7 @@ services:
       target: builder
     container_name: atlas-dev
     ports:
-      - "${ATLAS_DEV_PORT:-3001}:3000"
+      - '${ATLAS_DEV_PORT:-3001}:3000'
     environment:
       - NODE_ENV=development
       - ATLAS_API_KEY=${ATLAS_API_KEY:-dev-key}
@@ -53,7 +53,7 @@ services:
       # Mount source for hot reload
       - ../../tools:/app/tools:ro
       - atlas-dev-data:/app/.atlas
-    command: ["npx", "tsx", "watch", "tools/atlas/api/cli.ts"]
+    command: ['npx', 'tsx', 'watch', 'tools/atlas/api/cli.ts']
     profiles:
       - dev
     networks:

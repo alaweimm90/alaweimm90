@@ -3,26 +3,26 @@
 # Trigger: Error detection or manual
 
 name: debug-troubleshoot
-description: "Automated debugging workflow with browser testing and data analysis"
-version: "1.0"
+description: 'Automated debugging workflow with browser testing and data analysis'
+version: '1.0'
 
 # Servers required
 servers:
-  - filesystem   # Log and file access
-  - puppeteer    # Browser automation for UI testing
-  - sqlite       # Local data for debugging
-  - context      # Context preservation
+  - filesystem # Log and file access
+  - puppeteer # Browser automation for UI testing
+  - sqlite # Local data for debugging
+  - context # Context preservation
 
 # Input parameters
 parameters:
   error_type:
     type: string
     required: true
-    enum: ["ui", "api", "data", "general"]
+    enum: ['ui', 'api', 'data', 'general']
   target_path:
     type: string
     required: true
-    description: "File, URL, or database to debug"
+    description: 'File, URL, or database to debug'
   verbose:
     type: boolean
     default: false
@@ -31,35 +31,35 @@ parameters:
 steps:
   # === INITIALIZATION ===
   - id: init_debug
-    name: "Initialize Debug Session"
+    name: 'Initialize Debug Session'
     server: context
     tool: store
     inputs:
-      key: "debug_${workflow.id}"
+      key: 'debug_${workflow.id}'
       value:
-        error_type: "${parameters.error_type}"
-        target: "${parameters.target_path}"
-        started_at: "${workflow.timestamp}"
-        status: "in_progress"
+        error_type: '${parameters.error_type}'
+        target: '${parameters.target_path}'
+        started_at: '${workflow.timestamp}'
+        status: 'in_progress'
 
   # === UI DEBUGGING ===
   - id: capture_screenshot
-    name: "Capture UI Screenshot"
+    name: 'Capture UI Screenshot'
     server: puppeteer
     tool: screenshot
     inputs:
-      url: "${parameters.target_path}"
+      url: '${parameters.target_path}'
       fullPage: true
-      path: ".metaHub/debug/screenshots/${workflow.id}.png"
+      path: '.metaHub/debug/screenshots/${workflow.id}.png'
     condition: "${parameters.error_type == 'ui'}"
     depends_on: [init_debug]
 
   - id: check_console_errors
-    name: "Check Browser Console"
+    name: 'Check Browser Console'
     server: puppeteer
     tool: evaluate
     inputs:
-      url: "${parameters.target_path}"
+      url: '${parameters.target_path}'
       script: |
         (function() {
           const errors = [];
@@ -74,48 +74,48 @@ steps:
     depends_on: [capture_screenshot]
 
   - id: check_network
-    name: "Check Network Requests"
+    name: 'Check Network Requests'
     server: puppeteer
     tool: network_log
     inputs:
-      url: "${parameters.target_path}"
-      filter: "failed"
+      url: '${parameters.target_path}'
+      filter: 'failed'
     condition: "${parameters.error_type == 'ui'}"
     depends_on: [check_console_errors]
 
   # === FILE/LOG DEBUGGING ===
   - id: read_logs
-    name: "Read Log Files"
+    name: 'Read Log Files'
     server: filesystem
     tool: read_file
     inputs:
-      path: "${parameters.target_path}"
+      path: '${parameters.target_path}'
     condition: "${parameters.error_type == 'api' || parameters.error_type == 'general'}"
     depends_on: [init_debug]
 
   - id: search_errors
-    name: "Search for Error Patterns"
+    name: 'Search for Error Patterns'
     server: filesystem
     tool: search
     inputs:
-      path: "${parameters.target_path}"
-      pattern: "(error|exception|fail|traceback)"
+      path: '${parameters.target_path}'
+      pattern: '(error|exception|fail|traceback)'
       case_sensitive: false
     condition: "${parameters.error_type == 'api' || parameters.error_type == 'general'}"
     depends_on: [read_logs]
 
   # === DATA DEBUGGING ===
   - id: check_db_integrity
-    name: "Check Database Integrity"
+    name: 'Check Database Integrity'
     server: sqlite
     tool: query
     inputs:
-      query: "PRAGMA integrity_check"
+      query: 'PRAGMA integrity_check'
     condition: "${parameters.error_type == 'data'}"
     depends_on: [init_debug]
 
   - id: analyze_recent_data
-    name: "Analyze Recent Data Changes"
+    name: 'Analyze Recent Data Changes'
     server: sqlite
     tool: query
     inputs:
@@ -126,7 +126,7 @@ steps:
 
   # === ANALYSIS ===
   - id: analyze_findings
-    name: "Analyze Debug Findings"
+    name: 'Analyze Debug Findings'
     action: llm_call
     provider: anthropic
     model: claude-sonnet-4-5-20250929
@@ -155,15 +155,15 @@ steps:
       - check_network
       - search_errors
       - analyze_recent_data
-    condition: "any_completed"
+    condition: 'any_completed'
 
   # === REPORT GENERATION ===
   - id: generate_report
-    name: "Generate Debug Report"
+    name: 'Generate Debug Report'
     server: filesystem
     tool: write_file
     inputs:
-      path: ".metaHub/debug/reports/${workflow.id}-report.md"
+      path: '.metaHub/debug/reports/${workflow.id}-report.md'
       content: |
         # Debug Report: ${workflow.id}
 
@@ -189,30 +189,30 @@ steps:
     depends_on: [analyze_findings]
 
   - id: finalize_debug
-    name: "Finalize Debug Session"
+    name: 'Finalize Debug Session'
     server: context
     tool: update
     inputs:
-      key: "debug_${workflow.id}"
+      key: 'debug_${workflow.id}'
       value:
-        status: "completed"
-        completed_at: "${workflow.timestamp}"
-        report_path: "${generate_report.path}"
+        status: 'completed'
+        completed_at: '${workflow.timestamp}'
+        report_path: '${generate_report.path}'
     depends_on: [generate_report]
 
 # Error handling
 error_handling:
-  on_step_failure: "continue"
+  on_step_failure: 'continue'
   max_retries: 2
 
 # Outputs
 outputs:
-  report_path: "${generate_report.path}"
-  screenshot_path: "${capture_screenshot.path}"
-  severity: "${analyze_findings.severity}"
+  report_path: '${generate_report.path}'
+  screenshot_path: '${capture_screenshot.path}'
+  severity: '${analyze_findings.severity}'
 
 # Metadata
 metadata:
-  created: "2025-11-27"
-  author: "orchestration-system"
-  tags: ["debug", "troubleshooting", "automation"]
+  created: '2025-11-27'
+  author: 'orchestration-system'
+  tags: ['debug', 'troubleshooting', 'automation']

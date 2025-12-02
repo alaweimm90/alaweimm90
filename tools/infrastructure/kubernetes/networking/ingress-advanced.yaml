@@ -10,36 +10,36 @@ metadata:
     app.kubernetes.io/component: ingress
   annotations:
     # Cert Manager
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
 
     # Nginx Ingress Controller
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+    nginx.ingress.kubernetes.io/force-ssl-redirect: 'true'
 
     # Rate Limiting
-    nginx.ingress.kubernetes.io/limit-rps: "100"
-    nginx.ingress.kubernetes.io/limit-connections: "10"
-    nginx.ingress.kubernetes.io/limit-burst-multiplier: "5"
+    nginx.ingress.kubernetes.io/limit-rps: '100'
+    nginx.ingress.kubernetes.io/limit-connections: '10'
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: '5'
 
     # Timeouts
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: '60'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '60'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '60'
 
     # CORS
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "https://supertool.example.com"
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/enable-cors: 'true'
+    nginx.ingress.kubernetes.io/cors-allow-methods: 'GET, POST, PUT, DELETE, OPTIONS'
+    nginx.ingress.kubernetes.io/cors-allow-origin: 'https://supertool.example.com'
+    nginx.ingress.kubernetes.io/cors-allow-credentials: 'true'
 
     # Request Size
-    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-body-size: '10m'
 
     # Sticky Sessions
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "supertool-session"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "3600"
+    nginx.ingress.kubernetes.io/affinity: 'cookie'
+    nginx.ingress.kubernetes.io/session-cookie-name: 'supertool-session'
+    nginx.ingress.kubernetes.io/session-cookie-max-age: '3600'
 
     # Security Headers
     nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -50,79 +50,79 @@ metadata:
       more_set_headers "Content-Security-Policy: default-src 'self'";
 
     # WAF (Web Application Firewall)
-    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
-    nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+    nginx.ingress.kubernetes.io/enable-modsecurity: 'true'
+    nginx.ingress.kubernetes.io/enable-owasp-core-rules: 'true'
 
     # Custom Backend Configuration
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    nginx.ingress.kubernetes.io/upstream-vhost: "supertool.example.com"
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTP'
+    nginx.ingress.kubernetes.io/upstream-vhost: 'supertool.example.com'
 
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - supertool.example.com
-    - api.supertool.example.com
-    - www.supertool.example.com
-    secretName: supertool-tls-cert
+    - hosts:
+        - supertool.example.com
+        - api.supertool.example.com
+        - www.supertool.example.com
+      secretName: supertool-tls-cert
 
   rules:
-  # Main application
-  - host: supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-web
-            port:
-              number: 80
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-api
-            port:
-              number: 3000
-      - path: /health
-        pathType: Exact
-        backend:
-          service:
-            name: supertool-api
-            port:
-              number: 3000
-      - path: /metrics
-        pathType: Exact
-        backend:
-          service:
-            name: supertool-api
-            port:
-              number: 9090
+    # Main application
+    - host: supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-web
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-api
+                port:
+                  number: 3000
+          - path: /health
+            pathType: Exact
+            backend:
+              service:
+                name: supertool-api
+                port:
+                  number: 3000
+          - path: /metrics
+            pathType: Exact
+            backend:
+              service:
+                name: supertool-api
+                port:
+                  number: 9090
 
-  # API subdomain
-  - host: api.supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-api
-            port:
-              number: 3000
+    # API subdomain
+    - host: api.supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-api
+                port:
+                  number: 3000
 
-  # WWW redirect
-  - host: www.supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-web
-            port:
-              number: 80
+    # WWW redirect
+    - host: www.supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-web
+                port:
+                  number: 80
 
 ---
 # Canary Ingress for A/B Testing
@@ -135,28 +135,28 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: canary
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "10"  # 10% traffic
-    nginx.ingress.kubernetes.io/canary-by-header: "X-Canary"
-    nginx.ingress.kubernetes.io/canary-by-header-value: "always"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/canary: 'true'
+    nginx.ingress.kubernetes.io/canary-weight: '10' # 10% traffic
+    nginx.ingress.kubernetes.io/canary-by-header: 'X-Canary'
+    nginx.ingress.kubernetes.io/canary-by-header-value: 'always'
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - supertool.example.com
-    secretName: supertool-tls-cert
+    - hosts:
+        - supertool.example.com
+      secretName: supertool-tls-cert
   rules:
-  - host: supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-canary
-            port:
-              number: 3000
+    - host: supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-canary
+                port:
+                  number: 3000
 
 ---
 # Internal Services Ingress (No external access)
@@ -169,30 +169,30 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: internal
   annotations:
-    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    nginx.ingress.kubernetes.io/whitelist-source-range: '10.0.0.0/8,172.16.0.0/12,192.168.0.0/16'
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: supertool-basic-auth
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
 spec:
   ingressClassName: nginx-internal
   rules:
-  - host: internal.supertool.example.com
-    http:
-      paths:
-      - path: /admin
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-admin
-            port:
-              number: 8080
-      - path: /debug
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-debug
-            port:
-              number: 8081
+    - host: internal.supertool.example.com
+      http:
+        paths:
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-admin
+                port:
+                  number: 8080
+          - path: /debug
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-debug
+                port:
+                  number: 8081
 
 ---
 # gRPC Ingress
@@ -205,26 +205,26 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: grpc
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/backend-protocol: 'GRPC'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - grpc.supertool.example.com
-    secretName: supertool-grpc-tls
+    - hosts:
+        - grpc.supertool.example.com
+      secretName: supertool-grpc-tls
   rules:
-  - host: grpc.supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-grpc
-            port:
-              number: 50051
+    - host: grpc.supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-grpc
+                port:
+                  number: 50051
 
 ---
 # WebSocket Ingress
@@ -237,24 +237,24 @@ metadata:
     app.kubernetes.io/name: supertool
     app.kubernetes.io/component: websocket
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/websocket-services: "supertool-ws"
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '3600'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '3600'
+    nginx.ingress.kubernetes.io/websocket-services: 'supertool-ws'
 spec:
   ingressClassName: nginx
   tls:
-  - hosts:
-    - ws.supertool.example.com
-    secretName: supertool-ws-tls
+    - hosts:
+        - ws.supertool.example.com
+      secretName: supertool-ws-tls
   rules:
-  - host: ws.supertool.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: supertool-ws
-            port:
-              number: 8080
+    - host: ws.supertool.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: supertool-ws
+                port:
+                  number: 8080

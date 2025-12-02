@@ -121,7 +121,7 @@ export class RepositoryMonitor extends EventEmitter {
 
     this.emit('monitor:ready', {
       repositories: this.repositories.size,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -159,11 +159,13 @@ export class RepositoryMonitor extends EventEmitter {
   /**
    * Add a repository to monitoring
    */
-  async addRepository(config: Omit<MonitoredRepository, 'watchers' | 'changeCount'>): Promise<void> {
+  async addRepository(
+    config: Omit<MonitoredRepository, 'watchers' | 'changeCount'>
+  ): Promise<void> {
     const repository: MonitoredRepository = {
       ...config,
       watchers: [],
-      changeCount: 0
+      changeCount: 0,
     };
 
     // Validate repository exists and is a git repo
@@ -237,7 +239,7 @@ export class RepositoryMonitor extends EventEmitter {
       activeWatchers,
       polling: this.pollingTimer !== undefined,
       cacheSize: this.analysisCache.size,
-      pendingChanges
+      pendingChanges,
     };
   }
 
@@ -254,7 +256,7 @@ export class RepositoryMonitor extends EventEmitter {
       repository: repository.name,
       type: 'file',
       files: [],
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     return this.performAnalysis(repository, change, reason);
@@ -323,12 +325,16 @@ export class RepositoryMonitor extends EventEmitter {
     } catch (error) {
       this.emit('watcher:error', {
         repository: repository.name,
-        error: error.message
+        error: error.message,
       });
     }
   }
 
-  private handleFileChange(repository: MonitoredRepository, eventType: string, filename: string): void {
+  private handleFileChange(
+    repository: MonitoredRepository,
+    eventType: string,
+    filename: string
+  ): void {
     const fullPath = path.join(repository.path, filename);
 
     // Get file stats to determine change type
@@ -345,7 +351,7 @@ export class RepositoryMonitor extends EventEmitter {
         const content = fs.readFileSync(fullPath, 'utf8');
         linesChanged = content.split('\n').length;
       }
-    } catch (error) {
+    } catch {
       // File might have been deleted
       changeType = 'deleted';
     }
@@ -354,7 +360,7 @@ export class RepositoryMonitor extends EventEmitter {
       path: filename,
       type: changeType,
       size: fileSize,
-      linesChanged
+      linesChanged,
     };
 
     // Buffer the change
@@ -368,7 +374,7 @@ export class RepositoryMonitor extends EventEmitter {
       repository: repository.name,
       type: 'file',
       files: [changedFile],
-      timestamp: new Date()
+      timestamp: new Date(),
     });
 
     repository.changeCount++;
@@ -417,8 +423,8 @@ export class RepositoryMonitor extends EventEmitter {
     const combinedChange: RepositoryChange = {
       repository: repository.name,
       type: 'file',
-      files: buffer.flatMap(change => change.files),
-      timestamp: new Date()
+      files: buffer.flatMap((change) => change.files),
+      timestamp: new Date(),
     };
 
     // Clear buffer
@@ -439,7 +445,7 @@ export class RepositoryMonitor extends EventEmitter {
       this.emit('analysis:error', {
         repository: repository.name,
         error: error.message,
-        change: combinedChange
+        change: combinedChange,
       });
     }
   }
@@ -447,7 +453,7 @@ export class RepositoryMonitor extends EventEmitter {
   private async performAnalysis(
     repository: MonitoredRepository,
     change: RepositoryChange,
-    triggerReason: string
+    _triggerReason: string
   ): Promise<AnalysisResult> {
     const startTime = Date.now();
 
@@ -459,7 +465,7 @@ export class RepositoryMonitor extends EventEmitter {
           ...cached,
           triggeredBy: change,
           cacheHit: true,
-          duration: Date.now() - startTime
+          duration: Date.now() - startTime,
         };
       }
     }
@@ -472,7 +478,7 @@ export class RepositoryMonitor extends EventEmitter {
       complexityScore: analysis.complexityScore || 0,
       fileCount: analysis.files?.length || 0,
       totalLines: analysis.totalLines || 0,
-      issuesCount: analysis.issues?.length || 0
+      issuesCount: analysis.issues?.length || 0,
     };
 
     const result: AnalysisResult = {
@@ -482,7 +488,7 @@ export class RepositoryMonitor extends EventEmitter {
       metrics,
       recommendations: this.generateRecommendations(metrics),
       cacheHit: false,
-      duration: Date.now() - startTime
+      duration: Date.now() - startTime,
     };
 
     // Cache result
@@ -499,9 +505,11 @@ export class RepositoryMonitor extends EventEmitter {
   private shouldTriggerOptimization(result: AnalysisResult): boolean {
     // Trigger optimization based on metrics thresholds
     // This would be configurable, but for now use simple heuristics
-    return result.metrics.chaosScore > 0.7 ||
-           result.metrics.complexityScore > 0.8 ||
-           result.metrics.issuesCount > 10;
+    return (
+      result.metrics.chaosScore > 0.7 ||
+      result.metrics.complexityScore > 0.8 ||
+      result.metrics.issuesCount > 10
+    );
   }
 
   private generateRecommendations(metrics: RepositoryMetrics): string[] {
@@ -536,18 +544,18 @@ export class RepositoryMonitor extends EventEmitter {
       /\.(log|tmp|cache)$/,
       /dist/,
       /build/,
-      /\.env/
+      /\.env/,
     ];
 
-    return ignorePatterns.some(pattern => pattern.test(filename));
+    return ignorePatterns.some((pattern) => pattern.test(filename));
   }
 
-  private async getCurrentCommit(repoPath: string): Promise<string | undefined> {
+  private async getCurrentCommit(_repoPath: string): Promise<string | undefined> {
     try {
       // This would use git commands in a real implementation
       // For now, return a mock hash
       return 'mock-commit-hash';
-    } catch (error) {
+    } catch {
       return undefined;
     }
   }
@@ -560,7 +568,7 @@ export class RepositoryMonitor extends EventEmitter {
         } catch (error) {
           this.emit('polling:error', {
             repository: repository.name,
-            error: error.message
+            error: error.message,
           });
         }
       }
@@ -576,7 +584,7 @@ export class RepositoryMonitor extends EventEmitter {
         type: 'commit',
         files: [], // Would need to get changed files from git
         timestamp: new Date(),
-        commitHash: currentCommit
+        commitHash: currentCommit,
       };
 
       repository.lastCommit = currentCommit;
@@ -599,19 +607,19 @@ export class RepositoryMonitor extends EventEmitter {
 
     // Restart watching for enabled repos
     const promises = Array.from(this.repositories.values())
-      .filter(repo => repo.enabled)
-      .map(repo => this.startFileWatching(repo));
+      .filter((repo) => repo.enabled)
+      .map((repo) => this.startFileWatching(repo));
 
     return Promise.all(promises).then(() => undefined);
   }
 
   private setupEventHandlers(): void {
     // Set up event handlers for telemetry and coordination with optimizer
-    this.on('analysis:complete', (result: AnalysisResult) => {
+    this.on('analysis:complete', (_result: AnalysisResult) => {
       // Could trigger notifications or further processing
     });
 
-    this.on('analysis:error', (error) => {
+    this.on('analysis:error', (_error) => {
       // Log errors and potentially retry
     });
   }

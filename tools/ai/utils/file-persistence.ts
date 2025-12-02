@@ -18,7 +18,7 @@ export interface PersistenceOptions {
 const DEFAULT_OPTIONS: PersistenceOptions = {
   createDir: true,
   pretty: true,
-  encoding: 'utf8'
+  encoding: 'utf8',
 };
 
 /**
@@ -34,9 +34,7 @@ export function saveJson<T>(filePath: string, data: T, options: PersistenceOptio
     }
   }
 
-  const content = opts.pretty
-    ? JSON.stringify(data, null, 2)
-    : JSON.stringify(data);
+  const content = opts.pretty ? JSON.stringify(data, null, 2) : JSON.stringify(data);
 
   fs.writeFileSync(filePath, content, { encoding: opts.encoding });
 }
@@ -102,7 +100,11 @@ export function readText(filePath: string, defaultValue = ''): string {
 /**
  * Write a text file
  */
-export function writeText(filePath: string, content: string, options: PersistenceOptions = {}): void {
+export function writeText(
+  filePath: string,
+  content: string,
+  options: PersistenceOptions = {}
+): void {
   const opts = { ...DEFAULT_OPTIONS, ...options };
 
   if (opts.createDir) {

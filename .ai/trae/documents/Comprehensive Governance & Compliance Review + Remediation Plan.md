@@ -1,11 +1,14 @@
 ## Executive Summary
+
 - Governance framework is strong: policies, CI workflows, security monitoring, and a developer portal are present.
 - Enforcement is partial: several controls require manual enablement or app installation; some workflows are non-blocking.
 - Documentation exists and is extensive; community contribution guides are missing.
 - Key gaps: platform-level rulesets not enabled, Allstar/Policy‑Bot not installed, non‑blocking lint/policy steps, missing security scans claimed in docs, and misaligned required status contexts.
 
 ## Findings by Area
+
 ### Governance Structure & Documentation
+
 - Central README describes meta governance scope: `README.md:1-16`.
 - Detailed governance documentation present: `.metaHub/GOVERNANCE_SUMMARY.md` and related guides (`.metaHub/*.md`).
 - Security policy exists: `SECURITY.md:1-27`.
@@ -13,6 +16,7 @@
 - Missing community docs: no `CONTRIBUTING.md`, Code of Conduct, PR/issue templates.
 
 ### Policies & Compliance Mechanisms
+
 - CODEOWNERS configured for critical paths: `.github/CODEOWNERS:4-39`.
 - CI workflows:
   - Super‑Linter: `.github/workflows/super-linter.yml:1-46` (currently `continue-on-error: true`).
@@ -25,6 +29,7 @@
 - Branch protection desired state captured as JSON (not auto‑applied): `.github/branch-protection-rules.json:1-26`.
 
 ### Enforcement Procedures & Effectiveness
+
 - Platform‑level controls:
   - GitHub Rulesets referenced but not enabled (manual step): `.metaHub/GOVERNANCE_SUMMARY.md:56-72,537-558`.
   - Allstar configured but requires app install: `.metaHub/GOVERNANCE_SUMMARY.md:428-436,576-590`.
@@ -38,24 +43,29 @@
   - No wired doc/structure guards found in current hook; policy JSON used by local guards is missing (`.metaHub/repo-policy.json`).
 
 ### Code Review & Quality Control
+
 - CODEOWNERS enforces owner review; Policy‑Bot can enforce advanced rules once installed.
 - CI_ENFORCEMENT_RULES.md claims ESLint/TypeScript/tests/security gates across branches: `.github/CI_ENFORCEMENT_RULES.md:18-41`; workflows for tests/TypeScript/CodeQL/Trivy are not present in this repo.
 
 ### Contribution & Community
+
 - Dependabot configured: `.github/dependabot.yml:1-12`.
 - Missing `CONTRIBUTING.md`, Code of Conduct, issue/PR templates; onboarding guidance limited to README.
 
 ## Policy Consistency
+
 - Documentation claims “MANDATORY CI Everywhere” and specific required contexts: `.github/CI_ENFORCEMENT_RULES.md:63-84`; implemented workflows do not produce those exact status names, risking mismatch when rulesets are enabled.
 - README claims “GitHub Rulesets Active” and “8/10 tools active”; Rulesets/Allstar/Policy‑Bot are pending/manual.
 
 ## Effectiveness Assessment
+
 - Platform bypass‑proof: Currently moderate — not enabled for rulesets; Allstar/Policy‑Bot not installed.
 - CI checks: Effective for Docker security; lint/policy are advisory only due to `continue-on-error`.
 - Local hooks: Provide basic validation; lack structured doc/structure enforcement.
 - Overall: Good foundation; requires activation and tightening to reach full enforcement.
 
 ## Gaps
+
 - GitHub Rulesets not enabled; branch protection contexts may not match workflow names.
 - Allstar and Policy‑Bot apps not installed; their enforcement is inactive.
 - Super‑Linter non‑blocking; OPA structure validation non‑blocking.
@@ -64,6 +74,7 @@
 - Local policy file `.metaHub/repo-policy.json` absent; local structure guard depends on it.
 
 ## Recommendations
+
 1. Enable GitHub Rulesets and align required status contexts to actual workflow names (e.g., “Super-Linter”, “OpenSSF Scorecard”, “OPA Policy Enforcement”).
 2. Install GitHub Apps:
    - Allstar (enforce branch protection/security policies).
@@ -85,12 +96,14 @@
    - Use Terraform GitHub provider to codify branch protections and required checks across repos.
 
 ## Risks & Mitigations
+
 - Misaligned required status names → configure Rulesets after correcting workflow job names and contexts.
 - Developer friction from strict blocking → use staged rollout and exceptions via labels for emergencies.
 - App availability (Allstar/Policy‑Bot) → plan fallback CI checks that emulate policies if apps unavailable.
 - Security tool overlap → consolidate (choose CodeQL + Scorecards + Trivy; avoid redundant scans).
 
 ## Next Steps (High‑Impact, Low Effort)
+
 - Enable Rulesets with aligned contexts; install Allstar & Policy‑Bot.
 - Make lint/policy checks blocking; add CodeQL.
 - Add contribution and PR/issue templates.

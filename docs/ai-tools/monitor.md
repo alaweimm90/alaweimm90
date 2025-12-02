@@ -20,12 +20,12 @@ Check for changes and trigger actions
 
 ## Configuration
 
-| Option | Type | Description | Default |
-|--------|------|-------------|---------|
-| debounceMs | number | Debounce time for changes | 2000 |
-| maxFrequencyMs | number | Minimum time between triggers | 30000 |
-| failureThreshold | number | Circuit breaker failure threshold | 3 |
-| resetTimeoutMs | number | Circuit breaker reset timeout | 60000 |
+| Option           | Type   | Description                       | Default |
+| ---------------- | ------ | --------------------------------- | ------- |
+| debounceMs       | number | Debounce time for changes         | 2000    |
+| maxFrequencyMs   | number | Minimum time between triggers     | 30000   |
+| failureThreshold | number | Circuit breaker failure threshold | 3       |
+| resetTimeoutMs   | number | Circuit breaker reset timeout     | 60000   |
 
 ## Exports
 
@@ -40,4 +40,3 @@ import { monitor, circuitBreaker } from 'tools/ai/monitor';
 ```bash
 npm run ai:monitor:status
 ```
-

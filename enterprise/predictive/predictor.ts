@@ -23,19 +23,19 @@ export class QualityPredictor {
         'technicalDebt',
         'imports',
         'functions',
-        'classes'
+        'classes',
       ],
       hyperparameters: {
         nEstimators: 100,
         maxDepth: 10,
-        randomState: 42
+        randomState: 42,
       },
       trainingConfig: {
         testSplit: 0.2,
         crossValidationFolds: 5,
-        maxIterations: 1000
+        maxIterations: 1000,
       },
-      ...config
+      ...config,
     };
   }
 
@@ -64,7 +64,7 @@ export class QualityPredictor {
       riskLevel,
       issues,
       recommendations,
-      confidence: 0.85 // Placeholder confidence score
+      confidence: 0.85, // Placeholder confidence score
     };
   }
 
@@ -75,8 +75,8 @@ export class QualityPredictor {
     console.log(`Training quality predictor with ${trainingData.length} samples...`);
 
     // Extract features and labels
-    const features = trainingData.map(data => this.extractFeatures(data.metrics));
-    const labels = trainingData.map(data => data.actualQuality);
+    const features = trainingData.map((data) => this.extractFeatures(data.metrics));
+    const labels = trainingData.map((data) => data.actualQuality);
 
     // Train the model (simplified implementation)
     await this.trainModel(features, labels);
@@ -91,7 +91,9 @@ export class QualityPredictor {
     const recommendations: string[] = [];
 
     if (metrics.cyclomaticComplexity > 10) {
-      recommendations.push('Consider breaking down complex functions into smaller, more focused functions');
+      recommendations.push(
+        'Consider breaking down complex functions into smaller, more focused functions'
+      );
     }
 
     if (metrics.commentRatio < 0.1) {
@@ -114,7 +116,7 @@ export class QualityPredictor {
   }
 
   private extractFeatures(metrics: CodeMetrics): number[] {
-    return this.config.features.map(feature => {
+    return this.config.features.map((feature) => {
       const value = (metrics as any)[feature];
       return typeof value === 'number' ? value : 0;
     });
@@ -154,7 +156,7 @@ export class QualityPredictor {
         severity: 'high',
         description: 'High cyclomatic complexity indicates maintainability issues',
         probability: 0.8,
-        impact: 'Increases bug likelihood and maintenance costs'
+        impact: 'Increases bug likelihood and maintenance costs',
       });
     }
 
@@ -165,7 +167,7 @@ export class QualityPredictor {
         severity: 'medium',
         description: 'Significant code duplication detected',
         probability: 0.7,
-        impact: 'Makes code harder to maintain and modify'
+        impact: 'Makes code harder to maintain and modify',
       });
     }
 
@@ -174,8 +176,8 @@ export class QualityPredictor {
 
   private calculateRiskLevel(score: number, issues: any[]): 'low' | 'medium' | 'high' | 'critical' {
     if (score >= 80 && issues.length === 0) return 'low';
-    if (score >= 60 && issues.filter(i => i.severity === 'high').length === 0) return 'medium';
-    if (score >= 40 || issues.filter(i => i.severity === 'critical').length === 0) return 'high';
+    if (score >= 60 && issues.filter((i) => i.severity === 'high').length === 0) return 'medium';
+    if (score >= 40 || issues.filter((i) => i.severity === 'critical').length === 0) return 'high';
     return 'critical';
   }
 
@@ -184,5 +186,4 @@ export class QualityPredictor {
     // In a real implementation, this would train an ML model
     console.log('Training model with', features.length, 'samples');
   }
-}</content>
-</edit_file>
+}

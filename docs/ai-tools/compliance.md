@@ -16,9 +16,9 @@ Run compliance check on files
 
 **Arguments:**
 
-| Name | Type | Required | Description | Default |
-|------|------|----------|-------------|---------|
-| files | string[] | No | Files to check | - |
+| Name  | Type     | Required | Description    | Default |
+| ----- | -------- | -------- | -------------- | ------- |
+| files | string[] | No       | Files to check | -       |
 
 ### `npm run ai:compliance:score`
 
@@ -43,4 +43,3 @@ npm run ai:compliance:check src/api.ts
 ```bash
 npm run ai:compliance:score
 ```
-

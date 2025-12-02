@@ -5,22 +5,26 @@ This directory contains tools and scripts to automate various aspects of the ATL
 ## Tool Categories
 
 ### Assessment Tools
+
 - `assess-current-setup.sh` - Comprehensive system assessment
 - `analyze-usage-patterns.sh` - Usage pattern analysis
 - `assess-integration-opportunities.sh` - Integration opportunity identification
 
 ### Migration Tools
+
 - `migrate-repository.sh` - Single repository migration
 - `bulk-migration.sh` - Bulk repository migration
 - `validate-migration.sh` - Migration validation
 - `migration-status.sh` - Migration progress tracking
 
 ### Rollback Tools
+
 - `emergency-rollback.sh` - Emergency rollback to separate systems
 - `partial-rollback.sh` - Selective feature rollback
 - `backup-restore.sh` - Configuration backup and restore
 
 ### Monitoring Tools
+
 - `monitor-integration.sh` - Integration health monitoring
 - `performance-monitor.sh` - Performance metrics collection
 - `alert-config.sh` - Alert configuration setup
@@ -107,6 +111,7 @@ export MIGRATION_LOG_LEVEL="INFO"
 Comprehensive assessment of current ATLAS and KILO installations.
 
 **Features:**
+
 - System version checking
 - Package installation verification
 - Configuration compatibility analysis
@@ -120,6 +125,7 @@ Comprehensive assessment of current ATLAS and KILO installations.
 Automated migration of individual repositories.
 
 **Features:**
+
 - Configuration backup
 - Integrated config application
 - CI/CD workflow updates
@@ -127,6 +133,7 @@ Automated migration of individual repositories.
 - Rollback preparation
 
 **Parameters:**
+
 - Repository path (required)
 - Migration profile (optional)
 - Dry-run mode (optional)
@@ -136,6 +143,7 @@ Automated migration of individual repositories.
 Batch migration of multiple repositories.
 
 **Features:**
+
 - Parallel processing
 - Progress tracking
 - Error handling and recovery
@@ -149,6 +157,7 @@ Batch migration of multiple repositories.
 Comprehensive validation of migration success.
 
 **Features:**
+
 - Configuration validation
 - Integration testing
 - Workflow verification
@@ -162,6 +171,7 @@ Comprehensive validation of migration success.
 Continuous monitoring of integrated system health.
 
 **Features:**
+
 - Bridge status monitoring
 - Performance metrics collection
 - Error rate tracking
@@ -189,6 +199,7 @@ Tools support configurable logging levels:
 - `DEBUG`: Detailed debugging information
 
 Logs are written to:
+
 - Console output
 - `migration-tools.log` file
 - Syslog (optional)
@@ -240,6 +251,7 @@ To add new tools or improve existing ones:
 ## Support
 
 For tool-related issues:
+
 - Check the troubleshooting section
 - Review log files for error details
 - Validate environment configuration

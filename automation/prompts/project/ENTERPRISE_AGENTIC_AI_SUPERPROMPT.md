@@ -1,10 +1,10 @@
 ---
-name: "Enterprise Agentic AI Architecture Superprompt"
-version: "1.0"
-category: "project"
-tags: ["agentic-ai", "enterprise", "caching", "orchestration", "state-of-the-art"]
-created: "2024-11-30"
-source: "Consolidated from KILO analysis and enterprise architecture review"
+name: 'Enterprise Agentic AI Architecture Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['agentic-ai', 'enterprise', 'caching', 'orchestration', 'state-of-the-art']
+created: '2024-11-30'
+source: 'Consolidated from KILO analysis and enterprise architecture review'
 ---
 
 # Enterprise Agentic AI Architecture Superprompt
@@ -43,7 +43,7 @@ Your mission is to build AI systems that:
 ```yaml
 caching_layers:
   layer_1_semantic:
-    description: "Semantic similarity-based caching"
+    description: 'Semantic similarity-based caching'
     implementation:
       - Vector embeddings for prompt similarity
       - Configurable similarity threshold (0.85-0.95)
@@ -51,9 +51,9 @@ caching_layers:
     benefits:
       - Cache hits for paraphrased queries
       - Reduced API costs by 40-60%
-      
+
   layer_2_template:
-    description: "Template-based caching with parameter substitution"
+    description: 'Template-based caching with parameter substitution'
     implementation:
       - Template fingerprinting
       - Parameter extraction and normalization
@@ -61,9 +61,9 @@ caching_layers:
     benefits:
       - Reuse across similar structured queries
       - Fast parameter-only variations
-      
+
   layer_3_result:
-    description: "Full result caching with TTL"
+    description: 'Full result caching with TTL'
     implementation:
       - Content-addressable storage
       - Adaptive TTL based on stability
@@ -71,9 +71,9 @@ caching_layers:
     benefits:
       - Instant responses for repeated queries
       - Predictable memory usage
-      
+
   layer_4_analysis:
-    description: "Incremental analysis caching"
+    description: 'Incremental analysis caching'
     implementation:
       - Dependency tracking for invalidation
       - Incremental updates on changes
@@ -149,12 +149,12 @@ export class MultiLayerCache<T> {
   get(key: string): T | null {
     const entry = this.cache.get(key);
     if (!entry) return null;
-    
+
     if (this.isExpired(entry)) {
       this.cache.delete(key);
       return null;
     }
-    
+
     this.updateAccessStats(key, entry);
     return entry.value;
   }
@@ -163,7 +163,7 @@ export class MultiLayerCache<T> {
   getAnalysis(key: string, dependencies: string[]): T | null {
     const entry = this.cache.get(`analysis:${key}`);
     if (!entry) return null;
-    
+
     // Check if any dependencies have changed
     if (entry.metadata.dependencies) {
       for (const dep of entry.metadata.dependencies) {
@@ -173,7 +173,7 @@ export class MultiLayerCache<T> {
         }
       }
     }
-    
+
     return entry.value;
   }
 
@@ -194,7 +194,7 @@ export class MultiLayerCache<T> {
 
     const ttl = this.config.adaptiveTTL
       ? this.calculateAdaptiveTTL(key, options.ttl)
-      : (options.ttl || this.config.defaultTTL);
+      : options.ttl || this.config.defaultTTL;
 
     const entry: CacheEntry<T> = {
       value,
@@ -219,9 +219,9 @@ export class MultiLayerCache<T> {
   private calculateAdaptiveTTL(key: string, baseTTL?: number): number {
     const existingEntry = this.cache.get(key);
     const base = baseTTL || this.config.defaultTTL;
-    
+
     if (!existingEntry) return base;
-    
+
     // Extend TTL for frequently accessed entries
     const hitMultiplier = Math.min(existingEntry.hits / 10, 3);
     return base * (1 + hitMultiplier);
@@ -231,13 +231,13 @@ export class MultiLayerCache<T> {
     let dotProduct = 0;
     let normA = 0;
     let normB = 0;
-    
+
     for (let i = 0; i < a.length; i++) {
       dotProduct += a[i] * b[i];
       normA += a[i] * a[i];
       normB += b[i] * b[i];
     }
-    
+
     return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 
@@ -253,14 +253,14 @@ export class MultiLayerCache<T> {
   private evictLRU(): void {
     let oldestKey: string | null = null;
     let oldestAccess = new Date();
-    
+
     for (const [key, entry] of this.cache) {
       if (entry.lastAccess < oldestAccess) {
         oldestAccess = entry.lastAccess;
         oldestKey = key;
       }
     }
-    
+
     if (oldestKey) {
       this.cache.delete(oldestKey);
       this.semanticIndex.delete(oldestKey);
@@ -270,10 +270,13 @@ export class MultiLayerCache<T> {
   private normalizeParams(params: Record<string, unknown>): Record<string, unknown> {
     return Object.keys(params)
       .sort()
-      .reduce((acc, key) => {
-        acc[key] = params[key];
-        return acc;
-      }, {} as Record<string, unknown>);
+      .reduce(
+        (acc, key) => {
+          acc[key] = params[key];
+          return acc;
+        },
+        {} as Record<string, unknown>
+      );
   }
 
   private hasDependencyChanged(dep: string, since: Date): boolean {
@@ -290,13 +293,13 @@ export class MultiLayerCache<T> {
   } {
     let totalHits = 0;
     const layerDistribution: Record<string, number> = {};
-    
+
     for (const entry of this.cache.values()) {
       totalHits += entry.hits;
       const layer = entry.metadata.layer;
       layerDistribution[layer] = (layerDistribution[layer] || 0) + 1;
     }
-    
+
     return {
       size: this.cache.size,
       hitRate: totalHits / Math.max(this.cache.size, 1),
@@ -391,11 +394,7 @@ export class ContinuousIntelligenceMonitor extends EventEmitter {
   }
 
   // Intelligent change handling with debouncing
-  private handleFileChange(
-    repoPath: string,
-    filePath: string,
-    changeType: string
-  ): void {
+  private handleFileChange(repoPath: string, filePath: string, changeType: string): void {
     const repo = this.repositories.get(repoPath);
     if (!repo) return;
 
@@ -427,7 +426,7 @@ export class ContinuousIntelligenceMonitor extends EventEmitter {
       if (!repo.analysisScheduled) {
         repo.analysisScheduled = true;
         const delay = this.config.maxFrequencyMs - timeSinceLastAnalysis;
-        
+
         setTimeout(() => {
           repo.analysisScheduled = false;
           this.triggerAnalysis(repo);
@@ -487,11 +486,11 @@ export class ContinuousIntelligenceMonitor extends EventEmitter {
     for (const watcher of this.watchers.values()) {
       await watcher.close();
     }
-    
+
     for (const timer of this.debounceTimers.values()) {
       clearTimeout(timer);
     }
-    
+
     this.watchers.clear();
     this.debounceTimers.clear();
     this.repositories.clear();
@@ -616,7 +615,7 @@ export class PolicyValidator {
           return null;
         },
       },
-      
+
       // Code quality rules
       {
         id: 'QUAL001',
@@ -638,16 +637,14 @@ export class PolicyValidator {
           return null;
         },
       },
-      
+
       // Documentation rules
       {
         id: 'DOC001',
         name: 'README required',
         severity: 'low',
         check: (ctx) => {
-          const hasReadme = ctx.files.some(f => 
-            f.toLowerCase().includes('readme')
-          );
+          const hasReadme = ctx.files.some((f) => f.toLowerCase().includes('readme'));
           if (!hasReadme) {
             return {
               rule: 'DOC001',
@@ -659,7 +656,7 @@ export class PolicyValidator {
           return null;
         },
       },
-      
+
       // Architecture rules
       {
         id: 'ARCH001',
@@ -728,12 +725,9 @@ export class PolicyValidator {
     return Math.max(0, 100 - totalPenalty);
   }
 
-  private determinePassStatus(
-    violations: ComplianceViolation[],
-    score: number
-  ): boolean {
-    const criticalCount = violations.filter(v => v.severity === 'critical').length;
-    const highCount = violations.filter(v => v.severity === 'high').length;
+  private determinePassStatus(violations: ComplianceViolation[], score: number): boolean {
+    const criticalCount = violations.filter((v) => v.severity === 'critical').length;
+    const highCount = violations.filter((v) => v.severity === 'high').length;
 
     switch (this.config.strictness) {
       case 'strict':
@@ -751,22 +745,21 @@ export class PolicyValidator {
     const recommendations: string[] = [];
 
     // Group by severity
-    const bySeverity = violations.reduce((acc, v) => {
-      acc[v.severity] = acc[v.severity] || [];
-      acc[v.severity].push(v);
-      return acc;
-    }, {} as Record<string, ComplianceViolation[]>);
+    const bySeverity = violations.reduce(
+      (acc, v) => {
+        acc[v.severity] = acc[v.severity] || [];
+        acc[v.severity].push(v);
+        return acc;
+      },
+      {} as Record<string, ComplianceViolation[]>
+    );
 
     if (bySeverity.critical?.length) {
-      recommendations.push(
-        `🚨 Address ${bySeverity.critical.length} critical issues immediately`
-      );
+      recommendations.push(`🚨 Address ${bySeverity.critical.length} critical issues immediately`);
     }
 
     if (bySeverity.high?.length) {
-      recommendations.push(
-        `⚠️ Fix ${bySeverity.high.length} high-priority issues before merge`
-      );
+      recommendations.push(`⚠️ Fix ${bySeverity.high.length} high-priority issues before merge`);
     }
 
     // Add specific suggestions
@@ -858,7 +851,7 @@ export class AgentScheduler {
     }
 
     // Score each agent based on preferences
-    const scored = eligibleAgents.map(agent => ({
+    const scored = eligibleAgents.map((agent) => ({
       agent,
       score: this.calculateAgentScore(agent, preferences),
     }));
@@ -878,11 +871,9 @@ export class AgentScheduler {
   }
 
   private getEligibleAgents(capabilities: string[]): Agent[] {
-    return Array.from(this.agents.values()).filter(agent => {
+    return Array.from(this.agents.values()).filter((agent) => {
       // Must have all required capabilities
-      const hasCapabilities = capabilities.every(cap =>
-        agent.capabilities.includes(cap)
-      );
+      const hasCapabilities = capabilities.every((cap) => agent.capabilities.includes(cap));
 
       // Must be healthy or degraded (not unhealthy)
       const isAvailable = agent.metrics.status !== 'unhealthy';
@@ -939,25 +930,19 @@ export class AgentScheduler {
     return agent.metrics.latency.reduce((a, b) => a + b, 0) / agent.metrics.latency.length;
   }
 
-  private getSelectionReason(
-    agent: Agent,
-    preferences: { optimizeFor: string }
-  ): string {
+  private getSelectionReason(agent: Agent, preferences: { optimizeFor: string }): string {
     const avgLatency = this.getAverageLatency(agent);
     const loadPercent = Math.round((agent.currentLoad / agent.maxConcurrency) * 100);
 
-    return `Selected ${agent.name} (${preferences.optimizeFor} optimized): ` +
+    return (
+      `Selected ${agent.name} (${preferences.optimizeFor} optimized): ` +
       `${avgLatency.toFixed(0)}ms avg latency, ${loadPercent}% load, ` +
-      `${agent.metrics.status} status`;
+      `${agent.metrics.status} status`
+    );
   }
 
   // Record request completion for metrics
-  recordCompletion(
-    agentId: string,
-    latency: number,
-    success: boolean,
-    cost: number
-  ): void {
+  recordCompletion(agentId: string, latency: number, success: boolean, cost: number): void {
     const agent = this.agents.get(agentId);
     if (!agent) return;
 
@@ -996,10 +981,10 @@ export class AgentScheduler {
   private evaluateAgentHealth(agent: Agent): Agent['metrics']['status'] {
     if (agent.metrics.errorRate > 0.5) return 'unhealthy';
     if (agent.metrics.errorRate > 0.1) return 'degraded';
-    
+
     const avgLatency = this.getAverageLatency(agent);
     if (avgLatency > 5000) return 'degraded';
-    
+
     return 'healthy';
   }
 
@@ -1025,36 +1010,36 @@ kilo_methodology:
       - Consolidate similar tools
       - Remove unused code paths
       - Minimize configuration sprawl
-      
+
     optimize:
       - Shared libraries over duplication
       - Template-driven generation
       - Automated enforcement
       - Continuous refinement
-      
+
   consolidation_targets:
     tools:
-      before: "22 separate CLI tools"
-      after: "4 unified CLIs"
-      reduction: "82%"
-      
+      before: '22 separate CLI tools'
+      after: '4 unified CLIs'
+      reduction: '82%'
+
     configurations:
-      before: "Scattered YAML/JSON files"
-      after: "Centralized config management"
-      benefit: "Single source of truth"
-      
+      before: 'Scattered YAML/JSON files'
+      after: 'Centralized config management'
+      benefit: 'Single source of truth'
+
     documentation:
-      before: "Comprehensive but scattered"
-      after: "Strategic and consolidated"
-      benefit: "Reduced maintenance burden"
-      
+      before: 'Comprehensive but scattered'
+      after: 'Strategic and consolidated'
+      benefit: 'Reduced maintenance burden'
+
   enforcement:
     pre_commit_hooks:
       - File size limits (500 lines max)
       - Architecture compliance
       - Naming convention validation
       - Import structure verification
-      
+
     ci_cd_gates:
       - Consolidation score check
       - Duplicate detection
@@ -1104,12 +1089,12 @@ integration_points:
     - Use MultiLayerCache for prompt caching
     - Integrate PolicyValidator with CI/CD
     - Connect AgentScheduler to workflow executor
-    
+
   atlas_orchestration:
     - ContinuousIntelligenceMonitor for repo analysis
     - A2K bridge for policy validation
     - Agent metrics for routing decisions
-    
+
   governance:
     - Policy rules from GOVERNANCE.md
     - Compliance scoring in quality gates

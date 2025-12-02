@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **Repz** is a resume management and automation platform. It features:
+
 - Resume parsing & storage
 - Automated formatting
 - Version management
@@ -21,34 +22,41 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 Work as 5 parallel agent teams optimized for Repz:
 
 **Team 1: Parsing Agents** (document parsing, extraction)
+
 - Resume parsing accuracy
 - Data extraction quality
 - Format detection
 
 **Team 2: Processing Agents** (formatting, optimization)
+
 - Document formatting
 - Template application
 - Quality enhancement
 
 **Team 3: Backend Agents** (API, database, storage)
+
 - API performance
 - Database optimization
 - File storage efficiency
 
 **Team 4: Frontend Agents** (UI, UX, dashboards)
+
 - User interface improvements
 - Export functionality
 - Template selection
 
 **Team 5: Learning Agents** (patterns, optimization)
+
 - Usage patterns
 - Improvement opportunities
 - Performance analysis
 
 ### Execution Style
+
 - ⚡ **Fast:** 2-3 sec analysis max
 - 🔄 **Parallel:** All 5 teams simultaneously
 - 💬 **Brief:** Update with ✅/🔧/⚠️ only
@@ -145,14 +153,14 @@ Create API documentation for resume endpoints
 
 ## 📞 Quick Reference
 
-| Need | Command |
-|------|---------|
-| Analyze | `Analyze Repz in...` |
-| Fix Bug | `Find and fix [issue]` |
-| Improve | `Improve [component]` |
+| Need     | Command                      |
+| -------- | ---------------------------- |
+| Analyze  | `Analyze Repz in...`         |
+| Fix Bug  | `Find and fix [issue]`       |
+| Improve  | `Improve [component]`        |
 | Document | `Generate docs for [module]` |
-| Test | `Improve test coverage` |
-| Feature | `Add new export format` |
+| Test     | `Improve test coverage`      |
+| Feature  | `Add new export format`      |
 
 ---
 

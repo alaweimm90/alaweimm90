@@ -22,6 +22,7 @@ Together they provide end-to-end automation from code analysis to production dep
 The integration uses two primary bridges:
 
 #### K2A Bridge (KILO → ATLAS)
+
 Routes governance events from KILO to trigger ATLAS operations:
 
 ```
@@ -29,11 +30,13 @@ KILO Event → K2A Bridge → ATLAS Action
 ```
 
 **Use Cases:**
+
 - Policy violations trigger code analysis
 - Compliance checks initiate refactoring
 - Security alerts prompt security reviews
 
 #### A2K Bridge (ATLAS → KILO)
+
 Enables ATLAS operations to leverage KILO services:
 
 ```
@@ -41,6 +44,7 @@ ATLAS Operation → A2K Bridge → KILO Service → ATLAS Integration
 ```
 
 **Use Cases:**
+
 - Refactoring operations validated against policies
 - Generated code checked for compliance
 - DevOps templates accessed from ATLAS
@@ -48,6 +52,7 @@ ATLAS Operation → A2K Bridge → KILO Service → ATLAS Integration
 ### Data Flow Patterns
 
 #### Synchronous Validation
+
 ```typescript
 // ATLAS refactoring with KILO validation
 const validation = await a2kBridge.validateRefactoring(operation);
@@ -57,6 +62,7 @@ if (validation.isValid) {
 ```
 
 #### Asynchronous Events
+
 ```typescript
 // KILO policy violation triggers ATLAS analysis
 k2aBridge.onGovernanceEvent(policyViolationEvent);
@@ -64,11 +70,12 @@ k2aBridge.onGovernanceEvent(policyViolationEvent);
 ```
 
 #### Template Integration
+
 ```typescript
 // ATLAS accesses KILO DevOps templates
 const template = await a2kBridge.getTemplates({
   category: 'cicd',
-  name: 'github-actions'
+  name: 'github-actions',
 });
 ```
 
@@ -171,11 +178,7 @@ atlas compliance check . --policies kilo
       "enabled": true,
       "webhookUrl": "https://atlas-webhook.company.com",
       "secret": "webhook-secret",
-      "eventTypes": [
-        "policy_violation",
-        "security_alert",
-        "compliance_failure"
-      ]
+      "eventTypes": ["policy_violation", "security_alert", "compliance_failure"]
     }
   }
 }
@@ -391,13 +394,13 @@ const customPolicy = {
 
     return {
       valid: issues.length === 0,
-      issues: issues.map(issue => ({
+      issues: issues.map((issue) => ({
         severity: issue.level,
         message: issue.message,
-        location: issue.location
-      }))
+        location: issue.location,
+      })),
     };
-  }
+  },
 };
 
 // Register with ATLAS-KILO integration
@@ -435,7 +438,7 @@ atlas.events.on('kilo.policy_violation', async (event) => {
     type: 'code_review',
     description: `Address policy violation: ${event.policy}`,
     files: event.files,
-    priority: 'high'
+    priority: 'high',
   });
 });
 
@@ -644,10 +647,7 @@ atlas governance dashboard --open
 ```json
 {
   "highAvailability": {
-    "multipleEndpoints": [
-      "https://kilo-primary.company.com",
-      "https://kilo-secondary.company.com"
-    ],
+    "multipleEndpoints": ["https://kilo-primary.company.com", "https://kilo-secondary.company.com"],
     "failoverEnabled": true,
     "healthCheckInterval": 30,
     "circuitBreaker": {
@@ -666,22 +666,26 @@ atlas governance dashboard --open
 ### From Separate Systems
 
 1. **Backup existing configurations**
+
    ```bash
    atlas config export atlas-config.json
    kilo config export kilo-config.json
    ```
 
 2. **Install integration packages**
+
    ```bash
    npm install -g @atlas/integrations @kilo/bridge
    ```
 
 3. **Initialize integration**
+
    ```bash
    atlas init --integration kilo
    ```
 
 4. **Migrate configurations**
+
    ```bash
    atlas config import atlas-config.json
    atlas bridge configure a2k --from-config kilo-config.json

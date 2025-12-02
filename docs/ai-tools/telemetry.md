@@ -31,4 +31,3 @@ import { telemetry } from 'tools/ai/telemetry';
 ```bash
 npm run ai:telemetry:status
 ```
-

@@ -1,9 +1,9 @@
 ---
-name: "Platform & Deployment Superprompt"
-version: "1.0"
-category: "project"
-tags: ["deployment", "cloud", "infrastructure", "responsive", "seo", "performance"]
-created: "2024-11-30"
+name: 'Platform & Deployment Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['deployment', 'cloud', 'infrastructure', 'responsive', 'seo', 'performance']
+created: '2024-11-30'
 ---
 
 # Platform & Deployment Superprompt
@@ -46,25 +46,25 @@ infrastructure:
     primary: us-east-1
     secondary: eu-west-1
     edge: cloudflare
-    
+
   services:
     compute:
       - ECS Fargate (containers)
       - Lambda (serverless)
       - EC2 (when needed)
-      
+
     storage:
       - S3 (objects)
       - EFS (shared files)
       - RDS (relational)
       - DynamoDB (NoSQL)
-      
+
     networking:
       - VPC (isolation)
       - ALB (load balancing)
       - CloudFront (CDN)
       - Route53 (DNS)
-      
+
     security:
       - WAF (firewall)
       - Shield (DDoS)
@@ -78,14 +78,14 @@ infrastructure:
 # infrastructure/main.tf
 terraform {
   required_version = ">= 1.5.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
   }
-  
+
   backend "s3" {
     bucket         = "terraform-state-bucket"
     key            = "production/terraform.tfstate"
@@ -99,31 +99,31 @@ terraform {
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.0.0"
-  
+
   name = "${var.project_name}-vpc"
   cidr = "10.0.0.0/16"
-  
+
   azs             = ["us-east-1a", "us-east-1b", "us-east-1c"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-  
+
   enable_nat_gateway     = true
   single_nat_gateway     = false
   enable_dns_hostnames   = true
   enable_dns_support     = true
-  
+
   tags = var.common_tags
 }
 
 # ECS Cluster
 resource "aws_ecs_cluster" "main" {
   name = "${var.project_name}-cluster"
-  
+
   setting {
     name  = "containerInsights"
     value = "enabled"
   }
-  
+
   configuration {
     execute_command_configuration {
       logging = "OVERRIDE"
@@ -141,9 +141,9 @@ resource "aws_lb" "main" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
   subnets            = module.vpc.public_subnets
-  
+
   enable_deletion_protection = true
-  
+
   access_logs {
     bucket  = aws_s3_bucket.logs.bucket
     prefix  = "alb-logs"
@@ -157,11 +157,11 @@ resource "aws_cloudfront_distribution" "main" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
   price_class         = "PriceClass_100"
-  
+
   origin {
     domain_name = aws_lb.main.dns_name
     origin_id   = "alb"
-    
+
     custom_origin_config {
       http_port              = 80
       https_port             = 443
@@ -169,34 +169,34 @@ resource "aws_cloudfront_distribution" "main" {
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
-  
+
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = "alb"
-    
+
     forwarded_values {
       query_string = true
       headers      = ["Origin", "Authorization"]
-      
+
       cookies {
         forward = "all"
       }
     }
-    
+
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
     compress               = true
   }
-  
+
   restrictions {
     geo_restriction {
       restriction_type = "none"
     }
   }
-  
+
   viewer_certificate {
     acm_certificate_arn      = aws_acm_certificate.main.arn
     ssl_support_method       = "sni-only"
@@ -354,33 +354,33 @@ seo_checklist:
       - No orphan pages
       - Proper canonical tags
       - Hreflang for multi-language
-      
+
     indexability:
       - Meta robots tags correct
       - No accidental noindex
       - JavaScript content rendered
       - Dynamic rendering if needed
-      
+
     site_architecture:
       - Flat URL structure
       - Breadcrumb navigation
       - Internal linking strategy
       - Hub and spoke content model
-      
+
   performance:
     core_web_vitals:
       - LCP < 2.5s
       - FID < 100ms
       - CLS < 0.1
       - INP < 200ms
-      
+
     optimization:
       - Image optimization (WebP, AVIF)
       - Code splitting
       - Tree shaking
       - Lazy loading
       - Preloading critical resources
-      
+
   content:
     on_page:
       - Unique title tags (50-60 chars)
@@ -388,7 +388,7 @@ seo_checklist:
       - H1 tags (one per page)
       - Structured data (JSON-LD)
       - Alt text for images
-      
+
     structured_data:
       - Organization schema
       - Website schema
@@ -469,10 +469,7 @@ export const metadata: Metadata = {
 // Structured Data Component
 export function JsonLd({ data }: { data: object }) {
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
   );
 }
 
@@ -504,21 +501,15 @@ import { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://example.com';
-  
+
   // Static pages
-  const staticPages = [
-    '',
-    '/about',
-    '/contact',
-    '/pricing',
-    '/blog',
-  ].map((route) => ({
+  const staticPages = ['', '/about', '/contact', '/pricing', '/blog'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: route === '' ? 1 : 0.8,
   }));
-  
+
   // Dynamic pages (e.g., blog posts)
   const posts = await fetchBlogPosts();
   const blogPages = posts.map((post) => ({
@@ -527,7 +518,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: 'weekly' as const,
     priority: 0.6,
   }));
-  
+
   return [...staticPages, ...blogPages];
 }
 ```
@@ -640,9 +631,7 @@ const shimmer = (w: number, h: number) => `
 </svg>`;
 
 const toBase64 = (str: string) =>
-  typeof window === 'undefined'
-    ? Buffer.from(str).toString('base64')
-    : window.btoa(str);
+  typeof window === 'undefined' ? Buffer.from(str).toString('base64') : window.btoa(str);
 ```
 
 ---
@@ -674,11 +663,11 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-              memory: "256Mi"
-              cpu: "250m"
+              memory: '256Mi'
+              cpu: '250m'
             limits:
-              memory: "512Mi"
-              cpu: "500m"
+              memory: '512Mi'
+              cpu: '500m'
           livenessProbe:
             httpGet:
               path: /api/health
@@ -693,7 +682,7 @@ spec:
             periodSeconds: 5
           env:
             - name: NODE_ENV
-              value: "production"
+              value: 'production'
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
@@ -760,4 +749,4 @@ spec:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

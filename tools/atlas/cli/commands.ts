@@ -5,6 +5,8 @@ import { registerAnalyzeCommands } from './commands/analyze.js';
 import { registerTemplateCommands } from './commands/template.js';
 import { registerDashboardCommands } from './commands/dashboard.js';
 import { registerAiCommands } from '../integrations/ai.js';
+import { registerWorkflowCommands } from './commands/workflow.js';
+import { registerTeamCommands } from './commands/team.js';
 
 /**
  * Register all ATLAS CLI commands
@@ -19,6 +21,10 @@ export function registerCommands(program: Command): void {
 
   // Register AI tools integration
   registerAiCommands(program);
+
+  // Agentic workflows and teams
+  registerWorkflowCommands(program);
+  registerTeamCommands(program);
 }
 
 /**
@@ -29,7 +35,9 @@ export function createCLI(): Command {
 
   program
     .name('atlas')
-    .description('ATLAS CLI - Repository analysis and DevOps tools with KILO governance and AI integration')
+    .description(
+      'ATLAS CLI - Repository analysis and DevOps tools with KILO governance and AI integration'
+    )
     .version('1.0.0');
 
   // Register all commands

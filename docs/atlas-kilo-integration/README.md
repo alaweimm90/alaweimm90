@@ -7,6 +7,7 @@ The ATLAS-KILO integration represents a powerful convergence of two complementar
 ### What is ATLAS?
 
 ATLAS is an AI-powered code analysis and optimization platform that provides:
+
 - Intelligent code complexity analysis
 - Automated refactoring suggestions
 - Repository health assessment
@@ -16,6 +17,7 @@ ATLAS is an AI-powered code analysis and optimization platform that provides:
 ### What is KILO?
 
 KILO is a comprehensive DevOps and governance platform that offers:
+
 - Policy enforcement and compliance checking
 - DevOps template management
 - Infrastructure as Code (IaC) automation
@@ -37,9 +39,11 @@ The ATLAS-KILO integration unlocks several key advantages:
 The integration is built around two primary bridge components:
 
 ### K2A Bridge (KILO → ATLAS)
+
 Routes governance events from KILO to trigger ATLAS analysis operations. When KILO detects policy violations or compliance issues, it can automatically initiate ATLAS code analysis and optimization.
 
 ### A2K Bridge (ATLAS → KILO)
+
 Enables ATLAS operations to leverage KILO's validation and template systems. ATLAS refactoring operations are validated against KILO policies, and ATLAS can access KILO's DevOps templates for infrastructure setup.
 
 ```mermaid
@@ -70,6 +74,7 @@ graph TB
 ## Key Features
 
 ### Unified CLI
+
 A single command-line interface that provides access to both ATLAS and KILO functionality:
 
 ```bash
@@ -81,9 +86,11 @@ atlas template get cicd/github-actions --validate
 ```
 
 ### Shared Configuration
+
 Common configuration system that works across both platforms, enabling consistent settings and policies.
 
 ### Automated Workflows
+
 Pre-built workflow templates that combine ATLAS analysis with KILO governance operations.
 
 ## Quick Start
@@ -116,6 +123,7 @@ See the [Quick Start Guide](quick-start.md) for detailed setup instructions.
 ## Support
 
 For issues specific to the ATLAS-KILO integration:
+
 - Check the [Troubleshooting Guide](troubleshooting.md)
 - Review bridge status: `atlas bridge status`
 - Enable debug logging: `atlas --debug`

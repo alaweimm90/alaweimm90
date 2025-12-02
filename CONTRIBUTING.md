@@ -103,12 +103,12 @@ pre-commit run --all-files          # Pre-commit
 
 ### Requirements
 
-| Requirement | Description |
-|-------------|-------------|
-| Title | Conventional commit format (`feat:`, `fix:`, `docs:`) |
-| Description | Changes and motivation |
-| Issues | Link to related issues |
-| CI | All checks passing |
+| Requirement | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| Title       | Conventional commit format (`feat:`, `fix:`, `docs:`) |
+| Description | Changes and motivation                                |
+| Issues      | Link to related issues                                |
+| CI          | All checks passing                                    |
 
 ### Review
 
@@ -150,14 +150,14 @@ def my_function(param: str, optional: int = 0) -> Dict[str, Any]:
 [optional body]
 ```
 
-| Type | Description |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation |
+| Type       | Description      |
+| ---------- | ---------------- |
+| `feat`     | New feature      |
+| `fix`      | Bug fix          |
+| `docs`     | Documentation    |
 | `refactor` | Code restructure |
-| `test` | Tests |
-| `chore` | Maintenance |
+| `test`     | Tests            |
+| `chore`    | Maintenance      |
 
 **Examples:**
 

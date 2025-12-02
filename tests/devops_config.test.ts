@@ -5,7 +5,7 @@ import {
   parsePlaceholders,
   parseFlag,
   parseOption,
-} from '../tools/devops/config.js';
+} from '../tools/lib/config.js';
 
 describe('DevOps CLI - Configuration', () => {
   const originalEnv = process.env.DEVOPS_TARGET_DIR;
@@ -25,24 +25,25 @@ describe('DevOps CLI - Configuration', () => {
   describe('resolveTargetDir', () => {
     it('should use --target argument when provided', () => {
       const result = resolveTargetDir(['--target=/custom/path']);
-      expect(result).toBe('/custom/path');
+      // path.resolve converts to platform-specific absolute path
+      expect(result).toBe(path.resolve('/custom/path'));
     });
 
     it('should use DEVOPS_TARGET_DIR env when set', () => {
       process.env.DEVOPS_TARGET_DIR = '/env/path';
       const result = resolveTargetDir([]);
-      expect(result).toBe('/env/path');
+      expect(result).toBe(path.resolve('/env/path'));
     });
 
     it('should default to .metaHub in cwd', () => {
       const result = resolveTargetDir([]);
-      expect(result).toBe(path.join(process.cwd(), '.metaHub'));
+      expect(result).toBe(path.resolve(process.cwd(), '.metaHub'));
     });
 
     it('should prefer argument over env', () => {
       process.env.DEVOPS_TARGET_DIR = '/env/path';
       const result = resolveTargetDir(['--target=/arg/path']);
-      expect(result).toBe('/arg/path');
+      expect(result).toBe(path.resolve('/arg/path'));
     });
   });
 

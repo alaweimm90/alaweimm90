@@ -1,10 +1,10 @@
 ---
-name: "KILO Consolidation Methodology Superprompt"
-version: "1.0"
-category: "project"
-tags: ["kilo", "consolidation", "simplification", "optimization", "architecture"]
-created: "2024-11-30"
-source: "Derived from enterprise architecture analysis"
+name: 'KILO Consolidation Methodology Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['kilo', 'consolidation', 'simplification', 'optimization', 'architecture']
+created: '2024-11-30'
+source: 'Derived from enterprise architecture analysis'
 ---
 
 # KILO Consolidation Methodology Superprompt
@@ -43,24 +43,24 @@ Your mission is to implement consolidation that:
 ```yaml
 kilo_philosophy:
   keep_it_lean:
-    description: "Ruthlessly eliminate unnecessary complexity"
+    description: 'Ruthlessly eliminate unnecessary complexity'
     practices:
       - Remove duplicate implementations
       - Consolidate similar tools into unified CLIs
       - Delete unused code paths
       - Minimize configuration sprawl
       - Reduce documentation to strategic essentials
-      
+
   optimize:
-    description: "Maximize efficiency of remaining components"
+    description: 'Maximize efficiency of remaining components'
     practices:
       - Extract shared libraries from duplicates
       - Implement template-driven generation
       - Automate enforcement via hooks and CI
       - Continuously refine based on usage metrics
-      
+
   preserve:
-    description: "Maintain functionality and enable migration"
+    description: 'Maintain functionality and enable migration'
     practices:
       - Document all consolidation decisions
       - Provide migration guides for deprecated tools
@@ -77,36 +77,36 @@ kilo_philosophy:
 ```yaml
 # tool-audit.yaml
 audit:
-  tool_name: "example-tool"
-  category: "cli|library|service|script"
-  
+  tool_name: 'example-tool'
+  category: 'cli|library|service|script'
+
   functionality:
-    primary_purpose: "What does this tool do?"
+    primary_purpose: 'What does this tool do?'
     capabilities:
       - capability_1
       - capability_2
     dependencies:
       - dependency_1
       - dependency_2
-      
+
   usage_metrics:
-    last_used: "2024-11-30"
-    frequency: "daily|weekly|monthly|rarely|never"
-    users: ["team_a", "team_b"]
-    
+    last_used: '2024-11-30'
+    frequency: 'daily|weekly|monthly|rarely|never'
+    users: ['team_a', 'team_b']
+
   overlap_analysis:
     similar_tools:
-      - tool_name: "other-tool"
+      - tool_name: 'other-tool'
         overlap_percentage: 80
-        unique_features: ["feature_x"]
+        unique_features: ['feature_x']
     consolidation_candidate: true
-    
+
   consolidation_decision:
-    action: "merge|keep|deprecate|delete"
-    target: "unified-cli"  # If merging
-    migration_effort: "low|medium|high"
+    action: 'merge|keep|deprecate|delete'
+    target: 'unified-cli' # If merging
+    migration_effort: 'low|medium|high'
     breaking_changes: false
-    
+
   notes: |
     Additional context about this tool
 ```
@@ -136,9 +136,7 @@ interface ConsolidationScore {
   effort: 'low' | 'medium' | 'high';
 }
 
-export function analyzeConsolidation(
-  tools: ToolAnalysis[]
-): ConsolidationScore[] {
+export function analyzeConsolidation(tools: ToolAnalysis[]): ConsolidationScore[] {
   const scores: ConsolidationScore[] = [];
 
   for (const tool of tools) {
@@ -218,18 +216,13 @@ function calculateConsolidationScore(
   };
 }
 
-function findOverlappingTools(
-  tool: ToolAnalysis,
-  allTools: ToolAnalysis[]
-): ToolAnalysis[] {
-  return allTools.filter(other => {
+function findOverlappingTools(tool: ToolAnalysis, allTools: ToolAnalysis[]): ToolAnalysis[] {
+  return allTools.filter((other) => {
     if (other.name === tool.name) return false;
-    
+
     // Check functionality overlap
-    const overlap = tool.functionality.filter(f =>
-      other.functionality.includes(f)
-    );
-    
+    const overlap = tool.functionality.filter((f) => other.functionality.includes(f));
+
     return overlap.length / tool.functionality.length > 0.5;
   });
 }
@@ -269,24 +262,17 @@ export class UnifiedCLI {
   private modules: Map<string, CLIModule> = new Map();
 
   constructor(name: string, version: string, description: string) {
-    this.program = new Command()
-      .name(name)
-      .version(version)
-      .description(description);
+    this.program = new Command().name(name).version(version).description(description);
   }
 
   // Register a module (previously separate CLI)
   registerModule(module: CLIModule): void {
     this.modules.set(module.name, module);
 
-    const subcommand = this.program
-      .command(module.name)
-      .description(module.description);
+    const subcommand = this.program.command(module.name).description(module.description);
 
     for (const cmd of module.commands) {
-      const command = subcommand
-        .command(cmd.name)
-        .description(cmd.description);
+      const command = subcommand.command(cmd.name).description(cmd.description);
 
       for (const opt of cmd.options) {
         command.option(opt.flags, opt.description, opt.default);
@@ -347,11 +333,7 @@ export class UnifiedCLI {
 
 // Example: Consolidating 22 tools into 4 CLIs
 export function createAtlasCLI(): UnifiedCLI {
-  const cli = new UnifiedCLI(
-    'atlas',
-    '2.0.0',
-    'Unified automation and orchestration CLI'
-  );
+  const cli = new UnifiedCLI('atlas', '2.0.0', 'Unified automation and orchestration CLI');
 
   // Module 1: Prompts (consolidates prompt-optimizer, prompt-manager, etc.)
   cli.registerModule({
@@ -399,9 +381,7 @@ export function createAtlasCLI(): UnifiedCLI {
       {
         name: 'route',
         description: 'Route a task to the best agent',
-        options: [
-          { flags: '-t, --task <task>', description: 'Task description' },
-        ],
+        options: [{ flags: '-t, --task <task>', description: 'Task description' }],
         action: async (options) => {
           // Implementation
         },
@@ -514,11 +494,13 @@ export const schemas = {
   workflow: z.object({
     id: z.string(),
     name: z.string(),
-    steps: z.array(z.object({
-      name: z.string(),
-      agent: z.string(),
-      action: z.string(),
-    })),
+    steps: z.array(
+      z.object({
+        name: z.string(),
+        agent: z.string(),
+        action: z.string(),
+      })
+    ),
   }),
 
   prompt: z.object({
@@ -535,14 +517,14 @@ export function validate<T>(
   data: unknown
 ): { success: true; data: T } | { success: false; errors: string[] } {
   const result = schema.safeParse(data);
-  
+
   if (result.success) {
     return { success: true, data: result.data };
   }
-  
+
   return {
     success: false,
-    errors: result.error.errors.map(e => `${e.path.join('.')}: ${e.message}`),
+    errors: result.error.errors.map((e) => `${e.path.join('.')}: ${e.message}`),
   };
 }
 ```
@@ -565,7 +547,7 @@ class Telemetry extends EventEmitter {
 
   track(event: string, value?: number): void {
     this.emit('event', { event, value, timestamp: new Date() });
-    
+
     if (value !== undefined) {
       const existing = this.metrics.get(event) || [];
       existing.push(value);
@@ -578,7 +560,7 @@ class Telemetry extends EventEmitter {
     if (values.length === 0) {
       return { avg: 0, min: 0, max: 0, count: 0 };
     }
-    
+
     return {
       avg: values.reduce((a, b) => a + b, 0) / values.length,
       min: Math.min(...values),
@@ -608,20 +590,20 @@ repos:
         entry: scripts/check-file-size.sh
         language: script
         args: ['--max-lines', '500']
-        
+
       # Architecture compliance
       - id: architecture-check
         name: Check architecture compliance
         entry: scripts/check-architecture.sh
         language: script
         files: '\.(ts|py)$'
-        
+
       # Duplicate detection
       - id: duplicate-check
         name: Check for duplicates
         entry: scripts/check-duplicates.sh
         language: script
-        
+
       # Import structure
       - id: import-check
         name: Check import structure
@@ -692,10 +674,10 @@ This guide helps you migrate from `old-tool` to the unified `atlas` CLI.
 
 ## Command Mapping
 
-| Old Command | New Command | Notes |
-|-------------|-------------|-------|
-| `old-tool do-thing` | `atlas module do-thing` | Identical functionality |
-| `old-tool other-thing --flag` | `atlas module other --flag` | Flag renamed |
+| Old Command                   | New Command                 | Notes                   |
+| ----------------------------- | --------------------------- | ----------------------- |
+| `old-tool do-thing`           | `atlas module do-thing`     | Identical functionality |
+| `old-tool other-thing --flag` | `atlas module other --flag` | Flag renamed            |
 
 ## Breaking Changes
 
@@ -734,24 +716,24 @@ metrics:
     total_lines: 45000
     config_files: 87
     duplicate_functions: 156
-    
+
   after:
     total_tools: 4
     total_lines: 12000
     config_files: 12
     duplicate_functions: 0
-    
+
   reduction:
-    tools: "82%"
-    code: "73%"
-    config: "86%"
-    duplicates: "100%"
-    
+    tools: '82%'
+    code: '73%'
+    config: '86%'
+    duplicates: '100%'
+
   quality_improvements:
-    test_coverage: "+25%"
-    documentation: "Consolidated"
-    maintenance_burden: "-70%"
-    onboarding_time: "-50%"
+    test_coverage: '+25%'
+    documentation: 'Consolidated'
+    maintenance_burden: '-70%'
+    onboarding_time: '-50%'
 ```
 
 ---

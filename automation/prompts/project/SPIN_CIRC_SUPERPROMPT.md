@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **SPIN-CIRC** designs and simulates spin circuits:
+
 - Circuit design & optimization
 - Spin dynamics simulation
 - Performance profiling
@@ -20,6 +21,7 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 5 parallel agent teams optimized for SPIN-CIRC:
 
 **Team 1:** Circuit design & optimization
@@ -29,6 +31,7 @@
 **Team 5:** Research & improvements
 
 ### Execution Style
+
 - ⚡ Fast: 2-3 sec analysis max
 - 🔄 Parallel: All teams simultaneously
 - 💬 Brief: Minimal output

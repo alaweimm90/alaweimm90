@@ -22,12 +22,14 @@ Create a **comprehensive, unified instruction framework** for managing AI/ML/LLM
 ## CURRENT STATE ANALYSIS
 
 ### Existing Locations (To Explore)
+
 - `C:\Users\mesha\` - Main Windows user directory
 - `\\wsl.localhost\Ubuntu\home\mesha\` - WSL filesystem
 - `/mnt/c/Users/mesha/` - WSL mount of Windows home
 - **TBD**: Exact locations of existing AI/LLM configs
 
 ### What We Know Works
+
 - Claude Code CLI functioning
 - Multi-Claude coordination (ATLAS + Libria)
 - Git workflow management
@@ -85,6 +87,7 @@ Create a master configuration structure:
 Define **5-8 specialized internal agents** for local development:
 
 **Agent Types** (with examples):
+
 - **CodeReviewerAgent** - Reviews code changes before commit
 - **DocumentationAgent** - Generates/updates documentation
 - **TestGeneratorAgent** - Creates test cases automatically
@@ -95,6 +98,7 @@ Define **5-8 specialized internal agents** for local development:
 - **ConsolidationAgent** - Consolidates findings from other agents
 
 **Agent Schema** (similar to ATLAS):
+
 ```yaml
 agent:
   id: code-reviewer-001
@@ -123,6 +127,7 @@ agent:
 Configure MCPs for CLI augmentation:
 
 **Standard MCPs to Integrate**:
+
 - **filesystem** - File operations
 - **git** - Git workflow
 - **npm/pip** - Package management
@@ -133,6 +138,7 @@ Configure MCPs for CLI augmentation:
 - **claude-code** - Claude Code CLI integration
 
 **MCP Configuration Example**:
+
 ```yaml
 mcp_servers:
   filesystem:
@@ -146,7 +152,7 @@ mcp_servers:
   git:
     command: mcp-git
     config:
-      auto_commit_format: "Agent: {agent_name} - {message}"
+      auto_commit_format: 'Agent: {agent_name} - {message}'
 
   claude-code:
     command: claude code
@@ -162,6 +168,7 @@ Create workflows that coordinate multiple agents:
 **Example Workflows**:
 
 a) **Pre-Commit Workflow**:
+
 ```yaml
 name: pre-commit
 trigger: pre-commit
@@ -178,6 +185,7 @@ success_criteria:
 ```
 
 b) **Code Review Workflow**:
+
 ```yaml
 name: code-review
 trigger: manual | pr-created
@@ -191,6 +199,7 @@ output: pr-comment | stdout
 ```
 
 c) **Documentation Workflow**:
+
 ```yaml
 name: update-docs
 trigger: manual | push-to-main
@@ -204,6 +213,7 @@ output: git-commit
 ### 5. **IDE Integration** (20-30 minutes)
 
 **VSCode Configuration** (`.vscode/settings.json`):
+
 ```json
 {
   "ai.agents": {
@@ -212,13 +222,14 @@ output: git-commit
     "config": "~/.ai-orchestration/config/ides.yaml"
   },
   "mcp.servers": {
-    "filesystem": {"command": "mcp-filesystem"},
-    "git": {"command": "mcp-git"}
+    "filesystem": { "command": "mcp-filesystem" },
+    "git": { "command": "mcp-git" }
   }
 }
 ```
 
 **JetBrains Configuration** (IDE settings):
+
 ```yaml
 ides:
   jetbrains:
@@ -230,6 +241,7 @@ ides:
 ```
 
 **Vim/Neovim Configuration** (init.vim / init.lua):
+
 ```vim
 " AI orchestration
 let g:ai_agents_enabled = 1
@@ -242,6 +254,7 @@ let g:mcp_servers = ['git', 'filesystem', 'system']
 Create **comprehensive instruction sets** for each combination:
 
 **Example Structure**:
+
 ```
 instructions/
 ├── GLOBAL_SETUP.md          # Universal setup
@@ -260,6 +273,7 @@ instructions/
 Create scripts/tools to coordinate everything:
 
 **Main Orchestrator** (`orchestrate.sh`):
+
 ```bash
 #!/bin/bash
 # Main orchestration script
@@ -280,6 +294,7 @@ esac
 ```
 
 **Usage Examples**:
+
 ```bash
 orchestrate init                          # Initial setup
 orchestrate agent code-reviewer           # Run specific agent
@@ -293,48 +308,56 @@ orchestrate list-agents                   # Show all agents
 ## SPECIFIC INSTRUCTIONS
 
 ### Step 1: Discover Existing Configurations
+
 - [ ] Search `C:\Users\mesha\` for existing `.vscode`, `.idea`, `.vim`, `.config`
 - [ ] Check WSL home: `ls -la ~` for hidden config directories
 - [ ] Catalog all IDE installations and their configurations
 - [ ] Document any existing LLM/AI tool integrations
 
 ### Step 2: Create Unified Configuration Framework
+
 - [ ] Create `~/.ai-orchestration/` directory structure
 - [ ] Write global configuration (`config/global.yaml`)
 - [ ] Create IDE configuration templates
 - [ ] Document configuration schema
 
 ### Step 3: Define Internal Agents
+
 - [ ] Create agent definition schema (similar to ATLAS ResearchAgent)
 - [ ] Implement 5-8 core agents with clear purposes
 - [ ] Document each agent's capabilities and triggers
 - [ ] Create agent templates for easy addition
 
 ### Step 4: Configure MCP Servers
+
 - [ ] Research available MCPs for your use cases
 - [ ] Create MCP configuration templates
 - [ ] Implement integration with each IDE
 - [ ] Document MCP capabilities and usage
 
 ### Step 5: Design Workflows
+
 - [ ] Create workflow schema
 - [ ] Define 3-5 core workflows (pre-commit, code-review, etc.)
 - [ ] Implement agent coordination in workflows
 - [ ] Create workflow templates for reuse
 
 ### Step 6: IDE Integration
+
 - [ ] Integrate with VSCode
 - [ ] Integrate with JetBrains IDEs
 - [ ] Integrate with Vim/Neovim
 - [ ] Create IDE-specific instructions
 
 ### Step 7: Orchestration Implementation
+
 - [ ] Create main orchestration script
 - [ ] Implement agent runner
 - [ ] Implement workflow runner
 - [ ] Create validation tools
 
 ### Step 8: Documentation & Instructions
+
 - [ ] Write comprehensive setup instructions
 - [ ] Create IDE-specific guides
 - [ ] Document all agents and MCPs
@@ -346,6 +369,7 @@ orchestrate list-agents                   # Show all agents
 ## REFERENCE SPECIFICATIONS
 
 ### Agent Schema (Match ATLAS Style)
+
 ```yaml
 ResearchAgent:
   agent_id: string
@@ -358,6 +382,7 @@ ResearchAgent:
 ```
 
 ### MCP Server Schema
+
 ```yaml
 MCPServer:
   name: string
@@ -368,6 +393,7 @@ MCPServer:
 ```
 
 ### Workflow Schema
+
 ```yaml
 Workflow:
   name: string
@@ -383,12 +409,14 @@ Workflow:
 ## INTEGRATION WITH ATLAS/LIBRIA
 
 **Connection Points**:
+
 - Local agents can test ATLAS Engine before deployment
 - Workflows can orchestrate multi-Claude tasks
 - MCPs can provide system context to remote instances
 - Configuration can define when to use local vs remote agents
 
 **Example**: Pre-commit workflow could:
+
 1. Run LocalCodeReviewerAgent locally
 2. Optionally invoke ATLAS Engine for complex analysis
 3. Use git MCP to commit results
@@ -450,6 +478,7 @@ Workflow:
 ## SUCCESS HANDOFF
 
 Once complete, this framework will enable:
+
 - Instant agent provisioning for new tasks
 - Consistent workflows across all tools
 - Seamless local-to-cloud escalation
@@ -459,6 +488,7 @@ Once complete, this framework will enable:
 ---
 
 **Next Steps After Setup**:
+
 1. Test with local projects
 2. Integrate with ATLAS/Libria
 3. Share configurations across team

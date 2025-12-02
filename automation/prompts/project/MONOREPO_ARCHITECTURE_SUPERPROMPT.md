@@ -1,9 +1,9 @@
 ---
-name: "Monorepo & Architecture Superprompt"
-version: "1.0"
-category: "project"
-tags: ["monorepo", "architecture", "modular", "dependencies", "organization"]
-created: "2024-11-30"
+name: 'Monorepo & Architecture Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['monorepo', 'architecture', 'modular', 'dependencies', 'organization']
+created: '2024-11-30'
 ---
 
 # Monorepo & Architecture Superprompt
@@ -256,39 +256,39 @@ monorepo/
 dependency_rules:
   apps_to_packages:
     allowed: true
-    description: "Apps can import from packages"
-    
+    description: 'Apps can import from packages'
+
   apps_to_libs:
     allowed: true
-    description: "Apps can import from libs"
-    
+    description: 'Apps can import from libs'
+
   apps_to_apps:
     allowed: false
-    description: "Apps cannot import from other apps"
-    
+    description: 'Apps cannot import from other apps'
+
   packages_to_packages:
     allowed: true
-    description: "Packages can import from other packages"
-    
+    description: 'Packages can import from other packages'
+
   packages_to_libs:
     allowed: true
-    description: "Packages can import from libs"
-    
+    description: 'Packages can import from libs'
+
   packages_to_apps:
     allowed: false
-    description: "Packages cannot import from apps"
-    
+    description: 'Packages cannot import from apps'
+
   libs_to_libs:
     allowed: true
-    condition: "Same domain or shared"
-    
+    condition: 'Same domain or shared'
+
   libs_to_packages:
     allowed: true
-    description: "Libs can use shared packages"
-    
+    description: 'Libs can use shared packages'
+
   libs_to_apps:
     allowed: false
-    description: "Libs cannot import from apps"
+    description: 'Libs cannot import from apps'
 ```
 
 ### ESLint Boundaries
@@ -307,36 +307,36 @@ module.exports = {
           // Apps can depend on anything except other apps
           {
             sourceTag: 'type:app',
-            onlyDependOnLibsWithTags: ['type:lib', 'type:util', 'type:ui']
+            onlyDependOnLibsWithTags: ['type:lib', 'type:util', 'type:ui'],
           },
           // UI components can only depend on utils
           {
             sourceTag: 'type:ui',
-            onlyDependOnLibsWithTags: ['type:util']
+            onlyDependOnLibsWithTags: ['type:util'],
           },
           // Domain libs can depend on utils and other domain libs
           {
             sourceTag: 'type:lib',
-            onlyDependOnLibsWithTags: ['type:lib', 'type:util']
+            onlyDependOnLibsWithTags: ['type:lib', 'type:util'],
           },
           // Utils cannot depend on anything except other utils
           {
             sourceTag: 'type:util',
-            onlyDependOnLibsWithTags: ['type:util']
+            onlyDependOnLibsWithTags: ['type:util'],
           },
           // Scope-based constraints
           {
             sourceTag: 'scope:web',
-            onlyDependOnLibsWithTags: ['scope:web', 'scope:shared']
+            onlyDependOnLibsWithTags: ['scope:web', 'scope:shared'],
           },
           {
             sourceTag: 'scope:api',
-            onlyDependOnLibsWithTags: ['scope:api', 'scope:shared']
-          }
-        ]
-      }
-    ]
-  }
+            onlyDependOnLibsWithTags: ['scope:api', 'scope:shared'],
+          },
+        ],
+      },
+    ],
+  },
 };
 ```
 
@@ -350,11 +350,7 @@ module.exports = {
 {
   "name": "monorepo",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*",
-    "libs/*"
-  ],
+  "workspaces": ["apps/*", "packages/*", "libs/*"],
   "scripts": {
     "build": "turbo run build",
     "build:affected": "nx affected --target=build",
@@ -458,10 +454,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Derive appropriate SHAs
         uses: nrwl/nx-set-shas@v4
-        
+
       - name: Get affected projects
         id: affected
         run: |
@@ -530,13 +526,7 @@ jobs:
 
 ```typescript
 // tools/generators/lib/index.ts
-import {
-  Tree,
-  formatFiles,
-  generateFiles,
-  joinPathFragments,
-  names,
-} from '@nx/devkit';
+import { Tree, formatFiles, generateFiles, joinPathFragments, names } from '@nx/devkit';
 
 interface LibGeneratorSchema {
   name: string;
@@ -547,19 +537,14 @@ interface LibGeneratorSchema {
 export default async function (tree: Tree, schema: LibGeneratorSchema) {
   const { name, directory, tags } = schema;
   const projectName = names(name).fileName;
-  const projectRoot = directory 
+  const projectRoot = directory
     ? joinPathFragments('libs', directory, projectName)
     : joinPathFragments('libs', projectName);
 
-  generateFiles(
-    tree,
-    joinPathFragments(__dirname, './files'),
-    projectRoot,
-    {
-      ...names(name),
-      tmpl: '',
-    }
-  );
+  generateFiles(tree, joinPathFragments(__dirname, './files'), projectRoot, {
+    ...names(name),
+    tmpl: '',
+  });
 
   // Update project.json
   const projectJson = {
@@ -587,10 +572,7 @@ export default async function (tree: Tree, schema: LibGeneratorSchema) {
     },
   };
 
-  tree.write(
-    joinPathFragments(projectRoot, 'project.json'),
-    JSON.stringify(projectJson, null, 2)
-  );
+  tree.write(joinPathFragments(projectRoot, 'project.json'), JSON.stringify(projectJson, null, 2));
 
   await formatFiles(tree);
 }
@@ -601,24 +583,28 @@ export default async function (tree: Tree, schema: LibGeneratorSchema) {
 ## Execution Phases
 
 ### Phase 1: Foundation
+
 - [ ] Initialize monorepo structure
 - [ ] Configure Nx/Turborepo
 - [ ] Set up TypeScript paths
 - [ ] Create base configurations
 
 ### Phase 2: Package Structure
+
 - [ ] Define package boundaries
 - [ ] Create shared packages
 - [ ] Set up domain libraries
 - [ ] Configure dependency rules
 
 ### Phase 3: Build Optimization
+
 - [ ] Configure caching
 - [ ] Set up remote cache
 - [ ] Optimize parallel execution
 - [ ] Add affected commands
 
 ### Phase 4: CI/CD Integration
+
 - [ ] Implement affected-based CI
 - [ ] Configure deployment pipelines
 - [ ] Set up code generation
@@ -626,4 +612,4 @@ export default async function (tree: Tree, schema: LibGeneratorSchema) {
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

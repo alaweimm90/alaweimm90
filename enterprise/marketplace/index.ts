@@ -22,7 +22,7 @@ export class AgentMarketplace {
       trustedPublishers: [],
       autoUpdate: true,
       securityScan: true,
-      ...config
+      ...config,
     };
 
     this.pluginManager = new PluginManager();
@@ -108,7 +108,9 @@ export class AgentMarketplace {
     }
 
     if (latestManifest.version !== installedPlugin.version) {
-      console.log(`Updating ${pluginId} from ${installedPlugin.version} to ${latestManifest.version}`);
+      console.log(
+        `Updating ${pluginId} from ${installedPlugin.version} to ${latestManifest.version}`
+      );
       await this.pluginManager.updatePlugin(latestManifest);
     }
   }
@@ -146,8 +148,10 @@ export class AgentMarketplace {
       throw new Error('Plugin must have a publisher');
     }
 
-    if (this.config.trustedPublishers.length > 0 &&
-        !this.config.trustedPublishers.includes(manifest.publisher)) {
+    if (
+      this.config.trustedPublishers.length > 0 &&
+      !this.config.trustedPublishers.includes(manifest.publisher)
+    ) {
       console.warn(`Plugin from untrusted publisher: ${manifest.publisher}`);
     }
 
@@ -173,9 +177,10 @@ export class AgentMarketplace {
 /**
  * Initialize agent marketplace
  */
-export async function initializeMarketplace(config?: Partial<MarketplaceConfig>): Promise<AgentMarketplace> {
+export async function initializeMarketplace(
+  config?: Partial<MarketplaceConfig>
+): Promise<AgentMarketplace> {
   const marketplace = new AgentMarketplace(config);
   await marketplace.loadPlugins();
   return marketplace;
-}</content>
-</edit_file>
+}

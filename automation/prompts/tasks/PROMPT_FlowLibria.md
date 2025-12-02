@@ -14,6 +14,7 @@ FlowLibria implements confidence-aware workflow routing with validation quality 
 **Core Innovation**: Confidence-aware routing + validation quality objectives (🟢 STRONG novelty)
 
 **Research Contributions**:
+
 - **FLOW-C1**: Confidence-Aware Workflow Routing with Quality Objectives
 - **FLOW-C2**: Multi-Objective LinUCB for Agent Selection
 
@@ -27,6 +28,7 @@ FlowLibria implements confidence-aware workflow routing with validation quality 
 
 **Workflow Routing**:
 Given:
+
 - Workflow W = (s₀, s₁, ..., sₜ) with current state sₜ
 - Available agents A = {a₁, a₂, ..., aₙ}
 - Historical executions: {(Wᵢ, aⱼ, qᵢⱼ, cᵢⱼ, vᵢⱼ)}
@@ -34,12 +36,14 @@ Given:
   - cᵢⱼ: execution cost (time/tokens)
   - vᵢⱼ: validation quality (confidence calibration)
 
-Find routing policy π: (W, A) → a* maximizing:
+Find routing policy π: (W, A) → a\* maximizing:
+
 ```
 E[quality] - λ₁ × cost + λ₂ × validation_quality
 ```
 
 **Key Challenge**: Balance three competing objectives:
+
 1. Maximize execution quality (accuracy, correctness)
 2. Minimize cost (latency, compute)
 3. Maximize validation quality (confidence calibration, uncertainty estimation)
@@ -47,6 +51,7 @@ E[quality] - λ₁ × cost + λ₂ × validation_quality
 ### 1.2 Core Algorithm
 
 **FlowLibria Architecture**:
+
 ```
 Input: Workflow state W, Available agents A
 │
@@ -543,11 +548,13 @@ class WorkflowRouter:
 ### 2.1 Novel Contributions
 
 **FLOW-C1: Confidence-Aware Workflow Routing with Quality Objectives**
+
 - **Gap**: Existing routing (MasRouter, Nexus) only optimize speed/cost, ignore confidence calibration
 - **Approach**: Multi-objective reward with validation quality (ECE) as explicit objective
 - **Impact**: 20-30% improvement in confidence calibration + 10-15% quality gain
 
 **FLOW-C2: Multi-Objective LinUCB for Agent Selection**
+
 - **Gap**: Standard LinUCB optimizes single scalar reward
 - **Approach**: Composite reward balancing quality, cost, and validation quality
 - **Impact**: Pareto-optimal tradeoffs via learned λ weights
@@ -573,16 +580,19 @@ class WorkflowRouter:
 ### 2.3 Benchmark Datasets
 
 **Multi-Agent Workflow Benchmarks**:
+
 - AgentBench (2024): 8 diverse task types
 - GAIA (2024): General AI assistants benchmark
 - WebArena (2024): Web agent tasks
 
 **Custom ATLAS Workflows**:
+
 - Research synthesis (40+ agents)
 - Code generation + review
 - Multi-step problem solving
 
 **Expected Performance**:
+
 - 15-25% quality improvement over MasRouter
 - 20-30% better calibration (lower ECE)
 - Competitive cost (< 10% overhead)
@@ -594,12 +604,14 @@ class WorkflowRouter:
 ### Phase 1: Core Algorithm (Weeks 1-2)
 
 **Week 1**:
+
 - [ ] Implement `FlowLibria` base class
 - [ ] Implement LinUCB with multi-objective reward
 - [ ] Implement `ConfidenceCalibrator`
 - [ ] Unit tests
 
 **Week 2**:
+
 - [ ] Implement `ValidationQualityEstimator`
 - [ ] ECE and Brier score computation
 - [ ] STOP action logic
@@ -608,11 +620,13 @@ class WorkflowRouter:
 ### Phase 2: Benchmarking (Weeks 3-5)
 
 **Week 3**:
+
 - [ ] Download AgentBench, GAIA, WebArena
 - [ ] Implement baseline routers (MasRouter, LinUCB, Random)
 - [ ] Evaluation harness
 
 **Week 4-5**:
+
 - [ ] Run FlowLibria on benchmarks
 - [ ] Compare against baselines
 - [ ] Ablation studies (λ weights, STOP action)
@@ -769,11 +783,13 @@ def test_workflow_routing():
 ### 6.1 Target Venues
 
 **Primary**: AAMAS 2026 (International Conference on Autonomous Agents and Multiagent Systems)
+
 - Deadline: ~November 2025
 - Notification: February 2026
 - Conference: May 2026
 
 **Backup**:
+
 - AAAI 2026
 - NeurIPS 2025 (if ready earlier)
 
@@ -800,11 +816,13 @@ def test_workflow_routing():
 ## 7. Success Criteria
 
 **AgentBench Performance**:
+
 - ✅ 15-25% quality improvement over MasRouter
 - ✅ 20-30% ECE reduction (better calibration)
 - ✅ Competitive cost (< 10% overhead)
 
 **Ablation Studies**:
+
 - ✅ Validation quality term improves ECE by 20-30%
 - ✅ STOP action reduces unnecessary steps by 10-15%
 - ✅ Multi-objective reward achieves Pareto improvements
@@ -814,22 +832,26 @@ def test_workflow_routing():
 ## 8. Next Actions
 
 **Immediate**:
+
 1. Set up repository
 2. Implement FlowLibria core
 3. Implement LinUCB + confidence calibration
 4. Unit tests
 
 **Short-term**:
+
 1. Benchmarking setup
 2. Baseline implementations
 3. Evaluation harness
 
 **Mid-term**:
+
 1. Run experiments
 2. Ablation studies
 3. Write paper
 
 **Long-term**:
+
 1. Submit to AAMAS 2026
 2. Open-source release
 

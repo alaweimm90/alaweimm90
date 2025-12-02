@@ -76,16 +76,17 @@ repository/
 
 ### Tier-Based Requirements
 
-| Tier | Requirements |
-|------|--------------|
-| **1** (Critical) | Full test coverage, SLO monitoring, incident runbooks |
-| **2** (Important) | 80%+ coverage, basic monitoring |
-| **3** (Experimental) | Metadata only |
-| **4** (Unknown) | Basic structure compliance |
+| Tier                 | Requirements                                          |
+| -------------------- | ----------------------------------------------------- |
+| **1** (Critical)     | Full test coverage, SLO monitoring, incident runbooks |
+| **2** (Important)    | 80%+ coverage, basic monitoring                       |
+| **3** (Experimental) | Metadata only                                         |
+| **4** (Unknown)      | Basic structure compliance                            |
 
 ### Language-Specific Requirements
 
 #### Python Repositories
+
 - `pyproject.toml` with proper configuration
 - `src/` directory structure
 - `tests/` with pytest
@@ -93,12 +94,14 @@ repository/
 - Pre-commit hooks (ruff, mypy, black)
 
 #### TypeScript Repositories
+
 - `package.json` with scripts
 - `tsconfig.json` configuration
 - `src/` and `tests/` directories
 - ESLint and Prettier configuration
 
 #### Go Repositories
+
 - Standard Go project layout
 - `go.mod` and `go.sum`
 - Proper package structure
@@ -108,6 +111,7 @@ repository/
 ### Daily Operations
 
 #### Check Compliance
+
 ```bash
 # Validate all repositories
 python .metaHub/scripts/structure_validator.py --report text
@@ -120,6 +124,7 @@ python .metaHub/scripts/structure_validator.py --report json --output report.jso
 ```
 
 #### Auto-Fix Structure Issues
+
 ```bash
 # Fix missing files/directories
 python .metaHub/scripts/structure_validator.py --fix
@@ -129,6 +134,7 @@ python .metaHub/scripts/structure_validator.py --fix --dry-run
 ```
 
 #### Sync Governance Rules
+
 ```bash
 # Update all repositories with latest governance rules
 python .metaHub/scripts/sync_governance.py --all
@@ -140,6 +146,7 @@ python .metaHub/scripts/sync_governance.py --org alaweimm90-business
 ### Repository Onboarding
 
 #### Add New Repository
+
 1. Create repository in appropriate organization directory
 2. Add `.meta/repo.yaml` with metadata
 3. Run structure validator to check compliance
@@ -147,18 +154,20 @@ python .metaHub/scripts/sync_governance.py --org alaweimm90-business
 5. Push to GitHub
 
 #### Repository Metadata Template
+
 ```yaml
-type: library          # library | service | tool | demo | research
-language: python       # python | typescript | go | rust | docs
-tier: 2               # 1-4 (1=critical, 4=experimental)
-owner: "@alaweimm90"  # GitHub username or team
-status: active        # active | archived | deprecated
-description: "Brief project description"
+type: library # library | service | tool | demo | research
+language: python # python | typescript | go | rust | docs
+tier: 2 # 1-4 (1=critical, 4=experimental)
+owner: '@alaweimm90' # GitHub username or team
+status: active # active | archived | deprecated
+description: 'Brief project description'
 ```
 
 ### CI/CD Setup
 
 #### Automated CI Setup
+
 ```bash
 # Set up CI for all repositories
 python .metaHub/scripts/setup_repo_ci.py --all
@@ -168,7 +177,9 @@ python .metaHub/scripts/setup_repo_ci.py --org alaweimm90-tools
 ```
 
 #### Manual CI Configuration
+
 Each repository gets appropriate CI workflow based on:
+
 - Language (Python, TypeScript, Go, etc.)
 - Tier (security scans for tier 1-2)
 - Type (different workflows for libraries vs services)
@@ -176,6 +187,7 @@ Each repository gets appropriate CI workflow based on:
 ### GitHub Repository Management
 
 #### Push Monorepos to GitHub
+
 ```bash
 # Push all organization monorepos
 python .metaHub/scripts/push_monorepos.py --all
@@ -198,12 +210,14 @@ The system runs automated weekly checks via GitHub Actions:
 ### Manual Monitoring
 
 #### Check Repository Drift
+
 ```bash
 # Detect configuration changes
 python .metaHub/scripts/checkpoint.py --scan
 ```
 
 #### Generate Compliance Reports
+
 ```bash
 # Full portfolio report
 python .metaHub/scripts/structure_validator.py --report json --output compliance.json
@@ -224,6 +238,7 @@ The system uses Open Policy Agent for policy enforcement:
 - **ADR Compliance** (`adr-policy.rego`)
 
 ### Policy Evaluation
+
 ```bash
 # Test policies against repositories
 python .metaHub/scripts/enforce.py organizations/ --policy repo-structure
@@ -237,16 +252,19 @@ python .metaHub/scripts/enforce.py organizations/ --report json
 ### Common Issues
 
 #### Repository Not Detected
+
 - Ensure `.meta/repo.yaml` exists
 - Check file has valid YAML syntax
 - Verify repository has build config (pyproject.toml, package.json, etc.)
 
 #### CI/CD Not Working
+
 - Check `.github/workflows/ci.yml` exists
 - Verify workflow references correct reusable workflows
 - Ensure governance repo has required workflows
 
 #### Compliance Failures
+
 - Run `structure_validator.py --fix` to auto-create missing files
 - Check repository metadata is correct
 - Verify language detection is working
@@ -254,16 +272,19 @@ python .metaHub/scripts/enforce.py organizations/ --report json
 ### Debug Commands
 
 #### Validate Single Repository
+
 ```bash
 python .metaHub/scripts/structure_validator.py --repo organizations/alaweimm90-tools/my-repo
 ```
 
 #### Test Policy Against Repository
+
 ```bash
 python .metaHub/scripts/enforce.py organizations/alaweimm90-tools/my-repo --policy repo-structure
 ```
 
 #### Check GitHub CLI Authentication
+
 ```bash
 gh auth status
 ```
@@ -301,6 +322,7 @@ gh auth status
 ## Support
 
 For issues or questions:
+
 1. Check this documentation
 2. Review GitHub Issues in governance repository
 3. Run debug commands and provide output

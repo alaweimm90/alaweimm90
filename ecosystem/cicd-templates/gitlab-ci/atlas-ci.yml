@@ -78,10 +78,10 @@ test:
       esac
   artifacts:
     reports:
-      junit: "**/test-results.xml"
+      junit: '**/test-results.xml'
       coverage_report:
         coverage_format: cobertura
-        path: "**/coverage.xml"
+        path: '**/coverage.xml'
     expire_in: 1 week
   only:
     - merge_requests
@@ -118,10 +118,10 @@ deploy_staging:
     - gcloud config set project $GCP_PROJECT_ID
     - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA .
     - gcloud run deploy atlas-platform-staging \
-        --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
-        --platform managed \
-        --region us-central1 \
-        --allow-unauthenticated
+      --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
+      --platform managed \
+      --region us-central1 \
+      --allow-unauthenticated
   dependencies:
     - security_scan
     - test
@@ -142,10 +142,10 @@ deploy_production:
     - gcloud config set project $GCP_PROJECT_ID
     - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA .
     - gcloud run deploy atlas-platform \
-        --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
-        --platform managed \
-        --region us-central1 \
-        --allow-unauthenticated
+      --image gcr.io/$GCP_PROJECT_ID/atlas-platform:$CI_COMMIT_SHA \
+      --platform managed \
+      --region us-central1 \
+      --allow-unauthenticated
     - |
       # Run post-deployment validation
       npm install -g @atlas/cli

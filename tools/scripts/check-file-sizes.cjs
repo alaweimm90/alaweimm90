@@ -46,7 +46,7 @@ function checkDirectory(dir) {
 }
 
 // Check each directory
-DIRS_TO_CHECK.forEach(dir => {
+DIRS_TO_CHECK.forEach((dir) => {
   checkDirectory(dir);
 });
 

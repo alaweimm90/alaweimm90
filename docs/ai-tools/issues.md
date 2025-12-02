@@ -41,4 +41,3 @@ npm run ai:issues:critical
 ```bash
 npm run ai:issues:stats
 ```
-

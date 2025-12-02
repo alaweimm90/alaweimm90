@@ -1,0 +1,8 @@
+{
+  "stepId": "repz-build",
+  "timestamp": "2025-12-01T05:23:26.394Z",
+  "success": false,
+  "error": "npm warn deprecated @types/dompurify@3.2.0: This is a stub types definition. dompurify provides its own type definitions, so you do not need this installed.\n\u001b[31mfailed to load config from C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\Repz\\REPZ\\platform\\vite.config.ts\u001b[39m\n\u001b[31merror during build:\nError: Failed to load native binding\n    at Object.<anonymous> (C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\Repz\\REPZ\\platform\\node_modules\\@swc\\core\\binding.js:333:11)\n    at Module._compile (node:internal/modules/cjs/loader:1706:14)\n    at Object..js (node:internal/modules/cjs/loader:1839:10)\n    at Module.load (node:internal/modules/cjs/loader:1441:32)\n    at Function._load (node:internal/modules/cjs/loader:1263:12)\n    at TracingChannel.traceSync (node:diagnostics_channel:322:14)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)\n    at Module.require (node:internal/modules/cjs/loader:1463:12)\n    at require (node:internal/modules/helpers:147:16)\n    at Object.<anonymous> (C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\Repz\\REPZ\\platform\\node_modules\\@swc\\core\\index.js:49:17)\u001b[39m",
+  "latency": 48839,
+  "agentId": "claude-opus"
+}

@@ -74,60 +74,54 @@ REQUIRED_AGENT_FIELDS = ["role", "goal", "backstory", "tools", "llm_config"]
 VALID_LLM_MODELS = ["claude-3-opus", "claude-3-sonnet", "claude-3-haiku", "gpt-4", "gpt-4-turbo", "gpt-3.5-turbo"]
 
 
-def validate_agent(agent_name: str, agent_config: Dict[str, Any]) -> ValidationResult:
-    """Validate a single agent definition."""
-    result = ValidationResult(valid=True, target=f"agent:{agent_name}")
-
-    # Check required fields
+def _check_required_fields(agent_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
     for field in REQUIRED_AGENT_FIELDS:
-        if field not in agent_config:
-            result.add_error(
+        if field not in cfg:
+            res.add_error(
                 f"Missing required field: {field}",
                 path=f"agents.{agent_name}",
                 suggestion=f"Add '{field}' to the agent definition"
             )
 
-    # Validate role
-    role = agent_config.get("role", "")
+def _validate_lengths(agent_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    role = cfg.get("role", "")
     if role and len(role) < 3:
-        result.add_warning("Role is very short", path=f"agents.{agent_name}.role")
-
-    # Validate goal
-    goal = agent_config.get("goal", "")
+        res.add_warning("Role is very short", path=f"agents.{agent_name}.role")
+    goal = cfg.get("goal", "")
     if goal and len(goal) < 10:
-        result.add_warning("Goal should be more descriptive", path=f"agents.{agent_name}.goal")
-
-    # Validate backstory
-    backstory = agent_config.get("backstory", "")
+        res.add_warning("Goal should be more descriptive", path=f"agents.{agent_name}.goal")
+    backstory = cfg.get("backstory", "")
     if backstory and len(backstory) < 50:
-        result.add_warning(
-            "Backstory is short - consider adding more context",
-            path=f"agents.{agent_name}.backstory"
+        res.add_warning("Backstory is short - consider adding more context", path=f"agents.{agent_name}.backstory")
+
+def _validate_tools(agent_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    if not cfg.get("tools", []):
+        res.add_warning("Agent has no tools assigned", path=f"agents.{agent_name}.tools")
+
+def _validate_llm(agent_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    llm = cfg.get("llm_config", {})
+    if not llm:
+        return
+    model = llm.get("model", "")
+    if model and model not in VALID_LLM_MODELS:
+        res.add_warning(
+            f"Unknown model: {model}",
+            path=f"agents.{agent_name}.llm_config.model",
+            suggestion=f"Valid models: {', '.join(VALID_LLM_MODELS)}"
+        )
+    temp = llm.get("temperature", 0.5)
+    if not 0 <= temp <= 1:
+        res.add_error(
+            f"Temperature must be between 0 and 1, got {temp}",
+            path=f"agents.{agent_name}.llm_config.temperature"
         )
 
-    # Validate tools
-    tools = agent_config.get("tools", [])
-    if not tools:
-        result.add_warning("Agent has no tools assigned", path=f"agents.{agent_name}.tools")
-
-    # Validate LLM config
-    llm_config = agent_config.get("llm_config", {})
-    if llm_config:
-        model = llm_config.get("model", "")
-        if model and model not in VALID_LLM_MODELS:
-            result.add_warning(
-                f"Unknown model: {model}",
-                path=f"agents.{agent_name}.llm_config.model",
-                suggestion=f"Valid models: {', '.join(VALID_LLM_MODELS)}"
-            )
-
-        temp = llm_config.get("temperature", 0.5)
-        if not 0 <= temp <= 1:
-            result.add_error(
-                f"Temperature must be between 0 and 1, got {temp}",
-                path=f"agents.{agent_name}.llm_config.temperature"
-            )
-
+def validate_agent(agent_name: str, agent_config: Dict[str, Any]) -> ValidationResult:
+    result = ValidationResult(valid=True, target=f"agent:{agent_name}")
+    _check_required_fields(agent_name, agent_config, result)
+    _validate_lengths(agent_name, agent_config, result)
+    _validate_tools(agent_name, agent_config, result)
+    _validate_llm(agent_name, agent_config, result)
     return result
 
 
@@ -176,54 +170,41 @@ def validate_agents_file() -> ValidationResult:
 VALID_PATTERNS = ["prompt_chaining", "routing", "parallelization", "orchestrator_workers", "evaluator_optimizer"]
 
 
-def validate_workflow(wf_name: str, wf_config: Dict[str, Any]) -> ValidationResult:
-    """Validate a single workflow definition."""
-    result = ValidationResult(valid=True, target=f"workflow:{wf_name}")
-
-    # Check pattern
-    pattern = wf_config.get("pattern", "")
+def _validate_pattern(wf_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    pattern = cfg.get("pattern", "")
     if not pattern:
-        result.add_error("Missing pattern field", path=f"workflows.{wf_name}")
+        res.add_error("Missing pattern field", path=f"workflows.{wf_name}")
     elif pattern not in VALID_PATTERNS:
-        result.add_warning(
+        res.add_warning(
             f"Unknown pattern: {pattern}",
             path=f"workflows.{wf_name}.pattern",
             suggestion=f"Valid patterns: {', '.join(VALID_PATTERNS)}"
         )
 
-    # Check stages
-    stages = wf_config.get("stages", [])
+def _validate_stages(wf_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    stages = cfg.get("stages", [])
     if not stages:
-        result.add_error("Workflow has no stages", path=f"workflows.{wf_name}.stages")
+        res.add_error("Workflow has no stages", path=f"workflows.{wf_name}.stages")
+        return
+    names = set()
+    for i, st in enumerate(stages):
+        name = st.get("name", f"stage_{i}")
+        if name in names:
+            res.add_error(f"Duplicate stage name: {name}", path=f"workflows.{wf_name}.stages[{i}]")
+        names.add(name)
+        for dep in st.get("depends_on", []):
+            if dep not in names:
+                res.add_error(f"Stage '{name}' depends on unknown stage: {dep}", path=f"workflows.{wf_name}.stages[{i}].depends_on")
 
-    stage_names = set()
-    for i, stage in enumerate(stages):
-        stage_name = stage.get("name", f"stage_{i}")
+def _validate_success(wf_name: str, cfg: Dict[str, Any], res: ValidationResult) -> None:
+    if not cfg.get("success_criteria"):
+        res.add_warning("No success criteria defined", path=f"workflows.{wf_name}", suggestion="Add success_criteria for better quality control")
 
-        if stage_name in stage_names:
-            result.add_error(
-                f"Duplicate stage name: {stage_name}",
-                path=f"workflows.{wf_name}.stages[{i}]"
-            )
-        stage_names.add(stage_name)
-
-        # Check dependencies
-        depends_on = stage.get("depends_on", [])
-        for dep in depends_on:
-            if dep not in stage_names:
-                result.add_error(
-                    f"Stage '{stage_name}' depends on unknown stage: {dep}",
-                    path=f"workflows.{wf_name}.stages[{i}].depends_on"
-                )
-
-    # Check success criteria
-    if not wf_config.get("success_criteria"):
-        result.add_warning(
-            "No success criteria defined",
-            path=f"workflows.{wf_name}",
-            suggestion="Add success_criteria for better quality control"
-        )
-
+def validate_workflow(wf_name: str, wf_config: Dict[str, Any]) -> ValidationResult:
+    result = ValidationResult(valid=True, target=f"workflow:{wf_name}")
+    _validate_pattern(wf_name, wf_config, result)
+    _validate_stages(wf_name, wf_config, result)
+    _validate_success(wf_name, wf_config, result)
     return result
 
 
@@ -318,44 +299,81 @@ def validate_all() -> Dict[str, ValidationResult]:
     }
 
 
-def print_validation_report(results: Dict[str, ValidationResult]):
-    """Print a formatted validation report."""
+def _print_header(title: str) -> None:
     print("=" * 60)
-    print("AUTOMATION VALIDATION REPORT")
+    print(title)
     print("=" * 60)
 
+def _format_issue(issue: ValidationIssue) -> List[str]:
+    icon = "[INFO]"
+    if issue.severity == Severity.ERROR:
+        icon = "[ERROR]"
+    elif issue.severity == Severity.WARNING:
+        icon = "[WARN]"
+    lines = [f"  {icon} {issue.message}"]
+    if issue.path:
+        lines.append(f"         Path: {issue.path}")
+    if issue.suggestion:
+        lines.append(f"         Fix: {issue.suggestion}")
+    return lines
+
+def print_validation_report(results: Dict[str, ValidationResult]):
+    _print_header("AUTOMATION VALIDATION REPORT")
     total_errors = 0
     total_warnings = 0
-
     for name, result in results.items():
         status = "✓ VALID" if result.valid else "✗ INVALID"
         print(f"\n{name.upper()}: {status}")
         print("-" * 40)
-
         for issue in result.issues:
             if issue.severity == Severity.ERROR:
-                icon = "[ERROR]"
                 total_errors += 1
             elif issue.severity == Severity.WARNING:
-                icon = "[WARN]"
                 total_warnings += 1
-            else:
-                icon = "[INFO]"
-
-            print(f"  {icon} {issue.message}")
-            if issue.path:
-                print(f"         Path: {issue.path}")
-            if issue.suggestion:
-                print(f"         Fix: {issue.suggestion}")
-
+            for line in _format_issue(issue):
+                print(line)
     print("\n" + "=" * 60)
     print(f"SUMMARY: {total_errors} errors, {total_warnings} warnings")
     print("=" * 60)
-
     return total_errors == 0
 
 
+RESET = "\x1b[0m"
+GREEN = "\x1b[32m"
+RED = "\x1b[31m"
+YELLOW = "\x1b[33m"
+BLUE = "\x1b[34m"
+
+def _emit(kind: str, msg: str, style: str = "compact"):
+    icon = {"success": "✅", "error": "❌", "warn": "⚠️", "info": "ℹ️"}[kind]
+    color = {"success": GREEN, "error": RED, "warn": YELLOW, "info": BLUE}[kind]
+    if style == "json":
+        print(json.dumps({"level": kind, "message": msg}))
+        return
+    print(f"{color}{icon} {msg}{RESET}")
+
+def _summarize(results: Dict[str, ValidationResult]) -> Dict[str, int]:
+    errors = sum(r.error_count for r in results.values())
+    warnings = sum(r.warning_count for r in results.values())
+    infos = sum(len([i for i in r.issues if i.severity == Severity.INFO]) for r in results.values())
+    return {"errors": errors, "warnings": warnings, "infos": infos}
+
 if __name__ == "__main__":
+    import argparse, os, json as _json
+    parser = argparse.ArgumentParser(description="Validate automation assets")
+    parser.add_argument("--style", choices=["compact", "json", "verbose"], default=os.getenv("ATLAS_OUTPUT_STYLE", "compact"))
+    args = parser.parse_args()
     results = validate_all()
-    success = print_validation_report(results)
-    exit(0 if success else 1)
+    if args.style == "verbose":
+        success = print_validation_report(results)
+        exit(0 if success else 1)
+    summary = _summarize(results)
+    if args.style == "json":
+        print(_json.dumps({"summary": summary}, indent=2))
+        exit(0 if summary["errors"] == 0 else 1)
+    if summary["errors"] == 0:
+        _emit("success", f"validation ok errors={summary['errors']} warnings={summary['warnings']}", args.style)
+        exit(0)
+    else:
+        _emit("error", f"validation fail errors={summary['errors']} warnings={summary['warnings']}", args.style)
+        exit(1)

@@ -10,11 +10,11 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 
 ## Portfolio Overview
 
-| Metric | Value |
-|--------|-------|
-| Organizations | 5 |
-| Total Repositories | 80 |
-| Compliance Rate | 100% |
+| Metric             | Value |
+| ------------------ | ----- |
+| Organizations      | 5     |
+| Total Repositories | 80    |
+| Compliance Rate    | 100%  |
 
 ## Organizations
 

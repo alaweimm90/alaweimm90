@@ -37,28 +37,28 @@ npm run ai:sync
 
 ### Core Tools
 
-| Tool | Description |
-|------|-------------|
+| Tool                              | Description                                                       |
+| --------------------------------- | ----------------------------------------------------------------- |
 | [Orchestrator](./orchestrator.md) | Task management and context injection for AI-assisted development |
-| [Sync](./sync.md) | Context synchronization from git and other sources |
-| [Dashboard](./dashboard.md) | ASCII metrics dashboard for AI effectiveness visualization |
+| [Sync](./sync.md)                 | Context synchronization from git and other sources                |
+| [Dashboard](./dashboard.md)       | ASCII metrics dashboard for AI effectiveness visualization        |
 
 ### Infrastructure Tools
 
-| Tool | Description |
-|------|-------------|
-| [Cache](./cache.md) | Multi-layer caching with semantic similarity for AI operations |
-| [Monitor](./monitor.md) | Continuous monitoring with circuit breakers for fault tolerance |
-| [Telemetry](./telemetry.md) | Observability and alerting for AI operations |
-| [Errors](./errors.md) | Structured error handling with automatic recovery strategies |
+| Tool                        | Description                                                     |
+| --------------------------- | --------------------------------------------------------------- |
+| [Cache](./cache.md)         | Multi-layer caching with semantic similarity for AI operations  |
+| [Monitor](./monitor.md)     | Continuous monitoring with circuit breakers for fault tolerance |
+| [Telemetry](./telemetry.md) | Observability and alerting for AI operations                    |
+| [Errors](./errors.md)       | Structured error handling with automatic recovery strategies    |
 
 ### Governance Tools
 
-| Tool | Description |
-|------|-------------|
-| [Compliance](./compliance.md) | Policy-based validation with quantitative scoring and recommendations |
-| [Security](./security.md) | Security scanning for secrets, vulnerabilities, and license compliance |
-| [Issues](./issues.md) | Automated issue management and tracking |
+| Tool                          | Description                                                            |
+| ----------------------------- | ---------------------------------------------------------------------- |
+| [Compliance](./compliance.md) | Policy-based validation with quantitative scoring and recommendations  |
+| [Security](./security.md)     | Security scanning for secrets, vulnerabilities, and license compliance |
+| [Issues](./issues.md)         | Automated issue management and tracking                                |
 
 ## Integration
 
@@ -85,4 +85,3 @@ Import the VS Code integration module in your extension:
 ```typescript
 import { commands, getStatusBarItems, getTreeViewData } from 'tools/ai/vscode/integration';
 ```
-

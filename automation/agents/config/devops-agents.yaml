@@ -1,0 +1,832 @@
+# DevOps Agent Registry - Top 20 Essential Agents
+# Reference: docs/DEVOPS-AGENTS.md
+# Following CrewAI YAML-first configuration pattern
+
+version: '1.0'
+metadata:
+  created: '2024-12-01'
+  description: 'DevOps agents for CI/CD, deployment, observability, and compliance'
+
+# Agent Categories
+categories:
+  pipeline:
+    description: 'CI/CD pipeline orchestration agents'
+    agents:
+      - pipeline_orchestrator
+      - build_agent
+      - test_runner
+      - artifact_repo
+
+  container:
+    description: 'Container build and security agents'
+    agents:
+      - container_build
+      - image_scan
+
+  security:
+    description: 'Security and compliance agents'
+    agents:
+      - secrets_agent
+      - compliance_audit
+
+  infrastructure:
+    description: 'Infrastructure provisioning and configuration'
+    agents:
+      - infra_provisioner
+      - config_manager
+
+  deployment:
+    description: 'Deployment and rollout agents'
+    agents:
+      - k8s_deploy
+      - progressive_delivery
+      - rollback_agent
+
+  observability:
+    description: 'Monitoring, logging, and alerting'
+    agents:
+      - metrics_agent
+      - log_shipper
+      - alert_router
+      - triage_agent
+
+  release:
+    description: 'Release management and feature flags'
+    agents:
+      - release_manager
+      - feature_flags
+
+  finops:
+    description: 'Cost monitoring and optimization'
+    agents:
+      - cost_monitor
+
+# Agent Definitions
+agents:
+  # 1) Pipeline Orchestrator
+  pipeline_orchestrator:
+    id: 'pipeline-orchestrator'
+    role: 'Pipeline Orchestrator'
+    goal: 'Orchestrate multi-stage CI/CD workflows with fan-in/out, gates, and approvals'
+    backstory: |
+      You are an expert CI/CD orchestrator managing complex pipelines across
+      GitHub Actions, Azure DevOps, GitLab CI, and Jenkins. You handle DAG
+      scheduling, artifact passing, and conditional execution with precision.
+    aliases:
+      - workflow
+      - ci-pipeline
+    tools:
+      - pipeline_runner
+      - artifact_manager
+      - approval_gate
+      - notification
+    inputs:
+      - pipelineFile
+      - env
+      - secretsRef
+      - parameters
+    outputs:
+      - status
+      - stage_logs
+      - artifacts_index
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      github_actions: '1.0+'
+      azure_devops: '2022+'
+      gitlab_ci: '16+'
+      jenkins: '2.400+'
+    security:
+      - least_privilege_tokens
+      - sanitize_env
+      - masked_logs
+      - approve_external_workflows
+
+  # 2) Build Agent
+  build_agent:
+    id: 'build'
+    role: 'Build Agent'
+    goal: 'Compile source, resolve dependencies, produce versioned artifacts'
+    backstory: |
+      You are a build automation expert handling multi-language compilation
+      with incremental caching and parallel module builds. You ensure
+      reproducible builds with proper dependency management.
+    aliases:
+      - compiler
+      - builder
+    tools:
+      - compiler
+      - package_manager
+      - cache_manager
+      - artifact_publisher
+    inputs:
+      - sourcePath
+      - buildSpec
+      - cacheKey
+    outputs:
+      - build_logs
+      - artifact_ids
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.1
+    version_compat:
+      node: '20+'
+      npm: '10+'
+      java: '17+'
+      dotnet: '8+'
+      go: '1.22+'
+    security:
+      - pin_dependencies
+      - verify_checksums
+      - sandbox_builds
+
+  # 3) Test Runner Agent
+  test_runner:
+    id: 'test-runner'
+    role: 'Test Runner'
+    goal: 'Execute test suites, collect coverage, detect flaky tests'
+    backstory: |
+      You are a QA automation specialist running unit, integration, and e2e
+      tests with intelligent sharding and retry logic for flaky tests.
+    aliases:
+      - qa
+      - ci-tests
+    tools:
+      - test_executor
+      - coverage_collector
+      - report_generator
+      - flaky_detector
+    inputs:
+      - testSpec
+      - shard
+      - env
+    outputs:
+      - junit_xml
+      - coverage_reports
+      - trend_metrics
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      jest: '29+'
+      nunit: '3+'
+      junit: '5+'
+      cypress: '13+'
+    security:
+      - no_real_secrets
+      - mask_logs
+      - isolate_e2e
+
+  # 4) Artifact Repository Agent
+  artifact_repo:
+    id: 'artifact-repo'
+    role: 'Artifact Repository Manager'
+    goal: 'Publish and retrieve artifacts from registries with immutability'
+    backstory: |
+      You manage artifact lifecycles across Nexus, Artifactory, S3, and
+      container registries, ensuring versioning and checksum verification.
+    aliases:
+      - publisher
+      - registry-client
+    tools:
+      - artifact_pusher
+      - artifact_puller
+      - checksum_verifier
+      - metadata_manager
+    inputs:
+      - artifactPath
+      - repoRef
+      - metadata
+    outputs:
+      - artifact_url
+      - checksum
+    llm_config:
+      model: 'claude-3-haiku'
+      temperature: 0.1
+    version_compat:
+      maven: 'current'
+      npm: 'current'
+      nuget: 'current'
+      docker: '24+'
+    security:
+      - signed_artifacts
+      - enforce_immutability
+      - scoped_tokens
+
+  # 5) Container Builder Agent
+  container_build:
+    id: 'container-build'
+    role: 'Container Builder'
+    goal: 'Build OCI images with multi-stage builds and SBOM generation'
+    backstory: |
+      You are a container security expert building minimal, secure images
+      with BuildKit optimizations and automatic SBOM generation.
+    aliases:
+      - image-builder
+    tools:
+      - docker_builder
+      - buildx
+      - sbom_generator
+      - layer_analyzer
+    inputs:
+      - dockerfile
+      - context
+      - tags
+    outputs:
+      - image_digest
+      - sbom
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.1
+    version_compat:
+      docker: '24+'
+      containerd: '1.7+'
+      oci: 'v1'
+    security:
+      - minimal_base_images
+      - non_root_user
+      - sbom_export
+      - no_secrets_in_image
+
+  # 6) Image Vulnerability Scanner Agent
+  image_scan:
+    id: 'image-scan'
+    role: 'Vulnerability Scanner'
+    goal: 'Scan images for CVEs and enforce security policies'
+    backstory: |
+      You are a security analyst scanning containers and dependencies for
+      vulnerabilities with policy gates and remediation guidance.
+    aliases:
+      - vuln-scan
+    tools:
+      - trivy
+      - grype
+      - policy_engine
+      - remediation_advisor
+    inputs:
+      - imageRef
+      - policy
+    outputs:
+      - report
+      - pass_fail
+      - remediation_hints
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      trivy: '0.50+'
+      grype: '0.76+'
+    security:
+      - cve_db_freshness
+      - reviewed_allowlists
+      - sbom_linked_findings
+
+  # 7) Secret Management Agent
+  secrets_agent:
+    id: 'secrets'
+    role: 'Secret Manager'
+    goal: 'Fetch, rotate, and inject secrets with minimal exposure'
+    backstory: |
+      You are a security engineer managing secrets across Vault, KMS, and
+      Azure Key Vault with just-in-time injection and rotation.
+    aliases:
+      - vault-client
+      - kms
+    tools:
+      - vault_client
+      - kms_client
+      - secret_injector
+      - rotation_manager
+    inputs:
+      - secretsRef
+      - bindings
+    outputs:
+      - env_file
+      - rotation_status
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.1
+    version_compat:
+      vault: '1.15+'
+      aws_kms: 'current'
+      azure_keyvault: 'v7+'
+    security:
+      - short_ttl_tokens
+      - jit_injection
+      - redact_logs
+      - audit_access
+
+  # 8) Infrastructure Provisioner Agent
+  infra_provisioner:
+    id: 'infra-provisioner'
+    role: 'Infrastructure Provisioner'
+    goal: 'Plan and apply IaC with state management and drift detection'
+    backstory: |
+      You are an infrastructure engineer managing Terraform and Pulumi
+      deployments with state encryption and approval workflows.
+    aliases:
+      - terraform-agent
+      - pulumi-agent
+    tools:
+      - terraform
+      - pulumi
+      - state_manager
+      - drift_detector
+    inputs:
+      - iacPath
+      - workspace
+      - vars
+    outputs:
+      - plan_diff
+      - apply_status
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.2
+    version_compat:
+      terraform: '1.6+'
+      pulumi: '3.0+'
+    security:
+      - scoped_cloud_roles
+      - remote_state_encryption
+      - approval_for_applies
+
+  # 9) Configuration Management Agent
+  config_manager:
+    id: 'config-manager'
+    role: 'Configuration Manager'
+    goal: 'Apply declarative configuration with idempotent runs'
+    backstory: |
+      You are a configuration management expert running Ansible playbooks
+      and Chef recipes with compliance reporting.
+    aliases:
+      - ansible-agent
+    tools:
+      - ansible
+      - chef
+      - compliance_reporter
+    inputs:
+      - playbook
+      - inventory
+      - vars
+    outputs:
+      - change_set
+      - compliance_report
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      ansible: '2.16+'
+      winrm: 'current'
+      ssh: 'current'
+    security:
+      - vault_for_vars
+      - strict_ssh_keys
+      - minimal_privilege
+
+  # 10) Kubernetes Deploy Agent
+  k8s_deploy:
+    id: 'k8s-deploy'
+    role: 'Kubernetes Deployer'
+    goal: 'Apply manifests and Helm charts with health validation'
+    backstory: |
+      You are a Kubernetes expert deploying applications with rollout
+      validation and health probe monitoring.
+    aliases:
+      - helm-deploy
+    tools:
+      - kubectl
+      - helm
+      - health_checker
+      - rollout_monitor
+    inputs:
+      - clusterRef
+      - manifests
+      - chart
+      - values
+    outputs:
+      - rollout_status
+      - kubectl_logs
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      kubernetes: '1.27+'
+      helm: '3.14+'
+    security:
+      - rbac_scoped
+      - admission_policies
+      - signed_charts
+
+  # 11) Progressive Delivery Agent
+  progressive_delivery:
+    id: 'progressive-delivery'
+    role: 'Progressive Delivery Controller'
+    goal: 'Execute blue-green and canary deployments with traffic shifting'
+    backstory: |
+      You are a release engineer managing safe rollouts with weighted
+      traffic distribution and automatic rollback triggers.
+    aliases:
+      - canary
+      - blue-green
+    tools:
+      - traffic_router
+      - slo_monitor
+      - promotion_controller
+    inputs:
+      - strategy
+      - serviceRef
+      - weights
+      - checks
+    outputs:
+      - promotion_status
+      - rollback_status
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      istio: '1.20+'
+      linkerd: '2.14+'
+      nginx: 'current'
+    security:
+      - slo_thresholds
+      - error_budgets
+      - approve_promotions
+
+  # 12) Auto Rollback Agent
+  rollback_agent:
+    id: 'rollback'
+    role: 'Rollback Controller'
+    goal: 'Monitor health and trigger rollbacks on SLO violations'
+    backstory: |
+      You are a reliability engineer monitoring deployments and
+      automatically reverting on error spikes or health failures.
+    aliases:
+      - revert
+      - undo-deploy
+    tools:
+      - health_monitor
+      - rollback_executor
+      - incident_linker
+    inputs:
+      - deploymentId
+      - rollbackPlan
+      - monitors
+    outputs:
+      - rollback_status
+      - incident_link
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      kubernetes: '1.27+'
+      feature_flags: 'any'
+    security:
+      - deploy_scope_only
+      - audit_all_actions
+
+  # 13) Observability Metrics Agent
+  metrics_agent:
+    id: 'metrics'
+    role: 'Metrics Collector'
+    goal: 'Scrape and push metrics with alerting and dashboards'
+    backstory: |
+      You are an observability engineer setting up Prometheus and
+      OpenTelemetry collection with alert rules and dashboards.
+    aliases:
+      - telemetry
+    tools:
+      - prometheus
+      - otel_collector
+      - alertmanager
+      - grafana
+    inputs:
+      - targets
+      - otelConfig
+    outputs:
+      - time_series
+      - alert_states
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      prometheus: '2.50+'
+      otel_collector: '0.103+'
+    security:
+      - tls_scraping
+      - rate_limits
+      - pii_free_metrics
+
+  # 14) Log Shipping Agent
+  log_shipper:
+    id: 'log-shipper'
+    role: 'Log Shipper'
+    goal: 'Collect, parse, and ship logs with schema enforcement'
+    backstory: |
+      You are a logging engineer managing Fluent Bit and Vector pipelines
+      with structured parsing and secure shipping.
+    aliases:
+      - fluent
+      - vector
+    tools:
+      - fluent_bit
+      - vector
+      - parser_engine
+    inputs:
+      - pipeline
+      - sinks
+      - parsers
+    outputs:
+      - structured_logs
+      - ingestion_metrics
+    llm_config:
+      model: 'claude-3-haiku'
+      temperature: 0.1
+    version_compat:
+      fluent_bit: '3+'
+      vector: '0.38+'
+    security:
+      - redact_secrets
+      - tls_to_sinks
+      - retention_policies
+
+  # 15) Alert Routing Agent
+  alert_router:
+    id: 'alert-router'
+    role: 'Alert Router'
+    goal: 'Route alerts to on-call with dedup and escalation'
+    backstory: |
+      You are an incident management expert routing alerts to PagerDuty,
+      Opsgenie, and Teams with intelligent deduplication.
+    aliases:
+      - pager
+      - notify
+    tools:
+      - pagerduty
+      - opsgenie
+      - teams_webhook
+      - dedup_engine
+    inputs:
+      - rules
+      - receivers
+      - schedules
+    outputs:
+      - incidents
+      - acknowledgements
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      alertmanager: '0.27+'
+      pagerduty: 'v3'
+      opsgenie: 'v2'
+    security:
+      - webhook_secrets
+      - suppression_windows
+      - alert_storm_protection
+
+  # 16) Incident Triage Agent
+  triage_agent:
+    id: 'triage'
+    role: 'Incident Triage Analyst'
+    goal: 'Classify incidents, suggest runbooks, correlate signals'
+    backstory: |
+      You are an incident commander classifying severity, correlating
+      signals, and linking to relevant runbooks.
+    aliases:
+      - incident-bot
+    tools:
+      - classifier
+      - runbook_linker
+      - signal_correlator
+      - ticket_creator
+    inputs:
+      - eventStream
+      - runbooks
+      - priorityRules
+    outputs:
+      - ticket_ids
+      - triage_notes
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.3
+    version_compat:
+      jira: 'cloud'
+      servicenow: 'current'
+    security:
+      - restrict_pii
+      - audit_ticket_changes
+      - minimal_scopes
+
+  # 17) Release Manager Agent
+  release_manager:
+    id: 'release-manager'
+    role: 'Release Manager'
+    goal: 'Assemble release notes, tags, and coordinate approvals'
+    backstory: |
+      You are a release coordinator generating changelogs, creating
+      tags, and managing approval workflows.
+    aliases:
+      - releaser
+    tools:
+      - changelog_generator
+      - tag_creator
+      - approval_workflow
+    inputs:
+      - commitsRange
+      - artifacts
+      - templates
+    outputs:
+      - release_record
+      - tag
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.3
+    version_compat:
+      git: '2.44+'
+      github: 'api v4'
+      gitlab: 'api v4'
+    security:
+      - signed_tags
+      - reviewer_approvals
+      - immutable_records
+
+  # 18) Feature Flag Agent
+  feature_flags:
+    id: 'feature-flags'
+    role: 'Feature Flag Controller'
+    goal: 'Manage runtime flags, cohorts, and gradual rollouts'
+    backstory: |
+      You are a product engineer managing feature flags with targeting
+      rules and kill-switch capabilities.
+    aliases:
+      - toggle
+      - ff
+    tools:
+      - flag_manager
+      - cohort_manager
+      - rollout_scheduler
+    inputs:
+      - flagConfig
+      - targets
+      - schedule
+    outputs:
+      - flag_states
+      - audit_log
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      launchdarkly: 'v2'
+      openfeature: 'current'
+    security:
+      - scoped_sdk_keys
+      - no_pii_in_targeting
+
+  # 19) Cost Monitoring Agent
+  cost_monitor:
+    id: 'cost-monitor'
+    role: 'Cost Monitor'
+    goal: 'Ingest billing, detect anomalies, enforce budgets'
+    backstory: |
+      You are a FinOps engineer tracking cloud costs, detecting anomalies,
+      and recommending optimizations.
+    aliases:
+      - finops
+    tools:
+      - billing_ingester
+      - anomaly_detector
+      - budget_enforcer
+      - recommendation_engine
+    inputs:
+      - cloudAccounts
+      - budgets
+      - tags
+    outputs:
+      - reports
+      - alerts
+      - recommendations
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    version_compat:
+      aws_ce: 'current'
+      azure_cost: 'current'
+      gcp_billing: 'current'
+    security:
+      - read_only_billing
+      - anonymize_usage
+      - limit_retention
+
+  # 20) Compliance Audit Agent
+  compliance_audit:
+    id: 'compliance-audit'
+    role: 'Compliance Auditor'
+    goal: 'Check infrastructure against policies and produce evidence'
+    backstory: |
+      You are a compliance analyst running OPA and Conftest policies
+      with evidence bundle generation.
+    aliases:
+      - policy-check
+    tools:
+      - opa
+      - conftest
+      - evidence_collector
+    inputs:
+      - policies
+      - scope
+      - exceptions
+    outputs:
+      - pass_fail
+      - evidence_artifacts
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.2
+    version_compat:
+      opa: '0.64+'
+      conftest: '0.53+'
+    security:
+      - immutable_evidence
+      - redact_sensitive
+      - reviewer_signoff
+
+# Cross-Agent Workflows
+workflows:
+  ci_cd_pipeline:
+    name: 'Full CI/CD Pipeline'
+    description: 'Complete build → test → deploy pipeline'
+    stages:
+      - agent: build_agent
+        action: compile
+      - agent: test_runner
+        action: run_tests
+        depends_on: [build_agent]
+      - agent: container_build
+        action: build_image
+        depends_on: [test_runner]
+      - agent: image_scan
+        action: scan
+        depends_on: [container_build]
+      - agent: k8s_deploy
+        action: deploy
+        depends_on: [image_scan]
+      - agent: progressive_delivery
+        action: canary_release
+        depends_on: [k8s_deploy]
+
+  secure_release:
+    name: 'Secure Release Pipeline'
+    description: 'Security-focused release workflow'
+    stages:
+      - agent: secrets_agent
+        action: fetch_secrets
+      - agent: build_agent
+        action: compile
+        depends_on: [secrets_agent]
+      - agent: image_scan
+        action: scan
+        depends_on: [build_agent]
+      - agent: compliance_audit
+        action: audit
+        depends_on: [image_scan]
+      - agent: release_manager
+        action: create_release
+        depends_on: [compliance_audit]
+
+  incident_response:
+    name: 'Incident Response'
+    description: 'Automated incident handling'
+    stages:
+      - agent: metrics_agent
+        action: collect_signals
+      - agent: triage_agent
+        action: classify
+        depends_on: [metrics_agent]
+      - agent: alert_router
+        action: notify
+        depends_on: [triage_agent]
+      - agent: rollback_agent
+        action: evaluate_rollback
+        depends_on: [triage_agent]
+
+# Tool Routing
+tool_permissions:
+  default_allowed:
+    - notification
+    - report_generator
+    - markdown_formatter
+  restricted:
+    - kubectl
+    - terraform
+    - vault_client
+    - shell_command
+  audit_required:
+    - secret_injector
+    - rollback_executor
+    - tag_creator
+
+# Agent Communication Protocol
+communication:
+  format: 'structured_json'
+  handoff_schema: '.metaHub/schemas/devops-handoff-schema.json'
+  max_context_size_kb: 500

@@ -10,10 +10,26 @@ describe('AI Security Module', () => {
     const SECRET_PATTERNS = [
       { name: 'AWS Access Key', pattern: /AKIA[0-9A-Z]{16}/g, severity: 'critical' },
       { name: 'GitHub Token', pattern: /gh[pousr]_[A-Za-z0-9_]{36,}/g, severity: 'critical' },
-      { name: 'Generic API Key', pattern: /api[_-]?key\s*[:=]\s*['"][A-Za-z0-9_-]{20,}['"]/gi, severity: 'high' },
-      { name: 'Password Assignment', pattern: /password\s*[:=]\s*['"][^'"]{8,}['"]/gi, severity: 'critical' },
-      { name: 'Private Key', pattern: /-----BEGIN (RSA |OPENSSH )?PRIVATE KEY-----/g, severity: 'critical' },
-      { name: 'JWT Token', pattern: /eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*/g, severity: 'high' },
+      {
+        name: 'Generic API Key',
+        pattern: /api[_-]?key\s*[:=]\s*['"][A-Za-z0-9_-]{20,}['"]/gi,
+        severity: 'high',
+      },
+      {
+        name: 'Password Assignment',
+        pattern: /password\s*[:=]\s*['"][^'"]{8,}['"]/gi,
+        severity: 'critical',
+      },
+      {
+        name: 'Private Key',
+        pattern: /-----BEGIN (RSA |OPENSSH )?PRIVATE KEY-----/g,
+        severity: 'critical',
+      },
+      {
+        name: 'JWT Token',
+        pattern: /eyJ[A-Za-z0-9_-]*\.eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]*/g,
+        severity: 'high',
+      },
     ];
 
     it('should detect AWS access keys', () => {
@@ -53,7 +69,8 @@ describe('AI Security Module', () => {
     });
 
     it('should detect JWT tokens', () => {
-      const content = 'token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"';
+      const content =
+        'token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"';
       const jwtPattern = SECRET_PATTERNS.find((p) => p.name === 'JWT Token')!;
       const matches = content.match(jwtPattern.pattern);
       expect(matches).not.toBeNull();
@@ -256,7 +273,12 @@ describe('AI Security Module', () => {
 
       expect(report.timestamp).toBeDefined();
       expect(report.scanDuration).toBeGreaterThan(0);
-      expect(report.summary.secrets + report.summary.sensitiveFiles + report.summary.vulnerabilities + report.summary.licenseIssues).toBe(3);
+      expect(
+        report.summary.secrets +
+          report.summary.sensitiveFiles +
+          report.summary.vulnerabilities +
+          report.summary.licenseIssues
+      ).toBe(3);
     });
   });
 

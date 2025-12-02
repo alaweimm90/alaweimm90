@@ -9,11 +9,13 @@ Comprehensive troubleshooting guide for the most frequently encountered issues w
 ### "atlas: command not found"
 
 **Symptoms:**
+
 - `atlas --version` returns "command not found"
 - ATLAS commands fail to execute
 - Auto-completion doesn't work
 
 **Possible Causes:**
+
 1. ATLAS CLI not installed
 2. npm global bin path not in PATH
 3. Using npx without proper setup
@@ -22,6 +24,7 @@ Comprehensive troubleshooting guide for the most frequently encountered issues w
 **Solutions:**
 
 **Solution 1: Check Installation**
+
 ```bash
 # Verify npm global packages location
 npm config get prefix
@@ -34,6 +37,7 @@ npm install -g @atlas/cli
 ```
 
 **Solution 2: Fix PATH**
+
 ```bash
 # Add npm global bin to PATH (Linux/macOS)
 echo 'export PATH="$(npm config get prefix)/bin:$PATH"' >> ~/.bashrc
@@ -45,6 +49,7 @@ npm config get prefix
 ```
 
 **Solution 3: Use npx**
+
 ```bash
 # Use npx for one-off commands
 npx @atlas/cli --version
@@ -54,6 +59,7 @@ alias atlas="npx @atlas/cli"
 ```
 
 **Solution 4: Fix Permissions (Linux/macOS)**
+
 ```bash
 # Fix npm permissions
 sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
@@ -62,11 +68,13 @@ sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
 ### "Node.js version too old"
 
 **Symptoms:**
+
 - Installation fails with version errors
 - Runtime errors about unsupported Node.js version
 - Features not working as expected
 
 **Possible Causes:**
+
 1. Node.js version below minimum requirement (16.0.0)
 2. Using system Node.js instead of managed version
 3. PATH pointing to wrong Node.js installation
@@ -74,6 +82,7 @@ sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
 **Solutions:**
 
 **Solution 1: Update Node.js**
+
 ```bash
 # Using nvm (recommended)
 nvm install 18
@@ -88,6 +97,7 @@ fnm use 18
 ```
 
 **Solution 2: Check Version**
+
 ```bash
 # Verify Node.js version
 node --version  # Should be 16.0.0 or higher
@@ -98,6 +108,7 @@ which node
 ```
 
 **Solution 3: Update PATH**
+
 ```bash
 # Ensure correct Node.js is first in PATH
 export PATH="/usr/local/bin:$PATH"  # Adjust path as needed
@@ -110,11 +121,13 @@ export PATH="/usr/local/bin:$PATH"  # Adjust path as needed
 ### "Agent registration failed: Invalid API key"
 
 **Symptoms:**
+
 - Agent registration returns authentication error
 - API key validation fails
 - Agent shows as "offline" after registration
 
 **Possible Causes:**
+
 1. Invalid or expired API key
 2. API key doesn't have required permissions
 3. Environment variable not set correctly
@@ -123,6 +136,7 @@ export PATH="/usr/local/bin:$PATH"  # Adjust path as needed
 **Solutions:**
 
 **Solution 1: Verify API Key**
+
 ```bash
 # Check if environment variable is set
 echo $ANTHROPIC_API_KEY  # For Claude
@@ -137,6 +151,7 @@ curl -H "x-api-key: $ANTHROPIC_API_KEY" \
 ```
 
 **Solution 2: Set Environment Variables**
+
 ```bash
 # Add to ~/.bashrc or ~/.zshrc
 export ANTHROPIC_API_KEY="your-key-here"
@@ -148,6 +163,7 @@ source ~/.bashrc
 ```
 
 **Solution 3: Check API Key Permissions**
+
 ```bash
 # For Anthropic: Ensure key has access to Claude models
 # For OpenAI: Ensure key has access to GPT-4 models
@@ -164,11 +180,13 @@ atlas agent register test-agent \
 ### "Agent health check failed"
 
 **Symptoms:**
+
 - Agent shows as "unhealthy" or "offline"
 - Tasks fail with agent unavailable errors
 - Health checks return errors
 
 **Possible Causes:**
+
 1. API service outages
 2. Rate limiting
 3. Network connectivity issues
@@ -177,6 +195,7 @@ atlas agent register test-agent \
 **Solutions:**
 
 **Solution 1: Check Service Status**
+
 ```bash
 # Check provider status pages
 # Anthropic: https://status.anthropic.com/
@@ -190,6 +209,7 @@ curl -I https://generativelanguage.googleapis.com/v1/models
 ```
 
 **Solution 2: Verify Model Names**
+
 ```bash
 # Correct model names
 atlas agent register claude-sonnet-4 \
@@ -206,6 +226,7 @@ atlas agent register gemini-pro \
 ```
 
 **Solution 3: Check Rate Limits**
+
 ```bash
 # Check current usage
 atlas metrics agent <agent-id> --period 1h
@@ -224,11 +245,13 @@ sleep 3600  # Wait 1 hour
 ### "Task timed out"
 
 **Symptoms:**
+
 - Tasks fail with timeout errors
 - Long-running tasks get cancelled
 - Progress stalls at certain points
 
 **Possible Causes:**
+
 1. Task complexity exceeds timeout limits
 2. Network latency issues
 3. Agent response delays
@@ -237,6 +260,7 @@ sleep 3600  # Wait 1 hour
 **Solutions:**
 
 **Solution 1: Increase Timeout**
+
 ```bash
 # Set longer timeout for complex tasks
 atlas task submit --type architecture \
@@ -248,6 +272,7 @@ atlas config set task.timeout 600
 ```
 
 **Solution 2: Break Down Complex Tasks**
+
 ```bash
 # Instead of one complex task, break into smaller ones
 atlas task submit --type code_generation \
@@ -260,6 +285,7 @@ atlas task submit --type code_generation \
 ```
 
 **Solution 3: Check Network Connectivity**
+
 ```bash
 # Test network speed
 speedtest-cli
@@ -274,11 +300,13 @@ nslookup api.anthropic.com
 ### "Task failed: Rate limit exceeded"
 
 **Symptoms:**
+
 - Tasks fail with rate limit errors
 - Multiple tasks queue up
 - Agent becomes unresponsive
 
 **Possible Causes:**
+
 1. Too many concurrent requests
 2. API provider rate limits
 3. Insufficient rate limit configuration
@@ -286,6 +314,7 @@ nslookup api.anthropic.com
 **Solutions:**
 
 **Solution 1: Reduce Concurrent Tasks**
+
 ```bash
 # Check current load
 atlas metrics load-balancing
@@ -299,6 +328,7 @@ atlas task submit --type code_generation --description "task 2" --wait
 ```
 
 **Solution 2: Implement Queuing**
+
 ```bash
 # Enable task queuing
 atlas config set task.queue.enabled true
@@ -309,6 +339,7 @@ atlas task list --status queued
 ```
 
 **Solution 3: Adjust Rate Limits**
+
 ```bash
 # Check current rate limits
 atlas agent show <agent-id> --field rate_limit
@@ -320,11 +351,13 @@ atlas agent update <agent-id> --rate-limit 50  # requests per minute
 ### "Task result quality is poor"
 
 **Symptoms:**
+
 - Generated code has bugs or issues
 - Code review misses important problems
 - Refactoring introduces errors
 
 **Possible Causes:**
+
 1. Wrong agent selected for task
 2. Insufficient task context
 3. Task description too vague
@@ -333,6 +366,7 @@ atlas agent update <agent-id> --rate-limit 50  # requests per minute
 **Solutions:**
 
 **Solution 1: Provide Better Context**
+
 ```bash
 # Include more context in task description
 atlas task submit --type code_generation \
@@ -342,6 +376,7 @@ atlas task submit --type code_generation \
 ```
 
 **Solution 2: Choose Appropriate Agent**
+
 ```bash
 # Use Claude for complex tasks requiring reasoning
 atlas task submit --type architecture \
@@ -355,6 +390,7 @@ atlas task submit --type code_generation \
 ```
 
 **Solution 3: Break Down Tasks**
+
 ```bash
 # Instead of "build entire API", break into steps
 atlas task submit --type code_generation \
@@ -368,6 +404,7 @@ atlas task submit --type code_generation \
 ```
 
 **Solution 4: Use Code Review**
+
 ```bash
 # Always review AI-generated code
 atlas task submit --type code_review \
@@ -382,11 +419,13 @@ atlas task submit --type code_review \
 ### "Analysis failed: Unable to parse files"
 
 **Symptoms:**
+
 - Repository analysis fails with parsing errors
 - Some files are skipped
 - Incomplete analysis results
 
 **Possible Causes:**
+
 1. Unsupported file types or languages
 2. Syntax errors in code
 3. Large files exceeding size limits
@@ -395,6 +434,7 @@ atlas task submit --type code_review \
 **Solutions:**
 
 **Solution 1: Check Supported Languages**
+
 ```bash
 # ATLAS supports:
 # - JavaScript/TypeScript
@@ -410,6 +450,7 @@ find . -name "*.js" -o -name "*.ts" -o -name "*.py" | head -10
 ```
 
 **Solution 2: Exclude Problematic Files**
+
 ```bash
 # Exclude large or binary files
 atlas analyze repo . \
@@ -423,6 +464,7 @@ atlas config set analysis.max_file_size "1MB"
 ```
 
 **Solution 3: Fix Syntax Errors**
+
 ```bash
 # Check for syntax errors before analysis
 npm run lint  # or equivalent
@@ -435,11 +477,13 @@ atlas analyze repo src/ --type quick
 ### "Analysis shows no opportunities"
 
 **Symptoms:**
+
 - Analysis completes but finds no refactoring opportunities
 - Chaos scores are unexpectedly low
 - Missing expected code smells
 
 **Possible Causes:**
+
 1. Code is already well-structured
 2. Analysis configuration too restrictive
 3. Files not included in analysis scope
@@ -447,6 +491,7 @@ atlas analyze repo src/ --type quick
 **Solutions:**
 
 **Solution 1: Adjust Analysis Scope**
+
 ```bash
 # Include more file types
 atlas analyze repo . --include "**/*.{js,ts,py,java}"
@@ -459,6 +504,7 @@ atlas analyze repo . --type full
 ```
 
 **Solution 2: Check Configuration**
+
 ```bash
 # Review analysis configuration
 atlas config show analysis
@@ -472,6 +518,7 @@ atlas config set analysis.metrics.duplication true
 ```
 
 **Solution 3: Verify File Inclusion**
+
 ```bash
 # Check which files are being analyzed
 atlas analyze repo . --dry-run --verbose
@@ -487,11 +534,13 @@ ls -la src/**/*.js
 ### "Refactoring validation failed"
 
 **Symptoms:**
+
 - Refactoring operations are rejected
 - Safety checks fail
 - Tests fail after refactoring
 
 **Possible Causes:**
+
 1. Breaking changes detected
 2. Test failures
 3. Type errors introduced
@@ -500,6 +549,7 @@ ls -la src/**/*.js
 **Solutions:**
 
 **Solution 1: Review Safety Checks**
+
 ```bash
 # Check what safety checks failed
 atlas refactor status <refactoring-id> --details
@@ -509,6 +559,7 @@ atlas refactor validate <opportunity-id>
 ```
 
 **Solution 2: Improve Test Coverage**
+
 ```bash
 # Check current test coverage
 npm run test -- --coverage
@@ -520,6 +571,7 @@ atlas task submit --type testing \
 ```
 
 **Solution 3: Use Conservative Settings**
+
 ```bash
 # Apply only low-risk refactorings
 atlas refactor apply <opportunity-id> --risk-level low
@@ -531,11 +583,13 @@ atlas refactor apply <opportunity-id> --skip-breaking-checks
 ### "Refactoring created merge conflicts"
 
 **Symptoms:**
+
 - Refactoring creates PR with conflicts
 - Automated PR creation fails
 - Manual merge required
 
 **Possible Causes:**
+
 1. Concurrent changes to same files
 2. Outdated branch
 3. File permissions issues
@@ -543,6 +597,7 @@ atlas refactor apply <opportunity-id> --skip-breaking-checks
 **Solutions:**
 
 **Solution 1: Sync Branch**
+
 ```bash
 # Update branch before refactoring
 git checkout main
@@ -554,6 +609,7 @@ atlas refactor apply <opportunity-id> --create-pr
 ```
 
 **Solution 2: Apply to Clean Branch**
+
 ```bash
 # Create clean feature branch
 git checkout -b feature/clean-refactor
@@ -572,11 +628,13 @@ atlas refactor apply <opportunity-id> --no-pr
 ### "Unexpected high costs"
 
 **Symptoms:**
+
 - API costs higher than expected
 - Budget alerts triggered
 - Tasks using expensive agents unnecessarily
 
 **Possible Causes:**
+
 1. Wrong agent selection for tasks
 2. Tasks more complex than estimated
 3. Fallback chains increasing costs
@@ -585,6 +643,7 @@ atlas refactor apply <opportunity-id> --no-pr
 **Solutions:**
 
 **Solution 1: Enable Cost Optimization**
+
 ```bash
 # Enable automatic cost optimization
 atlas config set routing.cost_optimization true
@@ -595,6 +654,7 @@ atlas config set cost.max_per_day 50.0
 ```
 
 **Solution 2: Optimize Agent Selection**
+
 ```bash
 # Use cost-effective agents for simple tasks
 atlas task submit --type code_generation \
@@ -606,6 +666,7 @@ atlas config set routing.prefer_low_cost true
 ```
 
 **Solution 3: Monitor and Alert**
+
 ```bash
 # Set up cost alerts
 atlas config set cost.alert_threshold 0.8
@@ -620,11 +681,13 @@ atlas metrics costs --export costs.json
 ### "System performance degraded"
 
 **Symptoms:**
+
 - Slow response times
 - High memory usage
 - Tasks timing out frequently
 
 **Possible Causes:**
+
 1. Too many concurrent tasks
 2. Large repository analysis
 3. Memory leaks
@@ -633,6 +696,7 @@ atlas metrics costs --export costs.json
 **Solutions:**
 
 **Solution 1: Adjust Concurrency**
+
 ```bash
 # Reduce concurrent tasks
 atlas config set task.max_concurrent 5
@@ -642,6 +706,7 @@ atlas system health --resources
 ```
 
 **Solution 2: Optimize Analysis**
+
 ```bash
 # Use incremental analysis
 atlas analyze repo . --incremental
@@ -651,6 +716,7 @@ atlas analyze repo src/ --exclude "**/test/**"
 ```
 
 **Solution 3: Monitor Resources**
+
 ```bash
 # Check memory usage
 atlas system health --memory
@@ -669,11 +735,13 @@ atlas system restart
 ### "KILO bridge connection failed"
 
 **Symptoms:**
+
 - Bridge tests fail
 - Integration features not working
 - Governance validation errors
 
 **Possible Causes:**
+
 1. KILO endpoint misconfigured
 2. Authentication issues
 3. Network connectivity problems
@@ -682,6 +750,7 @@ atlas system restart
 **Solutions:**
 
 **Solution 1: Verify Configuration**
+
 ```bash
 # Check bridge configuration
 atlas bridge show a2k
@@ -694,6 +763,7 @@ curl -I https://your-kilo-endpoint/health
 ```
 
 **Solution 2: Fix Authentication**
+
 ```bash
 # Verify API key
 echo $KILO_API_KEY
@@ -706,6 +776,7 @@ atlas bridge configure a2k --api-key $NEW_KILO_KEY
 ```
 
 **Solution 3: Check Network**
+
 ```bash
 # Test basic connectivity
 ping your-kilo-endpoint.com
@@ -720,11 +791,13 @@ telnet your-kilo-endpoint.com 443
 ### "CI/CD integration not working"
 
 **Symptoms:**
+
 - Pipeline fails with ATLAS commands
 - Authentication issues in CI
 - Different behavior between local and CI
 
 **Possible Causes:**
+
 1. Missing environment variables in CI
 2. Different Node.js version in CI
 3. Permission issues with CI runner
@@ -732,6 +805,7 @@ telnet your-kilo-endpoint.com 443
 **Solutions:**
 
 **Solution 1: Set CI Environment Variables**
+
 ```yaml
 # .github/workflows/atlas.yml
 env:
@@ -740,6 +814,7 @@ env:
 ```
 
 **Solution 2: Use CI-Specific Configuration**
+
 ```bash
 # Create CI-specific config
 atlas config profile create ci
@@ -751,6 +826,7 @@ atlas --profile ci analyze repo .
 ```
 
 **Solution 3: Debug CI Issues**
+
 ```bash
 # Add debug logging to CI
 - run: atlas --verbose --debug analyze repo .

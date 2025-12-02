@@ -50,7 +50,7 @@ enum GovernanceEventType {
   COMPLIANCE_FAILURE = 'compliance_failure',
   STRUCTURE_VIOLATION = 'structure_violation',
   SECURITY_ISSUE = 'security_issue',
-  DEPENDENCY_RISK = 'dependency_risk'
+  DEPENDENCY_RISK = 'dependency_risk',
 }
 
 interface GovernanceEvent {
@@ -109,8 +109,8 @@ const event: GovernanceEvent = {
   details: {
     filePath: 'src/security.ts',
     policy: 'no-hardcoded-secrets',
-    description: 'Hardcoded API key detected'
-  }
+    description: 'Hardcoded API key detected',
+  },
 };
 
 await bridge.onGovernanceEvent(event);
@@ -186,45 +186,55 @@ interface K2ABridgeConfig {
 ## Event Processing Flow
 
 ### 1. Event Reception
+
 The bridge receives governance events from KILO through the `onGovernanceEvent` method.
 
 ### 2. Event Filtering
+
 Events are filtered based on configuration:
+
 - Event type inclusion
 - Repository/organization filters
 - Severity threshold
 
 ### 3. Event Transformation
+
 Events are transformed into ATLAS analysis requests:
+
 - Map governance data to analysis parameters
 - Set appropriate priority levels
 - Add context information
 
 ### 4. Analysis Triggering
+
 ATLAS analysis is triggered based on the event:
+
 - Security issues → Security analysis
 - Policy violations → Code quality analysis
 - Compliance failures → Comprehensive audit
 
 ### 5. Result Processing
+
 Analysis results are processed and may trigger:
+
 - Automated refactoring suggestions
 - Notification to development teams
 - Integration with CI/CD pipelines
 
 ## Event Types and Analysis Mapping
 
-| Governance Event Type | Triggered ATLAS Analysis | Priority |
-|----------------------|-------------------------|----------|
-| `policy_violation` | Code quality analysis | Medium |
-| `compliance_failure` | Security & compliance audit | High |
-| `structure_violation` | Architecture analysis | Medium |
-| `security_issue` | Security vulnerability scan | Critical |
-| `dependency_risk` | Dependency analysis | High |
+| Governance Event Type | Triggered ATLAS Analysis    | Priority |
+| --------------------- | --------------------------- | -------- |
+| `policy_violation`    | Code quality analysis       | Medium   |
+| `compliance_failure`  | Security & compliance audit | High     |
+| `structure_violation` | Architecture analysis       | Medium   |
+| `security_issue`      | Security vulnerability scan | Critical |
+| `dependency_risk`     | Dependency analysis         | High     |
 
 ## Error Handling
 
 ### Transient Failures
+
 - Network timeouts
 - Service unavailability
 - Temporary ATLAS overload
@@ -232,6 +242,7 @@ Analysis results are processed and may trigger:
 **Recovery Strategy**: Exponential backoff retry with configurable maximum attempts.
 
 ### Permanent Failures
+
 - Invalid event data
 - Unsupported event types
 - Configuration errors
@@ -239,6 +250,7 @@ Analysis results are processed and may trigger:
 **Recovery Strategy**: Log error, notify administrators, continue processing other events.
 
 ### Circuit Breaker Pattern
+
 The bridge implements a circuit breaker to prevent cascade failures:
 
 ```typescript
@@ -271,6 +283,7 @@ class CircuitBreaker {
 ## Monitoring and Metrics
 
 ### Key Metrics
+
 - Events received per minute
 - Events processed successfully
 - Average processing time
@@ -278,6 +291,7 @@ class CircuitBreaker {
 - Bridge availability percentage
 
 ### Health Checks
+
 - Bridge connectivity to ATLAS
 - Event queue depth
 - Memory usage
@@ -286,13 +300,16 @@ class CircuitBreaker {
 ## Security Considerations
 
 ### Event Validation
+
 All incoming events are validated for:
+
 - Schema compliance
 - Authentication tokens
 - Origin verification
 - Data integrity
 
 ### Access Control
+
 - Bridge operations require proper authentication
 - Event routing respects repository permissions
 - Analysis results are scoped to authorized users
@@ -300,6 +317,7 @@ All incoming events are validated for:
 ## Performance Optimization
 
 ### Event Batching
+
 Multiple events can be batched for efficient processing:
 
 ```typescript
@@ -315,9 +333,11 @@ async processBatch(events: GovernanceEvent[]): Promise<void> {
 ```
 
 ### Caching
+
 Frequently accessed analysis results and configurations are cached to reduce latency.
 
 ### Async Processing
+
 Non-critical analysis operations are processed asynchronously to maintain responsiveness.
 
 ## Integration Examples
@@ -349,7 +369,7 @@ jobs:
 class BridgeDashboard extends React.Component {
   state = {
     status: null,
-    events: []
+    events: [],
   };
 
   componentDidMount() {
@@ -366,8 +386,8 @@ class BridgeDashboard extends React.Component {
     // WebSocket or Server-Sent Events subscription
     eventSource.onmessage = (event) => {
       const newEvent = JSON.parse(event.data);
-      this.setState(prevState => ({
-        events: [newEvent, ...prevState.events.slice(0, 99)]
+      this.setState((prevState) => ({
+        events: [newEvent, ...prevState.events.slice(0, 99)],
       }));
     };
   }
@@ -379,16 +399,19 @@ class BridgeDashboard extends React.Component {
 ### Common Issues
 
 **Events Not Being Processed**
+
 - Check bridge configuration
 - Verify ATLAS service availability
 - Review event filtering rules
 
 **High Latency**
+
 - Monitor queue depth
 - Check network connectivity
 - Review batch processing settings
 
 **Authentication Failures**
+
 - Validate API keys
 - Check token expiration
 - Review access permissions
@@ -405,6 +428,7 @@ atlas bridge k2a --debug
 ## Future Enhancements
 
 ### Planned Features
+
 - **Machine Learning Analysis**: AI-powered event prioritization
 - **Predictive Analysis**: Proactive issue detection
 - **Custom Event Types**: User-defined governance events

@@ -1,1 +1,1 @@
-// ATLAS Task Queue - Task management and execution pipeline 
+// ATLAS Task Queue - Task management and execution pipeline

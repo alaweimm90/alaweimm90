@@ -35,13 +35,25 @@ describe('AI Monitor Module', () => {
     });
 
     it('should allow execution in closed state', () => {
-      const state: CircuitBreakerState = { state: 'closed', failures: 0, lastFailure: null, lastSuccess: null, openedAt: null };
+      const state: CircuitBreakerState = {
+        state: 'closed',
+        failures: 0,
+        lastFailure: null,
+        lastSuccess: null,
+        openedAt: null,
+      };
       const canExecute = state.state === 'closed';
       expect(canExecute).toBe(true);
     });
 
     it('should open after threshold failures', () => {
-      let state: CircuitBreakerState = { state: 'closed', failures: 0, lastFailure: null, lastSuccess: null, openedAt: null };
+      let state: CircuitBreakerState = {
+        state: 'closed',
+        failures: 0,
+        lastFailure: null,
+        lastSuccess: null,
+        openedAt: null,
+      };
 
       // Simulate 3 failures
       for (let i = 0; i < config.failureThreshold; i++) {
@@ -60,14 +72,26 @@ describe('AI Monitor Module', () => {
     });
 
     it('should reject execution in open state', () => {
-      const state: CircuitBreakerState = { state: 'open', failures: 3, lastFailure: new Date().toISOString(), lastSuccess: null, openedAt: new Date().toISOString() };
+      const state: CircuitBreakerState = {
+        state: 'open',
+        failures: 3,
+        lastFailure: new Date().toISOString(),
+        lastSuccess: null,
+        openedAt: new Date().toISOString(),
+      };
       const canExecute = state.state === 'closed';
       expect(canExecute).toBe(false);
     });
 
     it('should transition to half-open after timeout', () => {
       const openedAt = new Date(Date.now() - 70000).toISOString(); // 70 seconds ago
-      let state: CircuitBreakerState = { state: 'open', failures: 3, lastFailure: null, lastSuccess: null, openedAt };
+      let state: CircuitBreakerState = {
+        state: 'open',
+        failures: 3,
+        lastFailure: null,
+        lastSuccess: null,
+        openedAt,
+      };
 
       const elapsed = Date.now() - new Date(state.openedAt!).getTime();
       if (elapsed >= config.resetTimeoutMs) {
@@ -78,7 +102,13 @@ describe('AI Monitor Module', () => {
     });
 
     it('should close on success in half-open state', () => {
-      let state: CircuitBreakerState = { state: 'half-open', failures: 3, lastFailure: null, lastSuccess: null, openedAt: null };
+      let state: CircuitBreakerState = {
+        state: 'half-open',
+        failures: 3,
+        lastFailure: null,
+        lastSuccess: null,
+        openedAt: null,
+      };
 
       // Simulate success
       state.lastSuccess = new Date().toISOString();
@@ -93,7 +123,13 @@ describe('AI Monitor Module', () => {
     });
 
     it('should reopen on failure in half-open state', () => {
-      let state: CircuitBreakerState = { state: 'half-open', failures: 3, lastFailure: null, lastSuccess: null, openedAt: null };
+      let state: CircuitBreakerState = {
+        state: 'half-open',
+        failures: 3,
+        lastFailure: null,
+        lastSuccess: null,
+        openedAt: null,
+      };
 
       // Simulate failure
       state.failures++;

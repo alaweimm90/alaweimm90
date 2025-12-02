@@ -13,7 +13,7 @@ graph TD
     C --> D[Expansion Phase]
     D --> E[Full Adoption Phase]
     E --> F[Optimization Phase]
-    
+
     C --> G[Rollback Option]
     D --> G
     E --> G
@@ -22,6 +22,7 @@ graph TD
 ## Phase 1: Preparation (1-2 weeks)
 
 ### Prerequisites
+
 - Completed assessment phase
 - Stakeholder approval for migration
 - Dedicated migration team assigned
@@ -32,6 +33,7 @@ graph TD
 **Objective**: Set up the technical foundation for integration
 
 **Procedure**:
+
 ```bash
 # 1. Install integration packages
 echo "Installing ATLAS-KILO integration packages..."
@@ -46,11 +48,13 @@ atlas bridge test --basic
 ```
 
 **Validation**:
+
 - All packages install successfully
 - CLI commands respond correctly
 - Basic bridge test passes
 
 **Rollback**: Uninstall packages if needed
+
 ```bash
 npm uninstall -g @atlas/integrations @kilo/bridge
 ```
@@ -60,6 +64,7 @@ npm uninstall -g @atlas/integrations @kilo/bridge
 **Objective**: Preserve current configurations for rollback
 
 **Procedure**:
+
 ```bash
 # Create backup directory
 BACKUP_DIR="./migration-backup-$(date +%Y%m%d-%H%M%S)"
@@ -84,6 +89,7 @@ echo "Configuration backup complete: $BACKUP_DIR"
 ```
 
 **Validation**:
+
 - Backup directory contains all expected files
 - Original files remain unchanged
 - Backup files are readable
@@ -93,6 +99,7 @@ echo "Configuration backup complete: $BACKUP_DIR"
 **Objective**: Create integrated configuration file
 
 **Procedure**:
+
 ```bash
 # Generate integrated configuration
 cat > atlas-kilo.config.json << EOF
@@ -136,6 +143,7 @@ atlas config validate atlas-kilo.config.json
 ```
 
 **Validation**:
+
 - Configuration file created successfully
 - Validation passes without errors
 - Sensitive data properly secured
@@ -143,6 +151,7 @@ atlas config validate atlas-kilo.config.json
 ## Phase 2: Pilot Migration (2-4 weeks)
 
 ### Prerequisites
+
 - Preparation phase complete
 - Pilot project selected
 - Test environment ready
@@ -153,6 +162,7 @@ atlas config validate atlas-kilo.config.json
 **Objective**: Configure integration for pilot project
 
 **Procedure**:
+
 ```bash
 # Navigate to pilot project
 cd /path/to/pilot-project
@@ -169,6 +179,7 @@ atlas bridge test
 ```
 
 **Validation**:
+
 - Bridge test successful
 - No connectivity errors
 - Configuration applied locally
@@ -178,6 +189,7 @@ atlas bridge test
 **Objective**: Update CI/CD to use integrated workflow
 
 **Before (Separate Systems)**:
+
 ```yaml
 # .github/workflows/separate-systems.yml
 name: Quality Checks
@@ -189,7 +201,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: atlas analyze repo . --format json > atlas-results.json
-  
+
   kilo:
     runs-on: ubuntu-latest
     steps:
@@ -198,6 +210,7 @@ jobs:
 ```
 
 **After (Integrated System)**:
+
 ```yaml
 # .github/workflows/integrated-quality.yml
 name: Integrated Quality Checks
@@ -208,16 +221,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup Integration
         run: |
           npm install -g @atlas/cli @kilo/cli
           atlas config set kilo.endpoint ${{ secrets.KILO_ENDPOINT }}
           atlas config set kilo.apiKey ${{ secrets.KILO_API_KEY }}
-      
+
       - name: Integrated Analysis
         run: atlas analyze repo . --governance-check --format json > analysis.json
-      
+
       - name: Quality Gate
         run: |
           COMPLIANCE=$(jq '.complianceScore' analysis.json)
@@ -228,6 +241,7 @@ jobs:
 ```
 
 **Procedure**:
+
 ```bash
 # Backup existing workflow
 cp .github/workflows/quality-checks.yml .github/workflows/quality-checks.backup.yml
@@ -240,6 +254,7 @@ atlas workflow validate .github/workflows/integrated-quality.yml
 ```
 
 **Validation**:
+
 - Workflow file created
 - Validation passes
 - Required secrets configured
@@ -249,6 +264,7 @@ atlas workflow validate .github/workflows/integrated-quality.yml
 **Objective**: Test integrated development workflow
 
 **Procedure**:
+
 ```bash
 # Test integrated analysis
 atlas analyze repo . --governance-check --format summary
@@ -264,6 +280,7 @@ atlas compliance report --output pilot-report.html --format html
 ```
 
 **Validation**:
+
 - All commands execute successfully
 - Results are meaningful and accurate
 - No integration errors
@@ -273,6 +290,7 @@ atlas compliance report --output pilot-report.html --format html
 **Objective**: Assess pilot success and gather feedback
 
 **Procedure**:
+
 ```bash
 # Collect metrics
 echo "Pilot Metrics:" > pilot-metrics.txt
@@ -291,6 +309,7 @@ echo "Lessons Learned:" > pilot-lessons.txt
 ```
 
 **Validation**:
+
 - Metrics collected
 - Feedback gathered from all team members
 - Go/no-go decision documented
@@ -298,6 +317,7 @@ echo "Lessons Learned:" > pilot-lessons.txt
 ## Phase 3: Expansion Phase (4-8 weeks)
 
 ### Prerequisites
+
 - Pilot phase successful
 - Stakeholder approval for expansion
 - Additional resources allocated
@@ -308,6 +328,7 @@ echo "Lessons Learned:" > pilot-lessons.txt
 **Objective**: Train additional teams on integrated workflow
 
 **Procedure**:
+
 ```bash
 # Prepare training materials
 cp -r /path/to/migration/training/* ./training-materials/
@@ -339,6 +360,7 @@ EOF
 **Objective**: Migrate additional repositories
 
 **Procedure**:
+
 ```bash
 # Create migration script for multiple repos
 cat > migrate-repository.sh << 'EOF'
@@ -382,6 +404,7 @@ chmod +x migrate-repository.sh
 **Objective**: Set up monitoring for integrated system
 
 **Procedure**:
+
 ```bash
 # Configure monitoring
 atlas config set monitoring.enabled true
@@ -400,6 +423,7 @@ atlas config set monitoring.alerts.governance.channels '["email", "slack"]'
 ## Phase 4: Full Adoption Phase (8-12 weeks)
 
 ### Prerequisites
+
 - Expansion phase 80% complete
 - All critical repositories migrated
 - Team training complete
@@ -410,6 +434,7 @@ atlas config set monitoring.alerts.governance.channels '["email", "slack"]'
 **Objective**: Safely decommission separate systems
 
 **Procedure**:
+
 ```bash
 # Gradual decommissioning plan
 cat > decommissioning-plan.md << EOF
@@ -446,6 +471,7 @@ mv kilo-legacy.config.json legacy-archive/ 2>/dev/null || true
 **Objective**: Update all project documentation
 
 **Procedure**:
+
 ```bash
 # Update README files
 find . -name "README.md" | while read file; do
@@ -470,6 +496,7 @@ echo "Updated CI/CD documentation to reference integrated workflows"
 **Objective**: Optimize integrated system performance
 
 **Procedure**:
+
 ```bash
 # Enable caching
 atlas config set bridges.a2k.templates.cacheEnabled true
@@ -490,6 +517,7 @@ atlas monitor performance --output performance-report.json
 **Objective**: Create organization-specific workflows
 
 **Procedure**:
+
 ```bash
 # Create custom workflow template
 cat > custom-workflow.json << EOF
@@ -586,6 +614,7 @@ atlas config set bridges.a2k.templates.enabled true
 ## Success Criteria
 
 ### Phase Completion Criteria
+
 - **Preparation**: All prerequisites met, test environment ready
 - **Pilot**: 95% success rate, positive team feedback
 - **Expansion**: 80% repositories migrated, training complete
@@ -593,6 +622,7 @@ atlas config set bridges.a2k.templates.enabled true
 - **Optimization**: Performance targets met, custom workflows operational
 
 ### Overall Success Metrics
+
 - 30% reduction in development cycle time
 - 50% reduction in compliance violations
 - 90% team satisfaction rating

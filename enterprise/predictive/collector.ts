@@ -9,9 +9,12 @@ export class MetricsCollector {
   /**
    * Collect comprehensive metrics from code
    */
-  async collectMetrics(code: string, language: string): Promise<Omit<CodeMetrics, 'predictions' | 'timestamp'>> {
+  async collectMetrics(
+    code: string,
+    language: string
+  ): Promise<Omit<CodeMetrics, 'predictions' | 'timestamp'>> {
     const lines = code.split('\n');
-    const cleanLines = lines.filter(line => line.trim().length > 0);
+    const cleanLines = lines.filter((line) => line.trim().length > 0);
 
     return {
       linesOfCode: cleanLines.length,
@@ -24,7 +27,7 @@ export class MetricsCollector {
       language,
       imports: this.countImports(code, language),
       functions: this.countFunctions(code, language),
-      classes: this.countClasses(code, language)
+      classes: this.countClasses(code, language),
     };
   }
 
@@ -59,7 +62,8 @@ export class MetricsCollector {
     // MI = 171 - 5.2 * ln(V) - 0.23 * G - 16.2 * ln(L) + 50 * sin(sqrt(2.4 * C))
     // Simplified version
     const volume = Math.log(lines + 1);
-    const mi = 171 - 5.2 * volume - 0.23 * complexity + 50 * Math.sin(Math.sqrt(2.4 * commentRatio * 100));
+    const mi =
+      171 - 5.2 * volume - 0.23 * complexity + 50 * Math.sin(Math.sqrt(2.4 * commentRatio * 100));
 
     return Math.max(0, Math.min(171, mi));
   }
@@ -103,7 +107,8 @@ export class MetricsCollector {
 
     for (const line of lines) {
       const trimmed = line.trim();
-      if (trimmed.length > 10) { // Only check substantial lines
+      if (trimmed.length > 10) {
+        // Only check substantial lines
         const count = lineMap.get(trimmed) || 0;
         lineMap.set(trimmed, count + 1);
         if (count > 0) {
@@ -187,7 +192,7 @@ export class MetricsCollector {
       typescript: ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'try', 'catch'],
       python: ['if', 'elif', 'else', 'for', 'while', 'try', 'except', 'with'],
       java: ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'try', 'catch'],
-      csharp: ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'try', 'catch']
+      csharp: ['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'try', 'catch'],
     };
 
     return keywords[language.toLowerCase()] || [];
@@ -199,7 +204,7 @@ export class MetricsCollector {
       typescript: [/\/\/.*$/gm, /\/\*[\s\S]*?\*\//g],
       python: [/#.*$/gm, /"""[\s\S]*?"""/g, /'''[\s\S]*?'''/g],
       java: [/\/\/.*$/gm, /\/\*[\s\S]*?\*\//g],
-      csharp: [/\/\/.*$/gm, /\/\*[\s\S]*?\*\//g]
+      csharp: [/\/\/.*$/gm, /\/\*[\s\S]*?\*\//g],
     };
 
     return patterns[language.toLowerCase()] || [];
@@ -211,7 +216,7 @@ export class MetricsCollector {
       typescript: [/import\s+.*from\s+['"]/g, /const\s+\w+\s*=\s*require\s*\(/g],
       python: [/^(import\s+\w+|from\s+\w+\s+import)/gm],
       java: [/^import\s+[\w.]+;/gm],
-      csharp: [/^using\s+[\w.]+;/gm]
+      csharp: [/^using\s+[\w.]+;/gm],
     };
 
     return patterns[language.toLowerCase()] || [];
@@ -219,11 +224,19 @@ export class MetricsCollector {
 
   private getFunctionPatterns(language: string): RegExp[] {
     const patterns: Record<string, RegExp[]> = {
-      javascript: [/function\s+\w+\s*\(/g, /const\s+\w+\s*=\s*\([^)]*\)\s*=>/g, /\w+\s*\([^)]*\)\s*{/g],
-      typescript: [/function\s+\w+\s*\(/g, /const\s+\w+\s*=\s*\([^)]*\)\s*=>/g, /\w+\s*\([^)]*\)\s*{/g],
+      javascript: [
+        /function\s+\w+\s*\(/g,
+        /const\s+\w+\s*=\s*\([^)]*\)\s*=>/g,
+        /\w+\s*\([^)]*\)\s*{/g,
+      ],
+      typescript: [
+        /function\s+\w+\s*\(/g,
+        /const\s+\w+\s*=\s*\([^)]*\)\s*=>/g,
+        /\w+\s*\([^)]*\)\s*{/g,
+      ],
       python: [/^def\s+\w+\s*\(/gm],
       java: [/public\s+.*\s+\w+\s*\(/g, /private\s+.*\s+\w+\s*\(/g, /protected\s+.*\s+\w+\s*\(/g],
-      csharp: [/public\s+.*\s+\w+\s*\(/g, /private\s+.*\s+\w+\s*\(/g, /protected\s+.*\s+\w+\s*\(/g]
+      csharp: [/public\s+.*\s+\w+\s*\(/g, /private\s+.*\s+\w+\s*\(/g, /protected\s+.*\s+\w+\s*\(/g],
     };
 
     return patterns[language.toLowerCase()] || [];
@@ -235,10 +248,9 @@ export class MetricsCollector {
       typescript: [/class\s+\w+/g],
       python: [/^class\s+\w+/gm],
       java: [/^class\s+\w+/gm, /^public\s+class\s+\w+/gm],
-      csharp: [/^class\s+\w+/gm, /^public\s+class\s+\w+/gm]
+      csharp: [/^class\s+\w+/gm, /^public\s+class\s+\w+/gm],
     };
 
     return patterns[language.toLowerCase()] || [];
   }
-}</content>
-</edit_file>
+}

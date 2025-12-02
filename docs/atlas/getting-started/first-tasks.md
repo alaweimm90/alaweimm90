@@ -7,6 +7,7 @@ Learn how to perform your first tasks with ATLAS, from registering agents to sub
 ## Prerequisites
 
 Before starting, ensure you have:
+
 - [ATLAS CLI installed](../installation.md)
 - [ATLAS initialized](quick-start.md#step-2-initialize-atlas) in your project
 - API keys for at least one AI provider
@@ -18,6 +19,7 @@ Before starting, ensure you have:
 ### Understanding Agents
 
 ATLAS agents are AI models configured for specific tasks. Each agent has:
+
 - **Provider**: Anthropic (Claude), OpenAI (GPT), Google (Gemini), or Local
 - **Capabilities**: What the agent can do (code generation, review, debugging, etc.)
 - **Constraints**: Rate limits, cost limits, token limits
@@ -108,16 +110,16 @@ atlas agent show claude-sonnet-4
 
 ATLAS supports various task types:
 
-| Task Type | Description | Best For |
-|-----------|-------------|----------|
-| `code_generation` | Generate new code | New features, boilerplate |
-| `code_review` | Review existing code | Quality assurance, bug finding |
-| `refactoring` | Improve code structure | Technical debt reduction |
-| `debugging` | Find and fix bugs | Error resolution |
-| `documentation` | Generate documentation | API docs, READMEs |
-| `testing` | Write tests | Test coverage improvement |
-| `architecture` | Design system architecture | System planning |
-| `security_analysis` | Security vulnerability assessment | Security reviews |
+| Task Type           | Description                       | Best For                       |
+| ------------------- | --------------------------------- | ------------------------------ |
+| `code_generation`   | Generate new code                 | New features, boilerplate      |
+| `code_review`       | Review existing code              | Quality assurance, bug finding |
+| `refactoring`       | Improve code structure            | Technical debt reduction       |
+| `debugging`         | Find and fix bugs                 | Error resolution               |
+| `documentation`     | Generate documentation            | API docs, READMEs              |
+| `testing`           | Write tests                       | Test coverage improvement      |
+| `architecture`      | Design system architecture        | System planning                |
+| `security_analysis` | Security vulnerability assessment | Security reviews               |
 
 ### Basic Task Submission
 
@@ -386,6 +388,7 @@ atlas task retry task_failed_123 --force
 ### Common Failure Scenarios
 
 **Rate Limit Exceeded**
+
 ```bash
 # Wait and retry
 sleep 60
@@ -393,6 +396,7 @@ atlas task retry task_abc123
 ```
 
 **Token Limit Exceeded**
+
 ```bash
 # Split into smaller tasks
 atlas task submit --type code_generation --description "Part 1 of user management" --max-tokens 1000
@@ -400,6 +404,7 @@ atlas task submit --type code_generation --description "Part 2 of user managemen
 ```
 
 **Network Issues**
+
 ```bash
 # Retry with longer timeout
 atlas task retry task_abc123 --timeout 600
@@ -412,6 +417,7 @@ atlas task retry task_abc123 --timeout 600
 ### 1. Start Small
 
 Begin with simple, focused tasks:
+
 - Generate a single function
 - Review a small module
 - Fix a specific bug
@@ -419,6 +425,7 @@ Begin with simple, focused tasks:
 ### 2. Provide Clear Context
 
 The more context you provide, the better the results:
+
 - Specify programming language and framework
 - Include relevant file paths
 - Mention existing patterns or conventions
@@ -427,6 +434,7 @@ The more context you provide, the better the results:
 ### 3. Use Appropriate Task Types
 
 Match the task type to your goal:
+
 - `code_generation` for new features
 - `code_review` for quality assurance
 - `debugging` for error resolution
@@ -435,6 +443,7 @@ Match the task type to your goal:
 ### 4. Monitor Costs
 
 Keep track of API costs:
+
 ```bash
 atlas metrics costs --period 24h
 atlas config set cost.max_per_task 1.00
@@ -443,6 +452,7 @@ atlas config set cost.max_per_task 1.00
 ### 5. Review and Iterate
 
 Always review AI-generated code:
+
 - Check for correctness
 - Verify it follows your patterns
 - Test the implementation
@@ -469,6 +479,7 @@ Now that you've completed your first tasks:
 - **Help**: `atlas task --help` or `atlas --help`
 
 For issues or questions:
+
 - [Troubleshooting Guide](../troubleshooting/common-issues.md)
 - [Community Forum](https://community.atlas-platform.com)
 - [GitHub Issues](https://github.com/atlas-platform/atlas/issues)</instructions>

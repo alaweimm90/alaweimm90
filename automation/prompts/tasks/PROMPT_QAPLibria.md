@@ -14,6 +14,7 @@ QAPLibria implements contextual Quadratic Assignment Problem (QAP) solving with 
 **Core Innovation**: Contextual QAP with learned costs (🟢 STRONG novelty)
 
 **Research Contributions**:
+
 - **QAP-C1**: Contextual QAP with Learned Cost Functions
 - **QAP-C2**: Spectral Initialization for Assignment Problems
 - **QAP-C3**: Online Learning for Dynamic Agent Reassignment
@@ -28,23 +29,27 @@ QAPLibria implements contextual Quadratic Assignment Problem (QAP) solving with 
 
 **Classical QAP**:
 Given:
+
 - n agents, m tasks
 - Flow matrix F (n × n): interaction strength between agents
 - Distance matrix D (m × m): interaction cost between tasks
 
 Find permutation π: {1,...,n} → {1,...,m} minimizing:
+
 ```
 min ∑ᵢ ∑ⱼ F[i,j] × D[π(i), π(j)]
 ```
 
 **Contextual QAP (QAPLibria)**:
 Given:
+
 - Agent features: A ∈ ℝⁿˣᵈ (skills, workload, history)
 - Task features: B ∈ ℝᵐˣᵈ (complexity, requirements, deadline)
 - Context: x ∈ ℝᵏ (system state, time, workload)
 - Historical data: {(Aᵢ, Bᵢ, xᵢ, πᵢ, rᵢ)}ᵢ₌₁ᴺ
 
 Learn cost function C(A, B, x) and find assignment minimizing:
+
 ```
 min ∑ᵢ C(aᵢ, b_π(i), x)
 ```
@@ -54,6 +59,7 @@ where C is learned from historical execution outcomes.
 ### 1.2 Core Algorithm
 
 **QAPLibria Architecture**:
+
 ```
 Input: Agent features A, Task features B, Context x
 │
@@ -563,16 +569,19 @@ class GBDTCostPredictor:
 ### 2.1 Novel Contributions
 
 **QAP-C1: Contextual QAP with Learned Cost Functions**
+
 - **Gap**: Classical QAP assumes static costs; no learning from historical data
 - **Approach**: Learn C(agent, task, context) from execution outcomes
 - **Impact**: 20-30% cost reduction via learned agent-task affinity
 
 **QAP-C2: Spectral Initialization for Assignment Problems**
+
 - **Gap**: Random initialization leads to poor local optima
 - **Approach**: Spectral alignment of agent/task similarity matrices
 - **Impact**: 10-15% faster convergence + better solution quality
 
 **QAP-C3: Online Learning for Dynamic Agent Reassignment**
+
 - **Gap**: Static assignments don't adapt to changing workloads
 - **Approach**: Continuous cost model updates + periodic reassignment
 - **Impact**: 15-20% improvement in dynamic environments
@@ -598,17 +607,20 @@ class GBDTCostPredictor:
 ### 2.3 Benchmark Datasets
 
 **QAPLIB**: 136 standard QAP instances
+
 - Small: n < 20 (26 instances)
 - Medium: 20 ≤ n < 50 (48 instances)
 - Large: n ≥ 50 (62 instances)
 
 **Multi-Agent Task Assignment** (custom dataset):
+
 - ATLAS execution logs (500+ assignments)
 - Agent features: skill, workload, latency
 - Task features: complexity, deadline, dependencies
 - Ground truth: actual execution costs
 
 **Expected Performance**:
+
 - QAPLIB: Within 5% of best known solution
 - Multi-agent: 25% cost reduction vs. greedy baseline
 
@@ -619,18 +631,21 @@ class GBDTCostPredictor:
 ### Phase 1: Core Algorithm (Weeks 1-3)
 
 **Week 1**:
+
 - [ ] Implement `QAPLibria` base class
 - [ ] Implement `NeuralCostPredictor`
 - [ ] Implement `GBDTCostPredictor`
 - [ ] Unit tests for cost prediction
 
 **Week 2**:
+
 - [ ] Implement spectral initialization
 - [ ] Implement Sinkhorn projection
 - [ ] Unit tests for initialization
 - [ ] Visualization of spectral alignment
 
 **Week 3**:
+
 - [ ] Implement Frank-Wolfe solver
 - [ ] Hungarian algorithm integration (scipy)
 - [ ] Convergence analysis
@@ -639,18 +654,21 @@ class GBDTCostPredictor:
 ### Phase 2: Benchmarking (Weeks 4-6)
 
 **Week 4**:
+
 - [ ] Download QAPLIB instances
 - [ ] Implement QAPLIB parser
 - [ ] Implement baseline solvers (RoTS, SA, GA)
 - [ ] Evaluation harness
 
 **Week 5**:
+
 - [ ] Run QAPLibria on QAPLIB (136 instances)
 - [ ] Run baselines on QAPLIB
 - [ ] Statistical comparison
 - [ ] Performance plots
 
 **Week 6**:
+
 - [ ] Collect ATLAS execution logs
 - [ ] Train cost predictor on historical data
 - [ ] Evaluate on multi-agent task assignment
@@ -659,15 +677,18 @@ class GBDTCostPredictor:
 ### Phase 3: Paper Writing (Weeks 7-9)
 
 **Week 7**: Draft
+
 - [ ] Introduction + Related Work
 - [ ] Method section with algorithms
 
 **Week 8**: Results
+
 - [ ] QAPLIB results
 - [ ] Multi-agent results
 - [ ] Ablation studies
 
 **Week 9**: Finalization
+
 - [ ] Discussion + Conclusion
 - [ ] Submission to EJOR or IJC
 
@@ -916,11 +937,13 @@ def evaluate_qaplib(solver, qaplib_root="qaplib"):
 ### 7.1 Target Venues
 
 **Primary**: European Journal of Operational Research (EJOR)
+
 - Impact Factor: 6.4
 - Scope: Optimization, OR, decision sciences
 - Timeline: 3-4 months review
 
 **Backup**: INFORMS Journal on Computing (IJC)
+
 - Impact Factor: 2.7
 - Scope: Computational OR, algorithms
 
@@ -987,16 +1010,19 @@ libria-qap/
 ## 9. Success Criteria
 
 **QAPLIB Benchmark**:
+
 - ✅ Within 5% of BKS on small instances (n < 20)
 - ✅ Within 10% of BKS on medium instances (20 ≤ n < 50)
 - ✅ Competitive with RoTS on large instances
 
 **Multi-Agent Task Assignment**:
+
 - ✅ 25% cost reduction vs. greedy baseline
 - ✅ 15% improvement vs. Hungarian (linear cost)
 - ✅ Faster than RoTS (< 10% overhead)
 
 **Ablation Studies**:
+
 - ✅ Spectral init improves over random by 10-15%
 - ✅ Learned costs improve over static by 20-30%
 - ✅ Online updates improve over offline by 5-10%
@@ -1006,23 +1032,27 @@ libria-qap/
 ## 10. Next Actions
 
 **Immediate**:
+
 1. Set up repository
 2. Implement core QAPLibria class
 3. Implement cost predictors
 4. Unit tests
 
 **Short-term**:
+
 1. Implement spectral initialization
 2. Implement Frank-Wolfe solver
 3. Download QAPLIB
 4. Baseline implementations
 
 **Mid-term**:
+
 1. Run QAPLIB benchmarks
 2. Multi-agent experiments
 3. Statistical analysis
 
 **Long-term**:
+
 1. Write paper
 2. Submit to EJOR
 3. Open-source release

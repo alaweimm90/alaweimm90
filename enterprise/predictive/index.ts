@@ -30,7 +30,7 @@ export class PredictiveAnalyticsEngine {
     return {
       ...metrics,
       predictions,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -57,5 +57,4 @@ export async function initializePredictiveAnalytics(): Promise<PredictiveAnalyti
   // Load pre-trained models
   await engine.predictor.loadModels();
   return engine;
-}</content>
-</edit_file>
+}

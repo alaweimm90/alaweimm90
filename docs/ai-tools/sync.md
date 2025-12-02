@@ -17,4 +17,3 @@ Synchronize all context sources
 ```bash
 npm run ai:sync
 ```
-

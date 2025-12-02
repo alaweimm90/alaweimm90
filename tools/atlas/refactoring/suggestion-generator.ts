@@ -1,1 +1,1 @@
-// ATLAS Suggestion Generator - Automated refactoring suggestion creation 
+// ATLAS Suggestion Generator - Automated refactoring suggestion creation

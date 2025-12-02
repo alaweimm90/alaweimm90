@@ -2,14 +2,14 @@ name: Weekly Drift Detection
 
 on:
   schedule:
-    - cron: '0 8 * * 1'  # Weekly on Monday at 8 AM UTC
-  workflow_dispatch:  # Allow manual trigger
+    - cron: '0 8 * * 1' # Weekly on Monday at 8 AM UTC
+  workflow_dispatch: # Allow manual trigger
 
 # Explicit minimal permissions - security hardening
 permissions:
-  contents: write  # For git commit/push
-  actions: write   # For artifact upload
-  issues: write    # For issue creation
+  contents: write # For git commit/push
+  actions: write # For artifact upload
+  issues: write # For issue creation
 
 jobs:
   checkpoint:
@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for drift comparison
+          fetch-depth: 0 # Full history for drift comparison
 
       - uses: actions/setup-python@v4
         with:

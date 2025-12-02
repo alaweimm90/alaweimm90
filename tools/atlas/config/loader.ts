@@ -252,7 +252,7 @@ export class ConfigLoader extends EventEmitter {
       const errorMsg = error instanceof Error ? error.message : String(error);
       this.emit('config:error', {
         error: errorMsg,
-        path: this.configPath
+        path: this.configPath,
       });
       throw new Error(`Failed to load configuration: ${errorMsg}`);
     }
@@ -277,7 +277,7 @@ export class ConfigLoader extends EventEmitter {
       const errorMsg = error instanceof Error ? error.message : String(error);
       this.emit('config:error', {
         error: errorMsg,
-        path: this.configPath
+        path: this.configPath,
       });
       throw new Error(`Failed to save configuration: ${errorMsg}`);
     }
@@ -318,7 +318,7 @@ export class ConfigLoader extends EventEmitter {
           this.emit('config:changed', {
             oldConfig: this.config,
             newConfig,
-            path: this.configPath
+            path: this.configPath,
           });
         }
       } catch (error) {
@@ -504,21 +504,21 @@ export class ConfigLoader extends EventEmitter {
  */
 export function createDefaultConfig(): OptimizationConfig {
   return {
-    version: "1.0.0",
-    description: "Default ATLAS Optimization Configuration",
+    version: '1.0.0',
+    description: 'Default ATLAS Optimization Configuration',
 
     optimizer: {
       schedule: {
         enabled: true,
         intervalMinutes: 60,
-        maxConcurrentJobs: 3
+        maxConcurrentJobs: 3,
       },
       thresholds: {
         chaosThreshold: 0.7,
         complexityThreshold: 0.8,
         minConfidence: 0.6,
         maxFileSize: 1000000,
-        maxChangesPerCommit: 50
+        maxChangesPerCommit: 50,
       },
       safety: {
         rateLimitPerHour: 10,
@@ -526,25 +526,20 @@ export function createDefaultConfig(): OptimizationConfig {
         rollbackEnabled: true,
         manualOverride: false,
         dryRunByDefault: false,
-        maxExecutionTimeMinutes: 30
+        maxExecutionTimeMinutes: 30,
       },
-      repositories: []
+      repositories: [],
     },
 
     monitor: {
       polling: {
         enabled: true,
-        intervalSeconds: 300
+        intervalSeconds: 300,
       },
       filesystem: {
         watchEnabled: true,
         debounceMs: 2000,
-        ignorePatterns: [
-          "**/node_modules/**",
-          "**/dist/**",
-          "**/build/**",
-          "**/*.log"
-        ]
+        ignorePatterns: ['**/node_modules/**', '**/dist/**', '**/build/**', '**/*.log'],
       },
       triggers: {
         onFileChange: true,
@@ -552,81 +547,75 @@ export function createDefaultConfig(): OptimizationConfig {
         onPush: false,
         minChangesThreshold: 5,
         maxFrequencyMs: 300000,
-        cooldownPeriodMs: 60000
+        cooldownPeriodMs: 60000,
       },
       analysis: {
         incremental: true,
         cacheResults: true,
         cacheTtlMinutes: 30,
         parallelAnalysis: true,
-        maxConcurrency: 2
-      }
+        maxConcurrency: 2,
+      },
     },
 
     dashboard: {
       port: 8080,
-      host: "localhost",
+      host: 'localhost',
       enableWebSocket: true,
       enableREST: true,
       telemetry: {
         retentionPeriodDays: 30,
         maxEvents: 10000,
         enableMetrics: true,
-        enableTracing: false
+        enableTracing: false,
       },
       security: {
         enableAuth: false,
         apiKeys: [],
-        corsOrigins: ["*"]
+        corsOrigins: ['*'],
       },
       ui: {
-        theme: "dark",
+        theme: 'dark',
         refreshIntervalMs: 5000,
-        maxChartPoints: 100
-      }
+        maxChartPoints: 100,
+      },
     },
 
     refactoring: {
-      enabledRules: [
-        "remove-unused-imports",
-        "simplify-conditionals",
-        "extract-methods"
-      ],
-      disabledRules: [
-        "aggressive-renaming"
-      ],
+      enabledRules: ['remove-unused-imports', 'simplify-conditionals', 'extract-methods'],
+      disabledRules: ['aggressive-renaming'],
       safetyChecks: {
         requireTests: false,
         checkBuild: true,
         validateTypes: true,
-        performanceRegressionCheck: false
+        performanceRegressionCheck: false,
       },
       limits: {
         maxFilesPerOperation: 10,
         maxChangesPerFile: 20,
-        maxTotalChanges: 100
-      }
+        maxTotalChanges: 100,
+      },
     },
 
     agents: {
-      defaultAgent: "atlas-optimizer",
-      fallbackAgents: ["atlas-refactor"],
+      defaultAgent: 'atlas-optimizer',
+      fallbackAgents: ['atlas-refactor'],
       timeouts: {
         analysis: 300000,
         refactoring: 600000,
-        validation: 120000
+        validation: 120000,
       },
       retryPolicy: {
         maxRetries: 3,
         backoffMultiplier: 2,
-        initialDelayMs: 1000
-      }
+        initialDelayMs: 1000,
+      },
     },
 
     logging: {
-      level: "info",
-      format: "json",
-      outputs: ["console"]
+      level: 'info',
+      format: 'json',
+      outputs: ['console'],
     },
 
     notifications: {
@@ -635,49 +624,49 @@ export function createDefaultConfig(): OptimizationConfig {
         console: true,
         file: false,
         webhook: false,
-        email: false
+        email: false,
       },
       triggers: {
         onOptimizationComplete: true,
         onOptimizationFailure: true,
         onHighChaosDetected: true,
         onSystemError: true,
-        onCircuitBreakerOpen: true
-      }
+        onCircuitBreakerOpen: true,
+      },
     },
 
     backup: {
       enabled: true,
-      strategy: "git-commit",
+      strategy: 'git-commit',
       preOptimizationBackup: true,
       postOptimizationBackup: true,
-      backupBranch: "atlas-backup-{timestamp}",
+      backupBranch: 'atlas-backup-{timestamp}',
       retention: {
         maxBackups: 10,
-        maxAgeDays: 7
-      }
+        maxAgeDays: 7,
+      },
     },
 
     performance: {
-      memoryLimit: "512m",
-      cpuLimit: "50%",
+      memoryLimit: '512m',
+      cpuLimit: '50%',
       concurrencyLimits: {
         analysis: 2,
         refactoring: 1,
-        fileOperations: 5
+        fileOperations: 5,
       },
       timeouts: {
         fileOperation: 30000,
         networkRequest: 10000,
-        analysis: 300000
-      }
+        analysis: 300000,
+      },
     },
 
     experimental: {
       aiPoweredSuggestions: false,
       predictiveOptimization: false,
       autoScaling: false,
-      federatedLearning: false
-    }
+      federatedLearning: false,
+    },
   };
 }

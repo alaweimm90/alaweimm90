@@ -2,13 +2,13 @@ name: MCP Configuration Validation
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - '.ai/mcp/**'
       - '.metaHub/scripts/**'
       - '.github/workflows/mcp-validation.yml'
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     paths:
       - '.ai/mcp/**'
       - '.metaHub/scripts/**'
@@ -327,7 +327,15 @@ jobs:
   final-report:
     name: Generate Validation Report
     runs-on: ubuntu-latest
-    needs: [validate-mcp-config, test-workflow-runner, security-scan, integration-matrix, devops-coverage, documentation-check]
+    needs:
+      [
+        validate-mcp-config,
+        test-workflow-runner,
+        security-scan,
+        integration-matrix,
+        devops-coverage,
+        documentation-check,
+      ]
     if: always()
 
     steps:

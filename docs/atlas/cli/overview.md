@@ -37,23 +37,27 @@ atlas --help
 ### Auto-Completion Setup
 
 #### Bash
+
 ```bash
 echo 'eval "$(atlas completion bash)"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 #### Zsh
+
 ```bash
 echo 'eval "$(atlas completion zsh)"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
 #### Fish
+
 ```bash
 atlas completion fish > ~/.config/fish/completions/atlas.fish
 ```
 
 #### PowerShell
+
 ```powershell
 atlas completion powershell >> $PROFILE
 ```
@@ -580,6 +584,7 @@ atlas task submit --help --type code_generation
 ### Enterprise Support
 
 For enterprise customers:
+
 - **Dedicated Support**: enterprise@atlas-platform.com
 - **SLA**: 1-hour response time
 - **Training**: On-site and virtual sessions

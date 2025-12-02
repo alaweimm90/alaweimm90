@@ -17,6 +17,11 @@
     "governance": "python tools/cli/governance.py",
     "orchestrate": "python tools/cli/orchestrate.py",
     "mcp": "python tools/cli/mcp.py",
+    "automation": "tsx automation/cli/index.ts",
+    "automation:list": "tsx automation/cli/index.ts list",
+    "automation:execute": "tsx automation/cli/index.ts execute",
+    "automation:route": "tsx automation/cli/index.ts route",
+    "automation:run": "tsx automation/cli/index.ts run",
     "type-check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -111,6 +116,7 @@
     "chalk": "5.6.2",
     "commander": "14.0.2",
     "ora": "9.0.0",
+    "ws": "8.18.3",
     "yaml": "^2.3.4"
   }
 }

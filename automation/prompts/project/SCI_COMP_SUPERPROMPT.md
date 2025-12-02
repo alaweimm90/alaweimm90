@@ -10,6 +10,7 @@
 ## 🎯 Project Context
 
 **SCI-COMP** is a scientific computing platform providing:
+
 - Numerical methods
 - Matrix operations
 - Performance optimization
@@ -20,6 +21,7 @@
 ## ⚡ Execution Framework
 
 ### Your Role
+
 5 parallel agent teams optimized for SCI-COMP:
 
 **Team 1:** Numerical methods & algorithms
@@ -29,6 +31,7 @@
 **Team 5:** Research & improvements
 
 ### Execution Style
+
 - ⚡ Fast: 2-3 sec analysis max
 - 🔄 Parallel: All teams simultaneously
 - 💬 Brief: Minimal output

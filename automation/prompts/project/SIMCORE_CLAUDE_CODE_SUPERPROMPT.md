@@ -1,5 +1,6 @@
 # SimCore Claude Code Superprompt
-*Ultimate implementation guide for the SimCore Interactive Scientific Computing Laboratory*
+
+_Ultimate implementation guide for the SimCore Interactive Scientific Computing Laboratory_
 
 ## 🚀 Master Superprompt
 
@@ -50,26 +51,31 @@ Reference the complete documentation in SIMCORE_CLAUDE_CODE_DOCUMENTATION.md for
 ## 🎯 Focused Implementation Prompts
 
 ### 1. Scientific Computing Core
+
 ```
 Implement the SimCore scientific computing core with WebGPU acceleration framework. Create the physics calculation libraries, mathematical algorithms, and GPU compute pipelines. Include the tight-binding calculations for graphene band structure, Monte Carlo algorithms for Ising model, and TDSE solver with wave packet dynamics. Ensure research-grade accuracy with literature verification and comprehensive error handling.
 ```
 
 ### 2. Interactive Visualization System
+
 ```
 Build the SimCore visualization system with publication-quality scientific plots using plotly.js and Three.js 3D graphics. Implement the crystal structure viewer, band structure plots, wave function visualization, and lattice displays. Include interactive parameter controls, real-time updates, and export capabilities for research use. Ensure responsive design and touch optimization.
 ```
 
 ### 3. Physics Module Architecture
+
 ```
 Create the SimCore physics module system with 25+ interactive simulations across quantum mechanics, statistical physics, and advanced computational methods. Implement the PhysicsModuleLayout component, domain-specific theming, theory integration panels, and parameter validation. Include lazy loading, code splitting, and memory management for optimal performance.
 ```
 
 ### 4. Progressive Web App Implementation
+
 ```
 Implement SimCore as a comprehensive Progressive Web App with offline capability, service workers, and smart caching. Include the audit system with Lighthouse, axe, Playwright, and Pa11y integration. Ensure mobile-first responsive design, touch targets, and cross-platform compatibility with progressive enhancement strategies.
 ```
 
 ### 5. Educational Integration System
+
 ```
 Build the SimCore educational framework with theory integration, LaTeX equation rendering using KaTeX, scientific references, and interactive derivations. Implement the tutorial system, difficulty progression, and comprehensive documentation. Include shareable URLs, session save/load, and collaboration features for educational use.
 ```
@@ -79,6 +85,7 @@ Build the SimCore educational framework with theory integration, LaTeX equation 
 ## 🛠️ Technical Implementation Guide
 
 ### Required Technology Stack
+
 ```json
 {
   "core": {
@@ -117,6 +124,7 @@ Build the SimCore educational framework with theory integration, LaTeX equation 
 ```
 
 ### Essential Component Patterns
+
 ```typescript
 // Physics Module Layout Pattern
 interface PhysicsModuleProps {
@@ -148,6 +156,7 @@ interface ScientificPlotProps {
 ## ✅ Success Validation Checklist
 
 ### Core Functionality
+
 - [ ] 25+ interactive scientific modules implemented
 - [ ] WebGPU acceleration framework functional
 - [ ] Research-grade accuracy verified against literature
@@ -155,12 +164,14 @@ interface ScientificPlotProps {
 - [ ] Mobile-first responsive design implemented
 
 ### Performance Metrics
+
 - [ ] Lighthouse Performance Score: 90+ (Desktop), 85+ (Mobile)
 - [ ] Core Web Vitals: LCP <2.5s, FID <100ms, CLS <0.1
 - [ ] Bundle Size: <500KB gzipped for initial load
 - [ ] Real-time simulations at 60fps achieved
 
 ### Quality Assurance
+
 - [ ] Comprehensive audit pipeline functional
 - [ ] WCAG 2.1 AA accessibility compliance achieved
 - [ ] 95%+ test coverage for physics calculations
@@ -168,6 +179,7 @@ interface ScientificPlotProps {
 - [ ] Error boundaries and fallback systems implemented
 
 ### Scientific Accuracy
+
 - [ ] All equations verified against literature
 - [ ] Numerical benchmarks match published results
 - [ ] Unit consistency maintained throughout
@@ -175,6 +187,7 @@ interface ScientificPlotProps {
 - [ ] Academic citations and references included
 
 ### User Experience
+
 - [ ] Intuitive navigation and module discovery
 - [ ] Responsive design across all devices
 - [ ] Touch-optimized interactions for mobile
@@ -186,6 +199,7 @@ interface ScientificPlotProps {
 ## 🚀 Deployment Commands
 
 ### Development Setup
+
 ```bash
 # Clone and setup
 git clone https://github.com/alaweimm90/SimCore.git
@@ -201,6 +215,7 @@ npm run audit:full
 ```
 
 ### Production Build
+
 ```bash
 # Build for production
 npm run build
@@ -213,6 +228,7 @@ npm run deploy
 ```
 
 ### Quality Assurance
+
 ```bash
 # Run full audit suite
 npm run audit:full
@@ -234,6 +250,7 @@ npm run test:coverage
 ## 📋 Quick Reference
 
 ### Essential Imports
+
 ```typescript
 // Core React and utilities
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -257,6 +274,7 @@ import { solveTDSE } from '@/lib/physics/quantum';
 ```
 
 ### Key File Locations
+
 ```
 src/
 ├── components/ui/           # shadcn/ui components
@@ -273,24 +291,28 @@ src/
 ## 🎯 Implementation Priority
 
 ### Phase 1: Foundation (Week 1)
+
 1. Set up React + TypeScript + Vite architecture
 2. Implement shadcn/ui component system
 3. Create physics domain theming system
 4. Build WebGPU acceleration framework
 
 ### Phase 2: Core Modules (Week 2-3)
+
 1. Implement quantum mechanics modules
 2. Build statistical physics simulations
 3. Create advanced computational methods
 4. Add scientific visualization system
 
 ### Phase 3: Enhancement (Week 4)
+
 1. Implement Progressive Web App features
 2. Add comprehensive audit system
 3. Optimize performance and accessibility
 4. Complete educational integration
 
 ### Phase 4: Polish (Week 5)
+
 1. Conduct thorough testing and validation
 2. Optimize for production deployment
 3. Complete documentation and examples

@@ -1,0 +1,8 @@
+{
+  "stepId": "image",
+  "timestamp": "2025-12-01T08:38:27.482Z",
+  "success": true,
+  "output": "image lint ok",
+  "latency": 172,
+  "agentId": "claude-opus"
+}

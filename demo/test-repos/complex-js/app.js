@@ -34,7 +34,7 @@ function processFiles(directory, callback) {
               words: wordCount,
               chars: charCount,
               complexity: complexity,
-              size: stats.size
+              size: stats.size,
             });
             processed++;
             if (processed === files.length) {
@@ -50,9 +50,14 @@ function processFiles(directory, callback) {
 function calculateComplexity(content) {
   let complexity = 1;
   const lines = content.split('\n');
-  lines.forEach(line => {
+  lines.forEach((line) => {
     const trimmed = line.trim();
-    if (trimmed.includes('if ') || trimmed.includes('else') || trimmed.includes('for ') || trimmed.includes('while ')) {
+    if (
+      trimmed.includes('if ') ||
+      trimmed.includes('else') ||
+      trimmed.includes('for ') ||
+      trimmed.includes('while ')
+    ) {
       complexity++;
     }
     if (trimmed.includes('&&') || trimmed.includes('||')) {
@@ -70,10 +75,10 @@ function analyzeResults(results, callback) {
     totalChars: 0,
     avgComplexity: 0,
     maxComplexity: 0,
-    minComplexity: Infinity
+    minComplexity: Infinity,
   };
 
-  results.forEach(result => {
+  results.forEach((result) => {
     summary.totalLines += result.lines;
     summary.totalWords += result.words;
     summary.totalChars += result.chars;
@@ -93,9 +98,9 @@ function analyzeResults(results, callback) {
   }
 
   const categorized = {
-    simple: results.filter(r => r.complexity < 5),
-    moderate: results.filter(r => r.complexity >= 5 && r.complexity < 10),
-    complex: results.filter(r => r.complexity >= 10)
+    simple: results.filter((r) => r.complexity < 5),
+    moderate: results.filter((r) => r.complexity >= 5 && r.complexity < 10),
+    complex: results.filter((r) => r.complexity >= 10),
   };
 
   callback(null, { summary, categorized, details: results });
@@ -122,7 +127,7 @@ File Categories:
 - Complex (>= 10): ${analysis.categorized.complex.length}
 
 Detailed Results:
-${analysis.details.map(d => `- ${d.file}: ${d.complexity} complexity`).join('\n')}
+${analysis.details.map((d) => `- ${d.file}: ${d.complexity} complexity`).join('\n')}
   `;
 
   fs.writeFile('report.txt', report, (err) => {

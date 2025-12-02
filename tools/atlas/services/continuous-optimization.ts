@@ -1,1 +1,1 @@
-// ATLAS Continuous Optimization Service - Automated repository monitoring and improvement 
+// ATLAS Continuous Optimization Service - Automated repository monitoring and improvement

@@ -1,0 +1,181 @@
+name: Structure Validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*'
+      - '!.github/**'
+      - '!docs/**'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-structure:
+    name: Validate Repository Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate root structure
+        id: validate
+        run: |
+          python << 'EOF'
+          import os
+          import sys
+          import yaml
+          from pathlib import Path
+
+          # Load policy
+          policy_path = Path('.metaHub/policies/root-structure.yaml')
+          if not policy_path.exists():
+              print("::error::Policy file not found")
+              sys.exit(1)
+
+          with open(policy_path) as f:
+              policy = yaml.safe_load(f)
+
+          errors = []
+          warnings = []
+
+          # Get all allowed directories
+          allowed_dirs = set()
+          for category in policy.get('allowed_directories', {}).values():
+              if isinstance(category, list):
+                  for item in category:
+                      if isinstance(item, dict) and 'name' in item:
+                          allowed_dirs.add(item['name'])
+
+          # Get forbidden patterns
+          forbidden = policy.get('forbidden', {})
+          forbidden_files = forbidden.get('file_patterns', [])
+          forbidden_dirs = forbidden.get('directory_patterns', [])
+          forbidden_specific = forbidden.get('specific_items', [])
+
+          # Check root level items
+          root_items = os.listdir('.')
+
+          for item in root_items:
+              item_path = Path(item)
+
+              # Skip hidden files that are allowed
+              if item.startswith('.') and item in allowed_dirs:
+                  continue
+
+              # Check for forbidden specific items
+              if item in forbidden_specific:
+                  errors.append(f"Forbidden item at root: {item}")
+                  continue
+
+              # Check for forbidden patterns
+              import fnmatch
+              for pattern in forbidden_files:
+                  if fnmatch.fnmatch(item, pattern):
+                      errors.append(f"Forbidden file pattern at root: {item} (matches {pattern})")
+
+              for pattern in forbidden_dirs:
+                  if item_path.is_dir() and fnmatch.fnmatch(item, pattern):
+                      errors.append(f"Forbidden directory pattern at root: {item} (matches {pattern})")
+
+              # Check for malformed names
+              if item.endswith('}') or item.endswith('{'):
+                  errors.append(f"Malformed name at root: {item}")
+
+              if item.startswith('-') and len(item) <= 3:
+                  errors.append(f"Invalid name at root: {item}")
+
+          # Check for README in tool directories
+          tool_dirs = ['tools/ai', 'tools/lib', 'tools/devops', 'tools/atlas', 'tests', 'src']
+          for dir_path in tool_dirs:
+              readme_path = Path(dir_path) / 'README.md'
+              if Path(dir_path).exists() and not readme_path.exists():
+                  warnings.append(f"Missing README.md in {dir_path}")
+
+          # Output results
+          if errors:
+              print("::group::Errors")
+              for error in errors:
+                  print(f"::error::{error}")
+              print("::endgroup::")
+
+          if warnings:
+              print("::group::Warnings")
+              for warning in warnings:
+                  print(f"::warning::{warning}")
+              print("::endgroup::")
+
+          if errors:
+              print(f"\n❌ Validation failed with {len(errors)} error(s)")
+              sys.exit(1)
+          else:
+              print(f"\n✅ Validation passed ({len(warnings)} warning(s))")
+              sys.exit(0)
+          EOF
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '⚠️ **Structure Validation Failed**\n\nPlease check the workflow logs for details on forbidden files or directories at the root level.\n\nRefer to `.metaHub/policies/root-structure.yaml` for allowed items.'
+            })
+
+  check-readme-coverage:
+    name: Check README Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check README files
+        run: |
+          echo "Checking README coverage..."
+
+          # Directories that should have README
+          dirs=(
+            "tools/ai"
+            "tools/lib"
+            "tools/devops"
+            "tools/atlas"
+            "automation"
+            "automation-ts"
+            "tests"
+            "src"
+            ".metaHub/scripts"
+          )
+
+          missing=0
+          for dir in "${dirs[@]}"; do
+            if [ -d "$dir" ] && [ ! -f "$dir/README.md" ]; then
+              echo "::warning::Missing README.md in $dir"
+              missing=$((missing + 1))
+            fi
+          done
+
+          if [ $missing -gt 0 ]; then
+            echo "::notice::$missing directories are missing README.md files"
+          else
+            echo "✅ All checked directories have README.md"
+          fi

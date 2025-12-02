@@ -57,6 +57,7 @@ KILO Foundation (Existing)          ATLAS Extensions (New)
 ```
 
 **Key Integration Points:**
+
 - Uses [`validation.py`](../tools/lib/validation.py) for agent capability validation
 - Extends [`checkpoint.py`](../tools/lib/checkpoint.py) for task recovery
 - Leverages [`telemetry.py`](../tools/lib/telemetry.py) for performance metrics
@@ -76,61 +77,61 @@ graph TB
         API[REST API]
         SDK[Python SDK]
     end
-    
+
     subgraph Orchestration Layer
         Router[Task Router]
         Registry[Agent Registry]
         Balancer[Load Balancer]
         Fallback[Fallback Manager]
     end
-    
+
     subgraph Agent Layer
         Claude[Claude Sonnet]
         GPT4[GPT-4 Turbo]
         Gemini[Gemini Pro]
         Local[Local Models]
     end
-    
+
     subgraph Optimization Layer
         Analyzer[Repository Analyzer]
         Engine[Refactoring Engine]
         Scheduler[Optimization Scheduler]
     end
-    
+
     subgraph Storage Layer
         Metrics[(Metrics DB)]
         State[(State Store)]
         History[(Task History)]
     end
-    
+
     subgraph KILO Foundation
         Validation[validation.py]
         Checkpoint[checkpoint.py]
         Telemetry[telemetry.py]
         Governance[governance.py]
     end
-    
+
     CLI --> Router
     API --> Router
     SDK --> Router
-    
+
     Router --> Registry
     Router --> Balancer
     Router --> Fallback
-    
+
     Balancer --> Claude
     Balancer --> GPT4
     Balancer --> Gemini
     Balancer --> Local
-    
+
     Router --> Analyzer
     Analyzer --> Engine
     Engine --> Scheduler
-    
+
     Router --> Metrics
     Router --> State
     Router --> History
-    
+
     Router --> Validation
     Router --> Checkpoint
     Router --> Telemetry
@@ -148,12 +149,12 @@ sequenceDiagram
     participant Agent2
     participant Fallback
     participant Telemetry
-    
+
     User->>Router: Submit Task
     Router->>Registry: Query Capabilities
     Registry-->>Router: Agent Rankings
     Router->>Agent1: Execute Task
-    
+
     alt Success
         Agent1-->>Router: Result
         Router->>Telemetry: Record Success
@@ -179,7 +180,7 @@ graph LR
     Secondary -->|Failure| Tertiary[Tertiary Agent]
     Tertiary -->|Success| Done
     Tertiary -->|Failure| Human[Human Escalation]
-    
+
     style Primary fill:#90EE90
     style Secondary fill:#FFD700
     style Tertiary fill:#FFA500
@@ -215,7 +216,7 @@ graph LR
     Analyze --> Learn[Update Routing Model]
     Learn --> Optimize[Optimize Selection]
     Optimize --> Execute
-    
+
     style Execute fill:#E3F2FD
     style Measure fill:#FFF9C4
     style Analyze fill:#F3E5F5
@@ -232,6 +233,7 @@ graph LR
 **Purpose:** Maintain catalog of available agents with capabilities, health status, and performance metrics.
 
 **Responsibilities:**
+
 - Register and deregister agents
 - Track agent capabilities and constraints
 - Monitor agent health and availability
@@ -250,17 +252,17 @@ class AgentRegistry:
         metadata: Dict[str, Any]
     ) -> bool:
         """Register a new agent with the system."""
-        
+
     def get_agent(self, agent_id: str) -> Optional[Agent]:
         """Retrieve agent by ID."""
-        
+
     def query_agents(
         self,
         required_capabilities: List[str],
         constraints: Optional[Dict[str, Any]] = None
     ) -> List[Agent]:
         """Find agents matching requirements."""
-        
+
     def update_health(
         self,
         agent_id: str,
@@ -268,7 +270,7 @@ class AgentRegistry:
         metrics: Dict[str, float]
     ) -> None:
         """Update agent health metrics."""
-        
+
     def get_performance_history(
         self,
         agent_id: str,
@@ -278,6 +280,7 @@ class AgentRegistry:
 ```
 
 **Data Storage:**
+
 - Agent metadata: `.metaHub/atlas/agents/registry.json`
 - Health metrics: `.metaHub/atlas/agents/health.jsonl`
 - Performance history: `.metaHub/atlas/agents/performance.jsonl`
@@ -289,6 +292,7 @@ class AgentRegistry:
 **Purpose:** Intelligently route tasks to the most appropriate agent based on capabilities, performance, and current load.
 
 **Responsibilities:**
+
 - Analyze task requirements
 - Score available agents
 - Select optimal agent
@@ -301,21 +305,21 @@ class AgentRegistry:
 def route_task(task: Task) -> Agent:
     """
     Route task to optimal agent using weighted scoring.
-    
-    Score = (0.4 × capability_match) + 
-            (0.3 × performance_score) + 
-            (0.2 × availability_score) + 
+
+    Score = (0.4 × capability_match) +
+            (0.3 × performance_score) +
+            (0.2 × availability_score) +
             (0.1 × cost_efficiency)
     """
     candidates = registry.query_agents(task.required_capabilities)
-    
+
     scores = []
     for agent in candidates:
         capability_score = calculate_capability_match(agent, task)
         performance_score = get_performance_score(agent)
         availability_score = get_availability_score(agent)
         cost_score = calculate_cost_efficiency(agent, task)
-        
+
         total_score = (
             0.4 * capability_score +
             0.3 * performance_score +
@@ -323,7 +327,7 @@ def route_task(task: Task) -> Agent:
             0.1 * cost_score
         )
         scores.append((agent, total_score))
-    
+
     # Select highest scoring agent
     return max(scores, key=lambda x: x[1])[0]
 ```
@@ -334,14 +338,14 @@ def route_task(task: Task) -> Agent:
 class TaskRouter:
     def route(self, task: Task) -> RoutingDecision:
         """Route task to optimal agent."""
-        
+
     def calculate_score(
         self,
         agent: Agent,
         task: Task
     ) -> float:
         """Calculate routing score for agent-task pair."""
-        
+
     def get_fallback_chain(
         self,
         task: Task,
@@ -357,6 +361,7 @@ class TaskRouter:
 **Purpose:** Distribute tasks across agents to optimize throughput and prevent overload.
 
 **Responsibilities:**
+
 - Monitor agent load
 - Distribute tasks evenly
 - Prevent agent overload
@@ -374,7 +379,7 @@ class LoadBalancer:
     ) -> Agent:
         """
         Distribute task using weighted round-robin with load awareness.
-        
+
         Weight = base_weight × (1 - current_load_ratio)
         """
         weighted_agents = []
@@ -382,14 +387,14 @@ class LoadBalancer:
             load_ratio = agent.current_load / agent.max_capacity
             weight = agent.base_weight * (1 - load_ratio)
             weighted_agents.append((agent, weight))
-        
+
         # Select using weighted random selection
         return weighted_random_choice(weighted_agents)
-    
+
     def check_capacity(self, agent: Agent) -> bool:
         """Check if agent has capacity for new task."""
         return agent.current_load < agent.max_capacity * 0.9
-    
+
     def queue_task(self, task: Task, agent: Agent) -> None:
         """Queue task if agent at capacity."""
 ```
@@ -401,6 +406,7 @@ class LoadBalancer:
 **Purpose:** Handle agent failures with intelligent fallback and retry logic.
 
 **Responsibilities:**
+
 - Detect agent failures
 - Execute fallback chain
 - Implement retry logic with exponential backoff
@@ -418,17 +424,17 @@ class FallbackManager:
     ) -> TaskResult:
         """
         Execute task with 3-tier fallback chain.
-        
+
         Tier 1: Primary agent (3 retries with exponential backoff)
         Tier 2: Secondary agent (2 retries)
         Tier 3: Tertiary agent (1 retry)
         Final: Human escalation
         """
         fallback_chain = self.router.get_fallback_chain(task)
-        
+
         for tier, agent in enumerate(fallback_chain):
             max_retries = 3 - tier  # Decreasing retries per tier
-            
+
             for attempt in range(max_retries):
                 try:
                     result = agent.execute(task)
@@ -438,7 +444,7 @@ class FallbackManager:
                     backoff = 2 ** attempt  # Exponential backoff
                     time.sleep(backoff)
                     self.telemetry.record_failure(agent, task, tier, attempt, e)
-        
+
         # All fallbacks exhausted
         return self.escalate_to_human(task)
 ```
@@ -453,7 +459,7 @@ class FallbackManager:
         primary_agent: Agent
     ) -> TaskResult:
         """Execute task with fallback handling."""
-        
+
     def handle_failure(
         self,
         task: Task,
@@ -461,7 +467,7 @@ class FallbackManager:
         error: Exception
     ) -> Optional[Agent]:
         """Handle agent failure and return next fallback."""
-        
+
     def escalate_to_human(self, task: Task) -> TaskResult:
         """Escalate task to human intervention."""
 ```
@@ -473,6 +479,7 @@ class FallbackManager:
 **Purpose:** Analyze repository code to identify technical debt and optimization opportunities.
 
 **Responsibilities:**
+
 - Parse code using AST
 - Calculate chaos metrics
 - Identify code smells
@@ -487,7 +494,7 @@ class RepositoryAnalyzer:
     def analyze(self, repo_path: Path) -> AnalysisReport:
         """
         Comprehensive repository analysis.
-        
+
         Steps:
         1. Parse all source files to AST
         2. Calculate chaos metrics per file
@@ -496,21 +503,21 @@ class RepositoryAnalyzer:
         5. Generate actionable report
         """
         files = self.discover_source_files(repo_path)
-        
+
         chaos_metrics = {}
         opportunities = []
-        
+
         for file_path in files:
             ast_tree = self.parse_to_ast(file_path)
             metrics = self.calculate_chaos_metrics(ast_tree)
             chaos_metrics[file_path] = metrics
-            
+
             if metrics.total_score > self.threshold:
                 opps = self.identify_opportunities(ast_tree, metrics)
                 opportunities.extend(opps)
-        
+
         prioritized = self.prioritize_opportunities(opportunities)
-        
+
         return AnalysisReport(
             chaos_metrics=chaos_metrics,
             opportunities=prioritized,
@@ -524,13 +531,13 @@ class RepositoryAnalyzer:
 def calculate_chaos_score(ast_tree: AST) -> ChaosMetrics:
     """
     Calculate weighted chaos score.
-    
-    Chaos Score = (0.3 × complexity) + 
-                  (0.25 × duplication) + 
-                  (0.2 × coupling) + 
-                  (0.15 × size) + 
+
+    Chaos Score = (0.3 × complexity) +
+                  (0.25 × duplication) +
+                  (0.2 × coupling) +
+                  (0.15 × size) +
                   (0.1 × documentation_gap)
-    
+
     Scale: 0-100 (higher = more chaotic)
     """
     complexity = calculate_cyclomatic_complexity(ast_tree)
@@ -538,14 +545,14 @@ def calculate_chaos_score(ast_tree: AST) -> ChaosMetrics:
     coupling = measure_coupling(ast_tree)
     size = count_lines_and_functions(ast_tree)
     doc_gap = calculate_documentation_coverage(ast_tree)
-    
+
     # Normalize each metric to 0-100 scale
     norm_complexity = min(complexity / 20 * 100, 100)
     norm_duplication = duplication * 100
     norm_coupling = min(coupling / 10 * 100, 100)
     norm_size = min(size / 500 * 100, 100)
     norm_doc_gap = (1 - doc_gap) * 100
-    
+
     total_score = (
         0.30 * norm_complexity +
         0.25 * norm_duplication +
@@ -553,7 +560,7 @@ def calculate_chaos_score(ast_tree: AST) -> ChaosMetrics:
         0.15 * norm_size +
         0.10 * norm_doc_gap
     )
-    
+
     return ChaosMetrics(
         complexity=complexity,
         duplication=duplication,
@@ -571,6 +578,7 @@ def calculate_chaos_score(ast_tree: AST) -> ChaosMetrics:
 **Purpose:** Generate and apply safe code refactorings to reduce technical debt.
 
 **Responsibilities:**
+
 - Generate refactoring operations
 - Validate safety of changes
 - Apply transformations
@@ -591,7 +599,7 @@ class RefactoringEngine:
         'add_type_hints': AddTypeHintsRefactoring,
         'extract_constant': ExtractConstantRefactoring,
     }
-    
+
     def generate_refactoring(
         self,
         opportunity: RefactoringOpportunity
@@ -599,11 +607,11 @@ class RefactoringEngine:
         """Generate refactoring for opportunity."""
         operation_class = self.OPERATIONS[opportunity.type]
         return operation_class.generate(opportunity)
-    
+
     def validate_safety(self, refactoring: Refactoring) -> SafetyReport:
         """
         Validate refactoring safety.
-        
+
         Checks:
         1. Syntax validity
         2. Type correctness
@@ -618,13 +626,13 @@ class RefactoringEngine:
             self.check_breaking_changes(refactoring),
             self.check_performance(refactoring),
         ]
-        
+
         return SafetyReport(
             safe=all(c.passed for c in checks),
             checks=checks,
             risk_level=self.calculate_risk_level(checks)
         )
-    
+
     def apply_refactoring(
         self,
         refactoring: Refactoring,
@@ -632,27 +640,27 @@ class RefactoringEngine:
     ) -> RefactoringResult:
         """Apply refactoring with safety checks."""
         safety = self.validate_safety(refactoring)
-        
+
         if not safety.safe:
             return RefactoringResult(
                 success=False,
                 error="Safety validation failed",
                 safety_report=safety
             )
-        
+
         if dry_run:
             return RefactoringResult(
                 success=True,
                 dry_run=True,
                 changes=refactoring.preview_changes()
             )
-        
+
         # Apply changes
         refactoring.apply()
-        
+
         # Run tests
         test_result = self.run_tests()
-        
+
         if not test_result.passed:
             refactoring.rollback()
             return RefactoringResult(
@@ -660,7 +668,7 @@ class RefactoringEngine:
                 error="Tests failed after refactoring",
                 test_result=test_result
             )
-        
+
         return RefactoringResult(
             success=True,
             changes=refactoring.get_changes(),
@@ -675,6 +683,7 @@ class RefactoringEngine:
 **Purpose:** Continuously monitor and optimize repositories on a schedule.
 
 **Responsibilities:**
+
 - Schedule optimization runs
 - Coordinate analysis and refactoring
 - Generate pull requests
@@ -688,7 +697,7 @@ class OptimizationService:
     def run_continuous_optimization(self):
         """
         Continuous optimization loop.
-        
+
         Schedule:
         - Daily: Quick analysis (chaos metrics only)
         - Weekly: Full analysis + refactoring suggestions
@@ -699,26 +708,26 @@ class OptimizationService:
             'weekly': self.full_analysis,
             'monthly': self.deep_optimization,
         }
-        
+
         while True:
             for frequency, task in schedule.items():
                 if self.should_run(frequency):
                     try:
                         result = task()
                         self.telemetry.record_optimization(frequency, result)
-                        
+
                         if result.has_opportunities:
                             self.create_pull_request(result)
                     except Exception as e:
                         self.telemetry.record_error(frequency, e)
-            
+
             time.sleep(3600)  # Check every hour
-    
+
     def quick_analysis(self) -> OptimizationResult:
         """Quick chaos metrics calculation."""
         metrics = self.analyzer.calculate_metrics_only()
         return OptimizationResult(type='quick', metrics=metrics)
-    
+
     def full_analysis(self) -> OptimizationResult:
         """Full analysis with refactoring suggestions."""
         report = self.analyzer.analyze(self.repo_path)
@@ -728,11 +737,11 @@ class OptimizationService:
             metrics=report.chaos_metrics,
             opportunities=opportunities
         )
-    
+
     def deep_optimization(self) -> OptimizationResult:
         """Deep analysis with automated refactorings."""
         report = self.analyzer.analyze(self.repo_path)
-        
+
         # Apply safe refactorings automatically
         applied = []
         for opp in report.opportunities:
@@ -741,7 +750,7 @@ class OptimizationService:
                 result = self.engine.apply_refactoring(refactoring)
                 if result.success:
                     applied.append(result)
-        
+
         return OptimizationResult(
             type='deep',
             metrics=report.chaos_metrics,
@@ -798,10 +807,10 @@ class OptimizationService:
     "constraints": {
       "type": "object",
       "properties": {
-        "max_tokens": {"type": "integer"},
-        "max_concurrent_tasks": {"type": "integer"},
-        "rate_limit_per_minute": {"type": "integer"},
-        "cost_per_1k_tokens": {"type": "number"}
+        "max_tokens": { "type": "integer" },
+        "max_concurrent_tasks": { "type": "integer" },
+        "rate_limit_per_minute": { "type": "integer" },
+        "cost_per_1k_tokens": { "type": "number" }
       }
     },
     "health": {
@@ -811,18 +820,18 @@ class OptimizationService:
           "type": "string",
           "enum": ["healthy", "degraded", "unhealthy", "offline"]
         },
-        "last_check": {"type": "string", "format": "date-time"},
-        "uptime_percentage": {"type": "number", "minimum": 0, "maximum": 100},
-        "avg_response_time_ms": {"type": "number"}
+        "last_check": { "type": "string", "format": "date-time" },
+        "uptime_percentage": { "type": "number", "minimum": 0, "maximum": 100 },
+        "avg_response_time_ms": { "type": "number" }
       }
     },
     "performance": {
       "type": "object",
       "properties": {
-        "success_rate": {"type": "number", "minimum": 0, "maximum": 1},
-        "avg_quality_score": {"type": "number", "minimum": 0, "maximum": 100},
-        "total_tasks_completed": {"type": "integer"},
-        "total_failures": {"type": "integer"}
+        "success_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "avg_quality_score": { "type": "number", "minimum": 0, "maximum": 100 },
+        "total_tasks_completed": { "type": "integer" },
+        "total_failures": { "type": "integer" }
       }
     }
   }
@@ -861,10 +870,10 @@ class OptimizationService:
     "context": {
       "type": "object",
       "properties": {
-        "repository": {"type": "string"},
-        "files": {"type": "array", "items": {"type": "string"}},
-        "language": {"type": "string"},
-        "framework": {"type": "string"}
+        "repository": { "type": "string" },
+        "files": { "type": "array", "items": { "type": "string" } },
+        "language": { "type": "string" },
+        "framework": { "type": "string" }
       }
     },
     "requirements": {
@@ -872,10 +881,10 @@ class OptimizationService:
       "properties": {
         "required_capabilities": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
-        "max_tokens": {"type": "integer"},
-        "timeout_seconds": {"type": "integer"},
+        "max_tokens": { "type": "integer" },
+        "timeout_seconds": { "type": "integer" },
         "priority": {
           "type": "string",
           "enum": ["low", "medium", "high", "critical"]
@@ -885,14 +894,14 @@ class OptimizationService:
     "constraints": {
       "type": "object",
       "properties": {
-        "max_cost_usd": {"type": "number"},
+        "max_cost_usd": { "type": "number" },
         "preferred_providers": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "excluded_agents": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     }
@@ -921,39 +930,39 @@ class OptimizationService:
     "complexity": {
       "type": "object",
       "properties": {
-        "cyclomatic": {"type": "integer"},
-        "cognitive": {"type": "integer"},
-        "nesting_depth": {"type": "integer"}
+        "cyclomatic": { "type": "integer" },
+        "cognitive": { "type": "integer" },
+        "nesting_depth": { "type": "integer" }
       }
     },
     "duplication": {
       "type": "object",
       "properties": {
-        "percentage": {"type": "number", "minimum": 0, "maximum": 1},
-        "duplicated_blocks": {"type": "integer"}
+        "percentage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "duplicated_blocks": { "type": "integer" }
       }
     },
     "coupling": {
       "type": "object",
       "properties": {
-        "afferent": {"type": "integer"},
-        "efferent": {"type": "integer"},
-        "instability": {"type": "number", "minimum": 0, "maximum": 1}
+        "afferent": { "type": "integer" },
+        "efferent": { "type": "integer" },
+        "instability": { "type": "number", "minimum": 0, "maximum": 1 }
       }
     },
     "size": {
       "type": "object",
       "properties": {
-        "lines_of_code": {"type": "integer"},
-        "functions": {"type": "integer"},
-        "classes": {"type": "integer"}
+        "lines_of_code": { "type": "integer" },
+        "functions": { "type": "integer" },
+        "classes": { "type": "integer" }
       }
     },
     "documentation": {
       "type": "object",
       "properties": {
-        "coverage": {"type": "number", "minimum": 0, "maximum": 1},
-        "missing_docstrings": {"type": "integer"}
+        "coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "missing_docstrings": { "type": "integer" }
       }
     },
     "timestamp": {
@@ -996,10 +1005,10 @@ class OptimizationService:
     "location": {
       "type": "object",
       "properties": {
-        "start_line": {"type": "integer"},
-        "end_line": {"type": "integer"},
-        "start_column": {"type": "integer"},
-        "end_column": {"type": "integer"}
+        "start_line": { "type": "integer" },
+        "end_line": { "type": "integer" },
+        "start_column": { "type": "integer" },
+        "end_column": { "type": "integer" }
       }
     },
     "description": {
@@ -1009,10 +1018,10 @@ class OptimizationService:
     "impact": {
       "type": "object",
       "properties": {
-        "complexity_reduction": {"type": "number"},
-        "maintainability_improvement": {"type": "number"},
-        "readability_improvement": {"type": "number"},
-        "estimated_time_saved_hours": {"type": "number"}
+        "complexity_reduction": { "type": "number" },
+        "maintainability_improvement": { "type": "number" },
+        "readability_improvement": { "type": "number" },
+        "estimated_time_saved_hours": { "type": "number" }
       }
     },
     "risk": {
@@ -1022,8 +1031,8 @@ class OptimizationService:
           "type": "string",
           "enum": ["low", "medium", "high"]
         },
-        "breaking_change_probability": {"type": "number", "minimum": 0, "maximum": 1},
-        "test_coverage": {"type": "number", "minimum": 0, "maximum": 1}
+        "breaking_change_probability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "test_coverage": { "type": "number", "minimum": 0, "maximum": 1 }
       }
     },
     "priority_score": {
@@ -1053,11 +1062,11 @@ class OptimizationService:
     "summary": {
       "type": "object",
       "properties": {
-        "total_files_analyzed": {"type": "integer"},
-        "avg_chaos_score": {"type": "number"},
-        "high_chaos_files": {"type": "integer"},
-        "total_opportunities": {"type": "integer"},
-        "estimated_debt_hours": {"type": "number"}
+        "total_files_analyzed": { "type": "integer" },
+        "avg_chaos_score": { "type": "number" },
+        "high_chaos_files": { "type": "integer" },
+        "total_opportunities": { "type": "integer" },
+        "estimated_debt_hours": { "type": "number" }
       }
     },
     "chaos_metrics": {
@@ -1075,10 +1084,10 @@ class OptimizationService:
     "trends": {
       "type": "object",
       "properties": {
-        "chaos_score_change": {"type": "number"},
-        "debt_hours_change": {"type": "number"},
-        "files_improved": {"type": "integer"},
-        "files_degraded": {"type": "integer"}
+        "chaos_score_change": { "type": "number" },
+        "debt_hours_change": { "type": "number" },
+        "files_improved": { "type": "integer" },
+        "files_degraded": { "type": "integer" }
       }
     }
   }
@@ -1095,56 +1104,56 @@ class OptimizationService:
 def select_agent(task: Task, agents: List[Agent]) -> Agent:
     """
     Select optimal agent using multi-criteria scoring.
-    
+
     Score Components:
     1. Capability Match (40%): How well agent capabilities match task requirements
     2. Performance Score (30%): Historical success rate and quality
     3. Availability Score (20%): Current load and response time
     4. Cost Efficiency (10%): Cost per token vs budget
-    
+
     Formula:
     Total Score = 0.4 × CM + 0.3 × PS + 0.2 × AS + 0.1 × CE
-    
+
     Where:
     - CM = Capability Match Score (0-100)
     - PS = Performance Score (0-100)
     - AS = Availability Score (0-100)
     - CE = Cost Efficiency Score (0-100)
     """
-    
+
     def capability_match_score(agent: Agent, task: Task) -> float:
         """Calculate capability match percentage."""
         required = set(task.required_capabilities)
         available = set(agent.capabilities)
-        
+
         if not required:
             return 100.0
-        
+
         matched = required.intersection(available)
         return (len(matched) / len(required)) * 100
-    
+
     def performance_score(agent: Agent) -> float:
         """Calculate performance score from history."""
         history = agent.performance_history
-        
+
         # Success rate (0-100)
         success_rate = history.success_rate * 100
-        
+
         # Quality score (0-100)
         quality_score = history.avg_quality_score
-        
+
         # Weighted average
         return 0.6 * success_rate + 0.4 * quality_score
-    
+
     def availability_score(agent: Agent) -> float:
         """Calculate availability score."""
         # Load factor (0-1, inverted so lower load = higher score)
         load_factor = 1 - (agent.current_load / agent.max_capacity)
-        
+
         # Response time factor (normalized to 0-1)
         # Assume 1000ms is baseline, lower is better
         response_factor = max(0, 1 - (agent.avg_response_time_ms / 1000))
-        
+
         # Health status factor
         health_factor = {
             'healthy': 1.0,
@@ -1152,24 +1161,24 @@ def select_agent(task: Task, agents: List[Agent]) -> Agent:
             'unhealthy': 0.3,
             'offline': 0.0
         }[agent.health_status]
-        
+
         # Weighted average
         return (0.4 * load_factor + 0.3 * response_factor + 0.3 * health_factor) * 100
-    
+
     def cost_efficiency_score(agent: Agent, task: Task) -> float:
         """Calculate cost efficiency score."""
         if not task.max_cost_usd:
             return 100.0  # No cost constraint
-        
+
         estimated_cost = agent.cost_per_1k_tokens * (task.estimated_tokens / 1000)
-        
+
         if estimated_cost > task.max_cost_usd:
             return 0.0  # Over budget
-        
+
         # Score based on how much budget is left
         efficiency = 1 - (estimated_cost / task.max_cost_usd)
         return efficiency * 100
-    
+
     # Calculate scores for all agents
     scored_agents = []
     for agent in agents:
@@ -1177,19 +1186,19 @@ def select_agent(task: Task, agents: List[Agent]) -> Agent:
         ps = performance_score(agent)
         as_score = availability_score(agent)
         ce = cost_efficiency_score(agent, task)
-        
+
         total_score = 0.4 * cm + 0.3 * ps + 0.2 * as_score + 0.1 * ce
-        
+
         scored_agents.append((agent, total_score, {
             'capability_match': cm,
             'performance': ps,
             'availability': as_score,
             'cost_efficiency': ce
         }))
-    
+
     # Sort by total score descending
     scored_agents.sort(key=lambda x: x[1], reverse=True)
-    
+
     # Return highest scoring agent
     return scored_agents[0][0]
 ```
@@ -1200,38 +1209,38 @@ def select_agent(task: Task, agents: List[Agent]) -> Agent:
 def calculate_chaos_score(ast_tree: AST, file_path: Path) -> ChaosMetrics:
     """
     Calculate comprehensive chaos score for a file.
-    
+
     Formula:
-    Chaos Score = 0.30 × Complexity + 
-                  0.25 × Duplication + 
-                  0.20 × Coupling + 
-                  0.15 × Size + 
+    Chaos Score = 0.30 × Complexity +
+                  0.25 × Duplication +
+                  0.20 × Coupling +
+                  0.15 × Size +
                   0.10 × Documentation Gap
-    
+
     Each component normalized to 0-100 scale.
     Higher score = more chaotic = needs refactoring
     """
-    
+
     # 1. Complexity (30% weight)
     complexity = calculate_complexity(ast_tree)
     norm_complexity = normalize_complexity(complexity)
-    
+
     # 2. Duplication (25% weight)
     duplication = detect_duplication(ast_tree)
     norm_duplication = duplication.percentage * 100
-    
+
     # 3. Coupling (20% weight)
     coupling = measure_coupling(ast_tree)
     norm_coupling = normalize_coupling(coupling)
-    
+
     # 4. Size (15% weight)
     size = measure_size(ast_tree)
     norm_size = normalize_size(size)
-    
+
     # 5. Documentation (10% weight)
     doc_coverage = calculate_documentation_coverage(ast_tree)
     norm_doc_gap = (1 - doc_coverage) * 100
-    
+
     # Calculate weighted total
     total_score = (
         0.30 * norm_complexity +
@@ -1240,7 +1249,7 @@ def calculate_chaos_score(ast_tree: AST, file_path: Path) -> ChaosMetrics:
         0.15 * norm_size +
         0.10 * norm_doc_gap
     )
-    
+
     return ChaosMetrics(
         file_path=str(file_path),
         total_score=total_score,
@@ -1255,7 +1264,7 @@ def calculate_chaos_score(ast_tree: AST, file_path: Path) -> ChaosMetrics:
 def normalize_complexity(complexity: ComplexityMetrics) -> float:
     """
     Normalize complexity to 0-100 scale.
-    
+
     Thresholds:
     - Cyclomatic < 10: Good (0-30)
     - Cyclomatic 10-20: Moderate (30-60)
@@ -1264,22 +1273,22 @@ def normalize_complexity(complexity: ComplexityMetrics) -> float:
     cyclomatic = complexity.cyclomatic
     cognitive = complexity.cognitive
     nesting = complexity.nesting_depth
-    
+
     # Normalize each metric
     cyc_score = min((cyclomatic / 20) * 100, 100)
     cog_score = min((cognitive / 30) * 100, 100)
     nest_score = min((nesting / 5) * 100, 100)
-    
+
     # Weighted average
     return 0.5 * cyc_score + 0.3 * cog_score + 0.2 * nest_score
 
 def normalize_coupling(coupling: CouplingMetrics) -> float:
     """
     Normalize coupling to 0-100 scale.
-    
+
     Uses instability metric: I = Ce / (Ca + Ce)
     Where Ce = efferent coupling, Ca = afferent coupling
-    
+
     Higher instability = higher score (more problematic)
     """
     instability = coupling.instability
@@ -1288,7 +1297,7 @@ def normalize_coupling(coupling: CouplingMetrics) -> float:
 def normalize_size(size: SizeMetrics) -> float:
     """
     Normalize size to 0-100 scale.
-    
+
     Thresholds:
     - < 200 LOC: Good (0-30)
     - 200-500 LOC: Moderate (30-60)
@@ -1296,10 +1305,10 @@ def normalize_size(size: SizeMetrics) -> float:
     """
     loc = size.lines_of_code
     functions = size.functions
-    
+
     # LOC score
     loc_score = min((loc / 500) * 100, 100)
-    
+
     # Functions per file score (ideal: 5-10)
     if functions < 5:
         func_score = 20
@@ -1307,7 +1316,7 @@ def normalize_size(size: SizeMetrics) -> float:
         func_score = 0
     else:
         func_score = min(((functions - 10) / 20) * 100, 100)
-    
+
     # Weighted average
     return 0.7 * loc_score + 0.3 * func_score
 ```
@@ -1320,19 +1329,19 @@ def prioritize_opportunities(
 ) -> List[RefactoringOpportunity]:
     """
     Prioritize refactoring opportunities by impact vs risk.
-    
+
     Priority Score = (Impact Score / Risk Score) × Urgency Multiplier
-    
+
     Where:
     - Impact Score = weighted sum of improvements (0-100)
     - Risk Score = weighted risk level (1-10)
     - Urgency Multiplier = based on chaos score (1.0-2.0)
     """
-    
+
     def calculate_impact_score(opp: RefactoringOpportunity) -> float:
         """Calculate impact score from improvements."""
         impact = opp.impact
-        
+
         # Weighted impact components
         score = (
             0.35 * impact.complexity_reduction +
@@ -1340,34 +1349,34 @@ def prioritize_opportunities(
             0.20 * impact.readability_improvement +
             0.15 * (impact.estimated_time_saved_hours * 10)  # Scale to 0-100
         )
-        
+
         return min(score, 100)
-    
+
     def calculate_risk_score(opp: RefactoringOpportunity) -> float:
         """Calculate risk score (1-10 scale)."""
         risk = opp.risk
-        
+
         # Base risk by level
         base_risk = {
             'low': 2,
             'medium': 5,
             'high': 8
         }[risk.level]
-        
+
         # Adjust by breaking change probability
         breaking_adjustment = risk.breaking_change_probability * 3
-        
+
         # Adjust by test coverage (lower coverage = higher risk)
         coverage_adjustment = (1 - risk.test_coverage) * 2
-        
+
         total_risk = base_risk + breaking_adjustment + coverage_adjustment
         return min(total_risk, 10)
-    
+
     def calculate_urgency_multiplier(opp: RefactoringOpportunity) -> float:
         """Calculate urgency multiplier based on chaos score."""
         # Get file's chaos score
         chaos_score = get_file_chaos_score(opp.file_path)
-        
+
         if chaos_score >= 80:
             return 2.0  # Critical
         elif chaos_score >= 60:
@@ -1376,19 +1385,19 @@ def prioritize_opportunities(
             return 1.2  # Medium
         else:
             return 1.0  # Low
-    
+
     # Calculate priority scores
     for opp in opportunities:
         impact = calculate_impact_score(opp)
         risk = calculate_risk_score(opp)
         urgency = calculate_urgency_multiplier(opp)
-        
+
         # Priority = (Impact / Risk) × Urgency
         opp.priority_score = (impact / risk) * urgency
-    
+
     # Sort by priority score descending
     opportunities.sort(key=lambda x: x.priority_score, reverse=True)
-    
+
     return opportunities
 ```
 
@@ -1401,22 +1410,22 @@ def execute_with_fallback(
 ) -> TaskResult:
     """
     Execute task with fallback chain and retry logic.
-    
+
     Retry Strategy:
     - Tier 1 (Primary): 3 retries with exponential backoff (1s, 2s, 4s)
     - Tier 2 (Secondary): 2 retries with exponential backoff (1s, 2s)
     - Tier 3 (Tertiary): 1 retry with 1s backoff
     - Final: Human escalation
-    
+
     Backoff Formula: delay = base_delay × (2 ^ attempt)
     """
-    
+
     max_retries_per_tier = [3, 2, 1]  # Decreasing retries
     base_delay = 1.0  # seconds
-    
+
     for tier_index, agent in enumerate(fallback_chain):
         max_retries = max_retries_per_tier[tier_index]
-        
+
         for attempt in range(max_retries):
             try:
                 # Record attempt
@@ -1430,12 +1439,12 @@ def execute_with_fallback(
                         'attempt': attempt
                     }
                 )
-                
+
                 # Execute task
                 start_time = time.time()
                 result = agent.execute(task)
                 duration_ms = (time.time() - start_time) * 1000
-                
+
                 # Record success
                 telemetry.record_event(
                     'task_attempt',
@@ -1448,7 +1457,7 @@ def execute_with_fallback(
                         'duration_ms': duration_ms
                     }
                 )
-                
+
                 return TaskResult(
                     success=True,
                     result=result,
@@ -1457,11 +1466,11 @@ def execute_with_fallback(
                     attempts=attempt + 1,
                     duration_ms=duration_ms
                 )
-                
+
             except AgentError as e:
                 # Calculate backoff delay
                 delay = base_delay * (2 ** attempt)
-                
+
                 # Record failure
                 telemetry.record_event(
                     'task_attempt',
@@ -1475,22 +1484,22 @@ def execute_with_fallback(
                         'backoff_delay': delay
                     }
                 )
-                
+
                 # Wait before retry (except on last attempt of last tier)
-                if not (tier_index == len(fallback_chain) - 1 and 
+                if not (tier_index == len(fallback_chain) - 1 and
                        attempt == max_retries - 1):
                     time.sleep(delay)
-                
+
                 # Continue to next attempt or tier
                 continue
-    
+
     # All fallbacks exhausted - escalate to human
     return escalate_to_human(task)
 
 def escalate_to_human(task: Task) -> TaskResult:
     """
     Escalate task to human intervention.
-    
+
     Actions:
     1. Create GitHub issue with task details
     2. Send notification to team
@@ -1501,24 +1510,24 @@ def escalate_to_human(task: Task) -> TaskResult:
         title=f"Task Escalation: {task.task_id}",
         body=f"""
         Task failed after all fallback attempts.
-        
+
         **Task ID:** {task.task_id}
         **Type:** {task.type}
         **Description:** {task.description}
-        
+
         **Attempted Agents:**
         {format_agent_attempts(task)}
-        
+
         **Action Required:** Manual intervention needed
         """,
         labels=['escalation', 'atlas', 'urgent']
     )
-    
+
     send_notification(
         channel='#atlas-escalations',
         message=f"Task {task.task_id} escalated to human. Issue: {issue.url}"
     )
-    
+
     telemetry.record_event(
         'task_escalation',
         'created',
@@ -1527,7 +1536,7 @@ def escalate_to_human(task: Task) -> TaskResult:
             'issue_url': issue.url
         }
     )
-    
+
     return TaskResult(
         success=False,
         error='All agents failed - escalated to human',
@@ -2010,7 +2019,7 @@ from tools.lib.validation import Validator
 class AgentRegistry:
     def __init__(self):
         self.validator = Validator()
-    
+
     def register_agent(self, agent: Agent) -> bool:
         """Validate agent capabilities before registration."""
         # Use KILO validation for agent metadata
@@ -2020,7 +2029,7 @@ class AgentRegistry:
         )
         if not is_valid:
             raise ValidationError(errors)
-        
+
         # Register agent
         self._store_agent(agent)
         return True
@@ -2031,7 +2040,7 @@ from tools.lib.checkpoint import CheckpointManager
 class TaskRouter:
     def __init__(self):
         self.checkpoint_mgr = CheckpointManager(workflow="atlas")
-    
+
     def route(self, task: Task) -> RoutingDecision:
         """Route task with checkpoint for recovery."""
         # Create checkpoint before routing
@@ -2042,10 +2051,10 @@ class TaskRouter:
                 "timestamp": datetime.now().isoformat()
             }
         )
-        
+
         # Route task
         agent = self._select_agent(task)
-        
+
         return RoutingDecision(
             agent=agent,
             checkpoint_id=checkpoint_id
@@ -2057,7 +2066,7 @@ from tools.lib.telemetry import Telemetry
 class FallbackManager:
     def __init__(self):
         self.telemetry = Telemetry()
-    
+
     def execute_with_fallback(self, task: Task, agent: Agent) -> TaskResult:
         """Execute with telemetry tracking."""
         # Record task start
@@ -2069,10 +2078,10 @@ class FallbackManager:
                 "agent_id": agent.agent_id
             }
         )
-        
+
         try:
             result = agent.execute(task)
-            
+
             # Record success
             self.telemetry.record_event(
                 "task_complete",
@@ -2083,7 +2092,7 @@ class FallbackManager:
                     "duration_ms": result.duration_ms
                 }
             )
-            
+
             return result
         except Exception as e:
             # Record failure and trigger fallback
@@ -2096,7 +2105,7 @@ class FallbackManager:
                     "error": str(e)
                 }
             )
-            
+
             return self._fallback(task, agent, e)
 ```
 
@@ -2107,12 +2116,12 @@ class FallbackManager:
 
 class ATLASAgent:
     """Base class for ATLAS-compatible agents."""
-    
+
     def __init__(self, agent_id: str, atlas_url: str):
         self.agent_id = agent_id
         self.atlas = ATLASClient(atlas_url)
         self.register()
-    
+
     def register(self):
         """Register with ATLAS system."""
         self.atlas.agents.register(
@@ -2120,7 +2129,7 @@ class ATLASAgent:
             capabilities=self.get_capabilities(),
             constraints=self.get_constraints()
         )
-    
+
     def heartbeat(self):
         """Send health status to ATLAS."""
         self.atlas.agents.update_health(
@@ -2128,18 +2137,18 @@ class ATLASAgent:
             status=self.get_health_status(),
             metrics=self.get_metrics()
         )
-    
+
     def execute(self, task: Task) -> TaskResult:
         """Execute task and report result."""
         try:
             result = self._execute_internal(task)
-            
+
             # Report success to ATLAS
             self.atlas.tasks.complete(
                 task_id=task.task_id,
                 result=result
             )
-            
+
             return result
         except Exception as e:
             # Report failure to ATLAS
@@ -2148,12 +2157,12 @@ class ATLASAgent:
                 error=str(e)
             )
             raise
-    
+
     @abstractmethod
     def get_capabilities(self) -> List[str]:
         """Return agent capabilities."""
         pass
-    
+
     @abstractmethod
     def _execute_internal(self, task: Task) -> TaskResult:
         """Internal task execution logic."""
@@ -2164,7 +2173,7 @@ class ClaudeAgent(ATLASAgent):
     def __init__(self, atlas_url: str):
         super().__init__("claude-sonnet-4", atlas_url)
         self.client = anthropic.Anthropic()
-    
+
     def get_capabilities(self) -> List[str]:
         return [
             "code_generation",
@@ -2173,7 +2182,7 @@ class ClaudeAgent(ATLASAgent):
             "debugging",
             "documentation"
         ]
-    
+
     def _execute_internal(self, task: Task) -> TaskResult:
         response = self.client.messages.create(
             model="claude-sonnet-4.5",
@@ -2183,7 +2192,7 @@ class ClaudeAgent(ATLASAgent):
                 "content": task.description
             }]
         )
-        
+
         return TaskResult(
             output=response.content[0].text,
             tokens_used=response.usage.total_tokens
@@ -2201,12 +2210,12 @@ class OptimizationService:
         self.engine = RefactoringEngine()
         # Import governance CLI
         from tools.cli.governance import cmd_enforce
-    
+
     def run_optimization(self, repo_path: Path) -> OptimizationResult:
         """Run optimization and update governance."""
         # 1. Analyze repository
         analysis = self.analyzer.analyze(repo_path)
-        
+
         # 2. Apply safe refactorings
         applied = []
         for opp in analysis.opportunities:
@@ -2214,26 +2223,26 @@ class OptimizationService:
                 result = self.engine.apply_refactoring(opp)
                 if result.success:
                     applied.append(result)
-        
+
         # 3. Update governance metadata
         self._update_governance_metadata(repo_path, analysis)
-        
+
         # 4. Run governance validation
         self._validate_governance(repo_path)
-        
+
         # 5. Create PR with governance report
         pr = self._create_pr_with_governance_report(
             repo_path,
             analysis,
             applied
         )
-        
+
         return OptimizationResult(
             analysis=analysis,
             applied_refactorings=applied,
             pull_request=pr
         )
-    
+
     def _update_governance_metadata(
         self,
         repo_path: Path,
@@ -2241,10 +2250,10 @@ class OptimizationService:
     ):
         """Update .meta/repo.yaml with optimization results."""
         meta_file = repo_path / ".meta" / "repo.yaml"
-        
+
         with open(meta_file, 'r') as f:
             metadata = yaml.safe_load(f)
-        
+
         # Add optimization metrics
         metadata['optimization'] = {
             'last_run': datetime.now().isoformat(),
@@ -2252,10 +2261,10 @@ class OptimizationService:
             'technical_debt_hours': analysis.summary.estimated_debt_hours,
             'opportunities_identified': len(analysis.opportunities)
         }
-        
+
         with open(meta_file, 'w') as f:
             yaml.dump(metadata, f)
-    
+
     def _validate_governance(self, repo_path: Path):
         """Run governance validation after optimization."""
         # Use governance CLI to validate
@@ -2264,7 +2273,7 @@ class OptimizationService:
             capture_output=True,
             text=True
         )
-        
+
         if result.returncode != 0:
             raise GovernanceValidationError(result.stderr)
 ```
@@ -2280,6 +2289,7 @@ class OptimizationService:
 **Goal:** Establish core infrastructure and agent registry
 
 **Tasks:**
+
 1. Create ATLAS directory structure
    - `.metaHub/atlas/agents/`
    - `.metaHub/atlas/tasks/`
@@ -2302,12 +2312,14 @@ class OptimizationService:
    - Implement metrics collection
 
 **Deliverables:**
+
 - `tools/atlas/registry.py` - Agent registry implementation
 - `tools/atlas/router.py` - Basic task router
 - `tools/atlas/models.py` - Data models
 - Tests for core components
 
 **Success Criteria:**
+
 - Can register agents
 - Can submit and route tasks
 - Telemetry captures all events
@@ -2320,6 +2332,7 @@ class OptimizationService:
 **Goal:** Implement intelligent routing and load balancing
 
 **Tasks:**
+
 1. Enhance Task Router
    - Implement scoring algorithm
    - Add capability matching logic
@@ -2341,12 +2354,14 @@ class OptimizationService:
    - Performance benchmarks
 
 **Deliverables:**
+
 - `tools/atlas/balancer.py` - Load balancer
 - `tools/cli/atlas.py` - CLI interface
 - Integration tests
 - Performance benchmarks
 
 **Success Criteria:**
+
 - Routing score calculation works correctly
 - Load balancing distributes evenly
 - CLI commands functional
@@ -2359,6 +2374,7 @@ class OptimizationService:
 **Goal:** Implement fallback chains and error recovery
 
 **Tasks:**
+
 1. Implement Fallback Manager
    - 3-tier fallback chain
    - Exponential backoff retry
@@ -2381,12 +2397,14 @@ class OptimizationService:
    - Metrics endpoints
 
 **Deliverables:**
+
 - `tools/atlas/fallback.py` - Fallback manager
 - `tools/atlas/api.py` - REST API server
 - Monitoring dashboard
 - Alert configuration
 
 **Success Criteria:**
+
 - Fallback chain executes correctly
 - Tasks recover from failures
 - API endpoints functional
@@ -2399,6 +2417,7 @@ class OptimizationService:
 **Goal:** Implement code analysis and chaos metrics
 
 **Tasks:**
+
 1. Implement Repository Analyzer
    - AST parsing for Python/TypeScript
    - Chaos metrics calculation
@@ -2420,12 +2439,14 @@ class OptimizationService:
    - Report storage
 
 **Deliverables:**
+
 - `tools/atlas/analyzer.py` - Repository analyzer
 - `tools/atlas/metrics.py` - Chaos metrics
 - Analysis reports
 - Governance integration
 
 **Success Criteria:**
+
 - Can analyze Python and TypeScript repos
 - Chaos scores calculated accurately
 - Opportunities identified correctly
@@ -2438,6 +2459,7 @@ class OptimizationService:
 **Goal:** Implement automated refactoring capabilities
 
 **Tasks:**
+
 1. Implement Refactoring Engine
    - Refactoring operations
    - Safety validation
@@ -2461,12 +2483,14 @@ class OptimizationService:
    - Performance validation
 
 **Deliverables:**
+
 - `tools/atlas/refactoring.py` - Refactoring engine
 - `tools/atlas/optimizer.py` - Optimization service
 - Refactoring operations
 - E2E tests
 
 **Success Criteria:**
+
 - Can apply safe refactorings
 - Tests pass after refactoring
 - PRs created automatically
@@ -2479,6 +2503,7 @@ class OptimizationService:
 **Goal:** Finalize system and create comprehensive documentation
 
 **Tasks:**
+
 1. Performance optimization
    - Profile and optimize hot paths
    - Reduce latency
@@ -2502,12 +2527,14 @@ class OptimizationService:
    - Backup/restore procedures
 
 **Deliverables:**
+
 - Complete documentation
 - Docker images
 - K8s manifests
 - Production runbook
 
 **Success Criteria:**
+
 - All documentation complete
 - System production-ready
 - Security audit passed
@@ -2526,7 +2553,7 @@ graph TB
     P4 --> P5
     P5 --> P6[Phase 6: Polish]
     P3 --> P6
-    
+
     style P1 fill:#E3F2FD
     style P2 fill:#FFF9C4
     style P3 fill:#F3E5F5
@@ -2537,14 +2564,14 @@ graph TB
 
 ### Success Criteria Summary
 
-| Phase | Key Metrics | Target |
-|-------|-------------|--------|
-| Phase 1 | Agent registration, task routing | 80%+ test coverage |
-| Phase 2 | Routing accuracy, load distribution | 100+ concurrent tasks |
-| Phase 3 | Fallback success rate, recovery time | 95%+ task completion |
-| Phase 4 | Analysis accuracy, chaos score validity | 90%+ accuracy |
-| Phase 5 | Refactoring safety, test pass rate | 100% test pass |
-| Phase 6 | Documentation completeness, production readiness | 100% complete |
+| Phase   | Key Metrics                                      | Target                |
+| ------- | ------------------------------------------------ | --------------------- |
+| Phase 1 | Agent registration, task routing                 | 80%+ test coverage    |
+| Phase 2 | Routing accuracy, load distribution              | 100+ concurrent tasks |
+| Phase 3 | Fallback success rate, recovery time             | 95%+ task completion  |
+| Phase 4 | Analysis accuracy, chaos score validity          | 90%+ accuracy         |
+| Phase 5 | Refactoring safety, test pass rate               | 100% test pass        |
+| Phase 6 | Documentation completeness, production readiness | 100% complete         |
 
 ---
 

@@ -1,9 +1,9 @@
 ---
-name: "CI/CD Pipeline Superprompt"
-version: "1.0"
-category: "project"
-tags: ["cicd", "devops", "automation", "deployment", "github-actions"]
-created: "2024-11-30"
+name: 'CI/CD Pipeline Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['cicd', 'devops', 'automation', 'deployment', 'github-actions']
+created: '2024-11-30'
 ---
 
 # CI/CD Pipeline Superprompt
@@ -46,31 +46,31 @@ pipeline_stages:
     - type_check
     - format_check
     - dependency_audit
-    
+
   2_build:
     - compile_source
     - build_artifacts
     - generate_docs
     - create_containers
-    
+
   3_test:
     - unit_tests
     - integration_tests
     - security_scan
     - performance_tests
-    
+
   4_quality_gates:
     - coverage_check
     - sonar_analysis
     - license_compliance
     - vulnerability_scan
-    
+
   5_deploy:
     - deploy_staging
     - smoke_tests
     - deploy_production
     - health_checks
-    
+
   6_release:
     - tag_release
     - generate_changelog
@@ -111,22 +111,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Lint
         run: npm run lint
-        
+
       - name: Type check
         run: npm run type-check
-        
+
       - name: Format check
         run: npm run format:check
 
@@ -138,7 +138,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -146,10 +146,10 @@ jobs:
           scan-ref: '.'
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
-          
+
       - name: Dependency audit
         run: npm audit --audit-level=high
-        
+
       - name: SAST scan
         uses: github/codeql-action/analyze@v2
 
@@ -162,19 +162,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build
         run: npm run build
-        
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -202,33 +202,33 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
       redis:
         image: redis:7
         ports:
           - 6379:6379
-          
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Run unit tests
         run: npm run test:unit -- --coverage
-        
+
       - name: Run integration tests
         run: npm run test:integration
         env:
           DATABASE_URL: postgres://postgres:test@localhost:5432/test
           REDIS_URL: redis://localhost:6379
-          
+
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -244,28 +244,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Install Playwright
         run: npx playwright install --with-deps
-        
+
       - name: Download build
         uses: actions/download-artifact@v4
         with:
           name: build
           path: dist/
-          
+
       - name: Run E2E tests
         run: npm run test:e2e
-        
+
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
@@ -284,13 +284,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
+
       - name: Check quality gate
         run: |
           # Custom quality gate checks
@@ -330,17 +330,17 @@ jobs:
       image_tag: ${{ steps.meta.outputs.tags }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Login to Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
@@ -350,7 +350,7 @@ jobs:
             type=sha,prefix=
             type=ref,event=branch
             type=semver,pattern={{version}}
-            
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -373,19 +373,19 @@ jobs:
       url: https://staging.example.com
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Configure kubectl
         uses: azure/k8s-set-context@v3
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_STAGING }}
-          
+
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/app \
             app=${{ needs.build-container.outputs.image_tag }} \
             -n staging
           kubectl rollout status deployment/app -n staging
-          
+
       - name: Run smoke tests
         run: |
           curl -f https://staging.example.com/health || exit 1
@@ -404,27 +404,27 @@ jobs:
       url: https://example.com
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Configure kubectl
         uses: azure/k8s-set-context@v3
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
-          
+
       - name: Blue-Green Deployment
         run: |
           # Deploy to green environment
           kubectl apply -f k8s/production-green.yaml
           kubectl rollout status deployment/app-green -n production
-          
+
           # Run health checks
           ./scripts/health-check.sh green
-          
+
           # Switch traffic
           kubectl patch service app -p '{"spec":{"selector":{"version":"green"}}}'
-          
+
           # Scale down blue
           kubectl scale deployment/app-blue --replicas=0 -n production
-          
+
       - name: Notify deployment
         uses: slackapi/slack-github-action@v1
         with:
@@ -459,14 +459,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Generate changelog
         id: changelog
         uses: orhun/git-cliff-action@v2
         with:
           config: cliff.toml
           args: --latest --strip header
-          
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -476,7 +476,7 @@ jobs:
           files: |
             dist/*.tar.gz
             dist/*.zip
-            
+
       - name: Publish to npm
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
@@ -490,34 +490,34 @@ jobs:
 ```yaml
 deployment_strategies:
   rolling_update:
-    description: "Gradual replacement of instances"
-    use_case: "Standard deployments with zero downtime"
+    description: 'Gradual replacement of instances'
+    use_case: 'Standard deployments with zero downtime'
     config:
       maxSurge: 25%
       maxUnavailable: 25%
-      
+
   blue_green:
-    description: "Two identical environments, instant switch"
-    use_case: "Critical applications requiring instant rollback"
+    description: 'Two identical environments, instant switch'
+    use_case: 'Critical applications requiring instant rollback'
     steps:
       - Deploy to inactive environment
       - Run validation tests
       - Switch traffic
       - Keep old environment for rollback
-      
+
   canary:
-    description: "Gradual traffic shift to new version"
-    use_case: "High-risk changes requiring validation"
+    description: 'Gradual traffic shift to new version'
+    use_case: 'High-risk changes requiring validation'
     stages:
       - 5% traffic for 10 minutes
       - 25% traffic for 30 minutes
       - 50% traffic for 1 hour
       - 100% traffic
-      
+
   feature_flags:
-    description: "Deploy code, enable features separately"
-    use_case: "Decoupling deployment from release"
-    tools: ["LaunchDarkly", "Unleash", "Flagsmith"]
+    description: 'Deploy code, enable features separately'
+    use_case: 'Decoupling deployment from release'
+    tools: ['LaunchDarkly', 'Unleash', 'Flagsmith']
 ```
 
 ---
@@ -530,17 +530,17 @@ environments:
     auto_deploy: true
     approval_required: false
     retention: 7 days
-    
+
   staging:
     auto_deploy: true
     approval_required: false
     retention: 30 days
     smoke_tests: required
-    
+
   production:
     auto_deploy: false
     approval_required: true
-    approvers: ["@team-leads"]
+    approvers: ['@team-leads']
     retention: 90 days
     smoke_tests: required
     rollback_enabled: true
@@ -551,24 +551,28 @@ environments:
 ## Execution Phases
 
 ### Phase 1: Foundation
+
 - [ ] Set up repository structure
 - [ ] Configure CI workflow for validation
 - [ ] Add build and test stages
 - [ ] Configure artifact storage
 
 ### Phase 2: Quality Gates
+
 - [ ] Integrate code coverage
 - [ ] Add security scanning
 - [ ] Configure SonarCloud
 - [ ] Set up dependency auditing
 
 ### Phase 3: Deployment
+
 - [ ] Configure staging deployment
 - [ ] Implement blue-green for production
 - [ ] Add smoke tests
 - [ ] Set up monitoring integration
 
 ### Phase 4: Release Management
+
 - [ ] Automate versioning
 - [ ] Generate changelogs
 - [ ] Configure release workflows
@@ -576,4 +580,4 @@ environments:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

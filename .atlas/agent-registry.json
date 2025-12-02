@@ -1,0 +1,134 @@
+{
+  "agents": [
+    {
+      "id": "claude-sonnet",
+      "name": "Claude Sonnet 4",
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-20250514",
+      "capabilities": [
+        "code_generation",
+        "code_review",
+        "refactoring",
+        "documentation",
+        "explanation",
+        "chat"
+      ],
+      "status": "available",
+      "config": {
+        "apiKeyEnv": "ANTHROPIC_API_KEY",
+        "maxTokens": 8192,
+        "temperature": 0.7,
+        "timeout": 120000,
+        "retries": 3,
+        "costPerToken": 0.000003
+      },
+      "registeredAt": "2025-12-01T00:18:12.268Z",
+      "metrics": {
+        "totalRequests": 18,
+        "successfulRequests": 8,
+        "failedRequests": 10,
+        "avgLatency": 12190.944444444443,
+        "totalTokens": 5400,
+        "errorRate": 0.5555555555555556
+      },
+      "lastUsed": "2025-12-01T08:38:27.185Z"
+    },
+    {
+      "id": "claude-opus",
+      "name": "Claude Opus 4",
+      "provider": "anthropic",
+      "model": "claude-opus-4-20250514",
+      "capabilities": [
+        "code_generation",
+        "code_review",
+        "refactoring",
+        "documentation",
+        "analysis",
+        "explanation",
+        "chat"
+      ],
+      "status": "available",
+      "config": {
+        "apiKeyEnv": "ANTHROPIC_API_KEY",
+        "maxTokens": 8192,
+        "temperature": 0.5,
+        "timeout": 180000,
+        "retries": 2,
+        "costPerToken": 0.000015
+      },
+      "registeredAt": "2025-12-01T00:18:12.268Z",
+      "metrics": {
+        "totalRequests": 18,
+        "successfulRequests": 12,
+        "failedRequests": 6,
+        "avgLatency": 7867.944444444444,
+        "totalTokens": 7200,
+        "errorRate": 0.3333333333333333
+      },
+      "lastUsed": "2025-12-01T08:39:29.002Z"
+    },
+    {
+      "id": "gpt-4",
+      "name": "GPT-4 Turbo",
+      "provider": "openai",
+      "model": "gpt-4-turbo-preview",
+      "capabilities": [
+        "code_generation",
+        "code_review",
+        "documentation",
+        "explanation",
+        "chat"
+      ],
+      "status": "unavailable",
+      "config": {
+        "apiKeyEnv": "OPENAI_API_KEY",
+        "maxTokens": 4096,
+        "temperature": 0.7,
+        "timeout": 120000,
+        "retries": 3,
+        "costPerToken": 0.00001
+      },
+      "registeredAt": "2025-12-01T00:18:12.268Z",
+      "metrics": {
+        "totalRequests": 0,
+        "successfulRequests": 0,
+        "failedRequests": 0,
+        "avgLatency": 0,
+        "totalTokens": 0,
+        "errorRate": 0
+      }
+    },
+    {
+      "id": "gemini-pro",
+      "name": "Gemini Pro",
+      "provider": "google",
+      "model": "gemini-pro",
+      "capabilities": [
+        "code_generation",
+        "documentation",
+        "explanation",
+        "chat"
+      ],
+      "status": "unavailable",
+      "config": {
+        "apiKeyEnv": "GOOGLE_API_KEY",
+        "maxTokens": 8192,
+        "temperature": 0.7,
+        "timeout": 120000,
+        "retries": 3,
+        "costPerToken": 0.000001
+      },
+      "registeredAt": "2025-12-01T00:18:12.268Z",
+      "metrics": {
+        "totalRequests": 0,
+        "successfulRequests": 0,
+        "failedRequests": 0,
+        "avgLatency": 0,
+        "totalTokens": 0,
+        "errorRate": 0
+      }
+    }
+  ],
+  "lastUpdated": "2025-12-01T08:39:29.002Z",
+  "version": "1.0.0"
+}

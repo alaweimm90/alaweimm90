@@ -7,24 +7,28 @@ This document outlines the backup and recovery procedures for ATLAS production e
 ### Backup Types
 
 #### 1. Database Backups
+
 - **Frequency**: Daily full backups + hourly incremental
 - **Retention**: 30 days for daily, 7 days for hourly
 - **Storage**: Encrypted cloud storage (S3/GCS/Azure Blob)
 - **Encryption**: AES-256 encryption at rest and in transit
 
 #### 2. Configuration Backups
+
 - **Frequency**: After every configuration change
 - **Scope**: Kubernetes manifests, Helm values, ConfigMaps, Secrets
 - **Storage**: Git repository + cloud storage
 - **Encryption**: Repository encryption + secret encryption
 
 #### 3. Application Data Backups
+
 - **Frequency**: Real-time replication + daily snapshots
 - **Scope**: User data, task history, metrics data
 - **Storage**: Multi-region replication
 - **Encryption**: Database-level encryption
 
 #### 4. Infrastructure Backups
+
 - **Frequency**: Weekly infrastructure snapshots
 - **Scope**: VM images, disk snapshots, network configuration
 - **Storage**: Cloud provider snapshots
@@ -35,6 +39,7 @@ This document outlines the backup and recovery procedures for ATLAS production e
 ### Database Backup
 
 #### PostgreSQL Backup
+
 ```bash
 #!/bin/bash
 # Daily PostgreSQL backup script
@@ -58,6 +63,7 @@ find ${BACKUP_DIR} -name "*.sql.gz" -mtime +30 -delete
 ```
 
 #### Redis Backup
+
 ```bash
 #!/bin/bash
 # Redis backup script
@@ -78,6 +84,7 @@ aws s3 cp ${BACKUP_DIR}/redis_${DATE}.rdb s3://atlas-backups/redis/${DATE}.rdb
 ### Configuration Backup
 
 #### Kubernetes Configuration Backup
+
 ```bash
 #!/bin/bash
 # Kubernetes configuration backup
@@ -104,6 +111,7 @@ aws s3 cp ${BACKUP_DIR}/atlas_${DATE}.yaml s3://atlas-backups/kubernetes/${DATE}
 ### Application Data Backup
 
 #### Elasticsearch Backup
+
 ```bash
 #!/bin/bash
 # Elasticsearch snapshot backup
@@ -134,6 +142,7 @@ curl -X GET "atlas-elasticsearch:9200/_snapshot/${REPO_NAME}/${SNAPSHOT_NAME}"
 ### Database Recovery
 
 #### PostgreSQL Recovery
+
 ```bash
 #!/bin/bash
 # PostgreSQL recovery script
@@ -156,6 +165,7 @@ kubectl scale deployment --all --replicas=1 -n ${NAMESPACE}
 ```
 
 #### Point-in-Time Recovery
+
 ```bash
 #!/bin/bash
 # Point-in-time recovery
@@ -182,6 +192,7 @@ kubectl exec -it atlas-postgres-0 -n atlas-system -- psql -U atlas -d atlas -c \
 ### Application Recovery
 
 #### Full System Recovery
+
 ```bash
 #!/bin/bash
 # Complete system recovery
@@ -212,6 +223,7 @@ curl -f https://api.atlas.your-domain.com/health
 ### Configuration Recovery
 
 #### Helm Release Recovery
+
 ```bash
 # List available releases
 helm history atlas -n atlas-system
@@ -224,6 +236,7 @@ helm upgrade --install atlas ./atlas -f values.yaml --force
 ```
 
 #### Manual Configuration Recovery
+
 ```bash
 # Restore from Git backup
 cd /backups/git
@@ -240,6 +253,7 @@ kubectl apply -f atlas_20231201.yaml
 ### Multi-Region Failover
 
 #### Primary Region Failure
+
 ```bash
 #!/bin/bash
 # Disaster recovery failover script
@@ -262,6 +276,7 @@ curl -f https://api.atlas.your-domain.com/health
 ```
 
 #### Failback to Primary
+
 ```bash
 #!/bin/bash
 # Failback to primary region
@@ -284,6 +299,7 @@ kubectl scale deployment atlas-api-gateway --replicas=0 -n atlas-system
 ### Data Center Recovery
 
 #### Complete Data Center Loss
+
 ```bash
 #!/bin/bash
 # Complete data center recovery
@@ -313,6 +329,7 @@ aws route53 change-resource-record-sets --hosted-zone-id Z123456789 --change-bat
 ## Testing and Validation
 
 ### Backup Verification
+
 ```bash
 #!/bin/bash
 # Backup verification script
@@ -334,16 +351,19 @@ dropdb test_restore
 ### Recovery Testing
 
 #### Regular Recovery Drills
+
 - Monthly full system recovery test
 - Quarterly disaster recovery simulation
 - Annual multi-region failover test
 
 #### Recovery Time Objectives (RTO)
+
 - Database: 1 hour
 - Application services: 30 minutes
 - Full system: 4 hours
 
 #### Recovery Point Objectives (RPO)
+
 - Database: 1 hour
 - Configuration: 1 hour
 - Application data: 15 minutes
@@ -351,6 +371,7 @@ dropdb test_restore
 ## Monitoring and Alerting
 
 ### Backup Monitoring
+
 ```yaml
 # Prometheus alerting rules for backups
 groups:
@@ -362,8 +383,8 @@ groups:
         labels:
           severity: critical
         annotations:
-          summary: "ATLAS backup failed"
-          description: "Backup job {{ $labels.job }} failed"
+          summary: 'ATLAS backup failed'
+          description: 'Backup job {{ $labels.job }} failed'
 
       - alert: BackupStale
         expr: time() - atlas_backup_last_success > 86400
@@ -371,11 +392,12 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "ATLAS backup is stale"
-          description: "Last successful backup was more than 24 hours ago"
+          summary: 'ATLAS backup is stale'
+          description: 'Last successful backup was more than 24 hours ago'
 ```
 
 ### Recovery Monitoring
+
 - Monitor RTO/RPO compliance
 - Track recovery success rates
 - Alert on recovery failures
@@ -383,16 +405,19 @@ groups:
 ## Compliance and Auditing
 
 ### Backup Audit Logs
+
 - Maintain detailed logs of all backup operations
 - Track backup success/failure rates
 - Audit backup data integrity
 
 ### Compliance Requirements
+
 - SOX: Financial data backup retention (7 years)
 - GDPR: User data backup and recovery capabilities
 - HIPAA: Protected health information backup security
 
 ### Encryption Standards
+
 - AES-256 for data at rest
 - TLS 1.3 for data in transit
 - Key rotation every 90 days
@@ -400,11 +425,13 @@ groups:
 ## Cost Optimization
 
 ### Backup Storage Costs
+
 - Use compression to reduce storage costs
 - Implement tiered storage (hot/cold/archive)
 - Clean up old backups automatically
 
 ### Cross-Region Replication
+
 - Balance RPO requirements with costs
 - Use cheaper storage classes for older backups
 - Implement intelligent retention policies
@@ -412,18 +439,21 @@ groups:
 ## Support and Escalation
 
 ### Backup Issues
+
 1. Check backup job logs
 2. Verify storage connectivity
 3. Contact cloud provider support
 4. Escalate to backup vendor if applicable
 
 ### Recovery Issues
+
 1. Follow recovery runbooks
 2. Contact database administrators
 3. Engage infrastructure team
 4. Escalate to executive leadership for major incidents
 
 ### Emergency Contacts
+
 - Database Administrator: +1-555-0101
 - Infrastructure Lead: +1-555-0102
 - Security Officer: +1-555-0103

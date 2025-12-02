@@ -1,9 +1,9 @@
 ---
-name: "Security & Cybersecurity Superprompt"
-version: "1.0"
-category: "project"
-tags: ["security", "cybersecurity", "appsec", "devsecops", "vulnerability"]
-created: "2024-11-30"
+name: 'Security & Cybersecurity Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['security', 'cybersecurity', 'appsec', 'devsecops', 'vulnerability']
+created: '2024-11-30'
 ---
 
 # Security & Cybersecurity Superprompt
@@ -48,7 +48,7 @@ security_layers:
       - Rate Limiting
       - IP Reputation Filtering
       - Bot Detection
-      
+
   network:
     controls:
       - Network Segmentation
@@ -56,7 +56,7 @@ security_layers:
       - VPN/Zero Trust Network Access
       - Intrusion Detection/Prevention
       - Network Access Control
-      
+
   application:
     controls:
       - Input Validation
@@ -64,7 +64,7 @@ security_layers:
       - Authentication/Authorization
       - Session Management
       - API Security
-      
+
   data:
     controls:
       - Encryption at Rest
@@ -72,7 +72,7 @@ security_layers:
       - Data Masking
       - Access Controls
       - Data Loss Prevention
-      
+
   endpoint:
     controls:
       - Endpoint Detection and Response
@@ -97,46 +97,48 @@ import { Express } from 'express';
 export function configureSecurityMiddleware(app: Express) {
   // A01:2021 - Broken Access Control
   // Implement proper authorization checks
-  
+
   // A02:2021 - Cryptographic Failures
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'strict-dynamic'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'"],
-        fontSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
-        upgradeInsecureRequests: [],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'strict-dynamic'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+          connectSrc: ["'self'"],
+          fontSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          mediaSrc: ["'self'"],
+          frameSrc: ["'none'"],
+          upgradeInsecureRequests: [],
+        },
       },
-    },
-    hsts: {
-      maxAge: 31536000,
-      includeSubDomains: true,
-      preload: true,
-    },
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-    noSniff: true,
-    xssFilter: true,
-    frameguard: { action: 'deny' },
-  }));
+      hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true,
+      },
+      referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+      noSniff: true,
+      xssFilter: true,
+      frameguard: { action: 'deny' },
+    })
+  );
 
   // A03:2021 - Injection
   // Use parameterized queries (see database section)
-  
+
   // A04:2021 - Insecure Design
   // Implement threat modeling (see threat model section)
-  
+
   // A05:2021 - Security Misconfiguration
   app.disable('x-powered-by');
-  
+
   // A06:2021 - Vulnerable Components
   // Use dependency scanning (see CI/CD section)
-  
+
   // A07:2021 - Authentication Failures
   const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -149,10 +151,10 @@ export function configureSecurityMiddleware(app: Express) {
 
   // A08:2021 - Software and Data Integrity Failures
   // Implement SRI and signed artifacts
-  
+
   // A09:2021 - Security Logging and Monitoring Failures
   // See logging section
-  
+
   // A10:2021 - Server-Side Request Forgery
   // Validate and sanitize URLs
 }
@@ -167,40 +169,41 @@ import DOMPurify from 'isomorphic-dompurify';
 
 // User input schema with strict validation
 export const userInputSchema = z.object({
-  email: z.string()
+  email: z
+    .string()
     .email('Invalid email format')
     .max(255, 'Email too long')
-    .transform(val => val.toLowerCase().trim()),
-    
-  password: z.string()
+    .transform((val) => val.toLowerCase().trim()),
+
+  password: z
+    .string()
     .min(12, 'Password must be at least 12 characters')
     .max(128, 'Password too long')
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
       'Password must contain uppercase, lowercase, number, and special character'
     ),
-    
-  name: z.string()
+
+  name: z
+    .string()
     .min(1, 'Name is required')
     .max(100, 'Name too long')
-    .transform(val => DOMPurify.sanitize(val.trim())),
-    
-  bio: z.string()
+    .transform((val) => DOMPurify.sanitize(val.trim())),
+
+  bio: z
+    .string()
     .max(1000, 'Bio too long')
     .optional()
-    .transform(val => val ? DOMPurify.sanitize(val) : undefined),
+    .transform((val) => (val ? DOMPurify.sanitize(val) : undefined)),
 });
 
 // SQL Injection prevention - use parameterized queries
 export async function findUserByEmail(email: string) {
   // NEVER do this:
   // const query = `SELECT * FROM users WHERE email = '${email}'`;
-  
+
   // ALWAYS use parameterized queries:
-  const result = await db.query(
-    'SELECT * FROM users WHERE email = $1',
-    [email]
-  );
+  const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
   return result.rows[0];
 }
 
@@ -216,11 +219,11 @@ export function sanitizeHtml(input: string): string {
 export function sanitizePath(userPath: string, baseDir: string): string {
   const path = require('path');
   const resolvedPath = path.resolve(baseDir, userPath);
-  
+
   if (!resolvedPath.startsWith(baseDir)) {
     throw new Error('Path traversal attempt detected');
   }
-  
+
   return resolvedPath;
 }
 ```
@@ -242,10 +245,7 @@ export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);
 }
 
-export async function verifyPassword(
-  password: string,
-  hash: string
-): Promise<boolean> {
+export async function verifyPassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
 
@@ -275,10 +275,10 @@ export function generateAccessToken(userId: string, roles: string[]): string {
 export function generateRefreshToken(userId: string): string {
   const token = generateSecureToken(64);
   const hashedToken = createHash('sha256').update(token).digest('hex');
-  
+
   // Store hashed token in database
   // await db.refreshTokens.create({ userId, token: hashedToken, expiresAt });
-  
+
   return token;
 }
 
@@ -326,7 +326,7 @@ on:
     branches: [main, develop]
   pull_request:
   schedule:
-    - cron: '0 0 * * *'  # Daily scan
+    - cron: '0 0 * * *' # Daily scan
 
 jobs:
   # Static Application Security Testing
@@ -335,16 +335,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: javascript, typescript
           queries: security-extended
-          
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-        
+
       - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
         with:
@@ -353,7 +353,7 @@ jobs:
             p/secrets
             p/owasp-top-ten
             p/typescript
-            
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
@@ -365,14 +365,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Snyk Security Scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high --fail-on=all
-          
+
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
@@ -382,7 +382,7 @@ jobs:
           args: >-
             --failOnCVSS 7
             --enableRetired
-            
+
       - name: License Compliance
         run: |
           npx license-checker --production --failOn "GPL;AGPL;LGPL"
@@ -395,12 +395,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: TruffleHog
         uses: trufflesecurity/trufflehog@main
         with:
@@ -415,10 +415,10 @@ jobs:
     if: contains(github.event.pull_request.changed_files, 'Dockerfile')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Build image
         run: docker build -t test-image .
-        
+
       - name: Trivy Scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -426,12 +426,12 @@ jobs:
           format: 'sarif'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
-          
+
       - name: Upload Trivy results
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-results.sarif'
-          
+
       - name: Dockle Lint
         uses: erzz/dockle-action@v1
         with:
@@ -444,13 +444,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Checkov Scan
         uses: bridgecrewio/checkov-action@master
         with:
           directory: infrastructure/
           framework: terraform
-          
+
       - name: tfsec Scan
         uses: aquasecurity/tfsec-action@v1.0.0
         with:
@@ -464,7 +464,7 @@ jobs:
     if: github.event_name == 'schedule'
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.7.0
         with:
@@ -481,106 +481,106 @@ jobs:
 
 ```yaml
 threat_model:
-  system: "Web Application"
-  version: "1.0"
-  date: "2024-11-30"
-  
+  system: 'Web Application'
+  version: '1.0'
+  date: '2024-11-30'
+
   assets:
-    - name: "User Data"
-      sensitivity: "High"
-      description: "PII including email, name, preferences"
-      
-    - name: "Authentication Tokens"
-      sensitivity: "Critical"
-      description: "JWT tokens and session data"
-      
-    - name: "API Keys"
-      sensitivity: "Critical"
-      description: "Third-party service credentials"
-      
+    - name: 'User Data'
+      sensitivity: 'High'
+      description: 'PII including email, name, preferences'
+
+    - name: 'Authentication Tokens'
+      sensitivity: 'Critical'
+      description: 'JWT tokens and session data'
+
+    - name: 'API Keys'
+      sensitivity: 'Critical'
+      description: 'Third-party service credentials'
+
   threats:
     spoofing:
-      - threat: "Session hijacking"
-        asset: "Authentication Tokens"
-        likelihood: "Medium"
-        impact: "High"
+      - threat: 'Session hijacking'
+        asset: 'Authentication Tokens'
+        likelihood: 'Medium'
+        impact: 'High'
         mitigations:
-          - "Secure cookie flags (HttpOnly, Secure, SameSite)"
-          - "Token rotation on privilege change"
-          - "IP binding for sensitive operations"
-          
-      - threat: "Credential stuffing"
-        asset: "User Data"
-        likelihood: "High"
-        impact: "High"
+          - 'Secure cookie flags (HttpOnly, Secure, SameSite)'
+          - 'Token rotation on privilege change'
+          - 'IP binding for sensitive operations'
+
+      - threat: 'Credential stuffing'
+        asset: 'User Data'
+        likelihood: 'High'
+        impact: 'High'
         mitigations:
-          - "Rate limiting on auth endpoints"
-          - "CAPTCHA after failed attempts"
-          - "Breach password checking"
-          - "MFA enforcement"
-          
+          - 'Rate limiting on auth endpoints'
+          - 'CAPTCHA after failed attempts'
+          - 'Breach password checking'
+          - 'MFA enforcement'
+
     tampering:
-      - threat: "Parameter manipulation"
-        asset: "API Endpoints"
-        likelihood: "Medium"
-        impact: "Medium"
+      - threat: 'Parameter manipulation'
+        asset: 'API Endpoints'
+        likelihood: 'Medium'
+        impact: 'Medium'
         mitigations:
-          - "Input validation"
-          - "Authorization checks"
-          - "Request signing"
-          
-      - threat: "SQL injection"
-        asset: "Database"
-        likelihood: "Medium"
-        impact: "Critical"
+          - 'Input validation'
+          - 'Authorization checks'
+          - 'Request signing'
+
+      - threat: 'SQL injection'
+        asset: 'Database'
+        likelihood: 'Medium'
+        impact: 'Critical'
         mitigations:
-          - "Parameterized queries"
-          - "ORM usage"
-          - "Input sanitization"
-          - "WAF rules"
-          
+          - 'Parameterized queries'
+          - 'ORM usage'
+          - 'Input sanitization'
+          - 'WAF rules'
+
     repudiation:
-      - threat: "Action denial"
-        asset: "Audit Logs"
-        likelihood: "Low"
-        impact: "Medium"
+      - threat: 'Action denial'
+        asset: 'Audit Logs'
+        likelihood: 'Low'
+        impact: 'Medium'
         mitigations:
-          - "Comprehensive logging"
-          - "Log integrity protection"
-          - "Timestamp verification"
-          
+          - 'Comprehensive logging'
+          - 'Log integrity protection'
+          - 'Timestamp verification'
+
     information_disclosure:
-      - threat: "Data breach"
-        asset: "User Data"
-        likelihood: "Medium"
-        impact: "Critical"
+      - threat: 'Data breach'
+        asset: 'User Data'
+        likelihood: 'Medium'
+        impact: 'Critical'
         mitigations:
-          - "Encryption at rest"
-          - "Encryption in transit"
-          - "Access controls"
-          - "Data minimization"
-          
+          - 'Encryption at rest'
+          - 'Encryption in transit'
+          - 'Access controls'
+          - 'Data minimization'
+
     denial_of_service:
-      - threat: "Resource exhaustion"
-        asset: "Application"
-        likelihood: "High"
-        impact: "High"
+      - threat: 'Resource exhaustion'
+        asset: 'Application'
+        likelihood: 'High'
+        impact: 'High'
         mitigations:
-          - "Rate limiting"
-          - "Auto-scaling"
-          - "CDN/DDoS protection"
-          - "Resource quotas"
-          
+          - 'Rate limiting'
+          - 'Auto-scaling'
+          - 'CDN/DDoS protection'
+          - 'Resource quotas'
+
     elevation_of_privilege:
-      - threat: "Privilege escalation"
-        asset: "Authorization System"
-        likelihood: "Low"
-        impact: "Critical"
+      - threat: 'Privilege escalation'
+        asset: 'Authorization System'
+        likelihood: 'Low'
+        impact: 'Critical'
         mitigations:
-          - "Principle of least privilege"
-          - "Role-based access control"
-          - "Regular access reviews"
-          - "Separation of duties"
+          - 'Principle of least privilege'
+          - 'Role-based access control'
+          - 'Regular access reviews'
+          - 'Separation of duties'
 ```
 
 ---
@@ -596,10 +596,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const securityLogger = winston.createLogger({
   level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   defaultMeta: { service: 'security' },
   transports: [
     new winston.transports.File({ filename: 'logs/security.log' }),
@@ -692,46 +689,46 @@ export function logSuspiciousActivity(
 incident_response:
   severity_levels:
     critical:
-      description: "Active breach, data exfiltration, system compromise"
-      response_time: "15 minutes"
-      escalation: "Immediate to CISO and executive team"
-      
+      description: 'Active breach, data exfiltration, system compromise'
+      response_time: '15 minutes'
+      escalation: 'Immediate to CISO and executive team'
+
     high:
-      description: "Vulnerability exploitation, unauthorized access attempt"
-      response_time: "1 hour"
-      escalation: "Security team lead"
-      
+      description: 'Vulnerability exploitation, unauthorized access attempt'
+      response_time: '1 hour'
+      escalation: 'Security team lead'
+
     medium:
-      description: "Policy violation, suspicious activity"
-      response_time: "4 hours"
-      escalation: "Security team"
-      
+      description: 'Policy violation, suspicious activity'
+      response_time: '4 hours'
+      escalation: 'Security team'
+
     low:
-      description: "Minor security event, informational"
-      response_time: "24 hours"
-      escalation: "Logged for review"
-      
+      description: 'Minor security event, informational'
+      response_time: '24 hours'
+      escalation: 'Logged for review'
+
   response_phases:
     1_detection:
       - Identify the incident
       - Classify severity
       - Document initial findings
-      
+
     2_containment:
       - Isolate affected systems
       - Block malicious IPs/users
       - Preserve evidence
-      
+
     3_eradication:
       - Remove threat
       - Patch vulnerabilities
       - Reset compromised credentials
-      
+
     4_recovery:
       - Restore systems
       - Verify integrity
       - Monitor for recurrence
-      
+
     5_lessons_learned:
       - Post-incident review
       - Update procedures
@@ -772,4 +769,4 @@ incident_response:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

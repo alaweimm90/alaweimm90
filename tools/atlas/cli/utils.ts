@@ -7,6 +7,19 @@ import { ConfigLoader } from '../config/loader.js';
 import ora from 'ora';
 import chalk from 'chalk';
 
+export const NO_COLOR = Boolean(process.env.NO_COLOR);
+export const getDefaultStyle = (): string => process.env.ATLAS_OUTPUT_STYLE || 'compact';
+
+const paint = {
+  green: (s: string) => (NO_COLOR ? s : chalk.green(s)),
+  red: (s: string) => (NO_COLOR ? s : chalk.red(s)),
+  yellow: (s: string) => (NO_COLOR ? s : chalk.yellow(s)),
+  blue: (s: string) => (NO_COLOR ? s : chalk.blue(s)),
+  boldCyan: (s: string) => (NO_COLOR ? s : chalk.bold.cyan(s)),
+  gray: (s: string) => (NO_COLOR ? s : chalk.gray(s)),
+  white: (s: string) => (NO_COLOR ? s : chalk.white(s)),
+};
+
 /**
  * CLI context for managing services and configuration
  */
@@ -46,25 +59,25 @@ export const cliContext = new CLIContext();
  * Output formatting utilities
  */
 export const output = {
-  success: (message: string) => console.log(chalk.green(`✅ ${message}`)),
-  error: (message: string) => console.error(chalk.red(`❌ ${message}`)),
-  warning: (message: string) => console.warn(chalk.yellow(`⚠️  ${message}`)),
-  info: (message: string) => console.log(chalk.blue(`ℹ️  ${message}`)),
-  header: (message: string) => console.log(chalk.bold.cyan(`\n${message}\n`)),
+  success: (message: string) => console.log(paint.green(`✅ ${message}`)),
+  error: (message: string) => console.error(paint.red(`❌ ${message}`)),
+  warning: (message: string) => console.warn(paint.yellow(`⚠️  ${message}`)),
+  info: (message: string) => console.log(paint.blue(`ℹ️  ${message}`)),
+  header: (message: string) => console.log(paint.boldCyan(`\n${message}\n`)),
   table: (headers: string[], rows: string[][]) => {
     const colWidths = headers.map((header, i) =>
-      Math.max(header.length, ...rows.map(row => row[i]?.length || 0))
+      Math.max(header.length, ...rows.map((row) => row[i]?.length || 0))
     );
 
     // Print headers
-    console.log(headers.map((h, i) => h.padEnd(colWidths[i])).join(' │ '));
-    console.log(colWidths.map(w => '─'.repeat(w)).join('─┼─'));
+    console.log(headers.map((h, i) => paint.gray(h.padEnd(colWidths[i]))).join(' │ '));
+    console.log(colWidths.map((w) => '─'.repeat(w)).join('─┼─'));
 
     // Print rows
-    rows.forEach(row => {
+    rows.forEach((row) => {
       console.log(row.map((cell, i) => (cell || '').padEnd(colWidths[i])).join(' │ '));
     });
-  }
+  },
 };
 
 /**
@@ -74,7 +87,7 @@ export const progress = {
   start: (message: string) => ora(message).start(),
   succeed: (spinner: any, message?: string) => spinner.succeed(message),
   fail: (spinner: any, message?: string) => spinner.fail(message),
-  stop: (spinner: any) => spinner.stop()
+  stop: (spinner: any) => spinner.stop(),
 };
 
 /**
@@ -99,7 +112,7 @@ export const errorHandler = {
     } catch (error) {
       errorHandler.handle(error, context);
     }
-  }
+  },
 };
 
 /**
@@ -123,7 +136,7 @@ export const validate = {
       throw new Error(`${name} must be 'true' or 'false'`);
     }
     return value === 'true';
-  }
+  },
 };
 
 /**
@@ -143,7 +156,7 @@ export const prompt = {
       console.log(`  ${i === defaultIndex ? '>' : ' '} ${choice}`);
     });
     return choices[defaultIndex];
-  }
+  },
 };
 
 /**
@@ -177,7 +190,7 @@ export const format = {
 
   timestamp: (date: Date): string => {
     return date.toISOString().replace('T', ' ').slice(0, -5);
-  }
+  },
 };
 
 /**
@@ -216,5 +229,5 @@ export const formatStatus = {
       default:
         return status;
     }
-  }
+  },
 };

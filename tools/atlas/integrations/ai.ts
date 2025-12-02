@@ -80,7 +80,9 @@ async function handleCompliance(options: { check?: boolean; files?: string }): P
       console.log('\n📋 Compliance Status\n');
       console.log(`  Score: ${report.overallScore}/100 (Grade: ${report.grade})`);
       console.log(`  Passed: ${report.summary.passed} | Failed: ${report.summary.failed}`);
-      console.log(`  Warnings: ${report.summary.warnings} | Critical: ${report.summary.critical}\n`);
+      console.log(
+        `  Warnings: ${report.summary.warnings} | Critical: ${report.summary.critical}\n`
+      );
     } else {
       console.log('No compliance report found. Run: atlas ai compliance --check');
     }
@@ -94,7 +96,12 @@ async function handleSecurity(options: { scan?: boolean; type?: string }): Promi
   } else {
     const report = readJsonFile<{
       riskLevel: string;
-      summary: { secrets: number; sensitiveFiles: number; vulnerabilities: number; licenseIssues: number };
+      summary: {
+        secrets: number;
+        sensitiveFiles: number;
+        vulnerabilities: number;
+        licenseIssues: number;
+      };
     }>(path.join(AI_DIR, 'security-report.json'));
 
     if (report) {
@@ -115,7 +122,13 @@ async function handleErrors(options: { severity?: string; stats?: boolean }): Pr
     console.log(runAiCommand('ai:errors:stats'));
   } else {
     const errorLog = readJsonFile<{
-      errors: Array<{ id: string; code: string; message: string; severity: string; resolved: boolean }>;
+      errors: Array<{
+        id: string;
+        code: string;
+        message: string;
+        severity: string;
+        resolved: boolean;
+      }>;
     }>(path.join(AI_DIR, 'error-log.json'));
 
     if (errorLog && errorLog.errors.length > 0) {
@@ -136,12 +149,22 @@ async function handleErrors(options: { severity?: string; stats?: boolean }): Pr
   }
 }
 
-async function handleIssues(options: { category?: string; priority?: string; stats?: boolean }): Promise<void> {
+async function handleIssues(options: {
+  category?: string;
+  priority?: string;
+  stats?: boolean;
+}): Promise<void> {
   if (options.stats) {
     console.log(runAiCommand('ai:issues:stats'));
   } else {
     const issuesData = readJsonFile<{
-      issues: Array<{ id: string; title: string; category: string; priority: string; status: string }>;
+      issues: Array<{
+        id: string;
+        title: string;
+        category: string;
+        priority: string;
+        status: string;
+      }>;
     }>(path.join(AI_DIR, 'issues.json'));
 
     if (issuesData && issuesData.issues.length > 0) {
@@ -154,7 +177,9 @@ async function handleIssues(options: { category?: string; priority?: string; sta
       }
 
       console.log('\n📌 Open Issues\n');
-      const rows = issues.slice(0, 10).map((i) => [i.priority, i.category, i.title.substring(0, 40)]);
+      const rows = issues
+        .slice(0, 10)
+        .map((i) => [i.priority, i.category, i.title.substring(0, 40)]);
       console.log(formatTable(['Priority', 'Category', 'Title'], rows));
       if (issues.length > 10) {
         console.log(`\n  ... and ${issues.length - 10} more\n`);
@@ -165,7 +190,11 @@ async function handleIssues(options: { category?: string; priority?: string; sta
   }
 }
 
-async function handleCache(options: { stats?: boolean; clear?: boolean; layer?: string }): Promise<void> {
+async function handleCache(options: {
+  stats?: boolean;
+  clear?: boolean;
+  layer?: string;
+}): Promise<void> {
   if (options.clear) {
     const layer = options.layer || '';
     console.log(runAiCommand(`ai:cache:clear ${layer}`));
@@ -204,18 +233,29 @@ async function handleMetrics(): Promise<void> {
   }
 }
 
-async function handleStart(type: string, description: string, options: { scope?: string }): Promise<void> {
+async function handleStart(
+  type: string,
+  description: string,
+  options: { scope?: string }
+): Promise<void> {
   const scope = options.scope || '';
   console.log(runAiCommand(`ai:start ${type} ${scope} "${description}"`));
 }
 
-async function handleComplete(success: string, options: { files?: string; notes?: string }): Promise<void> {
+async function handleComplete(
+  success: string,
+  options: { files?: string; notes?: string }
+): Promise<void> {
   const files = options.files || '';
   const notes = options.notes || '';
   console.log(runAiCommand(`ai:complete ${success} "${files}" 0 0 0 "${notes}"`));
 }
 
-async function handleServe(options: { mcp?: boolean; api?: boolean; port?: string }): Promise<void> {
+async function handleServe(options: {
+  mcp?: boolean;
+  api?: boolean;
+  port?: string;
+}): Promise<void> {
   if (options.mcp) {
     const port = options.port || '3100';
     process.env.MCP_PORT = port;
@@ -236,14 +276,10 @@ async function handleServe(options: { mcp?: boolean; api?: boolean; port?: strin
 // ============================================================================
 
 export function registerAiCommands(program: Command): void {
-  const ai = program
-    .command('ai')
-    .description('AI orchestration, compliance, and security tools');
+  const ai = program.command('ai').description('AI orchestration, compliance, and security tools');
 
   // Dashboard
-  ai.command('dashboard')
-    .description('Show AI metrics dashboard')
-    .action(handleDashboard);
+  ai.command('dashboard').description('Show AI metrics dashboard').action(handleDashboard);
 
   // Compliance
   ai.command('compliance')
@@ -290,14 +326,10 @@ export function registerAiCommands(program: Command): void {
     .action(handleMonitor);
 
   // Sync
-  ai.command('sync')
-    .description('Synchronize AI context')
-    .action(handleSync);
+  ai.command('sync').description('Synchronize AI context').action(handleSync);
 
   // Metrics
-  ai.command('metrics')
-    .description('View AI effectiveness metrics')
-    .action(handleMetrics);
+  ai.command('metrics').description('View AI effectiveness metrics').action(handleMetrics);
 
   // Task management
   ai.command('start <type> <description>')

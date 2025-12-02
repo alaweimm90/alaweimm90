@@ -219,19 +219,11 @@ export ATLAS_METRICS_ENABLED="true"
   "validation": {
     "code_quality": {
       "enabled": true,
-      "rules": [
-        "no_console_log",
-        "max_function_length_50",
-        "require_type_hints"
-      ]
+      "rules": ["no_console_log", "max_function_length_50", "require_type_hints"]
     },
     "security": {
       "enabled": true,
-      "rules": [
-        "no_sql_injection",
-        "secure_headers",
-        "input_validation"
-      ]
+      "rules": ["no_sql_injection", "secure_headers", "input_validation"]
     }
   }
 }
@@ -555,6 +547,7 @@ atlas config import config.json
 ### Common Issues
 
 **Configuration not loading**
+
 ```bash
 # Check file permissions
 ls -la .atlas/config.json
@@ -567,6 +560,7 @@ env | grep ATLAS
 ```
 
 **Settings not taking effect**
+
 ```bash
 # Restart ATLAS services
 atlas restart
@@ -579,6 +573,7 @@ atlas config show --effective
 ```
 
 **Environment variables ignored**
+
 ```bash
 # Export variables before running commands
 export ATLAS_LOG_LEVEL=debug

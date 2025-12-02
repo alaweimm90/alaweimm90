@@ -132,11 +132,7 @@ describe('AI Tools Entry Point', () => {
     it('should use consistent subcommand pattern', () => {
       const commandPattern = /^ai:[a-z]+(?::[a-z]+)?$/;
 
-      const sampleCommands = [
-        'ai:cache:stats',
-        'ai:monitor:status',
-        'ai:security:scan',
-      ];
+      const sampleCommands = ['ai:cache:stats', 'ai:monitor:status', 'ai:security:scan'];
 
       for (const cmd of sampleCommands) {
         expect(cmd).toMatch(commandPattern);
@@ -174,7 +170,8 @@ describe('AI Tools Entry Point', () => {
       const truncate = (s: string, max: number) =>
         s.length > max ? s.substring(0, max - 3) + '...' : s;
 
-      const longDesc = 'This is a very long description that exceeds the maximum allowed length for display';
+      const longDesc =
+        'This is a very long description that exceeds the maximum allowed length for display';
       const truncated = truncate(longDesc, 50);
       expect(truncated.length).toBeLessThanOrEqual(50);
       expect(truncated.endsWith('...')).toBe(true);
@@ -202,10 +199,7 @@ describe('AI Tools Entry Point', () => {
     };
 
     it('should have no circular dependencies', () => {
-      const checkCircular = (
-        module: string,
-        visited: Set<string> = new Set()
-      ): boolean => {
+      const checkCircular = (module: string, visited: Set<string> = new Set()): boolean => {
         if (visited.has(module)) return true;
         visited.add(module);
 

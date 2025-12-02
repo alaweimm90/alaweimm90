@@ -25,7 +25,7 @@ commonAnnotations:
 images:
   - name: supertool
     newName: ghcr.io/username/supertool
-    newTag: "dev-latest"
+    newTag: 'dev-latest'
 
 # ConfigMap generator for dev-specific config
 configMapGenerator:

@@ -5,6 +5,7 @@ Allstar is a GitHub App that continuously monitors and enforces security policie
 ## What is Allstar?
 
 Allstar is part of the OpenSSF (Open Source Security Foundation) and provides:
+
 - **Continuous security monitoring** - Always-on policy enforcement
 - **Auto-remediation** - Can automatically fix certain security issues
 - **Issue creation** - Creates GitHub issues for policy violations
@@ -32,6 +33,7 @@ Allstar is part of the OpenSSF (Open Source Security Foundation) and provides:
 If you prefer to self-host:
 
 1. **Clone Allstar:**
+
    ```bash
    git clone https://github.com/ossf/allstar.git
    cd allstar
@@ -50,6 +52,7 @@ If you prefer to self-host:
        - Metadata: Read
 
 3. **Configure Allstar:**
+
    ```yaml
    # config/config.yaml
    github:
@@ -58,11 +61,12 @@ If you prefer to self-host:
      private_key_path: /path/to/private-key.pem
 
    operator:
-     action: issue  # or: log, fix
+     action: issue # or: log, fix
      org_config: .allstar/allstar.yaml
    ```
 
 4. **Deploy:**
+
    ```bash
    # Using Docker
    docker build -t allstar .
@@ -81,9 +85,9 @@ Our Allstar configuration is located in `.allstar/` directory:
 ```yaml
 optConfig:
   optInRepos:
-    - alaweimm90  # Enabled for this repo
+    - alaweimm90 # Enabled for this repo
 
-action: issue  # Create GitHub issues for violations
+action: issue # Create GitHub issues for violations
 
 policies:
   branch_protection: enabled
@@ -106,6 +110,7 @@ policies:
 ### 1. Branch Protection Policy
 
 **What it checks:**
+
 - ✅ Branch protection enabled for `master`/`main`
 - ✅ Require pull request before merging
 - ✅ Require 1+ approvals
@@ -120,6 +125,7 @@ policies:
 ### 2. Binary Artifacts Policy
 
 **What it checks:**
+
 - ❌ No binary files committed (executables, compiled code)
 - ❌ No JAR, WAR, EAR files
 - ❌ No compiled binaries (.exe, .dll, .so)
@@ -131,10 +137,12 @@ policies:
 ### 3. Outside Collaborators Policy
 
 **What it checks:**
+
 - ✅ No unauthorized outside collaborators
 - ✅ Only approved GitHub Apps have access
 
 **Allowed apps:**
+
 - renovate (dependency updates)
 - dependabot (security updates)
 - policy-bot (PR approval policies)
@@ -144,6 +152,7 @@ policies:
 ### 4. Security Policy
 
 **What it checks:**
+
 - ✅ SECURITY.md exists in repository
 - ✅ Security policy is accessible
 - ✅ Vulnerability reporting instructions present
@@ -153,6 +162,7 @@ policies:
 ### 5. Dangerous Workflow Policy
 
 **What it checks:**
+
 - ❌ No dangerous `pull_request_target` triggers
 - ❌ No unchecked code execution in workflows
 - ❌ No exposed secrets in workflow files
@@ -220,13 +230,15 @@ docker logs allstar
 ### To enable auto-fix:
 
 Edit `.allstar/allstar.yaml`:
+
 ```yaml
-action: fix  # Change from 'issue' to 'fix'
+action: fix # Change from 'issue' to 'fix'
 ```
 
 ### To add custom policies:
 
 Create new policy files in `.allstar/`:
+
 ```yaml
 # .allstar/custom_policy.yaml
 enabled: true
@@ -241,8 +253,8 @@ action: issue
 enabled: true
 action: issue
 allowedBinaryArtifacts:
-  - "scripts/tools/binary-tool"
-  - "vendor/third-party.exe"
+  - 'scripts/tools/binary-tool'
+  - 'vendor/third-party.exe'
 ```
 
 ## Troubleshooting
@@ -264,16 +276,18 @@ allowedBinaryArtifacts:
 ### Too many issues created
 
 1. **Temporarily disable policies:**
+
    ```yaml
    # .allstar/allstar.yaml
    policies:
      branch_protection:
-       enabled: false  # Temporarily disable
+       enabled: false # Temporarily disable
    ```
 
 2. **Switch to log mode:**
+
    ```yaml
-   action: log  # Log instead of creating issues
+   action: log # Log instead of creating issues
    ```
 
 3. **Fix violations, then re-enable:**

@@ -19,10 +19,10 @@ export const ENTERPRISE_FEATURES = [
   'business-intelligence',
   'multi-tenancy',
   'enterprise-integrations',
-  'performance-optimization'
+  'performance-optimization',
 ] as const;
 
-export type EnterpriseFeature = typeof ENTERPRISE_FEATURES[number];
+export type EnterpriseFeature = (typeof ENTERPRISE_FEATURES)[number];
 
 /**
  * Initialize enterprise extensions
@@ -38,5 +38,4 @@ export async function initializeEnterprise(): Promise<void> {
 export function isFeatureEnabled(feature: EnterpriseFeature): boolean {
   // Implementation would check configuration
   return true; // Placeholder
-}</content>
-</edit_file>
+}

@@ -121,7 +121,7 @@ export class DashboardService extends EventEmitter {
       port: this.config.port,
       websocket: this.config.enableWebSocket,
       rest: this.config.enableREST,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -150,7 +150,7 @@ export class DashboardService extends EventEmitter {
       recentEvents: this.getRecentEvents(50),
       activeJobs: this.getActiveJobs(),
       repositoryStatus: this.getRepositoryStatus(),
-      systemStatus: this.getSystemStatus()
+      systemStatus: this.getSystemStatus(),
     };
   }
 
@@ -161,7 +161,7 @@ export class DashboardService extends EventEmitter {
     const telemetryEvent: TelemetryEvent = {
       ...event,
       id: this.generateEventId(),
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     this.telemetryEvents.push(telemetryEvent);
@@ -196,19 +196,19 @@ export class DashboardService extends EventEmitter {
 
     if (filter) {
       if (filter.type) {
-        events = events.filter(e => e.type === filter.type);
+        events = events.filter((e) => e.type === filter.type);
       }
       if (filter.source) {
-        events = events.filter(e => e.source === filter.source);
+        events = events.filter((e) => e.source === filter.source);
       }
       if (filter.severity) {
-        events = events.filter(e => e.severity === filter.severity);
+        events = events.filter((e) => e.severity === filter.severity);
       }
       if (filter.tags && filter.tags.length > 0) {
-        events = events.filter(e => filter.tags!.some(tag => e.tags.includes(tag)));
+        events = events.filter((e) => filter.tags!.some((tag) => e.tags.includes(tag)));
       }
       if (filter.since) {
-        events = events.filter(e => e.timestamp >= filter.since!);
+        events = events.filter((e) => e.timestamp >= filter.since!);
       }
     }
 
@@ -233,11 +233,11 @@ export class DashboardService extends EventEmitter {
       this.checkOptimizerHealth(),
       this.checkMonitorHealth(),
       this.checkSystemResources(),
-      this.checkEventBacklog()
+      this.checkEventBacklog(),
     ];
 
-    const hasFailures = checks.some(check => check.status === 'fail');
-    const hasWarnings = checks.some(check => check.status === 'warn');
+    const hasFailures = checks.some((check) => check.status === 'fail');
+    const hasWarnings = checks.some((check) => check.status === 'warn');
 
     let status: 'healthy' | 'warning' | 'critical' = 'healthy';
     if (hasFailures) {
@@ -269,13 +269,11 @@ export class DashboardService extends EventEmitter {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - this.config.telemetry.retentionPeriod);
 
-    this.telemetryEvents = this.telemetryEvents.filter(
-      event => event.timestamp >= cutoffDate
-    );
+    this.telemetryEvents = this.telemetryEvents.filter((event) => event.timestamp >= cutoffDate);
 
     this.emit('telemetry:cleanup', {
       eventsRemoved: this.telemetryEvents.length,
-      timestamp: new Date()
+      timestamp: new Date(),
     });
   }
 
@@ -338,10 +336,12 @@ export class DashboardService extends EventEmitter {
       }
     } catch (error) {
       res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({
-        error: 'Internal server error',
-        message: error instanceof Error ? error.message : String(error)
-      }));
+      res.end(
+        JSON.stringify({
+          error: 'Internal server error',
+          message: error instanceof Error ? error.message : String(error),
+        })
+      );
     }
   }
 
@@ -369,7 +369,7 @@ export class DashboardService extends EventEmitter {
       type: url.searchParams.get('type') || undefined,
       source: url.searchParams.get('source') || undefined,
       severity: url.searchParams.get('severity') || undefined,
-      limit: url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit')!) : undefined
+      limit: url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit')!) : undefined,
     };
 
     const events = this.getEvents(filter);
@@ -379,8 +379,7 @@ export class DashboardService extends EventEmitter {
 
   private handleHealthAPI(req: http.IncomingMessage, res: http.ServerResponse): void {
     const health = this.getHealthStatus();
-    const statusCode = health.status === 'healthy' ? 200 :
-                      health.status === 'warning' ? 200 : 503;
+    const statusCode = health.status === 'healthy' ? 200 : health.status === 'warning' ? 200 : 503;
 
     res.writeHead(statusCode, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(health));
@@ -396,20 +395,24 @@ export class DashboardService extends EventEmitter {
       this.connectedClients.add(ws);
 
       // Send initial dashboard data
-      ws.send(JSON.stringify({
-        type: 'dashboard:init',
-        data: this.getDashboardData()
-      }));
+      ws.send(
+        JSON.stringify({
+          type: 'dashboard:init',
+          data: this.getDashboardData(),
+        })
+      );
 
       ws.on('message', (message: string) => {
         try {
           const msg = JSON.parse(message);
           this.handleWebSocketMessage(ws, msg);
-        } catch (error) {
-          ws.send(JSON.stringify({
-            type: 'error',
-            message: 'Invalid message format'
-          }));
+        } catch {
+          ws.send(
+            JSON.stringify({
+              type: 'error',
+              message: 'Invalid message format',
+            })
+          );
         }
       });
 
@@ -434,17 +437,19 @@ export class DashboardService extends EventEmitter {
         this.connectedClients.delete(ws);
         break;
       default:
-        ws.send(JSON.stringify({
-          type: 'error',
-          message: 'Unknown message type'
-        }));
+        ws.send(
+          JSON.stringify({
+            type: 'error',
+            message: 'Unknown message type',
+          })
+        );
     }
   }
 
   private broadcastEvent(event: TelemetryEvent): void {
     const message = JSON.stringify({
       type: 'telemetry:event',
-      data: event
+      data: event,
     });
 
     for (const client of this.connectedClients) {
@@ -462,7 +467,7 @@ export class DashboardService extends EventEmitter {
         source: 'optimizer',
         data: job,
         severity: 'low',
-        tags: ['job', 'start']
+        tags: ['job', 'start'],
       });
     });
 
@@ -472,7 +477,7 @@ export class DashboardService extends EventEmitter {
         source: 'optimizer',
         data: job,
         severity: 'low',
-        tags: ['job', 'complete', 'success']
+        tags: ['job', 'complete', 'success'],
       });
     });
 
@@ -482,7 +487,7 @@ export class DashboardService extends EventEmitter {
         source: 'optimizer',
         data: job,
         severity: 'high',
-        tags: ['job', 'fail', 'error']
+        tags: ['job', 'fail', 'error'],
       });
     });
 
@@ -493,7 +498,7 @@ export class DashboardService extends EventEmitter {
         source: 'monitor',
         data: result,
         severity: 'low',
-        tags: ['analysis', 'complete']
+        tags: ['analysis', 'complete'],
       });
     });
 
@@ -503,7 +508,7 @@ export class DashboardService extends EventEmitter {
         source: 'monitor',
         data: error,
         severity: 'medium',
-        tags: ['analysis', 'error']
+        tags: ['analysis', 'error'],
       });
     });
   }
@@ -517,7 +522,7 @@ export class DashboardService extends EventEmitter {
       activeJobs: 0,
       repositoriesMonitored: 0,
       systemHealth: 'healthy',
-      uptime: 0
+      uptime: 0,
     };
   }
 
@@ -529,7 +534,8 @@ export class DashboardService extends EventEmitter {
         } else if (event.data.status === 'failed') {
           this.metrics.failedOptimizations++;
         }
-        this.metrics.totalOptimizations = this.metrics.successfulOptimizations + this.metrics.failedOptimizations;
+        this.metrics.totalOptimizations =
+          this.metrics.successfulOptimizations + this.metrics.failedOptimizations;
         break;
       case 'system':
         // Update system health based on system events
@@ -574,12 +580,16 @@ export class DashboardService extends EventEmitter {
       services: {
         optimizer: 'running',
         monitor: 'running',
-        dashboard: 'running'
-      }
+        dashboard: 'running',
+      },
     };
   }
 
-  private checkOptimizerHealth(): { name: string; status: 'pass' | 'fail' | 'warn'; message: string } {
+  private checkOptimizerHealth(): {
+    name: string;
+    status: 'pass' | 'fail' | 'warn';
+    message: string;
+  } {
     try {
       const status = this.optimizer.getStatus();
       if (status.circuitBreaker === 'open') {
@@ -589,24 +599,36 @@ export class DashboardService extends EventEmitter {
         return { name: 'Optimizer', status: 'warn', message: 'High number of active jobs' };
       }
       return { name: 'Optimizer', status: 'pass', message: 'Operating normally' };
-    } catch (error) {
+    } catch {
       return { name: 'Optimizer', status: 'fail', message: 'Unable to get optimizer status' };
     }
   }
 
-  private checkMonitorHealth(): { name: string; status: 'pass' | 'fail' | 'warn'; message: string } {
+  private checkMonitorHealth(): {
+    name: string;
+    status: 'pass' | 'fail' | 'warn';
+    message: string;
+  } {
     try {
       const status = this.monitor.getStatus();
       if (status.repositories === 0) {
         return { name: 'Monitor', status: 'warn', message: 'No repositories being monitored' };
       }
-      return { name: 'Monitor', status: 'pass', message: `Monitoring ${status.repositories} repositories` };
-    } catch (error) {
+      return {
+        name: 'Monitor',
+        status: 'pass',
+        message: `Monitoring ${status.repositories} repositories`,
+      };
+    } catch {
       return { name: 'Monitor', status: 'fail', message: 'Unable to get monitor status' };
     }
   }
 
-  private checkSystemResources(): { name: string; status: 'pass' | 'fail' | 'warn'; message: string } {
+  private checkSystemResources(): {
+    name: string;
+    status: 'pass' | 'fail' | 'warn';
+    message: string;
+  } {
     const status = this.getSystemStatus();
     if (status.memory > 90 || status.cpu > 95) {
       return { name: 'System Resources', status: 'fail', message: 'High resource usage' };
@@ -648,18 +670,18 @@ export class DashboardService extends EventEmitter {
 
   private eventsToCSV(events: TelemetryEvent[]): string {
     const headers = ['id', 'timestamp', 'type', 'source', 'severity', 'tags', 'data'];
-    const rows = events.map(event => [
+    const rows = events.map((event) => [
       event.id,
       event.timestamp.toISOString(),
       event.type,
       event.source,
       event.severity,
       event.tags.join(';'),
-      JSON.stringify(event.data)
+      JSON.stringify(event.data),
     ]);
 
-    return [headers, ...rows].map(row =>
-      row.map(field => `"${field.replace(/"/g, '""')}"`).join(',')
-    ).join('\n');
+    return [headers, ...rows]
+      .map((row) => row.map((field) => `"${field.replace(/"/g, '""')}"`).join(','))
+      .join('\n');
   }
 }

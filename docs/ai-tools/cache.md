@@ -20,19 +20,19 @@ Clear cache entries
 
 **Arguments:**
 
-| Name | Type | Required | Description | Default |
-|------|------|----------|-------------|---------|
-| layer | string | No | Cache layer to clear (semantic, template, result, analysis) | - |
+| Name  | Type   | Required | Description                                                 | Default |
+| ----- | ------ | -------- | ----------------------------------------------------------- | ------- |
+| layer | string | No       | Cache layer to clear (semantic, template, result, analysis) | -       |
 
 ## Configuration
 
-| Option | Type | Description | Default |
-|--------|------|-------------|---------|
-| maxEntries | number | Maximum cache entries | 1000 |
-| maxSizeBytes | number | Maximum cache size in bytes | 52428800 |
-| defaultTtlMs | number | Default TTL in milliseconds | 3600000 |
-| enableSemanticSimilarity | boolean | Enable semantic matching | true |
-| similarityThreshold | number | Similarity threshold (0-1) | 0.85 |
+| Option                   | Type    | Description                 | Default  |
+| ------------------------ | ------- | --------------------------- | -------- |
+| maxEntries               | number  | Maximum cache entries       | 1000     |
+| maxSizeBytes             | number  | Maximum cache size in bytes | 52428800 |
+| defaultTtlMs             | number  | Default TTL in milliseconds | 3600000  |
+| enableSemanticSimilarity | boolean | Enable semantic matching    | true     |
+| similarityThreshold      | number  | Similarity threshold (0-1)  | 0.85     |
 
 ## Exports
 
@@ -53,4 +53,3 @@ npm run ai:cache:stats
 ```bash
 npm run ai:cache:clear semantic
 ```
-

@@ -7,6 +7,7 @@ Complete installation instructions for ATLAS across all supported platforms and 
 ## System Requirements
 
 ### Minimum Requirements
+
 - **Operating System**: Linux, macOS (10.15+), Windows (10+)
 - **Node.js**: Version 16.0.0 or higher
 - **Memory**: 4GB RAM
@@ -14,6 +15,7 @@ Complete installation instructions for ATLAS across all supported platforms and 
 - **Network**: Internet connection for AI API access
 
 ### Recommended Requirements
+
 - **Operating System**: Linux or macOS
 - **Node.js**: Version 18.0.0 or higher
 - **Memory**: 8GB RAM
@@ -290,7 +292,7 @@ services:
       - NODE_ENV=production
       - ATLAS_CONFIG_DIR=/app/config
     ports:
-      - "3000:3000"
+      - '3000:3000'
     restart: unless-stopped
 ```
 
@@ -320,20 +322,20 @@ spec:
         app: atlas
     spec:
       containers:
-      - name: atlas
-        image: atlasplatform/atlas:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: NODE_ENV
-          value: "production"
-        volumeMounts:
-        - name: config-volume
-          mountPath: /app/config
+        - name: atlas
+          image: atlasplatform/atlas:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: 'production'
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
       volumes:
-      - name: config-volume
-        configMap:
-          name: atlas-config
+        - name: config-volume
+          configMap:
+            name: atlas-config
 ```
 
 ### CI/CD Integration
@@ -431,6 +433,7 @@ The `.atlas/config.json` file contains:
 ### Common Issues
 
 **"npm ERR! code EACCES"**
+
 ```bash
 # Fix permissions
 sudo chown -R $(whoami) ~/.npm
@@ -438,6 +441,7 @@ sudo chown -R $(whoami) ~/.npm
 ```
 
 **"atlas: command not found"**
+
 ```bash
 # Check PATH
 echo $PATH
@@ -446,6 +450,7 @@ export PATH="$(npm config get prefix)/bin:$PATH"
 ```
 
 **"Node.js version too old"**
+
 ```bash
 # Update Node.js
 npm install -g n
@@ -453,6 +458,7 @@ sudo n latest
 ```
 
 **"Permission denied" on Linux/macOS**
+
 ```bash
 # Fix npm permissions
 sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}

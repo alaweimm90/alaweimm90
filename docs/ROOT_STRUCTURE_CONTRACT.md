@@ -20,13 +20,13 @@ This document defines the **authoritative contract** for the root directory stru
 
 ### Design Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **Schema-First** | All rules encoded in machine-readable YAML |
-| **Idempotent** | Enforcement produces same result on repeated runs |
-| **Adapter-Agnostic** | Works with any CI system, not just GitHub Actions |
-| **Enforced via CI** | Automated checks block non-compliant changes |
-| **AI-Auditable** | Structure supports AI governance tools (KILO, etc.) |
+| Principle            | Description                                         |
+| -------------------- | --------------------------------------------------- |
+| **Schema-First**     | All rules encoded in machine-readable YAML          |
+| **Idempotent**       | Enforcement produces same result on repeated runs   |
+| **Adapter-Agnostic** | Works with any CI system, not just GitHub Actions   |
+| **Enforced via CI**  | Automated checks block non-compliant changes        |
+| **AI-Auditable**     | Structure supports AI governance tools (KILO, etc.) |
 
 ### Governance Philosophy
 
@@ -84,30 +84,30 @@ The root directory is the **first impression** of the repository. It MUST:
 
 ### 2.2 Root Entry Classification Table
 
-| Entry | Type | Status | Owner | Rationale |
-|-------|------|--------|-------|-----------|
-| `.github/` | dir | **REQUIRED** | platform | CI/CD, workflows, CODEOWNERS |
-| `.metaHub/` | dir | **REQUIRED** | platform | Core governance engine |
-| `docs/` | dir | **REQUIRED** | docs | MkDocs documentation |
-| `README.md` | file | **REQUIRED** | platform | Repository overview |
-| `LICENSE` | file | **REQUIRED** | platform | Open source license |
-| `SECURITY.md` | file | **REQUIRED** | security | Vulnerability reporting |
-| `GOVERNANCE.md` | file | **REQUIRED** | platform | Governance overview |
-| `.gitignore` | file | **REQUIRED** | platform | Git ignore rules |
-| `tests/` | dir | **RECOMMENDED** | platform | Governance tests |
-| `CONTRIBUTING.md` | file | **RECOMMENDED** | platform | Contribution guidelines |
-| `.pre-commit-config.yaml` | file | **RECOMMENDED** | platform | Pre-commit hooks |
-| `mkdocs.yml` | file | **RECOMMENDED** | docs | MkDocs configuration |
-| `.gitattributes` | file | **RECOMMENDED** | platform | Line endings, LFS |
-| `.vscode/` | dir | **OPTIONAL** | platform | Team editor settings |
-| `.allstar/` | dir | **OPTIONAL** | security | GitHub Allstar config |
-| `.husky/` | dir | **OPTIONAL** | platform | Git hooks manager |
-| `.ai/` | dir | **OPTIONAL** | platform | Consolidated AI configs |
-| `.ai-settings.yaml` | file | **DEPRECATED** | platform | Migrate to `.ai/settings.yaml` |
-| `organizations/` | dir | **GITIGNORED** | platform | Local working copies |
-| `*.pdf` | file | **FORBIDDEN** | - | Move to `docs/reports/` |
-| `*-report.json` | file | **FORBIDDEN** | - | Add to `.gitignore` |
-| `temp-*/` | dir | **FORBIDDEN** | - | Temporary, gitignore |
+| Entry                     | Type | Status          | Owner    | Rationale                      |
+| ------------------------- | ---- | --------------- | -------- | ------------------------------ |
+| `.github/`                | dir  | **REQUIRED**    | platform | CI/CD, workflows, CODEOWNERS   |
+| `.metaHub/`               | dir  | **REQUIRED**    | platform | Core governance engine         |
+| `docs/`                   | dir  | **REQUIRED**    | docs     | MkDocs documentation           |
+| `README.md`               | file | **REQUIRED**    | platform | Repository overview            |
+| `LICENSE`                 | file | **REQUIRED**    | platform | Open source license            |
+| `SECURITY.md`             | file | **REQUIRED**    | security | Vulnerability reporting        |
+| `GOVERNANCE.md`           | file | **REQUIRED**    | platform | Governance overview            |
+| `.gitignore`              | file | **REQUIRED**    | platform | Git ignore rules               |
+| `tests/`                  | dir  | **RECOMMENDED** | platform | Governance tests               |
+| `CONTRIBUTING.md`         | file | **RECOMMENDED** | platform | Contribution guidelines        |
+| `.pre-commit-config.yaml` | file | **RECOMMENDED** | platform | Pre-commit hooks               |
+| `mkdocs.yml`              | file | **RECOMMENDED** | docs     | MkDocs configuration           |
+| `.gitattributes`          | file | **RECOMMENDED** | platform | Line endings, LFS              |
+| `.vscode/`                | dir  | **OPTIONAL**    | platform | Team editor settings           |
+| `.allstar/`               | dir  | **OPTIONAL**    | security | GitHub Allstar config          |
+| `.husky/`                 | dir  | **OPTIONAL**    | platform | Git hooks manager              |
+| `.ai/`                    | dir  | **OPTIONAL**    | platform | Consolidated AI configs        |
+| `.ai-settings.yaml`       | file | **DEPRECATED**  | platform | Migrate to `.ai/settings.yaml` |
+| `organizations/`          | dir  | **GITIGNORED**  | platform | Local working copies           |
+| `*.pdf`                   | file | **FORBIDDEN**   | -        | Move to `docs/reports/`        |
+| `*-report.json`           | file | **FORBIDDEN**   | -        | Add to `.gitignore`            |
+| `temp-*/`                 | dir  | **FORBIDDEN**   | -        | Temporary, gitignore           |
 
 ### 2.3 AI Tooling Consolidation Strategy
 
@@ -150,32 +150,32 @@ The root directory is the **first impression** of the repository. It MUST:
 
 **Migration Policy:**
 
-| Phase | Action | Timeline |
-|-------|--------|----------|
-| 1 | Create `.ai/` structure | Immediate |
-| 2 | Symlink legacy locations to `.ai/` | Week 1 |
-| 3 | Update tooling to read from `.ai/` | Week 2 |
-| 4 | Remove legacy locations | Week 4 |
-| 5 | Update enforcement to forbid scattered configs | Week 5 |
+| Phase | Action                                         | Timeline  |
+| ----- | ---------------------------------------------- | --------- |
+| 1     | Create `.ai/` structure                        | Immediate |
+| 2     | Symlink legacy locations to `.ai/`             | Week 1    |
+| 3     | Update tooling to read from `.ai/`             | Week 2    |
+| 4     | Remove legacy locations                        | Week 4    |
+| 5     | Update enforcement to forbid scattered configs | Week 5    |
 
 **First-Class Supported Tools:**
 
-| Tool | Config Committed | Auto-Approve | Status |
-|------|-----------------|--------------|--------|
-| Aider | Yes | `yes-always` | Supported |
-| Cursor | Yes | `autoApply` | Supported |
-| Cline | Yes | `bypassApprovals` | Supported |
-| Claude Code | Yes | CLI flag | Supported |
-| Windsurf | Yes | In-rules | Supported |
-| Kilo Code | Yes | `auto_approve` | Supported |
-| Continue | Yes | Experimental | Supported |
-| Amazon Q | Yes | Limited | Supported |
-| Blackbox | Yes | `yoloMode` | Supported |
-| Augment | Yes | `autoApprove` | Supported |
-| Gemini | Yes | `autoApprove` | Supported |
-| Codex | Yes | `autoApprove` | Supported |
-| Trae | Yes | `autoApprove` | Supported |
-| Copilot | Yes (instructions) | N/A | Context only |
+| Tool        | Config Committed   | Auto-Approve      | Status       |
+| ----------- | ------------------ | ----------------- | ------------ |
+| Aider       | Yes                | `yes-always`      | Supported    |
+| Cursor      | Yes                | `autoApply`       | Supported    |
+| Cline       | Yes                | `bypassApprovals` | Supported    |
+| Claude Code | Yes                | CLI flag          | Supported    |
+| Windsurf    | Yes                | In-rules          | Supported    |
+| Kilo Code   | Yes                | `auto_approve`    | Supported    |
+| Continue    | Yes                | Experimental      | Supported    |
+| Amazon Q    | Yes                | Limited           | Supported    |
+| Blackbox    | Yes                | `yoloMode`        | Supported    |
+| Augment     | Yes                | `autoApprove`     | Supported    |
+| Gemini      | Yes                | `autoApprove`     | Supported    |
+| Codex       | Yes                | `autoApprove`     | Supported    |
+| Trae        | Yes                | `autoApprove`     | Supported    |
+| Copilot     | Yes (instructions) | N/A               | Context only |
 
 ---
 
@@ -225,16 +225,16 @@ The root directory is the **first impression** of the repository. It MUST:
 
 ### 3.2 File Category Placement
 
-| Category | Root Location | Rationale |
-|----------|---------------|-----------|
-| Governance docs | Root (`GOVERNANCE.md`, etc.) | First-class visibility |
-| Technical docs | `docs/` | Organized, MkDocs-managed |
-| Reports/artifacts | `docs/reports/` | Keeps root clean |
-| Governance engine | `.metaHub/` | Clear ownership |
-| CI/CD configs | `.github/` | GitHub convention |
-| AI tool configs | `.ai/` | Consolidated, governed |
-| IDE configs | `.vscode/` | Standard location |
-| Security configs | `.allstar/` | Security-specific |
+| Category          | Root Location                | Rationale                 |
+| ----------------- | ---------------------------- | ------------------------- |
+| Governance docs   | Root (`GOVERNANCE.md`, etc.) | First-class visibility    |
+| Technical docs    | `docs/`                      | Organized, MkDocs-managed |
+| Reports/artifacts | `docs/reports/`              | Keeps root clean          |
+| Governance engine | `.metaHub/`                  | Clear ownership           |
+| CI/CD configs     | `.github/`                   | GitHub convention         |
+| AI tool configs   | `.ai/`                       | Consolidated, governed    |
+| IDE configs       | `.vscode/`                   | Standard location         |
+| Security configs  | `.allstar/`                  | Security-specific         |
 
 ### 3.3 Handling Edge Cases
 
@@ -275,11 +275,11 @@ All AI configs SHOULD migrate to `.ai/` within 4 weeks. During migration:
 
 ### 4.1 Who Can Propose Changes
 
-| Role | Permissions |
-|------|-------------|
+| Role                 | Permissions                        |
+| -------------------- | ---------------------------------- |
 | Platform Maintainers | Full access to propose and approve |
-| Contributors | Propose via PR with ADR |
-| Bots/CI | Cannot propose root changes |
+| Contributors         | Propose via PR with ADR            |
+| Bots/CI              | Cannot propose root changes        |
 
 ### 4.2 Where Changes Are Recorded
 
@@ -379,13 +379,13 @@ For critical security or compliance issues:
 
 ### 5.2 Enforcement Points Mapping
 
-| Rule | Enforcement File | Check Type | Failure Action |
-|------|-----------------|------------|----------------|
-| Required files exist | `structure_validator.py:validate_root_structure()` | Error | Block merge |
-| Required dirs exist | `structure_validator.py:validate_root_structure()` | Error | Block merge |
-| Forbidden patterns absent | `structure_validator.py:validate_root_structure()` | Warning | Warn only |
-| AI configs consolidated | `structure_validator.py:validate_root_structure()` | Warning | Warn only |
-| Gitignored items absent | `.gitignore` + CI check | Info | Log only |
+| Rule                      | Enforcement File                                   | Check Type | Failure Action |
+| ------------------------- | -------------------------------------------------- | ---------- | -------------- |
+| Required files exist      | `structure_validator.py:validate_root_structure()` | Error      | Block merge    |
+| Required dirs exist       | `structure_validator.py:validate_root_structure()` | Error      | Block merge    |
+| Forbidden patterns absent | `structure_validator.py:validate_root_structure()` | Warning    | Warn only      |
+| AI configs consolidated   | `structure_validator.py:validate_root_structure()` | Warning    | Warn only      |
+| Gitignored items absent   | `.gitignore` + CI check                            | Info       | Log only       |
 
 ### 5.3 Structure Validator Integration
 
@@ -404,15 +404,15 @@ Add explicit `portfolio_root` section to [`portfolio-structure.yaml`](../.metaHu
 
 ```yaml
 portfolio_root:
-  description: "Root directory contract for governance repo"
+  description: 'Root directory contract for governance repo'
   required:
-    files: ["README.md", "LICENSE", "SECURITY.md", "GOVERNANCE.md", ".gitignore"]
-    dirs: [".github/", ".metaHub/", "docs/"]
+    files: ['README.md', 'LICENSE', 'SECURITY.md', 'GOVERNANCE.md', '.gitignore']
+    dirs: ['.github/', '.metaHub/', 'docs/']
   recommended:
-    files: ["CONTRIBUTING.md", ".pre-commit-config.yaml", "mkdocs.yml"]
-    dirs: ["tests/"]
+    files: ['CONTRIBUTING.md', '.pre-commit-config.yaml', 'mkdocs.yml']
+    dirs: ['tests/']
   forbidden:
-    patterns: ["*.pdf", "*-report.json", "temp-*"]
+    patterns: ['*.pdf', '*-report.json', 'temp-*']
 ```
 
 ### 5.4 Workflow Integration
@@ -451,7 +451,7 @@ The [`.kilocode/`](../.kilocode/) configuration MUST:
 ```yaml
 governance:
   root_structure:
-    policy_file: ".metaHub/policies/root-structure.yaml"
+    policy_file: '.metaHub/policies/root-structure.yaml'
     enforce: true
     severity: warning
 ```
@@ -464,43 +464,43 @@ governance:
 
 **Compliant and Expected:**
 
-| Item | Status | Notes |
-|------|--------|-------|
-| `README.md` | ✅ Compliant | Present and documented |
-| `LICENSE` | ✅ Compliant | MIT license |
-| `SECURITY.md` | ✅ Compliant | Security policy |
-| `GOVERNANCE.md` | ✅ Compliant | Links to governance |
-| `.github/` | ✅ Compliant | Workflows present |
-| `.metaHub/` | ✅ Compliant | Governance engine |
-| `docs/` | ✅ Compliant | MkDocs documentation |
-| `tests/` | ✅ Compliant | Governance tests |
-| `.gitignore` | ✅ Compliant | Patterns defined |
+| Item            | Status       | Notes                  |
+| --------------- | ------------ | ---------------------- |
+| `README.md`     | ✅ Compliant | Present and documented |
+| `LICENSE`       | ✅ Compliant | MIT license            |
+| `SECURITY.md`   | ✅ Compliant | Security policy        |
+| `GOVERNANCE.md` | ✅ Compliant | Links to governance    |
+| `.github/`      | ✅ Compliant | Workflows present      |
+| `.metaHub/`     | ✅ Compliant | Governance engine      |
+| `docs/`         | ✅ Compliant | MkDocs documentation   |
+| `tests/`        | ✅ Compliant | Governance tests       |
+| `.gitignore`    | ✅ Compliant | Patterns defined       |
 
 **Deprecated (MIGRATION COMPLETE):**
 
-| Item | Previous | Migrated To | Status |
-|------|----------|-------------|--------|
-| `.claude/` | Root symlink | `.ai/claude/` | Removed |
-| `.cursor/` | Root symlink | `.ai/cursor/` | Removed |
-| `.cline/` | Root symlink | `.ai/cline/` | Removed |
-| (12 more AI dirs) | Root symlink | `.ai/<tool>/` | Removed |
-| `.ai-settings.yaml` | Root file | `.ai/settings.yaml` | Removed |
-| `.cursorrules` | Root file | `.ai/rules/cursor.rules` | Removed |
-| `.windsurfrules` | Root file | `.ai/rules/windsurf.rules` | Removed |
-| `.clinerules` | Root file | `.ai/rules/cline.rules` | Removed |
-| `.augmentrules` | Root file | `.ai/rules/augment.rules` | Removed |
-| `.ai-context.md` | Root file | `.ai/context.md` | Removed |
-| `.aider.conf.yml` | Root file | `.ai/aider/config.yml` | Removed |
+| Item                | Previous     | Migrated To                | Status  |
+| ------------------- | ------------ | -------------------------- | ------- |
+| `.claude/`          | Root symlink | `.ai/claude/`              | Removed |
+| `.cursor/`          | Root symlink | `.ai/cursor/`              | Removed |
+| `.cline/`           | Root symlink | `.ai/cline/`               | Removed |
+| (12 more AI dirs)   | Root symlink | `.ai/<tool>/`              | Removed |
+| `.ai-settings.yaml` | Root file    | `.ai/settings.yaml`        | Removed |
+| `.cursorrules`      | Root file    | `.ai/rules/cursor.rules`   | Removed |
+| `.windsurfrules`    | Root file    | `.ai/rules/windsurf.rules` | Removed |
+| `.clinerules`       | Root file    | `.ai/rules/cline.rules`    | Removed |
+| `.augmentrules`     | Root file    | `.ai/rules/augment.rules`  | Removed |
+| `.ai-context.md`    | Root file    | `.ai/context.md`           | Removed |
+| `.aider.conf.yml`   | Root file    | `.ai/aider/config.yml`     | Removed |
 
 **Forbidden (gitignored, local-only):**
 
-| Item | Issue | Resolution |
-|------|-------|------------|
-| `*-report.json` | Generated file at root | Gitignored |
-| `*.code-workspace` | Workspace at root | Gitignored |
-| `alaweimm90/` | Local clone directory | Gitignored |
-| `new-repos/` | Staging directory | Gitignored |
-| `.env` | Environment file | Gitignored |
+| Item               | Issue                  | Resolution |
+| ------------------ | ---------------------- | ---------- |
+| `*-report.json`    | Generated file at root | Gitignored |
+| `*.code-workspace` | Workspace at root      | Gitignored |
+| `alaweimm90/`      | Local clone directory  | Gitignored |
+| `new-repos/`       | Staging directory      | Gitignored |
+| `.env`             | Environment file       | Gitignored |
 
 ### 6.2 Scenario: Adding a New AI Tool
 
@@ -522,8 +522,8 @@ In [`.metaHub/policies/root-structure.yaml`](../.metaHub/policies/root-structure
 allowed_directories:
   ai_assistants:
     # ... existing tools ...
-    - name: ".ai/supercoder"
-      purpose: "SuperCoder AI configuration"
+    - name: '.ai/supercoder'
+      purpose: 'SuperCoder AI configuration'
 ```
 
 **Step 3: Update unified settings**
@@ -534,13 +534,13 @@ In `.ai/settings.yaml`:
 tools:
   supercoder:
     enabled: true
-    config_dir: ".ai/supercoder/"
+    config_dir: '.ai/supercoder/'
     settings:
       auto_approve: true
     best_for:
-      - "New use case"
-    auto_approve_flag: "autoApprove: true"
-    status: "supported"
+      - 'New use case'
+    auto_approve_flag: 'autoApprove: true'
+    status: 'supported'
 ```
 
 **Step 4: Update documentation**
@@ -569,10 +569,12 @@ tools:
 # ADR-00X: Infrastructure Directory at Root
 
 ## Decision
+
 Add `infra/` directory at root for Terraform configurations
 that govern cloud resources for the portfolio.
 
 ## Rationale
+
 - Terraform configs are infrastructure-as-code, not governance code
 - Separating from `.metaHub/` maintains clear boundaries
 - Standard location for IaC in modern repos
@@ -585,8 +587,8 @@ In [`root-structure.yaml`](../.metaHub/policies/root-structure.yaml):
 ```yaml
 allowed_directories:
   optional:
-    - name: "infra"
-      purpose: "Infrastructure-as-code (Terraform) for portfolio cloud resources"
+    - name: 'infra'
+      purpose: 'Infrastructure-as-code (Terraform) for portfolio cloud resources'
 ```
 
 In [`portfolio-structure.yaml`](../.metaHub/templates/structures/portfolio-structure.yaml):
@@ -595,7 +597,7 @@ In [`portfolio-structure.yaml`](../.metaHub/templates/structures/portfolio-struc
 portfolio:
   required_structure:
     # ... existing ...
-    - "infra/"           # Infrastructure configs (optional)
+    - 'infra/' # Infrastructure configs (optional)
 ```
 
 **Step 3: Update validator**

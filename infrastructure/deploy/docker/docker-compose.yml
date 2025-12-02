@@ -7,8 +7,8 @@ services:
       context: ..
       dockerfile: docker/api-gateway/Dockerfile
     ports:
-      - "3000:3000"
-      - "9090:9090"
+      - '3000:3000'
+      - '9090:9090'
     environment:
       - SERVICE_NAME=api-gateway
       - SERVICE_PORT=3000
@@ -31,7 +31,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -43,8 +43,8 @@ services:
       context: ..
       dockerfile: docker/orchestration/Dockerfile
     ports:
-      - "3001:3001"
-      - "9091:9091"
+      - '3001:3001'
+      - '9091:9091'
     environment:
       - SERVICE_NAME=orchestration
       - SERVICE_PORT=3001
@@ -59,7 +59,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3001/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -71,8 +71,8 @@ services:
       context: ..
       dockerfile: docker/execution/Dockerfile
     ports:
-      - "3002:3002"
-      - "9092:9092"
+      - '3002:3002'
+      - '9092:9092'
     environment:
       - SERVICE_NAME=execution
       - SERVICE_PORT=3002
@@ -91,7 +91,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3002/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -103,8 +103,8 @@ services:
       context: ..
       dockerfile: docker/optimization/Dockerfile
     ports:
-      - "3003:3003"
-      - "9093:9093"
+      - '3003:3003'
+      - '9093:9093'
     environment:
       - SERVICE_NAME=optimization
       - SERVICE_PORT=3003
@@ -121,7 +121,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3003/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -133,8 +133,8 @@ services:
       context: ..
       dockerfile: docker/storage/Dockerfile
     ports:
-      - "3004:3004"
-      - "9094:9094"
+      - '3004:3004'
+      - '9094:9094'
     environment:
       - SERVICE_NAME=storage
       - SERVICE_PORT=3004
@@ -157,7 +157,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3004/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -167,7 +167,7 @@ services:
   atlas-postgres:
     image: postgres:15-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       - POSTGRES_DB=atlas
       - POSTGRES_USER=atlas
@@ -179,7 +179,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      test: ['CMD-SHELL', 'pg_isready -U atlas -d atlas']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -189,7 +189,7 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - "6379:6379"
+      - '6379:6379'
     command: redis-server --appendonly yes
     volumes:
       - redis_data:/data
@@ -197,7 +197,7 @@ services:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -207,19 +207,19 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200'
+      - '9300:9300'
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
       - atlas-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      test: ['CMD-SHELL', 'curl -f http://localhost:9200/_cluster/health || exit 1']
       interval: 30s
       timeout: 10s
       retries: 3

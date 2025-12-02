@@ -47,6 +47,7 @@ interface GovernanceEvent {
 ```
 
 **GovernanceEventType Values:**
+
 - `policy_violation` - Policy compliance violation detected
 - `compliance_failure` - General compliance failure
 - `structure_violation` - Repository structure violation
@@ -86,6 +87,7 @@ interface RefactoringOperation {
 ```
 
 **RefactoringType Values:**
+
 - `extract_function` - Extract code into a new function
 - `rename_variable` - Rename a variable or identifier
 - `simplify_conditional` - Simplify conditional logic
@@ -492,19 +494,28 @@ class A2KBridgeError extends Error {
 }
 
 class ValidationError extends A2KBridgeError {
-  constructor(message: string, public operation: RefactoringOperation) {
+  constructor(
+    message: string,
+    public operation: RefactoringOperation
+  ) {
     super(message, 'VALIDATION_FAILED', 'validation', { operationId: operation.id });
   }
 }
 
 class TemplateError extends A2KBridgeError {
-  constructor(message: string, public request: TemplateRequest) {
+  constructor(
+    message: string,
+    public request: TemplateRequest
+  ) {
     super(message, 'TEMPLATE_ERROR', 'templates', { request });
   }
 }
 
 class ComplianceError extends A2KBridgeError {
-  constructor(message: string, public check: ComplianceCheck) {
+  constructor(
+    message: string,
+    public check: ComplianceCheck
+  ) {
     super(message, 'COMPLIANCE_ERROR', 'compliance', { check });
   }
 }
@@ -512,16 +523,16 @@ class ComplianceError extends A2KBridgeError {
 
 ### Error Codes
 
-| Error Code | Component | Description |
-|------------|-----------|-------------|
-| `VALIDATION_FAILED` | validation | Refactoring validation failed |
-| `TEMPLATE_NOT_FOUND` | templates | Requested template not found |
-| `TEMPLATE_INVALID` | templates | Template parameters invalid |
-| `COMPLIANCE_FAILED` | compliance | Code compliance check failed |
-| `BRIDGE_UNAVAILABLE` | bridge | Bridge service unavailable |
-| `CONFIG_INVALID` | config | Configuration validation failed |
-| `NETWORK_ERROR` | network | Network communication failed |
-| `TIMEOUT_ERROR` | timeout | Operation timed out |
+| Error Code           | Component  | Description                     |
+| -------------------- | ---------- | ------------------------------- |
+| `VALIDATION_FAILED`  | validation | Refactoring validation failed   |
+| `TEMPLATE_NOT_FOUND` | templates  | Requested template not found    |
+| `TEMPLATE_INVALID`   | templates  | Template parameters invalid     |
+| `COMPLIANCE_FAILED`  | compliance | Code compliance check failed    |
+| `BRIDGE_UNAVAILABLE` | bridge     | Bridge service unavailable      |
+| `CONFIG_INVALID`     | config     | Configuration validation failed |
+| `NETWORK_ERROR`      | network    | Network communication failed    |
+| `TIMEOUT_ERROR`      | timeout    | Operation timed out             |
 
 ## Type Definitions
 
@@ -559,7 +570,7 @@ enum GovernanceEventType {
   COMPLIANCE_FAILURE = 'compliance_failure',
   STRUCTURE_VIOLATION = 'structure_violation',
   SECURITY_ISSUE = 'security_issue',
-  DEPENDENCY_RISK = 'dependency_risk'
+  DEPENDENCY_RISK = 'dependency_risk',
 }
 
 enum RefactoringType {
@@ -570,14 +581,14 @@ enum RefactoringType {
   REDUCE_COMPLEXITY = 'reduce_complexity',
   IMPROVE_NAMING = 'improve_naming',
   ADD_TYPE_HINTS = 'add_type_hints',
-  EXTRACT_CONSTANT = 'extract_constant'
+  EXTRACT_CONSTANT = 'extract_constant',
 }
 
 enum ComplianceSeverity {
   LOW = 'low',
   MEDIUM = 'medium',
   HIGH = 'high',
-  CRITICAL = 'critical'
+  CRITICAL = 'critical',
 }
 ```
 
@@ -715,8 +726,8 @@ const templateRequest: TemplateRequest = {
   name: 'github-actions',
   parameters: {
     nodeVersion: '18',
-    testCommand: 'npm test'
-  }
+    testCommand: 'npm test',
+  },
 };
 
 const template = await bridge.getTemplates(templateRequest);
@@ -731,9 +742,9 @@ const complianceCheck: ComplianceCheck = {
   language: 'javascript',
   context: {
     repository: 'my-app',
-    filePath: 'src/auth.js'
+    filePath: 'src/auth.js',
   },
-  policies: ['security']
+  policies: ['security'],
 };
 
 const result = await bridge.checkCompliance(complianceCheck);

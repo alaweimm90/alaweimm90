@@ -51,7 +51,7 @@ metadata:
     app.kubernetes.io/component: logging
 spec:
   accessModes:
-    - ReadWriteMany  # Multiple pods can write logs
+    - ReadWriteMany # Multiple pods can write logs
   storageClassName: nfs-storage
   resources:
     requests:
@@ -91,7 +91,7 @@ metadata:
     app.kubernetes.io/component: config
 spec:
   accessModes:
-    - ReadOnlyMany  # Shared read-only config
+    - ReadOnlyMany # Shared read-only config
   storageClassName: nfs-storage
   resources:
     requests:

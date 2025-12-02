@@ -17,9 +17,15 @@ import { join, resolve } from 'path';
 
 export interface RefactoringOperation {
   id: string;
-  type: 'extract_function' | 'rename_variable' | 'simplify_conditional' |
-        'remove_duplication' | 'reduce_complexity' | 'improve_naming' |
-        'add_type_hints' | 'extract_constant';
+  type:
+    | 'extract_function'
+    | 'rename_variable'
+    | 'simplify_conditional'
+    | 'remove_duplication'
+    | 'reduce_complexity'
+    | 'improve_naming'
+    | 'add_type_hints'
+    | 'extract_constant';
   filePath: string;
   changes: CodeChange[];
   metadata: {
@@ -157,8 +163,8 @@ export class ValidationProxy {
         validationMetadata: {
           validatorVersion: '1.0.0',
           validationTime: Date.now() - startTime,
-          checksPerformed: ['syntax', 'types', 'safety']
-        }
+          checksPerformed: ['syntax', 'types', 'safety'],
+        },
       };
     } catch (error) {
       return {
@@ -169,13 +175,16 @@ export class ValidationProxy {
         validationMetadata: {
           validatorVersion: '1.0.0',
           validationTime: Date.now() - startTime,
-          checksPerformed: ['error_handling']
-        }
+          checksPerformed: ['error_handling'],
+        },
       };
     }
   }
 
-  private validateSyntax(operation: RefactoringOperation): { errors: string[], warnings: string[] } {
+  private validateSyntax(operation: RefactoringOperation): {
+    errors: string[];
+    warnings: string[];
+  } {
     // Basic syntax validation - in real implementation would use AST parsing
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -192,13 +201,15 @@ export class ValidationProxy {
     return { errors, warnings };
   }
 
-  private async validateTypes(operation: RefactoringOperation): Promise<{ errors: string[], warnings: string[] }> {
+  private async validateTypes(
+    operation: RefactoringOperation
+  ): Promise<{ errors: string[]; warnings: string[] }> {
     // Asynchronous type checking - would integrate with TypeScript compiler or similar
     const errors: string[] = [];
     const warnings: string[] = [];
 
     // Simulate async validation
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 10));
 
     if (operation.type === 'add_type_hints') {
       // Type hint validation would be more thorough
@@ -208,7 +219,10 @@ export class ValidationProxy {
     return { errors, warnings };
   }
 
-  private validateSafety(operation: RefactoringOperation): { errors: string[], warnings: string[] } {
+  private validateSafety(operation: RefactoringOperation): {
+    errors: string[];
+    warnings: string[];
+  } {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -218,7 +232,11 @@ export class ValidationProxy {
     }
 
     // Check for breaking changes
-    if (operation.changes.some(change => change.type === 'remove' && change.content.includes('export'))) {
+    if (
+      operation.changes.some(
+        (change) => change.type === 'remove' && change.content.includes('export')
+      )
+    ) {
       warnings.push('Potential breaking change: removing exported member');
     }
 
@@ -245,7 +263,7 @@ export class ValidationProxy {
 
 export class TemplateAccessor {
   private config: A2KBridgeConfig['templates'];
-  private cache: Map<string, { data: TemplateResponse, timestamp: number }> = new Map();
+  private cache: Map<string, { data: TemplateResponse; timestamp: number }> = new Map();
 
   constructor(config: A2KBridgeConfig['templates']) {
     this.config = config;
@@ -257,7 +275,7 @@ export class TemplateAccessor {
     // Check cache first
     if (this.config.cacheEnabled) {
       const cached = this.cache.get(cacheKey);
-      if (cached && (Date.now() - cached.timestamp) < this.config.cacheTtlMs) {
+      if (cached && Date.now() - cached.timestamp < this.config.cacheTtlMs) {
         return this.applyParameters(cached.data, request.parameters);
       }
     }
@@ -292,7 +310,7 @@ export class TemplateAccessor {
         files.push({
           path: fileName,
           content,
-          placeholders: this.extractPlaceholders(content)
+          placeholders: this.extractPlaceholders(content),
         });
       }
     }
@@ -305,20 +323,23 @@ export class TemplateAccessor {
         name: request.name,
         version: templateJson.version,
         description: templateJson.description,
-        dependencies: templateJson.dependencies || []
-      }
+        dependencies: templateJson.dependencies || [],
+      },
     };
   }
 
-  private applyParameters(template: TemplateResponse, parameters: Record<string, any>): TemplateResponse {
-    const processedFiles = template.files.map(file => ({
+  private applyParameters(
+    template: TemplateResponse,
+    parameters: Record<string, any>
+  ): TemplateResponse {
+    const processedFiles = template.files.map((file) => ({
       ...file,
-      content: this.replacePlaceholders(file.content, parameters)
+      content: this.replacePlaceholders(file.content, parameters),
     }));
 
     return {
       ...template,
-      files: processedFiles
+      files: processedFiles,
     };
   }
 
@@ -372,18 +393,22 @@ export class ComplianceChecker {
     const complianceScore = this.calculateComplianceScore(violations);
 
     return {
-      isCompliant: violations.filter(v => v.severity === 'critical' || v.severity === 'high').length === 0,
+      isCompliant:
+        violations.filter((v) => v.severity === 'critical' || v.severity === 'high').length === 0,
       violations,
       recommendations,
       metadata: {
         checkedPolicies: this.config.enabledPolicies,
         complianceScore,
-        checkTime: Date.now() - startTime
-      }
+        checkTime: Date.now() - startTime,
+      },
     };
   }
 
-  private async checkPolicy(check: ComplianceCheck, policy: string): Promise<ComplianceViolation[]> {
+  private async checkPolicy(
+    check: ComplianceCheck,
+    policy: string
+  ): Promise<ComplianceViolation[]> {
     const violations: ComplianceViolation[] = [];
 
     switch (policy) {
@@ -408,12 +433,16 @@ export class ComplianceChecker {
     const violations: ComplianceViolation[] = [];
 
     // Check for hardcoded secrets
-    if (check.code.includes('password') || check.code.includes('secret') || check.code.includes('token')) {
+    if (
+      check.code.includes('password') ||
+      check.code.includes('secret') ||
+      check.code.includes('token')
+    ) {
       violations.push({
         policy: 'security',
         severity: 'high',
         message: 'Potential hardcoded secret detected',
-        suggestion: 'Use environment variables or secure credential storage'
+        suggestion: 'Use environment variables or secure credential storage',
       });
     }
 
@@ -423,7 +452,7 @@ export class ComplianceChecker {
         policy: 'security',
         severity: 'critical',
         message: 'Potential SQL injection vulnerability',
-        suggestion: 'Use parameterized queries or prepared statements'
+        suggestion: 'Use parameterized queries or prepared statements',
       });
     }
 
@@ -439,7 +468,7 @@ export class ComplianceChecker {
         policy: 'code_quality',
         severity: 'low',
         message: 'TODO/FIXME comment found',
-        suggestion: 'Address technical debt or remove comment'
+        suggestion: 'Address technical debt or remove comment',
       });
     }
 
@@ -449,7 +478,7 @@ export class ComplianceChecker {
         policy: 'code_quality',
         severity: 'medium',
         message: 'Console.log found in non-test code',
-        suggestion: 'Use proper logging framework'
+        suggestion: 'Use proper logging framework',
       });
     }
 
@@ -466,7 +495,7 @@ export class ComplianceChecker {
         policy: 'performance',
         severity: 'medium',
         message: 'Nested loops detected',
-        suggestion: 'Consider optimizing nested loop performance'
+        suggestion: 'Consider optimizing nested loop performance',
       });
     }
 
@@ -485,7 +514,7 @@ export class ComplianceChecker {
           policy: 'maintainability',
           severity: 'medium',
           message: 'Function exceeds recommended length',
-          suggestion: 'Consider breaking down into smaller functions'
+          suggestion: 'Consider breaking down into smaller functions',
         });
         break; // Only report once per file
       }
@@ -497,14 +526,19 @@ export class ComplianceChecker {
   private generateRecommendations(violations: ComplianceViolation[]): string[] {
     const recommendations: string[] = [];
 
-    const policyGroups = violations.reduce((acc, v) => {
-      if (!acc[v.policy]) acc[v.policy] = [];
-      acc[v.policy].push(v);
-      return acc;
-    }, {} as Record<string, ComplianceViolation[]>);
+    const policyGroups = violations.reduce(
+      (acc, v) => {
+        if (!acc[v.policy]) acc[v.policy] = [];
+        acc[v.policy].push(v);
+        return acc;
+      },
+      {} as Record<string, ComplianceViolation[]>
+    );
 
     for (const [policy, policyViolations] of Object.entries(policyGroups)) {
-      const highSeverity = policyViolations.filter(v => v.severity === 'high' || v.severity === 'critical');
+      const highSeverity = policyViolations.filter(
+        (v) => v.severity === 'high' || v.severity === 'critical'
+      );
       if (highSeverity.length > 0) {
         recommendations.push(`Address ${highSeverity.length} high-severity ${policy} violations`);
       }
@@ -518,7 +552,7 @@ export class ComplianceChecker {
       critical: 10,
       high: 5,
       medium: 2,
-      low: 1
+      low: 1,
     };
 
     const totalPenalty = violations.reduce((sum, v) => sum + weights[v.severity], 0);
@@ -548,19 +582,19 @@ export class AtlasKiloBridge implements A2KBridge {
         strictness: 'standard',
         timeoutMs: 30000,
         enableRollback: true,
-        ...config.validation
+        ...config.validation,
       },
       templates: {
         cacheEnabled: true,
         cacheTtlMs: 3600000, // 1 hour
         basePath: resolve(__dirname, '../../../infrastructure/templates/devops'),
-        ...config.templates
+        ...config.templates,
       },
       compliance: {
         enabledPolicies: ['security', 'code_quality', 'performance', 'maintainability'],
         failOnWarning: false,
-        ...config.compliance
-      }
+        ...config.compliance,
+      },
     };
 
     this.validationProxy = new ValidationProxy(this.config.validation);
@@ -589,8 +623,8 @@ export class AtlasKiloBridge implements A2KBridge {
       components: {
         validation: 'active',
         templates: 'active',
-        compliance: 'active'
-      }
+        compliance: 'active',
+      },
     };
   }
 

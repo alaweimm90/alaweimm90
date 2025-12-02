@@ -6,7 +6,9 @@
 
 import { Command } from 'commander';
 import { cliContext, output, progress, errorHandler, format } from '../utils.js';
-import { RepositoryAnalyzer } from '../../analysis/analyzer.js';import { AtlasKiloBridge, ComplianceCheck } from '../../integrations/atlas-kilo-bridge.js';import { KiloAtlasBridge } from '../../integrations/kilo-bridge.js';
+import { RepositoryAnalyzer } from '../../analysis/analyzer.js';
+import { AtlasKiloBridge, ComplianceCheck } from '../../integrations/atlas-kilo-bridge.js';
+import { KiloAtlasBridge } from '../../integrations/kilo-bridge.js';
 
 export function registerAnalyzeCommands(program: Command): void {
   const analyzeCmd = program.command('analyze').description('Repository analysis commands');
@@ -18,7 +20,9 @@ export function registerAnalyzeCommands(program: Command): void {
     .option('--format <format>', 'Output format: json, table, summary', 'table')
     .option('--depth <depth>', 'Analysis depth: shallow, medium, deep', 'medium')
     .option('--include-patterns <patterns>', 'File patterns to include (comma-separated)')
-    .option('--exclude-patterns <patterns>', 'File patterns to exclude (comma-separated)').option('--governance-check', 'Validate results against KILO governance policies').option('--auto-refactor', 'Apply KILO-validated refactoring operations')
+    .option('--exclude-patterns <patterns>', 'File patterns to exclude (comma-separated)')
+    .option('--governance-check', 'Validate results against KILO governance policies')
+    .option('--auto-refactor', 'Apply KILO-validated refactoring operations')
     .action(async (path: string, options: any) => {
       await errorHandler.handleAsync(async () => {
         const spinner = progress.start('Analyzing repository...');
@@ -30,7 +34,7 @@ export function registerAnalyzeCommands(program: Command): void {
           const results = await analyzer.analyzeRepository(path, {
             depth: options.depth,
             includePatterns: options.includePatterns?.split(','),
-            excludePatterns: options.excludePatterns?.split(',')
+            excludePatterns: options.excludePatterns?.split(','),
           });
 
           progress.succeed(spinner, 'Analysis complete');
@@ -66,7 +70,7 @@ export function registerAnalyzeCommands(program: Command): void {
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.analyzeComplexity(path, {
-            threshold: options.threshold
+            threshold: options.threshold,
           });
 
           progress.succeed(spinner, 'Complexity analysis complete');
@@ -136,12 +140,23 @@ function displayAnalysisTable(results: any): void {
   const rows = [
     ['Files Analyzed', results.filesAnalyzed?.toString() || '0', 'info'],
     ['Total Lines', results.totalLines?.toString() || '0', 'info'],
-    ['Complexity Score', results.complexityScore?.toFixed(2) || '0.00', getStatusColor(results.complexityScore)],
+    [
+      'Complexity Score',
+      results.complexityScore?.toFixed(2) || '0.00',
+      getStatusColor(results.complexityScore),
+    ],
     ['Chaos Level', results.chaosLevel?.toFixed(2) || '0.00', getStatusColor(results.chaosLevel)],
-    ['Maintainability', results.maintainabilityIndex?.toFixed(2) || '0.00', getStatusColor(results.maintainabilityIndex, true)],
+    [
+      'Maintainability',
+      results.maintainabilityIndex?.toFixed(2) || '0.00',
+      getStatusColor(results.maintainabilityIndex, true),
+    ],
   ];
 
-  output.table(headers, rows.map(([metric, value, status]) => [metric, value, status]));
+  output.table(
+    headers,
+    rows.map(([metric, value, status]) => [metric, value, status])
+  );
 }
 
 /**
@@ -172,11 +187,7 @@ function displayComplexityResults(results: any): void {
 
   if (results.functions?.length > 0) {
     const headers = ['Function', 'Complexity', 'File'];
-    const rows = results.functions.map((fn: any) => [
-      fn.name,
-      fn.complexity.toString(),
-      fn.file
-    ]);
+    const rows = results.functions.map((fn: any) => [fn.name, fn.complexity.toString(), fn.file]);
 
     output.table(headers, rows);
   }
@@ -219,7 +230,9 @@ function displayQuickScanResults(results: any): void {
   console.log(`Files: ${results.fileCount || 0}`);
   console.log(`Languages: ${results.languages?.join(', ') || 'Unknown'}`);
   console.log(`Total Size: ${format.bytes(results.totalSize || 0)}`);
-  console.log(`Last Modified: ${results.lastModified ? format.timestamp(new Date(results.lastModified)) : 'Unknown'}`);
+  console.log(
+    `Last Modified: ${results.lastModified ? format.timestamp(new Date(results.lastModified)) : 'Unknown'}`
+  );
 
   if (results.healthScore !== undefined) {
     console.log(`Health Score: ${results.healthScore.toFixed(1)}/10`);

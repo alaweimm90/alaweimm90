@@ -14,6 +14,7 @@ DualLibria implements adversarial workflow validation using min-max optimization
 **Core Innovation**: Pre-deployment adversarial validation (🟢 MODERATE-STRONG novelty)
 
 **Research Contributions**:
+
 - **DUAL-C1**: Min-Max Optimization for Workflow Robustness
 - **DUAL-C2**: Red-Team/Blue-Team Learning Dynamics
 
@@ -27,15 +28,18 @@ DualLibria implements adversarial workflow validation using min-max optimization
 
 **Adversarial Workflow Validation**:
 Given:
+
 - Workflow W with agents {a₁, a₂, ..., aₙ}
 - Safety/correctness specification φ
 - Attack budget B_attack
 
 Find:
+
 1. **Red team (adversary)**: Worst-case input x* maximizing P(φ violated | x*)
 2. **Blue team (defender)**: Robustified workflow W' minimizing max attack success
 
 **Min-Max Formulation**:
+
 ```
 min_W' max_x L(W', x)
 ```
@@ -45,6 +49,7 @@ where L(W', x) = loss when workflow W' processes adversarial input x
 ### 1.2 Core Algorithm
 
 **DualLibria Architecture**:
+
 ```
 Input: Workflow W, Safety spec φ, Attack budget
 │
@@ -585,11 +590,13 @@ class CertifiedDefender:
 ### 2.1 Novel Contributions
 
 **DUAL-C1: Min-Max Optimization for Workflow Robustness**
+
 - **Gap**: Post-deployment testing only (PyRIT, FAST-BAT); no pre-deployment adversarial validation
 - **Approach**: Min-max optimization with alternating red-team/blue-team updates
 - **Impact**: 50-70% reduction in deployment failures
 
 **DUAL-C2: Red-Team/Blue-Team Learning Dynamics**
+
 - **Gap**: Static red-teaming; no co-evolution between attacker and defender
 - **Approach**: Alternating optimization where both adapt
 - **Impact**: Discovers 2-3× more failure modes than static testing
@@ -613,15 +620,18 @@ class CertifiedDefender:
 ### 2.3 Benchmark Datasets
 
 **LLM Safety Benchmarks**:
+
 - TruthfulQA
 - ToxiGen
 - AdvBench
 
 **Multi-Agent Failures**:
+
 - ATLAS failure logs
 - Custom adversarial workflows
 
 **Expected Performance**:
+
 - 50-70% fewer deployment failures
 - 2-3× more failure modes discovered
 - Certified robustness radius > 0.1
@@ -631,7 +641,9 @@ class CertifiedDefender:
 ## 3. Implementation Roadmap
 
 ### Phase 1: Core Algorithm (Weeks 1-2)
+
 ### Phase 2: Benchmarking (Weeks 3-5)
+
 ### Phase 3: Paper Writing (Weeks 6-8)
 
 ---

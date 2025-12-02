@@ -1,105 +1,105 @@
 # Development Crew - Multi-Agent Development Team
 # Based on CrewAI crew pattern
 
-name: "development_crew"
-description: "A coordinated team for end-to-end software development"
-version: "1.0"
+name: 'development_crew'
+description: 'A coordinated team for end-to-end software development'
+version: '1.0'
 
 # Crew composition
 agents:
-  - name: "tech_lead"
-    agent_ref: "architect_agent"
-    role_in_crew: "Technical Lead"
+  - name: 'tech_lead'
+    agent_ref: 'architect_agent'
+    role_in_crew: 'Technical Lead'
     responsibilities:
-      - "Define technical approach"
-      - "Review architecture decisions"
-      - "Coordinate development efforts"
+      - 'Define technical approach'
+      - 'Review architecture decisions'
+      - 'Coordinate development efforts'
     delegation_authority: true
 
-  - name: "developer"
-    agent_ref: "coder_agent"
-    role_in_crew: "Senior Developer"
+  - name: 'developer'
+    agent_ref: 'coder_agent'
+    role_in_crew: 'Senior Developer'
     responsibilities:
-      - "Implement features"
-      - "Write clean code"
-      - "Create unit tests"
+      - 'Implement features'
+      - 'Write clean code'
+      - 'Create unit tests'
     delegation_authority: false
 
-  - name: "reviewer"
-    agent_ref: "reviewer_agent"
-    role_in_crew: "Code Reviewer"
+  - name: 'reviewer'
+    agent_ref: 'reviewer_agent'
+    role_in_crew: 'Code Reviewer'
     responsibilities:
-      - "Review code quality"
-      - "Check for bugs"
-      - "Ensure best practices"
+      - 'Review code quality'
+      - 'Check for bugs'
+      - 'Ensure best practices'
     delegation_authority: false
 
-  - name: "security_expert"
-    agent_ref: "security_agent"
-    role_in_crew: "Security Specialist"
+  - name: 'security_expert'
+    agent_ref: 'security_agent'
+    role_in_crew: 'Security Specialist'
     responsibilities:
-      - "Security review"
-      - "Vulnerability assessment"
-      - "Secure coding guidance"
+      - 'Security review'
+      - 'Vulnerability assessment'
+      - 'Secure coding guidance'
     delegation_authority: false
 
-  - name: "documenter"
-    agent_ref: "writer_agent"
-    role_in_crew: "Technical Writer"
+  - name: 'documenter'
+    agent_ref: 'writer_agent'
+    role_in_crew: 'Technical Writer'
     responsibilities:
-      - "Write documentation"
-      - "Create API docs"
-      - "Update README"
+      - 'Write documentation'
+      - 'Create API docs'
+      - 'Update README'
     delegation_authority: false
 
 # Task definitions
 tasks:
-  - name: "requirements_analysis"
-    description: "Analyze and clarify requirements"
-    assigned_to: "tech_lead"
-    expected_output: "Technical specification document"
+  - name: 'requirements_analysis'
+    description: 'Analyze and clarify requirements'
+    assigned_to: 'tech_lead'
+    expected_output: 'Technical specification document'
 
-  - name: "architecture_design"
-    description: "Design system architecture"
-    assigned_to: "tech_lead"
-    depends_on: ["requirements_analysis"]
-    expected_output: "Architecture diagram and design doc"
+  - name: 'architecture_design'
+    description: 'Design system architecture'
+    assigned_to: 'tech_lead'
+    depends_on: ['requirements_analysis']
+    expected_output: 'Architecture diagram and design doc'
 
-  - name: "implementation"
-    description: "Implement the solution"
-    assigned_to: "developer"
-    depends_on: ["architecture_design"]
-    expected_output: "Working code with tests"
+  - name: 'implementation'
+    description: 'Implement the solution'
+    assigned_to: 'developer'
+    depends_on: ['architecture_design']
+    expected_output: 'Working code with tests'
 
-  - name: "code_review"
-    description: "Review code quality and correctness"
-    assigned_to: "reviewer"
-    depends_on: ["implementation"]
-    expected_output: "Code review report"
+  - name: 'code_review'
+    description: 'Review code quality and correctness'
+    assigned_to: 'reviewer'
+    depends_on: ['implementation']
+    expected_output: 'Code review report'
 
-  - name: "security_review"
-    description: "Security assessment"
-    assigned_to: "security_expert"
-    depends_on: ["implementation"]
-    expected_output: "Security assessment report"
+  - name: 'security_review'
+    description: 'Security assessment'
+    assigned_to: 'security_expert'
+    depends_on: ['implementation']
+    expected_output: 'Security assessment report'
 
-  - name: "revision"
-    description: "Address review feedback"
-    assigned_to: "developer"
-    depends_on: ["code_review", "security_review"]
-    expected_output: "Revised code"
-    condition: "has_critical_issues"
+  - name: 'revision'
+    description: 'Address review feedback'
+    assigned_to: 'developer'
+    depends_on: ['code_review', 'security_review']
+    expected_output: 'Revised code'
+    condition: 'has_critical_issues'
 
-  - name: "documentation"
-    description: "Write technical documentation"
-    assigned_to: "documenter"
-    depends_on: ["revision"]
-    expected_output: "Complete documentation"
+  - name: 'documentation'
+    description: 'Write technical documentation'
+    assigned_to: 'documenter'
+    depends_on: ['revision']
+    expected_output: 'Complete documentation'
 
 # Process configuration
 process:
-  type: "hierarchical"
-  manager: "tech_lead"
+  type: 'hierarchical'
+  manager: 'tech_lead'
 
   communication:
     verbose: true
@@ -108,30 +108,30 @@ process:
 
 # Quality gates
 quality_gates:
-  - after_task: "code_review"
-    condition: "no_critical_issues"
-    on_fail: "revision"
+  - after_task: 'code_review'
+    condition: 'no_critical_issues'
+    on_fail: 'revision'
 
-  - after_task: "security_review"
-    condition: "no_high_vulnerabilities"
-    on_fail: "block"
+  - after_task: 'security_review'
+    condition: 'no_high_vulnerabilities'
+    on_fail: 'block'
 
 # Output configuration
 output:
-  format: "mixed"
+  format: 'mixed'
   deliverables:
-    - name: "source_code"
-      type: "code"
-      format: "files"
-    - name: "tests"
-      type: "code"
-      format: "files"
-    - name: "documentation"
-      type: "document"
-      format: "markdown"
-    - name: "review_report"
-      type: "report"
-      format: "markdown"
+    - name: 'source_code'
+      type: 'code'
+      format: 'files'
+    - name: 'tests'
+      type: 'code'
+      format: 'files'
+    - name: 'documentation'
+      type: 'document'
+      format: 'markdown'
+    - name: 'review_report'
+      type: 'report'
+      format: 'markdown'
 
 # Execution settings
 execution:
@@ -140,12 +140,12 @@ execution:
   checkpoint_enabled: true
 
   on_error:
-    strategy: "escalate_to_manager"
+    strategy: 'escalate_to_manager'
     max_retries: 2
 
 metadata:
-  created: "2024-11-29"
-  category: "development"
+  created: '2024-11-29'
+  category: 'development'
   tags:
     - development
     - multi-agent

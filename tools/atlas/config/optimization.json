@@ -39,13 +39,7 @@
         "enabled": true,
         "branch": "main",
         "priority": "high",
-        "excludedPaths": [
-          "node_modules/**",
-          "dist/**",
-          "build/**",
-          "*.log",
-          ".git/**"
-        ],
+        "excludedPaths": ["node_modules/**", "dist/**", "build/**", "*.log", ".git/**"],
         "includedExtensions": [".ts", ".js", ".tsx", ".jsx", ".py", ".java"],
         "customRules": {
           "maxComplexity": 15,
@@ -131,10 +125,7 @@
       "consolidate-duplicates"
     ],
 
-    "disabledRules": [
-      "aggressive-renaming",
-      "major-restructuring"
-    ],
+    "disabledRules": ["aggressive-renaming", "major-restructuring"],
 
     "safetyChecks": {
       "requireTests": false,

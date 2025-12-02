@@ -110,7 +110,15 @@ describe('AI Error Handling Module', () => {
     });
 
     it('should mark other errors as recoverable', () => {
-      const categories = ['validation', 'io', 'network', 'timeout', 'configuration', 'dependency', 'runtime'];
+      const categories = [
+        'validation',
+        'io',
+        'network',
+        'timeout',
+        'configuration',
+        'dependency',
+        'runtime',
+      ];
       for (const category of categories) {
         const recoverable = category !== 'permission';
         expect(recoverable).toBe(true);
@@ -127,18 +135,42 @@ describe('AI Error Handling Module', () => {
     }
 
     const strategies: Record<string, RecoveryStrategy> = {
-      validation: { name: 'Validation Retry', maxAttempts: 2, backoffMs: 100, backoffMultiplier: 1 },
+      validation: {
+        name: 'Validation Retry',
+        maxAttempts: 2,
+        backoffMs: 100,
+        backoffMultiplier: 1,
+      },
       io: { name: 'IO Retry with Backoff', maxAttempts: 3, backoffMs: 500, backoffMultiplier: 2 },
       network: { name: 'Network Retry', maxAttempts: 5, backoffMs: 1000, backoffMultiplier: 2 },
       timeout: { name: 'Timeout Extension', maxAttempts: 2, backoffMs: 0, backoffMultiplier: 1 },
       permission: { name: 'Permission Check', maxAttempts: 1, backoffMs: 0, backoffMultiplier: 1 },
-      configuration: { name: 'Config Fallback', maxAttempts: 1, backoffMs: 0, backoffMultiplier: 1 },
-      dependency: { name: 'Dependency Resolution', maxAttempts: 2, backoffMs: 1000, backoffMultiplier: 1 },
+      configuration: {
+        name: 'Config Fallback',
+        maxAttempts: 1,
+        backoffMs: 0,
+        backoffMultiplier: 1,
+      },
+      dependency: {
+        name: 'Dependency Resolution',
+        maxAttempts: 2,
+        backoffMs: 1000,
+        backoffMultiplier: 1,
+      },
       runtime: { name: 'Runtime Recovery', maxAttempts: 3, backoffMs: 2000, backoffMultiplier: 2 },
     };
 
     it('should have strategy for each category', () => {
-      const categories = ['validation', 'io', 'network', 'timeout', 'permission', 'configuration', 'dependency', 'runtime'];
+      const categories = [
+        'validation',
+        'io',
+        'network',
+        'timeout',
+        'permission',
+        'configuration',
+        'dependency',
+        'runtime',
+      ];
       for (const category of categories) {
         expect(strategies[category]).toBeDefined();
       }

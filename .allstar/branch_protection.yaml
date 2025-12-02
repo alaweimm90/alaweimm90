@@ -5,7 +5,7 @@
 enabled: true
 
 # Action to take on violation
-action: issue  # Options: log, issue, fix
+action: issue # Options: log, issue, fix
 
 # Branch patterns to protect
 protectBranches:
@@ -28,13 +28,13 @@ requireStatusChecks: true
 requireUpToDateBranches: true
 
 requiredStatusCheckContexts:
-  - "Super-Linter"
-  - "OpenSSF Scorecard"
-  - "OPA Policy Enforcement"
-  - "policy-bot"
+  - 'Super-Linter'
+  - 'OpenSSF Scorecard'
+  - 'OPA Policy Enforcement'
+  - 'policy-bot'
 
 # Admin enforcement
-enforceAdmin: false  # Allow admin to bypass in emergencies
+enforceAdmin: false # Allow admin to bypass in emergencies
 
 # Restrictions
 restrictions:

@@ -277,7 +277,12 @@ describe('AI Issues Module', () => {
     it('should create issues from security findings', () => {
       const findings = [
         { type: 'secret', severity: 'critical', description: 'API key found', file: 'config.ts' },
-        { type: 'vulnerability', severity: 'high', description: 'CVE-2024-1234', file: 'package.json' },
+        {
+          type: 'vulnerability',
+          severity: 'high',
+          description: 'CVE-2024-1234',
+          file: 'package.json',
+        },
       ];
 
       const issues = findings.map((f, i) => ({

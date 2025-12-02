@@ -175,3 +175,13 @@ export interface OrchestrationConfig {
     metricsPath: string;
   };
 }
+
+export interface AgentTeam {
+  id: string;
+  name: string;
+  members: string[];
+  capabilities: AgentCapability[];
+  routingStrategy: 'capability' | 'load_balance' | 'cost' | 'latency';
+  createdAt: string;
+  updatedAt?: string;
+}

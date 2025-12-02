@@ -16,12 +16,12 @@ Governance policies need to be:
 
 Options considered:
 
-| Option | Pros | Cons |
-|--------|------|------|
-| Custom scripts | Simple, flexible | Hard to maintain, not portable |
-| JSON Schema only | Standard, well-tooled | Limited to structure validation |
-| **OPA/Rego** | Powerful, portable, testable | Learning curve |
-| CUE | Strong typing | Smaller ecosystem |
+| Option           | Pros                         | Cons                            |
+| ---------------- | ---------------------------- | ------------------------------- |
+| Custom scripts   | Simple, flexible             | Hard to maintain, not portable  |
+| JSON Schema only | Standard, well-tooled        | Limited to structure validation |
+| **OPA/Rego**     | Powerful, portable, testable | Learning curve                  |
+| CUE              | Strong typing                | Smaller ecosystem               |
 
 ## Decision
 

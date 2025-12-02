@@ -108,9 +108,9 @@ class ComplianceChecker {
     }
 
     return {
-      isCompliant: violations.every(v => v.severity !== 'critical'),
+      isCompliant: violations.every((v) => v.severity !== 'critical'),
       violations,
-      recommendations: this.generateRecommendations(violations)
+      recommendations: this.generateRecommendations(violations),
     };
   }
 }
@@ -306,14 +306,15 @@ const operation: RefactoringOperation = {
       type: 'add',
       startLine: 10,
       endLine: 15,
-      content: 'function calculateTotal(items) {\n  return items.reduce((sum, item) => sum + item.price, 0);\n}'
-    }
+      content:
+        'function calculateTotal(items) {\n  return items.reduce((sum, item) => sum + item.price, 0);\n}',
+    },
   ],
   metadata: {
     riskLevel: 'low',
     estimatedImpact: 5,
-    requiresValidation: true
-  }
+    requiresValidation: true,
+  },
 };
 
 const result = await bridge.validateRefactoring(operation);
@@ -339,8 +340,8 @@ const templateRequest: TemplateRequest = {
   parameters: {
     nodeVersion: '18',
     testCommand: 'npm test',
-    buildCommand: 'npm run build'
-  }
+    buildCommand: 'npm run build',
+  },
 };
 
 const template = await bridge.getTemplates(templateRequest);
@@ -366,15 +367,15 @@ const complianceCheck: ComplianceCheck = {
   context: {
     repository: 'my-app',
     filePath: 'src/auth.js',
-    framework: 'express'
+    framework: 'express',
   },
-  policies: ['security', 'code_quality']
+  policies: ['security', 'code_quality'],
 };
 
 const result = await bridge.checkCompliance(complianceCheck);
 if (!result.isCompliant) {
   console.log('Compliance violations found:');
-  result.violations.forEach(violation => {
+  result.violations.forEach((violation) => {
     console.log(`- ${violation.severity}: ${violation.message}`);
     console.log(`  Suggestion: ${violation.suggestion}`);
   });
@@ -423,7 +424,10 @@ Ensures long-term code health:
 
 ```typescript
 class ValidationError extends A2KBridgeError {
-  constructor(message: string, public operation: RefactoringOperation) {
+  constructor(
+    message: string,
+    public operation: RefactoringOperation
+  ) {
     super(message, 'VALIDATION_FAILED', 'validation');
   }
 }
@@ -443,7 +447,10 @@ try {
 
 ```typescript
 class TemplateError extends A2KBridgeError {
-  constructor(message: string, public request: TemplateRequest) {
+  constructor(
+    message: string,
+    public request: TemplateRequest
+  ) {
     super(message, 'TEMPLATE_ERROR', 'templates');
   }
 }
@@ -453,7 +460,10 @@ class TemplateError extends A2KBridgeError {
 
 ```typescript
 class ComplianceError extends A2KBridgeError {
-  constructor(message: string, public check: ComplianceCheck) {
+  constructor(
+    message: string,
+    public check: ComplianceCheck
+  ) {
     super(message, 'COMPLIANCE_ERROR', 'compliance');
   }
 }
@@ -491,7 +501,7 @@ class TemplateCache {
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl
+      ttl,
     });
   }
 }
@@ -576,6 +586,7 @@ if (health.status !== 'healthy') {
 ### Request Validation
 
 All requests are validated for:
+
 - Schema compliance
 - Parameter sanitization
 - Authentication tokens
@@ -638,16 +649,19 @@ async function generateInfrastructure(templateRequest: TemplateRequest) {
 ### Common Issues
 
 **Validation Timeouts**
+
 - Increase timeout in configuration
 - Check KILO service availability
 - Review operation complexity
 
 **Template Not Found**
+
 - Verify template name and category
 - Check KILO template library
 - Update bridge configuration
 
 **Compliance Check Failures**
+
 - Review enabled policies
 - Check code context information
 - Validate policy configurations
@@ -659,13 +673,14 @@ Enable detailed logging:
 ```typescript
 const bridge = new AtlasKiloBridge({
   debug: true,
-  logLevel: 'debug'
+  logLevel: 'debug',
 });
 ```
 
 ## Future Enhancements
 
 ### Planned Features
+
 - **Advanced Validation Rules**: Custom validation logic
 - **Template Composition**: Combine multiple templates
 - **Real-time Validation**: Streaming validation results

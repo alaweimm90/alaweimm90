@@ -72,5 +72,4 @@ export interface ModelConfig {
     crossValidationFolds: number;
     maxIterations: number;
   };
-}</content>
-</edit_file>
+}

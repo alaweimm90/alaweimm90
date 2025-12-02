@@ -5,6 +5,7 @@ This governance contract uses **OpenSSF Allstar** for continuous security enforc
 ## What is Allstar?
 
 Allstar is an automated security policy enforcement tool that:
+
 - Monitors repository security posture continuously
 - Detects policy violations (branch protection, dangerous workflows, etc.)
 - Creates GitHub issues when violations are found
@@ -16,6 +17,7 @@ Allstar is an automated security policy enforcement tool that:
 **File:** `allstar.yaml`
 
 **Current Policy Mode:** Issue-only (non-blocking)
+
 - Violations are reported as GitHub issues
 - Teams can learn security best practices before enforcement tightens
 - Planned transition to blocking enforcement after initial adoption period

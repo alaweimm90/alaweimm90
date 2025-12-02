@@ -8,11 +8,11 @@
 
 ## Reporting a Vulnerability
 
-| Action | Details |
-|--------|---------|
-| **Do NOT** | Create public GitHub issues for security vulnerabilities |
-| **Do** | Use GitHub's private vulnerability reporting |
-| **Include** | Detailed reproduction steps |
+| Action       | Details                                                         |
+| ------------ | --------------------------------------------------------------- |
+| **Do NOT**   | Create public GitHub issues for security vulnerabilities        |
+| **Do**       | Use GitHub's private vulnerability reporting                    |
+| **Include**  | Detailed reproduction steps                                     |
 | **Response** | Acknowledgment within 48 hours, detailed response within 7 days |
 
 ---
@@ -21,13 +21,13 @@
 
 ### Automated Scanning
 
-| Tool | Purpose | Frequency |
-|------|---------|-----------|
-| **OpenSSF Scorecard** | 18 automated security checks | Weekly + on push |
-| **Trivy** | Container/filesystem vulnerability scanning | Every CI run |
-| **Dependabot** | Dependency vulnerability alerts | Continuous |
-| **Renovate** | Automated dependency updates | Every 3 hours |
-| **CodeQL** | Static analysis security testing | On PR/push |
+| Tool                  | Purpose                                     | Frequency        |
+| --------------------- | ------------------------------------------- | ---------------- |
+| **OpenSSF Scorecard** | 18 automated security checks                | Weekly + on push |
+| **Trivy**             | Container/filesystem vulnerability scanning | Every CI run     |
+| **Dependabot**        | Dependency vulnerability alerts             | Continuous       |
+| **Renovate**          | Automated dependency updates                | Every 3 hours    |
+| **CodeQL**            | Static analysis security testing            | On PR/push       |
 
 ### Policy Enforcement
 
@@ -46,29 +46,29 @@
 
 ## OpenSSF Scorecard Checks
 
-| Check | Description |
-|-------|-------------|
-| Binary-Artifacts | No checked-in binaries |
-| Branch-Protection | Protected branches |
-| CI-Tests | Tests run in CI |
-| Code-Review | PRs reviewed |
-| Dangerous-Workflow | No dangerous patterns |
-| Dependency-Update-Tool | Automated updates |
-| Pinned-Dependencies | Actions pinned |
-| SAST | Static analysis |
-| Security-Policy | This file exists |
-| Token-Permissions | Minimal permissions |
-| Vulnerabilities | No known CVEs |
+| Check                  | Description            |
+| ---------------------- | ---------------------- |
+| Binary-Artifacts       | No checked-in binaries |
+| Branch-Protection      | Protected branches     |
+| CI-Tests               | Tests run in CI        |
+| Code-Review            | PRs reviewed           |
+| Dangerous-Workflow     | No dangerous patterns  |
+| Dependency-Update-Tool | Automated updates      |
+| Pinned-Dependencies    | Actions pinned         |
+| SAST                   | Static analysis        |
+| Security-Policy        | This file exists       |
+| Token-Permissions      | Minimal permissions    |
+| Vulnerabilities        | No known CVEs          |
 
 ---
 
 ## Supported Versions
 
-| Version | Supported |
-|---------|-----------|
-| `main` branch | Yes |
-| Tagged releases | Yes |
-| Other branches | No |
+| Version         | Supported |
+| --------------- | --------- |
+| `main` branch   | Yes       |
+| Tagged releases | Yes       |
+| Other branches  | No        |
 
 ---
 
@@ -85,8 +85,8 @@
 
 ## Contact
 
-| Channel | Use For |
-|---------|---------|
-| GitHub Private Reporting | Security issues |
-| GitHub Issues | General questions |
-| [@alaweimm90](https://github.com/alaweimm90) | Maintainer |
+| Channel                                      | Use For           |
+| -------------------------------------------- | ----------------- |
+| GitHub Private Reporting                     | Security issues   |
+| GitHub Issues                                | General questions |
+| [@alaweimm90](https://github.com/alaweimm90) | Maintainer        |

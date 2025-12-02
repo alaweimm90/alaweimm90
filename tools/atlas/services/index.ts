@@ -18,9 +18,7 @@ export interface AtlasServices {
 /**
  * Initialize all ATLAS optimization services
  */
-export async function initializeAtlasServices(
-  configPath?: string
-): Promise<AtlasServices> {
+export async function initializeAtlasServices(configPath?: string): Promise<AtlasServices> {
   console.log('🚀 Initializing ATLAS Continuous Optimization Services...');
 
   // Load configuration
@@ -30,7 +28,7 @@ export async function initializeAtlasServices(
   try {
     config = await configLoader.load();
     console.log('✅ Configuration loaded successfully');
-  } catch (error) {
+  } catch {
     console.warn('⚠️  Configuration file not found, creating default configuration...');
     config = createDefaultConfig();
     await configLoader.save(config);
@@ -42,25 +40,32 @@ export async function initializeAtlasServices(
     schedule: config.optimizer.schedule,
     thresholds: config.optimizer.thresholds,
     safety: config.optimizer.safety,
-    repositories: config.optimizer.repositories
+    repositories: config.optimizer.repositories,
   });
 
-  const monitor = new RepositoryMonitor({
-    repositories: config.monitor.repositories || [],
-    polling: config.monitor.polling,
-    filesystem: config.monitor.filesystem,
-    triggers: config.monitor.triggers,
-    analysis: config.monitor.analysis
-  }, optimizer);
+  const monitor = new RepositoryMonitor(
+    {
+      repositories: config.monitor.repositories || [],
+      polling: config.monitor.polling,
+      filesystem: config.monitor.filesystem,
+      triggers: config.monitor.triggers,
+      analysis: config.monitor.analysis,
+    },
+    optimizer
+  );
 
-  const dashboard = new DashboardService({
-    port: config.dashboard.port,
-    host: config.dashboard.host,
-    enableWebSocket: config.dashboard.enableWebSocket,
-    enableREST: config.dashboard.enableREST,
-    telemetry: config.dashboard.telemetry,
-    security: config.dashboard.security
-  }, optimizer, monitor);
+  const dashboard = new DashboardService(
+    {
+      port: config.dashboard.port,
+      host: config.dashboard.host,
+      enableWebSocket: config.dashboard.enableWebSocket,
+      enableREST: config.dashboard.enableREST,
+      telemetry: config.dashboard.telemetry,
+      security: config.dashboard.security,
+    },
+    optimizer,
+    monitor
+  );
 
   // Set up service event forwarding
   setupServiceEventForwarding(optimizer, monitor, dashboard);
@@ -68,13 +73,15 @@ export async function initializeAtlasServices(
   console.log('✅ All ATLAS services initialized successfully');
   console.log(`📊 Dashboard available at http://${config.dashboard.host}:${config.dashboard.port}`);
   console.log(`📈 Monitoring ${config.optimizer.repositories.length} repositories`);
-  console.log(`⏰ Optimization schedule: ${config.optimizer.schedule.enabled ? 'Enabled' : 'Disabled'}`);
+  console.log(
+    `⏰ Optimization schedule: ${config.optimizer.schedule.enabled ? 'Enabled' : 'Disabled'}`
+  );
 
   return {
     optimizer,
     monitor,
     dashboard,
-    config: configLoader
+    config: configLoader,
   };
 }
 
@@ -107,7 +114,6 @@ export async function startAtlasServices(services: AtlasServices): Promise<void>
     console.log('  optimizer.optimizeRepository(path) - Manual optimization');
     console.log('  monitor.triggerAnalysis(path) - Manual analysis');
     console.log('  services.stop() - Stop all services');
-
   } catch (error) {
     console.error('❌ Failed to start ATLAS services:', error);
     throw error;
@@ -148,10 +154,10 @@ export function getAtlasStatus(services: AtlasServices): {
     services: {
       optimizer: services.optimizer.getStatus(),
       monitor: services.monitor.getStatus(),
-      dashboard: services.dashboard.getHealthStatus()
+      dashboard: services.dashboard.getHealthStatus(),
     },
     health: services.dashboard.getHealthStatus(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
   };
 }
 
@@ -170,7 +176,7 @@ function setupServiceEventForwarding(
       source: 'optimizer',
       data: job,
       severity: 'low',
-      tags: ['job', 'start']
+      tags: ['job', 'start'],
     });
   });
 
@@ -180,7 +186,7 @@ function setupServiceEventForwarding(
       source: 'optimizer',
       data: job,
       severity: 'low',
-      tags: ['job', 'complete', 'success']
+      tags: ['job', 'complete', 'success'],
     });
   });
 
@@ -190,7 +196,7 @@ function setupServiceEventForwarding(
       source: 'optimizer',
       data: job,
       severity: 'high',
-      tags: ['job', 'fail', 'error']
+      tags: ['job', 'fail', 'error'],
     });
   });
 
@@ -201,7 +207,7 @@ function setupServiceEventForwarding(
       source: 'monitor',
       data: result,
       severity: 'low',
-      tags: ['analysis', 'complete']
+      tags: ['analysis', 'complete'],
     });
   });
 
@@ -211,7 +217,7 @@ function setupServiceEventForwarding(
       source: 'monitor',
       data: error,
       severity: 'medium',
-      tags: ['analysis', 'error']
+      tags: ['analysis', 'error'],
     });
   });
 
@@ -221,7 +227,7 @@ function setupServiceEventForwarding(
       source: 'monitor',
       data,
       severity: 'low',
-      tags: ['repository', 'add']
+      tags: ['repository', 'add'],
     });
   });
 
@@ -265,7 +271,6 @@ export async function quickStart(): Promise<void> {
       await stopAtlasServices(services);
       process.exit(0);
     });
-
   } catch (error) {
     console.error('❌ Failed to start ATLAS:', error);
     process.exit(1);

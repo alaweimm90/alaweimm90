@@ -1,3 +1,2 @@
-const path = require('path'); 
-function resolveTargetDir(args) { 
-  for (let i = 0; i < args.length; i++) { 
+/* eslint-disable @typescript-eslint/no-require-imports */
+module.exports = require('../lib/config');

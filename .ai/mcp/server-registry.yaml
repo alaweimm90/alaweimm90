@@ -8,10 +8,10 @@
 # =============================================================================
 
 metadata:
-  version: "1.1.0"
-  updated: "2025-11-27"
-  description: "MCP server registry for AI orchestration"
-  spec_version: "2024-11-05"  # MCP specification version
+  version: '1.1.0'
+  updated: '2025-11-27'
+  description: 'MCP server registry for AI orchestration'
+  spec_version: '2024-11-05' # MCP specification version
 
 # =============================================================================
 # MCP CLI INTEGRATION
@@ -20,57 +20,56 @@ metadata:
 # See: https://github.com/chrishayuk/mcp-cli
 cli_integration:
   enabled: true
-  config_file: ".ai/mcp/mcp-servers.json"
+  config_file: '.ai/mcp/mcp-servers.json'
 
   # Installation options
   installation:
-    preferred: "uvx"  # uvx mcp-cli (recommended)
+    preferred: 'uvx' # uvx mcp-cli (recommended)
     alternatives:
-      - "pip install mcp-cli"
-      - "git clone https://github.com/chrishayuk/mcp-cli.git && pip install -e ."
+      - 'pip install mcp-cli'
+      - 'git clone https://github.com/chrishayuk/mcp-cli.git && pip install -e .'
 
   # Default provider configuration
   defaults:
-    provider: "anthropic"
-    model: "claude-sonnet-4-5-20250929"
+    provider: 'anthropic'
+    model: 'claude-sonnet-4-5-20250929'
     timeout_seconds: 30
     retries: 3
 
   # Available modes
   modes:
-    chat: "Interactive conversational interface with streaming"
-    interactive: "Command-driven shell interface"
-    command: "Unix-friendly automation interface"
-    direct: "Individual command execution"
+    chat: 'Interactive conversational interface with streaming'
+    interactive: 'Command-driven shell interface'
+    command: 'Unix-friendly automation interface'
+    direct: 'Individual command execution'
 
   # Common commands
   commands:
-    list_servers: "mcp-cli list-servers"
-    ping_server: "mcp-cli ping --server {server}"
-    list_tools: "mcp-cli tools --server {server}"
-    execute_tool: "mcp-cli cmd --server {server} --tool {tool}"
-    chat_mode: "mcp-cli --server {server} --provider {provider} --model {model}"
+    list_servers: 'mcp-cli list-servers'
+    ping_server: 'mcp-cli ping --server {server}'
+    list_tools: 'mcp-cli tools --server {server}'
+    execute_tool: 'mcp-cli cmd --server {server} --tool {tool}'
+    chat_mode: 'mcp-cli --server {server} --provider {provider} --model {model}'
 
   # Wrapper scripts
   wrapper_scripts:
-    - ".metaHub/scripts/mcp_cli_wrapper.py"
-    - ".metaHub/scripts/mcp_server_tester.py"
+    - '.metaHub/scripts/mcp_cli_wrapper.py'
+    - '.metaHub/scripts/mcp_server_tester.py'
 
 # =============================================================================
 # SERVER DEFINITIONS
 # =============================================================================
 servers:
-
   # ---------------------------------------------------------------------------
   # CORE INFRASTRUCTURE SERVERS
   # ---------------------------------------------------------------------------
 
   context:
-    name: "Context Server"
-    description: "Centralized context and memory management for AI tool handoffs"
-    package: "@alaweimm90/context-server"
-    status: "active"
-    category: "infrastructure"
+    name: 'Context Server'
+    description: 'Centralized context and memory management for AI tool handoffs'
+    package: '@alaweimm90/context-server'
+    status: 'active'
+    category: 'infrastructure'
     priority: 1
 
     capabilities:
@@ -80,22 +79,22 @@ servers:
       - session_persistence
 
     config:
-      storage_path: ".metaHub/orchestration/context/"
+      storage_path: '.metaHub/orchestration/context/'
       max_context_mb: 50
       retention_hours: 168
       compression: true
 
     use_cases:
-      - "Store handoff context between tool switches"
-      - "Persist workflow state for recovery"
-      - "Share memory across agent boundaries"
+      - 'Store handoff context between tool switches'
+      - 'Persist workflow state for recovery'
+      - 'Share memory across agent boundaries'
 
   github:
-    name: "GitHub MCP Server"
-    description: "GitHub API integration for repository management"
-    package: "@modelcontextprotocol/server-github"
-    status: "active"
-    category: "code_management"
+    name: 'GitHub MCP Server'
+    description: 'GitHub API integration for repository management'
+    package: '@modelcontextprotocol/server-github'
+    status: 'active'
+    category: 'code_management'
     priority: 1
 
     capabilities:
@@ -106,21 +105,21 @@ servers:
       - workflow_management
 
     config:
-      auth_method: "token"
+      auth_method: 'token'
       rate_limit_buffer: 100
 
     use_cases:
-      - "Create and manage pull requests"
-      - "Track issues and project boards"
-      - "Search code across repositories"
-      - "Trigger and monitor CI/CD workflows"
+      - 'Create and manage pull requests'
+      - 'Track issues and project boards'
+      - 'Search code across repositories'
+      - 'Trigger and monitor CI/CD workflows'
 
   filesystem:
-    name: "Filesystem MCP Server"
-    description: "Secure file system access for AI tools"
-    package: "@modelcontextprotocol/server-filesystem"
-    status: "active"
-    category: "code_management"
+    name: 'Filesystem MCP Server'
+    description: 'Secure file system access for AI tools'
+    package: '@modelcontextprotocol/server-filesystem'
+    status: 'active'
+    category: 'code_management'
     priority: 1
 
     capabilities:
@@ -131,29 +130,29 @@ servers:
 
     config:
       allowed_paths:
-        - "."
-        - "organizations/"
+        - '.'
+        - 'organizations/'
       denied_patterns:
-        - "**/.env*"
-        - "**/secrets/**"
-        - "**/*.key"
-        - "**/*.pem"
+        - '**/.env*'
+        - '**/secrets/**'
+        - '**/*.key'
+        - '**/*.pem'
 
     use_cases:
-      - "Read and write project files"
-      - "Navigate directory structures"
-      - "Search for files by pattern"
+      - 'Read and write project files'
+      - 'Navigate directory structures'
+      - 'Search for files by pattern'
 
   # ---------------------------------------------------------------------------
   # BROWSER AUTOMATION SERVERS
   # ---------------------------------------------------------------------------
 
   puppeteer:
-    name: "Puppeteer MCP Server"
-    description: "Browser automation for testing and scraping"
-    package: "@modelcontextprotocol/server-puppeteer"
-    status: "active"
-    category: "browser_automation"
+    name: 'Puppeteer MCP Server'
+    description: 'Browser automation for testing and scraping'
+    package: '@modelcontextprotocol/server-puppeteer'
+    status: 'active'
+    category: 'browser_automation'
     priority: 2
 
     capabilities:
@@ -171,17 +170,17 @@ servers:
         height: 1080
 
     use_cases:
-      - "End-to-end testing automation"
-      - "Web scraping and data extraction"
-      - "Visual regression testing"
-      - "Documentation screenshots"
+      - 'End-to-end testing automation'
+      - 'Web scraping and data extraction'
+      - 'Visual regression testing'
+      - 'Documentation screenshots'
 
   playwright:
-    name: "Playwright MCP Server"
-    description: "Cross-browser automation framework for error-free UI testing"
-    package: "@modelcontextprotocol/server-playwright"
-    status: "active"
-    category: "testing"
+    name: 'Playwright MCP Server'
+    description: 'Cross-browser automation framework for error-free UI testing'
+    package: '@modelcontextprotocol/server-playwright'
+    status: 'active'
+    category: 'testing'
     priority: 1
 
     capabilities:
@@ -196,30 +195,30 @@ servers:
       - trace_recording
 
     config:
-      browsers: ["chromium", "firefox", "webkit"]
+      browsers: ['chromium', 'firefox', 'webkit']
       trace_enabled: true
       headless: true
       timeout_ms: 60000
-      browsers_path: ".metaHub/playwright-browsers"
+      browsers_path: '.metaHub/playwright-browsers'
 
     use_cases:
-      - "End-to-end UI testing"
-      - "Cross-browser compatibility testing"
-      - "Visual regression prevention"
-      - "Mobile device emulation"
-      - "Network request mocking"
-      - "Test code generation"
+      - 'End-to-end UI testing'
+      - 'Cross-browser compatibility testing'
+      - 'Visual regression prevention'
+      - 'Mobile device emulation'
+      - 'Network request mocking'
+      - 'Test code generation'
 
   # ---------------------------------------------------------------------------
   # DEVOPS & INFRASTRUCTURE SERVERS
   # ---------------------------------------------------------------------------
 
   sequential_thinking:
-    name: "Sequential Thinking MCP Server"
-    description: "Dynamic and reflective problem-solving for debugging"
-    package: "@modelcontextprotocol/server-sequential-thinking"
-    status: "active"
-    category: "debugging"
+    name: 'Sequential Thinking MCP Server'
+    description: 'Dynamic and reflective problem-solving for debugging'
+    package: '@modelcontextprotocol/server-sequential-thinking'
+    status: 'active'
+    category: 'debugging'
     priority: 1
 
     capabilities:
@@ -230,17 +229,17 @@ servers:
       - error_root_cause_analysis
 
     use_cases:
-      - "Debug complex multi-step failures"
-      - "Root cause analysis for production incidents"
-      - "Structured problem decomposition"
-      - "Error pattern recognition"
+      - 'Debug complex multi-step failures'
+      - 'Root cause analysis for production incidents'
+      - 'Structured problem decomposition'
+      - 'Error pattern recognition'
 
   git:
-    name: "Git MCP Server"
-    description: "Git operations for local repository management and analysis"
-    package: "@modelcontextprotocol/server-git"
-    status: "active"
-    category: "code_management"
+    name: 'Git MCP Server'
+    description: 'Git operations for local repository management and analysis'
+    package: '@modelcontextprotocol/server-git'
+    status: 'active'
+    category: 'code_management'
     priority: 1
 
     capabilities:
@@ -251,17 +250,17 @@ servers:
       - merge_operations
 
     use_cases:
-      - "Analyze commit history and patterns"
-      - "Generate commit messages"
-      - "Branch management automation"
-      - "Code change analysis"
+      - 'Analyze commit history and patterns'
+      - 'Generate commit messages'
+      - 'Branch management automation'
+      - 'Code change analysis'
 
   terraform:
-    name: "Terraform MCP Server"
-    description: "HashiCorp Terraform for infrastructure as code automation"
-    package: "hashicorp/terraform-mcp-server"
-    status: "active"
-    category: "infrastructure"
+    name: 'Terraform MCP Server'
+    description: 'HashiCorp Terraform for infrastructure as code automation'
+    package: 'hashicorp/terraform-mcp-server'
+    status: 'active'
+    category: 'infrastructure'
     priority: 1
 
     capabilities:
@@ -273,22 +272,22 @@ servers:
       - drift_detection
 
     config:
-      tfe_address: "https://app.terraform.io"
+      tfe_address: 'https://app.terraform.io'
       enable_operations: true
 
     use_cases:
-      - "Infrastructure change planning"
-      - "Automated IaC deployment"
-      - "State drift detection"
-      - "Workspace management"
-      - "Error-free infrastructure changes"
+      - 'Infrastructure change planning'
+      - 'Automated IaC deployment'
+      - 'State drift detection'
+      - 'Workspace management'
+      - 'Error-free infrastructure changes'
 
   kubernetes:
-    name: "Kubernetes MCP Server"
-    description: "Kubernetes cluster management and CRUD operations"
-    package: "ghcr.io/manusa/kubernetes-mcp-server"
-    status: "active"
-    category: "infrastructure"
+    name: 'Kubernetes MCP Server'
+    description: 'Kubernetes cluster management and CRUD operations'
+    package: 'ghcr.io/manusa/kubernetes-mcp-server'
+    status: 'active'
+    category: 'infrastructure'
     priority: 2
 
     capabilities:
@@ -300,21 +299,21 @@ servers:
       - resource_scaling
 
     config:
-      kubeconfig_path: "${HOME}/.kube/config"
+      kubeconfig_path: '${HOME}/.kube/config'
 
     use_cases:
-      - "Pod lifecycle management"
-      - "Deployment scaling and updates"
-      - "Service discovery and networking"
-      - "Resource troubleshooting"
-      - "Multi-cluster operations"
+      - 'Pod lifecycle management'
+      - 'Deployment scaling and updates'
+      - 'Service discovery and networking'
+      - 'Resource troubleshooting'
+      - 'Multi-cluster operations'
 
   prometheus:
-    name: "Prometheus MCP Server"
-    description: "Prometheus metrics querying and analysis for observability"
-    package: "prometheus-mcp-server"
-    status: "active"
-    category: "monitoring"
+    name: 'Prometheus MCP Server'
+    description: 'Prometheus metrics querying and analysis for observability'
+    package: 'prometheus-mcp-server'
+    status: 'active'
+    category: 'monitoring'
     priority: 2
 
     capabilities:
@@ -325,21 +324,21 @@ servers:
       - anomaly_detection
 
     config:
-      prometheus_url: "${PROMETHEUS_URL}"
+      prometheus_url: '${PROMETHEUS_URL}'
 
     use_cases:
-      - "Performance metrics analysis"
-      - "Alert investigation"
-      - "Capacity planning"
-      - "SLO/SLA monitoring"
-      - "Anomaly detection"
+      - 'Performance metrics analysis'
+      - 'Alert investigation'
+      - 'Capacity planning'
+      - 'SLO/SLA monitoring'
+      - 'Anomaly detection'
 
   semgrep:
-    name: "Semgrep MCP Server"
-    description: "Security vulnerability scanning and SAST analysis"
-    package: "@semgrep/mcp-server"
-    status: "active"
-    category: "security"
+    name: 'Semgrep MCP Server'
+    description: 'Security vulnerability scanning and SAST analysis'
+    package: '@semgrep/mcp-server'
+    status: 'active'
+    category: 'security'
     priority: 1
 
     capabilities:
@@ -352,26 +351,26 @@ servers:
       - owasp_top_10
 
     config:
-      semgrep_app_token: "${SEMGREP_APP_TOKEN}"
+      semgrep_app_token: '${SEMGREP_APP_TOKEN}'
 
     use_cases:
-      - "Scan code for security vulnerabilities"
-      - "Detect OWASP Top 10 issues"
-      - "Enforce security policies"
-      - "Code quality analysis"
-      - "Compliance validation"
-      - "Pre-commit security checks"
+      - 'Scan code for security vulnerabilities'
+      - 'Detect OWASP Top 10 issues'
+      - 'Enforce security policies'
+      - 'Code quality analysis'
+      - 'Compliance validation'
+      - 'Pre-commit security checks'
 
   # ---------------------------------------------------------------------------
   # DATA SERVERS
   # ---------------------------------------------------------------------------
 
   sqlite:
-    name: "SQLite MCP Server"
-    description: "SQLite database operations"
-    package: "@modelcontextprotocol/server-sqlite"
-    status: "active"
-    category: "data_processing"
+    name: 'SQLite MCP Server'
+    description: 'SQLite database operations'
+    package: '@modelcontextprotocol/server-sqlite'
+    status: 'active'
+    category: 'data_processing'
     priority: 2
 
     capabilities:
@@ -384,16 +383,16 @@ servers:
       max_query_time_ms: 5000
 
     use_cases:
-      - "Local database operations"
-      - "Data analysis and reporting"
-      - "Schema migrations"
+      - 'Local database operations'
+      - 'Data analysis and reporting'
+      - 'Schema migrations'
 
   postgres:
-    name: "PostgreSQL MCP Server"
-    description: "PostgreSQL database integration"
-    package: "@modelcontextprotocol/server-postgres"
-    status: "active"
-    category: "data_processing"
+    name: 'PostgreSQL MCP Server'
+    description: 'PostgreSQL database integration'
+    package: '@modelcontextprotocol/server-postgres'
+    status: 'active'
+    category: 'data_processing'
     priority: 2
 
     capabilities:
@@ -406,20 +405,20 @@ servers:
       ssl_required: true
 
     use_cases:
-      - "Production database queries"
-      - "Schema inspection and design"
-      - "Data migration support"
+      - 'Production database queries'
+      - 'Schema inspection and design'
+      - 'Data migration support'
 
   # ---------------------------------------------------------------------------
   # SEARCH AND RETRIEVAL SERVERS
   # ---------------------------------------------------------------------------
 
   brave_search:
-    name: "Brave Search MCP Server"
-    description: "Web search via Brave Search API"
-    package: "@modelcontextprotocol/server-brave-search"
-    status: "active"
-    category: "search"
+    name: 'Brave Search MCP Server'
+    description: 'Web search via Brave Search API'
+    package: '@modelcontextprotocol/server-brave-search'
+    status: 'active'
+    category: 'search'
     priority: 2
 
     capabilities:
@@ -432,20 +431,20 @@ servers:
       max_results: 10
 
     use_cases:
-      - "Research and fact-checking"
-      - "Finding documentation"
-      - "Competitive analysis"
+      - 'Research and fact-checking'
+      - 'Finding documentation'
+      - 'Competitive analysis'
 
   # ---------------------------------------------------------------------------
   # EXTERNAL SERVICE SERVERS
   # ---------------------------------------------------------------------------
 
   slack:
-    name: "Slack MCP Server"
-    description: "Slack workspace integration"
-    package: "@modelcontextprotocol/server-slack"
-    status: "available"
-    category: "external_services"
+    name: 'Slack MCP Server'
+    description: 'Slack workspace integration'
+    package: '@modelcontextprotocol/server-slack'
+    status: 'available'
+    category: 'external_services'
     priority: 3
 
     capabilities:
@@ -454,16 +453,16 @@ servers:
       - file_sharing
 
     use_cases:
-      - "Automated notifications"
-      - "Team collaboration"
-      - "Report distribution"
+      - 'Automated notifications'
+      - 'Team collaboration'
+      - 'Report distribution'
 
   notion:
-    name: "Notion MCP Server"
-    description: "Notion workspace integration"
-    package: "@notionhq/server-notion"
-    status: "available"
-    category: "external_services"
+    name: 'Notion MCP Server'
+    description: 'Notion workspace integration'
+    package: '@notionhq/server-notion'
+    status: 'available'
+    category: 'external_services'
     priority: 3
 
     capabilities:
@@ -472,62 +471,62 @@ servers:
       - content_creation
 
     use_cases:
-      - "Documentation management"
-      - "Project tracking"
-      - "Knowledge base updates"
+      - 'Documentation management'
+      - 'Project tracking'
+      - 'Knowledge base updates'
 
 # =============================================================================
 # SERVER CATEGORIES
 # =============================================================================
 categories:
   infrastructure:
-    description: "Core servers for orchestration, IaC, and container management"
-    servers: ["context", "terraform", "kubernetes"]
+    description: 'Core servers for orchestration, IaC, and container management'
+    servers: ['context', 'terraform', 'kubernetes']
     priority: 1
 
   code_management:
-    description: "Source code and repository management"
-    servers: ["github", "git", "filesystem"]
+    description: 'Source code and repository management'
+    servers: ['github', 'git', 'filesystem']
     priority: 1
 
   testing:
-    description: "Testing automation and quality assurance"
-    servers: ["playwright", "puppeteer"]
+    description: 'Testing automation and quality assurance'
+    servers: ['playwright', 'puppeteer']
     priority: 1
 
   debugging:
-    description: "Problem-solving and error analysis"
-    servers: ["sequential_thinking"]
+    description: 'Problem-solving and error analysis'
+    servers: ['sequential_thinking']
     priority: 1
 
   monitoring:
-    description: "Observability and performance tracking"
-    servers: ["prometheus"]
+    description: 'Observability and performance tracking'
+    servers: ['prometheus']
     priority: 2
 
   security:
-    description: "Security scanning and vulnerability detection"
-    servers: ["semgrep"]
+    description: 'Security scanning and vulnerability detection'
+    servers: ['semgrep']
     priority: 1
 
   browser_automation:
-    description: "Web browser control (legacy category, use testing)"
-    servers: ["puppeteer", "playwright"]
+    description: 'Web browser control (legacy category, use testing)'
+    servers: ['puppeteer', 'playwright']
     priority: 2
 
   data_processing:
-    description: "Database and data operations"
-    servers: ["sqlite", "postgres"]
+    description: 'Database and data operations'
+    servers: ['sqlite', 'postgres']
     priority: 2
 
   search:
-    description: "Search and information retrieval"
-    servers: ["brave_search"]
+    description: 'Search and information retrieval'
+    servers: ['brave_search']
     priority: 2
 
   external_services:
-    description: "Third-party service integrations"
-    servers: ["slack", "notion"]
+    description: 'Third-party service integrations'
+    servers: ['slack', 'notion']
     priority: 3
 
 # =============================================================================
@@ -535,67 +534,75 @@ categories:
 # =============================================================================
 # Maps AI tools to their preferred MCP servers
 tool_server_mappings:
-
   cline:
-    primary: ["puppeteer", "filesystem", "github"]
-    description: "Browser automation and full-stack debugging"
+    primary: ['puppeteer', 'filesystem', 'github']
+    description: 'Browser automation and full-stack debugging'
 
   claude_code:
-    primary: ["context", "github", "filesystem"]
-    description: "Architecture and complex reasoning with context"
+    primary: ['context', 'github', 'filesystem']
+    description: 'Architecture and complex reasoning with context'
 
   aider:
-    primary: ["github", "filesystem"]
-    description: "Git-aware code modifications"
+    primary: ['github', 'filesystem']
+    description: 'Git-aware code modifications'
 
   cursor:
-    primary: ["filesystem", "github"]
-    description: "Quick edits with repo context"
+    primary: ['filesystem', 'github']
+    description: 'Quick edits with repo context'
 
   kilo_code:
-    primary: ["context", "github"]
-    description: "Methodical changes with context preservation"
+    primary: ['context', 'github']
+    description: 'Methodical changes with context preservation'
 
 # =============================================================================
 # AGENT FRAMEWORK INTEGRATIONS
 # =============================================================================
 agent_frameworks:
-
   MeatheadPhysicist:
-    description: "Scientific research and analysis multi-agent system"
-    agents: ["Scientist", "Literature", "Scout", "Theory", "Critic", "Visualization"]
-    mcp_servers: ["brave_search", "context", "filesystem", "git", "sequential_thinking"]
-    use_cases: ["academic_research", "scientific_analysis", "literature_review", "structured_reasoning"]
+    description: 'Scientific research and analysis multi-agent system'
+    agents: ['Scientist', 'Literature', 'Scout', 'Theory', 'Critic', 'Visualization']
+    mcp_servers: ['brave_search', 'context', 'filesystem', 'git', 'sequential_thinking']
+    use_cases:
+      ['academic_research', 'scientific_analysis', 'literature_review', 'structured_reasoning']
 
   ATLAS:
-    description: "Advanced analysis and task orchestration"
-    agents: ["Coordinator", "Analyst", "Synthesizer", "Workflow_Orchestrator"]
-    mcp_servers: ["context", "filesystem", "github", "git", "sequential_thinking", "terraform", "kubernetes"]
-    use_cases: ["complex_analysis", "multi_step_tasks", "infrastructure_automation", "devops_workflows"]
+    description: 'Advanced analysis and task orchestration'
+    agents: ['Coordinator', 'Analyst', 'Synthesizer', 'Workflow_Orchestrator']
+    mcp_servers:
+      ['context', 'filesystem', 'github', 'git', 'sequential_thinking', 'terraform', 'kubernetes']
+    use_cases:
+      ['complex_analysis', 'multi_step_tasks', 'infrastructure_automation', 'devops_workflows']
 
   Turingo:
-    description: "Code optimization and algorithm design"
-    agents: ["QuantumQuokka", "MLMagician", "PuzzleProdigy", "CodeCowboy", "VerificationVigilante"]
-    mcp_servers: ["github", "git", "filesystem", "sqlite", "playwright", "sequential_thinking"]
-    use_cases: ["performance_optimization", "algorithm_design", "ml_tasks", "automated_testing", "error_free_code"]
+    description: 'Code optimization and algorithm design'
+    agents: ['QuantumQuokka', 'MLMagician', 'PuzzleProdigy', 'CodeCowboy', 'VerificationVigilante']
+    mcp_servers: ['github', 'git', 'filesystem', 'sqlite', 'playwright', 'sequential_thinking']
+    use_cases:
+      [
+        'performance_optimization',
+        'algorithm_design',
+        'ml_tasks',
+        'automated_testing',
+        'error_free_code',
+      ]
 
   IdeaForge:
-    description: "Creative ideation and brainstorming"
-    agents: ["WildCard", "ChaosMonkey", "Futurist", "MetaOrchestrator"]
-    mcp_servers: ["brave_search", "notion", "context"]
-    use_cases: ["brainstorming", "innovation", "breakthrough_ideas"]
+    description: 'Creative ideation and brainstorming'
+    agents: ['WildCard', 'ChaosMonkey', 'Futurist', 'MetaOrchestrator']
+    mcp_servers: ['brave_search', 'notion', 'context']
+    use_cases: ['brainstorming', 'innovation', 'breakthrough_ideas']
 
   MultiAgentResearch:
-    description: "Documentation and knowledge management"
-    agents: ["Documentation", "ReportGenerator", "QualityControl"]
-    mcp_servers: ["filesystem", "notion", "github"]
-    use_cases: ["documentation", "report_generation", "knowledge_consolidation"]
+    description: 'Documentation and knowledge management'
+    agents: ['Documentation', 'ReportGenerator', 'QualityControl']
+    mcp_servers: ['filesystem', 'notion', 'github']
+    use_cases: ['documentation', 'report_generation', 'knowledge_consolidation']
 
   MEZAN:
-    description: "Multi-domain expert analysis network"
-    agents: ["DomainExpert", "Integrator", "Validator"]
-    mcp_servers: ["context", "brave_search", "filesystem"]
-    use_cases: ["cross_domain_analysis", "expert_synthesis"]
+    description: 'Multi-domain expert analysis network'
+    agents: ['DomainExpert', 'Integrator', 'Validator']
+    mcp_servers: ['context', 'brave_search', 'filesystem']
+    use_cases: ['cross_domain_analysis', 'expert_synthesis']
 
 # =============================================================================
 # SECURITY CONFIGURATION

@@ -158,7 +158,16 @@ const TOOLS: MCPTool[] = [
         category: {
           type: 'string',
           description: 'Filter by category',
-          enum: ['security', 'compliance', 'performance', 'maintenance', 'documentation', 'testing', 'dependency', 'architecture'],
+          enum: [
+            'security',
+            'compliance',
+            'performance',
+            'maintenance',
+            'documentation',
+            'testing',
+            'dependency',
+            'architecture',
+          ],
         },
         status: {
           type: 'string',

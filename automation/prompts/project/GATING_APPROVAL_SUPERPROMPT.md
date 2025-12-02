@@ -1,9 +1,9 @@
 ---
-name: "Gating & Approval Workflows Superprompt"
-version: "1.0"
-category: "project"
-tags: ["gating", "approval", "code-review", "security", "compliance"]
-created: "2024-11-30"
+name: 'Gating & Approval Workflows Superprompt'
+version: '1.0'
+category: 'project'
+tags: ['gating', 'approval', 'code-review', 'security', 'compliance']
+created: '2024-11-30'
 ---
 
 # Gating & Approval Workflows Superprompt
@@ -50,7 +50,7 @@ gate_types:
     - dependency_audit
     - license_compliance
     - performance_benchmarks
-    
+
   manual_gates:
     - code_review
     - architecture_review
@@ -58,7 +58,7 @@ gate_types:
     - compliance_approval
     - release_approval
     - change_advisory_board
-    
+
   conditional_gates:
     - breaking_change_review
     - database_migration_review
@@ -74,10 +74,13 @@ gate_types:
 
 ```markdown
 <!-- .github/PULL_REQUEST_TEMPLATE.md -->
+
 ## Description
+
 <!-- Describe your changes in detail -->
 
 ## Type of Change
+
 - [ ] Bug fix (non-breaking change fixing an issue)
 - [ ] New feature (non-breaking change adding functionality)
 - [ ] Breaking change (fix or feature causing existing functionality to change)
@@ -87,15 +90,18 @@ gate_types:
 - [ ] Security fix
 
 ## Related Issues
+
 <!-- Link to related issues: Fixes #123, Relates to #456 -->
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] E2E tests added/updated
 - [ ] Manual testing performed
 
 ## Security Checklist
+
 - [ ] No secrets or credentials in code
 - [ ] Input validation implemented
 - [ ] Authentication/authorization checked
@@ -103,14 +109,17 @@ gate_types:
 - [ ] XSS prevention verified
 
 ## Documentation
+
 - [ ] README updated (if needed)
 - [ ] API documentation updated (if needed)
 - [ ] Changelog entry added
 
 ## Deployment Notes
+
 <!-- Any special deployment considerations -->
 
 ## Screenshots
+
 <!-- If applicable, add screenshots -->
 ```
 
@@ -172,7 +181,7 @@ branch_protection:
     allow_deletions: false
     require_signed_commits: true
     require_linear_history: true
-    
+
   develop:
     required_reviews: 1
     dismiss_stale_reviews: true
@@ -180,7 +189,7 @@ branch_protection:
       - ci/lint
       - ci/test
     require_branches_up_to_date: true
-    
+
   release/*:
     required_reviews: 2
     require_code_owner_reviews: true
@@ -215,15 +224,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: javascript, typescript
-          
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-        
+
       - name: Semgrep Scan
         uses: returntocorp/semgrep-action@v1
         with:
@@ -240,21 +249,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Snyk Security Scan
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-          
+
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
           project: '${{ github.repository }}'
           path: '.'
           format: 'HTML'
-          
+
       - name: License Compliance
         run: |
           npx license-checker --production --failOn "GPL;AGPL"
@@ -268,17 +277,17 @@ jobs:
     if: contains(github.event.pull_request.changed_files, 'Dockerfile')
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Build image
         run: docker build -t test-image .
-        
+
       - name: Trivy Container Scan
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'test-image'
           severity: 'CRITICAL,HIGH'
           exit-code: '1'
-          
+
       - name: Dockle Lint
         uses: erzz/dockle-action@v1
         with:
@@ -295,12 +304,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Gitleaks Scan
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: TruffleHog Scan
         uses: trufflesecurity/trufflehog@main
         with:
@@ -359,7 +368,7 @@ jobs:
               pull_number: context.issue.number,
               team_reviewers: ['architecture-team']
             });
-            
+
       - name: Wait for Approval
         run: echo "Waiting for architecture team approval..."
 
@@ -395,7 +404,7 @@ jobs:
       name: database-review
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Analyze Migration
         run: |
           # Check for destructive operations
@@ -403,7 +412,7 @@ jobs:
             echo "::warning::Destructive migration detected!"
             echo "DESTRUCTIVE=true" >> $GITHUB_ENV
           fi
-          
+
       - name: Request DBA Review
         if: env.DESTRUCTIVE == 'true'
         uses: actions/github-script@v6
@@ -431,14 +440,14 @@ jobs:
         run: |
           echo "## Release Summary" > release-notes.md
           echo "- Changes in this release..." >> release-notes.md
-          
+
       - name: Request Release Approval
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
           approvers: release-managers
           minimum-approvals: 2
-          issue-title: "Release Approval Required"
+          issue-title: 'Release Approval Required'
 ```
 
 ---
@@ -454,39 +463,39 @@ compliance_gates:
       - Verify RBAC implementation
       - Check authentication mechanisms
       - Audit authorization rules
-      
+
     change_management:
       - Require PR for all changes
       - Enforce code review
       - Maintain audit logs
-      
+
     risk_assessment:
       - Security scan results
       - Vulnerability assessment
       - Penetration test status
-      
+
     monitoring:
       - Logging enabled
       - Alerting configured
       - Incident response plan
-      
+
   gdpr:
     data_protection:
       - PII handling review
       - Data encryption verification
       - Consent mechanism check
-      
+
     data_subject_rights:
       - Export functionality
       - Deletion capability
       - Access request handling
-      
+
   hipaa:
     phi_protection:
       - Encryption at rest
       - Encryption in transit
       - Access logging
-      
+
     audit_controls:
       - Activity logging
       - Access reviews
@@ -513,22 +522,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: PII Detection
         run: |
           # Scan for potential PII exposure
           grep -rn "ssn\|social.*security\|credit.*card" src/ && exit 1 || true
-          
+
       - name: Encryption Verification
         run: |
           # Verify sensitive data is encrypted
           ./scripts/verify-encryption.sh
-          
+
       - name: Access Control Audit
         run: |
           # Check RBAC implementation
           ./scripts/audit-access-control.sh
-          
+
       - name: Generate Compliance Report
         run: |
           echo "# Compliance Report" > compliance-report.md
@@ -537,7 +546,7 @@ jobs:
           echo "- [x] PII Detection" >> compliance-report.md
           echo "- [x] Encryption Verification" >> compliance-report.md
           echo "- [x] Access Control Audit" >> compliance-report.md
-          
+
       - name: Upload Compliance Report
         uses: actions/upload-artifact@v4
         with:
@@ -566,7 +575,7 @@ quality_gates:
       max_count: 0
       severity: critical
       blocking: true
-      
+
   security:
     vulnerabilities:
       critical: 0
@@ -580,7 +589,7 @@ quality_gates:
       critical: 0
       high: 0
       blocking: true
-      
+
   performance:
     build_time:
       max_minutes: 10
@@ -591,7 +600,7 @@ quality_gates:
     bundle_size:
       max_kb: 500
       blocking: true
-      
+
   documentation:
     api_coverage:
       minimum: 90%
@@ -606,24 +615,28 @@ quality_gates:
 ## Execution Phases
 
 ### Phase 1: Foundation
+
 - [ ] Configure branch protection rules
 - [ ] Set up CODEOWNERS
 - [ ] Create PR templates
 - [ ] Implement basic CI gates
 
 ### Phase 2: Security Gates
+
 - [ ] Add SAST scanning
 - [ ] Implement dependency scanning
 - [ ] Configure secret detection
 - [ ] Set up container scanning
 
 ### Phase 3: Approval Workflows
+
 - [ ] Configure environment approvals
 - [ ] Set up team-based reviews
 - [ ] Implement conditional gates
 - [ ] Add release approval process
 
 ### Phase 4: Compliance
+
 - [ ] Implement compliance checks
 - [ ] Generate audit reports
 - [ ] Configure policy enforcement
@@ -631,4 +644,4 @@ quality_gates:
 
 ---
 
-*Last updated: 2024-11-30*
+_Last updated: 2024-11-30_

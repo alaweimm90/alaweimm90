@@ -5,6 +5,7 @@ This document outlines the procedures for deploying ATLAS to production environm
 ## Prerequisites
 
 ### Infrastructure Requirements
+
 - Kubernetes cluster (v1.24+) with sufficient resources
 - Ingress controller (NGINX recommended)
 - cert-manager for SSL certificates
@@ -12,6 +13,7 @@ This document outlines the procedures for deploying ATLAS to production environm
 - Load balancer for external access
 
 ### Required Tools
+
 - `kubectl` configured for target cluster
 - `helm` v3.0+
 - `terraform` v1.0+ (for infrastructure provisioning)
@@ -19,6 +21,7 @@ This document outlines the procedures for deploying ATLAS to production environm
 - Git access to deployment repository
 
 ### Environment Preparation
+
 1. **Configure DNS**: Set up DNS records for ATLAS endpoints
 2. **SSL Certificates**: Obtain or configure certificates for HTTPS
 3. **Secrets Management**: Prepare API keys and credentials
@@ -29,6 +32,7 @@ This document outlines the procedures for deploying ATLAS to production environm
 ### Method 1: Helm Chart Deployment (Recommended)
 
 #### Initial Setup
+
 ```bash
 # Add required Helm repositories
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -45,6 +49,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 ```
 
 #### Deploy ATLAS
+
 ```bash
 # Clone deployment repository
 git clone <deployment-repo>
@@ -59,6 +64,7 @@ helm install atlas ./atlas -f values.yaml
 ```
 
 #### Verify Deployment
+
 ```bash
 # Check pod status
 kubectl get pods -n atlas-system
@@ -76,6 +82,7 @@ curl https://api.atlas.your-domain.com/health
 ### Method 2: Kubernetes Manifests
 
 #### Deploy Core Infrastructure
+
 ```bash
 # Apply namespace and RBAC
 kubectl apply -f deploy/kubernetes/namespace.yaml
@@ -89,6 +96,7 @@ kubectl apply -f deploy/kubernetes/storage/
 ```
 
 #### Deploy ATLAS Services
+
 ```bash
 # Deploy in order: storage -> orchestration -> execution -> optimization -> api-gateway
 kubectl apply -f deploy/kubernetes/storage/
@@ -99,6 +107,7 @@ kubectl apply -f deploy/kubernetes/api-gateway/
 ```
 
 #### Deploy Ingress and Monitoring
+
 ```bash
 # Deploy ingress
 kubectl apply -f deploy/kubernetes/ingress.yaml
@@ -110,24 +119,26 @@ kubectl apply -f deploy/monitoring/
 ## Configuration
 
 ### Environment Variables
+
 Set the following environment variables in your deployment:
 
 ```yaml
 # API Gateway
-JWT_SECRET: "your-jwt-secret"
-API_RATE_LIMIT_REQUESTS: "1000"
+JWT_SECRET: 'your-jwt-secret'
+API_RATE_LIMIT_REQUESTS: '1000'
 
 # AI Providers
-ANTHROPIC_API_KEY: "your-anthropic-key"
-OPENAI_API_KEY: "your-openai-key"
-GOOGLE_API_KEY: "your-google-key"
+ANTHROPIC_API_KEY: 'your-anthropic-key'
+OPENAI_API_KEY: 'your-openai-key'
+GOOGLE_API_KEY: 'your-google-key'
 
 # Database
-POSTGRES_PASSWORD: "your-db-password"
-REDIS_PASSWORD: "your-redis-password"
+POSTGRES_PASSWORD: 'your-db-password'
+REDIS_PASSWORD: 'your-redis-password'
 ```
 
 ### Secrets Management
+
 Use Kubernetes secrets or external secret management:
 
 ```bash
@@ -142,6 +153,7 @@ kubectl create secret generic atlas-secrets \
 ## Scaling Configuration
 
 ### Horizontal Pod Autoscaling
+
 ATLAS services are configured with HPA for automatic scaling:
 
 ```bash
@@ -153,21 +165,23 @@ kubectl scale deployment atlas-api-gateway --replicas=5 -n atlas-system
 ```
 
 ### Resource Limits
+
 Adjust resource requests/limits based on load:
 
 ```yaml
 resources:
   requests:
-    memory: "512Mi"
-    cpu: "500m"
+    memory: '512Mi'
+    cpu: '500m'
   limits:
-    memory: "1Gi"
-    cpu: "1000m"
+    memory: '1Gi'
+    cpu: '1000m'
 ```
 
 ## Rollback Procedures
 
 ### Helm Rollback
+
 ```bash
 # Check release history
 helm history atlas -n atlas-system
@@ -180,6 +194,7 @@ helm rollback atlas <revision> -n atlas-system
 ```
 
 ### Manual Rollback
+
 ```bash
 # Scale down new deployment
 kubectl scale deployment atlas-api-gateway-v2 --replicas=0 -n atlas-system
@@ -194,6 +209,7 @@ kubectl patch svc atlas-api-gateway -p '{"spec":{"selector":{"version":"v1"}}}'
 ## Post-Deployment Verification
 
 ### Health Checks
+
 ```bash
 # Check all services are running
 kubectl get pods -n atlas-system
@@ -207,6 +223,7 @@ kubectl exec -it atlas-storage-0 -n atlas-system -- psql -U atlas -d atlas -c "S
 ```
 
 ### Monitoring Setup
+
 ```bash
 # Access Grafana
 kubectl port-forward svc/grafana 3000:80 -n monitoring
@@ -221,6 +238,7 @@ kubectl get alertmanager -n monitoring
 ```
 
 ### Load Testing
+
 ```bash
 # Run load tests
 ab -n 1000 -c 10 https://api.atlas.your-domain.com/health
@@ -234,6 +252,7 @@ kubectl logs -f deployment/atlas-api-gateway -n atlas-system
 ### Common Issues
 
 #### Pods Not Starting
+
 ```bash
 # Check pod status
 kubectl describe pod <pod-name> -n atlas-system
@@ -246,6 +265,7 @@ kubectl get events -n atlas-system --sort-by=.metadata.creationTimestamp
 ```
 
 #### Service Unavailable
+
 ```bash
 # Check service endpoints
 kubectl get endpoints -n atlas-system
@@ -255,6 +275,7 @@ kubectl describe svc <service-name> -n atlas-system
 ```
 
 #### Ingress Issues
+
 ```bash
 # Check ingress status
 kubectl describe ingress atlas-api-gateway-ingress -n atlas-system
@@ -266,6 +287,7 @@ kubectl logs -n ingress-nginx deployment/ingress-nginx-controller
 ## Maintenance Procedures
 
 ### Certificate Renewal
+
 ```bash
 # Check certificate status
 kubectl get certificate -n atlas-system
@@ -276,6 +298,7 @@ kubectl apply -f deploy/kubernetes/ingress.yaml
 ```
 
 ### Log Rotation
+
 ```bash
 # Check log sizes
 kubectl exec -it <pod-name> -n atlas-system -- du -h /app/logs
@@ -285,6 +308,7 @@ kubectl delete pod <pod-name> -n atlas-system
 ```
 
 ### Database Maintenance
+
 ```bash
 # Create backup
 kubectl exec -it atlas-postgres-0 -n atlas-system -- pg_dump -U atlas atlas > backup.sql
@@ -296,18 +320,21 @@ kubectl exec -it atlas-postgres-0 -n atlas-system -- vacuumdb -U atlas --analyze
 ## Security Considerations
 
 ### Network Policies
+
 ```bash
 # Apply network policies
 kubectl apply -f deploy/security/network-policies.yaml
 ```
 
 ### RBAC Configuration
+
 ```bash
 # Create service accounts
 kubectl apply -f deploy/security/rbac.yaml
 ```
 
 ### Secret Rotation
+
 ```bash
 # Rotate API keys
 kubectl create secret generic atlas-secrets-new --from-literal=anthropic-api-key=new-key
@@ -317,16 +344,19 @@ kubectl patch deployment atlas-execution -p '{"spec":{"template":{"spec":{"conta
 ## Performance Optimization
 
 ### Resource Tuning
+
 - Monitor resource usage with Grafana dashboards
 - Adjust HPA thresholds based on observed patterns
 - Configure appropriate resource requests/limits
 
 ### Database Optimization
+
 - Monitor query performance
 - Adjust connection pool settings
 - Implement proper indexing
 
 ### Caching Strategy
+
 - Configure Redis for session and API response caching
 - Implement application-level caching for frequently accessed data
 
@@ -337,6 +367,7 @@ See `backup-recovery/README.md` for detailed procedures.
 ## Support
 
 For deployment issues:
+
 1. Check monitoring dashboards for alerts
 2. Review pod logs for error messages
 3. Consult troubleshooting guides
@@ -345,11 +376,13 @@ For deployment issues:
 ## Change Management
 
 ### Deployment Approval
+
 - All production deployments require approval
 - Use CI/CD pipelines for automated deployments
 - Maintain deployment logs and change records
 
 ### Version Control
+
 - Tag releases in Git
 - Maintain deployment manifests in version control
 - Document all configuration changes

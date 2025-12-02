@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import path from 'node:path';
 import fs from 'node:fs';
 import os from 'node:os';
-import { validateTemplate, validateContent, type TemplateManifest } from '../tools/devops/fs.js';
+import { validateTemplate, validateContent, type TemplateManifest } from '../tools/lib/fs.js';
 
 describe('DevOps CLI - Validation', () => {
   describe('validateTemplate', () => {

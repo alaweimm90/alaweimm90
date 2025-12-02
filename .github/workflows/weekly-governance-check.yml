@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 env:
-  ORGANIZATIONS: "alaweimm90-business alaweimm90-science alaweimm90-tools AlaweinOS MeatheadPhysicist"
+  ORGANIZATIONS: 'alaweimm90-business alaweimm90-science alaweimm90-tools AlaweinOS MeatheadPhysicist'
 
 jobs:
   compliance-check:
