@@ -13,6 +13,7 @@ import {
   AgentCapability,
 } from '../types/index.js';
 import { agentRegistry } from '../agents/registry.js';
+import { routeToDevOpsAgent, loadDevOpsAgents } from './devops-agents.js';
 
 // ============================================================================
 // Capability to Task Type Mapping
@@ -237,6 +238,12 @@ export class TaskRouter {
    * Route a task to the best available agent
    */
   route(task: Task): RoutingDecision | null {
+    // First, check if this is a DevOps task
+    const devOpsRouting = routeToDevOpsAgent(task);
+    if (devOpsRouting) {
+      return devOpsRouting;
+    }
+
     const agents = agentRegistry.getAll();
 
     // Check for task-specific preference
@@ -359,6 +366,9 @@ export function createRouter(config?: Partial<OrchestrationConfig>): TaskRouter 
     },
     ...config,
   };
+
+  // Initialize DevOps agents
+  loadDevOpsAgents();
 
   return new TaskRouter(defaultConfig);
 }
