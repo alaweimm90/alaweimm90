@@ -3,7 +3,7 @@
  * Tests automated issue management and tracking
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('AI Issues Module', () => {
   describe('Issue Categories', () => {

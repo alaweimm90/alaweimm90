@@ -108,12 +108,10 @@
     "ci-cd"
   ],
   "license": "MIT",
-  "optionalDependencies": {
-    "@rollup/rollup-win32-x64-msvc": "4.53.3"
-  },
   "dependencies": {
     "better-sqlite3": "12.5.0",
     "chalk": "5.6.2",
+    "chokidar": "^3.6.0",
     "commander": "14.0.2",
     "ora": "9.0.0",
     "ws": "8.18.3",

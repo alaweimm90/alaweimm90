@@ -3,7 +3,7 @@
  * Tests security scanning for secrets, vulnerabilities, and licenses
  */
 
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('AI Security Module', () => {
   describe('Secret Detection Patterns', () => {

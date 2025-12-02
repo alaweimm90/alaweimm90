@@ -358,7 +358,6 @@ export function createUser(username: string, password: string, role: Role = 'use
   userStore.set(id, user);
   userStore.set(username, user);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -382,7 +381,6 @@ export function verifyCredentials(username: string, password: string): User | nu
   // Update last login
   user.lastLogin = new Date().toISOString();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -396,7 +394,6 @@ export function getUser(id: string): User | null {
     return null;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { passwordHash: _, ...publicUser } = user;
   return publicUser;
 }
@@ -411,7 +408,6 @@ export function listUsers(): User[] {
   userStore.forEach((user) => {
     if (!seen.has(user.id)) {
       seen.add(user.id);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { passwordHash: _, ...publicUser } = user;
       users.push(publicUser);
     }

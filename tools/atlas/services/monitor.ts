@@ -7,7 +7,9 @@ import { RepositoryAnalyzer } from '../analysis/analyzer';
 import { ContinuousOptimizer } from './optimizer';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
+import { promises as fsPromises } from 'fs';
 import * as path from 'path';
+import chokidar from 'chokidar';
 
 export interface MonitorConfig {
   repositories: MonitoredRepository[];
@@ -41,7 +43,8 @@ export interface MonitoredRepository {
   lastCommit?: string;
   lastAnalysis?: Date;
   changeCount: number;
-  watchers: fs.FSWatcher[];
+  watchers: chokidar.FSWatcher[];
+  watcherAbortControllers: Map<string, AbortController>;
 }
 
 export interface RepositoryChange {
@@ -141,12 +144,18 @@ export class RepositoryMonitor extends EventEmitter {
     }
     this.debounceTimers.clear();
 
-    // Stop file watchers
+    // Stop file watchers and abort controllers
     for (const repo of this.repositories.values()) {
       for (const watcher of repo.watchers) {
-        watcher.close();
+        await watcher.close();
       }
       repo.watchers = [];
+
+      // Abort all pending operations
+      for (const controller of repo.watcherAbortControllers.values()) {
+        controller.abort();
+      }
+      repo.watcherAbortControllers.clear();
     }
 
     this.repositories.clear();
@@ -160,12 +169,13 @@ export class RepositoryMonitor extends EventEmitter {
    * Add a repository to monitoring
    */
   async addRepository(
-    config: Omit<MonitoredRepository, 'watchers' | 'changeCount'>
+    config: Omit<MonitoredRepository, 'watchers' | 'changeCount' | 'watcherAbortControllers'>
   ): Promise<void> {
     const repository: MonitoredRepository = {
       ...config,
       watchers: [],
       changeCount: 0,
+      watcherAbortControllers: new Map(),
     };
 
     // Validate repository exists and is a git repo
@@ -197,8 +207,14 @@ export class RepositoryMonitor extends EventEmitter {
 
     // Stop watchers
     for (const watcher of repository.watchers) {
-      watcher.close();
+      await watcher.close();
     }
+
+    // Abort all pending operations
+    for (const controller of repository.watcherAbortControllers.values()) {
+      controller.abort();
+    }
+    repository.watcherAbortControllers.clear();
 
     this.repositories.delete(repoPath);
     this.changeBuffers.delete(repoPath);
@@ -289,43 +305,96 @@ export class RepositoryMonitor extends EventEmitter {
    * Update monitoring configuration
    */
   updateConfig(newConfig: Partial<MonitorConfig>): void {
-    const oldConfig = { ...this.config };
+    const oldConfig = JSON.parse(JSON.stringify(this.config));
     this.config = { ...this.config, ...newConfig };
 
-    // Restart polling if interval changed
-    if (newConfig.polling?.interval !== oldConfig.polling.interval) {
+    // Deep compare polling config
+    if (!this.deepEquals(newConfig.polling, oldConfig.polling)) {
       if (this.pollingTimer) {
         clearInterval(this.pollingTimer);
         this.startPolling();
       }
     }
 
-    // Restart file watching if settings changed
-    if (newConfig.filesystem !== oldConfig.filesystem) {
+    // Deep compare filesystem config
+    if (!this.deepEquals(newConfig.filesystem, oldConfig.filesystem)) {
       this.restartFileWatching();
     }
 
     this.emit('config:update', { config: this.config, timestamp: new Date() });
   }
 
+  private deepEquals(obj1: unknown, obj2: unknown): boolean {
+    if (obj1 === obj2) return true;
+    if (obj1 === null || obj2 === null) return obj1 === obj2;
+    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') return false;
+
+    const keys1 = Object.keys(obj1 as Record<string, unknown>);
+    const keys2 = Object.keys(obj2 as Record<string, unknown>);
+
+    if (keys1.length !== keys2.length) return false;
+
+    for (const key of keys1) {
+      if (!this.deepEquals(
+        (obj1 as Record<string, unknown>)[key],
+        (obj2 as Record<string, unknown>)[key]
+      )) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   private async startFileWatching(repository: MonitoredRepository): Promise<void> {
     try {
-      const watcher = fs.watch(repository.path, { recursive: true }, (eventType, filename) => {
-        if (!filename) return;
+      const ignorePatterns = [
+        /\.git/,
+        /node_modules/,
+        /\.DS_Store/,
+        /Thumbs\.db/,
+        /\.(log|tmp|cache)$/,
+        /dist/,
+        /build/,
+        /\.env/,
+      ];
 
-        // Ignore certain files and directories
-        if (this.shouldIgnoreFile(filename)) {
-          return;
-        }
+      const watcher = chokidar.watch(repository.path, {
+        persistent: true,
+        ignored: (path: string) => ignorePatterns.some((pattern) => pattern.test(path)),
+        ignoreInitial: true,
+        awaitWriteFinish: {
+          stabilityThreshold: 100,
+          pollInterval: 100,
+        },
+        usePolling: process.platform === 'linux',
+        interval: 100,
+      });
 
-        this.handleFileChange(repository, eventType, filename);
+      watcher.on('change', (filePath: string) => {
+        this.handleFileChange(repository, 'change', filePath);
+      });
+
+      watcher.on('add', (filePath: string) => {
+        this.handleFileChange(repository, 'add', filePath);
+      });
+
+      watcher.on('unlink', (filePath: string) => {
+        this.handleFileChange(repository, 'unlink', filePath);
+      });
+
+      watcher.on('error', (error: unknown) => {
+        this.emit('watcher:error', {
+          repository: repository.name,
+          error: error instanceof Error ? error.message : String(error),
+        });
       });
 
       repository.watchers.push(watcher);
     } catch (error) {
       this.emit('watcher:error', {
         repository: repository.name,
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
       });
     }
   }
@@ -337,50 +406,87 @@ export class RepositoryMonitor extends EventEmitter {
   ): void {
     const fullPath = path.join(repository.path, filename);
 
-    // Get file stats to determine change type
+    // Determine change type from event
     let changeType: ChangedFile['type'] = 'modified';
-    let fileSize: number | undefined;
-    let linesChanged: number | undefined;
-
-    try {
-      const stats = fs.statSync(fullPath);
-      fileSize = stats.size;
-
-      // Estimate lines changed (simplified)
-      if (stats.size > 0) {
-        const content = fs.readFileSync(fullPath, 'utf8');
-        linesChanged = content.split('\n').length;
-      }
-    } catch {
-      // File might have been deleted
+    if (eventType === 'add') {
+      changeType = 'added';
+    } else if (eventType === 'unlink') {
       changeType = 'deleted';
     }
 
-    const changedFile: ChangedFile = {
-      path: filename,
-      type: changeType,
-      size: fileSize,
-      linesChanged,
-    };
+    // Use async I/O to get file stats (non-blocking)
+    this.getFileStats(fullPath)
+      .then((stats) => {
+        const changedFile: ChangedFile = {
+          path: filename,
+          type: changeType,
+          size: stats.size,
+          linesChanged: stats.linesChanged,
+        };
 
-    // Buffer the change
-    let buffer = this.changeBuffers.get(repository.path);
-    if (!buffer) {
-      buffer = [];
-      this.changeBuffers.set(repository.path, buffer);
+        // Buffer the change
+        let buffer = this.changeBuffers.get(repository.path);
+        if (!buffer) {
+          buffer = [];
+          this.changeBuffers.set(repository.path, buffer);
+        }
+
+        // Check buffer cap (1000 events)
+        const MAX_BUFFER_SIZE = 1000;
+        if (buffer.length >= MAX_BUFFER_SIZE) {
+          this.emit('buffer:warn', {
+            repository: repository.name,
+            bufferSize: buffer.length,
+            message: `Repository buffer cap (${MAX_BUFFER_SIZE}) reached, truncating`,
+          });
+          buffer = buffer.slice(-MAX_BUFFER_SIZE + 1);
+          this.changeBuffers.set(repository.path, buffer);
+        }
+
+        buffer.push({
+          repository: repository.name,
+          type: 'file',
+          files: [changedFile],
+          timestamp: new Date(),
+        });
+
+        repository.changeCount++;
+
+        // Debounce analysis trigger
+        this.scheduleAnalysisTrigger(repository);
+      })
+      .catch((error) => {
+        // Log error but don't block
+        this.emit('file:stat:error', {
+          repository: repository.name,
+          file: filename,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      });
+  }
+
+  private async getFileStats(
+    filePath: string
+  ): Promise<{ size: number; linesChanged: number }> {
+    try {
+      const stats = await fsPromises.stat(filePath);
+      let linesChanged = 0;
+
+      // Only read first few KB to estimate lines changed
+      if (stats.size > 0 && stats.size < 102400) {
+        // 100KB limit
+        const content = await fsPromises.readFile(filePath, 'utf8');
+        linesChanged = content.split('\n').length;
+      } else if (stats.size >= 102400) {
+        // For larger files, estimate based on size
+        linesChanged = Math.ceil(stats.size / 50); // Rough estimate
+      }
+
+      return { size: stats.size, linesChanged };
+    } catch {
+      // File might have been deleted or inaccessible
+      return { size: 0, linesChanged: 0 };
     }
-
-    buffer.push({
-      repository: repository.name,
-      type: 'file',
-      files: [changedFile],
-      timestamp: new Date(),
-    });
-
-    repository.changeCount++;
-
-    // Debounce analysis trigger
-    this.scheduleAnalysisTrigger(repository);
   }
 
   private scheduleAnalysisTrigger(repository: MonitoredRepository): void {
@@ -396,7 +502,14 @@ export class RepositoryMonitor extends EventEmitter {
     const timeSinceLastTrigger = lastTrigger ? now - lastTrigger : Infinity;
 
     if (timeSinceLastTrigger < this.config.triggers.maxFrequencyMs) {
-      return; // Too frequent, skip
+      // Too frequent - queue for later instead of dropping
+      const delayMs = this.config.triggers.maxFrequencyMs - timeSinceLastTrigger;
+      const timer = setTimeout(() => {
+        this.triggerAnalysisForRepository(repository);
+      }, delayMs + this.config.filesystem.debounceMs);
+
+      this.debounceTimers.set(repository.path, timer);
+      return;
     }
 
     // Schedule debounced analysis
@@ -534,29 +647,31 @@ export class RepositoryMonitor extends EventEmitter {
     return recommendations;
   }
 
-  private shouldIgnoreFile(filename: string): boolean {
-    // Ignore common files and directories
-    const ignorePatterns = [
-      /\.git/,
-      /node_modules/,
-      /\.DS_Store/,
-      /Thumbs\.db/,
-      /\.(log|tmp|cache)$/,
-      /dist/,
-      /build/,
-      /\.env/,
-    ];
 
-    return ignorePatterns.some((pattern) => pattern.test(filename));
-  }
-
-  private async getCurrentCommit(_repoPath: string): Promise<string | undefined> {
+  private async getCurrentCommit(repoPath: string): Promise<string | undefined> {
     try {
-      // This would use git commands in a real implementation
-      // For now, return a mock hash
-      return 'mock-commit-hash';
+      const { execSync } = await import('child_process');
+      const hash = execSync('git rev-parse HEAD', {
+        cwd: repoPath,
+        encoding: 'utf8',
+      }).trim();
+      return hash;
     } catch {
       return undefined;
+    }
+  }
+
+  // Private method for future use in git-based diff analysis
+  private async _getDiffStats(repoPath: string): Promise<string[]> {
+    try {
+      const { execSync } = await import('child_process');
+      const output = execSync('git diff --name-only HEAD', {
+        cwd: repoPath,
+        encoding: 'utf8',
+      });
+      return output.split('\n').filter((line) => line.length > 0);
+    } catch {
+      return [];
     }
   }
 

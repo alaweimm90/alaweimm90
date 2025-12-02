@@ -3,9 +3,7 @@
  * Tests policy-based validation and scoring
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { describe, it, expect, vi } from 'vitest';
 
 vi.mock('fs', async () => {
   const actual = await vi.importActual<typeof import('fs')>('fs');

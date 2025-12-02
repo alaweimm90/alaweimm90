@@ -3,9 +3,7 @@
  * Tests multi-layer caching with semantic similarity
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import * as fs from 'fs';
-import * as path from 'path';
+import { describe, it, expect, vi } from 'vitest';
 
 // Mock fs to avoid actual file operations during tests
 vi.mock('fs', async () => {

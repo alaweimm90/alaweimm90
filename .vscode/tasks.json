@@ -1,0 +1,143 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "lint:watch",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "lint", "--", "--cache", "--max-warnings=0", "--watch"],
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared",
+        "echo": false
+      },
+      "problemMatcher": "$eslint-stylish"
+    },
+    {
+      "label": "typecheck:watch",
+      "type": "shell",
+      "command": "npx",
+      "args": ["tsc", "--noEmit", "--incremental", "--watch"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never",
+        "panel": "shared",
+        "echo": false
+      },
+      "problemMatcher": "$tsc-watch"
+    },
+    {
+      "label": "test:parallel",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:run", "--", "--pool=threads", "--max-workers=50%"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      }
+    },
+    {
+      "label": "test:sequential",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:run", "--", "--runInBand"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      }
+    },
+    {
+      "label": "security:semgrep",
+      "type": "shell",
+      "command": "npx",
+      "args": ["semgrep", "scan", "--config", "auto", "--error"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "security:snyk",
+      "type": "shell",
+      "command": "npx",
+      "args": ["snyk", "test", "--severity-threshold=high"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "security:gitleaks",
+      "type": "shell",
+      "command": "npx",
+      "args": ["gitleaks", "detect", "--redact"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build & Watch (default)",
+      "dependsOn": [
+        "lint:watch",
+        "typecheck:watch"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "echo": false
+      },
+      "problemMatcher": ["$eslint-stylish", "$tsc-watch"]
+    },
+    {
+      "label": "Run All Security Checks",
+      "dependsOn": [
+        "security:semgrep",
+        "security:snyk",
+        "security:gitleaks"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      }
+    },
+    {
+      "label": "Full CI Pipeline",
+      "dependsOn": [
+        "Build & Watch (default)",
+        "test:parallel",
+        "Run All Security Checks"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "echo": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    }
+  ]
+}

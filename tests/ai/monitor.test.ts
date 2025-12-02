@@ -3,7 +3,7 @@
  * Tests continuous monitoring and circuit breakers
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('AI Monitor Module', () => {
   describe('Circuit Breaker', () => {

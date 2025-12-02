@@ -3,7 +3,7 @@
  * Tests structured error handling with recovery strategies
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 describe('AI Error Handling Module', () => {
   describe('Error Codes', () => {
@@ -55,7 +55,7 @@ describe('AI Error Handling Module', () => {
     });
 
     it('should follow naming convention', () => {
-      for (const [key, value] of Object.entries(ErrorCodes)) {
+      for (const [_key, value] of Object.entries(ErrorCodes)) {
         expect(value).toMatch(/^E\d{4}$/);
       }
     });
