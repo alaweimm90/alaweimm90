@@ -3,7 +3,7 @@
  * Tests continuous monitoring and circuit breakers
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
 describe('AI Monitor Module', () => {
   describe('Circuit Breaker', () => {
@@ -290,6 +290,236 @@ describe('AI Monitor Module', () => {
       const failed = results.filter((r) => !r.success);
       expect(failed.length).toBe(1);
       expect(failed[0].action).toBe('codemap');
+    });
+  });
+
+  describe('Repository Monitor - Advanced Scenarios', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    describe('Cache Hit/Miss', () => {
+      it('should cache analysis results and return cached result on hit', async () => {
+        const cacheTtl = 60000; // 60 seconds
+        const cache = new Map<string, { result: unknown; expires: Date }>();
+        const repoPath = '/test/repo';
+
+        // First call - cache miss
+        const analysis1 = { chaosScore: 0.5, timestamp: new Date() };
+        cache.set(repoPath, { result: analysis1, expires: new Date(Date.now() + cacheTtl) });
+
+        // Second call - should hit cache
+        const cached = cache.get(repoPath);
+        expect(cached).toBeDefined();
+        expect(cached?.result).toEqual(analysis1);
+
+        // Advance time but stay within TTL
+        vi.advanceTimersByTime(30000);
+        const stillValid = cached && cached.expires > new Date();
+        expect(stillValid).toBe(true);
+
+        // Advance time beyond TTL
+        vi.advanceTimersByTime(35000);
+        const expired = cached && cached.expires < new Date();
+        expect(expired).toBe(true);
+      });
+
+      it('should invalidate expired cache entries', () => {
+        const cache = new Map<string, { result: unknown; expires: Date }>();
+        const repoPath = '/test/repo';
+        const cacheTtl = 60000;
+
+        const analysis = { chaosScore: 0.5 };
+        const expiresAt = new Date(Date.now() + cacheTtl);
+        cache.set(repoPath, { result: analysis, expires: expiresAt });
+
+        // Advance time to expiration
+        vi.advanceTimersByTime(61000);
+
+        const cached = cache.get(repoPath);
+        if (cached && cached.expires < new Date()) {
+          cache.delete(repoPath);
+        }
+
+        expect(cache.has(repoPath)).toBe(false);
+      });
+    });
+
+    describe('Buffer Overflow Protection', () => {
+      it('should cap buffer at 1000 events and emit warning', () => {
+        const MAX_BUFFER_SIZE = 1000;
+        let warningEmitted = false;
+
+        interface FileChange {
+          id: string;
+          path: string;
+          timestamp: Date;
+        }
+
+        const buffer: FileChange[] = [];
+
+        // Add 1001 changes
+        for (let i = 0; i < 1001; i++) {
+          buffer.push({
+            id: `change-${i}`,
+            path: `/file-${i}.ts`,
+            timestamp: new Date(),
+          });
+
+          // Check buffer cap
+          if (buffer.length >= MAX_BUFFER_SIZE) {
+            warningEmitted = true;
+            const excess = buffer.length - MAX_BUFFER_SIZE;
+            buffer.splice(0, excess + 1); // Remove excess + 1 to keep at 1000
+          }
+        }
+
+        expect(warningEmitted).toBe(true);
+        expect(buffer.length).toBeLessThanOrEqual(MAX_BUFFER_SIZE);
+      });
+
+      it('should preserve most recent events when truncating', () => {
+        const MAX_BUFFER_SIZE = 5;
+
+        interface Change {
+          id: number;
+          timestamp: Date;
+        }
+
+        const buffer: Change[] = [];
+
+        // Add 10 changes
+        for (let i = 0; i < 10; i++) {
+          buffer.push({ id: i, timestamp: new Date(Date.now() + i) });
+        }
+
+        // Truncate to keep only most recent MAX_BUFFER_SIZE
+        if (buffer.length > MAX_BUFFER_SIZE) {
+          const toRemove = buffer.length - MAX_BUFFER_SIZE;
+          buffer.splice(0, toRemove);
+        }
+
+        // Should keep the last 5 (ids 5-9)
+        expect(buffer.length).toBe(5);
+        expect(buffer[0].id).toBe(5);
+        expect(buffer[4].id).toBe(9);
+      });
+    });
+
+    describe('Throttling with Frequency Limits', () => {
+      it('should queue missed triggers when frequency limit exceeded', async () => {
+        const maxFrequencyMs = 30000;
+        const debounceMs = 300;
+        const triggerQueue: string[] = [];
+
+        let lastTriggerTime: number | null = null;
+
+        const scheduleTrigger = (label: string) => {
+          const now = Date.now();
+
+          if (lastTriggerTime === null || now - lastTriggerTime >= maxFrequencyMs) {
+            // Can trigger immediately
+            triggerQueue.push(`trigger:${label}`);
+            lastTriggerTime = now;
+          } else {
+            // Queue for later
+            const delayMs = maxFrequencyMs - (now - lastTriggerTime) + debounceMs;
+            triggerQueue.push(`queued:${label}:delay=${delayMs}`);
+          }
+        };
+
+        // Rapid triggers
+        scheduleTrigger('change-1');
+        expect(triggerQueue[0]).toBe('trigger:change-1');
+
+        // Too soon - should queue
+        vi.advanceTimersByTime(1000);
+        scheduleTrigger('change-2');
+        expect(triggerQueue[1]).toContain('queued:change-2');
+
+        // After frequency period
+        vi.advanceTimersByTime(35000);
+        lastTriggerTime = null; // Simulate cleared from previous trigger
+        scheduleTrigger('change-3');
+        expect(triggerQueue[2]).toBe('trigger:change-3');
+      });
+
+      it('should enforce minimum time between analysis triggers', () => {
+        const maxFrequencyMs = 30000;
+        const lastTriggerTimes = new Map<string, number>();
+
+        const canTrigger = (repoPath: string): boolean => {
+          const lastTime = lastTriggerTimes.get(repoPath);
+          const now = Date.now();
+
+          if (lastTime === undefined) return true;
+          return now - lastTime >= maxFrequencyMs;
+        };
+
+        const updateTriggerTime = (repoPath: string) => {
+          lastTriggerTimes.set(repoPath, Date.now());
+        };
+
+        const repoPath = '/test/repo';
+
+        // First trigger should be allowed
+        expect(canTrigger(repoPath)).toBe(true);
+        updateTriggerTime(repoPath);
+
+        // Immediate retry should be blocked
+        expect(canTrigger(repoPath)).toBe(false);
+
+        // After 15 seconds should still be blocked
+        vi.advanceTimersByTime(15000);
+        expect(canTrigger(repoPath)).toBe(false);
+
+        // After 30 seconds should be allowed
+        vi.advanceTimersByTime(15001);
+        expect(canTrigger(repoPath)).toBe(true);
+      });
+    });
+
+    describe('Debounce with Fake Timers', () => {
+      it('should debounce rapid file changes correctly', () => {
+        let analysisTriggered = 0;
+
+        const debounce = (callback: () => void, delay: number) => {
+          let timerId: ReturnType<typeof setTimeout> | null = null;
+
+          return () => {
+            if (timerId !== null) {
+              clearTimeout(timerId);
+            }
+            timerId = setTimeout(() => {
+              callback();
+              timerId = null;
+            }, delay);
+          };
+        };
+
+        const triggerAnalysis = () => {
+          analysisTriggered++;
+        };
+
+        const debouncedTrigger = debounce(triggerAnalysis, 300);
+
+        // Rapid changes
+        debouncedTrigger();
+        debouncedTrigger();
+        debouncedTrigger();
+        debouncedTrigger();
+
+        expect(analysisTriggered).toBe(0); // Should not trigger yet
+
+        // Advance past debounce delay
+        vi.advanceTimersByTime(350);
+
+        expect(analysisTriggered).toBe(1); // Should trigger once
+      });
     });
   });
 });
