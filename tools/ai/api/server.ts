@@ -100,7 +100,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/health',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       success(res, { status: 'healthy', uptime: process.uptime() });
     },
   },
@@ -109,7 +109,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/compliance/score',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const report = readJsonFile(path.join(AI_DIR, 'compliance-report.json'));
       if (report) {
         success(res, report);
@@ -121,7 +121,7 @@ const routes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/compliance/check',
-    handler: async (_req, res, _params, body) => {
+    handler: async (_req, res, _params, body): Promise<void> => {
       try {
         const files = (body as { files?: string[] })?.files || [];
         runCommand(`npm run ai:compliance:check ${files.join(' ')}`);
@@ -135,7 +135,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/compliance/rules',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         const output = runCommand('npm run ai:compliance rules 2>&1');
         success(res, { rules: output });
@@ -149,7 +149,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/security/report',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const report = readJsonFile(path.join(AI_DIR, 'security-report.json'));
       if (report) {
         success(res, report);
@@ -161,7 +161,7 @@ const routes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/security/scan',
-    handler: async (_req, res, _params, body) => {
+    handler: async (_req, res, _params, body): Promise<void> => {
       try {
         const scanType = (body as { type?: string })?.type || 'scan';
         runCommand(`npm run ai:security:${scanType}`);
@@ -177,7 +177,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/cache/stats',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         const output = runCommand('npm run ai:cache:stats 2>&1');
         success(res, { stats: output });
@@ -189,7 +189,7 @@ const routes: RouteHandler[] = [
   {
     method: 'DELETE',
     path: '/cache',
-    handler: async (_req, res, params) => {
+    handler: async (_req, res, params): Promise<void> => {
       try {
         const layer = params.get('layer') || '';
         runCommand(`npm run ai:cache:clear ${layer}`);
@@ -204,7 +204,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/monitor/status',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const state = readJsonFile(path.join(AI_DIR, 'monitor-state.json'));
       if (state) {
         success(res, state);
@@ -216,7 +216,7 @@ const routes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/monitor/check',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         runCommand('npm run ai:monitor:check');
         const state = readJsonFile(path.join(AI_DIR, 'monitor-state.json'));
@@ -231,7 +231,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/errors',
-    handler: async (_req, res, params) => {
+    handler: async (_req, res, params): Promise<void> => {
       const errorLog = readJsonFile(path.join(AI_DIR, 'error-log.json'));
       if (errorLog) {
         const severity = params.get('severity');
@@ -248,7 +248,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/errors/stats',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const errorLog = readJsonFile(path.join(AI_DIR, 'error-log.json'));
       if (errorLog) {
         success(res, { stats: (errorLog as { stats: unknown }).stats });
@@ -262,7 +262,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/issues',
-    handler: async (_req, res, params) => {
+    handler: async (_req, res, params): Promise<void> => {
       const issues = readJsonFile(path.join(AI_DIR, 'issues.json'));
       if (issues) {
         let list = (issues as { issues: unknown[] }).issues || [];
@@ -283,7 +283,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/issues/critical',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const issues = readJsonFile(path.join(AI_DIR, 'issues.json'));
       if (issues) {
         const critical = ((issues as { issues: unknown[] }).issues || []).filter(
@@ -300,7 +300,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/issues/stats',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const issues = readJsonFile(path.join(AI_DIR, 'issues.json'));
       if (issues) {
         success(res, { stats: (issues as { stats: unknown }).stats });
@@ -314,7 +314,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/metrics',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const metrics = readJsonFile(path.join(AI_DIR, 'metrics.json'));
       if (metrics) {
         success(res, metrics);
@@ -328,7 +328,7 @@ const routes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/context',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const contextPath = path.join(AI_DIR, 'context.yaml');
       if (fs.existsSync(contextPath)) {
         const content = fs.readFileSync(contextPath, 'utf8');
@@ -341,7 +341,7 @@ const routes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/sync',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         runCommand('npm run ai:sync');
         success(res, { message: 'Sync completed' });

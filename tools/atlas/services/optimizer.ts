@@ -7,6 +7,7 @@ import { RepositoryAnalyzer } from '../analysis/analyzer';
 import { RefactoringEngine } from '../refactoring/engine';
 import { TaskRouter } from '../orchestration/router';
 import { agentRegistry } from '../agents/registry';
+import { OptimizationPlan, OptimizationSuggestion } from '../types/index';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -199,7 +200,22 @@ export class ContinuousOptimizer extends EventEmitter {
         repository: repository.name,
         success: false,
         changes: [],
-        metrics: { before: {} as any, after: {} as any },
+        metrics: {
+          before: {
+            chaosScore: 0,
+            complexityScore: 0,
+            fileCount: 0,
+            totalLines: 0,
+            issuesCount: 0,
+          },
+          after: {
+            chaosScore: 0,
+            complexityScore: 0,
+            fileCount: 0,
+            totalLines: 0,
+            issuesCount: 0,
+          },
+        },
         rollbackAvailable: false,
         error: error.message,
       };

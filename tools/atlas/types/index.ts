@@ -185,3 +185,106 @@ export interface AgentTeam {
   createdAt: string;
   updatedAt?: string;
 }
+
+// ============================================================================
+// ATLAS Service DTOs
+// ============================================================================
+
+/**
+ * Data Transfer Object for optimization plans
+ */
+export interface OptimizationPlan {
+  id: string;
+  repositoryPath: string;
+  timestamp: Date;
+  metrics: {
+    chaosScore: number;
+    complexityScore: number;
+    issuesCount: number;
+  };
+  suggestions: OptimizationSuggestion[];
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  estimatedEffort: number; // hours
+}
+
+export interface OptimizationSuggestion {
+  id: string;
+  type: 'refactor' | 'test' | 'document' | 'simplify' | 'modularize';
+  file: string;
+  line: number;
+  description: string;
+  impact: 'low' | 'medium' | 'high';
+  confidence: number; // 0-1
+}
+
+/**
+ * Data Transfer Object for dashboard widgets
+ */
+export interface DashboardWidget {
+  id: string;
+  title: string;
+  type: 'metric' | 'chart' | 'table' | 'gauge' | 'heatmap';
+  data: Record<string, unknown>;
+  lastUpdated: Date;
+  refreshInterval?: number; // milliseconds
+}
+
+export interface DashboardMetric {
+  key: string;
+  label: string;
+  value: number | string;
+  unit?: string;
+  trend?: 'up' | 'down' | 'stable';
+  trendValue?: number;
+}
+
+/**
+ * Data Transfer Object for repository analysis results
+ */
+export interface RepositoryAnalysisDTO {
+  repositoryPath: string;
+  timestamp: Date;
+  chaosScore: number;
+  complexityScore: number;
+  fileCount: number;
+  totalLines: number;
+  issuesCount: number;
+  coverage?: number;
+  testCount?: number;
+  recommendations: string[];
+}
+
+/**
+ * Data Transfer Object for telemetry events
+ */
+export interface TelemetryEventDTO {
+  id: string;
+  timestamp: Date;
+  type: 'optimization' | 'analysis' | 'error' | 'metric' | 'system';
+  source: string;
+  data: Record<string, unknown>;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  tags: string[];
+}
+
+/**
+ * Data Transfer Object for code changes
+ */
+export interface CodeChangeDTO {
+  id: string;
+  repository: string;
+  type: 'file' | 'commit' | 'push';
+  files: FileChangeDTO[];
+  timestamp: Date;
+  commitHash?: string;
+  author?: string;
+  message?: string;
+}
+
+export interface FileChangeDTO {
+  path: string;
+  type: 'added' | 'modified' | 'deleted' | 'renamed';
+  oldPath?: string;
+  size?: number;
+  linesChanged?: number;
+}

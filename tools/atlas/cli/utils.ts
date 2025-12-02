@@ -11,13 +11,13 @@ export const NO_COLOR = Boolean(process.env.NO_COLOR);
 export const getDefaultStyle = (): string => process.env.ATLAS_OUTPUT_STYLE || 'compact';
 
 const paint = {
-  green: (s: string) => (NO_COLOR ? s : chalk.green(s)),
-  red: (s: string) => (NO_COLOR ? s : chalk.red(s)),
-  yellow: (s: string) => (NO_COLOR ? s : chalk.yellow(s)),
-  blue: (s: string) => (NO_COLOR ? s : chalk.blue(s)),
-  boldCyan: (s: string) => (NO_COLOR ? s : chalk.bold.cyan(s)),
-  gray: (s: string) => (NO_COLOR ? s : chalk.gray(s)),
-  white: (s: string) => (NO_COLOR ? s : chalk.white(s)),
+  green: (s: string): string => (NO_COLOR ? s : chalk.green(s)),
+  red: (s: string): string => (NO_COLOR ? s : chalk.red(s)),
+  yellow: (s: string): string => (NO_COLOR ? s : chalk.yellow(s)),
+  blue: (s: string): string => (NO_COLOR ? s : chalk.blue(s)),
+  boldCyan: (s: string): string => (NO_COLOR ? s : chalk.bold.cyan(s)),
+  gray: (s: string): string => (NO_COLOR ? s : chalk.gray(s)),
+  white: (s: string): string => (NO_COLOR ? s : chalk.white(s)),
 };
 
 /**
@@ -59,12 +59,12 @@ export const cliContext = new CLIContext();
  * Output formatting utilities
  */
 export const output = {
-  success: (message: string) => console.log(paint.green(`✅ ${message}`)),
-  error: (message: string) => console.error(paint.red(`❌ ${message}`)),
-  warning: (message: string) => console.warn(paint.yellow(`⚠️  ${message}`)),
-  info: (message: string) => console.log(paint.blue(`ℹ️  ${message}`)),
-  header: (message: string) => console.log(paint.boldCyan(`\n${message}\n`)),
-  table: (headers: string[], rows: string[][]) => {
+  success: (message: string): void => console.log(paint.green(`✅ ${message}`)),
+  error: (message: string): void => console.error(paint.red(`❌ ${message}`)),
+  warning: (message: string): void => console.warn(paint.yellow(`⚠️  ${message}`)),
+  info: (message: string): void => console.log(paint.blue(`ℹ️  ${message}`)),
+  header: (message: string): void => console.log(paint.boldCyan(`\n${message}\n`)),
+  table: (headers: string[], rows: string[][]): void => {
     const colWidths = headers.map((header, i) =>
       Math.max(header.length, ...rows.map((row) => row[i]?.length || 0))
     );
@@ -85,16 +85,16 @@ export const output = {
  */
 export const progress = {
   start: (message: string) => ora(message).start(),
-  succeed: (spinner: any, message?: string) => spinner.succeed(message),
-  fail: (spinner: any, message?: string) => spinner.fail(message),
-  stop: (spinner: any) => spinner.stop(),
+  succeed: (spinner: any, message?: string): void => { spinner.succeed(message); },
+  fail: (spinner: any, message?: string): void => { spinner.fail(message); },
+  stop: (spinner: any): void => { spinner.stop(); },
 };
 
 /**
  * Error handling utilities
  */
 export const errorHandler = {
-  handle: (error: any, context?: string) => {
+  handle: (error: any, context?: string): never => {
     const message = error instanceof Error ? error.message : String(error);
     const fullMessage = context ? `${context}: ${message}` : message;
     output.error(fullMessage);
@@ -106,7 +106,7 @@ export const errorHandler = {
     process.exit(1);
   },
 
-  handleAsync: async (fn: () => Promise<void>, context?: string) => {
+  handleAsync: async (fn: () => Promise<void>, context?: string): Promise<void> => {
     try {
       await fn();
     } catch (error) {
@@ -119,19 +119,19 @@ export const errorHandler = {
  * Validation utilities
  */
 export const validate = {
-  path: (path: string, name: string = 'path') => {
+  path: (path: string, name: string = 'path'): void => {
     if (!path || typeof path !== 'string') {
       throw new Error(`${name} is required`);
     }
   },
 
-  positiveNumber: (value: number, name: string = 'value') => {
+  positiveNumber: (value: number, name: string = 'value'): void => {
     if (typeof value !== 'number' || value <= 0) {
       throw new Error(`${name} must be a positive number`);
     }
   },
 
-  booleanString: (value: string, name: string = 'value') => {
+  booleanString: (value: string, name: string = 'value'): boolean => {
     if (value !== 'true' && value !== 'false') {
       throw new Error(`${name} must be 'true' or 'false'`);
     }

@@ -95,7 +95,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.showDashboard',
     title: 'Show AI Dashboard',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       try {
         const output = runNpmCommand('ai:dashboard');
         return { success: true, message: 'Dashboard loaded', data: output };
@@ -111,7 +111,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.runComplianceCheck',
     title: 'Run Compliance Check',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       try {
         runNpmCommand('ai:compliance:check');
         const report = readJsonFile(path.join(AI_DIR, 'compliance-report.json'));
@@ -128,7 +128,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.runSecurityScan',
     title: 'Run Security Scan',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       try {
         runNpmCommand('ai:security:scan');
         const report = readJsonFile(path.join(AI_DIR, 'security-report.json'));
@@ -145,7 +145,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.syncContext',
     title: 'Sync AI Context',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       try {
         runNpmCommand('ai:sync');
         return { success: true, message: 'Context synchronized' };
@@ -158,7 +158,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.showMetrics',
     title: 'Show AI Metrics',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       const metrics = readJsonFile(path.join(AI_DIR, 'metrics.json'));
       if (metrics) {
         return { success: true, message: 'Metrics loaded', data: metrics };
@@ -170,7 +170,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.showErrors',
     title: 'Show AI Errors',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       const errorLog = readJsonFile<{ errors: unknown[] }>(path.join(AI_DIR, 'error-log.json'));
       if (errorLog) {
         return { success: true, message: 'Errors loaded', data: errorLog.errors };
@@ -182,7 +182,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.showIssues',
     title: 'Show AI Issues',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       const issues = readJsonFile<{ issues: unknown[] }>(path.join(AI_DIR, 'issues.json'));
       if (issues) {
         return { success: true, message: 'Issues loaded', data: issues.issues };
@@ -194,7 +194,7 @@ export const commands: VSCodeCommand[] = [
     command: 'aiTools.clearCache',
     title: 'Clear AI Cache',
     category: 'AI Tools',
-    handler: async () => {
+    handler: async (): Promise<CommandResult> => {
       try {
         runNpmCommand('ai:cache:clear');
         return { success: true, message: 'Cache cleared' };

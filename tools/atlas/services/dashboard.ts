@@ -5,6 +5,7 @@
 
 import { ContinuousOptimizer } from './optimizer';
 import { RepositoryMonitor } from './monitor';
+import { DashboardWidget, TelemetryEventDTO } from '../types/index';
 import { EventEmitter } from 'events';
 import * as WebSocket from 'ws';
 import * as http from 'http';
@@ -30,7 +31,7 @@ export interface TelemetryEvent {
   timestamp: Date;
   type: 'optimization' | 'analysis' | 'error' | 'metric' | 'system';
   source: string;
-  data: any;
+  data: Record<string, unknown>;
   severity: 'low' | 'medium' | 'high' | 'critical';
   tags: string[];
 }
