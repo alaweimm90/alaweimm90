@@ -87,7 +87,7 @@
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.15.0",
-    "vitest": "^2.1.5"
+    "vitest": "^4.0.14"
   },
   "lint-staged": {
     "!(templates/**/*)*.{ts,tsx,js,jsx}": [
