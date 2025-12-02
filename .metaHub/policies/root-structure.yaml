@@ -2,9 +2,9 @@
 # Defines what files and directories are allowed at the repository root level
 # Enforced by structure_validator.py and GitHub Actions
 
-version: "2.0"
-last_updated: "2025-11-30"
-updated_by: "repository-reorganization-plan"
+version: "3.0"
+last_updated: "2025-12-01"
+updated_by: "repository-simplification-consolidation"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL FILES
@@ -112,39 +112,21 @@ allowed_directories:
   # Automation Systems
   automation:
     - name: "automation"
-      purpose: "Python automation system with agents and workflows"
-    - name: "automation-ts"
-      purpose: "TypeScript automation CLI (rebuild)"
+      purpose: "Unified automation system (Python agents, workflows, orchestration)"
 
   # Enterprise & Infrastructure
   enterprise:
     - name: "enterprise"
       purpose: "Enterprise features (analytics, BI, marketplace, security)"
     - name: "infrastructure"
-      purpose: "Kubernetes configs, deployment templates, monitoring"
-    - name: "k8s"
-      purpose: "Kubernetes manifests and Helm charts"
-    - name: "docker"
-      purpose: "Docker configurations"
+      purpose: "Consolidated deployment configs (Docker, K8s templates, monitoring)"
 
   # Supporting Directories
   supporting:
     - name: "ecosystem"
       purpose: "API integrations, SDKs, CI/CD templates, IDE plugins"
     - name: "demo"
-      purpose: "Demo dashboards, scenarios, test repos"
-    - name: "examples"
-      purpose: "Example implementations"
-    - name: "sdk"
-      purpose: "SDK implementations"
-    - name: "backup-recovery"
-      purpose: "Backup and recovery utilities"
-    - name: "maintenance"
-      purpose: "Maintenance scripts and documentation"
-    - name: "troubleshooting"
-      purpose: "Troubleshooting guides"
-    - name: "scaling"
-      purpose: "Scaling documentation"
+      purpose: "Demo dashboards, scenarios, test repos, examples"
 
   # Tool Configuration (allowed, should be hidden)
   tooling:
