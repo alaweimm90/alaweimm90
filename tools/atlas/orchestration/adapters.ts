@@ -14,7 +14,7 @@ export interface AdapterResult {
 
 export async function executeAction(step: WorkflowStep): Promise<AdapterResult> {
   const start = Date.now();
-  let ok = true;
+  const ok = true;
   let out = '';
   const cmd = step.inputs?.command;
   if (cmd) {

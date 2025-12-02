@@ -321,7 +321,7 @@ export class ConfigLoader extends EventEmitter {
             path: this.configPath,
           });
         }
-      } catch (error) {
+      } catch {
         // Ignore errors during watch - they'll be logged via events
       }
     }, intervalMs);

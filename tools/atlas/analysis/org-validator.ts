@@ -78,7 +78,7 @@ function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const outFile = path.join(outDir, 'org-validation.json');
   fs.writeFileSync(outFile, JSON.stringify(report, null, 2));
-  // eslint-disable-next-line no-console
+
   console.log(`Org validation written to ${outFile}`);
 }
 

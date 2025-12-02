@@ -8,7 +8,7 @@ export function registerTeamCommands(program: Command): void {
     const teams = teamRegistry.list();
     for (const t of teams) {
       const line = `${t.id} ${t.name} members=${t.members.length} strategy=${t.routingStrategy}`;
-      // eslint-disable-next-line no-console
+
       console.log(line);
     }
   });
@@ -38,7 +38,7 @@ export function registerTeamCommands(program: Command): void {
           routingStrategy: opts.strategy,
         };
         const saved = teamRegistry.register(team);
-        // eslint-disable-next-line no-console
+
         console.log(`${saved.id} registered`);
       }
     );

@@ -1,353 +1,269 @@
-# Interactive Codemap
+# Repository Codemap
 
-> Auto-generated system architecture visualization
+> Simplified architecture after consolidation (v3.0 - Dec 2025)
 
-## System Overview
+## Directory Structure
+
+```text
+meta-governance/
+├── automation/          # Python automation system (agents, workflows)
+│   ├── agents/          # AI-powered automation agents
+│   ├── cli/             # Python CLI commands
+│   ├── orchestration/   # Multi-agent orchestration
+│   └── workflows/       # Automation workflow definitions
+├── demo/                # Demos, examples, test scenarios
+├── docs/                # Documentation (MkDocs source)
+├── organizations/       # Organization monorepo templates
+├── src/                 # Service implementations
+├── tests/               # Unit tests (Vitest + Pytest)
+├── tools/               # TypeScript toolkit
+│   ├── ai/              # AI orchestration & MCP integration
+│   ├── atlas/           # Code analysis & refactoring engine
+│   ├── cli/             # Main CLI entry points
+│   ├── devops/          # DevOps agents & templates
+│   └── scripts/         # Build & utility scripts
+├── .ai/                 # AI assistant configurations
+├── .atlas/              # ATLAS runtime state & reports
+├── .github/             # GitHub Actions & workflows
+├── .metaHub/            # Governance policies & catalogs
+└── .archive/            # Archived code (historical)
+```
+
+## System Architecture
 
 ```mermaid
 flowchart TB
-    subgraph User["👤 User"]
-        CLI[CLI Commands]
-        IDE[IDE/Editor]
+    subgraph User["User Interface"]
+        CLI[ATLAS CLI]
+        VSCode[VS Code Extension]
+        MCP[MCP Servers]
     end
 
-    subgraph Core["🔧 Core Tools"]
-        devops[tools/cli/devops.ts]
-        governance[tools/cli/governance.py]
-        atlas[tools/atlas/*]
+    subgraph Orchestration["Orchestration Layer"]
+        Router[Task Router]
+        DevOpsAgents[DevOps Agents<br/>20 specialized]
+        Workflow[Workflow Engine]
     end
 
-    subgraph Templates["📦 Templates"]
-        cicd[CI/CD]
-        k8s[Kubernetes]
-        db[Databases]
-        iac[IaC]
-        monitoring[Monitoring]
+    subgraph Core["Core Systems"]
+        Atlas[ATLAS Engine]
+        AI[AI Integration]
+        Governance[Governance]
     end
 
-    subgraph Automation["⚙️ GitHub Actions"]
-        ci[ci.yml]
-        catalog[catalog.yml]
-        enforce[enforce.yml]
-        checkpoint[checkpoint.yml]
+    subgraph Output["Outputs"]
+        Reports[Analysis Reports]
+        Metrics[Dashboards]
+        Artifacts[Build Artifacts]
     end
 
-    subgraph Output["📊 Output"]
-        metahub[.metaHub/]
-        reports[enforcement-reports/]
-        catalogjson[catalog.json]
-    end
+    CLI --> Router
+    VSCode --> Router
+    MCP --> Router
 
-    CLI --> devops
-    CLI --> governance
-    IDE --> atlas
+    Router --> DevOpsAgents
+    Router --> Workflow
+    DevOpsAgents --> Atlas
+    Workflow --> Atlas
 
-    devops --> Templates
-    Templates --> metahub
+    Atlas --> AI
+    Atlas --> Governance
 
-    governance --> reports
-    governance --> catalogjson
+    AI --> Reports
+    Governance --> Metrics
+    Atlas --> Artifacts
 
-    Automation --> governance
-    Automation --> devops
+    style Router fill:#6366F1,color:#fff
+    style DevOpsAgents fill:#10B981,color:#fff
+    style Atlas fill:#F59E0B,color:#fff
 ```
 
-## CLI Command Flow
+## DevOps Agent System
+
+20 specialized agents organized into 4 categories:
 
 ```mermaid
 flowchart LR
-    subgraph Commands["npm run"]
-        list[devops:list]
-        builder[devops:builder]
-        coder[devops:coder]
-        gov[governance]
+    subgraph Pipeline["Pipeline Agents"]
+        BuildAgent[build-agent]
+        TestAgent[test-agent]
+        LintAgent[lint-agent]
+        DependencyAgent[dependency-agent]
     end
 
-    subgraph DevOps["devops.ts"]
-        cmdList[cmdTemplateList]
-        cmdApply[cmdTemplateApply]
-        cmdGen[cmdGenerate]
+    subgraph Security["Security Agents"]
+        SecScan[secret-scanner]
+        SAST[sast-agent]
+        VulnAgent[vuln-agent]
+        ComplianceAgent[compliance-agent]
     end
 
-    subgraph Lib["tools/lib"]
-        config[config.ts]
-        fs[fs.ts]
+    subgraph Observability["Observability"]
+        LogAgent[log-agent]
+        MetricsAgent[metrics-agent]
+        TracingAgent[tracing-agent]
+        AlertAgent[alert-agent]
     end
 
-    subgraph Output["Output"]
-        console[Console]
-        files[.metaHub/*]
+    subgraph Release["Release Agents"]
+        VersionAgent[version-agent]
+        ChangelogAgent[changelog-agent]
+        DeployAgent[deploy-agent]
+        RollbackAgent[rollback-agent]
     end
 
-    list --> cmdList --> console
-    builder --> cmdApply --> fs --> files
-    coder --> cmdGen --> fs --> files
-
-    cmdApply --> config
-    cmdGen --> config
+    style Pipeline fill:#3B82F6,color:#fff
+    style Security fill:#EF4444,color:#fff
+    style Observability fill:#10B981,color:#fff
+    style Release fill:#8B5CF6,color:#fff
 ```
 
-## Template Library Structure
+## Pre-built Workflows
 
 ```mermaid
 flowchart TD
-    templates[templates/devops/]
+    subgraph CICD["CI/CD Pipeline"]
+        lint[lint-agent] --> build[build-agent]
+        build --> test[test-agent]
+        test --> security[sast-agent]
+    end
 
-    templates --> cicd[cicd/]
-    templates --> k8s[k8s/]
-    templates --> db[db/]
-    templates --> iac[iac/]
-    templates --> logging[logging/]
-    templates --> monitoring[monitoring/]
-    templates --> ui[ui/]
-    templates --> demos[demos/]
+    subgraph SecureRelease["Secure Release"]
+        scan[secret-scanner] --> vuln[vuln-agent]
+        vuln --> compliance[compliance-agent]
+        compliance --> deploy[deploy-agent]
+    end
 
-    cicd --> ga[github-actions]
-    cicd --> circle[circleci]
-    cicd --> jenkins[jenkins]
+    subgraph Incident["Incident Response"]
+        detect[alert-agent] --> analyze[log-agent]
+        analyze --> trace[tracing-agent]
+        trace --> recover[rollback-agent]
+    end
 
-    k8s --> helm[helm]
-    k8s --> manifests[manifests]
-
-    db --> postgres[postgres]
-    db --> mongo[mongo]
-    db --> prisma[prisma]
-
-    iac --> terraform[terraform]
-    iac --> cloudform[cloudformation]
-
-    monitoring --> prom[prometheus]
-    monitoring --> grafana[grafana]
-
-    style templates fill:#6366F1,color:#fff
-    style cicd fill:#10B981,color:#fff
-    style k8s fill:#F59E0B,color:#fff
-    style db fill:#EC4899,color:#fff
+    style CICD fill:#3B82F6,color:#fff
+    style SecureRelease fill:#10B981,color:#fff
+    style Incident fill:#EF4444,color:#fff
 ```
 
-## Governance Data Flow
-
-```mermaid
-flowchart TB
-    subgraph Trigger["Triggers"]
-        schedule[⏰ Schedule]
-        push[📤 Push Event]
-        manual[👆 Manual]
-    end
-
-    subgraph Workflows["GitHub Actions"]
-        enforce[enforce.yml<br/>Every 6h]
-        catalog[catalog.yml<br/>Daily 8AM]
-        checkpoint[checkpoint.yml<br/>Weekly]
-    end
-
-    subgraph Scanner["Scanner"]
-        scan[Scan organizations/**]
-        validate[Validate .meta/repo.yaml]
-    end
-
-    subgraph Output["Output Artifacts"]
-        enforcement[enforcement-reports/*.json]
-        catalogjson[catalog.json]
-        drift[drift-report.md]
-        checkpoints[checkpoints/*.json]
-    end
-
-    schedule --> enforce
-    schedule --> catalog
-    schedule --> checkpoint
-    push --> enforce
-    push --> catalog
-    manual --> enforce
-
-    enforce --> scan --> validate --> enforcement
-    catalog --> scan --> catalogjson
-    checkpoint --> scan --> drift
-    checkpoint --> checkpoints
-
-    style enforce fill:#EF4444,color:#fff
-    style catalog fill:#3B82F6,color:#fff
-    style checkpoint fill:#8B5CF6,color:#fff
-```
-
-## ATLAS Code Analysis Engine
+## ATLAS Analysis Flow
 
 ```mermaid
 flowchart LR
     subgraph Input["Input"]
-        code[Source Code]
-        config[Config]
+        Source[Source Code]
+        Config[atlas.config.yaml]
     end
 
-    subgraph Analysis["tools/atlas/"]
-        cli[cli/index.ts]
-        analyzer[analysis/analyzer.ts]
-        ast[analysis/ast-parser.ts]
-        complexity[analysis/complexity.ts]
-        chaos[analysis/chaos-calculator.ts]
+    subgraph Analysis["Analysis"]
+        Router[Task Router]
+        Analyzer[Code Analyzer]
+        Optimizer[Continuous Optimizer]
     end
 
-    subgraph Core["Core"]
-        kilo[core/kilo-integration.ts]
-        bridge[core/kilo-bridge.ts]
+    subgraph Validation["Validation"]
+        Governance[Governance Check]
+        CircuitBreaker[Circuit Breaker]
+        Fallback[Fallback Manager]
     end
 
     subgraph Output["Output"]
-        metrics[Complexity Metrics]
-        dashboard[Dashboard]
-        report[Analysis Report]
+        Report[Analysis Report]
+        Dashboard[Metrics Dashboard]
+        Fix[Auto-Fix Suggestions]
     end
 
-    code --> cli --> analyzer
-    config --> cli
+    Source --> Router
+    Config --> Router
+    Router --> Analyzer
+    Analyzer --> Optimizer
 
-    analyzer --> ast --> complexity --> metrics
-    analyzer --> chaos --> metrics
-    analyzer --> kilo
+    Optimizer --> Governance
+    Governance --> CircuitBreaker
+    CircuitBreaker --> Fallback
 
-    metrics --> dashboard
-    metrics --> report
+    Fallback --> Report
+    Fallback --> Dashboard
+    Fallback --> Fix
 
-    style analyzer fill:#6366F1,color:#fff
-    style kilo fill:#10B981,color:#fff
+    style Router fill:#6366F1,color:#fff
+    style Optimizer fill:#10B981,color:#fff
+    style Governance fill:#F59E0B,color:#fff
 ```
 
-## Enforcement Stack
+## Governance Layer
 
 ```mermaid
 flowchart TB
-    subgraph L4["Layer 4: GitHub"]
-        branch[Branch Protection]
-        checks[Required Checks]
-        reviews[Required Reviews]
+    subgraph Policies["Policy Enforcement"]
+        RootStructure[root-structure.yaml]
+        ProtectedFiles[protected-files.yaml]
+        NamingConvention[naming-convention.yaml]
     end
 
-    subgraph L3["Layer 3: CI/CD"]
-        workflows[Reusable Workflows]
-        security[Security Scanning]
-        quality[Code Quality Gates]
+    subgraph Validation["Validation"]
+        PreTask[Pre-Task Check]
+        PostTask[Post-Task Check]
+        FileCheck[File Path Check]
     end
 
-    subgraph L2["Layer 2: Local"]
-        precommit[Pre-commit Hooks]
-        lintstaged[Lint-staged]
-        protected[Protected Files Check]
+    subgraph Actions["GitHub Actions"]
+        CI[ci.yml]
+        Enforce[enforce.yml]
+        Catalog[catalog.yml]
     end
 
-    subgraph L1["Layer 1: AI"]
-        claude[CLAUDE.md]
-        cursor[.cursorrules]
-        kilo[.kilorc]
-    end
+    Policies --> Validation
+    Validation --> Actions
 
-    L1 --> L2 --> L3 --> L4
+    RootStructure --> PreTask
+    ProtectedFiles --> FileCheck
+    PreTask --> CI
+    PostTask --> Enforce
+    FileCheck --> Catalog
 
-    style L4 fill:#EF4444,color:#fff
-    style L3 fill:#F59E0B,color:#fff
-    style L2 fill:#3B82F6,color:#fff
-    style L1 fill:#10B981,color:#fff
+    style Policies fill:#EF4444,color:#fff
+    style Validation fill:#F59E0B,color:#fff
+    style Actions fill:#3B82F6,color:#fff
 ```
-
-## File Dependencies
-
-```mermaid
-flowchart TD
-    subgraph Entry["Entry Points"]
-        pkg[package.json]
-        devopsts[tools/cli/devops.ts]
-        govpy[tools/cli/governance.py]
-    end
-
-    subgraph Libs["Shared Libraries"]
-        configts[tools/lib/config.ts]
-        fsts[tools/lib/fs.ts]
-        checkpointpy[tools/lib/checkpoint.py]
-    end
-
-    subgraph Templates["Template Sources"]
-        tmpl[templates/devops/**]
-        manifest[template.json]
-    end
-
-    subgraph Hub["Central Hub"]
-        metahub[.metaHub/]
-        catalog[catalog/]
-        checkpoints[checkpoints/]
-    end
-
-    pkg --> devopsts
-    pkg --> govpy
-
-    devopsts --> configts
-    devopsts --> fsts
-    devopsts --> tmpl
-
-    govpy --> checkpointpy
-
-    fsts --> manifest
-    fsts --> metahub
-
-    govpy --> catalog
-    govpy --> checkpoints
-
-    style pkg fill:#6366F1,color:#fff
-    style metahub fill:#10B981,color:#fff
-```
-
-## Consumer Repository Integration
-
-```mermaid
-flowchart LR
-    subgraph Meta["Meta-Governance Repo"]
-        workflows[Reusable Workflows]
-        templates[Templates]
-        policies[Policies]
-    end
-
-    subgraph Consumer["Consumer Repos"]
-        repo1[Project A]
-        repo2[Project B]
-        repo3[Project C]
-    end
-
-    subgraph Usage["Integration Methods"]
-        uses[uses: owner/repo/.github/workflows/]
-        cli[npx @owner/cli init]
-        extends[extends: policies/]
-    end
-
-    Meta --> uses --> Consumer
-    Meta --> cli --> Consumer
-    Meta --> extends --> Consumer
-
-    style Meta fill:#6366F1,color:#fff
-    style Consumer fill:#10B981,color:#fff
-```
-
----
 
 ## Quick Reference
 
-| Component      | Path                                                  | Purpose               |
-| -------------- | ----------------------------------------------------- | --------------------- |
-| DevOps CLI     | [tools/cli/devops.ts](../tools/cli/devops.ts)         | Template management   |
-| Governance CLI | [tools/cli/governance.py](../tools/cli/governance.py) | Policy enforcement    |
-| ATLAS          | [tools/atlas/](../tools/atlas/)                       | Code analysis         |
-| Templates      | [templates/devops/](../templates/devops/)             | Golden path templates |
-| Workflows      | [.github/workflows/](../.github/workflows/)           | CI/CD automation      |
-| Policies       | [.metaHub/policies/](../.metaHub/policies/)           | Governance rules      |
-| Catalog        | [.metaHub/catalog/](../.metaHub/catalog/)             | Portfolio inventory   |
+| Component      | Path                                                                                        | Purpose                  |
+| -------------- | ------------------------------------------------------------------------------------------- | ------------------------ |
+| ATLAS CLI      | [tools/atlas/cli/](../tools/atlas/cli/)                                                     | Main command interface   |
+| DevOps Agents  | [tools/atlas/orchestration/devops-agents.ts](../tools/atlas/orchestration/devops-agents.ts) | 20 specialized agents    |
+| AI Integration | [tools/ai/](../tools/ai/)                                                                   | MCP servers & AI routing |
+| Governance     | [.metaHub/policies/](../.metaHub/policies/)                                                 | Policy definitions       |
+| Workflows      | [.github/workflows/](../.github/workflows/)                                                 | CI/CD automation         |
+| Tests          | [tests/](../tests/)                                                                         | Unit & integration tests |
+
+## Key Files
+
+```text
+CLAUDE.md                    # AI assistant instructions
+package.json                 # npm scripts & dependencies
+tsconfig.json                # TypeScript configuration
+eslint.config.js             # ESLint v9 flat config
+vitest.config.ts             # Test runner config
+.metaHub/policies/*.yaml     # Governance policies
+tools/atlas/cli/commands.ts  # CLI command registry
+```
+
+## CLI Commands
+
+```bash
+# ATLAS Commands
+npm run atlas -- agents       # List DevOps agents
+npm run atlas -- workflows    # List available workflows
+npm run atlas -- run <name>   # Execute a workflow
+npm run atlas -- devops ci    # Run CI/CD pipeline
+
+# Development
+npm run lint                  # Run ESLint
+npm test                      # Run Vitest tests
+npm run build                 # Build TypeScript
+```
 
 ---
 
-_Generated from codebase analysis. View on GitHub for interactive diagrams._
-
-## Codebase Statistics
-
-| Metric              | Count |
-| ------------------- | ----- |
-| Templates           | 17    |
-| Workflows           | 23    |
-| Template Categories | 8     |
-
-_Auto-generated on 2025-11-30_
+Auto-generated: 2025-12-02 | Structure v3.0

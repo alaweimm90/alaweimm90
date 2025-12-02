@@ -7,7 +7,6 @@
  * against KILO policies.
  */
 
-import { execSync } from 'child_process';
 import { readFileSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 

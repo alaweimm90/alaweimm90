@@ -160,7 +160,6 @@ jobs:
             "tools/devops"
             "tools/atlas"
             "automation"
-            "automation-ts"
             "tests"
             "src"
             ".metaHub/scripts"

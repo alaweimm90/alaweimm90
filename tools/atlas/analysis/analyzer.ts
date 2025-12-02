@@ -1,6 +1,6 @@
 // ATLAS Repository Analyzer - AST parsing and complexity metrics
 
-import {
+import type {
   RepositoryMetrics,
   CodeAnalysis,
   FunctionInfo,
@@ -9,4 +9,16 @@ import {
   CodeIssue,
 } from '../types/index';
 
-export class RepositoryAnalyzer {}
+// Stub class - types preserved for future implementation
+export class RepositoryAnalyzer {
+  // Types are imported for interface documentation
+
+  private _types:
+    | RepositoryMetrics
+    | CodeAnalysis
+    | FunctionInfo
+    | ClassInfo
+    | ImportInfo
+    | CodeIssue
+    | undefined;
+}

@@ -16,7 +16,7 @@ function main() {
     const orgPath = path.join(root, t);
     if (fs.existsSync(orgPath)) fixOrg(orgPath, ['website', 'portal', 'app']);
   }
-  // eslint-disable-next-line no-console
+
   console.log('Org directories ensured for business portfolio');
 }
 

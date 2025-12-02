@@ -533,19 +533,21 @@ function main(): void {
       break;
 
     case 'tree':
-      console.log('\n🌳 Tree View Data:\n');
-      const tree = getTreeViewData();
-      for (const item of tree) {
-        console.log(`  ${item.label} - ${item.description}`);
-        if (item.children) {
-          for (const child of item.children.slice(0, 3)) {
-            console.log(`    └─ ${child.label}: ${child.description}`);
+      {
+        console.log('\n🌳 Tree View Data:\n');
+        const tree = getTreeViewData();
+        for (const item of tree) {
+          console.log(`  ${item.label} - ${item.description}`);
+          if (item.children) {
+            for (const child of item.children.slice(0, 3)) {
+              console.log(`    └─ ${child.label}: ${child.description}`);
+            }
+            if (item.children.length > 3) {
+              console.log(`    └─ ... and ${item.children.length - 3} more`);
+            }
           }
-          if (item.children.length > 3) {
-            console.log(`    └─ ... and ${item.children.length - 3} more`);
-          }
+          console.log();
         }
-        console.log();
       }
       break;
 

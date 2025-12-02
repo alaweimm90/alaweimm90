@@ -7,8 +7,9 @@
 import { Command } from 'commander';
 import { cliContext, output, progress, errorHandler, format } from '../utils.js';
 import { RepositoryAnalyzer } from '../../analysis/analyzer.js';
-import { AtlasKiloBridge, ComplianceCheck } from '../../integrations/atlas-kilo-bridge.js';
-import { KiloAtlasBridge } from '../../integrations/kilo-bridge.js';
+// Bridge integrations - reserved for future KILO-validated operations
+// import { AtlasKiloBridge, ComplianceCheck } from '../../integrations/atlas-kilo-bridge.js';
+// import { KiloAtlasBridge } from '../../integrations/kilo-bridge.js';
 
 export function registerAnalyzeCommands(program: Command): void {
   const analyzeCmd = program.command('analyze').description('Repository analysis commands');
@@ -28,7 +29,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Analyzing repository...');
 
         try {
-          const services = await cliContext.getServices();
+          const _services = await cliContext.getServices();
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.analyzeRepository(path, {
@@ -66,7 +67,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Analyzing complexity...');
 
         try {
-          const services = await cliContext.getServices();
+          const _services = await cliContext.getServices();
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.analyzeComplexity(path, {
@@ -92,7 +93,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Analyzing chaos...');
 
         try {
-          const services = await cliContext.getServices();
+          const _services = await cliContext.getServices();
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.analyzeChaos(path);
@@ -115,7 +116,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Quick scanning...');
 
         try {
-          const services = await cliContext.getServices();
+          const _services = await cliContext.getServices();
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.quickScan(path);

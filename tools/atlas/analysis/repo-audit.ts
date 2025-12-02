@@ -38,7 +38,7 @@ function scanTsFunctions(file: string): FunctionStat[] {
   const text = fs.readFileSync(file, 'utf8');
   const lines = text.split(/\r?\n/);
   const stats: FunctionStat[] = [];
-  let stack: Array<{ name: string; start: number; brace: number }> = [];
+  const stack: Array<{ name: string; start: number; brace: number }> = [];
   lines.forEach((line, i) => {
     const m =
       line.match(/function\s+(\w+)\s*\(/) || line.match(/(const|export\s+const)\s+(\w+)\s*=\s*\(/);
@@ -107,7 +107,7 @@ function main() {
   const outDir = path.join(root, '.atlas', 'reports');
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(path.join(outDir, 'refactor-audit.json'), JSON.stringify(report, null, 2));
-  // eslint-disable-next-line no-console
+
   console.log(`Audit written to ${path.join(outDir, 'refactor-audit.json')}`);
 }
 

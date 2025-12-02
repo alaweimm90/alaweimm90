@@ -47,7 +47,7 @@ describe('AI Monitor Module', () => {
     });
 
     it('should open after threshold failures', () => {
-      let state: CircuitBreakerState = {
+      const state: CircuitBreakerState = {
         state: 'closed',
         failures: 0,
         lastFailure: null,
@@ -85,7 +85,7 @@ describe('AI Monitor Module', () => {
 
     it('should transition to half-open after timeout', () => {
       const openedAt = new Date(Date.now() - 70000).toISOString(); // 70 seconds ago
-      let state: CircuitBreakerState = {
+      const state: CircuitBreakerState = {
         state: 'open',
         failures: 3,
         lastFailure: null,
@@ -102,7 +102,7 @@ describe('AI Monitor Module', () => {
     });
 
     it('should close on success in half-open state', () => {
-      let state: CircuitBreakerState = {
+      const state: CircuitBreakerState = {
         state: 'half-open',
         failures: 3,
         lastFailure: null,
@@ -123,7 +123,7 @@ describe('AI Monitor Module', () => {
     });
 
     it('should reopen on failure in half-open state', () => {
-      let state: CircuitBreakerState = {
+      const state: CircuitBreakerState = {
         state: 'half-open',
         failures: 3,
         lastFailure: null,

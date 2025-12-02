@@ -114,17 +114,8 @@ allowed_directories:
     - name: "automation"
       purpose: "Unified automation system (Python agents, workflows, orchestration)"
 
-  # Enterprise & Infrastructure
-  enterprise:
-    - name: "enterprise"
-      purpose: "Enterprise features (analytics, BI, marketplace, security)"
-    - name: "infrastructure"
-      purpose: "Consolidated deployment configs (Docker, K8s templates, monitoring)"
-
   # Supporting Directories
   supporting:
-    - name: "ecosystem"
-      purpose: "API integrations, SDKs, CI/CD templates, IDE plugins"
     - name: "demo"
       purpose: "Demo dashboards, scenarios, test repos, examples"
 

@@ -2,12 +2,7 @@ import { Command } from 'commander';
 import { loadWorkflow, planWorkflow } from '../../orchestration/workflows.js';
 import { executeWorkflow } from '../../orchestration/executor.js';
 import chalk from 'chalk';
-import { output, getDefaultStyle, NO_COLOR } from '../utils.js';
-
-function envStyle(defaultStyle: string): string {
-  const s = process.env.ATLAS_OUTPUT_STYLE;
-  return s ? s : defaultStyle;
-}
+import { output, getDefaultStyle } from '../utils.js';
 
 const NO_COLOR = Boolean(process.env.NO_COLOR);
 const cyan = (s: string) => (NO_COLOR ? s : chalk.cyan(s));
@@ -28,7 +23,6 @@ export function registerWorkflowCommands(program: Command): void {
       const plan = planWorkflow(def, undefined, (opts as any).team);
       const style = (opts as any).style || getDefaultStyle();
       if (style === 'json') {
-        // eslint-disable-next-line no-console
         console.log(
           JSON.stringify(
             plan.steps.map((s) => ({
@@ -66,7 +60,6 @@ export function registerWorkflowCommands(program: Command): void {
       });
       const style = (opts as any).style || getDefaultStyle();
       if (style === 'json') {
-        // eslint-disable-next-line no-console
         console.log(JSON.stringify(results, null, 2));
         return;
       }
