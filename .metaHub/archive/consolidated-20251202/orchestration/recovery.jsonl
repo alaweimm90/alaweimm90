@@ -1,0 +1,2 @@
+{"attempt_id": "e034c101", "timestamp": "2025-11-27T20:13:22.596686", "error_category": "transient", "action_taken": "retry_same_tool", "success": true, "tool": "cline", "workflow": "test-workflow", "details": {"error_message": "timeout connecting to API"}}
+{"attempt_id": "970b9f57", "timestamp": "2025-11-27T20:32:57.727501", "error_category": "transient", "action_taken": "retry_same_tool", "success": true, "tool": null, "workflow": "test-workflow", "details": {"error_message": "timeout connecting to API"}}

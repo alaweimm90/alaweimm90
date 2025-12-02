@@ -1,0 +1,31 @@
+{
+  "checkpoint_id": "98ddad6b",
+  "workflow_name": "test-workflow",
+  "correlation_id": "a3a22149-290b-4897-8ac2-c658f926f682",
+  "created_at": "2025-11-27T20:12:55.785481",
+  "status": "created",
+  "current_tool": "claude_code",
+  "sequence_number": 1,
+  "context": {
+    "task_description": "Testing orchestration system",
+    "relevant_files": [
+      ".ai/settings.yaml"
+    ],
+    "prior_decisions": [],
+    "constraints": [],
+    "success_criteria": [],
+    "codebase_context": {}
+  },
+  "tool_invocations": [],
+  "rollback_instructions": "",
+  "parent_checkpoint_id": null,
+  "checksum": "ad95101efac4a7b8a5370e819c39cd71fb5217266ae7ba04b67ebddd6e230b7a",
+  "file_snapshots": [
+    {
+      "path": ".ai/settings.yaml",
+      "hash": "b34f4e709cf9a300",
+      "snapshot_file": ".metaHub\\orchestration\\snapshots\\98ddad6b\\.ai_settings.yaml.snapshot",
+      "size_bytes": 7627
+    }
+  ]
+}

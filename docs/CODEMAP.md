@@ -1,6 +1,6 @@
 # Repository Codemap
 
-> Simplified architecture after consolidation (v3.0 - Dec 2025)
+> Simplified architecture after consolidation (v3.1 - Dec 2025)
 
 ## Directory Structure
 

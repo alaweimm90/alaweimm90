@@ -1,0 +1,6 @@
+replicaCount: 2
+image:
+  repository: ghcr.io/random
+  tag: latest
+service:
+  port: 80

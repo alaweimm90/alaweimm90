@@ -30,9 +30,126 @@ import yaml
 
 # Import shared types to avoid circular imports
 from workflow_types import WorkflowContext, TaskResult, TaskStatus, ParallelTask, TaskPriority
-from executor import WorkflowExecutor as BaseWorkflowExecutor, _load_yaml
+from executor import WorkflowExecutor as BaseWorkflowExecutor
 
 AUTOMATION_PATH = Path(__file__).parent
+
+
+class BackgroundProcessManager:
+    """Manages long-running background processes like watch modes."""
+
+    def __init__(self):
+        self.processes: Dict[str, subprocess.Popen] = {}
+        self.process_status: Dict[str, Dict[str, Any]] = {}
+
+    def start_process(self, process_id: str, command: str, cwd: str = None) -> bool:
+        """Start a background process with improved security and output handling."""
+        try:
+            # Security: Validate and sanitize command
+            if not self._validate_command(command):
+                raise ValueError(f"Command validation failed: {command}")
+
+            # Use shlex for safer command parsing instead of shell=True
+            import shlex
+            command_parts = shlex.split(command)
+
+            # Start process with proper output handling for watch processes
+            # Use subprocess.DEVNULL for watch processes to prevent buffer overflow
+            process = subprocess.Popen(
+                command_parts,
+                cwd=cwd,
+                stdout=subprocess.DEVNULL,  # Prevent buffer issues for long-running processes
+                stderr=subprocess.DEVNULL,
+                text=False
+            )
+
+            self.processes[process_id] = process
+            self.process_status[process_id] = {
+                "started": datetime.now(),
+                "command": command,
+                "status": "running",
+                "pid": process.pid
+            }
+
+            return True
+        except Exception as e:
+            print(f"Failed to start process {process_id}: {e}")
+            return False
+
+    def _validate_command(self, command: str) -> bool:
+        """Basic command validation for security."""
+        # Block dangerous commands and characters
+        dangerous_patterns = [
+            'rm -rf', 'sudo', 'su', 'chmod 777', 'chown',
+            'wget', 'curl', 'nc', 'netcat', '&&', '||', ';',
+            '$(', '`', '>', '>>', '<'
+        ]
+
+        command_lower = command.lower()
+        for pattern in dangerous_patterns:
+            if pattern in command_lower:
+                return False
+
+        # Allow only specific safe commands for watch mode
+        allowed_commands = ['npx', 'nodemon', 'sphinx-build', 'jest', 'tsc', 'vite', 'eslint']
+        if not any(command.startswith(cmd) for cmd in allowed_commands):
+            return False
+
+        return True
+
+    def stop_process(self, process_id: str) -> bool:
+        """Stop a background process."""
+        if process_id in self.processes:
+            try:
+                process = self.processes[process_id]
+                process.terminate()
+                process.wait(timeout=5)
+                self.process_status[process_id]["status"] = "stopped"
+                return True
+            except subprocess.TimeoutExpired:
+                process.kill()
+                self.process_status[process_id]["status"] = "killed"
+                return True
+            except Exception as e:
+                print(f"Failed to stop process {process_id}: {e}")
+                return False
+        return False
+
+    def stop_all_processes(self):
+        """Stop all background processes."""
+        for process_id in list(self.processes.keys()):
+            self.stop_process(process_id)
+
+    def get_process_status(self, process_id: str) -> Optional[Dict[str, Any]]:
+        """Get status of a specific process."""
+        if process_id in self.process_status:
+            status = self.process_status[process_id].copy()
+            if process_id in self.processes:
+                process = self.processes[process_id]
+                if process.poll() is not None:
+                    status["status"] = "completed"
+                    status["return_code"] = process.returncode
+            return status
+        return None
+
+    def health_check(self) -> Dict[str, Any]:
+        """Check health of all managed processes."""
+        healthy = []
+        unhealthy = []
+
+        for process_id, process in self.processes.items():
+            if process.poll() is None:
+                healthy.append(process_id)
+            else:
+                unhealthy.append(process_id)
+
+        return {
+            "total_processes": len(self.processes),
+            "healthy": len(healthy),
+            "unhealthy": len(unhealthy),
+            "healthy_processes": healthy,
+            "unhealthy_processes": unhealthy
+        }
 
 
 @dataclass
@@ -215,6 +332,7 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
         super().__init__(agent_handler)
         self.resource_monitor = ResourceMonitor()
         self.task_queue = AsyncTaskQueue(max_workers)
+        self.background_manager = BackgroundProcessManager()  # Add background process manager
         self.max_workers = max_workers
         self._parallel_handlers = self._init_parallel_handlers()
         self._handlers_registered = False
@@ -254,6 +372,11 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
             "testing": self._handle_testing,
             "deployment": self._handle_deployment,
             "code_review": self._handle_code_review,
+            "shell_command": self._handle_shell_command,  # Generic handler for tool types
+            "linter": self._handle_shell_command,        # Map linter to shell command
+            "static_analyzer": self._handle_shell_command,  # Map static analyzer to shell command
+            "test_runner": self._handle_shell_command,   # Map test runner to shell command
+            "file_system": self._handle_shell_command,   # Map file system to shell command
         }
 
     def start_parallel_services(self):
@@ -265,6 +388,7 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
         """Stop parallel execution services."""
         self.resource_monitor.stop_monitoring()
         self.task_queue.stop()
+        self.background_manager.stop_all_processes()  # Clean up background processes
 
     def execute_workflow_parallel(
         self,
@@ -546,6 +670,103 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
                 duration_ms=duration_ms
             )
 
+        except Exception as e:
+            duration_ms = int((time.time() - start_time) * 1000)
+            return TaskResult(
+                task_id=task.task_id,
+                status=TaskStatus.FAILED,
+                error=str(e),
+                duration_ms=duration_ms
+            )
+
+    def _handle_shell_command(self, task: ParallelTask) -> TaskResult:
+        """Handle shell command execution for various tool types."""
+        start_time = time.time()
+
+        try:
+            stage = task.stage
+            command = stage.get("command", "")
+            timeout_minutes = stage.get("timeout_minutes", 5)
+            tool_type = stage.get("tools", ["shell_command"])[0]
+
+            if not command:
+                raise ValueError("No command specified for shell command task")
+
+            # Handle infinite timeout (watch mode) with background process manager
+            if timeout_minutes == 0:
+                process_id = f"{task.task_id}_{tool_type}"
+                success = self.background_manager.start_process(
+                    process_id,
+                    command,
+                    cwd="."
+                )
+
+                if success:
+                    duration_ms = int((time.time() - start_time) * 1000)
+                    return TaskResult(
+                        task_id=task.task_id,
+                        status=TaskStatus.COMPLETED,
+                        output={
+                            "process_id": process_id,
+                            "command": command,
+                            "mode": "background_watch",
+                            "tool_type": tool_type,
+                            "message": f"Background process started with PID: {self.background_manager.processes[process_id].pid}"
+                        },
+                        duration_ms=duration_ms
+                    )
+                else:
+                    raise RuntimeError("Failed to start background process")
+
+            # Handle regular commands with timeout
+            timeout_seconds = timeout_minutes * 60
+            result = subprocess.run(
+                command,
+                shell=True,
+                cwd=".",
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds
+            )
+
+            duration_ms = int((time.time() - start_time) * 1000)
+
+            if result.returncode == 0:
+                return TaskResult(
+                    task_id=task.task_id,
+                    status=TaskStatus.COMPLETED,
+                    output={
+                        "command": command,
+                        "tool_type": tool_type,
+                        "stdout": result.stdout,
+                        "stderr": result.stderr,
+                        "return_code": result.returncode
+                    },
+                    duration_ms=duration_ms
+                )
+            else:
+                return TaskResult(
+                    task_id=task.task_id,
+                    status=TaskStatus.FAILED,
+                    error=f"Command failed with return code {result.returncode}: {result.stderr}",
+                    output={
+                        "command": command,
+                        "tool_type": tool_type,
+                        "stdout": result.stdout,
+                        "stderr": result.stderr,
+                        "return_code": result.returncode
+                    },
+                    duration_ms=duration_ms
+                )
+
+        except subprocess.TimeoutExpired:
+            duration_ms = int((time.time() - start_time) * 1000)
+            return TaskResult(
+                task_id=task.task_id,
+                status=TaskStatus.FAILED,
+                error=f"Command timed out after {timeout_minutes} minutes",
+                duration_ms=duration_ms
+            )
         except Exception as e:
             duration_ms = int((time.time() - start_time) * 1000)
             return TaskResult(

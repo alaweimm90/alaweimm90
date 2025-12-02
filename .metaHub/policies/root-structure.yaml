@@ -2,9 +2,9 @@
 # Defines what files and directories are allowed at the repository root level
 # Enforced by structure_validator.py and GitHub Actions
 
-version: "3.0"
-last_updated: "2025-12-01"
-updated_by: "repository-simplification-consolidation"
+version: "3.1"
+last_updated: "2025-12-02"
+updated_by: "governance-gap-resolution"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL FILES
@@ -101,13 +101,9 @@ allowed_directories:
     - name: "tests"
       purpose: "Governance system unit tests (Python and TypeScript)"
     - name: "tools"
-      purpose: "Unified toolkit - AI orchestration, governance, DevOps, security"
+      purpose: "Unified toolkit - AI orchestration, governance, DevOps, security (includes bin/, scripts/)"
     - name: "src"
-      purpose: "Service implementations and core business logic"
-    - name: "templates"
-      purpose: "DevOps template library (CI/CD, K8s, Helm, monitoring)"
-    - name: "bin"
-      purpose: "Executable CLI entry points"
+      purpose: "Service implementations and core business logic (placeholder for future services)"
 
   # Automation Systems
   automation:

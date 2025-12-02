@@ -1,0 +1,17 @@
+{
+  "checkpoints": [
+    {
+      "id": "98ddad6b",
+      "workflow": "test-workflow",
+      "correlation_id": "a3a22149-290b-4897-8ac2-c658f926f682",
+      "created_at": "2025-11-27T20:12:55.785481",
+      "tool": "claude_code",
+      "sequence": 1
+    }
+  ],
+  "workflows": {
+    "test-workflow": [
+      "98ddad6b"
+    ]
+  }
+}

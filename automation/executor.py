@@ -75,7 +75,7 @@ class WorkflowContext:
         })
 
 
-def _load_yaml(file_path: Path) -> Dict[str, Any]:
+def load_yaml_file(file_path: Path) -> Dict[str, Any]:
     """Load a YAML file."""
     with open(file_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f) or {}
@@ -101,7 +101,7 @@ class WorkflowExecutor:
         """Load workflow definitions."""
         workflows_file = AUTOMATION_PATH / "workflows" / "config" / "workflows.yaml"
         if workflows_file.exists():
-            config = _load_yaml(workflows_file)
+            config = load_yaml_file(workflows_file)
             return config.get("workflows", {})
         return {}
 
@@ -109,7 +109,7 @@ class WorkflowExecutor:
         """Load agent definitions."""
         agents_file = AUTOMATION_PATH / "agents" / "config" / "agents.yaml"
         if agents_file.exists():
-            config = _load_yaml(agents_file)
+            config = load_yaml_file(agents_file)
             return config.get("agents", {})
         return {}
 
@@ -330,7 +330,7 @@ class TaskRouter:
         """Load orchestration config."""
         config_file = AUTOMATION_PATH / "orchestration" / "config" / "orchestration.yaml"
         if config_file.exists():
-            return _load_yaml(config_file)
+            return load_yaml_file(config_file)
         return {}
 
     def route(self, task_description: str) -> Dict[str, Any]:

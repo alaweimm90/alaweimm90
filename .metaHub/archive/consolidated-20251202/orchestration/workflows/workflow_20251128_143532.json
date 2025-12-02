@@ -1,0 +1,69 @@
+{
+  "workflow_id": "workflow_20251128_143532",
+  "status": "success",
+  "stages": {
+    "analysis": {
+      "problem": "Validate system integration",
+      "decomposition": [
+        "1. Analyze current state and requirements",
+        "2. Design architecture and approach",
+        "3. Implement solution with version control",
+        "4. Test implementation thoroughly",
+        "5. Deploy to infrastructure",
+        "6. Monitor and validate"
+      ],
+      "critical_points": [
+        "Ensure Git tracking for all changes",
+        "Run Playwright tests before deployment",
+        "Validate Terraform plan before apply",
+        "Monitor with Prometheus post-deployment"
+      ],
+      "risk_assessment": "low"
+    },
+    "git_state": {
+      "branch": "main",
+      "modified_files": 1,
+      "recent_commits": [
+        "2682a49 docs: add Opus integration superprompt and update governance artifacts",
+        "17756cd fix(devops): add missing template categories and TypeScript CI jobs",
+        "dbd48d2 feat(devops): implement DevOps template library and CLI from Trae collaboration",
+        "72aba75 feat(tooling): add production-ready automation and comprehensive gap analysis",
+        "88d94be feat(devops): complete 100% security coverage with Semgrep + tooling enhancements"
+      ],
+      "has_uncommitted_changes": true
+    },
+    "tests": {
+      "test_type": "smoke",
+      "total_tests": 0,
+      "passed": 0,
+      "failed": 0,
+      "skipped": 0,
+      "duration_ms": 0,
+      "status": "no_tests_configured"
+    },
+    "infrastructure": {
+      "workspace": "default",
+      "changes": {
+        "add": 0,
+        "change": 0,
+        "destroy": 0
+      },
+      "status": "no_changes",
+      "plan_file": null
+    },
+    "deployment": {
+      "namespace": "default",
+      "deployments": [],
+      "services": [],
+      "status": "no_manifests"
+    },
+    "monitoring": {
+      "duration_minutes": 5,
+      "metrics_collected": [],
+      "alerts_triggered": [],
+      "health_status": "not_configured"
+    }
+  },
+  "steps_completed": 12,
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "name": "random-demo-service",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/index.js",
+    "dev": "tsx src/index.ts"
+  }
+}
