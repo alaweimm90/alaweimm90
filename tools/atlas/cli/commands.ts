@@ -7,6 +7,7 @@ import { registerDashboardCommands } from './commands/dashboard.js';
 import { registerAiCommands } from '../integrations/ai.js';
 import { registerWorkflowCommands } from './commands/workflow.js';
 import { registerTeamCommands } from './commands/team.js';
+import { registerDevOpsCommands } from './commands/devops.js';
 
 /**
  * Register all ATLAS CLI commands
@@ -25,6 +26,9 @@ export function registerCommands(program: Command): void {
   // Agentic workflows and teams
   registerWorkflowCommands(program);
   registerTeamCommands(program);
+
+  // DevOps agents and workflows
+  registerDevOpsCommands(program);
 }
 
 /**
