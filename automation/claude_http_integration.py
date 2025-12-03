@@ -307,31 +307,17 @@ class ClaudeHTTPDebateCoordinator:
         print(f"\n🔄 Conducting HTTP AI Debate Rounds...")
 
         # Round 1: Initial arguments
-        round1 = DebateRound(
-            round_number=1,
-            topic=topic,
-            arguments=initial_arguments,
-            consensus_score=self._calculate_consensus_score(initial_arguments)
-        )
+        round1 = self._create_debate_round(1, topic, initial_arguments)
         self.debates[debate_id].append(round1)
-
-        print(f"   Round 1: {len(initial_arguments)} arguments generated")
-        print(f"   Consensus Score: {round1.consensus_score:.2f}")
+        self._log_round_summary("Round 1", round1)
 
         # Round 2: Simple refinement (demo)
         await asyncio.sleep(0.3)
         refined_arguments = self._generate_refinements(initial_arguments)
 
-        round2 = DebateRound(
-            round_number=2,
-            topic=topic,
-            arguments=refined_arguments,
-            consensus_score=self._calculate_consensus_score(refined_arguments)
-        )
+        round2 = self._create_debate_round(2, topic, refined_arguments)
         self.debates[debate_id].append(round2)
-
-        print(f"   Round 2: Refined arguments generated")
-        print(f"   Consensus Score: {round2.consensus_score:.2f}")
+        self._log_round_summary("Round 2: Refined arguments", round2)
 
     def _generate_refinements(self, arguments: List[DebateArgument]) -> List[DebateArgument]:
         """Generate refined arguments."""
@@ -350,6 +336,27 @@ class ClaudeHTTPDebateCoordinator:
 
         return refinements
 
+    def _create_debate_round(
+        self,
+        round_number: int,
+        topic: str,
+        arguments: List[DebateArgument],
+    ) -> DebateRound:
+        """Create a DebateRound with calculated consensus score."""
+
+        return DebateRound(
+            round_number=round_number,
+            topic=topic,
+            arguments=arguments,
+            consensus_score=self._calculate_consensus_score(arguments),
+        )
+
+    def _log_round_summary(self, label: str, debate_round: DebateRound) -> None:
+        """Log a short summary for a debate round."""
+
+        print(f"   {label}: {len(debate_round.arguments)} arguments generated")
+        print(f"   Consensus Score: {debate_round.consensus_score:.2f}")
+
     def _calculate_consensus_score(self, arguments: List[DebateArgument]) -> float:
         """Calculate consensus score."""
         if not arguments:
@@ -367,13 +374,27 @@ class ClaudeHTTPDebateCoordinator:
                                   arguments: List[DebateArgument]) -> str:
         """Synthesize consensus."""
 
-        # Create argument summary
-        argument_summary = "\n".join([
-            f"**{arg.persona.value.title()}** (Confidence: {arg.confidence:.2f}): {arg.argument[:150]}..."
-            for arg in arguments
-        ])
+        # Create argument summary (currently unused in output but retained for context)
+        argument_summary = self._build_argument_summary(arguments)
 
-        consensus = f"""
+        consensus = self._build_consensus_text(topic, arguments)
+        return consensus
+
+    def _build_argument_summary(self, arguments: List[DebateArgument]) -> str:
+        """Build a human-readable summary of arguments."""
+
+        return "\n".join(
+            [
+                f"**{arg.persona.value.title()}** (Confidence: {arg.confidence:.2f}): "
+                f"{arg.argument[:150]}..."
+                for arg in arguments
+            ]
+        )
+
+    def _build_consensus_text(self, topic: str, arguments: List[DebateArgument]) -> str:
+        """Build the multi-line consensus text block."""
+
+        return f"""
 🤖 CLAUDE HTTP AI SYNTHESIS FOR: {topic}
 
 After HTTP API-powered multi-agent analysis:
@@ -407,8 +428,6 @@ Proceed with {topic} while implementing:
 ⚡ **Processing**: Parallel argument generation + Cross-perspective synthesis
 🎯 **Confidence**: Balanced consensus from diverse AI viewpoints
         """.strip()
-
-        return consensus
 
 
 # Demonstration
