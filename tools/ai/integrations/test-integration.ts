@@ -9,8 +9,18 @@
 // TODO: Import when modules are available
 // import { AITools } from './src/core/ai-tools.js';
 // import { ATLASIntegration } from './src/core/atlas-integration.js';
-type AITools = any; // Placeholder type
-type ATLASIntegration = any; // Placeholder type
+
+// Placeholder classes until modules are available
+class AITools {
+  constructor() {}
+  async validateAll() { return { success: true, results: [] }; }
+}
+
+class ATLASIntegration {
+  constructor() {}
+  async connect() { return true; }
+  async getAgents() { return []; }
+}
 
 async function testIntegration() {
   console.log('🧪 Testing AI Tools Suite Integration...\n');

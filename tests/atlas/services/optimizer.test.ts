@@ -202,7 +202,7 @@ describe('Optimizer Features', () => {
       const events = telemetry.getEvents();
       expect(events.length).toBe(1000);
       // Should keep the most recent events
-      expect((events[0] as { index: number }).index).toBe(5);
+      expect((events[0] as unknown as { index: number }).index).toBe(5);
     });
   });
 

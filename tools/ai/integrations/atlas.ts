@@ -7,7 +7,13 @@
 
 // TODO: Import when atlas-integration module is available
 // import { ATLASIntegration } from '../src/core/atlas-integration.js';
-type ATLASIntegration = any; // Placeholder type
+
+// Placeholder class until module is available
+class ATLASIntegration {
+  constructor(public config: any) {}
+  async getHealth() { return { status: 'healthy' }; }
+  async getAgents() { return []; }
+}
 
 export interface ATLASIntegrationConfig {
   url?: string;

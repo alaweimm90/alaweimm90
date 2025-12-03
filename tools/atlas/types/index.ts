@@ -288,3 +288,86 @@ export interface FileChangeDTO {
   size?: number;
   linesChanged?: number;
 }
+
+// ============================================================================
+// Code Analysis Types
+// ============================================================================
+
+/**
+ * Repository metrics for code analysis
+ */
+export interface RepositoryMetrics {
+  totalFiles: number;
+  totalLines: number;
+  totalFunctions: number;
+  totalClasses: number;
+  averageComplexity: number;
+  testCoverage?: number;
+  duplicateCodePercentage?: number;
+}
+
+/**
+ * Code analysis results
+ */
+export interface CodeAnalysis {
+  repository: string;
+  timestamp: Date;
+  metrics: RepositoryMetrics;
+  functions: FunctionInfo[];
+  classes: ClassInfo[];
+  imports: ImportInfo[];
+  issues: CodeIssue[];
+}
+
+/**
+ * Function information from code analysis
+ */
+export interface FunctionInfo {
+  name: string;
+  file: string;
+  line: number;
+  complexity: number;
+  parameters: number;
+  linesOfCode: number;
+  isAsync: boolean;
+  isExported: boolean;
+}
+
+/**
+ * Class information from code analysis
+ */
+export interface ClassInfo {
+  name: string;
+  file: string;
+  line: number;
+  methods: number;
+  properties: number;
+  linesOfCode: number;
+  isAbstract: boolean;
+  isExported: boolean;
+}
+
+/**
+ * Import information from code analysis
+ */
+export interface ImportInfo {
+  file: string;
+  importPath: string;
+  isRelative: boolean;
+  isTypeOnly: boolean;
+  namedImports?: string[];
+  defaultImport?: string;
+}
+
+/**
+ * Code issue found during analysis
+ */
+export interface CodeIssue {
+  type: 'error' | 'warning' | 'info';
+  category: 'complexity' | 'duplication' | 'style' | 'security' | 'performance';
+  file: string;
+  line: number;
+  message: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  suggestion?: string;
+}

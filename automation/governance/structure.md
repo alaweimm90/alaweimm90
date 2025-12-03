@@ -71,3 +71,51 @@ This document is descriptive, not yet enforced. Physical moves can be staged to 
 - Python and TypeScript code SHOULD read from these policies, with safe defaults when the files are missing.
 
 This keeps governance transparent and makes it easier for CI, MCP agents, and humans to reason about system behavior.
+
+## 5. Technical debt governance & gates
+
+- **Scanner & planner**
+  - `technical_debt_remediation.py` discovers debt items and produces an in-memory assessment.
+  - `debt_cli.py scan` runs the scanner and exports:
+    - Human markdown: `debt_scan.md`.
+    - Machine JSON: `debt_scan.json` (the `assessment` block is consumed by gates and agents).
+- **Gate**
+  - `debt_gate.py` reads `debt_scan.json` or `remediation_summary.json` and applies policies from `governance/policies/technical_debt.yaml`.
+  - Environments:
+    - `default`: relaxed thresholds for local/dev use.
+    - `ci`: stricter high-severity ratio for continuous integration.
+    - `prod_release`: strict cap on both ratio and total item count.
+- **Security scanning**
+  - `technical_debt_remediation.py` loads patterns and excludes from `governance/policies/security_scanning.yaml`.
+  - Demo/example content should be marked with the configured markers (for example `# Example only`) so scanners can treat them more leniently.
+
+## 6. CI / automation usage (examples)
+
+- **Baseline CI step (quality report only)**
+
+  ```bash
+  python debt_cli.py scan --path . --json debt_scan.json
+  python debt_gate.py --scan debt_scan.json --env default
+  ```
+
+- **CI enforcement (fail the pipeline on policy violation)**
+
+  ```bash
+  python debt_cli.py scan --path . --json debt_scan.json
+  python debt_gate.py --scan debt_scan.json --env ci
+  ```
+
+- **Release gating**
+
+  ```bash
+  python debt_cli.py scan --path . --json debt_scan.json
+  python debt_gate.py --scan debt_scan.json --env prod_release
+  ```
+
+- **Remediation workflows**
+  - Use `debt_cli.py remediate --hours 8 --json remediation_summary.json` (or similar) to run a remediation workflow.
+  - Then gate with:
+
+    ```bash
+    python debt_gate.py --remediation remediation_summary.json --env ci
+    ```
