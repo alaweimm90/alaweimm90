@@ -24,7 +24,7 @@
 export * from './types/index.js';
 
 // Agent Registry
-export { agentRegistry, AgentRegistry } from './agents/registry.js';
+export { agentRegistry } from './agents/registry.js';
 export type { Agent } from './agents/registry.js';
 
 // Orchestration
@@ -38,7 +38,6 @@ export {
   reviewCode,
   explainCode,
   chat,
-  getAdapter,
   getAdapterStatuses,
 } from './adapters/index.js';
 export { BaseAdapter } from './adapters/base.js';
