@@ -20,7 +20,38 @@ permissions:
   contents: write
 
 jobs:
+  technical-debt-release:
+    name: Technical Debt Gate (Release)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies for technical-debt tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pyyaml || true
+
+      - name: Run technical-debt scan
+        working-directory: automation
+        run: |
+          python debt_cli.py scan --path . --json debt_scan.json
+
+      - name: Apply prod_release technical-debt gate
+        working-directory: automation
+        run: |
+          python debt_gate.py --scan debt_scan.json --env prod_release
+
   release:
+    needs: technical-debt-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

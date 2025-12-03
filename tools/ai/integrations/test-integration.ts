@@ -12,14 +12,30 @@
 
 // Placeholder classes until modules are available
 class AITools {
-  constructor() {}
-  async validateAll() { return { success: true, results: [] }; }
+  test: any = () => 'test';
+  docs: any = () => 'docs';
+  review: any = () => 'review';
+  arch: any = () => 'arch';
+  perf: any = () => 'perf';
+  security: any = () => 'security';
+
+  constructor(_config?: any) {}
+  async validateAll() {
+    return { success: true, results: [] };
+  }
+  async health() {
+    return { success: true };
+  }
 }
 
 class ATLASIntegration {
   constructor() {}
-  async connect() { return true; }
-  async getAgents() { return []; }
+  async connect() {
+    return true;
+  }
+  async getAgents() {
+    return [];
+  }
 }
 
 async function testIntegration() {
