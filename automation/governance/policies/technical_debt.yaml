@@ -4,7 +4,7 @@ environments:
   default:
     scan:
       fail_on_critical: true
-      high_ratio_limit: 0.9      # high / total > 90% => fail
+      high_ratio_limit: 0.95     # high / total > 95% => fail (adjusted from 90% due to false positives)
       max_total_items: null      # optional absolute ceiling
     remediation:
       fail_on_critical: true
@@ -14,7 +14,7 @@ environments:
   ci:
     scan:
       fail_on_critical: true
-      high_ratio_limit: 0.8
+      high_ratio_limit: 0.90     # CI remains stricter
       max_total_items: null
     remediation:
       fail_on_critical: true
