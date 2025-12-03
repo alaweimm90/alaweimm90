@@ -194,7 +194,12 @@ class TechnicalDebtScanner:
 
                 lines = content.split('\n')
                 for i, line in enumerate(lines, 1):
-                    # Check for complex functions
+                    stripped = line.lstrip()
+                    # Skip empty lines, comments, and docstring delimiters
+                    if not stripped or stripped.startswith(('#', '"""', "'''")):
+                        continue
+
+                    # Check for complex functions (long lines)
                     if len(line) > 120:
                         items.append(TechnicalDebtItem(
                             id=f"complex_line_{uuid.uuid4().hex[:8]}",
@@ -210,8 +215,13 @@ class TechnicalDebtScanner:
                             metadata={"line_length": len(line)}
                         ))
 
-                    # Check for nested complexity
-                    if line.count(' ') > 20 or line.count('\t') > 4:
+                    # Check for nested complexity based on indentation depth rather than raw spaces
+                    leading_spaces = len(line) - len(line.lstrip(' '))
+                    leading_tabs = len(line) - len(line.lstrip('\t'))
+                    # Approximate indentation depth: treat a tab as 4 spaces
+                    indent_score = leading_spaces + (leading_tabs * 4)
+
+                    if indent_score >= 16:  # ~4 or more indentation levels
                         items.append(TechnicalDebtItem(
                             id=f"nested_complex_{uuid.uuid4().hex[:8]}",
                             type=DebtType.CODE_COMPLEXITY,
@@ -223,7 +233,7 @@ class TechnicalDebtScanner:
                             business_impact="Difficult to understand and maintain",
                             remediation_suggestion="Extract nested logic into separate functions",
                             discovered_at=time.time(),
-                            metadata={"indentation_level": line.count(' ') // 4}
+                            metadata={"indentation_level": indent_score // 4}
                         ))
 
             except Exception as e:

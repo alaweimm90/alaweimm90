@@ -1,11 +1,11 @@
 # Technical Debt Remediation Plan
 
-Generated: 2025-12-03 08:23:45
+Generated: 2025-12-03 08:52:39
 Total Tickets: 10
 
 ## High Priority
 
-### DEBT-45F7A6B6: Refactor Complex Code: Deeply nested code detected
+### DEBT-B4F665F5: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
@@ -90,16 +90,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-1E45CE7C: Refactor Complex Code: Deeply nested code detected
+### DEBT-3B75AF89: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 71
+**Line:** 137
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:71
+**Location:** claude_http_integration.py:137
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -175,16 +175,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-243ADB8A: Refactor Complex Code: Deeply nested code detected
+### DEBT-6996CEDD: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 72
+**Line:** 138
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:72
+**Location:** claude_http_integration.py:138
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -260,16 +260,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-2B9423DE: Refactor Complex Code: Deeply nested code detected
+### DEBT-56322613: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 73
+**Line:** 139
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:73
+**Location:** claude_http_integration.py:139
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -345,16 +345,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-9795CC73: Refactor Complex Code: Deeply nested code detected
+### DEBT-A992B2BD: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 75
+**Line:** 140
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:75
+**Location:** claude_http_integration.py:140
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -430,16 +430,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-9D9BA086: Refactor Complex Code: Deeply nested code detected
+### DEBT-DB848FAC: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 76
+**Line:** 141
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:76
+**Location:** claude_http_integration.py:141
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -515,16 +515,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-2BA03DA9: Refactor Complex Code: Deeply nested code detected
+### DEBT-86CA858B: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 79
+**Line:** 142
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:79
+**Location:** claude_http_integration.py:142
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -600,16 +600,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-6F9A2497: Refactor Complex Code: Deeply nested code detected
+### DEBT-9896F50F: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 83
+**Line:** 146
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:83
+**Location:** claude_http_integration.py:146
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -685,16 +685,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-6102A8F8: Refactor Complex Code: Deeply nested code detected
+### DEBT-AF5D17B9: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 84
+**Line:** 147
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:84
+**Location:** claude_http_integration.py:147
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -770,16 +770,16 @@ def has_write_permission(item, settings):
 
 ---
 
-### DEBT-A4855205: Refactor Complex Code: Deeply nested code detected
+### DEBT-45824D5E: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 87
+**Line:** 148
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:87
+**Location:** claude_http_integration.py:148
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
