@@ -673,8 +673,8 @@ class DeploymentService:
                     response = requests.get(health_url, timeout=5)
                     if response.status_code == 200:
                         return "healthy"
-                except:
-                    pass
+                except (requests.RequestException, OSError):
+                    pass  # Health check failed, will retry
 
             await asyncio.sleep(2)
 

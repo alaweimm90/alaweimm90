@@ -1,0 +1,229 @@
+# =============================================================================
+# PROMPT SELECTOR ENGINE v1.0
+# Intelligent selection and composition of superprompts based on task analysis
+# =============================================================================
+
+metadata:
+  version: "1.0.0"
+  created: "2025-12-02"
+  purpose: "Route tasks to appropriate superprompts and compose guidance"
+
+# =============================================================================
+# TASK CLASSIFICATION
+# =============================================================================
+
+task_classification:
+  # Intent extraction from user queries
+  intent_patterns:
+    security:
+      keywords: ["security", "vulnerability", "hack", "exploit", "secret", "password", "auth", "encrypt"]
+      weight: 1.0
+      prompts: ["security-auditor"]
+
+    architecture:
+      keywords: ["design", "architect", "scale", "pattern", "structure", "system", "microservice"]
+      weight: 0.9
+      prompts: ["architect"]
+
+    quality:
+      keywords: ["refactor", "cleanup", "lint", "quality", "debt", "smell", "improve"]
+      weight: 0.8
+      prompts: ["codebase-sentinel"]
+
+    governance:
+      keywords: ["policy", "governance", "compliance", "audit", "validate", "check"]
+      weight: 0.8
+      prompts: ["codebase-sentinel", "security-auditor"]
+
+    documentation:
+      keywords: ["document", "readme", "docs", "explain", "comment", "describe"]
+      weight: 0.7
+      prompts: ["codebase-sentinel"]
+
+    debugging:
+      keywords: ["bug", "fix", "error", "broken", "failing", "issue", "problem"]
+      weight: 0.7
+      prompts: ["codebase-sentinel"]
+
+    implementation:
+      keywords: ["implement", "build", "create", "develop", "code", "feature"]
+      weight: 0.6
+      prompts: ["architect", "codebase-sentinel"]
+
+# =============================================================================
+# SCORING ALGORITHM
+# =============================================================================
+
+scoring:
+  algorithm: "weighted_keyword_match"
+
+  formula: |
+    score = sum(
+      keyword_matches[prompt] * intent_weight[intent] * recency_boost
+    ) / normalization_factor
+
+  thresholds:
+    primary_selection: 0.6    # Use prompt if score >= 0.6
+    secondary_inclusion: 0.3  # Include in composition if score >= 0.3
+    minimum_match: 0.1        # Ignore if score < 0.1
+
+  boosts:
+    explicit_request: 2.0     # User explicitly asked for this type
+    recent_success: 1.2       # This prompt succeeded recently
+    domain_match: 1.5         # Task domain matches prompt specialty
+
+  penalties:
+    recent_failure: 0.7       # This prompt failed recently
+    overuse: 0.9              # Avoid over-relying on one prompt
+
+# =============================================================================
+# COMPOSITION RULES
+# =============================================================================
+
+composition:
+  # How to combine multiple prompts
+  strategies:
+    sequential:
+      description: "Apply prompts in order, each building on previous"
+      when: "Tasks with clear phases (analyze -> design -> implement)"
+      example: ["codebase-sentinel.OBSERVE", "architect.design", "codebase-sentinel.VALIDATE"]
+
+    parallel:
+      description: "Apply prompts simultaneously, merge findings"
+      when: "Independent concerns that can be evaluated together"
+      example: ["security-auditor.scan", "codebase-sentinel.lint"]
+
+    hierarchical:
+      description: "Use one prompt as primary, others as advisors"
+      when: "Clear primary concern with secondary considerations"
+      example:
+        primary: "architect"
+        advisors: ["security-auditor", "codebase-sentinel"]
+
+  # Conflict resolution when prompts disagree
+  conflict_resolution:
+    priority_order:
+      - "security"      # Security concerns always win
+      - "correctness"   # Then correctness
+      - "maintainability"
+      - "performance"
+      - "convenience"
+
+    merge_strategy: |
+      1. Identify conflicting recommendations
+      2. Apply priority order to resolve
+      3. Document the trade-off made
+      4. Flag for human review if stakes are high
+
+# =============================================================================
+# CONTEXT EXTRACTION
+# =============================================================================
+
+context_extraction:
+  from_query:
+    - "file_paths_mentioned"
+    - "technology_stack"
+    - "urgency_indicators"
+    - "scope_indicators"
+
+  from_codebase:
+    - "primary_language"
+    - "framework_used"
+    - "existing_patterns"
+    - "recent_changes"
+
+  from_history:
+    - "similar_past_tasks"
+    - "prompt_effectiveness"
+    - "user_preferences"
+
+# =============================================================================
+# SELECTION LOGIC (Pseudocode)
+# =============================================================================
+
+selection_logic: |
+  function select_prompts(task: Task, context: Context) -> PromptSet {
+    // Step 1: Extract intent
+    intent = extract_intent(task.query)
+
+    // Step 2: Score each prompt
+    scores = {}
+    for prompt in available_prompts:
+      base_score = calculate_keyword_match(task.query, prompt.triggers)
+      boosted_score = apply_boosts(base_score, context, prompt)
+      penalized_score = apply_penalties(boosted_score, history, prompt)
+      scores[prompt] = penalized_score
+
+    // Step 3: Select prompts above threshold
+    primary = max(scores)
+    secondary = filter(scores, score >= SECONDARY_THRESHOLD)
+
+    // Step 4: Determine composition strategy
+    if has_clear_phases(task):
+      strategy = "sequential"
+    elif concerns_are_independent(primary, secondary):
+      strategy = "parallel"
+    else:
+      strategy = "hierarchical"
+
+    // Step 5: Compose and return
+    return PromptSet(
+      primary: primary,
+      secondary: secondary,
+      strategy: strategy,
+      composition: compose(primary, secondary, strategy)
+    )
+  }
+
+# =============================================================================
+# API
+# =============================================================================
+
+api:
+  select:
+    input:
+      query: "string - user's task description"
+      context: "object - optional context override"
+    output:
+      prompts: "array - selected prompt IDs"
+      composition: "string - composed guidance"
+      confidence: "float - selection confidence"
+      reasoning: "string - why these prompts were selected"
+
+  evaluate:
+    input:
+      task_id: "string - completed task ID"
+      outcome: "enum - success | partial | failure"
+      feedback: "string - optional feedback"
+    output:
+      recorded: "boolean"
+      adjustments: "object - any scoring adjustments made"
+
+# =============================================================================
+# EXAMPLES
+# =============================================================================
+
+examples:
+  - query: "Audit this codebase for security issues and code quality"
+    selected:
+      - "security-auditor"
+      - "codebase-sentinel"
+    strategy: "parallel"
+    confidence: 0.92
+    reasoning: "Keywords 'audit', 'security', 'code quality' strongly match both prompts"
+
+  - query: "Design a new microservice architecture for user authentication"
+    selected:
+      - "architect"
+      - "security-auditor"
+    strategy: "hierarchical"
+    confidence: 0.88
+    reasoning: "Primary architecture task with security as critical advisor"
+
+  - query: "Fix this bug in the payment processing"
+    selected:
+      - "codebase-sentinel"
+      - "security-auditor"
+    strategy: "sequential"
+    confidence: 0.75
+    reasoning: "Debugging task with security consideration due to 'payment'"

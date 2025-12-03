@@ -126,15 +126,15 @@ class BuildTestCoordinator:
             try:
                 process.terminate()
                 process.wait(timeout=5)
-            except:
-                process.kill()
+            except (subprocess.TimeoutExpired, OSError, ProcessLookupError):
+                process.kill()  # Force kill if graceful termination fails
 
         for process in self.active_tests.values():
             try:
                 process.terminate()
                 process.wait(timeout=5)
-            except:
-                process.kill()
+            except (subprocess.TimeoutExpired, OSError, ProcessLookupError):
+                process.kill()  # Force kill if graceful termination fails
 
     async def build_parallel(
         self,

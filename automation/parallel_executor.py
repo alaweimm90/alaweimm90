@@ -210,15 +210,15 @@ class ResourceMonitor:
         try:
             disk_io = psutil.disk_io_counters()
             disk_io_percent = min((disk_io.read_bytes + disk_io.write_bytes) / (1024 * 1024 * 100), 100.0)  # Normalize to 100MB/s
-        except:
-            disk_io_percent = 0.0
+        except (AttributeError, RuntimeError, OSError):
+            disk_io_percent = 0.0  # Disk I/O counters unavailable on some systems
 
         # Network I/O
         try:
             net_io = psutil.net_io_counters()
             network_io_active = (net_io.bytes_sent + net_io.bytes_recv) > 1024
-        except:
-            network_io_active = False
+        except (AttributeError, RuntimeError, OSError):
+            network_io_active = False  # Network I/O counters unavailable on some systems
 
         return ResourceMetrics(
             cpu_percent=cpu_percent,
