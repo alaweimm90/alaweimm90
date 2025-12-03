@@ -1,4 +1,4 @@
-import { loadWorkflow, planWorkflow } from '../orchestration/workflows.js';
+import { loadWorkflow, planWorkflow } from '@atlas/orchestration/workflows.js';
 import chalk from 'chalk';
 
 function getArg(name: string): string | undefined {

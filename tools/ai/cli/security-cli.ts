@@ -5,7 +5,7 @@
  */
 
 import * as fs from 'fs';
-import { SecurityScanner, SecurityReport, SECURITY_REPORT_FILE } from '../security.js';
+import { SecurityScanner, SecurityReport, SECURITY_REPORT_FILE } from '@ai/security.js';
 
 function displayReport(report: SecurityReport): void {
   const gradeColors: Record<string, string> = {

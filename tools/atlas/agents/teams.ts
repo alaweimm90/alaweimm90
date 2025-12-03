@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { ensureDir, loadJson, saveJson } from '@ai/utils/file-persistence.js';
-import { AgentCapability } from '../types/index.js';
+import { AgentCapability } from '@atlas/types/index.js';
 
 export interface AgentTeam {
   id: string;

@@ -11,8 +11,8 @@ import {
   OrchestrationConfig,
   Agent,
   AgentCapability,
-} from '../types/index.js';
-import { agentRegistry } from '../agents/registry.js';
+} from '@atlas/types/index.js';
+import { agentRegistry } from '@atlas/agents/registry.js';
 import { routeToDevOpsAgent, loadDevOpsAgents } from './devops-agents.js';
 
 // ============================================================================

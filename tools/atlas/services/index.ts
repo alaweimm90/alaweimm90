@@ -6,7 +6,7 @@
 import { ContinuousOptimizer } from './optimizer';
 import { RepositoryMonitor } from './monitor';
 import { DashboardService } from './dashboard';
-import { ConfigLoader, createDefaultConfig } from '../config/loader';
+import { ConfigLoader, createDefaultConfig } from '@atlas/config/loader';
 
 export interface AtlasServices {
   optimizer: ContinuousOptimizer;
@@ -281,7 +281,7 @@ export async function quickStart(): Promise<void> {
 export { ContinuousOptimizer } from './optimizer';
 export { RepositoryMonitor } from './monitor';
 export { DashboardService } from './dashboard';
-export { ConfigLoader, createDefaultConfig } from '../config/loader';
+export { ConfigLoader, createDefaultConfig } from '@atlas/config/loader';
 
 // CLI entry point
 if (require.main === module) {

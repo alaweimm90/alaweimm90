@@ -4,7 +4,7 @@
  * Command-line interface for the issue manager
  */
 
-import { issueManager, AIIssue, IssueCategory } from '../issues.js';
+import { issueManager, AIIssue, IssueCategory } from '@ai/issues.js';
 
 function displayIssues(issues: AIIssue[]): void {
   if (issues.length === 0) {

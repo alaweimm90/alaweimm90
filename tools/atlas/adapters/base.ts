@@ -3,7 +3,7 @@
  * Common interface for all LLM provider adapters
  */
 
-import { Agent, Task, TaskResult } from '../types/index.js';
+import { Agent, Task, TaskResult } from '@atlas/types/index.js';
 
 // ============================================================================
 // Message Types

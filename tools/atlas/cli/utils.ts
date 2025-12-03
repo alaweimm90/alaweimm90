@@ -2,8 +2,8 @@
  * ATLAS CLI Utils - Helper functions and utilities for CLI operations
  */
 
-import { AtlasServices, initializeAtlasServices } from '../services/index.js';
-import { ConfigLoader } from '../config/loader.js';
+import { AtlasServices, initializeAtlasServices } from '@atlas/services/index.js';
+import { ConfigLoader } from '@atlas/config/loader.js';
 import ora from 'ora';
 import chalk from 'chalk';
 

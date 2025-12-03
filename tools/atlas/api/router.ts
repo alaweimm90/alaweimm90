@@ -4,9 +4,9 @@
  */
 
 import { APIRequest, APIResponse } from './server.js';
-import { agentRegistry } from '../agents/registry.js';
-import { createRouter } from '../orchestration/router.js';
-import { fallbackManager } from '../orchestration/fallback.js';
+import { agentRegistry } from '@atlas/agents/registry.js';
+import { createRouter } from '@atlas/orchestration/router.js';
+import { fallbackManager } from '@atlas/orchestration/fallback.js';
 import {
   executeTask,
   generateCode,
@@ -14,8 +14,8 @@ import {
   explainCode,
   chat,
   getAdapterStatuses,
-} from '../adapters/index.js';
-import { Task, TaskType, TaskPriority } from '../types/index.js';
+} from '@atlas/adapters/index.js';
+import { Task, TaskType, TaskPriority } from '@atlas/types/index.js';
 import {
   createJWT,
   verifyCredentials,

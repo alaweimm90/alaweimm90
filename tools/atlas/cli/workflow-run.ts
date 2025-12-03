@@ -1,5 +1,5 @@
-import { loadWorkflow } from '../orchestration/workflows.js';
-import { executeWorkflow } from '../orchestration/executor.js';
+import { loadWorkflow } from '@atlas/orchestration/workflows.js';
+import { executeWorkflow } from '@atlas/orchestration/executor.js';
 import chalk from 'chalk';
 
 function getArg(name: string): string | undefined {

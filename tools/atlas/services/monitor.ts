@@ -3,7 +3,7 @@
  * Continuous monitoring of repositories for changes and optimization triggers
  */
 
-import { RepositoryAnalyzer } from '../analysis/analyzer';
+import { RepositoryAnalyzer } from '@atlas/analysis/analyzer';
 import { ContinuousOptimizer } from './optimizer';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';

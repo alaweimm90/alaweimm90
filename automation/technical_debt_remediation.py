@@ -193,7 +193,17 @@ class TechnicalDebtScanner:
                     content = f.read()
 
                 lines = content.split('\n')
+                in_multiline_string = False
                 for i, line in enumerate(lines, 1):
+                    if '"""' in line or "'''" in line:
+                        quote_counts = line.count('"""') + line.count("'''")
+                        if quote_counts % 2 == 1:
+                            in_multiline_string = not in_multiline_string
+                        continue
+
+                    if in_multiline_string:
+                        continue
+
                     stripped = line.lstrip()
                     # Skip empty lines, comments, and docstring delimiters
                     if not stripped or stripped.startswith(('#', '"""', "'''")):

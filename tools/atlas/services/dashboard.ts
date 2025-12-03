@@ -5,7 +5,7 @@
 
 import { ContinuousOptimizer } from './optimizer';
 import { RepositoryMonitor } from './monitor';
-import { DashboardWidget, TelemetryEventDTO } from '../types/index';
+import { DashboardWidget, TelemetryEventDTO } from '@atlas/types/index';
 import { EventEmitter } from 'events';
 import * as WebSocket from 'ws';
 import * as http from 'http';

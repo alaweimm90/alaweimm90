@@ -3,7 +3,7 @@
  * Adapter for GPT models via the OpenAI API
  */
 
-import { Agent } from '../types/index.js';
+import { Agent } from '@atlas/types/index.js';
 import { BaseAdapter, CompletionRequest, CompletionResponse, Message } from './base.js';
 
 // ============================================================================

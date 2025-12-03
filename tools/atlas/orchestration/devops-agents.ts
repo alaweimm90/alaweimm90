@@ -6,7 +6,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
-import { Task, TaskType, RoutingDecision, TaskResult } from '../types/index.js';
+import { Task, TaskType, RoutingDecision, TaskResult } from '@atlas/types/index.js';
 import { allowRequest, recordFailure, recordSuccess } from './circuit-breaker.js';
 
 // ============================================================================

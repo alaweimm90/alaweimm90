@@ -58,4 +58,4 @@ export type {
   RoutingDecision,
   RoutingStrategy,
   OrchestrationConfig,
-} from '../types/index.js';
+} from '@atlas/types/index.js';

@@ -7,10 +7,10 @@ import {
   TaskType,
   OrchestrationConfig,
   AgentCapability,
-} from '../types/index.js';
+} from '@atlas/types/index.js';
 import { createRouter } from './router.js';
-import { agentRegistry } from '../agents/registry.js';
-import { teamRegistry } from '../agents/teams.js';
+import { agentRegistry } from '@atlas/agents/registry.js';
+import { teamRegistry } from '@atlas/agents/teams.js';
 
 export interface WorkflowStep {
   id: string;

@@ -16,7 +16,7 @@ import {
   INCIDENT_RESPONSE,
   type DevOpsWorkflow,
 } from '@atlas/orchestration/devops-agents.js';
-import { output, getDefaultStyle } from '../utils.js';
+import { output, getDefaultStyle } from '@atlas/cli/utils.js';
 
 const NO_COLOR = Boolean(process.env.NO_COLOR);
 const cyan = (s: string): string => (NO_COLOR ? s : chalk.cyan(s));

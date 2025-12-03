@@ -13,7 +13,7 @@ import { Command } from 'commander';
 import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
-import { resolveTargetDir, parsePlaceholders } from '../lib/config.js';
+import { resolveTargetDir, parsePlaceholders } from '@lib/config.js';
 import {
   ensureDir,
   findManifests,
@@ -22,7 +22,7 @@ import {
   writeTemplateMeta,
   validateTemplate,
   type TemplateManifest,
-} from '../lib/fs.js';
+} from '@lib/fs.js';
 
 const TEMPLATES_DIR = path.join(process.cwd(), 'templates', 'devops');
 

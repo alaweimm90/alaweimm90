@@ -11,7 +11,7 @@ import {
   AgentStatus,
   AgentConfig,
   AgentMetrics,
-} from '../types/index.js';
+} from '@atlas/types/index.js';
 import { loadJson, saveJson, ensureDir } from '@ai/utils/file-persistence.js';
 
 const ROOT = process.cwd();

@@ -3,11 +3,11 @@
  * Main orchestration service for automated repository monitoring and improvement
  */
 
-import { RepositoryAnalyzer } from '../analysis/analyzer';
-import { RefactoringEngine } from '../refactoring/engine';
-import { TaskRouter } from '../orchestration/router';
-import { agentRegistry } from '../agents/registry';
-import { OptimizationPlan, OptimizationSuggestion } from '../types/index';
+import { RepositoryAnalyzer } from '@atlas/analysis/analyzer';
+import { RefactoringEngine } from '@atlas/refactoring/engine';
+import { TaskRouter } from '@atlas/orchestration/router';
+import { agentRegistry } from '@atlas/agents/registry';
+import { OptimizationPlan, OptimizationSuggestion } from '@atlas/types/index';
 import { EventEmitter } from 'events';
 import * as fs from 'fs';
 import * as path from 'path';

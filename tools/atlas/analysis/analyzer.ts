@@ -7,7 +7,7 @@ import type {
   ClassInfo,
   ImportInfo,
   CodeIssue,
-} from '../types/index';
+} from '@atlas/types/index';
 
 // Stub class - types preserved for future implementation
 export class RepositoryAnalyzer {

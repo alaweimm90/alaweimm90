@@ -4,7 +4,7 @@ import { Command } from 'commander';
 import { registerAnalyzeCommands } from './commands/analyze.js';
 import { registerTemplateCommands } from './commands/template.js';
 import { registerDashboardCommands } from './commands/dashboard.js';
-import { registerAiCommands } from '../integrations/ai.js';
+import { registerAiCommands } from '@atlas/integrations/ai.js';
 import { registerWorkflowCommands } from './commands/workflow.js';
 import { registerTeamCommands } from './commands/team.js';
 import { registerDevOpsCommands } from './commands/devops.js';

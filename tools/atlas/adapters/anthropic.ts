@@ -3,7 +3,7 @@
  * Adapter for Claude models via the Anthropic API
  */
 
-import { Agent } from '../types/index.js';
+import { Agent } from '@atlas/types/index.js';
 import { BaseAdapter, CompletionRequest, CompletionResponse, Message } from './base.js';
 
 // ============================================================================

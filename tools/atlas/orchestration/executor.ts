@@ -1,6 +1,6 @@
 import { WorkflowDef, planWorkflow } from './workflows.js';
-import { OrchestrationConfig, TaskResult } from '../types/index.js';
-import { agentRegistry } from '../agents/registry.js';
+import { OrchestrationConfig, TaskResult } from '@atlas/types/index.js';
+import { agentRegistry } from '@atlas/agents/registry.js';
 import { allowRequest, recordFailure, recordSuccess } from './circuit-breaker.js';
 import { executeAction, executeCommand } from './adapters.js';
 import * as fs from 'fs';

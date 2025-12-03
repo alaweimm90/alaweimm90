@@ -3,10 +3,10 @@
  * Unified executor that connects agents to their adapters
  */
 
-import { Agent, Task, TaskResult, AgentProvider } from '../types/index.js';
-import { agentRegistry } from '../agents/registry.js';
-import { createRouter, TaskRouter } from '../orchestration/router.js';
-import { fallbackManager } from '../orchestration/fallback.js';
+import { Agent, Task, TaskResult, AgentProvider } from '@atlas/types/index.js';
+import { agentRegistry } from '@atlas/agents/registry.js';
+import { createRouter, TaskRouter } from '@atlas/orchestration/router.js';
+import { fallbackManager } from '@atlas/orchestration/fallback.js';
 import { LLMAdapter } from './base.js';
 import { createAnthropicAdapter } from './anthropic.js';
 import { createOpenAIAdapter } from './openai.js';

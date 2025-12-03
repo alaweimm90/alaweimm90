@@ -5,7 +5,7 @@
  */
 
 import { Command } from 'commander';
-import { cliContext, output, progress, errorHandler, format } from '../utils.js';
+import { cliContext, output, progress, errorHandler, format } from '@atlas/cli/utils.js';
 import { RepositoryAnalyzer } from '@atlas/analysis/analyzer.js';
 // Bridge integrations - reserved for future KILO-validated operations
 // import { AtlasKiloBridge, ComplianceCheck } from '@atlas/integrations/atlas-kilo-bridge.js';

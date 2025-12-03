@@ -4,9 +4,9 @@
  */
 
 import * as path from 'path';
-import type { CircuitState } from '../types/index.js';
-import { Task, CircuitBreakerConfig, CircuitBreakerState } from '../types/index.js';
-import { agentRegistry, Agent } from '../agents/registry.js';
+import type { CircuitState } from '@atlas/types/index.js';
+import { Task, CircuitBreakerConfig, CircuitBreakerState } from '@atlas/types/index.js';
+import { agentRegistry, Agent } from '@atlas/agents/registry.js';
 import { loadJson, saveJson, ensureDir } from '@ai/utils/file-persistence.js';
 
 const ROOT = process.cwd();

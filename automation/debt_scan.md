@@ -1,16 +1,16 @@
 # Technical Debt Remediation Plan
 
-Generated: 2025-12-03 08:52:39
+Generated: 2025-12-03 14:39:34
 Total Tickets: 10
 
 ## High Priority
 
-### DEBT-B4F665F5: Refactor Complex Code: Deeply nested code detected
+### DEBT-499C2A36: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 63
+**Line:** 63  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -24,7 +24,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -33,7 +32,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -41,11 +39,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -60,7 +56,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -85,17 +80,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-3B75AF89: Refactor Complex Code: Deeply nested code detected
+### DEBT-6FEECBBC: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 137
+**Line:** 137  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -109,7 +103,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -118,7 +111,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -126,11 +118,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -145,7 +135,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -170,17 +159,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-6996CEDD: Refactor Complex Code: Deeply nested code detected
+### DEBT-DD1302D4: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 138
+**Line:** 138  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -194,7 +182,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -203,7 +190,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -211,11 +197,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -230,7 +214,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -255,17 +238,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-56322613: Refactor Complex Code: Deeply nested code detected
+### DEBT-6E6D9A00: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 139
+**Line:** 139  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -279,7 +261,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -288,7 +269,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -296,11 +276,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -315,7 +293,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -340,17 +317,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-A992B2BD: Refactor Complex Code: Deeply nested code detected
+### DEBT-2CC4754F: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 140
+**Line:** 140  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -364,7 +340,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -373,7 +348,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -381,11 +355,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -400,7 +372,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -425,17 +396,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-DB848FAC: Refactor Complex Code: Deeply nested code detected
+### DEBT-F7D247DF: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 141
+**Line:** 141  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -449,7 +419,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -458,7 +427,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -466,11 +434,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -485,7 +451,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -510,17 +475,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-86CA858B: Refactor Complex Code: Deeply nested code detected
+### DEBT-A428F83B: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 142
+**Line:** 142  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -534,7 +498,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -543,7 +506,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -551,11 +513,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -570,7 +530,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -595,17 +554,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-9896F50F: Refactor Complex Code: Deeply nested code detected
+### DEBT-DC1C13A2: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 146
+**Line:** 146  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -619,7 +577,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -628,7 +585,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -636,11 +592,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -655,7 +609,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -680,17 +633,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-AF5D17B9: Refactor Complex Code: Deeply nested code detected
+### DEBT-5BEAE8C2: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 147
+**Line:** 147  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -704,7 +656,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -713,7 +664,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -721,11 +671,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -740,7 +688,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -765,17 +712,16 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
 
-### DEBT-45824D5E: Refactor Complex Code: Deeply nested code detected
+### DEBT-A30A85BA: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
 **File:** `claude_http_integration.py`  
-**Line:** 148
+**Line:** 148  
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
@@ -789,7 +735,6 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
-
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -798,7 +743,6 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
-
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -806,11 +750,9 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
-
 ##### Extract Complex Logic
 
 **Before:**
-
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -825,7 +767,6 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
-
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -850,7 +791,7 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-
 - `claude_http_integration.py`
 
 ---
+

@@ -1,6 +1,6 @@
 // ATLAS Automated Refactoring Engine - Safe code transformations
 
-import type { RefactoringSuggestion, CodeAnalysis } from '../types/index';
+import type { RefactoringSuggestion, CodeAnalysis } from '@atlas/types/index';
 
 // Re-export types for consumers
 export type { RefactoringSuggestion, CodeAnalysis };

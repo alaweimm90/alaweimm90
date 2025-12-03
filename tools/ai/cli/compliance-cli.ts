@@ -9,8 +9,8 @@ import {
   ComplianceReport,
   CheckContext,
   COMPLIANCE_REPORT_PATH,
-} from '../compliance.js';
-import { saveJson } from '../utils/file-persistence.js';
+} from '@ai/compliance.js';
+import { saveJson } from '@ai/utils/file-persistence.js';
 
 function displayReport(report: ComplianceReport): void {
   const gradeColors: Record<string, string> = {
