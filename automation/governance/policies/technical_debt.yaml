@@ -1,0 +1,32 @@
+# Technical debt gate policies
+
+environments:
+  default:
+    scan:
+      fail_on_critical: true
+      high_ratio_limit: 0.9      # high / total > 90% => fail
+      max_total_items: null      # optional absolute ceiling
+    remediation:
+      fail_on_critical: true
+      warn_on_zero_success: true # warn but do not fail when success_rate == 0
+      min_success_rate: 0.0      # can be tightened later
+
+  ci:
+    scan:
+      fail_on_critical: true
+      high_ratio_limit: 0.8
+      max_total_items: null
+    remediation:
+      fail_on_critical: true
+      warn_on_zero_success: true
+      min_success_rate: 0.0
+
+  prod_release:
+    scan:
+      fail_on_critical: true
+      high_ratio_limit: 0.7
+      max_total_items: 500       # example overall ceiling
+    remediation:
+      fail_on_critical: true
+      warn_on_zero_success: true
+      min_success_rate: 0.0

@@ -1,0 +1,29 @@
+# Central configuration for security-related scanning rules.
+
+languages:
+  python:
+    hardcoded_secrets:
+      - id: SEC_PWD
+        pattern: "\\bpassword\\s*=\\s*['\"][^'\"]+['\"]"
+        severity: critical
+        message: "Potential hardcoded password"
+      - id: SEC_API_KEY
+        pattern: "\\bapi_key\\s*=\\s*['\"][^'\"]+['\"]"
+        severity: critical
+        message: "Potential hardcoded API key"
+      - id: SEC_SECRET
+        pattern: "\\bsecret\\s*=\\s*['\"][^'\"]+['\"]"
+        severity: critical
+        message: "Potential hardcoded secret"
+      - id: SEC_TOKEN
+        pattern: "\\btoken\\s*=\\s*['\"][^'\"]+['\"]"
+        severity: critical
+        message: "Potential hardcoded token"
+
+excludes:
+  paths:
+    - "examples/**"
+    - "docs/**"
+  markers:
+    - "# Example only"
+    - "# DEMO ONLY"

@@ -2,33 +2,47 @@
 import os
 import subprocess
 import json
+import argparse
+import asyncio
+from pathlib import Path
 
 """
-Automation CLI - Manage prompts, agents, workflows, and orchestration for alaweimm90-business.
+Automation CLI - Manage prompts, agents, workflows, and technical debt for alaweimm90-business.
 
 Usage:
     python -m automation.cli prompts list
     python -m automation.cli agents list
     python -m automation.cli workflows run code_review --input file.py
     python -m automation.cli route "fix the authentication bug"
+    python -m automation.cli debt scan --path ./src
+    python -m automation.cli debt remediate --hours 20
     python -m automation.cli compliance audit --project BenchBarrier
 """
 
 
 
 # Base path for automation assets
+BASE_PATH = Path(__file__).parent
 
 
+def load_yaml_file(file_path):
     """Load a YAML file."""
+    with open(file_path, 'r', encoding='utf-8') as f:
+        import yaml
+        return yaml.safe_load(f)
 
 
+def load_markdown_file(file_path):
     """Load a markdown file."""
+    with open(file_path, 'r', encoding='utf-8') as f:
         return f.read()
 
 
-
+def cmd_prompts_list(args):
     """List all available prompts."""
+    prompts_path = BASE_PATH / "prompts"
 
+    categories = {
         "system": prompts_path / "system",
         "project": prompts_path / "project",
         "tasks": prompts_path / "tasks"
@@ -168,13 +182,24 @@ Usage:
     return 0
 
 
-
+def cmd_route(args):
     """Route a task to the appropriate handler."""
 
+    keywords = {
+        "prompts": ["prompt", "template", "system message"],
+        "agents": ["agent", "persona", "character"],
+        "workflows": ["workflow", "pipeline", "process"],
+        "deployment": ["deploy", "publish", "release"]
+    }
+
+    scores = {}
+    task_desc = args.task.lower()
 
     # Score each category
     for category, kws in keywords.items():
+        score = sum(1 for kw in kws if kw in task_desc)
         if score > 0:
+            scores[category] = score
 
     if not scores:
         print("Could not determine task type. Please provide more context.")
@@ -215,10 +240,6 @@ Usage:
                 print(f"    • {item}")
 
     return 0
-
-
-
-    )
 
 
     # Prompts commands

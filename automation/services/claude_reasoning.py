@@ -263,7 +263,7 @@ class ClaudeReasoningService:
             try:
                 stat = Path(file_path).stat()
                 key_data["timestamps"].append(stat.st_mtime)
-            except:
+            except OSError:
                 key_data["timestamps"].append(0)
 
         key_str = json.dumps(key_data, sort_keys=True)
@@ -347,7 +347,7 @@ class ClaudeReasoningService:
                     "content": content,
                     "language": language
                 })
-            except:
+            except (OSError, UnicodeDecodeError):
                 continue
 
         # Perform analysis based on type
@@ -412,8 +412,8 @@ class ClaudeReasoningService:
                                         "effort": "medium",
                                         "rationale": "Long functions are harder to understand and maintain"
                                     })
-                except:
-                    pass
+                except SyntaxError:
+                    pass  # Skip files with syntax errors
 
             # Look for duplicate code patterns
             duplicate_blocks = self._find_duplicate_blocks(content)
