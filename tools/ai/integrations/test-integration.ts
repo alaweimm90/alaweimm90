@@ -6,8 +6,11 @@
  * Validates that all tools can be instantiated and basic functionality works.
  */
 
-import { AITools } from './src/core/ai-tools.js';
-import { ATLASIntegration } from './src/core/atlas-integration.js';
+// TODO: Import when modules are available
+// import { AITools } from './src/core/ai-tools.js';
+// import { ATLASIntegration } from './src/core/atlas-integration.js';
+type AITools = any; // Placeholder type
+type ATLASIntegration = any; // Placeholder type
 
 async function testIntegration() {
   console.log('🧪 Testing AI Tools Suite Integration...\n');

@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { CircuitBreakerConfig, CircuitBreakerState } from '../types/index.js';
-import { ensureDir, loadJson, saveJson } from '../../ai/utils/file-persistence.js';
+import { ensureDir, loadJson, saveJson } from '@ai/utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const ATLAS_DIR = path.join(ROOT, '.atlas');

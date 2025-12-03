@@ -349,7 +349,8 @@ export function getAdapterStatuses(): AdapterStatus[] {
 // Re-exports
 // ============================================================================
 
-export { LLMAdapter, BaseAdapter, CompletionRequest, CompletionResponse } from './base.js';
+export type { LLMAdapter, CompletionRequest, CompletionResponse } from './base.js';
+export { BaseAdapter } from './base.js';
 export { AnthropicAdapter, createAnthropicAdapter } from './anthropic.js';
 export { OpenAIAdapter, createOpenAIAdapter } from './openai.js';
 export { GoogleAdapter, createGoogleAdapter } from './google.js';

@@ -1,5 +1,5 @@
 import { Command } from 'commander';
-import { teamRegistry } from '../../agents/teams.js';
+import { teamRegistry } from '@atlas/agents/teams.js';
 
 export function registerTeamCommands(program: Command): void {
   const cmd = program.command('team').description('Agent team management');

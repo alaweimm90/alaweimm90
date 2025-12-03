@@ -6,10 +6,10 @@
 
 import { Command } from 'commander';
 import { cliContext, output, progress, errorHandler, format } from '../utils.js';
-import { RepositoryAnalyzer } from '../../analysis/analyzer.js';
+import { RepositoryAnalyzer } from '@atlas/analysis/analyzer.js';
 // Bridge integrations - reserved for future KILO-validated operations
-// import { AtlasKiloBridge, ComplianceCheck } from '../../integrations/atlas-kilo-bridge.js';
-// import { KiloAtlasBridge } from '../../integrations/kilo-bridge.js';
+// import { AtlasKiloBridge, ComplianceCheck } from '@atlas/integrations/atlas-kilo-bridge.js';
+// import { KiloAtlasBridge } from '@atlas/integrations/kilo-bridge.js';
 
 export function registerAnalyzeCommands(program: Command): void {
   const analyzeCmd = program.command('analyze').description('Repository analysis commands');

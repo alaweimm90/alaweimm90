@@ -1,9 +1,14 @@
 // Unified TypeScript interfaces for consolidated automation system
 
 // Export new unified types
-export { DeploymentTarget, DeploymentConfig, ResourceRequirements, ScalingConfig, NetworkConfig, SecurityConfig } from './DeploymentTarget';
-export { PromptConfig, PromptCollection } from './PromptConfig';
-export { ExecutionContext, ExecutionStatus, Checkpoint, TelemetryData } from './ExecutionContext';
+// Export enums as values (they need to be available at runtime)
+export { DeploymentTarget } from './DeploymentTarget';
+export { ExecutionStatus } from './ExecutionContext';
+
+// Export interfaces and types as type-only exports
+export type { DeploymentConfig, ResourceRequirements, ScalingConfig, NetworkConfig, SecurityConfig } from './DeploymentTarget';
+export type { PromptConfig, PromptCollection } from './PromptConfig';
+export type { ExecutionContext, Checkpoint, TelemetryData } from './ExecutionContext';
 
 // Extended AgentTemplate interface (extends existing Agent from TypeScript system)
 export interface AgentTemplate {

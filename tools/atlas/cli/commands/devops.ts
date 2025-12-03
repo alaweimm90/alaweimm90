@@ -15,7 +15,7 @@ import {
   SECURE_RELEASE,
   INCIDENT_RESPONSE,
   type DevOpsWorkflow,
-} from '../../orchestration/devops-agents.js';
+} from '@atlas/orchestration/devops-agents.js';
 import { output, getDefaultStyle } from '../utils.js';
 
 const NO_COLOR = Boolean(process.env.NO_COLOR);

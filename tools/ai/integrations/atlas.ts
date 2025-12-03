@@ -5,7 +5,9 @@
  * AI Tools Suite and ATLAS orchestration platform.
  */
 
-import { ATLASIntegration } from '../src/core/atlas-integration.js';
+// TODO: Import when atlas-integration module is available
+// import { ATLASIntegration } from '../src/core/atlas-integration.js';
+type ATLASIntegration = any; // Placeholder type
 
 export interface ATLASIntegrationConfig {
   url?: string;
@@ -58,7 +60,7 @@ export async function validateATLASConnection(atlas: ATLASIntegration): Promise<
 export async function getAvailableAgents(atlas: ATLASIntegration) {
   try {
     const agents = await atlas.getAgents();
-    return agents.map((agent) => ({
+    return agents.map((agent: any) => ({
       id: agent.agent_id,
       name: agent.name,
       provider: agent.provider,
@@ -88,7 +90,6 @@ export async function setupATLASIntegration(config: ATLASIntegrationConfig = {})
 
   console.log(`✅ Connected to ATLAS at ${config.url || 'http://localhost:8000'}`);
   console.log(`📊 Available agents: ${agents.length}`);
-  console.log(`🤖 Agents: ${agents.map((a) => `${a.name} (${a.provider})`).join(', ')}`);
-
+  console.log(`🤖 Agents: ${agents.map((a: any) => `${a.name} (${a.provider})`).join(', ')}`);
   return { atlas, agents };
 }

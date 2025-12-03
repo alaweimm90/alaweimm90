@@ -12,7 +12,7 @@ import {
   AgentConfig,
   AgentMetrics,
 } from '../types/index.js';
-import { loadJson, saveJson, ensureDir } from '../../ai/utils/file-persistence.js';
+import { loadJson, saveJson, ensureDir } from '@ai/utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const ATLAS_DIR = path.join(ROOT, '.atlas');

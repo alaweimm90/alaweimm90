@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { ensureDir, loadJson, saveJson } from '../../ai/utils/file-persistence.js';
+import { ensureDir, loadJson, saveJson } from '@ai/utils/file-persistence.js';
 import { AgentCapability } from '../types/index.js';
 
 export interface AgentTeam {

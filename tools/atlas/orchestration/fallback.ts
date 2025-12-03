@@ -7,7 +7,7 @@ import * as path from 'path';
 import type { CircuitState } from '../types/index.js';
 import { Task, CircuitBreakerConfig, CircuitBreakerState } from '../types/index.js';
 import { agentRegistry, Agent } from '../agents/registry.js';
-import { loadJson, saveJson, ensureDir } from '../../ai/utils/file-persistence.js';
+import { loadJson, saveJson, ensureDir } from '@ai/utils/file-persistence.js';
 
 const ROOT = process.cwd();
 const ATLAS_DIR = path.join(ROOT, '.atlas');

@@ -1,6 +1,6 @@
 import { Command } from 'commander';
-import { loadWorkflow, planWorkflow } from '../../orchestration/workflows.js';
-import { executeWorkflow } from '../../orchestration/executor.js';
+import { loadWorkflow, planWorkflow } from '@atlas/orchestration/workflows.js';
+import { executeWorkflow } from '@atlas/orchestration/executor.js';
 import chalk from 'chalk';
 import { output, getDefaultStyle } from '../utils.js';
 
