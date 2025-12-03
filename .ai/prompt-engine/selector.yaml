@@ -1,12 +1,38 @@
 # =============================================================================
-# PROMPT SELECTOR ENGINE v1.0
+# PROMPT SELECTOR ENGINE v1.1
 # Intelligent selection and composition of superprompts based on task analysis
 # =============================================================================
 
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
   created: "2025-12-02"
+  updated: "2025-12-03"
   purpose: "Route tasks to appropriate superprompts and compose guidance"
+
+# =============================================================================
+# AVAILABLE SUPERPROMPTS
+# =============================================================================
+
+available_superprompts:
+  - id: codebase-sentinel
+    path: "../superprompts/codebase-sentinel.yaml"
+    specialty: "Code quality, governance, 7 Laws of Codebase Integrity"
+
+  - id: security-auditor
+    path: "../superprompts/security-auditor.yaml"
+    specialty: "OWASP Top 10, secret detection, security best practices"
+
+  - id: architect
+    path: "../superprompts/architect.yaml"
+    specialty: "System design, patterns, architectural decisions"
+
+  - id: refactoring-expert
+    path: "../superprompts/refactoring-expert.yaml"
+    specialty: "Safe refactoring, code smells, behavior-preserving changes"
+
+  - id: debugger
+    path: "../superprompts/debugger.yaml"
+    specialty: "Bug hunting, root cause analysis, scientific debugging"
 
 # =============================================================================
 # TASK CLASSIFICATION
@@ -16,37 +42,47 @@ task_classification:
   # Intent extraction from user queries
   intent_patterns:
     security:
-      keywords: ["security", "vulnerability", "hack", "exploit", "secret", "password", "auth", "encrypt"]
+      keywords: ["security", "vulnerability", "hack", "exploit", "secret", "password", "auth", "encrypt", "injection", "xss", "csrf"]
       weight: 1.0
       prompts: ["security-auditor"]
 
     architecture:
-      keywords: ["design", "architect", "scale", "pattern", "structure", "system", "microservice"]
+      keywords: ["design", "architect", "scale", "pattern", "structure", "system", "microservice", "api", "database", "schema"]
       weight: 0.9
       prompts: ["architect"]
 
+    refactoring:
+      keywords: ["refactor", "extract", "rename", "move", "inline", "simplify", "clean", "smell", "decompose"]
+      weight: 0.85
+      prompts: ["refactoring-expert"]
+
+    debugging:
+      keywords: ["bug", "debug", "error", "crash", "broken", "failing", "issue", "problem", "exception", "traceback", "stack"]
+      weight: 0.85
+      prompts: ["debugger"]
+
     quality:
-      keywords: ["refactor", "cleanup", "lint", "quality", "debt", "smell", "improve"]
+      keywords: ["quality", "lint", "debt", "improve", "cleanup", "standards", "consistency"]
       weight: 0.8
-      prompts: ["codebase-sentinel"]
+      prompts: ["codebase-sentinel", "refactoring-expert"]
 
     governance:
-      keywords: ["policy", "governance", "compliance", "audit", "validate", "check"]
+      keywords: ["policy", "governance", "compliance", "audit", "validate", "check", "enforce"]
       weight: 0.8
       prompts: ["codebase-sentinel", "security-auditor"]
 
     documentation:
-      keywords: ["document", "readme", "docs", "explain", "comment", "describe"]
+      keywords: ["document", "readme", "docs", "explain", "comment", "describe", "api-docs"]
       weight: 0.7
       prompts: ["codebase-sentinel"]
 
-    debugging:
-      keywords: ["bug", "fix", "error", "broken", "failing", "issue", "problem"]
-      weight: 0.7
-      prompts: ["codebase-sentinel"]
+    fixing:
+      keywords: ["fix", "repair", "resolve", "patch", "correct", "address"]
+      weight: 0.75
+      prompts: ["debugger", "codebase-sentinel"]
 
     implementation:
-      keywords: ["implement", "build", "create", "develop", "code", "feature"]
+      keywords: ["implement", "build", "create", "develop", "code", "feature", "add"]
       weight: 0.6
       prompts: ["architect", "codebase-sentinel"]
 
@@ -222,8 +258,38 @@ examples:
 
   - query: "Fix this bug in the payment processing"
     selected:
-      - "codebase-sentinel"
+      - "debugger"
       - "security-auditor"
     strategy: "sequential"
-    confidence: 0.75
-    reasoning: "Debugging task with security consideration due to 'payment'"
+    confidence: 0.85
+    reasoning: "Debug methodology for bug with security due to 'payment'"
+
+  - query: "Refactor this large function into smaller pieces"
+    selected:
+      - "refactoring-expert"
+    strategy: "single"
+    confidence: 0.95
+    reasoning: "Direct refactoring task - extract_function from catalog"
+
+  - query: "The app crashes when submitting the form"
+    selected:
+      - "debugger"
+      - "codebase-sentinel"
+    strategy: "sequential"
+    confidence: 0.88
+    reasoning: "Crash investigation requires debugger methodology first"
+
+  - query: "Clean up the code smells in the user service"
+    selected:
+      - "refactoring-expert"
+      - "codebase-sentinel"
+    strategy: "hierarchical"
+    confidence: 0.90
+    reasoning: "Refactoring for smells with sentinel for quality gates"
+
+  - query: "Debug why tests are failing intermittently"
+    selected:
+      - "debugger"
+    strategy: "single"
+    confidence: 0.92
+    reasoning: "Intermittent failure - classic debugging scenario (race conditions)"
