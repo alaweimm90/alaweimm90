@@ -172,7 +172,7 @@ class ClaudeAPIClient:
                 return json.loads(json_match.group())
             else:
                 return {"raw_response": response_text}
-        except:
+        except (json.JSONDecodeError, AttributeError):
             return {"raw_response": response_text}
 
 
@@ -184,8 +184,8 @@ class ConflictDetector:
         self.repo = None
         try:
             self.repo = git.Repo(self.repo_path)
-        except:
-            pass
+        except (git.InvalidGitRepositoryError, git.NoSuchPathError):
+            pass  # Not a git repo or path doesn't exist
 
     async def detect_conflicts(self, file_paths: List[str] = None) -> List[ConflictInfo]:
         """Detect conflicts in specified files or entire repo."""
@@ -268,8 +268,8 @@ class ConflictDetector:
                                 resolution_suggestion="Remove merge markers and resolve conflicts"
                             )
                             conflicts.append(conflict)
-                    except:
-                        continue
+                    except (OSError, UnicodeDecodeError):
+                        continue  # Skip files that can't be read
 
         except Exception as e:
             print(f"Error detecting merge conflicts: {e}")
@@ -314,8 +314,8 @@ class ConflictDetector:
                                             resolution_suggestion="Consider pinning to specific version"
                                         )
                                         conflicts.append(conflict)
-                    except:
-                        continue
+                    except (OSError, UnicodeDecodeError, json.JSONDecodeError, KeyError):
+                        continue  # Skip files that can't be read or parsed
 
         return conflicts
 
@@ -369,8 +369,8 @@ class ConflictDetector:
                                     conflicts.append(conflict)
                                 else:
                                     api_endpoints[endpoint_key] = endpoint_info
-                except:
-                    continue
+                except (OSError, UnicodeDecodeError):
+                    continue  # Skip files that can't be read
 
         return conflicts
 
@@ -413,8 +413,8 @@ class ConflictDetector:
                                         conflicts.append(conflict)
                                     else:
                                         config_keys[key] = {'file': file_path, 'value': value}
-                    except:
-                        continue
+                    except (OSError, UnicodeDecodeError, yaml.YAMLError, TypeError):
+                        continue  # Skip files that can't be read or parsed
 
         return conflicts
 
@@ -429,8 +429,8 @@ class ConflictDetector:
                 return await self._resolve_api_conflict(conflict)
 
             return False
-        except:
-            return False
+        except Exception:
+            return False  # Any resolution failure returns False
 
     async def _resolve_dependency_conflict(self, conflict: ConflictInfo) -> bool:
         """Resolve dependency version conflict."""
@@ -458,8 +458,8 @@ class ConflictDetector:
                 try:
                     relative_path = file_path.relative_to(self.repo_path)
                     files.append(str(relative_path))
-                except:
-                    continue
+                except ValueError:
+                    continue  # Skip paths that can't be made relative
 
         return files
 

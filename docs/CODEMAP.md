@@ -1,15 +1,20 @@
 # Repository Codemap
 
-> Simplified architecture after consolidation (v3.1 - Dec 2025)
+> Simplified architecture after consolidation (v3.2 - Dec 2025)
 
 ## Directory Structure
 
 ```text
 meta-governance/
-├── automation/          # Python automation system (agents, workflows)
+├── automation/          # Python automation system (unified)
 │   ├── agents/          # AI-powered automation agents
 │   ├── cli/             # Python CLI commands
+│   ├── core/            # Core automation utilities
+│   ├── deployment/      # Deployment configurations
 │   ├── orchestration/   # Multi-agent orchestration
+│   ├── prompts/         # AI prompt templates
+│   ├── services/        # Service integrations
+│   ├── types/           # Type definitions
 │   └── workflows/       # Automation workflow definitions
 ├── demo/                # Demos, examples, test scenarios
 ├── docs/                # Documentation (MkDocs source)
@@ -19,13 +24,20 @@ meta-governance/
 ├── tools/               # TypeScript toolkit
 │   ├── ai/              # AI orchestration & MCP integration
 │   ├── atlas/           # Code analysis & refactoring engine
+│   ├── bin/             # Binary entry points
 │   ├── cli/             # Main CLI entry points
 │   ├── devops/          # DevOps agents & templates
-│   └── scripts/         # Build & utility scripts
+│   ├── lib/             # Shared TypeScript libraries
+│   ├── scripts/         # Build & utility scripts
+│   └── security/        # Security scanning tools
 ├── .ai/                 # AI assistant configurations
+├── .allstar/            # GitHub Allstar security config
 ├── .atlas/              # ATLAS runtime state & reports
+├── .claude/             # Claude Code configuration
 ├── .github/             # GitHub Actions & workflows
+├── .husky/              # Git hooks (pre-commit)
 ├── .metaHub/            # Governance policies & catalogs
+├── .vscode/             # VS Code workspace settings
 └── .archive/            # Archived code (historical)
 ```
 
@@ -266,4 +278,4 @@ npm run build                 # Build TypeScript
 
 ---
 
-Auto-generated: 2025-12-02 | Structure v3.0
+Auto-generated: 2025-12-02 | Structure v3.2

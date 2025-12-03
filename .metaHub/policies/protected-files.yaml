@@ -1,11 +1,13 @@
-# Protected Files Policy v1.0
+# Protected Files Policy v1.1
 # Files requiring explicit permission before AI tools can modify
+# Last updated: 2025-12-02
 
 strict:
   # Never modify without explicit "update/edit [file]" request
   - README.md
   - LICENSE
   - CODEOWNERS
+  - CLAUDE.md
   - .github/CODEOWNERS
   - .github/workflows/*.yml
   - .metaHub/policies/*.yaml
@@ -15,7 +17,7 @@ conditional:
   - package.json
   - tsconfig.json
   - .gitignore
-  - .eslintrc*
+  - eslint.config.js
   - .prettierrc*
 
 forbidden:
@@ -30,3 +32,4 @@ create_ok:
   # Can create new files, but ASK before modifying existing
   - docs/**/*.md
   - tools/**/*
+  - automation/**/*
