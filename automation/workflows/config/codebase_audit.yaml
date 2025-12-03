@@ -1,0 +1,265 @@
+# Codebase Audit Workflow
+# Multi-agent orchestrated analysis with sequential thinking
+#
+# Pattern: orchestrator-workers + evaluator-optimizer
+# Phases: observe → analyze → critique → simplify → validate → synthesize
+
+name: 'codebase_audit_workflow'
+description: 'Comprehensive codebase analysis using multi-agent orchestration with sequential thinking'
+version: '1.0'
+pattern: 'sequential_thinking'
+
+# =============================================================================
+# THINKING PHASES (Sequential)
+# =============================================================================
+phases:
+  - name: 'observe'
+    description: 'Gather codebase information and context'
+    parallel: true
+    tasks:
+      - name: 'load_codemap'
+        description: 'Parse CODEMAP.md for structural expectations'
+        agent: 'codemap_agent'
+        action: 'Parse and extract structure from CODEMAP.md'
+        outputs: ['codemap_structure', 'documented_directories', 'component_map']
+
+      - name: 'index_files'
+        description: 'Index all code files in repository'
+        agent: 'analyzer_agent'
+        action: 'Scan and index all code files with metadata'
+        outputs: ['file_index', 'file_stats', 'extension_distribution']
+
+      - name: 'index_docs'
+        description: 'Index documentation files'
+        agent: 'doc_validator_agent'
+        action: 'Index all markdown and documentation files'
+        outputs: ['doc_index', 'doc_links', 'doc_coverage']
+
+      - name: 'load_policies'
+        description: 'Load governance policies'
+        agent: 'compliance_agent'
+        action: 'Load and parse .metaHub/policies/*.yaml'
+        outputs: ['policies', 'rules', 'constraints']
+
+  - name: 'analyze'
+    description: 'Deep analysis of codebase quality and structure'
+    depends_on: ['observe']
+    tasks:
+      - name: 'structural_analysis'
+        description: 'Analyze code structure and organization'
+        agent: 'analyzer_agent'
+        action: 'Analyze directory structure, file organization, module dependencies'
+        inputs: ['file_index', 'codemap_structure']
+        outputs: ['structure_findings', 'dependency_graph']
+
+      - name: 'complexity_analysis'
+        description: 'Analyze code complexity'
+        agent: 'analyzer_agent'
+        action: 'Calculate cyclomatic complexity, nesting depth, file sizes'
+        inputs: ['file_index']
+        outputs: ['complexity_findings', 'metrics']
+
+      - name: 'pattern_analysis'
+        description: 'Identify design patterns and anti-patterns'
+        agent: 'analyzer_agent'
+        action: 'Detect patterns, anti-patterns, code smells'
+        inputs: ['file_index']
+        outputs: ['pattern_findings', 'smell_map']
+
+  - name: 'critique'
+    description: 'Critical evaluation of issues and problems'
+    depends_on: ['analyze']
+    tasks:
+      - name: 'code_critique'
+        description: 'Critical review of code quality'
+        agent: 'critic_agent'
+        action: 'Find bugs, security issues, performance problems'
+        inputs: ['file_index', 'complexity_findings', 'pattern_findings']
+        outputs: ['code_issues', 'severity_ratings']
+
+      - name: 'architecture_critique'
+        description: 'Review architectural decisions'
+        agent: 'architect_agent'
+        action: 'Evaluate architecture patterns, coupling, cohesion'
+        inputs: ['structure_findings', 'dependency_graph']
+        outputs: ['architecture_issues', 'coupling_analysis']
+
+      - name: 'policy_critique'
+        description: 'Check policy violations'
+        agent: 'compliance_agent'
+        action: 'Validate against governance policies'
+        inputs: ['file_index', 'policies']
+        outputs: ['policy_violations', 'compliance_score']
+
+  - name: 'simplify'
+    description: 'Identify simplification and refactoring opportunities'
+    depends_on: ['critique']
+    tasks:
+      - name: 'redundancy_detection'
+        description: 'Find redundant code and duplicates'
+        agent: 'simplifier_agent'
+        action: 'Detect code duplication, redundant abstractions'
+        inputs: ['file_index', 'code_issues']
+        outputs: ['redundancy_findings', 'consolidation_opportunities']
+
+      - name: 'simplification_proposals'
+        description: 'Generate simplification proposals'
+        agent: 'simplifier_agent'
+        action: 'Propose concrete simplifications and refactorings'
+        inputs: ['complexity_findings', 'architecture_issues', 'redundancy_findings']
+        outputs: ['simplification_plan', 'refactoring_suggestions']
+
+      - name: 'modularization_analysis'
+        description: 'Analyze modularization opportunities'
+        agent: 'architect_agent'
+        action: 'Identify modules that could be extracted or consolidated'
+        inputs: ['dependency_graph', 'structure_findings']
+        outputs: ['module_proposals', 'extraction_candidates']
+
+  - name: 'validate'
+    description: 'Cross-validate findings and check consistency'
+    depends_on: ['simplify']
+    parallel: true
+    tasks:
+      - name: 'doc_validation'
+        description: 'Validate documentation accuracy'
+        agent: 'doc_validator_agent'
+        action: 'Check docs against actual code, find broken links, outdated info'
+        inputs: ['doc_index', 'file_index', 'codemap_structure']
+        outputs: ['doc_findings', 'link_errors', 'staleness_report']
+
+      - name: 'codemap_validation'
+        description: 'Validate CODEMAP accuracy'
+        agent: 'codemap_agent'
+        action: 'Compare CODEMAP structure to actual directory structure'
+        inputs: ['codemap_structure', 'file_index']
+        outputs: ['codemap_drift', 'missing_entries', 'extra_entries']
+
+      - name: 'cross_validation'
+        description: 'Cross-validate all findings'
+        agent: 'cross_validator_agent'
+        action: 'Validate findings across agents, resolve conflicts, deduplicate'
+        inputs: ['code_issues', 'architecture_issues', 'policy_violations', 'simplification_plan']
+        outputs: ['validated_findings', 'confidence_scores', 'conflicts']
+
+      - name: 'consistency_check'
+        description: 'Check overall consistency'
+        agent: 'cross_validator_agent'
+        action: 'Verify naming conventions, patterns, style consistency'
+        inputs: ['file_index', 'policies']
+        outputs: ['consistency_findings', 'consistency_score']
+
+  - name: 'synthesize'
+    description: 'Generate final synthesis and action plan'
+    depends_on: ['validate']
+    tasks:
+      - name: 'prioritize_findings'
+        description: 'Prioritize all findings'
+        agent: 'orchestrator_agent'
+        action: 'Deduplicate, prioritize by severity and impact'
+        inputs: ['validated_findings', 'confidence_scores']
+        outputs: ['prioritized_findings', 'priority_matrix']
+
+      - name: 'generate_action_plan'
+        description: 'Create actionable remediation plan'
+        agent: 'orchestrator_agent'
+        action: 'Generate step-by-step action plan with priorities'
+        inputs: ['prioritized_findings', 'simplification_plan', 'module_proposals']
+        outputs: ['action_plan', 'estimated_effort']
+
+      - name: 'generate_report'
+        description: 'Generate comprehensive report'
+        agent: 'technical_writer_agent'
+        action: 'Create markdown report with findings, analysis, recommendations'
+        inputs: ['prioritized_findings', 'action_plan', 'metrics']
+        outputs: ['audit_report', 'executive_summary']
+
+      - name: 'update_codemap'
+        description: 'Generate CODEMAP updates if needed'
+        agent: 'codemap_agent'
+        action: 'Generate updated CODEMAP.md reflecting actual structure'
+        inputs: ['codemap_drift', 'file_index']
+        outputs: ['codemap_diff', 'updated_codemap']
+
+# =============================================================================
+# AGENT ASSIGNMENTS
+# =============================================================================
+agents:
+  analyzer_agent:
+    role: 'Code Analyzer'
+    goal: 'Deep analysis of code structure, complexity, and patterns'
+    tools: ['code_search', 'static_analyzer', 'linter']
+
+  critic_agent:
+    role: 'Code Critic'
+    goal: 'Find issues, bugs, security problems, and anti-patterns'
+    tools: ['security_scanner', 'linter', 'static_analyzer']
+
+  simplifier_agent:
+    role: 'Code Simplifier'
+    goal: 'Identify simplification and refactoring opportunities'
+    tools: ['code_search', 'static_analyzer']
+
+  architect_agent:
+    role: 'System Architect'
+    goal: 'Evaluate architecture and propose improvements'
+    tools: ['code_search', 'mermaid']
+
+  doc_validator_agent:
+    role: 'Documentation Validator'
+    goal: 'Validate documentation accuracy and completeness'
+    tools: ['file_system', 'markdown_formatter']
+
+  codemap_agent:
+    role: 'CODEMAP Validator'
+    goal: 'Validate and update CODEMAP.md for consistency'
+    tools: ['file_system', 'markdown_formatter']
+
+  cross_validator_agent:
+    role: 'Cross Validator'
+    goal: 'Cross-validate findings and ensure consistency'
+    tools: ['file_system']
+
+  compliance_agent:
+    role: 'Compliance Checker'
+    goal: 'Validate against governance policies'
+    tools: ['file_system']
+
+  orchestrator_agent:
+    role: 'Orchestrator'
+    goal: 'Coordinate agents and synthesize findings'
+    tools: ['file_system']
+
+  technical_writer_agent:
+    role: 'Technical Writer'
+    goal: 'Generate clear, comprehensive reports'
+    tools: ['markdown_formatter']
+
+# =============================================================================
+# EXECUTION CONFIGURATION
+# =============================================================================
+execution:
+  max_parallel_tasks: 4
+  timeout_minutes: 30
+  checkpoint_after: ['observe', 'analyze', 'critique', 'validate']
+  telemetry_enabled: true
+  auto_retry: true
+  max_retries: 2
+
+# =============================================================================
+# SUCCESS CRITERIA
+# =============================================================================
+success_criteria:
+  - 'All phases completed without critical errors'
+  - 'Cross-validation confidence > 0.7'
+  - 'Audit report generated successfully'
+  - 'Action plan contains prioritized items'
+
+# =============================================================================
+# OUTPUT CONFIGURATION
+# =============================================================================
+outputs:
+  report_path: '.atlas/reports/codebase-audit-{timestamp}.md'
+  json_path: '.atlas/reports/codebase-audit-{timestamp}.json'
+  codemap_diff_path: '.atlas/reports/codemap-diff-{timestamp}.md'
+  format: ['markdown', 'json']

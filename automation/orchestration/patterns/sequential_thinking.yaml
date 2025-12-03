@@ -1,0 +1,242 @@
+# Sequential Thinking Pattern
+# Multi-phase analysis with progressive depth and validation
+#
+# This pattern implements a thinking process similar to human problem-solving:
+# 1. Observe - Gather information
+# 2. Analyze - Deep analysis
+# 3. Critique - Critical evaluation
+# 4. Simplify - Find improvements
+# 5. Validate - Cross-validation
+# 6. Synthesize - Final synthesis
+
+name: 'sequential_thinking'
+description: 'Multi-phase analysis pattern with progressive depth, cross-validation, and synthesis'
+version: '1.0'
+
+use_cases:
+  - 'Comprehensive codebase audits'
+  - 'Architecture reviews'
+  - 'Technical debt analysis'
+  - 'Documentation validation'
+  - 'Governance compliance checks'
+  - 'Refactoring planning'
+
+# =============================================================================
+# THINKING PHASES
+# =============================================================================
+phases:
+  observe:
+    description: 'Gather information and build context'
+    purpose: 'Create a complete picture of the current state'
+    outputs:
+      - 'file_index'
+      - 'doc_index'
+      - 'policy_definitions'
+      - 'codemap_structure'
+    parallelizable: true
+    agents:
+      - 'analyzer_agent'
+      - 'codemap_agent'
+
+  analyze:
+    description: 'Deep analysis of structure, patterns, and quality'
+    purpose: 'Understand the system at a deeper level'
+    depends_on: ['observe']
+    outputs:
+      - 'structure_findings'
+      - 'complexity_metrics'
+      - 'pattern_analysis'
+      - 'dependency_graph'
+    agents:
+      - 'analyzer_agent'
+      - 'architect_agent'
+
+  critique:
+    description: 'Critical evaluation of issues and problems'
+    purpose: 'Identify what needs improvement'
+    depends_on: ['analyze']
+    outputs:
+      - 'code_issues'
+      - 'architecture_issues'
+      - 'security_concerns'
+      - 'policy_violations'
+    agents:
+      - 'critic_agent'
+      - 'security_agent'
+      - 'compliance_agent'
+
+  simplify:
+    description: 'Identify simplification and improvement opportunities'
+    purpose: 'Propose concrete improvements'
+    depends_on: ['critique']
+    outputs:
+      - 'simplification_opportunities'
+      - 'refactoring_plan'
+      - 'consolidation_candidates'
+      - 'modularization_proposals'
+    agents:
+      - 'simplifier_agent'
+      - 'architect_agent'
+
+  validate:
+    description: 'Cross-validate findings and check consistency'
+    purpose: 'Ensure findings are accurate and consistent'
+    depends_on: ['simplify']
+    outputs:
+      - 'validated_findings'
+      - 'consistency_score'
+      - 'doc_validation_results'
+      - 'codemap_drift'
+    parallelizable: true
+    agents:
+      - 'cross_validator_agent'
+      - 'doc_validator_agent'
+      - 'codemap_agent'
+
+  synthesize:
+    description: 'Generate final synthesis and action plan'
+    purpose: 'Create actionable output'
+    depends_on: ['validate']
+    outputs:
+      - 'prioritized_findings'
+      - 'action_plan'
+      - 'audit_report'
+      - 'executive_summary'
+    agents:
+      - 'orchestrator_agent'
+      - 'technical_writer_agent'
+
+# =============================================================================
+# THINKING CONTEXT
+# =============================================================================
+context:
+  shared_state:
+    - 'file_index'
+    - 'doc_index'
+    - 'findings'
+    - 'metrics'
+
+  propagation: 'forward'  # Later phases can see earlier results
+
+  checkpointing:
+    enabled: true
+    after_phases: ['observe', 'analyze', 'critique', 'validate']
+    storage: '.atlas/checkpoints/'
+
+# =============================================================================
+# EXECUTION MODEL
+# =============================================================================
+execution:
+  # Phase execution can be parallel within phase, sequential across phases
+  inter_phase: 'sequential'
+  intra_phase: 'parallel_where_possible'
+
+  # Confidence thresholds
+  confidence:
+    minimum_to_proceed: 0.6
+    high_confidence: 0.85
+
+  # Error handling
+  on_phase_failure:
+    observe: 'abort'      # Can't continue without observation
+    analyze: 'partial'    # Continue with partial analysis
+    critique: 'partial'   # Continue with partial critique
+    simplify: 'skip'      # Can skip simplification
+    validate: 'warn'      # Warn but continue
+    synthesize: 'retry'   # Retry synthesis
+
+  # Timeouts
+  timeouts:
+    observe: 120          # 2 minutes
+    analyze: 300          # 5 minutes
+    critique: 300         # 5 minutes
+    simplify: 180         # 3 minutes
+    validate: 180         # 3 minutes
+    synthesize: 120       # 2 minutes
+
+# =============================================================================
+# AGENT COORDINATION
+# =============================================================================
+coordination:
+  # How agents share findings
+  communication: 'shared_context'
+
+  # Conflict resolution when agents disagree
+  conflict_resolution:
+    strategy: 'weighted_consensus'
+    weights:
+      analyzer_agent: 1.0
+      critic_agent: 0.9
+      cross_validator_agent: 1.2  # Higher weight for validation
+      orchestrator_agent: 1.0
+    tie_breaker: 'orchestrator_agent'
+
+  # Agent sequencing within phases
+  dependencies:
+    critique:
+      - critic_agent: ['analyzer_agent']
+      - security_agent: ['analyzer_agent']
+    validate:
+      - cross_validator_agent: ['critic_agent', 'simplifier_agent']
+
+# =============================================================================
+# OUTPUT SYNTHESIS
+# =============================================================================
+synthesis:
+  # How to combine findings from multiple agents
+  aggregation:
+    findings:
+      method: 'union'
+      deduplicate: true
+      dedupe_key: ['title', 'file_path', 'category']
+
+    metrics:
+      method: 'average'
+      weights_by_confidence: true
+
+    scores:
+      method: 'weighted_average'
+      weights_by_agent_specialty: true
+
+  # Prioritization
+  prioritization:
+    criteria:
+      - severity: 0.4
+      - impact: 0.3
+      - effort: 0.2
+      - confidence: 0.1
+
+    severity_order:
+      - critical
+      - high
+      - medium
+      - low
+      - info
+
+  # Report generation
+  report:
+    format: 'markdown'
+    sections:
+      - 'executive_summary'
+      - 'findings_by_severity'
+      - 'findings_by_category'
+      - 'action_plan'
+      - 'metrics_dashboard'
+      - 'recommendations'
+
+    include_metadata: true
+    include_agent_attribution: true
+
+# =============================================================================
+# EXAMPLE INVOCATION
+# =============================================================================
+example:
+  command: |
+    python -m automation.orchestration.codebase_orchestrator .
+
+  or_via_workflow: |
+    python -m automation.cli workflows run codebase_audit_workflow
+
+  expected_output:
+    - '.atlas/reports/orchestration-report.json'
+    - '.atlas/reports/codebase-audit-{timestamp}.md'

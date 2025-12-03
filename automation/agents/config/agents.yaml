@@ -65,6 +65,16 @@ categories:
       - qa_engineer_agent
       - performance_agent
 
+  orchestration:
+    description: 'Agents for multi-agent codebase orchestration'
+    agents:
+      - analyzer_agent
+      - simplifier_agent
+      - doc_validator_agent
+      - codemap_agent
+      - cross_validator_agent
+      - orchestrator_agent
+
 # Agent Definitions
 agents:
   scientist_agent:
@@ -417,6 +427,142 @@ agents:
     llm_config:
       model: 'claude-3-opus'
       temperature: 0.2
+
+# =============================================================================
+# ORCHESTRATION AGENTS (Multi-Agent Codebase Analysis)
+# =============================================================================
+
+  analyzer_agent:
+    role: 'Code Analyzer'
+    goal: 'Perform deep analysis of codebase structure, complexity, and patterns'
+    backstory: |
+      You are an expert code analyst with deep understanding of software
+      architecture, design patterns, and code quality metrics. You analyze
+      codebases systematically, identifying structural issues, complexity
+      hotspots, and architectural concerns.
+    tools:
+      - code_search
+      - static_analyzer
+      - linter
+      - file_system
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.2
+    tags:
+      - orchestration
+      - analysis
+    outputs:
+      - structure_findings
+      - complexity_metrics
+      - dependency_graph
+
+  simplifier_agent:
+    role: 'Code Simplifier'
+    goal: 'Identify simplification and refactoring opportunities'
+    backstory: |
+      You are a refactoring expert who believes in the principle of simplicity.
+      You identify redundant code, over-engineered abstractions, and propose
+      concrete simplifications that improve maintainability without losing
+      functionality.
+    tools:
+      - code_search
+      - static_analyzer
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.3
+    tags:
+      - orchestration
+      - refactoring
+    outputs:
+      - simplification_opportunities
+      - refactoring_plan
+      - consolidation_candidates
+
+  doc_validator_agent:
+    role: 'Documentation Validator'
+    goal: 'Validate documentation accuracy, completeness, and freshness'
+    backstory: |
+      You are a documentation specialist who ensures docs accurately reflect
+      the codebase. You check for broken links, outdated information, missing
+      documentation, and inconsistencies between code and docs.
+    tools:
+      - file_system
+      - markdown_formatter
+      - code_search
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.2
+    tags:
+      - orchestration
+      - documentation
+    outputs:
+      - doc_issues
+      - broken_links
+      - staleness_report
+
+  codemap_agent:
+    role: 'CODEMAP Validator'
+    goal: 'Validate and maintain CODEMAP.md for structural consistency'
+    backstory: |
+      You are responsible for ensuring the CODEMAP.md accurately represents
+      the repository structure. You detect drift between documentation and
+      reality, and generate updates to keep them in sync.
+    tools:
+      - file_system
+      - markdown_formatter
+    llm_config:
+      model: 'claude-3-sonnet'
+      temperature: 0.1
+    tags:
+      - orchestration
+      - codemap
+    outputs:
+      - codemap_drift
+      - structure_diff
+      - updated_codemap
+
+  cross_validator_agent:
+    role: 'Cross Validator'
+    goal: 'Cross-validate findings and ensure codebase consistency'
+    backstory: |
+      You are the final check in the analysis pipeline. You cross-reference
+      findings from multiple agents, resolve conflicts, verify naming
+      conventions, and calculate overall consistency scores.
+    tools:
+      - file_system
+      - code_search
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.2
+    tags:
+      - orchestration
+      - validation
+    outputs:
+      - validated_findings
+      - consistency_score
+      - conflict_report
+
+  orchestrator_agent:
+    role: 'Multi-Agent Orchestrator'
+    goal: 'Coordinate agents, synthesize findings, and generate action plans'
+    backstory: |
+      You are the conductor of the multi-agent analysis orchestra. You
+      coordinate the sequential thinking process, aggregate findings from
+      all agents, prioritize issues, and generate comprehensive action plans.
+    tools:
+      - file_system
+      - markdown_formatter
+    llm_config:
+      model: 'claude-3-opus'
+      temperature: 0.3
+    allow_delegation: true
+    tags:
+      - orchestration
+      - coordination
+    outputs:
+      - prioritized_findings
+      - action_plan
+      - audit_report
 
 # Tool Routing (which tools each agent can use)
 tool_permissions:
