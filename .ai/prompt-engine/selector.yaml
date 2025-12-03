@@ -1,10 +1,10 @@
 # =============================================================================
-# PROMPT SELECTOR ENGINE v1.1
+# PROMPT SELECTOR ENGINE v1.2
 # Intelligent selection and composition of superprompts based on task analysis
 # =============================================================================
 
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   created: "2025-12-02"
   updated: "2025-12-03"
   purpose: "Route tasks to appropriate superprompts and compose guidance"
@@ -14,25 +14,65 @@ metadata:
 # =============================================================================
 
 available_superprompts:
+  # Core Superprompts
   - id: codebase-sentinel
     path: "../superprompts/codebase-sentinel.yaml"
     specialty: "Code quality, governance, 7 Laws of Codebase Integrity"
+    tier: core
 
   - id: security-auditor
     path: "../superprompts/security-auditor.yaml"
     specialty: "OWASP Top 10, secret detection, security best practices"
+    tier: core
 
   - id: architect
     path: "../superprompts/architect.yaml"
     specialty: "System design, patterns, architectural decisions"
+    tier: core
 
   - id: refactoring-expert
     path: "../superprompts/refactoring-expert.yaml"
     specialty: "Safe refactoring, code smells, behavior-preserving changes"
+    tier: core
 
   - id: debugger
     path: "../superprompts/debugger.yaml"
     specialty: "Bug hunting, root cause analysis, scientific debugging"
+    tier: core
+
+  # Master Superprompt (combines all patterns)
+  - id: master-orchestrator
+    path: "../superprompts/master-orchestrator.yaml"
+    specialty: "Enterprise-grade orchestration combining security, optimization, governance"
+    tier: master
+    composition: ["codebase-sentinel", "security-auditor", "architect", "refactoring-expert", "debugger"]
+
+# =============================================================================
+# EXTERNAL PROMPT CATALOG (Reference Library)
+# =============================================================================
+
+external_catalog:
+  enterprise:
+    - path: "automation/prompts/project/ENTERPRISE_AGENTIC_AI_SUPERPROMPT.md"
+      specialty: "Multi-layer caching, agentic orchestration"
+    - path: "automation/prompts/project/GOVERNANCE_COMPLIANCE_SUPERPROMPT.md"
+      specialty: "COBIT, ITIL, SOC2, GDPR compliance"
+    - path: "automation/prompts/project/SECURITY_CYBERSECURITY_SUPERPROMPT.md"
+      specialty: "Defense in depth, DevSecOps"
+
+  optimization:
+    - path: "automation/prompts/project/PROMPT_OPTIMIZATION_SUPERPROMPT.md"
+      specialty: "Token efficiency, IDE-specific formatting"
+
+  domain_specific:
+    - path: "automation/prompts/project/CICD_PIPELINE_SUPERPROMPT.md"
+    - path: "automation/prompts/project/MONOREPO_ARCHITECTURE_SUPERPROMPT.md"
+    - path: "automation/prompts/project/TESTING_QA_SUPERPROMPT.md"
+    - path: "automation/prompts/project/AI_ML_INTEGRATION_SUPERPROMPT.md"
+
+  reference:
+    - path: "docs/ai-coding-tools/02-terminal-cli/aider/aider/coders/architect_prompts.py"
+      note: "Aider's production-proven architect prompts"
 
 # =============================================================================
 # TASK CLASSIFICATION
@@ -41,6 +81,12 @@ available_superprompts:
 task_classification:
   # Intent extraction from user queries
   intent_patterns:
+    # Highest priority: Enterprise/complex tasks invoke master orchestrator
+    enterprise:
+      keywords: ["enterprise", "production", "mission-critical", "comprehensive", "complete", "full-stack", "end-to-end", "orchestrate"]
+      weight: 1.0
+      prompts: ["master-orchestrator"]
+
     security:
       keywords: ["security", "vulnerability", "hack", "exploit", "secret", "password", "auth", "encrypt", "injection", "xss", "csrf"]
       weight: 1.0
