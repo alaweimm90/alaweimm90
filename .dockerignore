@@ -88,12 +88,13 @@ temp/
 *.bak
 *.swp
 
-# ATLAS-specific
+# ATLAS-specific (keep .ai and .metaHub for API server)
 .atlas/
-.ai/
 *.db
 *.sqlite
-automation/
 templates/
-.metaHub/
 .husky/
+
+# Keep these for API but exclude archives
+.metaHub/archive/
+.ai/cache/

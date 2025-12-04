@@ -1,0 +1,29 @@
+# Prometheus Configuration for Meta-Orchestration Master
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+rule_files: []
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Meta-Orchestration API
+  - job_name: 'meta-api'
+    metrics_path: '/metrics/prometheus'
+    static_configs:
+      - targets: ['api:3200']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        replacement: 'meta-orchestration-api'
+
