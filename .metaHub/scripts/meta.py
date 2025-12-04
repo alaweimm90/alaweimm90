@@ -101,10 +101,10 @@ class MetaAuditor:
             return self.audits
 
         orgs = [d for d in self.org_path.iterdir() if d.is_dir() and (not org_filter or d.name == org_filter)]
-        
+
         for org_dir in orgs:
             self.audits.extend(
-                self._audit_project(p, org_dir.name) 
+                self._audit_project(p, org_dir.name)
                 for p in org_dir.iterdir() if p.is_dir()
             )
 
@@ -328,6 +328,17 @@ class MetaAuditor:
 class ProjectPromoter:
     """Promotes projects to governance compliance."""
 
+    # Type inference from name prefixes (shared with MetaAuditor)
+    TYPE_PREFIXES = {
+        "lib-": "library",
+        "tool-": "tool",
+        "svc-": "service",
+        "app-": "application",
+        "demo-": "demo",
+        "infra-": "infrastructure",
+        "pkg-": "package",
+    }
+
     def __init__(self, base_path: Path = None):
         """
         Initialize project promoter.
@@ -435,7 +446,7 @@ class ProjectPromoter:
     def _generate_ci_workflow(self, language: str) -> str:
         """Generate CI workflow for language."""
         steps = [{"uses": "actions/checkout@v4"}]
-        
+
         if language == "python":
             steps.extend([
                 {"name": "Set up Python", "uses": "actions/setup-python@v5", "with": {"python-version": "3.11"}},
@@ -458,7 +469,7 @@ class ProjectPromoter:
 
     def _get_precommit_config(self, language: str) -> Optional[str]:
         """Get pre-commit config for language."""
-        for file in (self.templates_path / "pre-commit" / f"{language}.yaml", 
+        for file in (self.templates_path / "pre-commit" / f"{language}.yaml",
                      self.templates_path / "pre-commit" / "generic.yaml"):
             if file.exists():
                 return file.read_text()
