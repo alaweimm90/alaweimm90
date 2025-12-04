@@ -1,0 +1,16 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include requirements.txt
+include .performance_targets.json
+include Makefile
+include quick_start.sh
+
+recursive-include . *.py
+recursive-include . *.md
+recursive-include . *.json
+recursive-include . *.yml
+
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store

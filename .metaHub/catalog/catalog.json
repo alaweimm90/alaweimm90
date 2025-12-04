@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "generated_at": "2025-11-27T05:29:14.408356",
+  "generated_at": "2025-12-04T12:49:40.162030",
   "generator": "catalog.py",
   "organizations": [
     {
@@ -43,6 +43,35 @@
           "description": "Repository: Attributa"
         },
         {
+          "name": "Benchmarks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\Benchmarks",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/Benchmarks",
+          "metadata": {
+            "type": "unknown",
+            "language": "python",
+            "tier": 4,
+            "owner": "AlaweinOS",
+            "description": "benchmarks repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "python",
+          "tier": 4,
+          "status": "active",
+          "owner": "AlaweinOS",
+          "description": "benchmarks repository"
+        },
+        {
           "name": "CrazyIdeas",
           "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\CrazyIdeas",
           "organization": "AlaweinOS",
@@ -76,6 +105,41 @@
           "status": "active",
           "owner": "alaweimm90-tools",
           "description": "Repository: CrazyIdeas"
+        },
+        {
+          "name": "FitnessApp",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\FitnessApp",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/FitnessApp",
+          "metadata": {
+            "type": "application",
+            "language": "Python",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "alaweimm90-tools",
+            "description": "Repository: fitness-app",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": true
+          },
+          "type": "application",
+          "language": "Python",
+          "tier": 4,
+          "status": "active",
+          "owner": "alaweimm90-tools",
+          "description": "Repository: fitness-app"
         },
         {
           "name": "HELIOS",
@@ -183,10 +247,45 @@
           "description": "Repository: MEZAN"
         },
         {
-          "name": "QAPlibria-new",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria-new",
+          "name": "Optilibria",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\Optilibria",
           "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/QAPlibria-new",
+          "full_name": "AlaweinOS/Optilibria",
+          "metadata": {
+            "type": "library",
+            "language": "Python",
+            "tier": 2,
+            "coverage": {
+              "target": 80
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: optilibria",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "library",
+          "language": "Python",
+          "tier": 2,
+          "status": "active",
+          "owner": "AlaweinOS",
+          "description": "Repository: optilibria"
+        },
+        {
+          "name": "QAPlibria",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/QAPlibria",
           "metadata": {
             "type": "library",
             "language": "Python",
@@ -216,6 +315,41 @@
           "status": "active",
           "owner": "AlaweinOS",
           "description": "Repository: QAPlibria-new"
+        },
+        {
+          "name": "QMLab",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QMLab",
+          "organization": "AlaweinOS",
+          "full_name": "AlaweinOS/QMLab",
+          "metadata": {
+            "type": "laboratory",
+            "language": "TypeScript",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "AlaweinOS",
+            "description": "Repository: qmlab",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "laboratory",
+          "language": "TypeScript",
+          "tier": 4,
+          "status": "active",
+          "owner": "AlaweinOS",
+          "description": "Repository: qmlab"
         },
         {
           "name": "SimCore",
@@ -288,35 +422,6 @@
           "description": "Repository: TalAI"
         },
         {
-          "name": "benchmarks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\benchmarks",
-          "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/benchmarks",
-          "metadata": {
-            "type": "unknown",
-            "language": "python",
-            "tier": 4,
-            "owner": "AlaweinOS",
-            "description": "benchmarks repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "python",
-          "tier": 4,
-          "status": "active",
-          "owner": "AlaweinOS",
-          "description": "benchmarks repository"
-        },
-        {
           "name": "docker",
           "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\docker",
           "organization": "AlaweinOS",
@@ -375,41 +480,6 @@
           "description": "docs repository"
         },
         {
-          "name": "fitness-app",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\fitness-app",
-          "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/fitness-app",
-          "metadata": {
-            "type": "application",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: fitness-app",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "application",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: fitness-app"
-        },
-        {
           "name": "k8s",
           "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\k8s",
           "organization": "AlaweinOS",
@@ -437,76 +507,6 @@
           "status": "active",
           "owner": "AlaweinOS",
           "description": "k8s repository"
-        },
-        {
-          "name": "optilibria",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\optilibria",
-          "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/optilibria",
-          "metadata": {
-            "type": "library",
-            "language": "Python",
-            "tier": 2,
-            "coverage": {
-              "target": 80
-            },
-            "docs": {
-              "profile": "standard"
-            },
-            "owner": "AlaweinOS",
-            "description": "Repository: optilibria",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "library",
-          "language": "Python",
-          "tier": 2,
-          "status": "active",
-          "owner": "AlaweinOS",
-          "description": "Repository: optilibria"
-        },
-        {
-          "name": "qmlab",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\qmlab",
-          "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/qmlab",
-          "metadata": {
-            "type": "laboratory",
-            "language": "TypeScript",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "AlaweinOS",
-            "description": "Repository: qmlab",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "laboratory",
-          "language": "TypeScript",
-          "tier": 4,
-          "status": "active",
-          "owner": "AlaweinOS",
-          "description": "Repository: qmlab"
         },
         {
           "name": "reports",
@@ -656,10 +656,10 @@
       "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist",
       "repos": [
         {
-          "name": "api",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\api",
+          "name": "API",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\API",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/api",
+          "full_name": "MeatheadPhysicist/API",
           "metadata": {
             "type": "api",
             "language": "Unknown",
@@ -691,10 +691,10 @@
           "description": "Repository: api"
         },
         {
-          "name": "automation",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\automation",
+          "name": "Automation",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Automation",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/automation",
+          "full_name": "MeatheadPhysicist/Automation",
           "metadata": {
             "type": "automation",
             "language": "Unknown",
@@ -726,10 +726,10 @@
           "description": "Repository: automation"
         },
         {
-          "name": "benchmarks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\benchmarks",
+          "name": "Benchmarks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Benchmarks",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/benchmarks",
+          "full_name": "MeatheadPhysicist/Benchmarks",
           "metadata": {
             "type": "unknown",
             "language": "python",
@@ -755,10 +755,10 @@
           "description": "benchmarks repository"
         },
         {
-          "name": "cli",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cli",
+          "name": "CLI",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\CLI",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/cli",
+          "full_name": "MeatheadPhysicist/CLI",
           "metadata": {
             "type": "cli-tool",
             "language": "Python",
@@ -790,10 +790,10 @@
           "description": "Repository: cli"
         },
         {
-          "name": "cloud",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\cloud",
+          "name": "Cloud",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Cloud",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/cloud",
+          "full_name": "MeatheadPhysicist/Cloud",
           "metadata": {
             "type": "cloud-platform",
             "language": "Unknown",
@@ -825,10 +825,10 @@
           "description": "Repository: cloud"
         },
         {
-          "name": "config",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\config",
+          "name": "Config",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Config",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/config",
+          "full_name": "MeatheadPhysicist/Config",
           "metadata": {
             "type": "unknown",
             "language": "unknown",
@@ -854,10 +854,10 @@
           "description": "config repository"
         },
         {
-          "name": "dashboard",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\dashboard",
+          "name": "Dashboard",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Dashboard",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/dashboard",
+          "full_name": "MeatheadPhysicist/Dashboard",
           "metadata": {
             "type": "ui-application",
             "language": "Unknown",
@@ -889,10 +889,10 @@
           "description": "Repository: dashboard"
         },
         {
-          "name": "database",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\database",
+          "name": "Database",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Database",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/database",
+          "full_name": "MeatheadPhysicist/Database",
           "metadata": {
             "type": "database",
             "language": "Unknown",
@@ -924,10 +924,10 @@
           "description": "Repository: database"
         },
         {
-          "name": "deployment",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\deployment",
+          "name": "Deployment",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Deployment",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/deployment",
+          "full_name": "MeatheadPhysicist/Deployment",
           "metadata": {
             "type": "unknown",
             "language": "python",
@@ -953,39 +953,10 @@
           "description": "deployment repository"
         },
         {
-          "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\docs",
+          "name": "Education",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Education",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/docs",
-          "metadata": {
-            "type": "unknown",
-            "language": "javascript",
-            "tier": 4,
-            "owner": "MeatheadPhysicist",
-            "description": "docs repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "javascript",
-          "tier": 4,
-          "status": "active",
-          "owner": "MeatheadPhysicist",
-          "description": "docs repository"
-        },
-        {
-          "name": "education",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\education",
-          "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/education",
+          "full_name": "MeatheadPhysicist/Education",
           "metadata": {
             "type": "educational",
             "language": "Unknown",
@@ -1017,10 +988,10 @@
           "description": "Repository: education"
         },
         {
-          "name": "examples",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\examples",
+          "name": "Examples",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Examples",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/examples",
+          "full_name": "MeatheadPhysicist/Examples",
           "metadata": {
             "type": "examples",
             "language": "Unknown",
@@ -1052,10 +1023,10 @@
           "description": "Repository: examples"
         },
         {
-          "name": "frontend",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\frontend",
+          "name": "Frontend",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Frontend",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/frontend",
+          "full_name": "MeatheadPhysicist/Frontend",
           "metadata": {
             "type": "ui-application",
             "language": "TypeScript",
@@ -1087,10 +1058,10 @@
           "description": "Repository: frontend"
         },
         {
-          "name": "gh-pages",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\gh-pages",
+          "name": "GHPages",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\GHPages",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/gh-pages",
+          "full_name": "MeatheadPhysicist/GHPages",
           "metadata": {
             "type": "static-site",
             "language": "HTML",
@@ -1122,10 +1093,10 @@
           "description": "Repository: gh-pages"
         },
         {
-          "name": "integrations",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\integrations",
+          "name": "Integrations",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Integrations",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/integrations",
+          "full_name": "MeatheadPhysicist/Integrations",
           "metadata": {
             "type": "library",
             "language": "Mixed",
@@ -1157,39 +1128,10 @@
           "description": "Repository: integrations"
         },
         {
-          "name": "k8s",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\k8s",
+          "name": "MLOps",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\MLOps",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/k8s",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "MeatheadPhysicist",
-            "description": "k8s repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "MeatheadPhysicist",
-          "description": "k8s repository"
-        },
-        {
-          "name": "mlops",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\mlops",
-          "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/mlops",
+          "full_name": "MeatheadPhysicist/MLOps",
           "metadata": {
             "type": "mlops",
             "language": "Unknown",
@@ -1221,10 +1163,10 @@
           "description": "Repository: mlops"
         },
         {
-          "name": "monitoring",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\monitoring",
+          "name": "Monitoring",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Monitoring",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/monitoring",
+          "full_name": "MeatheadPhysicist/Monitoring",
           "metadata": {
             "type": "observability",
             "language": "Unknown",
@@ -1256,10 +1198,10 @@
           "description": "Repository: monitoring"
         },
         {
-          "name": "nginx",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\nginx",
+          "name": "Nginx",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Nginx",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/nginx",
+          "full_name": "MeatheadPhysicist/Nginx",
           "metadata": {
             "type": "unknown",
             "language": "unknown",
@@ -1285,10 +1227,10 @@
           "description": "nginx repository"
         },
         {
-          "name": "notebooks",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notebooks",
+          "name": "Notebooks",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Notebooks",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/notebooks",
+          "full_name": "MeatheadPhysicist/Notebooks",
           "metadata": {
             "type": "jupyter-notebooks",
             "language": "Python",
@@ -1320,10 +1262,10 @@
           "description": "Repository: notebooks"
         },
         {
-          "name": "notes",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\notes",
+          "name": "Notes",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Notes",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/notes",
+          "full_name": "MeatheadPhysicist/Notes",
           "metadata": {
             "type": "documentation",
             "language": "Markdown",
@@ -1355,10 +1297,10 @@
           "description": "Repository: notes"
         },
         {
-          "name": "papers",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\papers",
+          "name": "Papers",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Papers",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/papers",
+          "full_name": "MeatheadPhysicist/Papers",
           "metadata": {
             "type": "academic-papers",
             "language": "LaTeX",
@@ -1390,10 +1332,10 @@
           "description": "Repository: papers"
         },
         {
-          "name": "projects",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\projects",
+          "name": "Projects",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Projects",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/projects",
+          "full_name": "MeatheadPhysicist/Projects",
           "metadata": {
             "type": "project-tracking",
             "language": "Markdown",
@@ -1425,10 +1367,10 @@
           "description": "Repository: projects"
         },
         {
-          "name": "quantum",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\quantum",
+          "name": "Quantum",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Quantum",
           "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/quantum",
+          "full_name": "MeatheadPhysicist/Quantum",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -1458,6 +1400,157 @@
           "status": "active",
           "owner": "MeatheadPhysicist",
           "description": "Repository: quantum"
+        },
+        {
+          "name": "Terraform",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Terraform",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/Terraform",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "terraform repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "active",
+          "owner": "MeatheadPhysicist",
+          "description": "terraform repository"
+        },
+        {
+          "name": "Tools",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Tools",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/Tools",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "tools repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "active",
+          "owner": "MeatheadPhysicist",
+          "description": "tools repository"
+        },
+        {
+          "name": "Visualizations",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\Visualizations",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/Visualizations",
+          "metadata": {
+            "type": "visualizations",
+            "language": "Unknown",
+            "tier": 4,
+            "coverage": {
+              "target": 70
+            },
+            "docs": {
+              "profile": "minimal"
+            },
+            "owner": "MeatheadPhysicist",
+            "description": "Repository: visualizations",
+            "status": "inactive",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "visualizations",
+          "language": "Unknown",
+          "tier": 4,
+          "status": "inactive",
+          "owner": "MeatheadPhysicist",
+          "description": "Repository: visualizations"
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\docs",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "javascript",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "javascript",
+          "tier": 4,
+          "status": "active",
+          "owner": "MeatheadPhysicist",
+          "description": "docs repository"
+        },
+        {
+          "name": "k8s",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\k8s",
+          "organization": "MeatheadPhysicist",
+          "full_name": "MeatheadPhysicist/k8s",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "MeatheadPhysicist",
+            "description": "k8s repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "active",
+          "owner": "MeatheadPhysicist",
+          "description": "k8s repository"
         },
         {
           "name": "scripts",
@@ -1518,35 +1611,6 @@
           "description": "src repository"
         },
         {
-          "name": "terraform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\terraform",
-          "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/terraform",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "MeatheadPhysicist",
-            "description": "terraform repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "MeatheadPhysicist",
-          "description": "terraform repository"
-        },
-        {
           "name": "tests",
           "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tests",
           "organization": "MeatheadPhysicist",
@@ -1574,70 +1638,6 @@
           "status": "active",
           "owner": "MeatheadPhysicist",
           "description": "tests repository"
-        },
-        {
-          "name": "tools",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\tools",
-          "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/tools",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "MeatheadPhysicist",
-            "description": "tools repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "MeatheadPhysicist",
-          "description": "tools repository"
-        },
-        {
-          "name": "visualizations",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\MeatheadPhysicist\\visualizations",
-          "organization": "MeatheadPhysicist",
-          "full_name": "MeatheadPhysicist/visualizations",
-          "metadata": {
-            "type": "visualizations",
-            "language": "Unknown",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "MeatheadPhysicist",
-            "description": "Repository: visualizations",
-            "status": "inactive",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "visualizations",
-          "language": "Unknown",
-          "tier": 4,
-          "status": "inactive",
-          "owner": "MeatheadPhysicist",
-          "description": "Repository: visualizations"
         }
       ],
       "summary": {
@@ -1688,10 +1688,10 @@
       "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
       "repos": [
         {
-          "name": "benchbarrier",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\benchbarrier",
+          "name": "BenchBarrier",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\BenchBarrier",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/benchbarrier",
+          "full_name": "alaweimm90-business/BenchBarrier",
           "metadata": {
             "type": "web-application",
             "language": "TypeScript",
@@ -1723,10 +1723,10 @@
           "description": "Repository: benchbarrier"
         },
         {
-          "name": "calla-lily-couture",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\calla-lily-couture",
+          "name": "CallaLilyCouture",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\CallaLilyCouture",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/calla-lily-couture",
+          "full_name": "alaweimm90-business/CallaLilyCouture",
           "metadata": {
             "type": "ecommerce",
             "language": "TypeScript",
@@ -1758,39 +1758,10 @@
           "description": "Repository: calla-lily-couture"
         },
         {
-          "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
+          "name": "DrAloweinPortfolio",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\DrAloweinPortfolio",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/docs",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "alaweimm90-business",
-            "description": "docs repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-business",
-          "description": "docs repository"
-        },
-        {
-          "name": "dr-alowein-portfolio",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\dr-alowein-portfolio",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/dr-alowein-portfolio",
+          "full_name": "alaweimm90-business/DrAloweinPortfolio",
           "metadata": {
             "type": "portfolio",
             "language": "TypeScript",
@@ -1822,10 +1793,10 @@
           "description": "Repository: dr-alowein-portfolio"
         },
         {
-          "name": "live-it-iconic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\live-it-iconic",
+          "name": "LiveItIconic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\LiveItIconic",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/live-it-iconic",
+          "full_name": "alaweimm90-business/LiveItIconic",
           "metadata": {
             "type": "web-application",
             "language": "TypeScript",
@@ -1857,10 +1828,10 @@
           "description": "Repository: live-it-iconic"
         },
         {
-          "name": "marketing-automation",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\marketing-automation",
+          "name": "MarketingAutomation",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\MarketingAutomation",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/marketing-automation",
+          "full_name": "alaweimm90-business/MarketingAutomation",
           "metadata": {
             "type": "automation",
             "language": "TypeScript",
@@ -1892,10 +1863,10 @@
           "description": "Repository: marketing-automation"
         },
         {
-          "name": "repz",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\repz",
+          "name": "Repz",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\Repz",
           "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/repz",
+          "full_name": "alaweimm90-business/Repz",
           "metadata": {
             "type": "framework",
             "language": "TypeScript",
@@ -1925,6 +1896,35 @@
           "status": "active",
           "owner": "alaweimm90-business",
           "description": "Repository: repz"
+        },
+        {
+          "name": "docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
+          "organization": "alaweimm90-business",
+          "full_name": "alaweimm90-business/docs",
+          "metadata": {
+            "type": "unknown",
+            "language": "unknown",
+            "tier": 4,
+            "owner": "alaweimm90-business",
+            "description": "docs repository",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "unknown",
+          "language": "unknown",
+          "tier": 4,
+          "status": "active",
+          "owner": "alaweimm90-business",
+          "description": "docs repository"
         },
         {
           "name": "scripts",
@@ -2013,45 +2013,10 @@
       "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
       "repos": [
         {
-          "name": "TalAI",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
+          "name": "MagLogic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\MagLogic",
           "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/TalAI",
-          "metadata": {
-            "type": "unknown",
-            "language": "Unknown",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-science",
-            "description": "Repository: TalAI",
-            "status": "inactive",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "Unknown",
-          "tier": 4,
-          "status": "inactive",
-          "owner": "alaweimm90-science",
-          "description": "Repository: TalAI"
-        },
-        {
-          "name": "mag-logic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\mag-logic",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/mag-logic",
+          "full_name": "alaweimm90-science/MagLogic",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2083,10 +2048,10 @@
           "description": "Repository: mag-logic"
         },
         {
-          "name": "qmat-sim",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qmat-sim",
+          "name": "QMatSim",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\QMatSim",
           "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/qmat-sim",
+          "full_name": "alaweimm90-science/QMatSim",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2118,10 +2083,10 @@
           "description": "Repository: qmat-sim"
         },
         {
-          "name": "qube-ml",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\qube-ml",
+          "name": "QubeML",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\QubeML",
           "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/qube-ml",
+          "full_name": "alaweimm90-science/QubeML",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2153,10 +2118,10 @@
           "description": "Repository: qube-ml"
         },
         {
-          "name": "sci-comp",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\sci-comp",
+          "name": "SciComp",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\SciComp",
           "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/sci-comp",
+          "full_name": "alaweimm90-science/SciComp",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2188,10 +2153,10 @@
           "description": "Repository: sci-comp"
         },
         {
-          "name": "spin-circ",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\spin-circ",
+          "name": "SpinCirc",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\SpinCirc",
           "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/spin-circ",
+          "full_name": "alaweimm90-science/SpinCirc",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2221,670 +2186,116 @@
           "status": "active",
           "owner": "alaweimm90-science",
           "description": "Repository: spin-circ"
+        },
+        {
+          "name": "TalAI",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
+          "organization": "alaweimm90-science",
+          "full_name": "alaweimm90-science/TalAI",
+          "metadata": {
+            "type": "documentation",
+            "language": "Markdown",
+            "tier": 3,
+            "coverage": {
+              "target": 0
+            },
+            "docs": {
+              "profile": "standard"
+            },
+            "owner": "alaweimm90",
+            "description": "TalAI - AI prompt engineering and documentation",
+            "status": "active",
+            "created": "2025-11-26"
+          },
+          "has_metadata": true,
+          "compliance": {
+            "has_readme": true,
+            "has_codeowners": true,
+            "has_ci": true,
+            "has_tests": true,
+            "has_dockerfile": false
+          },
+          "type": "documentation",
+          "language": "Markdown",
+          "tier": 3,
+          "status": "active",
+          "owner": "alaweimm90",
+          "description": "TalAI - AI prompt engineering and documentation"
         }
       ],
       "summary": {
         "total_repos": 6,
         "by_language": {
           "Python": 5,
-          "Unknown": 1
+          "Markdown": 1
         },
         "by_type": {
           "scientific-library": 5,
-          "unknown": 1
+          "documentation": 1
         },
         "by_tier": {
           "1": 0,
           "2": 0,
-          "3": 0,
-          "4": 6
-        }
-      }
-    },
-    {
-      "name": "alaweimm90-tools",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools",
-      "repos": [
-        {
-          "name": "admin-dashboard",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\admin-dashboard",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/admin-dashboard",
-          "metadata": {
-            "type": "ui-application",
-            "language": "TypeScript",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: admin-dashboard",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "ui-application",
-          "language": "TypeScript",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: admin-dashboard"
-        },
-        {
-          "name": "alaweimm90-cli",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-cli",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/alaweimm90-cli",
-          "metadata": {
-            "type": "cli-tool",
-            "language": "Python",
-            "tier": 2,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: alaweimm90-cli",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "cli-tool",
-          "language": "Python",
-          "tier": 2,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: alaweimm90-cli"
-        },
-        {
-          "name": "alaweimm90-python-sdk",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\alaweimm90-python-sdk",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/alaweimm90-python-sdk",
-          "metadata": {
-            "type": "sdk",
-            "language": "Python",
-            "tier": 2,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: alaweimm90-python-sdk",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "sdk",
-          "language": "Python",
-          "tier": 2,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: alaweimm90-python-sdk"
-        },
-        {
-          "name": "business-intelligence",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\business-intelligence",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/business-intelligence",
-          "metadata": {
-            "type": "analytics",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: business-intelligence",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "analytics",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: business-intelligence"
-        },
-        {
-          "name": "core-framework",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\core-framework",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/core-framework",
-          "metadata": {
-            "type": "tool",
-            "language": "Python",
-            "tier": 2,
-            "coverage": {
-              "target": 80
-            },
-            "docs": {
-              "profile": "standard"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: core-framework",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "tool",
-          "language": "Python",
-          "tier": 2,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: core-framework"
-        },
-        {
-          "name": "devops-platform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\devops-platform",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/devops-platform",
-          "metadata": {
-            "type": "platform",
-            "language": "Python",
-            "tier": 1,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: devops-platform",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "platform",
-          "language": "Python",
-          "tier": 1,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: devops-platform"
-        },
-        {
-          "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\docs",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/docs",
-          "metadata": {
-            "type": "unknown",
-            "language": "python",
-            "tier": 4,
-            "owner": "alaweimm90-tools",
-            "description": "docs repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "docs repository"
-        },
-        {
-          "name": "helm-charts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\helm-charts",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/helm-charts",
-          "metadata": {
-            "type": "kubernetes-charts",
-            "language": "YAML",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: helm-charts",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "kubernetes-charts",
-          "language": "YAML",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: helm-charts"
-        },
-        {
-          "name": "job-search",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\job-search",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/job-search",
-          "metadata": {
-            "type": "application",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: job-search",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "application",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: job-search"
-        },
-        {
-          "name": "load-tests",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\load-tests",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/load-tests",
-          "metadata": {
-            "type": "testing",
-            "language": "Mixed",
-            "tier": 3,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: load-tests",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "testing",
-          "language": "Mixed",
-          "tier": 3,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: load-tests"
-        },
-        {
-          "name": "marketing-center",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\marketing-center",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/marketing-center",
-          "metadata": {
-            "type": "platform",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: marketing-center",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "platform",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: marketing-center"
-        },
-        {
-          "name": "monitoring",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\monitoring",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/monitoring",
-          "metadata": {
-            "type": "observability",
-            "language": "Mixed",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: monitoring",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "observability",
-          "language": "Mixed",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: monitoring"
-        },
-        {
-          "name": "prompty",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/prompty",
-          "metadata": {
-            "type": "llm-tool",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: prompty",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "llm-tool",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: prompty"
-        },
-        {
-          "name": "prompty-service",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\prompty-service",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/prompty-service",
-          "metadata": {
-            "type": "service",
-            "language": "Python",
-            "tier": 4,
-            "coverage": {
-              "target": 70
-            },
-            "docs": {
-              "profile": "minimal"
-            },
-            "owner": "alaweimm90-tools",
-            "description": "Repository: prompty-service",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": true
-          },
-          "type": "service",
-          "language": "Python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "Repository: prompty-service"
-        },
-        {
-          "name": "shared",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\shared",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/shared",
-          "metadata": {
-            "type": "unknown",
-            "language": "unknown",
-            "tier": 4,
-            "owner": "alaweimm90-tools",
-            "description": "shared repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "unknown",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "shared repository"
-        },
-        {
-          "name": "terraform",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-tools\\terraform",
-          "organization": "alaweimm90-tools",
-          "full_name": "alaweimm90-tools/terraform",
-          "metadata": {
-            "type": "unknown",
-            "language": "python",
-            "tier": 4,
-            "owner": "alaweimm90-tools",
-            "description": "terraform repository",
-            "status": "active",
-            "created": "2025-11-26"
-          },
-          "has_metadata": true,
-          "compliance": {
-            "has_readme": true,
-            "has_codeowners": true,
-            "has_ci": true,
-            "has_tests": true,
-            "has_dockerfile": false
-          },
-          "type": "unknown",
-          "language": "python",
-          "tier": 4,
-          "status": "active",
-          "owner": "alaweimm90-tools",
-          "description": "terraform repository"
-        }
-      ],
-      "summary": {
-        "total_repos": 16,
-        "by_language": {
-          "TypeScript": 1,
-          "Python": 9,
-          "python": 2,
-          "YAML": 1,
-          "Mixed": 2,
-          "unknown": 1
-        },
-        "by_type": {
-          "ui-application": 1,
-          "cli-tool": 1,
-          "sdk": 1,
-          "analytics": 1,
-          "tool": 1,
-          "platform": 2,
-          "unknown": 3,
-          "kubernetes-charts": 1,
-          "application": 1,
-          "testing": 1,
-          "observability": 1,
-          "llm-tool": 1,
-          "service": 1
-        },
-        "by_tier": {
-          "1": 1,
-          "2": 3,
           "3": 1,
-          "4": 11
+          "4": 5
         }
       }
     }
   ],
   "summary": {
-    "total_organizations": 5,
-    "total_repositories": 80,
+    "total_organizations": 4,
+    "total_repositories": 64,
     "by_language": {
-      "TypeScript": 12,
-      "unknown": 15,
+      "TypeScript": 11,
+      "unknown": 14,
       "typescript": 1,
-      "Python": 22,
-      "Unknown": 11,
-      "python": 8,
-      "YAML": 1,
-      "Mixed": 5,
+      "Python": 13,
+      "Markdown": 3,
+      "python": 6,
+      "Mixed": 3,
+      "Unknown": 10,
       "javascript": 1,
       "HTML": 1,
-      "Markdown": 2,
       "LaTeX": 1
     },
     "by_type": {
       "web-application": 2,
       "ecommerce": 1,
-      "unknown": 26,
+      "unknown": 22,
       "portfolio": 1,
       "automation": 2,
       "framework": 2,
       "scientific-library": 6,
-      "ui-application": 3,
-      "cli-tool": 2,
-      "sdk": 1,
-      "analytics": 1,
-      "tool": 1,
-      "platform": 2,
-      "kubernetes-charts": 1,
-      "application": 2,
-      "testing": 1,
-      "observability": 2,
-      "llm-tool": 1,
-      "service": 1,
+      "documentation": 2,
       "library": 7,
       "experimental": 1,
+      "application": 1,
       "laboratory": 1,
       "simulator": 1,
       "api": 1,
+      "cli-tool": 1,
       "cloud-platform": 1,
+      "ui-application": 2,
       "database": 1,
       "educational": 1,
       "examples": 1,
       "static-site": 1,
       "mlops": 1,
+      "observability": 1,
       "jupyter-notebooks": 1,
-      "documentation": 1,
       "academic-papers": 1,
       "project-tracking": 1,
       "visualizations": 1
     },
     "by_tier": {
-      "1": 2,
-      "2": 10,
+      "1": 1,
+      "2": 7,
       "3": 3,
-      "4": 65
+      "4": 53
     },
     "by_status": {
-      "active": 64,
-      "inactive": 16
+      "active": 49,
+      "inactive": 15
     }
   }
 }
