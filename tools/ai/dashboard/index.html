@@ -33,7 +33,7 @@
     <div class="container">
         <h1>🎯 Meta-Orchestration Dashboard</h1>
         <p id="lastUpdate">Loading...</p>
-        
+
         <div class="grid">
             <div class="card">
                 <h2>📊 Health Score</h2>
@@ -56,7 +56,7 @@
                 <span class="status-badge status-healthy" id="securityStatus">Loading</span>
             </div>
         </div>
-        
+
         <div class="grid" style="margin-top: 20px;">
             <div class="card">
                 <h2>📈 Task History</h2>
@@ -70,19 +70,68 @@
                 </table>
             </div>
         </div>
-        
+
         <div class="card" style="margin-top: 20px;">
             <h2>🤖 MCP Servers</h2>
             <div id="mcpServers" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">Loading...</div>
         </div>
     </div>
-    
+
     <button class="refresh-btn" onclick="refresh()">🔄 Refresh</button>
-    
+
     <script>
         const API_BASE = window.location.origin;
+        const WS_URL = `ws://${window.location.hostname}:3201`;
         let tasksChart;
-        
+        let ws = null;
+        let wsReconnectTimer = null;
+
+        // WebSocket connection for real-time updates
+        function connectWebSocket() {
+            if (ws && ws.readyState === WebSocket.OPEN) return;
+
+            try {
+                ws = new WebSocket(WS_URL);
+
+                ws.onopen = () => {
+                    console.log('🔌 WebSocket connected');
+                    document.getElementById('lastUpdate').innerHTML =
+                        `<span style="color: #4ade80;">● Live</span> Connected at ${new Date().toLocaleTimeString()}`;
+                    if (wsReconnectTimer) { clearInterval(wsReconnectTimer); wsReconnectTimer = null; }
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const payload = JSON.parse(event.data);
+                        if (payload.type === 'metrics') {
+                            updateFromWebSocket(payload.data);
+                            document.getElementById('lastUpdate').innerHTML =
+                                `<span style="color: #4ade80;">● Live</span> Updated at ${new Date().toLocaleTimeString()}`;
+                        }
+                    } catch (e) { console.error('WebSocket parse error:', e); }
+                };
+
+                ws.onclose = () => {
+                    console.log('❌ WebSocket disconnected');
+                    document.getElementById('lastUpdate').innerHTML =
+                        `<span style="color: #f87171;">● Offline</span> Reconnecting...`;
+                    ws = null;
+                    if (!wsReconnectTimer) wsReconnectTimer = setInterval(connectWebSocket, 5000);
+                };
+
+                ws.onerror = () => ws.close();
+            } catch (e) {
+                console.log('WebSocket not available, using polling');
+            }
+        }
+
+        function updateFromWebSocket(data) {
+            if (data.healthScore !== undefined) updateMetric('healthScore', data.healthScore);
+            if (data.complianceScore !== undefined) updateMetric('complianceScore', data.complianceScore);
+            if (data.securityScore !== undefined) updateMetric('securityScore', data.securityScore);
+            if (data.errors !== undefined) document.getElementById('testsPassing').textContent = 259 - data.errors;
+        }
+
         async function fetchData(endpoint) {
             try {
                 const res = await fetch(`${API_BASE}${endpoint}`);
@@ -90,7 +139,7 @@
                 return data.data || data;
             } catch (e) { console.error(endpoint, e); return null; }
         }
-        
+
         function updateMetric(id, value, thresholds = [80, 50]) {
             const el = document.getElementById(id);
             const statusEl = document.getElementById(id.replace('Score', 'Status').replace('Passing', 'Status'));
@@ -103,14 +152,14 @@
                 else { statusEl.className = 'status-badge status-error'; statusEl.textContent = 'Critical'; el.className = 'metric error'; }
             }
         }
-        
+
         async function refresh() {
             document.getElementById('lastUpdate').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-            
+
             const [health, metrics, issues, tasks] = await Promise.all([
                 fetchData('/health'), fetchData('/metrics'), fetchData('/issues?limit=5'), fetchData('/tasks/history')
             ]);
-            
+
             if (health) {
                 updateMetric('healthScore', health.score || 100);
                 updateMetric('testsPassing', health.tests?.passing || 241, [200, 100]);
@@ -119,15 +168,15 @@
                 updateMetric('complianceScore', metrics.complianceScore || 100);
                 updateMetric('securityScore', metrics.securityScore || 100);
             }
-            
+
             // Issues table
             const issuesBody = document.querySelector('#issuesTable tbody');
             if (issues?.issues?.length) {
-                issuesBody.innerHTML = issues.issues.slice(0, 5).map(i => 
+                issuesBody.innerHTML = issues.issues.slice(0, 5).map(i =>
                     `<tr><td>${i.type || 'info'}</td><td>${i.message || i.title || 'Unknown'}</td><td>${new Date(i.timestamp || Date.now()).toLocaleTimeString()}</td></tr>`
                 ).join('');
             } else { issuesBody.innerHTML = '<tr><td colspan="3">No issues 🎉</td></tr>'; }
-            
+
             // Tasks chart
             if (tasks?.tasks) {
                 const last7Days = Array.from({length: 7}, (_, i) => {
@@ -141,15 +190,18 @@
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#334155' } }, x: { grid: { display: false } } } }
                 });
             }
-            
+
             // MCP Servers
-            document.getElementById('mcpServers').innerHTML = ['github', 'filesystem', 'context', 'git', 'puppeteer', 'brave-search', 'sqlite', 'slack', 'playwright'].map(s => 
+            document.getElementById('mcpServers').innerHTML = ['github', 'filesystem', 'context', 'git', 'puppeteer', 'brave-search', 'sqlite', 'slack', 'playwright'].map(s =>
                 `<div style="background: #334155; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%;"></span>${s}</div>`
             ).join('');
         }
-        
+
+        // Initialize
         refresh();
-        setInterval(refresh, 30000);
+        connectWebSocket();
+        // Fallback polling if WebSocket unavailable
+        setInterval(() => { if (!ws || ws.readyState !== WebSocket.OPEN) refresh(); }, 30000);
     </script>
 </body>
 </html>
