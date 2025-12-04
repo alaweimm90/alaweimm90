@@ -166,9 +166,10 @@ export class ValidationProxy {
         },
       };
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       return {
         isValid: false,
-        errors: [`Validation failed: ${error.message}`],
+        errors: [`Validation failed: ${errorMessage}`],
         warnings: [],
         rollbackRequired: this.config.enableRollback,
         validationMetadata: {

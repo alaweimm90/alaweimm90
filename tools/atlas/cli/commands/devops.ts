@@ -58,7 +58,7 @@ export function registerDevOpsCommands(program: Command): void {
       const agents = opts.category ? getAgentsByCategory(opts.category) : listDevOpsAgents();
 
       if (agents.length === 0) {
-        output.warn('No agents found');
+        output.warning('No agents found');
         return;
       }
 

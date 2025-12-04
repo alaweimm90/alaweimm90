@@ -4,22 +4,21 @@
  */
 
 // Router - Intelligent task routing
-export { router, route, getRoutingStrategies } from './router.js';
+export { TaskRouter, createRouter } from './router.js';
 
 // Executor - Task execution engine
-export { executor, executeTask, type ExecutionResult } from './executor.js';
+export { executeWorkflow } from './executor.js';
 
 // Workflows - Workflow planning and execution
-export { workflowPlanner, planWorkflow, executeWorkflow } from './workflows.js';
+export { loadWorkflow, planWorkflow } from './workflows.js';
+export type { WorkflowStep, WorkflowDef, PlannedStep, WorkflowPlan } from './workflows.js';
 
 // Circuit Breaker - Failover and resilience
-export { circuitBreaker, CircuitState } from './circuit-breaker.js';
+export { CircuitBreaker } from './circuit-breaker.js';
+export type { CircuitBreakerConfig, CircuitBreakerState } from '@atlas/types/index.js';
 
 // Fallback - Fallback strategies
-export { FallbackManager, type FallbackResult } from './fallback.js';
-
-// Adapters - LLM provider adapters
-export { adapters, type LLMAdapter, type LLMResponse } from './adapters.js';
+export { FallbackManager, fallbackManager } from './fallback.js';
 
 // Governance - Policy enforcement
 export {

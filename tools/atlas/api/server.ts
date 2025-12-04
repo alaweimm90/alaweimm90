@@ -109,7 +109,7 @@ function sendError(res: http.ServerResponse, status: number, message: string): v
 
 function authenticateRequest(
   req: http.IncomingMessage,
-  config: ServerConfig,
+  _config: ServerConfig,
   authConfig: AuthConfig
 ): { valid: boolean; user?: User; error?: string } {
   // Build headers object

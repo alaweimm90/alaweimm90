@@ -5,7 +5,8 @@
  */
 
 import { Command } from 'commander';
-import { cliContext, output, progress, errorHandler, format } from '@atlas/cli/utils.js';
+import { output, progress, errorHandler, format } from '@atlas/cli/utils.js';
+// import { cliContext } from '@atlas/cli/utils.js'; // Reserved for future use
 import { RepositoryAnalyzer } from '@atlas/analysis/analyzer.js';
 // Bridge integrations - reserved for future KILO-validated operations
 // import { AtlasKiloBridge, ComplianceCheck } from '@atlas/integrations/atlas-kilo-bridge.js';
@@ -29,14 +30,10 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Analyzing repository...');
 
         try {
-          const _services = await cliContext.getServices();
+          // const _services = await cliContext.getServices(); // Reserved for future use
           const analyzer = new RepositoryAnalyzer();
 
-          const results = await analyzer.analyzeRepository(path, {
-            depth: options.depth,
-            includePatterns: options.includePatterns?.split(','),
-            excludePatterns: options.excludePatterns?.split(','),
-          });
+          const results = await analyzer.analyzeRepository(path);
 
           progress.succeed(spinner, 'Analysis complete');
 
@@ -62,17 +59,15 @@ export function registerAnalyzeCommands(program: Command): void {
     .command('complexity <path>')
     .description('Analyze code complexity metrics')
     .option('--threshold <threshold>', 'Complexity threshold', parseFloat, 10)
-    .action(async (path: string, options: any) => {
+    .action(async (path: string, _options: any) => {
       await errorHandler.handleAsync(async () => {
         const spinner = progress.start('Analyzing complexity...');
 
         try {
-          const _services = await cliContext.getServices();
+          // const _services = await cliContext.getServices(); // Reserved for future use
           const analyzer = new RepositoryAnalyzer();
 
-          const results = await analyzer.analyzeComplexity(path, {
-            threshold: options.threshold,
-          });
+          const results = await analyzer.analyzeComplexity(path);
 
           progress.succeed(spinner, 'Complexity analysis complete');
           displayComplexityResults(results);
@@ -93,7 +88,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Analyzing chaos...');
 
         try {
-          const _services = await cliContext.getServices();
+          // const _services = await cliContext.getServices(); // Reserved for future use
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.analyzeChaos(path);
@@ -116,7 +111,7 @@ export function registerAnalyzeCommands(program: Command): void {
         const spinner = progress.start('Quick scanning...');
 
         try {
-          const _services = await cliContext.getServices();
+          // const _services = await cliContext.getServices(); // Reserved for future use
           const analyzer = new RepositoryAnalyzer();
 
           const results = await analyzer.quickScan(path);
