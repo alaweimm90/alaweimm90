@@ -244,7 +244,7 @@ class CatalogBuilder:
 
         output = "\n".join(lines)
         if output_file:
-            output_file.write_text(output)
+            output_file.write_text(output, encoding="utf-8")
         return output
 
     def generate_html(self, output_file: Path = None) -> str:

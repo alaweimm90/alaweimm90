@@ -205,16 +205,16 @@ class MetaAuditor:
                 suggestion="Add more content to README.md"
             ))
 
-        # P1: Missing LICENSE (tier 1-2)
-        if tier <= 2:
-            license_file = project_path / "LICENSE"
-            if not license_file.exists() and not (project_path / "LICENSE.md").exists():
-                gaps.append(GovernanceGap(
-                    severity=GapSeverity.P1,
-                    category="legal",
-                    message="Missing LICENSE file",
-                    suggestion="Add LICENSE file with appropriate license"
-                ))
+        # Missing LICENSE (severity based on tier)
+        license_file = project_path / "LICENSE"
+        if not license_file.exists() and not (project_path / "LICENSE.md").exists():
+            severity = GapSeverity.P1 if tier <= 2 else GapSeverity.P3
+            gaps.append(GovernanceGap(
+                severity=severity,
+                category="legal",
+                message="Missing LICENSE file",
+                suggestion="Add LICENSE file with appropriate license"
+            ))
 
         # P1: Missing CODEOWNERS (tier 1-2)
         if tier <= 2:
