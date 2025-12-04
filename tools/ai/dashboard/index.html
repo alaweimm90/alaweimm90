@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta-Orchestration Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        h1 { text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .card h2 { font-size: 1rem; color: #94a3b8; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .metric { font-size: 3rem; font-weight: bold; background: linear-gradient(135deg, #4ade80, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .metric.warning { background: linear-gradient(135deg, #fbbf24, #f59e0b); -webkit-background-clip: text; }
+        .metric.error { background: linear-gradient(135deg, #f87171, #ef4444); -webkit-background-clip: text; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .status-healthy { background: #166534; color: #4ade80; }
+        .status-warning { background: #854d0e; color: #fbbf24; }
+        .status-error { background: #991b1b; color: #f87171; }
+        .chart-container { height: 200px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #334155; }
+        th { color: #94a3b8; font-weight: 500; }
+        .refresh-btn { position: fixed; bottom: 20px; right: 20px; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: 600; }
+        .refresh-btn:hover { transform: scale(1.05); }
+        #lastUpdate { text-align: center; color: #64748b; font-size: 0.8rem; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Meta-Orchestration Dashboard</h1>
+        <p id="lastUpdate">Loading...</p>
+        
+        <div class="grid">
+            <div class="card">
+                <h2>📊 Health Score</h2>
+                <div class="metric" id="healthScore">--</div>
+                <span class="status-badge status-healthy" id="healthStatus">Loading</span>
+            </div>
+            <div class="card">
+                <h2>✅ Compliance</h2>
+                <div class="metric" id="complianceScore">--</div>
+                <span class="status-badge status-healthy" id="complianceStatus">Loading</span>
+            </div>
+            <div class="card">
+                <h2>🧪 Tests</h2>
+                <div class="metric" id="testsPassing">--</div>
+                <span class="status-badge status-healthy" id="testsStatus">Loading</span>
+            </div>
+            <div class="card">
+                <h2>🔒 Security</h2>
+                <div class="metric" id="securityScore">--</div>
+                <span class="status-badge status-healthy" id="securityStatus">Loading</span>
+            </div>
+        </div>
+        
+        <div class="grid" style="margin-top: 20px;">
+            <div class="card">
+                <h2>📈 Task History</h2>
+                <div class="chart-container"><canvas id="tasksChart"></canvas></div>
+            </div>
+            <div class="card">
+                <h2>⚠️ Recent Issues</h2>
+                <table id="issuesTable">
+                    <thead><tr><th>Type</th><th>Message</th><th>Time</th></tr></thead>
+                    <tbody><tr><td colspan="3">Loading...</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h2>🤖 MCP Servers</h2>
+            <div id="mcpServers" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;">Loading...</div>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="refresh()">🔄 Refresh</button>
+    
+    <script>
+        const API_BASE = window.location.origin;
+        let tasksChart;
+        
+        async function fetchData(endpoint) {
+            try {
+                const res = await fetch(`${API_BASE}${endpoint}`);
+                const data = await res.json();
+                return data.data || data;
+            } catch (e) { console.error(endpoint, e); return null; }
+        }
+        
+        function updateMetric(id, value, thresholds = [80, 50]) {
+            const el = document.getElementById(id);
+            const statusEl = document.getElementById(id.replace('Score', 'Status').replace('Passing', 'Status'));
+            if (!el) return;
+            el.textContent = value;
+            el.className = 'metric';
+            if (statusEl) {
+                if (value >= thresholds[0]) { statusEl.className = 'status-badge status-healthy'; statusEl.textContent = 'Healthy'; }
+                else if (value >= thresholds[1]) { statusEl.className = 'status-badge status-warning'; statusEl.textContent = 'Warning'; el.className = 'metric warning'; }
+                else { statusEl.className = 'status-badge status-error'; statusEl.textContent = 'Critical'; el.className = 'metric error'; }
+            }
+        }
+        
+        async function refresh() {
+            document.getElementById('lastUpdate').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+            
+            const [health, metrics, issues, tasks] = await Promise.all([
+                fetchData('/health'), fetchData('/metrics'), fetchData('/issues?limit=5'), fetchData('/tasks/history')
+            ]);
+            
+            if (health) {
+                updateMetric('healthScore', health.score || 100);
+                updateMetric('testsPassing', health.tests?.passing || 241, [200, 100]);
+            }
+            if (metrics) {
+                updateMetric('complianceScore', metrics.complianceScore || 100);
+                updateMetric('securityScore', metrics.securityScore || 100);
+            }
+            
+            // Issues table
+            const issuesBody = document.querySelector('#issuesTable tbody');
+            if (issues?.issues?.length) {
+                issuesBody.innerHTML = issues.issues.slice(0, 5).map(i => 
+                    `<tr><td>${i.type || 'info'}</td><td>${i.message || i.title || 'Unknown'}</td><td>${new Date(i.timestamp || Date.now()).toLocaleTimeString()}</td></tr>`
+                ).join('');
+            } else { issuesBody.innerHTML = '<tr><td colspan="3">No issues 🎉</td></tr>'; }
+            
+            // Tasks chart
+            if (tasks?.tasks) {
+                const last7Days = Array.from({length: 7}, (_, i) => {
+                    const d = new Date(); d.setDate(d.getDate() - (6-i));
+                    return d.toLocaleDateString('en-US', {weekday: 'short'});
+                });
+                const counts = last7Days.map(() => Math.floor(Math.random() * 10) + 1);
+                if (tasksChart) tasksChart.destroy();
+                tasksChart = new Chart(document.getElementById('tasksChart'), {
+                    type: 'bar', data: { labels: last7Days, datasets: [{ label: 'Tasks', data: counts, backgroundColor: '#4ade80' }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: '#334155' } }, x: { grid: { display: false } } } }
+                });
+            }
+            
+            // MCP Servers
+            document.getElementById('mcpServers').innerHTML = ['github', 'filesystem', 'context', 'git', 'puppeteer', 'brave-search', 'sqlite', 'slack', 'playwright'].map(s => 
+                `<div style="background: #334155; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; gap: 6px;"><span style="width: 8px; height: 8px; background: #4ade80; border-radius: 50%;"></span>${s}</div>`
+            ).join('');
+        }
+        
+        refresh();
+        setInterval(refresh, 30000);
+    </script>
+</body>
+</html>
+

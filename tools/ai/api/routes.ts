@@ -30,6 +30,25 @@ interface ApiResponse<T = unknown> {
   timestamp: string;
 }
 
+// JSON file structure interfaces
+interface TaskHistory {
+  tasks?: Array<{ type?: string; [key: string]: unknown }>;
+}
+
+interface ErrorTracking {
+  errors?: unknown[];
+}
+
+interface IssueTracking {
+  issues?: unknown[];
+}
+
+interface MetricsData {
+  healthScore?: number;
+  complianceScore?: number;
+  [key: string]: unknown;
+}
+
 // Utilities
 export function jsonResponse<T>(res: ServerResponse, status: number, data: ApiResponse<T>): void {
   res.writeHead(status, { 'Content-Type': 'application/json' });
@@ -280,7 +299,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/metrics',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const metrics = readJsonFile(path.join(AI_DIR, 'metrics.json'));
       if (metrics) success(res, metrics);
       else error(res, 404, 'No metrics found');
@@ -289,7 +308,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/context',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const contextPath = path.join(AI_DIR, 'context.yaml');
       if (fs.existsSync(contextPath))
         success(res, { context: fs.readFileSync(contextPath, 'utf8') });
@@ -299,7 +318,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/sync',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         runCommand('npm run ai:sync');
         success(res, { message: 'Sync completed' });
@@ -311,7 +330,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/tasks/history',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       const history = readJsonFile(path.join(AI_DIR, 'task-history.json'));
       success(res, history || { tasks: [] });
     },
@@ -319,7 +338,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/tasks/start',
-    handler: async (_req, res, _params, body) => {
+    handler: async (_req, res, _params, body): Promise<void> => {
       try {
         const { type, scope, description } = body as {
           type: string;
@@ -336,7 +355,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'POST',
     path: '/tasks/complete',
-    handler: async (_req, res, _params, body) => {
+    handler: async (_req, res, _params, body): Promise<void> => {
       try {
         const {
           success: s,
@@ -353,7 +372,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/telemetry/status',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         success(res, { status: runCommand('npm run ai:telemetry:status 2>&1') });
       } catch (err) {
@@ -364,7 +383,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/telemetry/alerts',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         success(res, { alerts: runCommand('npm run ai:telemetry:alerts 2>&1') });
       } catch (err) {
@@ -375,7 +394,7 @@ export const miscRoutes: RouteHandler[] = [
   {
     method: 'GET',
     path: '/dashboard',
-    handler: async (_req, res) => {
+    handler: async (_req, res): Promise<void> => {
       try {
         success(res, { dashboard: runCommand('npm run ai:dashboard 2>&1') });
       } catch (err) {
@@ -384,6 +403,94 @@ export const miscRoutes: RouteHandler[] = [
     },
   },
 ];
+
+// Visual Dashboard endpoint
+export const dashboardRoutes: RouteHandler[] = [
+  {
+    method: 'GET',
+    path: '/dashboard/ui',
+    handler: async (_req, res): Promise<void> => {
+      const dashboardPath = path.join(ROOT, 'tools/ai/dashboard/index.html');
+      if (fs.existsSync(dashboardPath)) {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(fs.readFileSync(dashboardPath, 'utf8'));
+      } else {
+        error(res, 404, 'Dashboard not found');
+      }
+    },
+  },
+];
+
+// Prometheus metrics endpoint
+export const prometheusRoutes: RouteHandler[] = [
+  {
+    method: 'GET',
+    path: '/metrics/prometheus',
+    handler: async (_req, res): Promise<void> => {
+      const metrics = (readJsonFile(path.join(AI_DIR, 'metrics.json')) || {}) as MetricsData;
+      const history = (readJsonFile(path.join(AI_DIR, 'task-history.json')) || {
+        tasks: [],
+      }) as TaskHistory;
+      const errors = (readJsonFile(path.join(ROOT, '.metaHub/reports/error-tracking.json')) || {
+        errors: [],
+      }) as ErrorTracking;
+      const issues = (readJsonFile(path.join(ROOT, '.metaHub/reports/issues.json')) || {
+        issues: [],
+      }) as IssueTracking;
+
+      const promMetrics: string[] = [
+        '# HELP ai_tasks_total Total number of AI tasks',
+        '# TYPE ai_tasks_total counter',
+        `ai_tasks_total ${history.tasks?.length || 0}`,
+        '',
+        '# HELP ai_tasks_by_type Tasks grouped by type',
+        '# TYPE ai_tasks_by_type gauge',
+      ];
+
+      // Count tasks by type
+      const taskTypes: Record<string, number> = {};
+      for (const task of history.tasks || []) {
+        const type = task.type || 'unknown';
+        taskTypes[type] = (taskTypes[type] || 0) + 1;
+      }
+      for (const [type, count] of Object.entries(taskTypes)) {
+        promMetrics.push(`ai_tasks_by_type{type="${type}"} ${count}`);
+      }
+
+      promMetrics.push('');
+      promMetrics.push('# HELP ai_errors_total Total number of errors');
+      promMetrics.push('# TYPE ai_errors_total counter');
+      promMetrics.push(`ai_errors_total ${errors.errors?.length || 0}`);
+      promMetrics.push('');
+      promMetrics.push('# HELP ai_issues_total Total number of issues');
+      promMetrics.push('# TYPE ai_issues_total counter');
+      promMetrics.push(`ai_issues_total ${issues.issues?.length || 0}`);
+      promMetrics.push('');
+      promMetrics.push('# HELP ai_health_score Current health score');
+      promMetrics.push('# TYPE ai_health_score gauge');
+      promMetrics.push(`ai_health_score ${metrics.healthScore || 100}`);
+      promMetrics.push('');
+      promMetrics.push('# HELP ai_compliance_score Current compliance score');
+      promMetrics.push('# TYPE ai_compliance_score gauge');
+      promMetrics.push(`ai_compliance_score ${metrics.complianceScore || 100}`);
+      promMetrics.push('');
+      promMetrics.push('# HELP ai_api_requests_total Total API requests (since restart)');
+      promMetrics.push('# TYPE ai_api_requests_total counter');
+      promMetrics.push(`ai_api_requests_total ${globalRequestCount}`);
+      promMetrics.push('');
+      promMetrics.push(`# Generated at ${new Date().toISOString()}`);
+
+      res.writeHead(200, { 'Content-Type': 'text/plain; version=0.0.4' });
+      res.end(promMetrics.join('\n'));
+    },
+  },
+];
+
+// Request counter for Prometheus
+let globalRequestCount = 0;
+export function incrementRequestCount(): void {
+  globalRequestCount++;
+}
 
 // All routes combined
 export const routes: RouteHandler[] = [
@@ -395,4 +502,6 @@ export const routes: RouteHandler[] = [
   ...errorsRoutes,
   ...issuesRoutes,
   ...miscRoutes,
+  ...dashboardRoutes,
+  ...prometheusRoutes,
 ];

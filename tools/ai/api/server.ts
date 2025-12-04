@@ -1,15 +1,63 @@
 #!/usr/bin/env npx tsx
 /**
  * REST API Server for AI Tools
- * Exposes AI tools via HTTP REST endpoints
+ * Exposes AI tools via HTTP REST endpoints with rate limiting
  */
 
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 
-import { routes, RouteHandler, parseBody, error } from './routes.js';
+import {
+  routes,
+  RouteHandler,
+  parseBody,
+  error,
+  jsonResponse,
+  incrementRequestCount,
+} from './routes.js';
 
 const PORT = parseInt(process.env.AI_API_PORT || '3200', 10);
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX || '100', 10);
+
+// Rate limiter store
+interface RateLimitEntry {
+  count: number;
+  resetAt: number;
+}
+const rateLimitStore = new Map<string, RateLimitEntry>();
+
+function getClientIP(req: IncomingMessage): string {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) return (Array.isArray(forwarded) ? forwarded[0] : forwarded).split(',')[0].trim();
+  return req.socket.remoteAddress || 'unknown';
+}
+
+function checkRateLimit(clientIP: string): {
+  allowed: boolean;
+  remaining: number;
+  resetAt: number;
+} {
+  const now = Date.now();
+  let entry = rateLimitStore.get(clientIP);
+
+  if (!entry || entry.resetAt < now) {
+    entry = { count: 0, resetAt: now + RATE_LIMIT_WINDOW_MS };
+    rateLimitStore.set(clientIP, entry);
+  }
+
+  entry.count++;
+  const remaining = Math.max(0, RATE_LIMIT_MAX_REQUESTS - entry.count);
+  return { allowed: entry.count <= RATE_LIMIT_MAX_REQUESTS, remaining, resetAt: entry.resetAt };
+}
+
+// Clean up expired entries periodically
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, entry] of rateLimitStore.entries()) {
+    if (entry.resetAt < now) rateLimitStore.delete(ip);
+  }
+}, RATE_LIMIT_WINDOW_MS);
 
 function findRoute(method: string, pathname: string): RouteHandler | undefined {
   return routes.find((r) => r.method === method && r.path === pathname);
@@ -31,6 +79,22 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     return;
   }
 
+  // Rate limiting
+  const clientIP = getClientIP(req);
+  const rateLimit = checkRateLimit(clientIP);
+  res.setHeader('X-RateLimit-Limit', RATE_LIMIT_MAX_REQUESTS.toString());
+  res.setHeader('X-RateLimit-Remaining', rateLimit.remaining.toString());
+  res.setHeader('X-RateLimit-Reset', Math.ceil(rateLimit.resetAt / 1000).toString());
+
+  if (!rateLimit.allowed) {
+    jsonResponse(res, 429, {
+      success: false,
+      error: 'Too many requests. Please try again later.',
+      timestamp: new Date().toISOString(),
+    });
+    return;
+  }
+
   const url = new URL(req.url || '/', `http://localhost:${PORT}`);
   const pathname = url.pathname.replace(/^\/api/, ''); // Strip /api prefix if present
   const params = url.searchParams;
@@ -43,6 +107,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   }
 
   try {
+    incrementRequestCount();
     const body = ['POST', 'PUT'].includes(req.method || '') ? await parseBody(req) : undefined;
     await route.handler(req, res, params, body);
   } catch (err) {
@@ -90,9 +155,9 @@ function main(): void {
 ║                                                              ║
 ║  Features:                                                   ║
 ║    • Full CORS support                                       ║
+║    • Rate limiting (${RATE_LIMIT_MAX_REQUESTS}/min per IP)                            ║
 ║    • JSON request/response                                   ║
 ║    • Query parameter filtering                               ║
-║    • Comprehensive error handling                            ║
 ║                                                              ║
 ╠══════════════════════════════════════════════════════════════╣
 ║  Quick Start:                                                ║
@@ -120,7 +185,8 @@ Commands:
   routes      List all available routes
 
 Environment Variables:
-  AI_API_PORT    Server port (default: 3200)
+  AI_API_PORT        Server port (default: 3200)
+  RATE_LIMIT_MAX     Max requests per minute per IP (default: 100)
 
 Example:
   npm run ai:api:start
