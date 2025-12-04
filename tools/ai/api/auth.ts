@@ -114,7 +114,7 @@ export function hasScope(apiKey: ApiKey, requiredScope: string): boolean {
  */
 export function authMiddleware(
   req: IncomingMessage,
-  res: ServerResponse,
+  _res: ServerResponse,
   pathname: string
 ): { authenticated: boolean; apiKey?: ApiKey; error?: string } {
   // Allow public endpoints without auth
