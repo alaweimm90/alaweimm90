@@ -163,9 +163,8 @@ class MetaAuditor:
     def _detect_language(self, project_path: Path) -> Optional[str]:
         """Detect project language from files."""
         for language, indicators in self.LANGUAGE_INDICATORS.items():
-            for indicator in indicators:
-                if (project_path / indicator).exists():
-                    return language
+            if any((project_path / ind).exists() for ind in indicators):
+                return language
         return None
 
     def _infer_type(self, name: str) -> str:
@@ -197,7 +196,7 @@ class MetaAuditor:
                 message="Missing README.md file",
                 suggestion="Create README.md with project description"
             ))
-        elif readme.exists() and len(readme.read_text()) < 50:
+        elif len(readme.read_text()) < 50:
             gaps.append(GovernanceGap(
                 severity=GapSeverity.P2,
                 category="documentation",
@@ -206,11 +205,9 @@ class MetaAuditor:
             ))
 
         # Missing LICENSE (severity based on tier)
-        license_file = project_path / "LICENSE"
-        if not license_file.exists() and not (project_path / "LICENSE.md").exists():
-            severity = GapSeverity.P1 if tier <= 2 else GapSeverity.P3
+        if not any((project_path / f).exists() for f in ("LICENSE", "LICENSE.md")):
             gaps.append(GovernanceGap(
-                severity=severity,
+                severity=GapSeverity.P1 if tier <= 2 else GapSeverity.P3,
                 category="legal",
                 message="Missing LICENSE file",
                 suggestion="Add LICENSE file with appropriate license"
@@ -230,7 +227,7 @@ class MetaAuditor:
         # P1: Missing CI (tier 1-2)
         if tier <= 2:
             ci_dir = project_path / ".github" / "workflows"
-            if not ci_dir.exists() or not list(ci_dir.glob("*.yml")):
+            if not ci_dir.exists() or not any(ci_dir.glob("*.yml")):
                 gaps.append(GovernanceGap(
                     severity=GapSeverity.P1,
                     category="ci",
@@ -239,15 +236,13 @@ class MetaAuditor:
                 ))
 
         # P2: Missing tests (tier 1-2)
-        if tier <= 2:
-            has_tests = (project_path / "tests").exists() or (project_path / "test").exists()
-            if not has_tests:
-                gaps.append(GovernanceGap(
-                    severity=GapSeverity.P2,
-                    category="testing",
-                    message="Missing tests directory",
-                    suggestion="Add tests directory with test files"
-                ))
+        if tier <= 2 and not any((project_path / d).exists() for d in ("tests", "test")):
+            gaps.append(GovernanceGap(
+                severity=GapSeverity.P2,
+                category="testing",
+                message="Missing tests directory",
+                suggestion="Add tests directory with test files"
+            ))
 
         audit.gaps = gaps
 
@@ -256,16 +251,8 @@ class MetaAuditor:
         if not audit.gaps:
             return 100.0
 
-        # Deduct points based on severity
-        deductions = {
-            GapSeverity.P0: 30,
-            GapSeverity.P1: 15,
-            GapSeverity.P2: 5,
-            GapSeverity.P3: 2,
-        }
-
-        total_deduction = sum(deductions.get(g.severity, 0) for g in audit.gaps)
-        return max(0.0, 100.0 - total_deduction)
+        deductions = {GapSeverity.P0: 30, GapSeverity.P1: 15, GapSeverity.P2: 5, GapSeverity.P3: 2}
+        return max(0.0, 100.0 - sum(deductions[g.severity] for g in audit.gaps))
 
     def generate_report(self, fmt: str = "text") -> str:
         """
@@ -459,28 +446,21 @@ class ProjectPromoter:
 
     def _detect_language(self, project_path: Path) -> Optional[str]:
         """Detect project language from files."""
-        if (project_path / "pyproject.toml").exists():
-            return "python"
-        if (project_path / "tsconfig.json").exists():
-            return "typescript"
-        if (project_path / "package.json").exists():
-            return "javascript"
-        if (project_path / "go.mod").exists():
-            return "go"
-        if (project_path / "Cargo.toml").exists():
-            return "rust"
+        lang_map = {
+            "pyproject.toml": "python",
+            "tsconfig.json": "typescript",
+            "package.json": "javascript",
+            "go.mod": "go",
+            "Cargo.toml": "rust"
+        }
+        for file, lang in lang_map.items():
+            if (project_path / file).exists():
+                return lang
         return None
 
     def _infer_type(self, name: str) -> str:
         """Infer project type from name prefix."""
-        prefixes = {
-            "lib-": "library",
-            "tool-": "tool",
-            "svc-": "service",
-            "app-": "application",
-            "demo-": "demo",
-        }
-        for prefix, repo_type in prefixes.items():
+        for prefix, repo_type in self.TYPE_PREFIXES.items():
             if name.startswith(prefix):
                 return repo_type
         return "unknown"
