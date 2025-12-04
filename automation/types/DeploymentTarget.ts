@@ -9,7 +9,7 @@ export enum DeploymentTarget {
   KUBERNETES = 'kubernetes',
   DOCKER = 'docker',
   SERVERLESS = 'serverless',
-  EDGE = 'edge'
+  EDGE = 'edge',
 }
 
 /**

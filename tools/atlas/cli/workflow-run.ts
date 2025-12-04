@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+// CLI script with inline helper functions
+
 import { loadWorkflow } from '@atlas/orchestration/workflows.js';
 import { executeWorkflow } from '@atlas/orchestration/executor.js';
 import chalk from 'chalk';

@@ -290,29 +290,30 @@ class AsyncTaskQueue:
     def _worker_loop(self):
         """Main worker loop."""
         while self.running:
-            try:
-                # Get task with timeout
-                priority, timestamp, task = self.task_queue.get(timeout=1.0)
+            task = self._get_next_task()
+            if task:
+                self._process_task(task)
 
-                # Execute task in thread pool
-                future = self.executor.submit(self._execute_task, task)
+    def _get_next_task(self):
+        """Get next task from queue, or None if empty."""
+        try:
+            priority, timestamp, task = self.task_queue.get(timeout=1.0)
+            return task
+        except queue.Empty:
+            return None
 
-                # Store result when complete
-                try:
-                    result = future.result(timeout=300)  # 5 minute timeout
-                    self.results[task.task_id] = result
-                except Exception as e:
-                    error_result = TaskResult(
-                        task_id=task.task_id,
-                        status=TaskStatus.FAILED,
-                        error=str(e)
-                    )
-                    self.results[task.task_id] = error_result
-
-            except queue.Empty:
-                continue
-            except Exception as e:
-                print(f"Worker error: {e}")
+    def _process_task(self, task):
+        """Process a single task and store result."""
+        try:
+            future = self.executor.submit(self._execute_task, task)
+            result = future.result(timeout=300)
+            self.results[task.task_id] = result
+        except Exception as e:
+            self.results[task.task_id] = TaskResult(
+                task_id=task.task_id,
+                status=TaskStatus.FAILED,
+                error=str(e)
+            )
 
     def _execute_task(self, task: ParallelTask) -> TaskResult:
         """Execute a single parallel task."""
@@ -437,54 +438,11 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
 
         while len(completed_stages) < len(stages) and iteration < max_iterations:
             iteration += 1
-            progress_made = False
+            ready_stages = self._find_ready_stages(stages, completed_stages, iteration)
+            parallel_stages, sequential_stages = self._partition_stages(ready_stages)
 
-            # Find stages that can be executed (dependencies satisfied)
-            ready_stages = []
-            for stage in stages:
-                stage_name = stage.get("name", f"stage_{iteration}")
-
-                if stage_name in completed_stages:
-                    continue
-
-                # Check dependencies
-                depends_on = stage.get("depends_on", [])
-                if not all(dep in completed_stages for dep in depends_on):
-                    continue
-
-                ready_stages.append((stage_name, stage))
-
-            # Group ready stages by parallel capability
-            parallel_stages = []
-            sequential_stages = []
-
-            for stage_name, stage in ready_stages:
-                if stage.get("parallel", False) or stage.get("tasks"):
-                    parallel_stages.append((stage_name, stage))
-                else:
-                    sequential_stages.append((stage_name, stage))
-
-            # Execute parallel stages
-            if parallel_stages:
-                parallel_results = self._execute_parallel_stages(
-                    parallel_stages, context, dry_run
-                )
-                for stage_name, result in parallel_results.items():
-                    context.stage_results[stage_name] = result
-                    if result.status == TaskStatus.COMPLETED:
-                        completed_stages.add(stage_name)
-                        context.checkpoint(stage_name)
-                        progress_made = True
-
-            # Execute sequential stages
-            for stage_name, stage in sequential_stages:
-                result = self._execute_stage(stage, context, dry_run)
-                context.stage_results[stage_name] = result
-
-                if result.status == TaskStatus.COMPLETED:
-                    completed_stages.add(stage_name)
-                    context.checkpoint(stage_name)
-                    progress_made = True
+            progress_made = self._run_parallel_batch(parallel_stages, context, completed_stages, dry_run)
+            progress_made |= self._run_sequential_batch(sequential_stages, context, completed_stages, dry_run)
 
             if not progress_made:
                 break
@@ -499,6 +457,54 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
 
         return context
 
+    def _find_ready_stages(self, stages, completed_stages, iteration):
+        """Find stages with satisfied dependencies."""
+        ready = []
+        for stage in stages:
+            stage_name = stage.get("name", f"stage_{iteration}")
+            if stage_name in completed_stages:
+                continue
+            depends_on = stage.get("depends_on", [])
+            if all(dep in completed_stages for dep in depends_on):
+                ready.append((stage_name, stage))
+        return ready
+
+    def _partition_stages(self, ready_stages):
+        """Partition stages into parallel and sequential groups."""
+        parallel, sequential = [], []
+        for stage_name, stage in ready_stages:
+            if stage.get("parallel", False) or stage.get("tasks"):
+                parallel.append((stage_name, stage))
+            else:
+                sequential.append((stage_name, stage))
+        return parallel, sequential
+
+    def _run_parallel_batch(self, parallel_stages, context, completed_stages, dry_run) -> bool:
+        """Execute parallel stages batch. Returns True if progress was made."""
+        if not parallel_stages:
+            return False
+        results = self._execute_parallel_stages(parallel_stages, context, dry_run)
+        progress = False
+        for stage_name, result in results.items():
+            context.stage_results[stage_name] = result
+            if result.status == TaskStatus.COMPLETED:
+                completed_stages.add(stage_name)
+                context.checkpoint(stage_name)
+                progress = True
+        return progress
+
+    def _run_sequential_batch(self, sequential_stages, context, completed_stages, dry_run) -> bool:
+        """Execute sequential stages batch. Returns True if progress was made."""
+        progress = False
+        for stage_name, stage in sequential_stages:
+            result = self._execute_stage(stage, context, dry_run)
+            context.stage_results[stage_name] = result
+            if result.status == TaskStatus.COMPLETED:
+                completed_stages.add(stage_name)
+                context.checkpoint(stage_name)
+                progress = True
+        return progress
+
     def _execute_parallel_stages(
         self,
         parallel_stages: List[tuple],
@@ -507,45 +513,42 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
     ) -> Dict[str, TaskResult]:
         """Execute multiple stages in parallel."""
         results = {}
+        tasks_to_run = []
 
-        # Create parallel tasks
-        tasks = []
         for stage_name, stage in parallel_stages:
             if stage.get("tasks"):
-                # Handle parallel tasks within a stage
-                task_results = self._execute_parallel_tasks(stage, context, dry_run)
-                results.update(task_results)
+                results.update(self._execute_parallel_tasks(stage, context, dry_run))
             else:
-                # Handle entire stage in parallel
-                task = ParallelTask(
-                    task_id=f"task_{uuid.uuid4().hex[:8]}",
-                    stage=stage,
-                    context=context,
-                    priority=self._get_stage_priority(stage)
-                )
-                tasks.append((stage_name, task))
+                tasks_to_run.append((stage_name, stage))
 
-        if tasks:
-            # Execute stages in parallel using ThreadPoolExecutor
-            with ThreadPoolExecutor(max_workers=min(len(tasks), self.max_workers)) as executor:
-                future_to_stage = {
-                    executor.submit(self._execute_stage, stage, context, dry_run): stage_name
-                    for stage_name, stage in parallel_stages if not stage.get("tasks")
-                }
-
-                for future in as_completed(future_to_stage):
-                    stage_name = future_to_stage[future]
-                    try:
-                        result = future.result()
-                        results[stage_name] = result
-                    except Exception as e:
-                        results[stage_name] = TaskResult(
-                            task_id=f"task_{uuid.uuid4().hex[:8]}",
-                            status=TaskStatus.FAILED,
-                            error=str(e)
-                        )
+        if tasks_to_run:
+            results.update(self._run_stages_in_threadpool(tasks_to_run, context, dry_run))
 
         return results
+
+    def _run_stages_in_threadpool(self, stages, context, dry_run) -> Dict[str, TaskResult]:
+        """Run stages in a thread pool and collect results."""
+        results = {}
+        with ThreadPoolExecutor(max_workers=min(len(stages), self.max_workers)) as executor:
+            future_to_stage = {
+                executor.submit(self._execute_stage, stage, context, dry_run): name
+                for name, stage in stages
+            }
+            for future in as_completed(future_to_stage):
+                stage_name = future_to_stage[future]
+                results[stage_name] = self._get_future_result(future, stage_name)
+        return results
+
+    def _get_future_result(self, future, stage_name) -> TaskResult:
+        """Get result from a future, handling exceptions."""
+        try:
+            return future.result()
+        except Exception as e:
+            return TaskResult(
+                task_id=f"task_{uuid.uuid4().hex[:8]}",
+                status=TaskStatus.FAILED,
+                error=str(e)
+            )
 
     def _execute_parallel_tasks(
         self,
@@ -555,44 +558,40 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
     ) -> Dict[str, TaskResult]:
         """Execute parallel tasks within a stage."""
         tasks = stage.get("tasks", [])
-        results = {}
+        parallel_tasks = self._build_parallel_tasks(tasks, stage, context)
+        return self._run_tasks_in_threadpool(parallel_tasks, context, dry_run)
 
-        # Create task definitions for parallel execution
-        parallel_tasks = []
+    def _build_parallel_tasks(self, tasks, stage, context):
+        """Build ParallelTask objects for each task name."""
+        result = []
         for task_name in tasks:
             task_def = {
                 "name": task_name,
                 "action": f"Execute {task_name}",
                 "agent": stage.get("agent", "default_agent")
             }
-
             task = ParallelTask(
                 task_id=f"task_{uuid.uuid4().hex[:8]}",
                 stage=task_def,
                 context=context,
                 priority=self._get_stage_priority(stage)
             )
-            parallel_tasks.append((task_name, task))
+            result.append((task_name, task))
+        return result
 
-        # Execute tasks in parallel
+    def _run_tasks_in_threadpool(self, parallel_tasks, context, dry_run) -> Dict[str, TaskResult]:
+        """Run tasks in a thread pool and collect results."""
+        results = {}
+        if not parallel_tasks:
+            return results
         with ThreadPoolExecutor(max_workers=min(len(parallel_tasks), self.max_workers)) as executor:
             future_to_task = {
-                executor.submit(self._execute_stage, task.stage, context, dry_run): task_name
-                for task_name, task in parallel_tasks
+                executor.submit(self._execute_stage, task.stage, context, dry_run): name
+                for name, task in parallel_tasks
             }
-
             for future in as_completed(future_to_task):
                 task_name = future_to_task[future]
-                try:
-                    result = future.result()
-                    results[task_name] = result
-                except Exception as e:
-                    results[task_name] = TaskResult(
-                        task_id=f"task_{uuid.uuid4().hex[:8]}",
-                        status=TaskStatus.FAILED,
-                        error=str(e)
-                    )
-
+                results[task_name] = self._get_future_result(future, task_name)
         return results
 
     def _get_stage_priority(self, stage: Dict[str, Any]) -> TaskPriority:
@@ -608,76 +607,51 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
         else:
             return TaskPriority.LOW
 
-    def _handle_claude_analysis(self, task: ParallelTask) -> TaskResult:
-        """Handle Claude reasoning for code analysis."""
+    def _execute_with_timing(self, task: ParallelTask, handler_fn: Callable) -> TaskResult:
+        """Generic wrapper that handles timing and error handling for all handlers."""
         start_time = time.time()
-
         try:
-            # Simulate Claude analysis
-            analysis_result = {
-                "refactoring_opportunities": [
-                    "Extract complex method in class A",
-                    "Consolidate duplicate utility functions",
-                    "Simplify conditional logic in module B"
-                ],
-                "complexity_score": 0.7,
-                "recommendations": [
-                    "Consider breaking down large functions",
-                    "Add type hints for better maintainability",
-                    "Implement proper error handling"
-                ]
-            }
-
-            duration_ms = int((time.time() - start_time) * 1000)
-
+            output = handler_fn(task)
             return TaskResult(
                 task_id=task.task_id,
                 status=TaskStatus.COMPLETED,
-                output=analysis_result,
-                duration_ms=duration_ms
+                output=output,
+                duration_ms=int((time.time() - start_time) * 1000)
             )
-
         except Exception as e:
-            duration_ms = int((time.time() - start_time) * 1000)
             return TaskResult(
                 task_id=task.task_id,
                 status=TaskStatus.FAILED,
                 error=str(e),
-                duration_ms=duration_ms
+                duration_ms=int((time.time() - start_time) * 1000)
             )
+
+    def _handle_claude_analysis(self, task: ParallelTask) -> TaskResult:
+        """Handle Claude reasoning for code analysis."""
+        return self._execute_with_timing(task, lambda t: {
+            "refactoring_opportunities": [
+                "Extract complex method in class A",
+                "Consolidate duplicate utility functions",
+                "Simplify conditional logic in module B"
+            ],
+            "complexity_score": 0.7,
+            "recommendations": [
+                "Consider breaking down large functions",
+                "Add type hints for better maintainability",
+                "Implement proper error handling"
+            ]
+        })
 
     def _handle_testing(self, task: ParallelTask) -> TaskResult:
         """Handle parallel testing."""
-        start_time = time.time()
-
-        try:
-            # Simulate distributed testing
-            testing_result = {
-                "tests_run": 150,
-                "tests_passed": 145,
-                "tests_failed": 5,
-                "coverage_percent": 87.5,
-                "test_framework": "pytest",
-                "parallel_workers": 4
-            }
-
-            duration_ms = int((time.time() - start_time) * 1000)
-
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.COMPLETED,
-                output=testing_result,
-                duration_ms=duration_ms
-            )
-
-        except Exception as e:
-            duration_ms = int((time.time() - start_time) * 1000)
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.FAILED,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+        return self._execute_with_timing(task, lambda t: {
+            "tests_run": 150,
+            "tests_passed": 145,
+            "tests_failed": 5,
+            "coverage_percent": 87.5,
+            "test_framework": "pytest",
+            "parallel_workers": 4
+        })
 
     def _handle_shell_command(self, task: ParallelTask) -> TaskResult:
         """Handle shell command execution for various tool types."""
@@ -778,68 +752,24 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
 
     def _handle_deployment(self, task: ParallelTask) -> TaskResult:
         """Handle async deployment."""
-        start_time = time.time()
-
-        try:
-            # Simulate Docker deployment
-            deployment_result = {
-                "deployment_success": True,
-                "environment": "staging",
-                "strategy": "blue_green",
-                "containers_deployed": 2,
-                "health_check_passed": True,
-                "rollback_available": True
-            }
-
-            duration_ms = int((time.time() - start_time) * 1000)
-
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.COMPLETED,
-                output=deployment_result,
-                duration_ms=duration_ms
-            )
-
-        except Exception as e:
-            duration_ms = int((time.time() - start_time) * 1000)
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.FAILED,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+        return self._execute_with_timing(task, lambda t: {
+            "deployment_success": True,
+            "environment": "staging",
+            "strategy": "blue_green",
+            "containers_deployed": 2,
+            "health_check_passed": True,
+            "rollback_available": True
+        })
 
     def _handle_compilation(self, task: ParallelTask) -> TaskResult:
         """Handle parallel compilation."""
-        start_time = time.time()
-
-        try:
-            # Simulate multi-core compilation
-            compilation_result = {
-                "build_success": True,
-                "artifacts": ["app.exe", "lib.dll"],
-                "warnings": 2,
-                "errors": 0,
-                "compile_time_ms": 1500
-            }
-
-            duration_ms = int((time.time() - start_time) * 1000)
-
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.COMPLETED,
-                output=compilation_result,
-                duration_ms=duration_ms
-            )
-
-        except Exception as e:
-            duration_ms = int((time.time() - start_time) * 1000)
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.FAILED,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+        return self._execute_with_timing(task, lambda t: {
+            "build_success": True,
+            "artifacts": ["app.exe", "lib.dll"],
+            "warnings": 2,
+            "errors": 0,
+            "compile_time_ms": 1500
+        })
 
     def _execute_stage(
         self,
@@ -953,40 +883,18 @@ class ParallelWorkflowExecutor(BaseWorkflowExecutor):
 
     def _handle_code_review(self, task: ParallelTask) -> TaskResult:
         """Handle AI-assisted code review and PR generation."""
-        start_time = time.time()
-
-        try:
-            # Simulate AI code review
-            review_result = {
-                "review_summary": "Code quality is good with minor suggestions",
-                "issues_found": 3,
-                "suggestions": [
-                    "Add documentation for new function",
-                    "Consider using more descriptive variable names",
-                    "Add error handling for edge cases"
-                ],
-                "pr_title": "Feature: Add parallel workflow execution",
-                "pr_description": "Implements parallel stage execution with resource monitoring",
-                "approval_status": "approved_with_suggestions"
-            }
-
-            duration_ms = int((time.time() - start_time) * 1000)
-
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.COMPLETED,
-                output=review_result,
-                duration_ms=duration_ms
-            )
-
-        except Exception as e:
-            duration_ms = int((time.time() - start_time) * 1000)
-            return TaskResult(
-                task_id=task.task_id,
-                status=TaskStatus.FAILED,
-                error=str(e),
-                duration_ms=duration_ms
-            )
+        return self._execute_with_timing(task, lambda t: {
+            "review_summary": "Code quality is good with minor suggestions",
+            "issues_found": 3,
+            "suggestions": [
+                "Add documentation for new function",
+                "Consider using more descriptive variable names",
+                "Add error handling for edge cases"
+            ],
+            "pr_title": "Feature: Add parallel workflow execution",
+            "pr_description": "Implements parallel stage execution with resource monitoring",
+            "approval_status": "approved_with_suggestions"
+        })
 
     def generate_mermaid_workflow(self, workflow_name: str) -> str:
         """Generate Mermaid diagram for workflow visualization."""

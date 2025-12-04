@@ -282,7 +282,7 @@ export class FallbackManager {
    * Execute a task with fallback support
    */
   async executeWithFallback<T>(
-    task: Task,
+    _task: Task,
     executor: (agent: Agent) => Promise<T>,
     preferredAgentId?: string
   ): Promise<{ result: T; agentUsed: string } | null> {

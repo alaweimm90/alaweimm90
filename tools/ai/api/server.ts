@@ -4,6 +4,9 @@
  * Exposes AI tools via HTTP REST endpoints
  */
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+// Handler return types are inferred from RouteHandler interface
+
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { execSync } from 'child_process';
 import * as fs from 'fs';

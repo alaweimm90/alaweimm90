@@ -59,12 +59,12 @@ This document provides an honest assessment of ATLAS feature implementation stat
 
 ### Repository Analysis
 
-| Feature                | Status             | Notes                               |
-| ---------------------- | ------------------ | ----------------------------------- |
-| Repository Analyzer    | 🔶 PARTIAL         | `tools/atlas/analysis/analyzer.ts`  |
-| Refactoring Engine     | 🔶 PARTIAL         | `tools/atlas/refactoring/engine.ts` |
+| Feature                | Status             | Notes                                           |
+| ---------------------- | ------------------ | ----------------------------------------------- |
+| Repository Analyzer    | 🔶 PARTIAL         | `tools/atlas/analysis/analyzer.ts`              |
+| Refactoring Engine     | 🔶 PARTIAL         | `tools/atlas/refactoring/engine.ts`             |
 | Optimization Scheduler | ✅ IMPLEMENTED     | Job queue, rollback, telemetry, file monitoring |
-| AST Parsing            | ❌ NOT IMPLEMENTED | Claims AST-based, uses regex        |
+| AST Parsing            | ❌ NOT IMPLEMENTED | Claims AST-based, uses regex                    |
 
 ### Observability
 

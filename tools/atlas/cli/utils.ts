@@ -2,6 +2,10 @@
  * ATLAS CLI Utils - Helper functions and utilities for CLI operations
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+// CLI utils handle dynamic data structures and formatting
+
 import { AtlasServices, initializeAtlasServices } from '@atlas/services/index.js';
 import { ConfigLoader } from '@atlas/config/loader.js';
 import ora from 'ora';
@@ -85,9 +89,15 @@ export const output = {
  */
 export const progress = {
   start: (message: string) => ora(message).start(),
-  succeed: (spinner: any, message?: string): void => { spinner.succeed(message); },
-  fail: (spinner: any, message?: string): void => { spinner.fail(message); },
-  stop: (spinner: any): void => { spinner.stop(); },
+  succeed: (spinner: any, message?: string): void => {
+    spinner.succeed(message);
+  },
+  fail: (spinner: any, message?: string): void => {
+    spinner.fail(message);
+  },
+  stop: (spinner: any): void => {
+    spinner.stop();
+  },
 };
 
 /**

@@ -83,7 +83,7 @@ function scanPyFunctions(file: string): FunctionStat[] {
   return stats;
 }
 
-function main() {
+function main(): void {
   const root = process.cwd();
   const pyFiles = listFilesRecursive(path.join(root, 'automation'), '.py');
   const tsFiles = listFilesRecursive(path.join(root, 'automation-ts', 'src'), '.ts');

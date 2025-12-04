@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { PromptConfig, ExecutionContext, ExecutionStatus, AgentTemplate, ValidationRule, ValidationSeverity, DeploymentTarget } from '../types';
+import {
+  PromptConfig,
+  ExecutionContext,
+  ExecutionStatus,
+  AgentTemplate,
+  ValidationRule,
+  ValidationSeverity,
+  DeploymentTarget,
+} from '../types';
 
 describe('Unified TypeScript Types', () => {
   describe('PromptConfig', () => {

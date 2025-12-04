@@ -10,7 +10,7 @@ Total Tickets: 3
 **Priority:** Critical  
 **Estimated Hours:** 2  
 **File:** `src/config.py`  
-**Line:** 12  
+**Line:** 12
 
 **Description:**
 **🚨 CRITICAL SECURITY ISSUE:** Hardcoded API key detected
@@ -24,6 +24,7 @@ Immediate remediation is required to prevent potential security breaches.
 Remove hardcoded secrets and implement proper security practices.
 
 **Step-by-Step Remediation:**
+
 1. IMMEDIATELY remove any hardcoded secrets from the code
 2. Move secrets to environment variables or secure configuration
 3. Implement proper secret management (e.g., AWS Secrets Manager, HashiCorp Vault)
@@ -32,21 +33,25 @@ Remove hardcoded secrets and implement proper security practices.
 6. Add security tests to prevent future regressions
 
 **Verification Steps:**
+
 - [ ] No hardcoded secrets in the codebase
 - [ ] Secrets are loaded from secure sources
 - [ ] Security tests pass and prevent regressions
 - [ ] Access to secrets is properly audited and logged
 
 **Code Examples:**
+
 ##### Remove Hardcoded Secret
 
 **Before:**
+
 ```python
 api_key = "sk-1234567890abcdef"  # DANGEROUS!
 client = APIClient(api_key)
 ```
 
 **After:**
+
 ```python
 import os
 from dotenv import load_dotenv
@@ -68,7 +73,7 @@ client = APIClient(api_key)
 **Priority:** High  
 **Estimated Hours:** 4  
 **File:** `src/complex_module.py`  
-**Line:** 45  
+**Line:** 45
 
 **Description:**
 **Technical Debt Item:** Deeply nested code with multiple conditionals
@@ -82,6 +87,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -90,6 +96,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -97,9 +104,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -114,6 +123,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -146,7 +156,7 @@ def has_write_permission(item, settings):
 **Priority:** Medium  
 **Estimated Hours:** 3  
 **File:** `src/utils.py`  
-**Line:** 1  
+**Line:** 1
 
 **Description:**
 **Technical Debt Item:** Missing docstrings for public functions
@@ -160,6 +170,7 @@ and usage, leading to slower development and potential misuse.
 Add comprehensive docstrings and comments to improve code understandability.
 
 **Step-by-Step Remediation:**
+
 1. Identify all undocumented functions and classes
 2. Add docstrings following the project's documentation style
 3. Document parameters, return values, and exceptions
@@ -168,15 +179,18 @@ Add comprehensive docstrings and comments to improve code understandability.
 6. Ensure examples in docstrings are accurate
 
 **Verification Steps:**
+
 - [ ] All public functions have docstrings
 - [ ] Docstrings follow project format and style
 - [ ] Parameters and return values are documented
 - [ ] Examples in docstrings are functional
 
 **Code Examples:**
+
 ##### Add Documentation
 
 **Before:**
+
 ```python
 def calculate_total(items):
     total = 0
@@ -186,6 +200,7 @@ def calculate_total(items):
 ```
 
 **After:**
+
 ```python
 def calculate_total(items):
     """Calculate the total price for a list of items.
@@ -211,7 +226,7 @@ def calculate_total(items):
 ```
 
 **Related Files:**
+
 - `README.md`
 
 ---
-

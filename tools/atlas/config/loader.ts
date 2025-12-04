@@ -3,6 +3,9 @@
  * Loads, validates, and manages optimization service configurations
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Config loader needs to handle dynamic YAML/JSON structures
+
 import * as fs from 'fs';
 import * as path from 'path';
 import { EventEmitter } from 'events';

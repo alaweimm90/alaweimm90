@@ -483,63 +483,74 @@ client = APIClient(api_key)'''
     def export_tickets_to_markdown(self, tickets: List[RemediationTicket],
                                  output_file: str = "remediation_plan.md") -> str:
         """Export tickets to a markdown file for easy review."""
-
         output_path = self.project_root / output_file
+        tickets_by_priority = self._group_tickets_by_priority(tickets)
 
         with open(output_path, 'w', encoding='utf-8') as f:
-            f.write("# Technical Debt Remediation Plan\n\n")
-            f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write(f"Total Tickets: {len(tickets)}\n\n")
-
-            # Group by priority
-            tickets_by_priority = {}
-            for ticket in tickets:
-                if ticket.priority not in tickets_by_priority:
-                    tickets_by_priority[ticket.priority] = []
-                tickets_by_priority[ticket.priority].append(ticket)
-
-            priority_order = ['Critical', 'High', 'Medium', 'Low']
-
-            for priority in priority_order:
+            self._write_header(f, len(tickets))
+            for priority in ['Critical', 'High', 'Medium', 'Low']:
                 if priority in tickets_by_priority:
                     f.write(f"## {priority} Priority\n\n")
-
                     for ticket in tickets_by_priority[priority]:
-                        f.write(f"### {ticket.ticket_id}: {ticket.title}\n\n")
-                        f.write(f"**Priority:** {ticket.priority}  \n")
-                        f.write(f"**Estimated Hours:** {ticket.estimated_hours}  \n")
-                        f.write(f"**File:** `{ticket.debt_item.file_path}`  \n")
-                        f.write(f"**Line:** {ticket.debt_item.line_number or 'N/A'}  \n\n")
-
-                        f.write(f"**Description:**\n{ticket.description}\n\n")
-
-                        f.write("**Step-by-Step Remediation:**\n")
-                        for step in ticket.step_by_steps:
-                            f.write(f"{step}\n")
-                        f.write("\n")
-
-                        f.write("**Verification Steps:**\n")
-                        for step in ticket.verification_steps:
-                            f.write(f"- [ ] {step}\n")
-                        f.write("\n")
-
-                        if ticket.code_examples:
-                            f.write("**Code Examples:**\n")
-                            for example in ticket.code_examples:
-                                f.write(f"##### {example['title']}\n\n")
-                                f.write(f"**Before:**\n```python\n{example['before']}\n```\n\n")
-                                f.write(f"**After:**\n```python\n{example['after']}\n```\n\n")
-
-                        if ticket.related_files:
-                            f.write("**Related Files:**\n")
-                            for file in ticket.related_files:
-                                f.write(f"- `{file}`\n")
-                            f.write("\n")
-
-                        f.write("---\n\n")
+                        self._write_ticket(f, ticket)
 
         print(f"📄 Remediation plan exported to: {output_path}")
         return str(output_path)
+
+    def _group_tickets_by_priority(self, tickets):
+        """Group tickets by priority level."""
+        result = {}
+        for ticket in tickets:
+            result.setdefault(ticket.priority, []).append(ticket)
+        return result
+
+    def _write_header(self, f, count):
+        """Write markdown header."""
+        f.write("# Technical Debt Remediation Plan\n\n")
+        f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Total Tickets: {count}\n\n")
+
+    def _write_ticket(self, f, ticket):
+        """Write a single ticket to markdown."""
+        f.write(f"### {ticket.ticket_id}: {ticket.title}\n\n")
+        f.write(f"**Priority:** {ticket.priority}  \n")
+        f.write(f"**Estimated Hours:** {ticket.estimated_hours}  \n")
+        f.write(f"**File:** `{ticket.debt_item.file_path}`  \n")
+        f.write(f"**Line:** {ticket.debt_item.line_number or 'N/A'}  \n\n")
+        f.write(f"**Description:**\n{ticket.description}\n\n")
+
+        f.write("**Step-by-Step Remediation:**\n")
+        for step in ticket.step_by_steps:
+            f.write(f"{step}\n")
+        f.write("\n")
+
+        f.write("**Verification Steps:**\n")
+        for step in ticket.verification_steps:
+            f.write(f"- [ ] {step}\n")
+        f.write("\n")
+
+        self._write_code_examples(f, ticket.code_examples)
+        self._write_related_files(f, ticket.related_files)
+        f.write("---\n\n")
+
+    def _write_code_examples(self, f, examples):
+        """Write code examples section."""
+        if not examples:
+            return
+        f.write("**Code Examples:**\n")
+        for ex in examples:
+            f.write(f"##### {ex['title']}\n\n")
+            f.write(f"**Before:**\n```python\n{ex['before']}\n```\n\n")
+            f.write(f"**After:**\n```python\n{ex['after']}\n```\n\n")
+
+    def _write_related_files(self, f, files):
+        """Write related files section."""
+        if not files:
+            return
+        f.write("**Related Files:**\n")
+        for file in files:
+            f.write(f"- `{file}`\n")
+        f.write("\n")
 
 
 # Demonstration

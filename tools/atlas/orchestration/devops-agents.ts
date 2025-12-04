@@ -82,10 +82,7 @@ const aliasMap: Map<string, DevOpsAgentId> = new Map();
  * Load DevOps agents from YAML configuration
  */
 export function loadDevOpsAgents(configPath?: string): void {
-  const defaultPath = path.resolve(
-    process.cwd(),
-    'automation/agents/config/devops-agents.yaml'
-  );
+  const defaultPath = path.resolve(process.cwd(), 'automation/agents/config/devops-agents.yaml');
   const yamlPath = configPath || defaultPath;
 
   if (!fs.existsSync(yamlPath)) {
@@ -158,9 +155,7 @@ export function listDevOpsAgents(): DevOpsAgent[] {
  * Get agents by category
  */
 export function getAgentsByCategory(category: string): DevOpsAgent[] {
-  return Array.from(devOpsAgentRegistry.values()).filter(
-    (a) => a.category === category
-  );
+  return Array.from(devOpsAgentRegistry.values()).filter((a) => a.category === category);
 }
 
 // ============================================================================
@@ -172,21 +167,21 @@ export function getAgentsByCategory(category: string): DevOpsAgent[] {
  */
 const DEVOPS_TO_TASK_TYPE: Record<DevOpsAgentId, TaskType> = {
   'pipeline-orchestrator': 'code_generation',
-  'build': 'code_generation',
+  build: 'code_generation',
   'test-runner': 'testing',
   'artifact-repo': 'code_generation',
   'container-build': 'code_generation',
   'image-scan': 'analysis',
-  'secrets': 'code_generation',
+  secrets: 'code_generation',
   'infra-provisioner': 'code_generation',
   'config-manager': 'code_generation',
   'k8s-deploy': 'code_generation',
   'progressive-delivery': 'code_generation',
-  'rollback': 'code_generation',
-  'metrics': 'analysis',
+  rollback: 'code_generation',
+  metrics: 'analysis',
   'log-shipper': 'code_generation',
   'alert-router': 'code_generation',
-  'triage': 'analysis',
+  triage: 'analysis',
   'release-manager': 'documentation',
   'feature-flags': 'code_generation',
   'cost-monitor': 'analysis',
@@ -201,11 +196,17 @@ export function createTaskFromStep(step: DevOpsWorkflowStep): Task {
     id: step.id,
     type: DEVOPS_TO_TASK_TYPE[step.agentId] || 'code_generation',
     description: `Execute ${step.agentId}: ${step.action}`,
-    input: step.inputs || {},
+    context: {
+      additionalContext: JSON.stringify(step.inputs || {}),
+    },
+    priority: 'medium' as const,
+    status: 'pending' as const,
+    createdAt: new Date().toISOString(),
     metadata: {
       devOpsAgentId: step.agentId,
       action: step.action,
       dependsOn: step.dependsOn,
+      inputs: step.inputs || {},
     },
   };
 }
@@ -316,7 +317,7 @@ async function executeDevOpsStep(
 
       lastResult = {
         success: true,
-        output,
+        output: typeof output === 'string' ? output : JSON.stringify(output),
         latency,
         agentId,
       };

@@ -10,7 +10,7 @@ steps:
     description: Build artifacts
     action: buildArtifacts
     inputs:
-      command: "echo ok"
+      command: 'echo ok'
   - id: tests
     task: testing
     description: Run tests

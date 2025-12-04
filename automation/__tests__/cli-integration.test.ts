@@ -35,9 +35,9 @@ describe('CLI Integration Tests', () => {
 
     it('should reject tasks with low confidence', async () => {
       // Very generic task should trigger low confidence rejection
-      await expect(unifiedExecutor('do something', { dryRun: true }))
-        .rejects
-        .toThrow(/Low confidence routing/);
+      await expect(unifiedExecutor('do something', { dryRun: true })).rejects.toThrow(
+        /Low confidence routing/
+      );
     });
 
     it('should support dry run mode', async () => {
@@ -86,9 +86,9 @@ describe('CLI Integration Tests', () => {
 
   describe('Error Handling', () => {
     it('should handle non-existent workflow gracefully', async () => {
-      await expect(unifiedExecutor('non-existent-workflow', { dryRun: true }))
-        .rejects
-        .toThrow(/not found/);
+      await expect(unifiedExecutor('non-existent-workflow', { dryRun: true })).rejects.toThrow(
+        /not found/
+      );
     });
 
     it('should include error details in failed execution context', async () => {

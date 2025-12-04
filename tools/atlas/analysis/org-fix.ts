@@ -9,7 +9,7 @@ function fixOrg(orgPath: string, subdirs: string[]): void {
   for (const s of subdirs) ensureDir(path.join(orgPath, s));
 }
 
-function main() {
+function main(): void {
   const root = path.join(process.cwd(), 'organizations');
   const targets = ['alaweimm90-business'];
   for (const t of targets) {

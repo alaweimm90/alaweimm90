@@ -12,33 +12,33 @@
 
 // Placeholder classes until modules are available
 class AITools {
-  test: any = () => 'test';
-  docs: any = () => 'docs';
-  review: any = () => 'review';
-  arch: any = () => 'arch';
-  perf: any = () => 'perf';
-  security: any = () => 'security';
+  test: () => string = () => 'test';
+  docs: () => string = () => 'docs';
+  review: () => string = () => 'review';
+  arch: () => string = () => 'arch';
+  perf: () => string = () => 'perf';
+  security: () => string = () => 'security';
 
-  constructor(_config?: any) {}
-  async validateAll() {
+  constructor(_config?: { atlas?: ATLASIntegration }) {}
+  async validateAll(): Promise<{ success: boolean; results: unknown[] }> {
     return { success: true, results: [] };
   }
-  async health() {
+  async health(): Promise<{ success: boolean }> {
     return { success: true };
   }
 }
 
 class ATLASIntegration {
   constructor() {}
-  async connect() {
+  async connect(): Promise<boolean> {
     return true;
   }
-  async getAgents() {
+  async getAgents(): Promise<unknown[]> {
     return [];
   }
 }
 
-async function testIntegration() {
+async function testIntegration(): Promise<void> {
   console.log('🧪 Testing AI Tools Suite Integration...\n');
 
   try {

@@ -15,11 +15,11 @@ const ALIAS_MAP: Record<string, string> = {
   'tools/lib': '@lib',
   'tools/devops': '@devops',
   'tools/cli': '@cli',
-  'automation': '@automation',
-  'types': '@types',
-  'config': '@config',
-  'tests': '@test',
-  '.metaHub': '@metaHub'
+  automation: '@automation',
+  types: '@types',
+  config: '@config',
+  tests: '@test',
+  '.metaHub': '@metaHub',
 };
 
 // List of files to migrate (from our grep results)
@@ -47,7 +47,7 @@ const FILES_TO_MIGRATE = [
   'tools/atlas/services/optimizer.ts',
   'tools/atlas/services/monitor.ts',
   'tools/atlas/refactoring/engine.ts',
-  'tools/atlas/services/dashboard.ts'
+  'tools/atlas/services/dashboard.ts',
 ];
 
 function getAliasForPath(fromFile: string, importPath: string): string | null {
@@ -96,7 +96,7 @@ function migrateFile(filePath: string): number {
   // Match import statements with relative paths
   const importRegex = /from\s+['"](\.\.[^'"]+)['"]/g;
 
-  const replacements: Array<{original: string; replacement: string}> = [];
+  const replacements: Array<{ original: string; replacement: string }> = [];
 
   let match;
   while ((match = importRegex.exec(content)) !== null) {
@@ -106,7 +106,7 @@ function migrateFile(filePath: string): number {
     if (aliasPath) {
       replacements.push({
         original: `from '${originalImport}'`,
-        replacement: `from '${aliasPath}'`
+        replacement: `from '${aliasPath}'`,
       });
     }
   }
@@ -128,14 +128,14 @@ function migrateFile(filePath: string): number {
   return replacementCount;
 }
 
-function main() {
+function main(): void {
   console.log('🔄 Starting import migration to path aliases...\n');
   console.log(`Processing ${FILES_TO_MIGRATE.length} files...\n`);
 
   let totalReplacements = 0;
   let filesUpdated = 0;
 
-  FILES_TO_MIGRATE.forEach(file => {
+  FILES_TO_MIGRATE.forEach((file) => {
     const count = migrateFile(file);
     if (count > 0) {
       totalReplacements += count;

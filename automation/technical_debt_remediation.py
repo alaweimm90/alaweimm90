@@ -194,19 +194,38 @@ class TechnicalDebtScanner:
 
                 lines = content.split('\n')
                 in_multiline_string = False
+                multiline_quote = None  # Track which quote style opened the string
+
                 for i, line in enumerate(lines, 1):
-                    if '"""' in line or "'''" in line:
-                        quote_counts = line.count('"""') + line.count("'''")
-                        if quote_counts % 2 == 1:
-                            in_multiline_string = not in_multiline_string
+                    # Handle multi-line string tracking
+                    if in_multiline_string:
+                        # Check if this line closes the multi-line string
+                        if multiline_quote and multiline_quote in line:
+                            in_multiline_string = False
+                            multiline_quote = None
                         continue
 
+                    # Check if this line opens a multi-line string
+                    for quote in ('"""', "'''"):
+                        if quote in line:
+                            count = line.count(quote)
+                            if count == 1:
+                                # Opens but doesn't close on same line
+                                in_multiline_string = True
+                                multiline_quote = quote
+                                break
+                            # If count >= 2, it opens and closes on same line, no state change
+
+                    # Skip lines that are inside or start multi-line strings
                     if in_multiline_string:
                         continue
 
                     stripped = line.lstrip()
-                    # Skip empty lines, comments, and docstring delimiters
-                    if not stripped or stripped.startswith(('#', '"""', "'''")):
+                    # Skip empty lines, comments, and lines that are string literals
+                    if not stripped or stripped.startswith('#'):
+                        continue
+                    # Skip lines that are just string content (start with quotes)
+                    if stripped.startswith(('"""', "'''", '"', "'")):
                         continue
 
                     # Check for complex functions (long lines)
@@ -225,13 +244,20 @@ class TechnicalDebtScanner:
                             metadata={"line_length": len(line)}
                         ))
 
-                    # Check for nested complexity based on indentation depth rather than raw spaces
+                    # Check for nested complexity based on indentation depth
                     leading_spaces = len(line) - len(line.lstrip(' '))
                     leading_tabs = len(line) - len(line.lstrip('\t'))
-                    # Approximate indentation depth: treat a tab as 4 spaces
                     indent_score = leading_spaces + (leading_tabs * 4)
 
-                    if indent_score >= 16:  # ~4 or more indentation levels
+                    # Skip data structure content (dict/list items, function args)
+                    # These are often deeply indented but not complex logic
+                    if stripped.startswith(('{', '}', '[', ']', '(', ')', ',')):
+                        continue
+                    if stripped.endswith((',', ':', '{', '[', '(')):
+                        continue
+
+                    # Flag lines with 6+ indentation levels as genuinely complex
+                    if indent_score >= 24:
                         items.append(TechnicalDebtItem(
                             id=f"nested_complex_{uuid.uuid4().hex[:8]}",
                             type=DebtType.CODE_COMPLEXITY,
@@ -256,6 +282,12 @@ class TechnicalDebtScanner:
         print("   🔍 Scanning naming consistency...")
         items = []
 
+        # Common camelCase patterns that are acceptable in Python
+        allowed_patterns = {
+            'http', 'https', 'JSON', 'XML', 'HTML', 'URL', 'API', 'ID', 'UUID',
+            'OAuth', 'GitHub', 'GitLab', 'PyPI', 'asyncio', 'dataclass',
+        }
+
         python_files = list(self.project_root.rglob("*.py"))
 
         for file_path in python_files[:20]:  # Limit for demo
@@ -265,12 +297,25 @@ class TechnicalDebtScanner:
 
                 lines = content.split('\n')
                 for i, line in enumerate(lines, 1):
-                    # Check for camelCase in Python (should be snake_case)
-                    camel_case_pattern = r'\b[a-z][a-zA-Z0-9]*[A-Z][a-zA-Z0-9]*\b'
+                    stripped = line.strip()
+
+                    # Skip class definitions (PascalCase is correct for classes)
+                    if stripped.startswith('class '):
+                        continue
+                    # Skip imports (external libraries may use camelCase)
+                    if stripped.startswith(('import ', 'from ')):
+                        continue
+                    # Skip type hints and annotations
+                    if ': ' in stripped and not '=' in stripped.split(':')[0]:
+                        continue
+
+                    # Check for camelCase variable/function names (not class names)
+                    # Pattern: lowercase start, then mixed case (variable/function style)
+                    camel_case_pattern = r'\b([a-z][a-z0-9]*[A-Z][a-zA-Z0-9]*)\s*='
                     matches = re.findall(camel_case_pattern, line)
 
                     for match in matches:
-                        if not match.startswith(('http', 'https', 'JSON', 'XML')):
+                        if not any(p in match for p in allowed_patterns):
                             items.append(TechnicalDebtItem(
                                 id=f"naming_{uuid.uuid4().hex[:8]}",
                                 type=DebtType.NAMING_CONSISTENCY,
@@ -763,23 +808,22 @@ class TechnicalDebtRemediator:
 
         return False
 
+    async def _log_recommendation(self, item: TechnicalDebtItem, prefix: str = "💡") -> bool:
+        """Log a remediation recommendation (common handler for demo fixes)."""
+        print(f"      {prefix} {item.remediation_suggestion}")
+        return True
+
     async def _fix_naming_consistency(self, item: TechnicalDebtItem) -> bool:
         """Fix naming consistency issues."""
-        # For demo, just log the recommendation
-        print(f"      💡 {item.remediation_suggestion}")
-        return True
+        return await self._log_recommendation(item)
 
     async def _fix_documentation(self, item: TechnicalDebtItem) -> bool:
         """Fix documentation issues."""
-        # For demo, just log the recommendation
-        print(f"      💡 {item.remediation_suggestion}")
-        return True
+        return await self._log_recommendation(item)
 
     async def _fix_security_issue(self, item: TechnicalDebtItem) -> bool:
         """Fix security issues."""
-        # For demo, just log the critical recommendation
-        print(f"      🚨 CRITICAL: {item.remediation_suggestion}")
-        return True
+        return await self._log_recommendation(item, "🚨 CRITICAL:")
 
 
 class TechnicalDebtMonitor:

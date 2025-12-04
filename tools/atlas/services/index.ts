@@ -3,6 +3,9 @@
  * Phase 8: Complete optimization service with monitoring and dashboard
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Service index handles dynamic initialization and configuration
+
 import { ContinuousOptimizer } from './optimizer';
 import { RepositoryMonitor } from './monitor';
 import { DashboardService } from './dashboard';
@@ -37,19 +40,46 @@ export async function initializeAtlasServices(configPath?: string): Promise<Atla
 
   // Initialize services
   const optimizer = new ContinuousOptimizer({
-    schedule: config.optimizer.schedule,
+    schedule: {
+      interval: config.optimizer.schedule.intervalMinutes,
+      enabled: config.optimizer.schedule.enabled,
+      maxConcurrent: config.optimizer.schedule.maxConcurrentJobs,
+    },
     thresholds: config.optimizer.thresholds,
-    safety: config.optimizer.safety,
-    repositories: config.optimizer.repositories,
+    safety: {
+      rateLimit: config.optimizer.safety.rateLimitPerHour,
+      circuitBreakerThreshold: config.optimizer.safety.circuitBreakerThreshold,
+      rollbackEnabled: config.optimizer.safety.rollbackEnabled,
+      manualOverride: config.optimizer.safety.manualOverride,
+    },
+    repositories: config.optimizer.repositories.map((repo: any) => ({
+      ...repo,
+      optimizationHistory: repo.optimizationHistory || [],
+    })),
   });
 
   const monitor = new RepositoryMonitor(
     {
-      repositories: config.monitor.repositories || [],
-      polling: config.monitor.polling,
+      repositories: config.optimizer.repositories.map((r: any) => ({
+        path: r.path,
+        name: r.name,
+        enabled: r.enabled,
+        branch: r.branch || 'main',
+        changeCount: 0,
+        watchers: [],
+        watcherAbortControllers: new Map(),
+      })),
+      polling: {
+        enabled: config.monitor.polling.enabled,
+        interval: config.monitor.polling.intervalSeconds,
+      },
       filesystem: config.monitor.filesystem,
       triggers: config.monitor.triggers,
-      analysis: config.monitor.analysis,
+      analysis: {
+        incremental: config.monitor.analysis.incremental,
+        cacheResults: config.monitor.analysis.cacheResults,
+        cacheTtl: config.monitor.analysis.cacheTtlMinutes,
+      },
     },
     optimizer
   );
@@ -60,7 +90,11 @@ export async function initializeAtlasServices(configPath?: string): Promise<Atla
       host: config.dashboard.host,
       enableWebSocket: config.dashboard.enableWebSocket,
       enableREST: config.dashboard.enableREST,
-      telemetry: config.dashboard.telemetry,
+      telemetry: {
+        retentionPeriod: config.dashboard.telemetry.retentionPeriodDays,
+        maxEvents: config.dashboard.telemetry.maxEvents,
+        enableMetrics: config.dashboard.telemetry.enableMetrics,
+      },
       security: config.dashboard.security,
     },
     optimizer,
@@ -249,15 +283,14 @@ export async function quickStart(): Promise<void> {
     await startAtlasServices(services);
 
     // Example: Add a repository to monitor
-    if (services.optimizer.config.repositories.length === 0) {
-      console.log('💡 No repositories configured. Add one with:');
-      console.log('   services.monitor.addRepository({');
-      console.log('     name: "my-repo",');
-      console.log('     path: "/path/to/repo",');
-      console.log('     enabled: true,');
-      console.log('     branch: "main"');
-      console.log('   });');
-    }
+    // TODO: Add a public method to check if repositories are configured
+    console.log('💡 To add repositories, use:');
+    console.log('   services.monitor.addRepository({');
+    console.log('     name: "my-repo",');
+    console.log('     path: "/path/to/repo",');
+    console.log('     enabled: true,');
+    console.log('     branch: "main"');
+    console.log('   });');
 
     // Graceful shutdown handling
     process.on('SIGINT', async () => {

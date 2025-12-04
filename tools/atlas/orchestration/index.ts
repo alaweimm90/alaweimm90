@@ -14,7 +14,7 @@ export { loadWorkflow, planWorkflow } from './workflows.js';
 export type { WorkflowStep, WorkflowDef, PlannedStep, WorkflowPlan } from './workflows.js';
 
 // Circuit Breaker - Failover and resilience
-export { CircuitBreaker } from './circuit-breaker.js';
+export { allowRequest, recordSuccess, recordFailure } from './circuit-breaker.js';
 export type { CircuitBreakerConfig, CircuitBreakerState } from '@atlas/types/index.js';
 
 // Fallback - Fallback strategies

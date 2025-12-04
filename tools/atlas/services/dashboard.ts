@@ -3,11 +3,14 @@
  * Real-time monitoring dashboard with telemetry collection and reporting
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Dashboard handles dynamic metric data and WebSocket messages
+
 import { ContinuousOptimizer } from './optimizer';
 import { RepositoryMonitor } from './monitor';
-import { DashboardWidget, TelemetryEventDTO } from '@atlas/types/index';
+// import type { DashboardWidget } from '@atlas/types/index';  // TODO: Use when implementing widgets
 import { EventEmitter } from 'events';
-import * as WebSocket from 'ws';
+import { WebSocket, WebSocketServer } from 'ws';
 import * as http from 'http';
 
 export interface DashboardConfig {
@@ -91,7 +94,7 @@ export class DashboardService extends EventEmitter {
   private optimizer: ContinuousOptimizer;
   private monitor: RepositoryMonitor;
   private server?: http.Server;
-  private wss?: WebSocket.Server;
+  private wss?: WebSocketServer;
   private telemetryEvents: TelemetryEvent[] = [];
   private metrics: DashboardMetrics;
   private startTime: Date;
@@ -286,7 +289,7 @@ export class DashboardService extends EventEmitter {
     return new Promise((resolve, reject) => {
       this.server!.listen(this.config.port, this.config.host, () => {
         if (this.config.enableWebSocket) {
-          this.wss = new WebSocket.Server({ server: this.server });
+          this.wss = new WebSocketServer({ server: this.server });
           this.setupWebSocketHandlers();
         }
         resolve();
@@ -378,7 +381,7 @@ export class DashboardService extends EventEmitter {
     res.end(JSON.stringify(events));
   }
 
-  private handleHealthAPI(req: http.IncomingMessage, res: http.ServerResponse): void {
+  private handleHealthAPI(_req: http.IncomingMessage, res: http.ServerResponse): void {
     const health = this.getHealthStatus();
     const statusCode = health.status === 'healthy' ? 200 : health.status === 'warning' ? 200 : 503;
 
@@ -386,7 +389,7 @@ export class DashboardService extends EventEmitter {
     res.end(JSON.stringify(health));
   }
 
-  private handleMetricsAPI(req: http.IncomingMessage, res: http.ServerResponse): void {
+  private handleMetricsAPI(_req: http.IncomingMessage, res: http.ServerResponse): void {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(this.metrics));
   }
@@ -421,7 +424,7 @@ export class DashboardService extends EventEmitter {
         this.connectedClients.delete(ws);
       });
 
-      ws.on('error', (error) => {
+      ws.on('error', (error: Error) => {
         this.connectedClients.delete(ws);
         this.emit('websocket:error', error);
       });

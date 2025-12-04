@@ -280,20 +280,59 @@ class ClaudeMultiAgentDebateCoordinator:
         print(f"   Round 2: Claude-refined arguments generated")
         print(f"   Consensus Score: {round2.consensus_score:.2f}")
 
+    def _parse_refinement_json(self, content: str, fallback_arg: str) -> tuple:
+        """Parse JSON refinement from Claude response, with fallback."""
+        import json
+        import re
+        json_match = re.search(r'\{.*\}', content, re.DOTALL)
+        if json_match:
+            data = json.loads(json_match.group())
+            return data.get("refined_argument", fallback_arg), data.get("confidence_adjustment", 0.05)
+        return f"[Claude-Refined] {fallback_arg}", 0.05
+
+    def _create_refined_argument(self, arg: DebateArgument, refined_text: str, conf_adj: float) -> DebateArgument:
+        """Create a refined DebateArgument from parsed data."""
+        return DebateArgument(
+            agent_id=arg.agent_id,
+            persona=arg.persona,
+            argument=refined_text,
+            evidence=arg.evidence + ["Cross-perspective Claude analysis"],
+            confidence=min(max(arg.confidence + conf_adj, 0.0), 1.0),
+            timestamp=time.time()
+        )
+
     async def _generate_claude_refinements(self, arguments: List[DebateArgument], topic: str) -> List[DebateArgument]:
         """Generate Claude-refined arguments based on cross-perspective analysis."""
-        refinements = []
-
-        # Create summary of all arguments for cross-analysis
         argument_summary = "\n".join([
             f"{arg.persona.value}: {arg.argument[:150]}..."
             for arg in arguments
         ])
 
+        refinements = []
         for arg in arguments:
-            try:
-                # Use Claude to refine each agent's position
-                refinement_prompt = f"""Original {arg.persona.value} position: {arg.argument}
+            refined = self._refine_single_argument(arg, argument_summary)
+            refinements.append(refined)
+        return refinements
+
+    def _refine_single_argument(self, arg: DebateArgument, argument_summary: str) -> DebateArgument:
+        """Refine a single argument using Claude API."""
+        try:
+            prompt = self._build_refinement_prompt(arg, argument_summary)
+            response = self.claude_agent.client.messages.create(
+                model="claude-3-sonnet-20240229",
+                max_tokens=500,
+                system=f"You are a {arg.persona.value} agent refining your position based on multi-perspective analysis.",
+                messages=[{"role": "user", "content": prompt}]
+            )
+            refined_text, conf_adj = self._parse_refinement_json(response.content[0].text, arg.argument)
+            return self._create_refined_argument(arg, refined_text, conf_adj)
+        except Exception as e:
+            print(f"   ⚠️  Refinement failed for {arg.persona.value}: {e}")
+            return arg
+
+    def _build_refinement_prompt(self, arg: DebateArgument, argument_summary: str) -> str:
+        """Build the refinement prompt for Claude."""
+        return f"""Original {arg.persona.value} position: {arg.argument}
 
 Other perspectives:
 {argument_summary}
@@ -308,48 +347,6 @@ Return as JSON:
   "confidence_adjustment": 0.05,
   "key_insights": ["insight 1", "insight 2"]
 }}"""
-
-                response = self.claude_agent.client.messages.create(
-                    model="claude-3-sonnet-20240229",
-                    max_tokens=500,
-                    system=f"You are a {arg.persona.value} agent refining your position based on multi-perspective analysis.",
-                    messages=[
-                        {"role": "user", "content": refinement_prompt}
-                    ]
-                )
-
-                content = response.content[0].text
-
-                # Parse refinement
-                import json
-                import re
-                json_match = re.search(r'\{.*\}', content, re.DOTALL)
-
-                if json_match:
-                    refinement_data = json.loads(json_match.group())
-                    refined_arg = refinement_data.get("refined_argument", arg.argument)
-                    confidence_adj = refinement_data.get("confidence_adjustment", 0.05)
-                else:
-                    refined_arg = f"[Claude-Refined] {arg.argument}"
-                    confidence_adj = 0.05
-
-                refined_argument = DebateArgument(
-                    agent_id=arg.agent_id,
-                    persona=arg.persona,
-                    argument=refined_arg,
-                    evidence=arg.evidence + ["Cross-perspective Claude analysis"],
-                    confidence=min(max(arg.confidence + confidence_adj, 0.0), 1.0),
-                    timestamp=time.time()
-                )
-
-                refinements.append(refined_argument)
-
-            except Exception as e:
-                print(f"   ⚠️  Refinement failed for {arg.persona.value}: {e}")
-                # Use original argument
-                refinements.append(arg)
-
-        return refinements
 
     def _calculate_consensus_score(self, arguments: List[DebateArgument]) -> float:
         """Calculate consensus score from Claude arguments."""

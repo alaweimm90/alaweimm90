@@ -4,9 +4,9 @@
 # =============================================================================
 
 metadata:
-  version: "1.0.0"
-  created: "2025-12-02"
-  purpose: "Bridge between prompt engine and codebase orchestrator"
+  version: '1.0.0'
+  created: '2025-12-02'
+  purpose: 'Bridge between prompt engine and codebase orchestrator'
 
 # =============================================================================
 # AGENT-PROMPT MAPPING
@@ -15,52 +15,52 @@ metadata:
 agent_prompt_mapping:
   # Map orchestration agents to superprompts
   analyzer_agent:
-    primary_prompt: "codebase-sentinel"
-    phase_focus: ["OBSERVE", "ANALYZE"]
+    primary_prompt: 'codebase-sentinel'
+    phase_focus: ['OBSERVE', 'ANALYZE']
     capabilities:
-      - "code_analysis"
-      - "pattern_detection"
-      - "smell_identification"
+      - 'code_analysis'
+      - 'pattern_detection'
+      - 'smell_identification'
 
   simplifier_agent:
-    primary_prompt: "codebase-sentinel"
-    phase_focus: ["SIMPLIFY"]
+    primary_prompt: 'codebase-sentinel'
+    phase_focus: ['SIMPLIFY']
     capabilities:
-      - "dead_code_removal"
-      - "complexity_reduction"
-      - "duplication_elimination"
+      - 'dead_code_removal'
+      - 'complexity_reduction'
+      - 'duplication_elimination'
 
   doc_validator_agent:
-    primary_prompt: "codebase-sentinel"
-    phase_focus: ["VALIDATE"]
+    primary_prompt: 'codebase-sentinel'
+    phase_focus: ['VALIDATE']
     capabilities:
-      - "documentation_accuracy"
-      - "structure_verification"
-      - "reference_checking"
+      - 'documentation_accuracy'
+      - 'structure_verification'
+      - 'reference_checking'
 
   codemap_agent:
-    primary_prompt: "architect"
-    secondary_prompt: "codebase-sentinel"
+    primary_prompt: 'architect'
+    secondary_prompt: 'codebase-sentinel'
     capabilities:
-      - "structure_mapping"
-      - "dependency_graphing"
-      - "architecture_documentation"
+      - 'structure_mapping'
+      - 'dependency_graphing'
+      - 'architecture_documentation'
 
   cross_validator_agent:
-    primary_prompt: "codebase-sentinel"
-    secondary_prompt: "security-auditor"
-    phase_focus: ["CRITIQUE", "VALIDATE"]
+    primary_prompt: 'codebase-sentinel'
+    secondary_prompt: 'security-auditor'
+    phase_focus: ['CRITIQUE', 'VALIDATE']
     capabilities:
-      - "consistency_checking"
-      - "policy_enforcement"
-      - "cross_reference_validation"
+      - 'consistency_checking'
+      - 'policy_enforcement'
+      - 'cross_reference_validation'
 
   security_agent:
-    primary_prompt: "security-auditor"
+    primary_prompt: 'security-auditor'
     capabilities:
-      - "vulnerability_scanning"
-      - "secret_detection"
-      - "dependency_audit"
+      - 'vulnerability_scanning'
+      - 'secret_detection'
+      - 'dependency_audit'
 
 # =============================================================================
 # WORKFLOW-PROMPT INTEGRATION
@@ -70,33 +70,33 @@ workflow_integration:
   # How prompts integrate with workflow phases
   codebase_audit:
     phases:
-      - name: "observe"
-        prompts: ["codebase-sentinel"]
-        guidance_sections: ["thinking_phases.OBSERVE"]
+      - name: 'observe'
+        prompts: ['codebase-sentinel']
+        guidance_sections: ['thinking_phases.OBSERVE']
 
-      - name: "analyze"
-        prompts: ["codebase-sentinel", "security-auditor"]
+      - name: 'analyze'
+        prompts: ['codebase-sentinel', 'security-auditor']
         guidance_sections:
-          - "thinking_phases.ANALYZE"
-          - "security_auditor.analysis_layers"
+          - 'thinking_phases.ANALYZE'
+          - 'security_auditor.analysis_layers'
 
-      - name: "critique"
-        prompts: ["codebase-sentinel"]
-        guidance_sections: ["thinking_phases.CRITIQUE"]
+      - name: 'critique'
+        prompts: ['codebase-sentinel']
+        guidance_sections: ['thinking_phases.CRITIQUE']
 
-      - name: "simplify"
-        prompts: ["codebase-sentinel"]
-        guidance_sections: ["thinking_phases.SIMPLIFY", "laws"]
+      - name: 'simplify'
+        prompts: ['codebase-sentinel']
+        guidance_sections: ['thinking_phases.SIMPLIFY', 'laws']
 
-      - name: "validate"
-        prompts: ["codebase-sentinel", "security-auditor"]
+      - name: 'validate'
+        prompts: ['codebase-sentinel', 'security-auditor']
         guidance_sections:
-          - "thinking_phases.VALIDATE"
-          - "security_auditor.execution"
+          - 'thinking_phases.VALIDATE'
+          - 'security_auditor.execution'
 
-      - name: "synthesize"
-        prompts: ["codebase-sentinel"]
-        guidance_sections: ["thinking_phases.SYNTHESIZE"]
+      - name: 'synthesize'
+        prompts: ['codebase-sentinel']
+        guidance_sections: ['thinking_phases.SYNTHESIZE']
 
 # =============================================================================
 # DYNAMIC PROMPT INJECTION
@@ -104,7 +104,7 @@ workflow_integration:
 
 dynamic_injection:
   # How to inject prompt guidance into agent context
-  strategy: "context_prepend"
+  strategy: 'context_prepend'
 
   template: |
     <superprompt-guidance>
@@ -134,27 +134,27 @@ dynamic_injection:
 feedback_loop:
   # How orchestration outcomes feed back to prompt engine
   on_workflow_complete:
-    - action: "extract_metrics"
+    - action: 'extract_metrics'
       metrics:
-        - "task_success_rate"
-        - "phase_durations"
-        - "error_counts"
+        - 'task_success_rate'
+        - 'phase_durations'
+        - 'error_counts'
 
-    - action: "map_to_prompts"
-      mapping: "agent_prompt_mapping"
+    - action: 'map_to_prompts'
+      mapping: 'agent_prompt_mapping'
 
-    - action: "record_outcome"
-      endpoint: "prompt_engine.record_outcome"
+    - action: 'record_outcome'
+      endpoint: 'prompt_engine.record_outcome'
 
   on_agent_error:
-    - action: "classify_error"
-      classifier: "error_category_mapper"
+    - action: 'classify_error'
+      classifier: 'error_category_mapper'
 
-    - action: "adjust_prompt_weight"
-      adjustment: "decrease_on_failure"
+    - action: 'adjust_prompt_weight'
+      adjustment: 'decrease_on_failure'
 
-    - action: "log_for_analysis"
-      destination: "learning/error-analysis.jsonl"
+    - action: 'log_for_analysis'
+      destination: 'learning/error-analysis.jsonl'
 
 # =============================================================================
 # HOOKS
@@ -162,29 +162,29 @@ feedback_loop:
 
 hooks:
   pre_workflow:
-    - name: "select_prompts"
-      action: "prompt_engine.select"
-      input: "workflow_description"
-      output: "active_prompts"
+    - name: 'select_prompts'
+      action: 'prompt_engine.select'
+      input: 'workflow_description'
+      output: 'active_prompts'
 
-    - name: "inject_guidance"
-      action: "inject_prompt_guidance"
-      input: "active_prompts"
-      target: "agent_contexts"
+    - name: 'inject_guidance'
+      action: 'inject_prompt_guidance'
+      input: 'active_prompts'
+      target: 'agent_contexts'
 
   post_phase:
-    - name: "evaluate_phase"
-      action: "assess_phase_success"
+    - name: 'evaluate_phase'
+      action: 'assess_phase_success'
 
-    - name: "adapt_prompts"
-      action: "adjust_for_next_phase"
-      condition: "if_underperforming"
+    - name: 'adapt_prompts'
+      action: 'adjust_for_next_phase'
+      condition: 'if_underperforming'
 
   post_workflow:
-    - name: "record_learning"
-      action: "prompt_engine.record_outcome"
-      input: "workflow_metrics"
+    - name: 'record_learning'
+      action: 'prompt_engine.record_outcome'
+      input: 'workflow_metrics'
 
-    - name: "generate_insights"
-      action: "analyze_prompt_effectiveness"
-      output: "learning_report"
+    - name: 'generate_insights'
+      action: 'analyze_prompt_effectiveness'
+      output: 'learning_report'

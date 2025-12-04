@@ -9,7 +9,7 @@ import argparse
 import asyncio
 import sys
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 
 from technical_debt_remediation import (
@@ -87,7 +87,7 @@ def cmd_debt_scan(args):
             # Export a compact JSON summary for tooling/MCPS consumption
             summary = {
                 "path": args.path,
-                "generated_at": datetime.utcnow().isoformat() + "Z",
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "assessment": _serialize_assessment(assessment),
             }
             with open(args.json, "w", encoding="utf-8") as f:
@@ -137,7 +137,7 @@ def cmd_debt_remediate(args):
             summary = {
                 "path": args.path,
                 "available_hours": args.hours,
-                "generated_at": datetime.utcnow().isoformat() + "Z",
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "assessment": _serialize_assessment(assessment),
                 "prioritized_items": [
                     _serialize_debt_item(item)
@@ -236,102 +236,70 @@ def cmd_debt_plan(args):
 
 def add_debt_commands(subparsers):
     """Add technical debt commands to the argument parser."""
-
-    # Debt command group
     debt_parser = subparsers.add_parser(
         'debt',
         help='Technical debt scanning and remediation',
         description='Manage technical debt with AI-powered analysis and remediation planning'
     )
-
     debt_subparsers = debt_parser.add_subparsers(dest='debt_command', help='Debt management commands')
 
-    # Scan command
-    scan_parser = debt_subparsers.add_parser('scan', help='Scan for technical debt')
-    scan_parser.add_argument('--path', default='.', help='Path to scan (default: current directory)')
-    scan_parser.add_argument('--export', help='Export detailed results to markdown file')
-    scan_parser.add_argument('--json', help='Write JSON summary to file')
-    scan_parser.set_defaults(func=cmd_debt_scan)
+    _add_scan_parser(debt_subparsers)
+    _add_remediate_parser(debt_subparsers)
+    _add_monitor_parser(debt_subparsers)
+    _add_plan_parser(debt_subparsers)
 
-    # Remediate command
-    remediate_parser = debt_subparsers.add_parser('remediate', help='Run remediation workflow')
-    remediate_parser.add_argument('--path', default='.', help='Path to remediate (default: current directory)')
-    remediate_parser.add_argument('--hours', type=int, default=40, help='Available hours for remediation (default: 40)')
-    remediate_parser.add_argument('--export', help='Export remediation plan to markdown file')
-    remediate_parser.add_argument('--json', help='Write JSON summary to file')
-    remediate_parser.set_defaults(func=cmd_debt_remediate)
 
-    # Monitor command
-    monitor_parser = debt_subparsers.add_parser('monitor', help='Start continuous monitoring')
-    monitor_parser.add_argument('--path', default='.', help='Path to monitor (default: current directory)')
-    monitor_parser.add_argument('--threshold', type=int, default=10, help='Alert threshold percentage (default: 10)')
-    monitor_parser.set_defaults(func=cmd_debt_monitor)
+def _add_scan_parser(subparsers):
+    """Add scan subcommand parser."""
+    p = subparsers.add_parser('scan', help='Scan for technical debt')
+    p.add_argument('--path', default='.', help='Path to scan (default: current directory)')
+    p.add_argument('--export', help='Export detailed results to markdown file')
+    p.add_argument('--json', help='Write JSON summary to file')
+    p.set_defaults(func=cmd_debt_scan)
 
-    # Plan command
-    plan_parser = debt_subparsers.add_parser('plan', help='Generate remediation plan')
-    plan_parser.add_argument('--path', default='.', help='Path to analyze (default: current directory)')
-    plan_parser.add_argument('--focus', default='all',
-                            choices=['all', 'code_complexity', 'naming_consistency', 'documentation_drift',
-                                   'architectural_violations', 'security_issues', 'performance_bottlenecks',
-                                   'test_coverage_gaps', 'dependency_bloat'],
-                            help='Focus on specific debt type (default: all)')
-    plan_parser.add_argument('--export', help='Export plan to specific file')
-    plan_parser.set_defaults(func=cmd_debt_plan)
+def _add_remediate_parser(subparsers):
+    """Add remediate subcommand parser."""
+    p = subparsers.add_parser('remediate', help='Run remediation workflow')
+    p.add_argument('--path', default='.', help='Path to remediate (default: current directory)')
+    p.add_argument('--hours', type=int, default=40, help='Available hours for remediation (default: 40)')
+    p.add_argument('--export', help='Export remediation plan to markdown file')
+    p.add_argument('--json', help='Write JSON summary to file')
+    p.set_defaults(func=cmd_debt_remediate)
 
+def _add_monitor_parser(subparsers):
+    """Add monitor subcommand parser."""
+    p = subparsers.add_parser('monitor', help='Start continuous monitoring')
+    p.add_argument('--path', default='.', help='Path to monitor (default: current directory)')
+    p.add_argument('--threshold', type=int, default=10, help='Alert threshold percentage (default: 10)')
+    p.set_defaults(func=cmd_debt_monitor)
+
+def _add_plan_parser(subparsers):
+    """Add plan subcommand parser."""
+    p = subparsers.add_parser('plan', help='Generate remediation plan')
+    p.add_argument('--path', default='.', help='Path to analyze (default: current directory)')
+    p.add_argument('--focus', default='all',
+                   choices=['all', 'code_complexity', 'naming_consistency', 'documentation_drift',
+                            'architectural_violations', 'security_issues', 'performance_bottlenecks',
+                            'test_coverage_gaps', 'dependency_bloat'],
+                   help='Focus on specific debt type (default: all)')
+    p.add_argument('--export', help='Export plan to specific file')
+    p.set_defaults(func=cmd_debt_plan)
 
 def main():
     """Main entry point for standalone debt CLI."""
-
-    parser = argparse.ArgumentParser(
-        description='Technical Debt Management CLI',
-        prog='atlas-debt'
-    )
-
+    parser = argparse.ArgumentParser(description='Technical Debt Management CLI', prog='atlas-debt')
     parser.add_argument('--version', action='version', version='1.0.0')
-
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
 
-    # Add debt commands as top-level commands
-    # Scan command
-    scan_parser = subparsers.add_parser('scan', help='Scan for technical debt')
-    scan_parser.add_argument('--path', default='.', help='Path to scan (default: current directory)')
-    scan_parser.add_argument('--export', help='Export detailed results to markdown file')
-    scan_parser.add_argument('--json', help='Write JSON summary to file')
-    scan_parser.set_defaults(func=cmd_debt_scan)
+    _add_scan_parser(subparsers)
+    _add_remediate_parser(subparsers)
+    _add_monitor_parser(subparsers)
+    _add_plan_parser(subparsers)
 
-    # Remediate command
-    remediate_parser = subparsers.add_parser('remediate', help='Run remediation workflow')
-    remediate_parser.add_argument('--path', default='.', help='Path to remediate (default: current directory)')
-    remediate_parser.add_argument('--hours', type=int, default=40, help='Available hours for remediation (default: 40)')
-    remediate_parser.add_argument('--export', help='Export remediation plan to markdown file')
-    remediate_parser.add_argument('--json', help='Write JSON summary to file')
-    remediate_parser.set_defaults(func=cmd_debt_remediate)
-
-    # Monitor command
-    monitor_parser = subparsers.add_parser('monitor', help='Start continuous monitoring')
-    monitor_parser.add_argument('--path', default='.', help='Path to monitor (default: current directory)')
-    monitor_parser.add_argument('--threshold', type=int, default=10, help='Alert threshold percentage (default: 10)')
-    monitor_parser.set_defaults(func=cmd_debt_monitor)
-
-    # Plan command
-    plan_parser = subparsers.add_parser('plan', help='Generate remediation plan')
-    plan_parser.add_argument('--path', default='.', help='Path to analyze (default: current directory)')
-    plan_parser.add_argument('--focus', default='all',
-                            choices=['all', 'code_complexity', 'naming_consistency', 'documentation_drift',
-                                   'architectural_violations', 'security_issues', 'performance_bottlenecks',
-                                   'test_coverage_gaps', 'dependency_bloat'],
-                            help='Focus on specific debt type (default: all)')
-    plan_parser.add_argument('--export', help='Export plan to specific file')
-    plan_parser.set_defaults(func=cmd_debt_plan)
-
-    # Parse arguments
     args = parser.parse_args()
-
     if not args.command:
         parser.print_help()
         return 1
-
-    # Execute command
     return args.func(args)
 
 

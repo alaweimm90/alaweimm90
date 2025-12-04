@@ -173,44 +173,15 @@ class WorkflowExecutor:
 
         while len(completed_stages) < len(stages) and iteration < max_iterations:
             iteration += 1
-            progress_made = False
+            ready_stages = self._get_ready_stages(stages, completed_stages, context)
 
-            for stage in stages:
-                stage_name = stage.get("name", f"stage_{iteration}")
+            if not ready_stages:
+                break
 
-                if stage_name in completed_stages:
-                    continue
-
-                # Check dependencies
-                depends_on = stage.get("depends_on", [])
-                if not all(dep in completed_stages for dep in depends_on):
-                    continue
-
-                # Check condition
-                condition = stage.get("condition")
-                if condition and not self._evaluate_condition(condition, context):
-                    completed_stages.add(stage_name)
-                    continue
-
-                # Execute stage
-                result = self._execute_stage(stage, context, dry_run)
-                context.stage_results[stage_name] = result
-
-                if result.status == TaskStatus.COMPLETED:
-                    completed_stages.add(stage_name)
-                    context.checkpoint(stage_name)
-                    progress_made = True
-
-                    # Store outputs
-                    for output_name in stage.get("outputs", []):
-                        context.set_output(output_name, result.output)
-
-                elif result.status == TaskStatus.FAILED:
-                    # Check error handling
-                    if not self._handle_stage_error(stage, result, context):
-                        break
-
-            if not progress_made:
+            should_break = self._execute_ready_stages(
+                ready_stages, iteration, context, completed_stages, dry_run
+            )
+            if should_break:
                 break
 
         # Record completion
@@ -222,6 +193,44 @@ class WorkflowExecutor:
         })
 
         return context
+
+    def _execute_ready_stages(self, ready_stages, iteration, context, completed_stages, dry_run) -> bool:
+        """Execute ready stages. Returns True if workflow should break."""
+        for stage in ready_stages:
+            stage_name = stage.get("name", f"stage_{iteration}")
+            result = self._execute_stage(stage, context, dry_run)
+            context.stage_results[stage_name] = result
+
+            if result.status == TaskStatus.COMPLETED:
+                completed_stages.add(stage_name)
+                context.checkpoint(stage_name)
+                self._store_stage_outputs(stage, result, context)
+            elif result.status == TaskStatus.FAILED:
+                if not self._handle_stage_error(stage, result, context):
+                    return True
+        return False
+
+    def _get_ready_stages(self, stages: List, completed_stages: set, context: WorkflowContext) -> List:
+        """Get stages that are ready to execute (dependencies satisfied)."""
+        ready = []
+        for stage in stages:
+            stage_name = stage.get("name", "unnamed")
+            if stage_name in completed_stages:
+                continue
+            depends_on = stage.get("depends_on", [])
+            if not all(dep in completed_stages for dep in depends_on):
+                continue
+            condition = stage.get("condition")
+            if condition and not self._evaluate_condition(condition, context):
+                completed_stages.add(stage_name)
+                continue
+            ready.append(stage)
+        return ready
+
+    def _store_stage_outputs(self, stage: Dict, result: TaskResult, context: WorkflowContext):
+        """Store stage outputs in workflow context."""
+        for output_name in stage.get("outputs", []):
+            context.set_output(output_name, result.output)
 
     def _execute_stage(
         self,

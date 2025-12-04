@@ -71,7 +71,7 @@ function buildReport(root: string): OrgReport {
   };
 }
 
-function main() {
+function main(): void {
   const root = path.join(process.cwd(), 'organizations');
   const report = buildReport(root);
   const outDir = path.join(process.cwd(), '.atlas', 'reports');

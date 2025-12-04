@@ -93,10 +93,7 @@
     },
     {
       "label": "Build & Watch (default)",
-      "dependsOn": [
-        "lint:watch",
-        "typecheck:watch"
-      ],
+      "dependsOn": ["lint:watch", "typecheck:watch"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -110,11 +107,7 @@
     },
     {
       "label": "Run All Security Checks",
-      "dependsOn": [
-        "security:semgrep",
-        "security:snyk",
-        "security:gitleaks"
-      ],
+      "dependsOn": ["security:semgrep", "security:snyk", "security:gitleaks"],
       "group": "build",
       "presentation": {
         "reveal": "always",
@@ -124,11 +117,7 @@
     },
     {
       "label": "Full CI Pipeline",
-      "dependsOn": [
-        "Build & Watch (default)",
-        "test:parallel",
-        "Run All Security Checks"
-      ],
+      "dependsOn": ["Build & Watch (default)", "test:parallel", "Run All Security Checks"],
       "group": "build",
       "presentation": {
         "reveal": "always",

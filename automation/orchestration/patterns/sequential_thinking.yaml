@@ -116,7 +116,7 @@ context:
     - 'findings'
     - 'metrics'
 
-  propagation: 'forward'  # Later phases can see earlier results
+  propagation: 'forward' # Later phases can see earlier results
 
   checkpointing:
     enabled: true
@@ -138,21 +138,21 @@ execution:
 
   # Error handling
   on_phase_failure:
-    observe: 'abort'      # Can't continue without observation
-    analyze: 'partial'    # Continue with partial analysis
-    critique: 'partial'   # Continue with partial critique
-    simplify: 'skip'      # Can skip simplification
-    validate: 'warn'      # Warn but continue
-    synthesize: 'retry'   # Retry synthesis
+    observe: 'abort' # Can't continue without observation
+    analyze: 'partial' # Continue with partial analysis
+    critique: 'partial' # Continue with partial critique
+    simplify: 'skip' # Can skip simplification
+    validate: 'warn' # Warn but continue
+    synthesize: 'retry' # Retry synthesis
 
   # Timeouts
   timeouts:
-    observe: 120          # 2 minutes
-    analyze: 300          # 5 minutes
-    critique: 300         # 5 minutes
-    simplify: 180         # 3 minutes
-    validate: 180         # 3 minutes
-    synthesize: 120       # 2 minutes
+    observe: 120 # 2 minutes
+    analyze: 300 # 5 minutes
+    critique: 300 # 5 minutes
+    simplify: 180 # 3 minutes
+    validate: 180 # 3 minutes
+    synthesize: 120 # 2 minutes
 
 # =============================================================================
 # AGENT COORDINATION
@@ -167,7 +167,7 @@ coordination:
     weights:
       analyzer_agent: 1.0
       critic_agent: 0.9
-      cross_validator_agent: 1.2  # Higher weight for validation
+      cross_validator_agent: 1.2 # Higher weight for validation
       orchestrator_agent: 1.0
     tie_breaker: 'orchestrator_agent'
 

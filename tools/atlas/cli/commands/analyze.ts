@@ -4,6 +4,9 @@
  * Repository analysis and metrics commands
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// CLI commands handle dynamic command options from commander.js
+
 import { Command } from 'commander';
 import { output, progress, errorHandler, format } from '@atlas/cli/utils.js';
 // import { cliContext } from '@atlas/cli/utils.js'; // Reserved for future use

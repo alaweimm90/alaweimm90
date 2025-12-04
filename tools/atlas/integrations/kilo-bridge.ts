@@ -4,6 +4,9 @@
  * Enables KILO governance operations to trigger ATLAS analysis and optimization.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Bridge handles dynamic event data and cross-system payloads
+
 export enum GovernanceEventType {
   POLICY_VIOLATION = 'policy_violation',
   COMPLIANCE_FAILURE = 'compliance_failure',

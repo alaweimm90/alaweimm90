@@ -45,7 +45,9 @@ export function registerDevOpsCommands(program: Command): void {
   // Initialize agents on registration
   loadDevOpsAgents();
 
-  const cmd = program.command('devops').description('DevOps agent management and workflow execution');
+  const cmd = program
+    .command('devops')
+    .description('DevOps agent management and workflow execution');
 
   // List all agents
   cmd
@@ -215,7 +217,9 @@ export function registerDevOpsCommands(program: Command): void {
         output.info(bold(`[DRY RUN] Would execute: ${wf.name}`));
         output.info('');
         for (const step of wf.steps) {
-          output.info(`  ${gray('→')} ${cyan(step.id)}: ${green(step.agentId)} ${yellow(step.action)}`);
+          output.info(
+            `  ${gray('→')} ${cyan(step.id)}: ${green(step.agentId)} ${yellow(step.action)}`
+          );
         }
         return;
       }
@@ -261,7 +265,9 @@ export function registerDevOpsCommands(program: Command): void {
           output.error(`Workflow failed. Failed steps: ${result.failedSteps.join(', ')}`);
         }
       } catch (error) {
-        output.error(`Workflow execution error: ${error instanceof Error ? error.message : String(error)}`);
+        output.error(
+          `Workflow execution error: ${error instanceof Error ? error.message : String(error)}`
+        );
       }
     });
 

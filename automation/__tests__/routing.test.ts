@@ -127,7 +127,7 @@ describe('Routing System', () => {
     });
 
     it('should handle punctuation and special characters', () => {
-      const result = routeTask('Fix the bug! It\'s causing issues.');
+      const result = routeTask("Fix the bug! It's causing issues.");
       expect(result.task_type).toBe('debugging');
       expect(result.confidence).toBeGreaterThan(0);
     });

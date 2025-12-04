@@ -54,7 +54,7 @@ function discoverTemplates(): TemplateManifest[] {
 
   const templates: TemplateManifest[] = [];
 
-  function walk(dir: string) {
+  function walk(dir: string): void {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const fullPath = path.join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -124,7 +124,7 @@ function generateStats(templates: TemplateManifest[], workflowCount: number): st
 }
 
 // Main
-function main() {
+function main(): void {
   console.log('🗺️  Generating codemap...');
 
   const templates = discoverTemplates();

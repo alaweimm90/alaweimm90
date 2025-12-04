@@ -1,20 +1,20 @@
 # Technical Debt Remediation Plan
 
-Generated: 2025-12-03 14:39:34
+Generated: 2025-12-03 17:49:19
 Total Tickets: 10
 
 ## High Priority
 
-### DEBT-499C2A36: Refactor Complex Code: Deeply nested code detected
+### DEBT-1B4668F3: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 63  
+**File:** `parallel_executor.py`  
+**Line:** 690
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:63
+**Location:** parallel_executor.py:690
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -24,6 +24,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -32,6 +33,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -39,9 +41,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -56,6 +60,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -80,20 +85,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `parallel_executor.py`
 
 ---
 
-### DEBT-6FEECBBC: Refactor Complex Code: Deeply nested code detected
+### DEBT-5D7AEA7D: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 137  
+**File:** `parallel_executor.py`  
+**Line:** 940
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:137
+**Location:** parallel_executor.py:940
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -103,6 +109,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -111,6 +118,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -118,9 +126,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -135,6 +145,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -159,20 +170,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `parallel_executor.py`
 
 ---
 
-### DEBT-DD1302D4: Refactor Complex Code: Deeply nested code detected
+### DEBT-FC220CD4: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 138  
+**File:** `remediation_plan_generator.py`  
+**Line:** 508
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:138
+**Location:** remediation_plan_generator.py:508
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -182,6 +194,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -190,6 +203,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -197,9 +211,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -214,6 +230,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -238,20 +255,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-6E6D9A00: Refactor Complex Code: Deeply nested code detected
+### DEBT-C9FD8FD4: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 139  
+**File:** `remediation_plan_generator.py`  
+**Line:** 509
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:139
+**Location:** remediation_plan_generator.py:509
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -261,6 +279,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -269,6 +288,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -276,9 +296,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -293,6 +315,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -317,20 +340,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-2CC4754F: Refactor Complex Code: Deeply nested code detected
+### DEBT-BD6D2E30: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 140  
+**File:** `remediation_plan_generator.py`  
+**Line:** 510
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:140
+**Location:** remediation_plan_generator.py:510
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -340,6 +364,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -348,6 +373,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -355,9 +381,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -372,6 +400,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -396,20 +425,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-F7D247DF: Refactor Complex Code: Deeply nested code detected
+### DEBT-AEA48B33: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 141  
+**File:** `remediation_plan_generator.py`  
+**Line:** 511
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:141
+**Location:** remediation_plan_generator.py:511
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -419,6 +449,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -427,6 +458,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -434,9 +466,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -451,6 +485,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -475,20 +510,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-A428F83B: Refactor Complex Code: Deeply nested code detected
+### DEBT-3093B8C1: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 142  
+**File:** `remediation_plan_generator.py`  
+**Line:** 512
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:142
+**Location:** remediation_plan_generator.py:512
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -498,6 +534,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -506,6 +543,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -513,9 +551,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -530,6 +570,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -554,20 +595,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-DC1C13A2: Refactor Complex Code: Deeply nested code detected
+### DEBT-73ABAAD4: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 146  
+**File:** `remediation_plan_generator.py`  
+**Line:** 514
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:146
+**Location:** remediation_plan_generator.py:514
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -577,6 +619,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -585,6 +628,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -592,9 +636,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -609,6 +655,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -633,20 +680,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-5BEAE8C2: Refactor Complex Code: Deeply nested code detected
+### DEBT-5843060B: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 147  
+**File:** `remediation_plan_generator.py`  
+**Line:** 516
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:147
+**Location:** remediation_plan_generator.py:516
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -656,6 +704,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -664,6 +713,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -671,9 +721,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -688,6 +740,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -712,20 +765,21 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
 
-### DEBT-A30A85BA: Refactor Complex Code: Deeply nested code detected
+### DEBT-29360BF8: Refactor Complex Code: Deeply nested code detected
 
 **Priority:** High  
 **Estimated Hours:** 2  
-**File:** `claude_http_integration.py`  
-**Line:** 148  
+**File:** `remediation_plan_generator.py`  
+**Line:** 518
 
 **Description:**
 **Technical Debt Item:** Deeply nested code detected
-**Location:** claude_http_integration.py:148
+**Location:** remediation_plan_generator.py:518
 **Business Impact:** Difficult to understand and maintain
 
 This code complexity issue makes the code difficult to understand, maintain, and test.
@@ -735,6 +789,7 @@ Complex code is a common source of bugs and makes onboarding new developers chal
 Break down complex logic into smaller, focused functions with clear responsibilities.
 
 **Step-by-Step Remediation:**
+
 1. Analyze the complex code section to identify distinct responsibilities
 2. Extract logical units into separate, well-named functions
 3. Reduce nesting levels by using early returns or guard clauses
@@ -743,6 +798,7 @@ Break down complex logic into smaller, focused functions with clear responsibili
 6. Run existing tests to ensure functionality is preserved
 
 **Verification Steps:**
+
 - [ ] Code complexity metrics should decrease (cyclomatic complexity)
 - [ ] Function names should clearly describe their purpose
 - [ ] Nesting levels should be reduced to ≤ 3 levels
@@ -750,9 +806,11 @@ Break down complex logic into smaller, focused functions with clear responsibili
 - [ ] Code should be more readable and understandable
 
 **Code Examples:**
+
 ##### Extract Complex Logic
 
 **Before:**
+
 ```python
 def process_data(data, options, config, settings):
     if data is not None:
@@ -767,6 +825,7 @@ def process_data(data, options, config, settings):
 ```
 
 **After:**
+
 ```python
 def process_data(data, options, config, settings):
     if not data:
@@ -791,7 +850,7 @@ def has_write_permission(item, settings):
 ```
 
 **Related Files:**
-- `claude_http_integration.py`
+
+- `remediation_plan_generator.py`
 
 ---
-

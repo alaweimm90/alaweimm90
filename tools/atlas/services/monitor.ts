@@ -335,10 +335,12 @@ export class RepositoryMonitor extends EventEmitter {
     if (keys1.length !== keys2.length) return false;
 
     for (const key of keys1) {
-      if (!this.deepEquals(
-        (obj1 as Record<string, unknown>)[key],
-        (obj2 as Record<string, unknown>)[key]
-      )) {
+      if (
+        !this.deepEquals(
+          (obj1 as Record<string, unknown>)[key],
+          (obj2 as Record<string, unknown>)[key]
+        )
+      ) {
         return false;
       }
     }
@@ -465,9 +467,7 @@ export class RepositoryMonitor extends EventEmitter {
       });
   }
 
-  private async getFileStats(
-    filePath: string
-  ): Promise<{ size: number; linesChanged: number }> {
+  private async getFileStats(filePath: string): Promise<{ size: number; linesChanged: number }> {
     try {
       const stats = await fsPromises.stat(filePath);
       let linesChanged = 0;
@@ -557,7 +557,7 @@ export class RepositoryMonitor extends EventEmitter {
     } catch (error) {
       this.emit('analysis:error', {
         repository: repository.name,
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         change: combinedChange,
       });
     }
@@ -647,7 +647,6 @@ export class RepositoryMonitor extends EventEmitter {
     return recommendations;
   }
 
-
   private async getCurrentCommit(repoPath: string): Promise<string | undefined> {
     try {
       const { execSync } = await import('child_process');
@@ -661,7 +660,11 @@ export class RepositoryMonitor extends EventEmitter {
     }
   }
 
-  // Private method for future use in git-based diff analysis
+  /**
+   * Private method for future use in git-based diff analysis
+   * @internal Reserved for future git integration
+   */
+  // @ts-expect-error Reserved for future git integration feature
   private async _getDiffStats(repoPath: string): Promise<string[]> {
     try {
       const { execSync } = await import('child_process');
@@ -683,7 +686,7 @@ export class RepositoryMonitor extends EventEmitter {
         } catch (error) {
           this.emit('polling:error', {
             repository: repository.name,
-            error: error.message,
+            error: error instanceof Error ? error.message : String(error),
           });
         }
       }

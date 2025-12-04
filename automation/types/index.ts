@@ -6,7 +6,13 @@ export { DeploymentTarget } from './DeploymentTarget';
 export { ExecutionStatus } from './ExecutionContext';
 
 // Export interfaces and types as type-only exports
-export type { DeploymentConfig, ResourceRequirements, ScalingConfig, NetworkConfig, SecurityConfig } from './DeploymentTarget';
+export type {
+  DeploymentConfig,
+  ResourceRequirements,
+  ScalingConfig,
+  NetworkConfig,
+  SecurityConfig,
+} from './DeploymentTarget';
 export type { PromptConfig, PromptCollection } from './PromptConfig';
 export type { ExecutionContext, Checkpoint, TelemetryData } from './ExecutionContext';
 
@@ -44,7 +50,7 @@ export interface ValidationRule {
 export enum ValidationSeverity {
   ERROR = 'error',
   WARNING = 'warning',
-  INFO = 'info'
+  INFO = 'info',
 }
 
 // Existing TypeScript system types (imported and re-exported for compatibility)

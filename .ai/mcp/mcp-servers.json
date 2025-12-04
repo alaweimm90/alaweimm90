@@ -262,7 +262,9 @@
       "terraform",
       "sequential-thinking",
       "prometheus"
-    ]
+    ],
+    "governance": ["filesystem", "git", "semgrep", "sequential-thinking"],
+    "multi-agent-review": ["filesystem", "git", "sequential-thinking", "memory"]
   },
   "providerConfig": {
     "anthropic": {

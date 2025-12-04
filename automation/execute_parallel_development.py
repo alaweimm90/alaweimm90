@@ -8,8 +8,36 @@ bypassing the main workflows.yaml registry issues.
 
 import yaml
 import asyncio
+import time
+import uuid
 from parallel_executor import ParallelWorkflowExecutor
-from workflow_types import WorkflowContext
+from workflow_types import WorkflowContext, ParallelTask, TaskPriority
+
+
+def _execute_parallel_stage(executor, stage, context):
+    """Execute a single parallel stage and return the result."""
+    task = ParallelTask(
+        task_id=f"task_{uuid.uuid4().hex[:8]}",
+        stage=stage,
+        context=context,
+        priority=TaskPriority.MEDIUM
+    )
+    return executor._handle_shell_command(task)
+
+
+def _log_stage_result(stage_name, result):
+    """Log the result of a stage execution."""
+    if result.status.value == 'completed':
+        print(f"   ✅ {stage_name}: {result.status.value} ({result.duration_ms}ms)")
+        if result.output:
+            if result.output.get('mode') == 'background_watch':
+                print(f"   🔄 Background process started: {result.output.get('process_id')}")
+            else:
+                print(f"   📄 Output: {str(result.output)[:100]}...")
+    else:
+        print(f"   ❌ {stage_name}: {result.status.value}")
+        if result.error:
+            print(f"   🚨 Error: {result.error}")
 
 
 def load_standalone_workflow(yaml_path: str) -> dict:
@@ -63,41 +91,15 @@ def execute_standalone_workflow():
             print(f"   Tools: {stage.get('tools', [])}")
 
             # Check if stage is parallel
-            if stage.get('parallel', False):
-                print(f"   ⚡ Executing in parallel mode...")
-
-                # Create parallel task
-                from workflow_types import ParallelTask, TaskPriority
-                import time
-                import uuid
-
-                task = ParallelTask(
-                    task_id=f"task_{uuid.uuid4().hex[:8]}",
-                    stage=stage,
-                    context=context,
-                    priority=TaskPriority.MEDIUM
-                )
-
-                # Execute using shell command handler
-                result = executor._handle_shell_command(task)
-
-                if result.status.value == 'completed':
-                    print(f"   ✅ {stage_name}: {result.status.value} ({result.duration_ms}ms)")
-                    if result.output:
-                        if result.output.get('mode') == 'background_watch':
-                            print(f"   🔄 Background process started: {result.output.get('process_id')}")
-                        else:
-                            print(f"   📄 Output: {str(result.output)[:100]}...")
-                else:
-                    print(f"   ❌ {stage_name}: {result.status.value}")
-                    if result.error:
-                        print(f"   🚨 Error: {result.error}")
-
-                # Store result in context
-                context.stage_results[stage_name] = result
-                context.checkpoint(stage_name)
-            else:
+            if not stage.get('parallel', False):
                 print(f"   ⏭️  Skipping non-parallel stage")
+                continue
+
+            print(f"   ⚡ Executing in parallel mode...")
+            result = _execute_parallel_stage(executor, stage, context)
+            _log_stage_result(stage_name, result)
+            context.stage_results[stage_name] = result
+            context.checkpoint(stage_name)
 
         # Display execution summary
         print(f"\n📊 EXECUTION SUMMARY")

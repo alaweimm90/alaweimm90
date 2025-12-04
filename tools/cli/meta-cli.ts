@@ -7,17 +7,13 @@
  */
 
 import { Command } from 'commander';
-import * as path from 'path';
 import { spawn } from 'child_process';
 import chalk from 'chalk';
 
 const program = new Command();
 
 // CLI Configuration
-program
-  .name('meta')
-  .description('Meta-governance repository CLI')
-  .version('2.0.0');
+program.name('meta').description('Meta-governance repository CLI').version('2.0.0');
 
 // ============================================================================
 // AI Commands - Consolidate 38 ai:* scripts
@@ -48,54 +44,59 @@ ai.command('metrics')
   .action(() => runCommand('tsx', ['tools/ai/orchestrator.ts', 'metrics']));
 
 // Cache management
-const cache = ai.command('cache')
-  .description('AI cache management');
+const cache = ai.command('cache').description('AI cache management');
 
-cache.command('stats')
+cache
+  .command('stats')
   .description('View cache statistics')
   .action(() => runCommand('tsx', ['tools/ai/cache.ts', 'stats']));
 
-cache.command('clear')
+cache
+  .command('clear')
   .description('Clear AI cache')
   .action(() => runCommand('tsx', ['tools/ai/cache.ts', 'clear']));
 
 // Monitor commands
-const monitor = ai.command('monitor')
-  .description('AI monitoring tools');
+const monitor = ai.command('monitor').description('AI monitoring tools');
 
-monitor.command('status')
+monitor
+  .command('status')
   .description('Check monitor status')
   .action(() => runCommand('tsx', ['tools/ai/monitor.ts', 'status']));
 
-monitor.command('check')
+monitor
+  .command('check')
   .description('Run monitor checks')
   .action(() => runCommand('tsx', ['tools/ai/monitor.ts', 'check']));
 
 // Compliance commands
-const compliance = ai.command('compliance')
-  .description('AI compliance tools');
+const compliance = ai.command('compliance').description('AI compliance tools');
 
-compliance.command('check')
+compliance
+  .command('check')
   .description('Run compliance checks')
   .action(() => runCommand('tsx', ['tools/ai/cli/compliance-cli.ts', 'check']));
 
-compliance.command('score')
+compliance
+  .command('score')
   .description('Get compliance score')
   .action(() => runCommand('tsx', ['tools/ai/cli/compliance-cli.ts', 'score']));
 
 // Security commands
-const security = ai.command('security')
-  .description('AI security scanning');
+const security = ai.command('security').description('AI security scanning');
 
-security.command('scan')
+security
+  .command('scan')
   .description('Run security scan')
   .action(() => runCommand('tsx', ['tools/ai/cli/security-cli.ts', 'scan']));
 
-security.command('secrets')
+security
+  .command('secrets')
   .description('Scan for secrets')
   .action(() => runCommand('tsx', ['tools/ai/cli/security-cli.ts', 'secrets']));
 
-security.command('vulns')
+security
+  .command('vulns')
   .description('Check vulnerabilities')
   .action(() => runCommand('tsx', ['tools/ai/cli/security-cli.ts', 'vulns']));
 
@@ -108,11 +109,13 @@ const atlas = program
   .description('ATLAS research orchestration platform')
   .action(() => runCommand('tsx', ['tools/atlas/cli/index.ts']));
 
-atlas.command('api')
+atlas
+  .command('api')
   .description('Start ATLAS API server')
   .action(() => runCommand('tsx', ['tools/atlas/api/cli.ts']));
 
-atlas.command('migrate')
+atlas
+  .command('migrate')
   .description('Run storage migrations')
   .action(() => runCommand('tsx', ['tools/atlas/storage/migrate.ts']));
 
@@ -125,26 +128,30 @@ const devops = program
   .description('DevOps template and generation tools')
   .action(() => runCommand('tsx', ['tools/cli/devops.ts']));
 
-devops.command('init')
+devops
+  .command('init')
   .description('Initialize DevOps environment')
   .action(() => runCommand('tsx', ['tools/cli/devops.ts', 'init']));
 
-devops.command('setup')
+devops
+  .command('setup')
   .description('Setup DevOps tools')
   .action(() => runCommand('tsx', ['tools/cli/devops.ts', 'setup']));
 
-const template = devops.command('template')
-  .description('Template management');
+const template = devops.command('template').description('Template management');
 
-template.command('list')
+template
+  .command('list')
   .description('List available templates')
   .action(() => runCommand('tsx', ['tools/cli/devops.ts', 'template', 'list']));
 
-template.command('apply <name>')
+template
+  .command('apply <name>')
   .description('Apply a template')
   .action((name) => runCommand('tsx', ['tools/cli/devops.ts', 'template', 'apply', name]));
 
-devops.command('generate <type>')
+devops
+  .command('generate <type>')
   .description('Generate DevOps resources')
   .option('--dry-run', 'Preview without creating files')
   .action((type, options) => {
@@ -163,15 +170,18 @@ const automation = program
   .description('Workflow automation tools')
   .action(() => runCommand('tsx', ['automation/cli/index.ts']));
 
-automation.command('list')
+automation
+  .command('list')
   .description('List automation workflows')
   .action(() => runCommand('tsx', ['automation/cli/index.ts', 'list']));
 
-automation.command('execute <workflow>')
+automation
+  .command('execute <workflow>')
   .description('Execute a workflow')
   .action((workflow) => runCommand('tsx', ['automation/cli/index.ts', 'execute', workflow]));
 
-automation.command('route <task>')
+automation
+  .command('route <task>')
   .description('Route task to appropriate handler')
   .action((task) => runCommand('tsx', ['automation/cli/index.ts', 'route', task]));
 
@@ -179,11 +189,10 @@ automation.command('route <task>')
 // Development Commands - Standard tooling
 // ============================================================================
 
-const dev = program
-  .command('dev')
-  .description('Development tools (lint, test, format)');
+const dev = program.command('dev').description('Development tools (lint, test, format)');
 
-dev.command('lint')
+dev
+  .command('lint')
   .description('Run ESLint')
   .option('--fix', 'Auto-fix issues')
   .action((options) => {
@@ -192,7 +201,8 @@ dev.command('lint')
     runCommand('npx', ['eslint', ...args]);
   });
 
-dev.command('format')
+dev
+  .command('format')
   .description('Format code with Prettier')
   .option('--check', 'Check formatting without fixing')
   .action((options) => {
@@ -200,7 +210,8 @@ dev.command('format')
     runCommand('npx', ['prettier', ...args]);
   });
 
-dev.command('test')
+dev
+  .command('test')
   .description('Run tests')
   .option('--coverage', 'Generate coverage report')
   .option('--watch', 'Watch mode')
@@ -212,7 +223,8 @@ dev.command('test')
     runCommand('npx', ['vitest', ...args]);
   });
 
-dev.command('type-check')
+dev
+  .command('type-check')
   .alias('tsc')
   .description('Check TypeScript types')
   .action(() => runCommand('npx', ['tsc', '--noEmit']));
@@ -267,7 +279,7 @@ function runCommand(command: string, args: string[] = []): Promise<void> {
     const child = spawn(command, args, {
       stdio: 'inherit',
       shell: true,
-      cwd: process.cwd()
+      cwd: process.cwd(),
     });
 
     child.on('error', (error) => {

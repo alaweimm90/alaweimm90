@@ -2596,7 +2596,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   - “How would you find errors in this result?”
   - “What additional evidence would falsify this conclusion?”
 
-  3.4 **PHASE 3 Self-Critique**
+    3.4 **PHASE 3 Self-Critique**
 
 - Attack your own design from:
   - Reliability,
@@ -2621,7 +2621,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   - Collusion between agents,
   - Risky or off-policy behavior.
 
-  4.2 **MLOps & CI/CD**
+    4.2 **MLOps & CI/CD**
 
 - Versioning for agents, prompts, and models.
 - Safe deployment:
@@ -2629,7 +2629,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   - Canary agents,
   - Rollback procedures.
 
-  4.3 **PHASE 4 Self-Critique**
+    4.3 **PHASE 4 Self-Critique**
 
 - “What safety mechanisms are missing or weak?”
 - “What governance assumptions depend on ‘perfect’ humans or processes?”
@@ -2650,7 +2650,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   - What data is ingested,
   - What end-to-end workflows are supported.
 
-  5.2 **52-Week Roadmap**
+    5.2 **52-Week Roadmap**
 
 - Propose a high-level phased roadmap (quarters or months) for:
   - Infrastructure,
@@ -2658,7 +2658,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   - Safety,
   - Evaluation.
 
-  5.3 **PHASE 5 Self-Critique**
+    5.3 **PHASE 5 Self-Critique**
 
 - “Where is this roadmap unrealistic (under- or over-scoped)?”
 - “What critical dependencies or unknowns would kill this plan?”

@@ -63,13 +63,20 @@ program
         console.log(chalk.yellow('[DRY RUN MODE]'));
       }
 
-      const context = await unifiedExecutor(workflow, {
-        dryRun: options.dryRun || false
-      }, inputs);
+      const context = await unifiedExecutor(
+        workflow,
+        {
+          dryRun: options.dryRun || false,
+        },
+        inputs
+      );
 
       console.log(chalk.green(`✓ Execution completed: ${context.status}`));
-      console.log(chalk.gray(`Duration: ${context.endTime ? (context.endTime.getTime() - context.startTime.getTime()) + 'ms' : 'N/A'}`));
-
+      console.log(
+        chalk.gray(
+          `Duration: ${context.endTime ? context.endTime.getTime() - context.startTime.getTime() + 'ms' : 'N/A'}`
+        )
+      );
     } catch (error) {
       console.error(chalk.red('Error executing workflow:'), error);
       process.exit(1);
@@ -90,21 +97,22 @@ program
       if (options.agents || (!options.agents && !options.workflows && !options.prompts)) {
         const agents = Array.from(core.getAllAgents().keys());
         console.log(chalk.blue('\n📋 Available Agents:'));
-        agents.forEach(agent => console.log(chalk.gray(`  • ${agent}`)));
+        agents.forEach((agent) => console.log(chalk.gray(`  • ${agent}`)));
       }
 
       if (options.workflows || (!options.agents && !options.workflows && !options.prompts)) {
         const workflows = Array.from(core.getAllWorkflows().keys());
         console.log(chalk.blue('\n⚡ Available Workflows:'));
-        workflows.forEach(workflow => console.log(chalk.gray(`  • ${workflow}`)));
+        workflows.forEach((workflow) => console.log(chalk.gray(`  • ${workflow}`)));
       }
 
       if (options.prompts || (!options.agents && !options.workflows && !options.prompts)) {
         const prompts = core.getAllPrompts();
         console.log(chalk.blue('\n📝 Available Prompts:'));
-        prompts.forEach(prompt => console.log(chalk.gray(`  • ${prompt.name} (${prompt.category})`)));
+        prompts.forEach((prompt) =>
+          console.log(chalk.gray(`  • ${prompt.name} (${prompt.category})`))
+        );
       }
-
     } catch (error) {
       console.error(chalk.red('Error listing assets:'), error);
       process.exit(1);
@@ -143,7 +151,6 @@ program
           console.log(chalk.red(`Workflow '${name}' not found`));
         }
       }
-
     } catch (error) {
       console.error(chalk.red('Error getting asset info:'), error);
       process.exit(1);
@@ -160,11 +167,10 @@ program
       console.log(chalk.blue(`🎯 Processing task: "${task}"`));
 
       const context = await unifiedExecutor(task, {
-        dryRun: options.dryRun || false
+        dryRun: options.dryRun || false,
       });
 
       console.log(chalk.green(`✓ Task completed: ${context.status}`));
-
     } catch (error) {
       console.error(chalk.red('Error executing task:'), error);
       process.exit(1);

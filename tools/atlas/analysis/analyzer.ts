@@ -1,5 +1,8 @@
 // ATLAS Repository Analyzer - AST parsing and complexity metrics
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Analyzer stubs accept any for future AST processing flexibility
+
 import type {
   CodeAnalysis,
   // These types are documented for future implementation

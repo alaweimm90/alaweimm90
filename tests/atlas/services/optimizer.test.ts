@@ -11,7 +11,10 @@ describe('Optimizer Features', () => {
   describe('JobQueue', () => {
     // Simulating JobQueue behavior
     class TestJobQueue {
-      private queue: Array<{ repository: { name: string; path: string }; options: Record<string, unknown> }> = [];
+      private queue: Array<{
+        repository: { name: string; path: string };
+        options: Record<string, unknown>;
+      }> = [];
       private maxConcurrent: number;
 
       constructor(maxConcurrent: number) {
@@ -22,7 +25,9 @@ describe('Optimizer Features', () => {
         this.queue.push({ repository, options });
       }
 
-      dequeue(): { repository: { name: string; path: string }; options: Record<string, unknown> } | undefined {
+      dequeue():
+        | { repository: { name: string; path: string }; options: Record<string, unknown> }
+        | undefined {
         return this.queue.shift();
       }
 
@@ -34,7 +39,9 @@ describe('Optimizer Features', () => {
         this.queue = [];
       }
 
-      peek(): { repository: { name: string; path: string }; options: Record<string, unknown> } | undefined {
+      peek():
+        | { repository: { name: string; path: string }; options: Record<string, unknown> }
+        | undefined {
         return this.queue[0];
       }
 
@@ -131,7 +138,8 @@ describe('Optimizer Features', () => {
         const fails = this.events.filter((e) => e.type === 'job_fail');
 
         const durations = completes.map((e) => (e.duration as number) || 0).filter((d) => d > 0);
-        const avgDuration = durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0;
+        const avgDuration =
+          durations.length > 0 ? durations.reduce((a, b) => a + b, 0) / durations.length : 0;
 
         return {
           totalJobs: starts.length,

@@ -4,17 +4,17 @@ environments:
   default:
     scan:
       fail_on_critical: true
-      high_ratio_limit: 0.95     # high / total > 95% => fail (adjusted from 90% due to false positives)
-      max_total_items: null      # optional absolute ceiling
+      high_ratio_limit: 0.95 # high / total > 95% => fail (adjusted from 90% due to false positives)
+      max_total_items: null # optional absolute ceiling
     remediation:
       fail_on_critical: true
       warn_on_zero_success: true # warn but do not fail when success_rate == 0
-      min_success_rate: 0.0      # can be tightened later
+      min_success_rate: 0.0 # can be tightened later
 
   ci:
     scan:
       fail_on_critical: true
-      high_ratio_limit: 0.90     # CI remains stricter
+      high_ratio_limit: 0.90 # CI remains stricter
       max_total_items: null
     remediation:
       fail_on_critical: true
@@ -25,7 +25,7 @@ environments:
     scan:
       fail_on_critical: true
       high_ratio_limit: 0.7
-      max_total_items: 500       # example overall ceiling
+      max_total_items: 500 # example overall ceiling
     remediation:
       fail_on_critical: true
       warn_on_zero_success: true

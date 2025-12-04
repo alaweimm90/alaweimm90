@@ -4,10 +4,10 @@
 # =============================================================================
 
 metadata:
-  version: "1.2.0"
-  created: "2025-12-02"
-  updated: "2025-12-03"
-  purpose: "Route tasks to appropriate superprompts and compose guidance"
+  version: '1.2.0'
+  created: '2025-12-02'
+  updated: '2025-12-03'
+  purpose: 'Route tasks to appropriate superprompts and compose guidance'
 
 # =============================================================================
 # AVAILABLE SUPERPROMPTS
@@ -16,36 +16,37 @@ metadata:
 available_superprompts:
   # Core Superprompts
   - id: codebase-sentinel
-    path: "../superprompts/codebase-sentinel.yaml"
-    specialty: "Code quality, governance, 7 Laws of Codebase Integrity"
+    path: '../superprompts/codebase-sentinel.yaml'
+    specialty: 'Code quality, governance, 7 Laws of Codebase Integrity'
     tier: core
 
   - id: security-auditor
-    path: "../superprompts/security-auditor.yaml"
-    specialty: "OWASP Top 10, secret detection, security best practices"
+    path: '../superprompts/security-auditor.yaml'
+    specialty: 'OWASP Top 10, secret detection, security best practices'
     tier: core
 
   - id: architect
-    path: "../superprompts/architect.yaml"
-    specialty: "System design, patterns, architectural decisions"
+    path: '../superprompts/architect.yaml'
+    specialty: 'System design, patterns, architectural decisions'
     tier: core
 
   - id: refactoring-expert
-    path: "../superprompts/refactoring-expert.yaml"
-    specialty: "Safe refactoring, code smells, behavior-preserving changes"
+    path: '../superprompts/refactoring-expert.yaml'
+    specialty: 'Safe refactoring, code smells, behavior-preserving changes'
     tier: core
 
   - id: debugger
-    path: "../superprompts/debugger.yaml"
-    specialty: "Bug hunting, root cause analysis, scientific debugging"
+    path: '../superprompts/debugger.yaml'
+    specialty: 'Bug hunting, root cause analysis, scientific debugging'
     tier: core
 
   # Master Superprompt (combines all patterns)
   - id: master-orchestrator
-    path: "../superprompts/master-orchestrator.yaml"
-    specialty: "Enterprise-grade orchestration combining security, optimization, governance"
+    path: '../superprompts/master-orchestrator.yaml'
+    specialty: 'Enterprise-grade orchestration combining security, optimization, governance'
     tier: master
-    composition: ["codebase-sentinel", "security-auditor", "architect", "refactoring-expert", "debugger"]
+    composition:
+      ['codebase-sentinel', 'security-auditor', 'architect', 'refactoring-expert', 'debugger']
 
 # =============================================================================
 # EXTERNAL PROMPT CATALOG (Reference Library)
@@ -53,25 +54,25 @@ available_superprompts:
 
 external_catalog:
   enterprise:
-    - path: "automation/prompts/project/ENTERPRISE_AGENTIC_AI_SUPERPROMPT.md"
-      specialty: "Multi-layer caching, agentic orchestration"
-    - path: "automation/prompts/project/GOVERNANCE_COMPLIANCE_SUPERPROMPT.md"
-      specialty: "COBIT, ITIL, SOC2, GDPR compliance"
-    - path: "automation/prompts/project/SECURITY_CYBERSECURITY_SUPERPROMPT.md"
-      specialty: "Defense in depth, DevSecOps"
+    - path: 'automation/prompts/project/ENTERPRISE_AGENTIC_AI_SUPERPROMPT.md'
+      specialty: 'Multi-layer caching, agentic orchestration'
+    - path: 'automation/prompts/project/GOVERNANCE_COMPLIANCE_SUPERPROMPT.md'
+      specialty: 'COBIT, ITIL, SOC2, GDPR compliance'
+    - path: 'automation/prompts/project/SECURITY_CYBERSECURITY_SUPERPROMPT.md'
+      specialty: 'Defense in depth, DevSecOps'
 
   optimization:
-    - path: "automation/prompts/project/PROMPT_OPTIMIZATION_SUPERPROMPT.md"
-      specialty: "Token efficiency, IDE-specific formatting"
+    - path: 'automation/prompts/project/PROMPT_OPTIMIZATION_SUPERPROMPT.md'
+      specialty: 'Token efficiency, IDE-specific formatting'
 
   domain_specific:
-    - path: "automation/prompts/project/CICD_PIPELINE_SUPERPROMPT.md"
-    - path: "automation/prompts/project/MONOREPO_ARCHITECTURE_SUPERPROMPT.md"
-    - path: "automation/prompts/project/TESTING_QA_SUPERPROMPT.md"
-    - path: "automation/prompts/project/AI_ML_INTEGRATION_SUPERPROMPT.md"
+    - path: 'automation/prompts/project/CICD_PIPELINE_SUPERPROMPT.md'
+    - path: 'automation/prompts/project/MONOREPO_ARCHITECTURE_SUPERPROMPT.md'
+    - path: 'automation/prompts/project/TESTING_QA_SUPERPROMPT.md'
+    - path: 'automation/prompts/project/AI_ML_INTEGRATION_SUPERPROMPT.md'
 
   reference:
-    - path: "docs/ai-coding-tools/02-terminal-cli/aider/aider/coders/architect_prompts.py"
+    - path: 'docs/ai-coding-tools/02-terminal-cli/aider/aider/coders/architect_prompts.py'
       note: "Aider's production-proven architect prompts"
 
 # =============================================================================
@@ -83,61 +84,120 @@ task_classification:
   intent_patterns:
     # Highest priority: Enterprise/complex tasks invoke master orchestrator
     enterprise:
-      keywords: ["enterprise", "production", "mission-critical", "comprehensive", "complete", "full-stack", "end-to-end", "orchestrate"]
+      keywords:
+        [
+          'enterprise',
+          'production',
+          'mission-critical',
+          'comprehensive',
+          'complete',
+          'full-stack',
+          'end-to-end',
+          'orchestrate',
+        ]
       weight: 1.0
-      prompts: ["master-orchestrator"]
+      prompts: ['master-orchestrator']
 
     security:
-      keywords: ["security", "vulnerability", "hack", "exploit", "secret", "password", "auth", "encrypt", "injection", "xss", "csrf"]
+      keywords:
+        [
+          'security',
+          'vulnerability',
+          'hack',
+          'exploit',
+          'secret',
+          'password',
+          'auth',
+          'encrypt',
+          'injection',
+          'xss',
+          'csrf',
+        ]
       weight: 1.0
-      prompts: ["security-auditor"]
+      prompts: ['security-auditor']
 
     architecture:
-      keywords: ["design", "architect", "scale", "pattern", "structure", "system", "microservice", "api", "database", "schema"]
+      keywords:
+        [
+          'design',
+          'architect',
+          'scale',
+          'pattern',
+          'structure',
+          'system',
+          'microservice',
+          'api',
+          'database',
+          'schema',
+        ]
       weight: 0.9
-      prompts: ["architect"]
+      prompts: ['architect']
 
     refactoring:
-      keywords: ["refactor", "extract", "rename", "move", "inline", "simplify", "clean", "smell", "decompose"]
+      keywords:
+        [
+          'refactor',
+          'extract',
+          'rename',
+          'move',
+          'inline',
+          'simplify',
+          'clean',
+          'smell',
+          'decompose',
+        ]
       weight: 0.85
-      prompts: ["refactoring-expert"]
+      prompts: ['refactoring-expert']
 
     debugging:
-      keywords: ["bug", "debug", "error", "crash", "broken", "failing", "issue", "problem", "exception", "traceback", "stack"]
+      keywords:
+        [
+          'bug',
+          'debug',
+          'error',
+          'crash',
+          'broken',
+          'failing',
+          'issue',
+          'problem',
+          'exception',
+          'traceback',
+          'stack',
+        ]
       weight: 0.85
-      prompts: ["debugger"]
+      prompts: ['debugger']
 
     quality:
-      keywords: ["quality", "lint", "debt", "improve", "cleanup", "standards", "consistency"]
+      keywords: ['quality', 'lint', 'debt', 'improve', 'cleanup', 'standards', 'consistency']
       weight: 0.8
-      prompts: ["codebase-sentinel", "refactoring-expert"]
+      prompts: ['codebase-sentinel', 'refactoring-expert']
 
     governance:
-      keywords: ["policy", "governance", "compliance", "audit", "validate", "check", "enforce"]
+      keywords: ['policy', 'governance', 'compliance', 'audit', 'validate', 'check', 'enforce']
       weight: 0.8
-      prompts: ["codebase-sentinel", "security-auditor"]
+      prompts: ['codebase-sentinel', 'security-auditor']
 
     documentation:
-      keywords: ["document", "readme", "docs", "explain", "comment", "describe", "api-docs"]
+      keywords: ['document', 'readme', 'docs', 'explain', 'comment', 'describe', 'api-docs']
       weight: 0.7
-      prompts: ["codebase-sentinel"]
+      prompts: ['codebase-sentinel']
 
     fixing:
-      keywords: ["fix", "repair", "resolve", "patch", "correct", "address"]
+      keywords: ['fix', 'repair', 'resolve', 'patch', 'correct', 'address']
       weight: 0.75
-      prompts: ["debugger", "codebase-sentinel"]
+      prompts: ['debugger', 'codebase-sentinel']
 
     implementation:
-      keywords: ["implement", "build", "create", "develop", "code", "feature", "add"]
+      keywords: ['implement', 'build', 'create', 'develop', 'code', 'feature', 'add']
       weight: 0.6
-      prompts: ["architect", "codebase-sentinel"]
+      prompts: ['architect', 'codebase-sentinel']
 
 # =============================================================================
 # SCORING ALGORITHM
 # =============================================================================
 
 scoring:
-  algorithm: "weighted_keyword_match"
+  algorithm: 'weighted_keyword_match'
 
   formula: |
     score = sum(
@@ -145,18 +205,18 @@ scoring:
     ) / normalization_factor
 
   thresholds:
-    primary_selection: 0.6    # Use prompt if score >= 0.6
-    secondary_inclusion: 0.3  # Include in composition if score >= 0.3
-    minimum_match: 0.1        # Ignore if score < 0.1
+    primary_selection: 0.6 # Use prompt if score >= 0.6
+    secondary_inclusion: 0.3 # Include in composition if score >= 0.3
+    minimum_match: 0.1 # Ignore if score < 0.1
 
   boosts:
-    explicit_request: 2.0     # User explicitly asked for this type
-    recent_success: 1.2       # This prompt succeeded recently
-    domain_match: 1.5         # Task domain matches prompt specialty
+    explicit_request: 2.0 # User explicitly asked for this type
+    recent_success: 1.2 # This prompt succeeded recently
+    domain_match: 1.5 # Task domain matches prompt specialty
 
   penalties:
-    recent_failure: 0.7       # This prompt failed recently
-    overuse: 0.9              # Avoid over-relying on one prompt
+    recent_failure: 0.7 # This prompt failed recently
+    overuse: 0.9 # Avoid over-relying on one prompt
 
 # =============================================================================
 # COMPOSITION RULES
@@ -166,30 +226,30 @@ composition:
   # How to combine multiple prompts
   strategies:
     sequential:
-      description: "Apply prompts in order, each building on previous"
-      when: "Tasks with clear phases (analyze -> design -> implement)"
-      example: ["codebase-sentinel.OBSERVE", "architect.design", "codebase-sentinel.VALIDATE"]
+      description: 'Apply prompts in order, each building on previous'
+      when: 'Tasks with clear phases (analyze -> design -> implement)'
+      example: ['codebase-sentinel.OBSERVE', 'architect.design', 'codebase-sentinel.VALIDATE']
 
     parallel:
-      description: "Apply prompts simultaneously, merge findings"
-      when: "Independent concerns that can be evaluated together"
-      example: ["security-auditor.scan", "codebase-sentinel.lint"]
+      description: 'Apply prompts simultaneously, merge findings'
+      when: 'Independent concerns that can be evaluated together'
+      example: ['security-auditor.scan', 'codebase-sentinel.lint']
 
     hierarchical:
-      description: "Use one prompt as primary, others as advisors"
-      when: "Clear primary concern with secondary considerations"
+      description: 'Use one prompt as primary, others as advisors'
+      when: 'Clear primary concern with secondary considerations'
       example:
-        primary: "architect"
-        advisors: ["security-auditor", "codebase-sentinel"]
+        primary: 'architect'
+        advisors: ['security-auditor', 'codebase-sentinel']
 
   # Conflict resolution when prompts disagree
   conflict_resolution:
     priority_order:
-      - "security"      # Security concerns always win
-      - "correctness"   # Then correctness
-      - "maintainability"
-      - "performance"
-      - "convenience"
+      - 'security' # Security concerns always win
+      - 'correctness' # Then correctness
+      - 'maintainability'
+      - 'performance'
+      - 'convenience'
 
     merge_strategy: |
       1. Identify conflicting recommendations
@@ -203,21 +263,21 @@ composition:
 
 context_extraction:
   from_query:
-    - "file_paths_mentioned"
-    - "technology_stack"
-    - "urgency_indicators"
-    - "scope_indicators"
+    - 'file_paths_mentioned'
+    - 'technology_stack'
+    - 'urgency_indicators'
+    - 'scope_indicators'
 
   from_codebase:
-    - "primary_language"
-    - "framework_used"
-    - "existing_patterns"
-    - "recent_changes"
+    - 'primary_language'
+    - 'framework_used'
+    - 'existing_patterns'
+    - 'recent_changes'
 
   from_history:
-    - "similar_past_tasks"
-    - "prompt_effectiveness"
-    - "user_preferences"
+    - 'similar_past_tasks'
+    - 'prompt_effectiveness'
+    - 'user_preferences'
 
 # =============================================================================
 # SELECTION LOGIC (Pseudocode)
@@ -265,77 +325,77 @@ api:
   select:
     input:
       query: "string - user's task description"
-      context: "object - optional context override"
+      context: 'object - optional context override'
     output:
-      prompts: "array - selected prompt IDs"
-      composition: "string - composed guidance"
-      confidence: "float - selection confidence"
-      reasoning: "string - why these prompts were selected"
+      prompts: 'array - selected prompt IDs'
+      composition: 'string - composed guidance'
+      confidence: 'float - selection confidence'
+      reasoning: 'string - why these prompts were selected'
 
   evaluate:
     input:
-      task_id: "string - completed task ID"
-      outcome: "enum - success | partial | failure"
-      feedback: "string - optional feedback"
+      task_id: 'string - completed task ID'
+      outcome: 'enum - success | partial | failure'
+      feedback: 'string - optional feedback'
     output:
-      recorded: "boolean"
-      adjustments: "object - any scoring adjustments made"
+      recorded: 'boolean'
+      adjustments: 'object - any scoring adjustments made'
 
 # =============================================================================
 # EXAMPLES
 # =============================================================================
 
 examples:
-  - query: "Audit this codebase for security issues and code quality"
+  - query: 'Audit this codebase for security issues and code quality'
     selected:
-      - "security-auditor"
-      - "codebase-sentinel"
-    strategy: "parallel"
+      - 'security-auditor'
+      - 'codebase-sentinel'
+    strategy: 'parallel'
     confidence: 0.92
     reasoning: "Keywords 'audit', 'security', 'code quality' strongly match both prompts"
 
-  - query: "Design a new microservice architecture for user authentication"
+  - query: 'Design a new microservice architecture for user authentication'
     selected:
-      - "architect"
-      - "security-auditor"
-    strategy: "hierarchical"
+      - 'architect'
+      - 'security-auditor'
+    strategy: 'hierarchical'
     confidence: 0.88
-    reasoning: "Primary architecture task with security as critical advisor"
+    reasoning: 'Primary architecture task with security as critical advisor'
 
-  - query: "Fix this bug in the payment processing"
+  - query: 'Fix this bug in the payment processing'
     selected:
-      - "debugger"
-      - "security-auditor"
-    strategy: "sequential"
+      - 'debugger'
+      - 'security-auditor'
+    strategy: 'sequential'
     confidence: 0.85
     reasoning: "Debug methodology for bug with security due to 'payment'"
 
-  - query: "Refactor this large function into smaller pieces"
+  - query: 'Refactor this large function into smaller pieces'
     selected:
-      - "refactoring-expert"
-    strategy: "single"
+      - 'refactoring-expert'
+    strategy: 'single'
     confidence: 0.95
-    reasoning: "Direct refactoring task - extract_function from catalog"
+    reasoning: 'Direct refactoring task - extract_function from catalog'
 
-  - query: "The app crashes when submitting the form"
+  - query: 'The app crashes when submitting the form'
     selected:
-      - "debugger"
-      - "codebase-sentinel"
-    strategy: "sequential"
+      - 'debugger'
+      - 'codebase-sentinel'
+    strategy: 'sequential'
     confidence: 0.88
-    reasoning: "Crash investigation requires debugger methodology first"
+    reasoning: 'Crash investigation requires debugger methodology first'
 
-  - query: "Clean up the code smells in the user service"
+  - query: 'Clean up the code smells in the user service'
     selected:
-      - "refactoring-expert"
-      - "codebase-sentinel"
-    strategy: "hierarchical"
+      - 'refactoring-expert'
+      - 'codebase-sentinel'
+    strategy: 'hierarchical'
     confidence: 0.90
-    reasoning: "Refactoring for smells with sentinel for quality gates"
+    reasoning: 'Refactoring for smells with sentinel for quality gates'
 
-  - query: "Debug why tests are failing intermittently"
+  - query: 'Debug why tests are failing intermittently'
     selected:
-      - "debugger"
-    strategy: "single"
+      - 'debugger'
+    strategy: 'single'
     confidence: 0.92
-    reasoning: "Intermittent failure - classic debugging scenario (race conditions)"
+    reasoning: 'Intermittent failure - classic debugging scenario (race conditions)'

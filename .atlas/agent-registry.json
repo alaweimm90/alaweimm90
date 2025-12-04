@@ -72,13 +72,7 @@
       "name": "GPT-4 Turbo",
       "provider": "openai",
       "model": "gpt-4-turbo-preview",
-      "capabilities": [
-        "code_generation",
-        "code_review",
-        "documentation",
-        "explanation",
-        "chat"
-      ],
+      "capabilities": ["code_generation", "code_review", "documentation", "explanation", "chat"],
       "status": "unavailable",
       "config": {
         "apiKeyEnv": "OPENAI_API_KEY",
@@ -103,12 +97,7 @@
       "name": "Gemini Pro",
       "provider": "google",
       "model": "gemini-pro",
-      "capabilities": [
-        "code_generation",
-        "documentation",
-        "explanation",
-        "chat"
-      ],
+      "capabilities": ["code_generation", "documentation", "explanation", "chat"],
       "status": "unavailable",
       "config": {
         "apiKeyEnv": "GOOGLE_API_KEY",

@@ -20,7 +20,8 @@ workflows:
           - 'claude_analysis'
           - 'conflict_resolution'
         action: 'claude_analysis'
-        analysis_types: ['refactoring_opportunities', 'complexity_analysis', 'security_vulnerabilities']
+        analysis_types:
+          ['refactoring_opportunities', 'complexity_analysis', 'security_vulnerabilities']
         files: ['src/**/*.py', 'src/**/*.js', 'src/**/*.ts']
 
       - name: 'parallel_build'
@@ -306,7 +307,7 @@ parallel_stages:
 # Resource Scaling Configuration
 resource_scaling:
   enabled: true
-  monitoring_interval: 30  # seconds
+  monitoring_interval: 30 # seconds
   scaling_rules:
     cpu_threshold:
       scale_up: 30

@@ -18,17 +18,17 @@ superprompts:
     codebase-sentinel:
       path: .ai/superprompts/codebase-sentinel.yaml
       triggers: [audit, cleanup, refactor, governance, quality]
-      role: "Systematic codebase quality maintenance"
+      role: 'Systematic codebase quality maintenance'
 
     security-auditor:
       path: .ai/superprompts/security-auditor.yaml
       triggers: [security, vulnerability, audit, secrets, auth]
-      role: "Security-first code analysis"
+      role: 'Security-first code analysis'
 
     architect:
       path: .ai/superprompts/architect.yaml
       triggers: [design, architecture, system, scale, pattern]
-      role: "High-level system design"
+      role: 'High-level system design'
 
   # Learning system
   learning:
@@ -59,8 +59,8 @@ policies:
 # =============================================================================
 tools:
   # Prompt Engine
-  prompt_select: "python .ai/prompt-engine/engine.py select"
-  prompt_report: "python .ai/prompt-engine/engine.py report"
+  prompt_select: 'python .ai/prompt-engine/engine.py select'
+  prompt_report: 'python .ai/prompt-engine/engine.py report'
 
   # Orchestration
   orchestrator: automation/orchestration/codebase_orchestrator.py
@@ -109,7 +109,7 @@ routing:
       superprompt: codebase-sentinel
       tool: kilo
     quick_fixes:
-      superprompt: null  # No superprompt needed
+      superprompt: null # No superprompt needed
       tool: copilot
     code_review:
       superprompt: [codebase-sentinel, security-auditor]

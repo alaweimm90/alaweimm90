@@ -4,9 +4,9 @@
 # =============================================================================
 
 metadata:
-  version: "1.0.0"
-  created: "2025-12-02"
-  purpose: "Track and learn from prompt effectiveness to improve future selection"
+  version: '1.0.0'
+  created: '2025-12-02'
+  purpose: 'Track and learn from prompt effectiveness to improve future selection'
 
 # =============================================================================
 # METRICS TRACKED
@@ -14,37 +14,37 @@ metadata:
 
 metrics:
   per_prompt:
-    - name: "selection_count"
-      description: "How often this prompt is selected"
-      decay: "none"
+    - name: 'selection_count'
+      description: 'How often this prompt is selected'
+      decay: 'none'
 
-    - name: "success_rate"
-      description: "Percentage of successful outcomes"
-      decay: "exponential"
+    - name: 'success_rate'
+      description: 'Percentage of successful outcomes'
+      decay: 'exponential'
       decay_factor: 0.95
 
-    - name: "avg_time_to_completion"
-      description: "Average time from selection to task completion"
-      decay: "none"
+    - name: 'avg_time_to_completion'
+      description: 'Average time from selection to task completion'
+      decay: 'none'
 
-    - name: "user_satisfaction"
-      description: "Explicit user feedback when provided"
-      decay: "linear"
+    - name: 'user_satisfaction'
+      description: 'Explicit user feedback when provided'
+      decay: 'linear'
       decay_factor: 0.1
 
-    - name: "composition_synergy"
-      description: "How well this prompt works with others"
-      decay: "none"
+    - name: 'composition_synergy'
+      description: 'How well this prompt works with others'
+      decay: 'none'
 
   per_task_type:
-    - name: "best_prompt_mapping"
-      description: "Which prompts work best for which task types"
+    - name: 'best_prompt_mapping'
+      description: 'Which prompts work best for which task types'
 
-    - name: "failure_patterns"
-      description: "Common failure modes by task type"
+    - name: 'failure_patterns'
+      description: 'Common failure modes by task type'
 
-    - name: "context_dependencies"
-      description: "What context factors affect success"
+    - name: 'context_dependencies'
+      description: 'What context factors affect success'
 
 # =============================================================================
 # LEARNING RULES
@@ -53,43 +53,43 @@ metrics:
 learning_rules:
   # Reward successful prompt selections
   on_success:
-    - action: "increase_weight"
-      target: "selected_prompt"
+    - action: 'increase_weight'
+      target: 'selected_prompt'
       amount: 0.05
       cap: 1.5
 
-    - action: "strengthen_association"
-      target: "task_intent -> prompt"
+    - action: 'strengthen_association'
+      target: 'task_intent -> prompt'
       amount: 0.1
 
-    - action: "record_context"
-      target: "success_contexts"
+    - action: 'record_context'
+      target: 'success_contexts'
 
   # Penalize failed prompt selections
   on_failure:
-    - action: "decrease_weight"
-      target: "selected_prompt"
+    - action: 'decrease_weight'
+      target: 'selected_prompt'
       amount: 0.1
       floor: 0.5
 
-    - action: "weaken_association"
-      target: "task_intent -> prompt"
+    - action: 'weaken_association'
+      target: 'task_intent -> prompt'
       amount: 0.15
 
-    - action: "record_context"
-      target: "failure_contexts"
+    - action: 'record_context'
+      target: 'failure_contexts'
 
-    - action: "analyze_pattern"
-      description: "Check if this is a recurring failure pattern"
+    - action: 'analyze_pattern'
+      description: 'Check if this is a recurring failure pattern'
 
   # Partial success handling
   on_partial:
-    - action: "slight_decrease"
-      target: "selected_prompt"
+    - action: 'slight_decrease'
+      target: 'selected_prompt'
       amount: 0.02
 
-    - action: "record_what_worked"
-      target: "partial_success_patterns"
+    - action: 'record_what_worked'
+      target: 'partial_success_patterns'
 
 # =============================================================================
 # ADAPTATION STRATEGIES
@@ -98,23 +98,23 @@ learning_rules:
 adaptation:
   # When to trigger adaptation
   triggers:
-    - condition: "success_rate < 0.6 over last 10 uses"
-      action: "demote_prompt"
+    - condition: 'success_rate < 0.6 over last 10 uses'
+      action: 'demote_prompt'
 
-    - condition: "success_rate > 0.9 over last 10 uses"
-      action: "promote_prompt"
+    - condition: 'success_rate > 0.9 over last 10 uses'
+      action: 'promote_prompt'
 
-    - condition: "new_task_type_detected"
-      action: "explore_prompts"
+    - condition: 'new_task_type_detected'
+      action: 'explore_prompts'
 
-    - condition: "consistent_failure_pattern"
-      action: "analyze_and_adjust"
+    - condition: 'consistent_failure_pattern'
+      action: 'analyze_and_adjust'
 
   # Exploration vs exploitation
   exploration:
-    rate: 0.1  # 10% of selections try alternative prompts
-    strategy: "epsilon_greedy"
-    min_samples: 5  # Before switching from exploration to exploitation
+    rate: 0.1 # 10% of selections try alternative prompts
+    strategy: 'epsilon_greedy'
+    min_samples: 5 # Before switching from exploration to exploitation
 
   # Prompt composition learning
   composition_learning:
@@ -129,54 +129,54 @@ adaptation:
 data_structures:
   task_record:
     schema:
-      task_id: "uuid"
-      timestamp: "datetime"
-      query: "string"
-      extracted_intent: "string"
-      selected_prompts: "array[string]"
-      composition_strategy: "string"
-      confidence: "float"
-      outcome: "enum[success, partial, failure]"
-      duration_seconds: "int"
-      user_feedback: "string?"
-      context_snapshot: "object"
+      task_id: 'uuid'
+      timestamp: 'datetime'
+      query: 'string'
+      extracted_intent: 'string'
+      selected_prompts: 'array[string]'
+      composition_strategy: 'string'
+      confidence: 'float'
+      outcome: 'enum[success, partial, failure]'
+      duration_seconds: 'int'
+      user_feedback: 'string?'
+      context_snapshot: 'object'
 
   prompt_stats:
     schema:
-      prompt_id: "string"
-      total_selections: "int"
-      success_count: "int"
-      partial_count: "int"
-      failure_count: "int"
-      avg_confidence_at_selection: "float"
-      weight_adjustments_history: "array"
-      best_paired_with: "array[string]"
-      avoid_pairing_with: "array[string]"
+      prompt_id: 'string'
+      total_selections: 'int'
+      success_count: 'int'
+      partial_count: 'int'
+      failure_count: 'int'
+      avg_confidence_at_selection: 'float'
+      weight_adjustments_history: 'array'
+      best_paired_with: 'array[string]'
+      avoid_pairing_with: 'array[string]'
 
   intent_mapping:
     schema:
-      intent: "string"
-      prompt_scores: "map[string, float]"
-      sample_queries: "array[string]"
-      last_updated: "datetime"
+      intent: 'string'
+      prompt_scores: 'map[string, float]'
+      sample_queries: 'array[string]'
+      last_updated: 'datetime'
 
 # =============================================================================
 # PERSISTENCE
 # =============================================================================
 
 persistence:
-  location: ".ai/learning/data/"
+  location: '.ai/learning/data/'
   files:
-    task_history: "task-history.jsonl"
-    prompt_stats: "prompt-stats.json"
-    intent_mappings: "intent-mappings.json"
-    adaptation_log: "adaptation-log.jsonl"
+    task_history: 'task-history.jsonl'
+    prompt_stats: 'prompt-stats.json'
+    intent_mappings: 'intent-mappings.json'
+    adaptation_log: 'adaptation-log.jsonl'
 
   retention:
-    task_history: "90 days"
-    prompt_stats: "forever (aggregate)"
-    intent_mappings: "forever"
-    adaptation_log: "180 days"
+    task_history: '90 days'
+    prompt_stats: 'forever (aggregate)'
+    intent_mappings: 'forever'
+    adaptation_log: '180 days'
 
 # =============================================================================
 # REPORTING
@@ -184,17 +184,17 @@ persistence:
 
 reporting:
   weekly_summary:
-    - "Most effective prompts"
-    - "Least effective prompts"
-    - "New patterns detected"
-    - "Recommended adjustments"
+    - 'Most effective prompts'
+    - 'Least effective prompts'
+    - 'New patterns detected'
+    - 'Recommended adjustments'
 
   anomaly_detection:
-    - "Sudden drops in effectiveness"
-    - "Unusual task types"
-    - "Conflicting outcomes"
+    - 'Sudden drops in effectiveness'
+    - 'Unusual task types'
+    - 'Conflicting outcomes'
 
   recommendations:
-    - "Prompts that need review"
-    - "New prompt suggestions"
-    - "Composition improvements"
+    - 'Prompts that need review'
+    - 'New prompt suggestions'
+    - 'Composition improvements'

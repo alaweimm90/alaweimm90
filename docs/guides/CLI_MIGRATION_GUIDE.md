@@ -7,6 +7,7 @@ We've consolidated **66 npm scripts** into a **single unified CLI** with intuiti
 ## Before vs After
 
 ### Before: 66 Scattered Scripts
+
 ```bash
 npm run ai:cache:stats
 npm run ai:compliance:check
@@ -17,6 +18,7 @@ npm run devops:coder:dry
 ```
 
 ### After: Single Unified CLI
+
 ```bash
 npx tsx meta-cli.ts ai cache stats
 npx tsx meta-cli.ts ai compliance check
@@ -26,6 +28,7 @@ npx tsx meta-cli.ts devops generate node-service --dry-run
 ```
 
 Or even simpler with the new package.json:
+
 ```bash
 npm run meta ai cache stats
 npm run meta ai compliance check
@@ -36,20 +39,21 @@ npm run meta ai security scan
 
 ### Main Commands
 
-| Command | Description | Subcommands |
-|---------|-------------|-------------|
-| `meta ai` | AI orchestration tools | start, complete, context, metrics, cache, monitor, compliance, security |
-| `meta atlas` | Research platform | api, migrate |
-| `meta devops` | DevOps tools | init, setup, template, generate |
-| `meta automation` | Workflow automation | list, execute, route |
-| `meta dev` | Development tools | lint, format, test, type-check |
-| `meta governance` | Governance tools | (Python CLI) |
-| `meta orchestrate` | Orchestration tools | (Python CLI) |
-| `meta mcp` | MCP server tools | (Python CLI) |
+| Command            | Description            | Subcommands                                                             |
+| ------------------ | ---------------------- | ----------------------------------------------------------------------- |
+| `meta ai`          | AI orchestration tools | start, complete, context, metrics, cache, monitor, compliance, security |
+| `meta atlas`       | Research platform      | api, migrate                                                            |
+| `meta devops`      | DevOps tools           | init, setup, template, generate                                         |
+| `meta automation`  | Workflow automation    | list, execute, route                                                    |
+| `meta dev`         | Development tools      | lint, format, test, type-check                                          |
+| `meta governance`  | Governance tools       | (Python CLI)                                                            |
+| `meta orchestrate` | Orchestration tools    | (Python CLI)                                                            |
+| `meta mcp`         | MCP server tools       | (Python CLI)                                                            |
 
 ### Quick Reference
 
 #### AI Operations
+
 ```bash
 # Orchestration
 meta ai start <task>           # Start AI task
@@ -76,6 +80,7 @@ meta ai security vulns         # Check vulnerabilities
 ```
 
 #### ATLAS Operations
+
 ```bash
 meta atlas                     # Launch ATLAS CLI
 meta atlas api                 # Start API server
@@ -83,6 +88,7 @@ meta atlas migrate             # Run migrations
 ```
 
 #### DevOps Operations
+
 ```bash
 meta devops init               # Initialize
 meta devops setup              # Setup tools
@@ -92,6 +98,7 @@ meta devops generate <type>    # Generate resources
 ```
 
 #### Development Tools
+
 ```bash
 meta dev lint                  # Run ESLint
 meta dev lint --fix            # Fix lint issues
@@ -108,12 +115,14 @@ meta dev type-check            # Check types
 ### Example 1: AI Cache Management
 
 **Old way:**
+
 ```bash
 npm run ai:cache:stats
 npm run ai:cache:clear
 ```
 
 **New way:**
+
 ```bash
 meta ai cache stats
 meta ai cache clear
@@ -122,12 +131,14 @@ meta ai cache clear
 ### Example 2: DevOps Template
 
 **Old way:**
+
 ```bash
 npm run devops:list
 npm run devops:builder
 ```
 
 **New way:**
+
 ```bash
 meta devops template list
 meta devops template apply <name>
@@ -136,12 +147,14 @@ meta devops template apply <name>
 ### Example 3: Testing
 
 **Old way:**
+
 ```bash
 npm run test:run
 npm run test:coverage
 ```
 
 **New way:**
+
 ```bash
 meta dev test
 meta dev test --coverage
@@ -150,21 +163,25 @@ meta dev test --coverage
 ## Benefits
 
 ### 1. **Discoverability**
+
 - Single entry point
 - Built-in help at every level
 - Logical grouping of related commands
 
 ### 2. **Consistency**
+
 - Uniform command structure
 - Predictable patterns
 - Clear hierarchy
 
 ### 3. **Reduced Complexity**
+
 - From 66 scripts to 1 CLI
 - From flat list to organized tree
 - From memorization to exploration
 
 ### 4. **Better UX**
+
 ```bash
 # See all commands
 meta --help
@@ -179,19 +196,21 @@ meta ai cache --help
 ## Package.json Simplification
 
 ### Before: 76 lines of scripts
+
 ```json
 {
   "scripts": {
     "ai": "tsx tools/ai/index.ts",
     "ai:tools": "tsx tools/ai/index.ts",
     "ai:start": "tsx tools/ai/orchestrator.ts start",
-    "ai:complete": "tsx tools/ai/orchestrator.ts complete",
+    "ai:complete": "tsx tools/ai/orchestrator.ts complete"
     // ... 62 more scripts
   }
 }
 ```
 
 ### After: 12 lines of scripts
+
 ```json
 {
   "scripts": {
@@ -210,11 +229,13 @@ meta ai cache --help
 ## Installation
 
 1. **Use the new CLI immediately:**
+
    ```bash
    npx tsx meta-cli.ts --help
    ```
 
 2. **Or add alias to your shell:**
+
    ```bash
    alias meta="npx tsx meta-cli.ts"
    ```
@@ -228,10 +249,12 @@ meta ai cache --help
 ## Backwards Compatibility
 
 During transition, both old and new commands work:
+
 - Old: `npm run ai:cache:stats`
 - New: `meta ai cache stats`
 
 Once comfortable, replace package.json with package-simplified.json:
+
 ```bash
 cp package-simplified.json package.json
 npm install
@@ -240,11 +263,13 @@ npm install
 ## Next Steps
 
 1. **Try the new CLI:**
+
    ```bash
    npx tsx meta-cli.ts --help
    ```
 
 2. **Explore subcommands:**
+
    ```bash
    meta ai --help
    meta devops --help

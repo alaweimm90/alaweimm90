@@ -248,7 +248,7 @@ Copy this template and fill it out for any prompt you want to optimize:
 - [ ] Expected output vague
 - [ ] Can't verify success
 - [ ] Scope too broad/narrow
-- [ ] Other: ****\_\_\_****
+- [ ] Other: \***\*\_\_\_\*\***
 
 ### OPTIMIZATION ACTIONS
 
@@ -259,7 +259,7 @@ Copy this template and fill it out for any prompt you want to optimize:
 5. [ ] Specify exact output format
 6. [ ] Bound the scope clearly
 7. [ ] Make objectively testable
-8. [ ] Other: ****\_\_\_****
+8. [ ] Other: \***\*\_\_\_\*\***
 
 ### OPTIMIZED PROMPT
 

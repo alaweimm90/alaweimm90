@@ -8,11 +8,23 @@
 // TODO: Import when atlas-integration module is available
 // import { ATLASIntegration } from '../src/core/atlas-integration.js';
 
+interface AgentInfo {
+  agent_id: string;
+  name: string;
+  provider: string;
+  capabilities: string[];
+  health?: { status: string };
+}
+
 // Placeholder class until module is available
 class ATLASIntegration {
-  constructor(public config: any) {}
-  async getHealth() { return { status: 'healthy' }; }
-  async getAgents() { return []; }
+  constructor(public config: ATLASIntegrationConfig) {}
+  async getHealth(): Promise<{ status: string }> {
+    return { status: 'healthy' };
+  }
+  async getAgents(): Promise<AgentInfo[]> {
+    return [];
+  }
 }
 
 export interface ATLASIntegrationConfig {
@@ -60,13 +72,21 @@ export async function validateATLASConnection(atlas: ATLASIntegration): Promise<
   }
 }
 
+interface SimplifiedAgent {
+  id: string;
+  name: string;
+  provider: string;
+  capabilities: string[];
+  health: string;
+}
+
 /**
  * Get available agents and their capabilities
  */
-export async function getAvailableAgents(atlas: ATLASIntegration) {
+export async function getAvailableAgents(atlas: ATLASIntegration): Promise<SimplifiedAgent[]> {
   try {
     const agents = await atlas.getAgents();
-    return agents.map((agent: any) => ({
+    return agents.map((agent) => ({
       id: agent.agent_id,
       name: agent.name,
       provider: agent.provider,
@@ -82,7 +102,9 @@ export async function getAvailableAgents(atlas: ATLASIntegration) {
 /**
  * Setup ATLAS integration for AI Tools
  */
-export async function setupATLASIntegration(config: ATLASIntegrationConfig = {}) {
+export async function setupATLASIntegration(
+  config: ATLASIntegrationConfig = {}
+): Promise<{ atlas: ATLASIntegration; agents: SimplifiedAgent[] }> {
   const atlas = createATLASIntegration(config);
 
   // Validate connection
@@ -96,6 +118,6 @@ export async function setupATLASIntegration(config: ATLASIntegrationConfig = {})
 
   console.log(`✅ Connected to ATLAS at ${config.url || 'http://localhost:8000'}`);
   console.log(`📊 Available agents: ${agents.length}`);
-  console.log(`🤖 Agents: ${agents.map((a: any) => `${a.name} (${a.provider})`).join(', ')}`);
+  console.log(`🤖 Agents: ${agents.map((a) => `${a.name} (${a.provider})`).join(', ')}`);
   return { atlas, agents };
 }

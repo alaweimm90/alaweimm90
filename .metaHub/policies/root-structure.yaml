@@ -114,6 +114,8 @@ allowed_directories:
   supporting:
     - name: "demo"
       purpose: "Demo dashboards, scenarios, test repos, examples"
+    - name: "config"
+      purpose: "Centralized configuration files (TypeScript, linting, CI/CD)"
 
   # Tool Configuration (allowed, should be hidden)
   tooling:

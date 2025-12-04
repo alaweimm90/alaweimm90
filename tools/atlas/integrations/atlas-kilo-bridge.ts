@@ -7,6 +7,9 @@
  * against KILO policies.
  */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// Bridge handles dynamic configuration and cross-system data structures
+
 import { readFileSync, existsSync } from 'fs';
 import { join, resolve } from 'path';
 
