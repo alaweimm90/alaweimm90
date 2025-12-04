@@ -28,6 +28,9 @@
 /GOVERNANCE.md               @alaweimm90
 /SECURITY.md                 @alaweimm90
 
+# Architecture decisions
+/docs/architecture/decisions/ @alaweimm90
+
 # Security configurations
 /CODEOWNERS                  @alaweimm90
 /.github/dependabot.yml      @alaweimm90
