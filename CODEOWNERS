@@ -1,0 +1,59 @@
+# =============================================================================
+# CODEOWNERS - Define ownership for code review requirements
+# =============================================================================
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# =============================================================================
+# CRITICAL INFRASTRUCTURE - Require review
+# =============================================================================
+
+# GitHub Actions workflows - security critical
+/.github/workflows/          @alaweimm90
+
+# Pre-commit hooks - affects all commits
+/.husky/                     @alaweimm90
+/.pre-commit-config.yaml     @alaweimm90
+
+# Root configuration files
+/.gitignore                  @alaweimm90
+/package.json                @alaweimm90
+/tsconfig.json               @alaweimm90
+
+# =============================================================================
+# GOVERNANCE & SECURITY
+# =============================================================================
+
+# Governance policies
+/.metaHub/policies/          @alaweimm90
+/GOVERNANCE.md               @alaweimm90
+/SECURITY.md                 @alaweimm90
+
+# Security configurations
+/CODEOWNERS                  @alaweimm90
+/.github/dependabot.yml      @alaweimm90
+
+# =============================================================================
+# AI SYSTEM - Prompt and orchestration
+# =============================================================================
+
+# AI superprompts and configuration
+/.ai/superprompts/           @alaweimm90
+/.ai/prompt-engine/          @alaweimm90
+/.ai/context.yaml            @alaweimm90
+
+# =============================================================================
+# AUTOMATION & TOOLING
+# =============================================================================
+
+# Technical debt automation
+/automation/governance/      @alaweimm90
+/automation/debt_gate.py     @alaweimm90
+
+# CLI tools
+/tools/cli/                  @alaweimm90
+
+# =============================================================================
+# DEFAULT - All other files
+# =============================================================================
+# These require at least one review but not specifically from @alaweimm90
+*                            @alaweimm90

@@ -37,6 +37,11 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Linter/Test outputs
+eslint-output.txt
+eslint-report.*
+tslint-report.*
+
 # OS files
 .DS_Store
 Thumbs.db
