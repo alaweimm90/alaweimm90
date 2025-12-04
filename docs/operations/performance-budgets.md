@@ -272,6 +272,34 @@ node_modules size:       ~80 MB
 Production deps:         6 packages
 ```
 
+**Latest Measurements (2025-12-04):**
+
+| Metric            | Value  | Target  | Status       |
+| ----------------- | ------ | ------- | ------------ |
+| Type check        | 3.54s  | < 15s   | ✅ Excellent |
+| Test suite        | 15.11s | < 90s   | ✅ Excellent |
+| Production deps   | 7 pkgs | < 20    | ✅ Excellent |
+| node_modules size | 111 MB | < 100MB | ⚠️ Warning   |
+| ESLint errors     | 0      | 0       | ✅ Pass      |
+| TypeScript errors | 0      | 0       | ✅ Pass      |
+
+**Unused Dependencies Identified:**
+
+Production (consider removal):
+
+- `better-sqlite3` - not imported in production code
+- `chokidar` - not imported in production code
+- `ora` - not imported in production code
+- `ws` - not imported in production code
+
+Dev (consider removal):
+
+- `@rollup/rollup-win32-x64-msvc` - platform-specific, may be auto-installed
+- `@types/better-sqlite3` - unused if better-sqlite3 removed
+- `@types/js-yaml` - unused
+- `@types/pg` - unused
+- `@types/ws` - unused if ws removed
+
 **Performance Goals:**
 
 - Maintain CI times under 5 minutes as codebase grows
