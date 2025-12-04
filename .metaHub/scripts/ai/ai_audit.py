@@ -12,11 +12,10 @@ Usage:
 """
 
 import json
-import os
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import click
 import yaml
@@ -303,8 +302,8 @@ def generate_markdown_report(audit_result: Dict[str, Any]) -> str:
         "",
         "## Summary",
         "",
-        f"| Metric | Value |",
-        f"|--------|-------|",
+        "| Metric | Value |",
+        "|--------|-------|",
         f"| Status | {audit_result['summary']['status']} |",
         f"| Score | {audit_result['summary']['score']}/100 |",
         f"| Compliance Rate | {audit_result['summary']['compliance_rate']}% |",

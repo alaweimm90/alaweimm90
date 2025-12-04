@@ -18,7 +18,7 @@ import os
 import re
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -188,13 +188,13 @@ class OrchestrationValidator:
         flat_fields = self._flatten_envelope_fields(envelope)
 
         # Check mandatory fields
-        for field in mandatory_fields:
-            if field not in flat_fields:
+        for field_name in mandatory_fields:
+            if field_name not in flat_fields:
                 report.add_result(ValidationResult(
                     passed=False,
                     level=ValidationLevel.ERROR,
-                    message=f"Missing mandatory field: {field}",
-                    path=f"policy.mandatory_fields.{field}"
+                    message=f"Missing mandatory field: {field_name}",
+                    path=f"policy.mandatory_fields.{field_name}"
                 ))
 
         # Check context size

@@ -12,9 +12,8 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from datetime import datetime
-import os
 
 class DevOpsWorkflowRunner:
     """

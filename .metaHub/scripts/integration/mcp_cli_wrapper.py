@@ -136,7 +136,7 @@ class MCPCLIWrapper:
     def _get_telemetry(self):
         """Get telemetry instance if available."""
         try:
-            from orchestration_telemetry import OrchestrationTelemetry, EventType, EventStatus
+            from orchestration_telemetry import OrchestrationTelemetry
             return OrchestrationTelemetry(self.base_path)
         except ImportError:
             return None

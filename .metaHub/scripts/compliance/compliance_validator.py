@@ -19,10 +19,9 @@ Usage:
 
 import json
 import sys
-import os
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, Tuple, Any
 
 # Fix Unicode encoding for Windows
 if sys.platform == "win32":
@@ -622,7 +621,7 @@ def print_supertool_report(results: Dict[str, Any]) -> None:
 
     # Project details
     proj = results["supertool_project"]
-    print(f"\nSuperTool Project:")
+    print("\nSuperTool Project:")
     print(f"  Exists: {'Yes' if proj['project_exists'] else 'No'}")
     print(f"  Governance Dir: {'Yes' if proj['governance_dir'] else 'No'}")
     print(f"  Validation Scripts: {len(proj['validation_scripts'])}")
@@ -631,7 +630,7 @@ def print_supertool_report(results: Dict[str, Any]) -> None:
 
     # Sync status
     sync = results["governance_sync"]
-    print(f"\nGovernance Sync:")
+    print("\nGovernance Sync:")
     print(f"  Sync Script: {'Yes' if sync['sync_script_exists'] else 'No'}")
     print(f"  Unified Governance: {'Yes' if sync['unified_governance_exists'] else 'No'}")
     print(f"  Rules Synced: {'Yes' if sync['validation_rules_synced'] else 'No'}")

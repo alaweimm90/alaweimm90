@@ -11,8 +11,7 @@ import sys
 import argparse
 import json
 from pathlib import Path
-from typing import Dict, List, Optional
-from datetime import datetime
+from typing import Dict
 import subprocess
 
 class QuickStartCLI:
@@ -292,14 +291,14 @@ class QuickStartCLI:
         mcp_status = self.validate_mcp_config()
 
         if mcp_status["valid"]:
-            print(f"  ✅ Valid configuration")
+            print("  ✅ Valid configuration")
             print(f"  ✅ MCP Servers: {mcp_status['total_mcps']}")
             print(f"  ✅ Server Groups: {mcp_status['server_groups']}")
 
             if mcp_status.get("error_free_pipeline"):
-                print(f"  ✅ Error-free pipeline configured")
+                print("  ✅ Error-free pipeline configured")
             if mcp_status.get("devops_critical"):
-                print(f"  ✅ DevOps critical MCPs configured")
+                print("  ✅ DevOps critical MCPs configured")
         else:
             print(f"  ❌ Configuration error: {mcp_status['error']}")
             all_passed = False

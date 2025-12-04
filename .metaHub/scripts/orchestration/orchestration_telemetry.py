@@ -22,7 +22,6 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from collections import defaultdict
 import statistics
 
 import click

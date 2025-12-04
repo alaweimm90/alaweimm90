@@ -18,10 +18,9 @@ Usage:
 
 import json
 import os
-import time
 from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Dict, Any, Optional, List, Callable
+from datetime import datetime
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field, asdict
 from enum import Enum
 import random
@@ -477,7 +476,6 @@ class SelfHealingWorkflow:
 
         # Get available tools for this level
         degradation_config = self.policy.get("degradation_levels", {})
-        level_key = f"level_{level}_{'full' if level == 1 else 'reduced' if level == 2 else 'primary_only' if level == 3 else 'safe_mode'}"
 
         available_tools = ["all"]
         if level >= 3:

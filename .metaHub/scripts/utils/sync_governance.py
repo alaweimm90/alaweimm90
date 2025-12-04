@@ -6,12 +6,10 @@ Automatically updates governance files, CI/CD workflows, and policies across
 all repositories in the portfolio.
 """
 
-import os
 import yaml
-import json
 import shutil
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 class GovernanceSyncer:
     """Syncs governance rules across all repositories."""

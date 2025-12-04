@@ -28,7 +28,6 @@ from enum import Enum
 import statistics
 
 import click
-import yaml
 
 
 class TestStatus(Enum):

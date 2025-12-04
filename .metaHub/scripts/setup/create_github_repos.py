@@ -5,12 +5,9 @@ create_github_repos.py - Create GitHub repositories for organization monorepos
 Creates GitHub repositories for each organization and pushes the monorepo content.
 """
 
-import os
 import subprocess
-import json
 from pathlib import Path
-from typing import Dict, Any, List
-from multiprocessing import cpu_count
+from typing import Dict, Any
 
 class GitHubRepoCreator:
     """Creates GitHub repositories for organization monorepos."""

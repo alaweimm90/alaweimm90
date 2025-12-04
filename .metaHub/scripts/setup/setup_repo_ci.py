@@ -6,7 +6,6 @@ Adds reusable workflow calls to organization repositories so they get
 actual CI/CD execution on GitHub.
 """
 
-import os
 import yaml
 from pathlib import Path
 from typing import Dict, Any

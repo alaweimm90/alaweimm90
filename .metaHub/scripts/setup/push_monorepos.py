@@ -91,7 +91,7 @@ class MonorepoPusher:
             # Clone existing monorepo
             remote_url = self._get_remote_url(org_name)
             print(f"Cloning {remote_url}...")
-            clone_result = self._run_git(["clone", "--depth=1", remote_url, str(temp_repo_dir)], cwd=self.base_path)
+            self._run_git(["clone", "--depth=1", remote_url, str(temp_repo_dir)], cwd=self.base_path)
 
             # Copy local organization content over cloned repo (excluding .git)
             print(f"Syncing local changes for {org_name}...")
@@ -119,7 +119,7 @@ class MonorepoPusher:
                 return result
 
             # Count changed files
-            result["files_changed"] = len([l for l in status.stdout.strip().split('\n') if l])
+            result["files_changed"] = len([line for line in status.stdout.strip().split('\n') if line])
 
             # Commit changes
             msg = commit_message or f"chore(governance): sync {org_name} with governance fixes\n\n- Docker security: EXPOSE 8080, USER directive, pinned versions\n- Applied by push_monorepos.py"

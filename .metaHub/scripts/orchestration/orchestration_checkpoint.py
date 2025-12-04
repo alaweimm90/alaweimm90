@@ -715,7 +715,7 @@ def cleanup(json_output: bool):
         if json_output:
             click.echo(json.dumps(result, indent=2))
         else:
-            click.echo(f"Cleanup complete:")
+            click.echo("Cleanup complete:")
             click.echo(f"  Removed: {len(result['removed'])} checkpoints")
             click.echo(f"  Retained: {len(result['retained'])} checkpoints")
             if result['errors']:

@@ -309,7 +309,7 @@ class AgentMCPIntegrator:
             json.dump(report, f, indent=2)
 
         print(f"✅ Integration report saved: {output_path}")
-        print(f"\n📊 Summary:")
+        print("\n📊 Summary:")
         print(f"   Frameworks: {report['summary']['total_frameworks']}")
         print(f"   Agents: {report['summary']['total_agents']}")
         print(f"   MCP Integrations: {report['summary']['total_mcp_integrations']}")

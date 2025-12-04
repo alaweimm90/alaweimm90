@@ -14,14 +14,12 @@ Usage:
 """
 
 import json
-import os
 import re
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any, Optional, List, Set, Tuple
+from typing import Dict, Any, Optional, List, Set
 from dataclasses import dataclass, field
 from enum import Enum
-from difflib import SequenceMatcher
 
 import click
 import yaml
