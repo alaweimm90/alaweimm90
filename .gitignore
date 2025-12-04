@@ -368,9 +368,9 @@ benchmarks/*.json
 *.prof
 *.profile
 
-# Core dumps
-core
-core.*
+# Core dumps (explicit patterns to avoid matching folders like automation/core/)
+/core
+core.[0-9]*
 *.core
 
 # Lock files from various tools
