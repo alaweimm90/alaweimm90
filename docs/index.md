@@ -4,9 +4,9 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 
 ## Quick Links
 
-- [Governance Overview](.metaHub/README.md) - Core governance contracts
+- [Governance Overview](../.metaHub/README.md) - Core governance contracts
 - [Operations Runbook](OPERATIONS_RUNBOOK.md) - Day-to-day operations
-- [Consumer Guide](.metaHub/guides/consumer-guide.md) - For repository consumers
+- [Operations Hub](operations/README.md) - Incident response & runbooks
 
 ## AI & LLM Documentation
 
@@ -14,6 +14,12 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 - [AI Tool Profiles](AI-TOOL-PROFILES.md) - 13 coding assistants profiled
 - [AI Tools Orchestration](AI-TOOLS-ORCHESTRATION.md) - Multi-agent orchestration
 - [Architectural Codemaps](governance/CODEMAPS.md) - 24 trace diagrams across 6 systems
+
+## Development Guides
+
+- [CLI Migration Guide](guides/CLI_MIGRATION_GUIDE.md) - Migrating to unified CLI
+- [Codemap Generation](guides/CODEMAP-GENERATION-GUIDE.md) - Generating codemaps
+- [Quick Start](guides/QUICK_START_NEXT_STEPS.md) - Getting started quickly
 
 ## Portfolio Overview
 
@@ -33,9 +39,9 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 
 ## Getting Started
 
-1. Review the [Governance Contract](.metaHub/README.md)
-2. Check the [Structure Schema](.metaHub/schemas/structure-schema.json)
-3. Follow the [Consumer Guide](.metaHub/guides/consumer-guide.md)
+1. Review the [Governance Contract](../.metaHub/README.md)
+2. Check the [Structure Schema](../.metaHub/schemas/structure-schema.json)
+3. Review the [Repository Codemap](CODEMAP.md)
 
 ## Architecture Decisions
 
