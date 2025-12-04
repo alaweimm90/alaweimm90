@@ -5,6 +5,132 @@
  */
 
 import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { promisify } from 'util';
+import { exec } from 'child_process';
+const execAsync = promisify(exec);
+
+// ============================================================================
+// Performance Optimizations
+// ============================================================================
+
+// Simple in-memory cache for expensive operations
+interface CacheEntry {
+  value: unknown;
+  timestamp: number;
+  ttl: number; // Time to live in milliseconds
+}
+
+class SimpleCache {
+  private cache = new Map<string, CacheEntry>();
+
+  get(key: string): unknown | null {
+    const entry = this.cache.get(key);
+    if (!entry) return null;
+
+    if (Date.now() - entry.timestamp > entry.ttl) {
+      this.cache.delete(key);
+      return null;
+    }
+
+    return entry.value;
+  }
+
+  set(key: string, value: unknown, ttlMs = 300000): void {
+    // Default 5 minutes
+    this.cache.set(key, {
+      value,
+      timestamp: Date.now(),
+      ttl: ttlMs,
+    });
+  }
+
+  clear(pattern?: string): void {
+    if (!pattern) {
+      this.cache.clear();
+      return;
+    }
+
+    for (const key of this.cache.keys()) {
+      if (key.includes(pattern)) {
+        this.cache.delete(key);
+      }
+    }
+  }
+
+  size(): number {
+    return this.cache.size;
+  }
+}
+
+const toolCache = new SimpleCache();
+const REQUEST_TIMEOUT = 30000; // 30 seconds timeout for tool execution
+
+// Async tool execution with timeout
+async function executeToolAsync(name: string, params: Record<string, unknown>): Promise<unknown> {
+  const startTime = Date.now();
+
+  try {
+    // Create cache key
+    const cacheKey = `${name}:${JSON.stringify(params)}`;
+    const cached = toolCache.get(cacheKey);
+    if (cached) return cached;
+
+    let result: unknown;
+
+    switch (name) {
+      case 'ai_compliance_check': {
+        const files = params.files ? String(params.files).split(',') : [];
+        const { stdout } = await execAsync(`npm run ai:compliance check ${files.join(' ')}`, {
+          cwd: ROOT,
+          timeout: REQUEST_TIMEOUT,
+        });
+        result = { success: true, output: stdout };
+        break;
+      }
+
+      case 'ai_compliance_score': {
+        const reportPath = path.join(AI_DIR, 'compliance-report.json');
+        if (fs.existsSync(reportPath)) {
+          const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+          result = { success: true, score: report.overallScore, grade: report.grade };
+        } else {
+          result = { success: false, message: 'No compliance report found' };
+        }
+        break;
+      }
+
+      case 'ai_security_scan': {
+        const scanType = params.type || 'full';
+        const cmd = scanType === 'full' ? 'ai:security:scan' : `ai:security:${scanType}`;
+        const { stdout } = await execAsync(`npm run ${cmd}`, {
+          cwd: ROOT,
+          timeout: REQUEST_TIMEOUT,
+        });
+        result = { success: true, output: stdout };
+        break;
+      }
+
+      default:
+        // Fallback to sync execution for simpler tools
+        result = executeTool(name, params);
+    }
+
+    // Cache if it's an expensive operation and took decent time
+    const executionTime = Date.now() - startTime;
+    if (executionTime > 1000) {
+      // Only cache operations that took > 1 second
+      toolCache.set(cacheKey, result, 300000); // 5 minute cache
+    }
+
+    return result;
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : String(error),
+      executionTime: Date.now() - startTime,
+    };
+  }
+}
 
 // ============================================================================
 // Types
@@ -545,7 +671,7 @@ function readResource(uri: string): { content: string; mimeType: string } | null
 // MCP Request Handler
 // ============================================================================
 
-function handleRequest(request: MCPRequest): MCPResponse {
+async function handleRequest(request: MCPRequest): Promise<MCPResponse> {
   const { id, method, params } = request;
 
   switch (method) {
@@ -582,7 +708,23 @@ function handleRequest(request: MCPRequest): MCPResponse {
     case 'tools/call': {
       const toolName = (params as { name: string })?.name;
       const toolParams = (params as { arguments?: Record<string, unknown> })?.arguments || {};
-      const result = executeTool(toolName, toolParams);
+
+      // Use async execution for expensive operations
+      let result: unknown;
+
+      if (['ai_compliance_check', 'ai_security_scan', 'ai_cache_clear'].includes(toolName)) {
+        result = await executeToolAsync(toolName, toolParams);
+      } else if (toolName === 'ai_cache_stats') {
+        // Special handling for cache statistics
+        result = {
+          success: true,
+          cacheSize: toolCache.size(),
+          timestamp: new Date().toISOString(),
+        };
+      } else {
+        result = executeTool(toolName, toolParams);
+      }
+
       return {
         jsonrpc: '2.0',
         id,
@@ -682,7 +824,7 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   try {
     const body = await parseBody(req);
     const request: MCPRequest = JSON.parse(body);
-    const response = handleRequest(request);
+    const response = await handleRequest(request);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(response));
