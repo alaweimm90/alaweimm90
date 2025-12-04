@@ -317,6 +317,11 @@ export interface CodeAnalysis {
   classes: ClassInfo[];
   imports: ImportInfo[];
   issues: CodeIssue[];
+  // Additional properties for compatibility
+  chaosScore?: number;
+  complexityScore?: number;
+  files?: string[];
+  totalLines?: number;
 }
 
 /**
@@ -370,4 +375,19 @@ export interface CodeIssue {
   message: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
   suggestion?: string;
+}
+
+/**
+ * Refactoring suggestion from analysis
+ */
+export interface RefactoringSuggestion {
+  id: string;
+  type: 'extract' | 'inline' | 'rename' | 'move' | 'simplify';
+  file: string;
+  startLine: number;
+  endLine: number;
+  description: string;
+  impact: 'low' | 'medium' | 'high';
+  confidence: number;
+  preview?: string;
 }

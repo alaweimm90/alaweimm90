@@ -367,7 +367,7 @@ export class ContinuousOptimizer extends EventEmitter {
         this.taskRouter.route({
           type: 'refactoring',
           data: suggestion,
-          priority: 'normal',
+          priority: 'medium',
         })
       )
     );
