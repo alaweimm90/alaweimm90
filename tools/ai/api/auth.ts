@@ -29,7 +29,7 @@ export interface ApiKeyStore {
 }
 
 // Public endpoints that don't require authentication
-const PUBLIC_ENDPOINTS = ['/health', '/metrics/prometheus', '/dashboard/ui'];
+const PUBLIC_ENDPOINTS = ['/health', '/metrics/prometheus', '/dashboard/ui', '/docs'];
 
 /**
  * Hash an API key using SHA-256

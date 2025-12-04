@@ -106,6 +106,85 @@ export const healthRoutes: RouteHandler[] = [
       success(res, { status: 'healthy', uptime: process.uptime() });
     },
   },
+  {
+    method: 'GET',
+    path: '/health/dependencies',
+    handler: async (_req, res): Promise<void> => {
+      const dependencies: Record<string, { status: string; latency?: number; error?: string }> = {};
+
+      // Check MCP servers config
+      const mcpStart = Date.now();
+      try {
+        const mcpPath = path.join(AI_DIR, 'mcp/mcp-servers.json');
+        if (fs.existsSync(mcpPath)) {
+          const config = JSON.parse(fs.readFileSync(mcpPath, 'utf8'));
+          const serverCount = Object.keys(config.mcpServers || {}).length;
+          dependencies.mcp = { status: 'healthy', latency: Date.now() - mcpStart };
+          dependencies.mcp_servers = { status: `${serverCount} configured`, latency: 0 };
+        } else {
+          dependencies.mcp = { status: 'not_configured', latency: Date.now() - mcpStart };
+        }
+      } catch (err) {
+        dependencies.mcp = {
+          status: 'error',
+          error: err instanceof Error ? err.message : 'Unknown',
+        };
+      }
+
+      // Check cache
+      const cacheStart = Date.now();
+      try {
+        const cachePath = path.join(AI_DIR, 'cache');
+        dependencies.cache = {
+          status: fs.existsSync(cachePath) ? 'healthy' : 'not_initialized',
+          latency: Date.now() - cacheStart,
+        };
+      } catch (err) {
+        dependencies.cache = {
+          status: 'error',
+          error: err instanceof Error ? err.message : 'Unknown',
+        };
+      }
+
+      // Check filesystem
+      const fsStart = Date.now();
+      try {
+        fs.accessSync(ROOT, fs.constants.R_OK | fs.constants.W_OK);
+        dependencies.filesystem = { status: 'healthy', latency: Date.now() - fsStart };
+      } catch (err) {
+        dependencies.filesystem = {
+          status: 'error',
+          error: err instanceof Error ? err.message : 'Unknown',
+        };
+      }
+
+      // Check AI context
+      const ctxStart = Date.now();
+      try {
+        const ctxPath = path.join(AI_DIR, 'context.yaml');
+        dependencies.ai_context = {
+          status: fs.existsSync(ctxPath) ? 'healthy' : 'missing',
+          latency: Date.now() - ctxStart,
+        };
+      } catch (err) {
+        dependencies.ai_context = {
+          status: 'error',
+          error: err instanceof Error ? err.message : 'Unknown',
+        };
+      }
+
+      const allHealthy = Object.values(dependencies).every(
+        (d) => d.status === 'healthy' || d.status.includes('configured')
+      );
+
+      success(res, {
+        status: allHealthy ? 'healthy' : 'degraded',
+        uptime: process.uptime(),
+        dependencies,
+        checkedAt: new Date().toISOString(),
+      });
+    },
+  },
 ];
 
 // Compliance Routes
@@ -421,6 +500,52 @@ export const dashboardRoutes: RouteHandler[] = [
   },
 ];
 
+// API Documentation (Swagger UI)
+export const docsRoutes: RouteHandler[] = [
+  {
+    method: 'GET',
+    path: '/docs',
+    handler: async (_req, res): Promise<void> => {
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meta-Orchestration API Docs</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    SwaggerUIBundle({
+      url: '/docs/openapi.yaml',
+      dom_id: '#swagger-ui',
+      presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.SwaggerUIStandalonePreset],
+      layout: 'BaseLayout'
+    });
+  </script>
+</body>
+</html>`;
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(html);
+    },
+  },
+  {
+    method: 'GET',
+    path: '/docs/openapi.yaml',
+    handler: async (_req, res): Promise<void> => {
+      const specPath = path.join(ROOT, 'tools/ai/api/openapi.yaml');
+      if (fs.existsSync(specPath)) {
+        res.writeHead(200, { 'Content-Type': 'text/yaml' });
+        res.end(fs.readFileSync(specPath, 'utf8'));
+      } else {
+        error(res, 404, 'OpenAPI spec not found');
+      }
+    },
+  },
+];
+
 // Prometheus metrics endpoint
 export const prometheusRoutes: RouteHandler[] = [
   {
@@ -503,5 +628,6 @@ export const routes: RouteHandler[] = [
   ...issuesRoutes,
   ...miscRoutes,
   ...dashboardRoutes,
+  ...docsRoutes,
   ...prometheusRoutes,
 ];
