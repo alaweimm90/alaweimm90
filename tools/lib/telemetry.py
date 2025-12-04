@@ -9,7 +9,7 @@ Consolidates logic from:
 
 Usage:
     from tools.lib.telemetry import Telemetry
-    
+
     telemetry = Telemetry()
     telemetry.record_event("handoff", "success", metadata={"tool": "cline"})
     metrics = telemetry.get_metrics(workflow="feature-x")
@@ -61,44 +61,97 @@ class TelemetryEvent:
 
 class Telemetry:
     """Unified telemetry collection and reporting."""
-    
+
     def __init__(self, base_path: Optional[Path] = None):
         """
         Initialize telemetry system.
-        
+
         Args:
             base_path: Base path for telemetry storage
         """
         self.base_path = base_path or self._find_base_path()
         self.telemetry_dir = self.base_path / ".metaHub/telemetry"
         self.telemetry_dir.mkdir(parents=True, exist_ok=True)
-        
+
         self.events_file = self.telemetry_dir / "events.jsonl"
-    
+        self._active_operations: Dict[str, datetime] = {}
+
+    def start_operation(self, operation: str) -> str:
+        """
+        Start tracking an operation.
+
+        Args:
+            operation: Name of the operation
+
+        Returns:
+            Operation ID
+        """
+        self._active_operations[operation] = datetime.now()
+        return self.record_event(
+            event_type="operation_start",
+            status="started",
+            metadata={"operation": operation}
+        )
+
+    def end_operation(
+        self,
+        operation: str,
+        success: bool = True,
+        error: Optional[str] = None
+    ) -> str:
+        """
+        End tracking an operation.
+
+        Args:
+            operation: Name of the operation
+            success: Whether operation succeeded
+            error: Optional error message
+
+        Returns:
+            Event ID
+        """
+        start_time = self._active_operations.pop(operation, None)
+        duration_ms = None
+        if start_time:
+            duration_ms = int((datetime.now() - start_time).total_seconds() * 1000)
+
+        metadata = {
+            "operation": operation,
+            "duration_ms": duration_ms
+        }
+        if error:
+            metadata["error"] = error
+
+        return self.record_event(
+            event_type="operation_end",
+            status="success" if success else "failure",
+            metadata=metadata
+        )
+
     def _find_base_path(self) -> Path:
         """Find the central governance repo path."""
         if env_path := os.environ.get("GOLDEN_PATH_ROOT"):
             path = Path(env_path)
             if path.exists() and (path / ".metaHub").exists():
                 return path
-        
+
         current = Path.cwd()
         while current != current.parent:
             if (current / ".metaHub").exists():
                 return current
             current = current.parent
-        
+
         script_path = Path(__file__).resolve().parent.parent.parent
         if (script_path / ".metaHub").exists():
             return script_path
-        
+
         raise RuntimeError("Could not find central governance repo")
-    
+
     def _generate_event_id(self) -> str:
         """Generate unique event ID."""
         import uuid
         return str(uuid.uuid4())[:12]
-    
+
     def record_event(
         self,
         event_type: str,
@@ -107,17 +160,17 @@ class Telemetry:
     ) -> str:
         """
         Record a telemetry event.
-        
+
         Args:
             event_type: Type of event (handoff, tool_invocation, etc.)
             status: Status of event (success, failure, etc.)
             metadata: Additional event metadata
-            
+
         Returns:
             Event ID
         """
         event_id = self._generate_event_id()
-        
+
         event = TelemetryEvent(
             event_id=event_id,
             event_type=event_type,
@@ -128,13 +181,13 @@ class Telemetry:
             duration_ms=metadata.get("duration_ms") if metadata else None,
             metadata=metadata or {}
         )
-        
+
         # Append to events file
         with open(self.events_file, 'a', encoding='utf-8') as f:
             f.write(json.dumps(asdict(event)) + '\n')
-        
+
         return event_id
-    
+
     def get_metrics(
         self,
         workflow: Optional[str] = None,
@@ -143,12 +196,12 @@ class Telemetry:
     ) -> dict:
         """
         Get aggregated metrics.
-        
+
         Args:
             workflow: Optional workflow filter
             since: Start time for metrics
             until: End time for metrics
-            
+
         Returns:
             Dictionary of aggregated metrics
         """
@@ -156,9 +209,9 @@ class Telemetry:
             since = datetime.now() - timedelta(hours=24)
         if not until:
             until = datetime.now()
-        
+
         events = self._load_events(workflow=workflow, since=since, until=until)
-        
+
         if not events:
             return {
                 "period_start": since.isoformat(),
@@ -169,28 +222,28 @@ class Telemetry:
                 "success_rate": 0.0,
                 "avg_duration_ms": 0.0
             }
-        
+
         # Aggregate metrics
         events_by_type = {}
         events_by_status = {}
         durations = []
         success_count = 0
-        
+
         for event in events:
             # By type
             events_by_type[event.event_type] = events_by_type.get(event.event_type, 0) + 1
-            
+
             # By status
             events_by_status[event.status] = events_by_status.get(event.status, 0) + 1
-            
+
             # Success tracking
             if event.status == EventStatus.SUCCESS.value:
                 success_count += 1
-            
+
             # Duration tracking
             if event.duration_ms is not None:
                 durations.append(event.duration_ms)
-        
+
         return {
             "period_start": since.isoformat(),
             "period_end": until.isoformat(),
@@ -203,7 +256,7 @@ class Telemetry:
             "p95_duration_ms": self._percentile(durations, 95) if durations else 0.0,
             "p99_duration_ms": self._percentile(durations, 99) if durations else 0.0
         }
-    
+
     def _load_events(
         self,
         workflow: Optional[str] = None,
@@ -212,20 +265,20 @@ class Telemetry:
     ) -> List[TelemetryEvent]:
         """Load events with optional filtering."""
         events = []
-        
+
         if not self.events_file.exists():
             return events
-        
+
         with open(self.events_file, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if not line:
                     continue
-                
+
                 try:
                     data = json.loads(line)
                     event_time = datetime.fromisoformat(data["timestamp"])
-                    
+
                     # Apply filters
                     if since and event_time < since:
                         continue
@@ -233,13 +286,13 @@ class Telemetry:
                         continue
                     if workflow and data.get("workflow") != workflow:
                         continue
-                    
+
                     events.append(TelemetryEvent(**data))
                 except (json.JSONDecodeError, KeyError, ValueError):
                     continue
-        
+
         return events
-    
+
     def _percentile(self, data: List[float], p: int) -> float:
         """Calculate percentile of data."""
         if not data:
@@ -249,48 +302,48 @@ class Telemetry:
         f = int(k)
         c = f + 1 if f + 1 < len(sorted_data) else f
         return sorted_data[f] + (k - f) * (sorted_data[c] - sorted_data[f]) if c != f else sorted_data[f]
-    
+
     def cleanup_old_events(self, retention_days: int = 30) -> int:
         """
         Remove events older than retention period.
-        
+
         Args:
             retention_days: Number of days to retain
-            
+
         Returns:
             Number of events removed
         """
         cutoff = datetime.now() - timedelta(days=retention_days)
         kept_events = []
         removed_count = 0
-        
+
         if not self.events_file.exists():
             return 0
-        
+
         with open(self.events_file, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if not line:
                     continue
-                
+
                 try:
                     data = json.loads(line)
                     event_time = datetime.fromisoformat(data["timestamp"])
-                    
+
                     if event_time >= cutoff:
                         kept_events.append(line)
                     else:
                         removed_count += 1
                 except (json.JSONDecodeError, KeyError, ValueError):
                     continue
-        
+
         # Rewrite file with kept events
         with open(self.events_file, 'w', encoding='utf-8') as f:
             for line in kept_events:
                 f.write(line + '\n')
-        
+
         return removed_count
-    
+
     def generate_report(
         self,
         workflow: Optional[str] = None,
@@ -298,17 +351,17 @@ class Telemetry:
     ) -> str:
         """
         Generate a text report of metrics.
-        
+
         Args:
             workflow: Optional workflow filter
             period_hours: Hours to include in report
-            
+
         Returns:
             Formatted text report
         """
         since = datetime.now() - timedelta(hours=period_hours)
         metrics = self.get_metrics(workflow=workflow, since=since)
-        
+
         lines = [
             "=" * 60,
             "TELEMETRY REPORT",
@@ -322,10 +375,10 @@ class Telemetry:
             "EVENTS BY TYPE",
             "-" * 40,
         ]
-        
+
         for event_type, count in sorted(metrics['events_by_type'].items()):
             lines.append(f"  {event_type}: {count}")
-        
+
         lines.extend([
             "",
             "-" * 40,
@@ -338,5 +391,5 @@ class Telemetry:
             "",
             "=" * 60
         ])
-        
+
         return '\n'.join(lines)

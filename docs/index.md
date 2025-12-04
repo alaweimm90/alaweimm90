@@ -13,6 +13,7 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 - [LLM Model Catalog](governance/LLM-MODEL-CATALOG.md) - 500+ models across 8 IDEs
 - [AI Tool Profiles](AI-TOOL-PROFILES.md) - 13 coding assistants profiled
 - [AI Tools Orchestration](AI-TOOLS-ORCHESTRATION.md) - Multi-agent orchestration
+- [Architectural Codemaps](governance/CODEMAPS.md) - 24 trace diagrams across 6 systems
 
 ## Portfolio Overview
 
