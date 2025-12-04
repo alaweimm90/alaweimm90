@@ -1,0 +1,172 @@
+# =============================================================================
+# GOVERNANCE WORKFLOW - MCP Multi-Agent Configuration
+# =============================================================================
+# Orchestrates automated governance using multi-agent review system
+# Version: 1.0.0 | Created: 2025-12-04
+# =============================================================================
+
+metadata:
+  name: governance-workflow
+  version: '1.0.0'
+  description: 'Multi-agent governance review and enforcement workflow'
+  triggers:
+    - pre-commit
+    - pull-request
+    - scheduled-audit
+
+# =============================================================================
+# AGENT DEFINITIONS
+# =============================================================================
+agents:
+  analyzer:
+    role: 'Code Analysis'
+    description: 'Scans codebase for issues, generates reports'
+    mcp_servers: ['filesystem', 'git', 'semgrep']
+    capabilities:
+      - static_analysis
+      - complexity_metrics
+      - dependency_audit
+    outputs:
+      - finding_report
+      - metrics_summary
+
+  refactor:
+    role: 'Refactoring Specialist'
+    description: 'Proposes code improvements, applies safe fixes'
+    mcp_servers: ['filesystem', 'git', 'sequential-thinking']
+    capabilities:
+      - extract_method
+      - consolidate_duplicates
+      - add_type_annotations
+    requires_approval: true
+
+  skeptic:
+    role: 'Skeptic Reviewer'
+    description: 'Challenges changes, identifies risks, validates safety'
+    mcp_servers: ['sequential-thinking', 'git']
+    capabilities:
+      - risk_assessment
+      - self_refutation
+      - breaking_change_detection
+    refutation_rounds: 2
+    block_on_critical: true
+
+  organizer:
+    role: 'Structure Manager'
+    description: 'Enforces file structure, manages protected files'
+    mcp_servers: ['filesystem']
+    capabilities:
+      - structure_validation
+      - file_relocation
+      - policy_enforcement
+    policies:
+      - .metaHub/policies/root-structure.yaml
+      - .metaHub/policies/protected-files.yaml
+
+  security:
+    role: 'Security Auditor'
+    description: 'Performs security audits, validates secrets handling'
+    mcp_servers: ['semgrep', 'filesystem']
+    capabilities:
+      - vulnerability_scan
+      - secrets_detection
+      - dependency_audit
+    severity_threshold: medium
+
+# =============================================================================
+# WORKFLOW STAGES
+# =============================================================================
+stages:
+  - name: discovery
+    agents: [analyzer]
+    timeout_minutes: 10
+    actions:
+      - scan_codebase
+      - generate_metrics
+      - identify_issues
+
+  - name: analysis
+    agents: [analyzer, security]
+    depends_on: [discovery]
+    timeout_minutes: 15
+    actions:
+      - deep_analysis
+      - security_scan
+      - dependency_audit
+
+  - name: proposal
+    agents: [refactor, organizer]
+    depends_on: [analysis]
+    timeout_minutes: 20
+    actions:
+      - propose_changes
+      - validate_structure
+      - check_policies
+
+  - name: review
+    agents: [skeptic]
+    depends_on: [proposal]
+    timeout_minutes: 15
+    actions:
+      - risk_assessment
+      - self_refutation_loop
+      - generate_review
+
+  - name: validation
+    agents: [analyzer]
+    depends_on: [review]
+    timeout_minutes: 10
+    checkpoints:
+      - name: typescript_compilation
+        command: 'npx tsc --noEmit'
+        required: true
+      - name: eslint
+        command: 'npm run lint'
+        required: true
+      - name: tests
+        command: 'npm run test:run'
+        required: true
+      - name: security_scan
+        command: 'npm audit --audit-level=high'
+        required: false
+
+  - name: apply
+    agents: [refactor]
+    depends_on: [validation]
+    condition: 'all_checkpoints_passed && skeptic_approved'
+    actions:
+      - apply_approved_changes
+      - update_documentation
+      - generate_report
+
+# =============================================================================
+# COMMUNICATION PROTOCOL
+# =============================================================================
+communication:
+  message_format: 'json'
+  state_persistence: '.ai/governance-state.json'
+  history_retention: 30 # days
+
+  message_types:
+    proposal:
+      fields: [agent, file, description, diff]
+      requires_ack: true
+    review:
+      fields: [reviewer, decision, comments, risks]
+      requires_ack: true
+    finding:
+      fields: [agent, severity, category, message, suggestion]
+      requires_ack: false
+
+# =============================================================================
+# CONFLICT RESOLUTION
+# =============================================================================
+conflict_resolution:
+  strategy: 'skeptic_wins'
+  escalation:
+    - condition: 'agents_disagree'
+      action: 'request_human_review'
+    - condition: 'critical_risk_detected'
+      action: 'block_and_notify'
+    - condition: 'validation_failed'
+      action: 'rollback_changes'

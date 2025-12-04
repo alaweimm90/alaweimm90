@@ -8,6 +8,12 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 - [Operations Runbook](OPERATIONS_RUNBOOK.md) - Day-to-day operations
 - [Consumer Guide](.metaHub/guides/consumer-guide.md) - For repository consumers
 
+## AI & LLM Documentation
+
+- [LLM Model Catalog](governance/LLM-MODEL-CATALOG.md) - 500+ models across 8 IDEs
+- [AI Tool Profiles](AI-TOOL-PROFILES.md) - 13 coding assistants profiled
+- [AI Tools Orchestration](AI-TOOLS-ORCHESTRATION.md) - Multi-agent orchestration
+
 ## Portfolio Overview
 
 | Metric             | Value |
