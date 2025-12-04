@@ -6,68 +6,37 @@
 
 ## Active Issues
 
-### 1. Vitest Test Discovery Failure
-
-**Status:** 🔴 **Blocking** - All tests fail to run
-**Severity:** High
-**Affects:** Test suite (18 test files)
-
-**Description:**
-Vitest 4.0.15 fails to discover test suites with error: "No test suite found in file". All test files (`.test.ts`) contain valid test suites with `describe` and `it` blocks from Vitest, but the test runner cannot discover them.
-
-**Error Message:**
-
-```
-Error: No test suite found in file c:/Users/mesha/Desktop/GitHub/tests/[file].test.ts
-```
-
-**Impact:**
-
-- Cannot run test suite
-- CI/CD tests are failing
-- No test coverage reporting available
-
-**Affected Files:**
-
-- `tests/ai/*.test.ts` (7 files)
-- `tests/atlas/**/*.test.ts` (2 files)
-- `tests/*.test.ts` (4 files)
-- All 18 test files affected
-
-**Investigation:**
-
-- ✅ Test files are properly structured with valid Vitest syntax
-- ✅ TypeScript compilation succeeds (with unrelated warnings)
-- ✅ vitest.config.ts is properly configured
-- ❌ Even minimal test files fail with same error
-- ❌ Vitest 4.0.15 may have regression or compatibility issue
-
-**Potential Causes:**
-
-1. Vitest 4.x breaking changes with TypeScript `moduleResolution: "bundler"`
-2. Windows path resolution issues in Vitest 4.x
-3. Module transform configuration incompatibility
-
-**Workarounds:**
-None available - test suite is non-functional.
-
-**Action Items:**
-
-- [ ] Try downgrading to Vitest 3.x
-- [ ] Check Vitest 4.x migration guide for breaking changes
-- [ ] Report issue to Vitest repository if confirmed bug
-- [ ] Consider alternative test runner (e.g., Jest, Mocha) if Vitest issue persists
-
-**Related:**
-
-- [Vitest v4 Release Notes](https://github.com/vitest-dev/vitest/releases/tag/v4.0.0)
-- Package.json: `"vitest": "4.0.15"`
+_(No active issues)_
 
 ---
 
 ## Resolved Issues
 
-_(None yet)_
+### 1. Vitest Test Discovery Failure
+
+**Status:** ✅ **Resolved** - 2025-12-04
+**Resolution:** Downgraded from Vitest 4.0.15 to 3.2.4
+
+**Original Issue:**
+Vitest 4.0.15 failed to discover test suites with error: "No test suite found in file". All 18 test files were affected, making the entire test suite non-functional.
+
+**Root Cause:**
+Vitest 4.x has a regression or compatibility issue with Windows path resolution and/or TypeScript `moduleResolution: "bundler"` configuration.
+
+**Solution:**
+
+```bash
+npm install -D vitest@3.2.4
+```
+
+**Result:**
+
+- ✅ All 241 tests passing across 18 test files
+- ✅ Test execution time: ~14 seconds
+- ✅ CI/CD tests restored to working state
+
+**Recommendation:**
+Do not upgrade to Vitest 4.x until the Windows compatibility issue is resolved upstream. Monitor [Vitest releases](https://github.com/vitest-dev/vitest/releases) for a fix.
 
 ---
 
