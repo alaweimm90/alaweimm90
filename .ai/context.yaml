@@ -30,6 +30,11 @@ superprompts:
       triggers: [design, architecture, system, scale, pattern]
       role: 'High-level system design'
 
+    meta-orchestration-master:
+      path: .ai/superprompts/meta-orchestration-master.yaml
+      triggers: [orchestrate, coordinate, multi-agent, governance, compliance, checkpoint, handoff, mcp]
+      role: 'Supreme AI Governance & Orchestration Controller'
+
   # Learning system
   learning:
     tracker: .ai/learning/effectiveness-tracker.yaml
