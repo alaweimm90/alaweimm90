@@ -15,6 +15,7 @@ import {
   jsonResponse,
   incrementRequestCount,
 } from './routes.js';
+import { authMiddleware } from './auth.js';
 
 const PORT = parseInt(process.env.AI_API_PORT || '3200', 10);
 const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
@@ -98,6 +99,17 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
   const url = new URL(req.url || '/', `http://localhost:${PORT}`);
   const pathname = url.pathname.replace(/^\/api/, ''); // Strip /api prefix if present
   const params = url.searchParams;
+
+  // Authentication check
+  const auth = authMiddleware(req, res, pathname);
+  if (!auth.authenticated) {
+    jsonResponse(res, 401, {
+      success: false,
+      error: auth.error || 'Unauthorized',
+      timestamp: new Date().toISOString(),
+    });
+    return;
+  }
 
   const route = findRoute(req.method || 'GET', pathname);
 
