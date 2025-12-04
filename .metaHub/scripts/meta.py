@@ -100,19 +100,13 @@ class MetaAuditor:
         if not self.org_path.exists():
             return self.audits
 
-        for org_dir in self.org_path.iterdir():
-            if not org_dir.is_dir():
-                continue
-
-            if org_filter and org_dir.name != org_filter:
-                continue
-
-            for project_dir in org_dir.iterdir():
-                if not project_dir.is_dir():
-                    continue
-
-                audit = self._audit_project(project_dir, org_dir.name)
-                self.audits.append(audit)
+        orgs = [d for d in self.org_path.iterdir() if d.is_dir() and (not org_filter or d.name == org_filter)]
+        
+        for org_dir in orgs:
+            self.audits.extend(
+                self._audit_project(p, org_dir.name) 
+                for p in org_dir.iterdir() if p.is_dir()
+            )
 
         return self.audits
 
@@ -122,40 +116,30 @@ class MetaAuditor:
         meta_file = project_path / ".meta" / "repo.yaml"
         has_metadata = meta_file.exists()
 
-        # Detect language and type
         language = self._detect_language(project_path)
         repo_type = self._infer_type(name)
-
-        # Load metadata if exists
         tier = 4
+
         if has_metadata:
             try:
                 with open(meta_file) as f:
                     metadata = yaml.safe_load(f) or {}
                     tier = metadata.get("tier", 4)
-                    if metadata.get("type"):
-                        repo_type = metadata["type"]
-                    if metadata.get("language"):
-                        language = metadata["language"]
+                    repo_type = metadata.get("type", repo_type)
+                    language = metadata.get("language", language)
             except Exception:
                 pass
 
-        # Create audit
         audit = ProjectAudit(
             name=name,
             path=str(project_path),
             organization=organization,
             language=language,
             repo_type=repo_type,
-            has_metadata=has_metadata,
-            gaps=[],
-            compliance_score=100.0
+            has_metadata=has_metadata
         )
 
-        # Run gap detection
         self._detect_gaps(project_path, audit, tier)
-
-        # Calculate compliance score
         audit.compliance_score = self._calculate_score(audit)
 
         return audit
@@ -178,7 +162,6 @@ class MetaAuditor:
         """Detect governance gaps in project."""
         gaps = []
 
-        # P0: Missing metadata
         if not audit.has_metadata:
             gaps.append(GovernanceGap(
                 severity=GapSeverity.P0,
@@ -187,7 +170,6 @@ class MetaAuditor:
                 suggestion="Create .meta/repo.yaml with type, language, and tier"
             ))
 
-        # P0: Missing README (for all tiers)
         readme = project_path / "README.md"
         if not readme.exists():
             gaps.append(GovernanceGap(
@@ -204,7 +186,6 @@ class MetaAuditor:
                 suggestion="Add more content to README.md"
             ))
 
-        # Missing LICENSE (severity based on tier)
         if not any((project_path / f).exists() for f in ("LICENSE", "LICENSE.md")):
             gaps.append(GovernanceGap(
                 severity=GapSeverity.P1 if tier <= 2 else GapSeverity.P3,
@@ -213,10 +194,8 @@ class MetaAuditor:
                 suggestion="Add LICENSE file with appropriate license"
             ))
 
-        # P1: Missing CODEOWNERS (tier 1-2)
         if tier <= 2:
-            codeowners = project_path / ".github" / "CODEOWNERS"
-            if not codeowners.exists():
+            if not (project_path / ".github" / "CODEOWNERS").exists():
                 gaps.append(GovernanceGap(
                     severity=GapSeverity.P1,
                     category="ownership",
@@ -224,8 +203,6 @@ class MetaAuditor:
                     suggestion="Create CODEOWNERS file with team ownership"
                 ))
 
-        # P1: Missing CI (tier 1-2)
-        if tier <= 2:
             ci_dir = project_path / ".github" / "workflows"
             if not ci_dir.exists() or not any(ci_dir.glob("*.yml")):
                 gaps.append(GovernanceGap(
@@ -235,14 +212,13 @@ class MetaAuditor:
                     suggestion="Add GitHub Actions workflow for CI"
                 ))
 
-        # P2: Missing tests (tier 1-2)
-        if tier <= 2 and not any((project_path / d).exists() for d in ("tests", "test")):
-            gaps.append(GovernanceGap(
-                severity=GapSeverity.P2,
-                category="testing",
-                message="Missing tests directory",
-                suggestion="Add tests directory with test files"
-            ))
+            if not any((project_path / d).exists() for d in ("tests", "test")):
+                gaps.append(GovernanceGap(
+                    severity=GapSeverity.P2,
+                    category="testing",
+                    message="Missing tests directory",
+                    suggestion="Add tests directory with test files"
+                ))
 
         audit.gaps = gaps
 
@@ -265,6 +241,7 @@ class MetaAuditor:
             Formatted report string
         """
         if fmt == "json":
+            ready = sum(a.promotion_ready for a in self.audits)
             return json.dumps({
                 "total_projects": len(self.audits),
                 "projects": [
@@ -275,45 +252,40 @@ class MetaAuditor:
                         "type": a.repo_type,
                         "compliance_score": a.compliance_score,
                         "promotion_ready": a.promotion_ready,
-                        "gaps": [
-                            {"severity": g.severity.name, "category": g.category, "message": g.message}
-                            for g in a.gaps
-                        ]
+                        "gaps": [{"severity": g.severity.name, "category": g.category, "message": g.message} for g in a.gaps]
                     }
                     for a in self.audits
                 ],
                 "summary": {
                     "avg_score": sum(a.compliance_score for a in self.audits) / len(self.audits) if self.audits else 0,
-                    "promotion_ready": sum(1 for a in self.audits if a.promotion_ready),
-                    "needs_work": sum(1 for a in self.audits if not a.promotion_ready),
+                    "promotion_ready": ready,
+                    "needs_work": len(self.audits) - ready,
                 }
             }, indent=2)
 
-        if fmt == "markdown":
-            return self._markdown_report()
-
-        return self._text_report()
+        return self._markdown_report() if fmt == "markdown" else self._text_report()
 
     def _text_report(self) -> str:
         """Generate text format report."""
+        ready = sum(a.promotion_ready for a in self.audits)
         lines = [
             "=" * 60,
             "META AUDITOR - Portfolio Compliance Report",
             "=" * 60,
             "",
             f"Total Projects: {len(self.audits)}",
-            f"Promotion Ready: {sum(1 for a in self.audits if a.promotion_ready)}",
-            f"Needs Work: {sum(1 for a in self.audits if not a.promotion_ready)}",
+            f"Promotion Ready: {ready}",
+            f"Needs Work: {len(self.audits) - ready}",
             "",
         ]
 
         for audit in self.audits:
             status = "✅" if audit.promotion_ready else "❌"
-            lines.append(f"{status} {audit.organization}/{audit.name}")
-            lines.append(f"   Score: {audit.compliance_score:.1f}%")
-            if audit.gaps:
-                for gap in audit.gaps:
-                    lines.append(f"   - [{gap.severity.name}] {gap.message}")
+            lines.extend([
+                f"{status} {audit.organization}/{audit.name}",
+                f"   Score: {audit.compliance_score:.1f}%"
+            ])
+            lines.extend(f"   - [{gap.severity.name}] {gap.message}" for gap in audit.gaps)
             lines.append("")
 
         lines.append("=" * 60)
@@ -321,14 +293,15 @@ class MetaAuditor:
 
     def _markdown_report(self) -> str:
         """Generate markdown format report."""
+        ready = sum(a.promotion_ready for a in self.audits)
         lines = [
             "# Portfolio Compliance Audit Report",
             "",
             "## Summary",
             "",
             f"- **Total Projects:** {len(self.audits)}",
-            f"- **Promotion Ready:** {sum(1 for a in self.audits if a.promotion_ready)}",
-            f"- **Needs Work:** {sum(1 for a in self.audits if not a.promotion_ready)}",
+            f"- **Promotion Ready:** {ready}",
+            f"- **Needs Work:** {len(self.audits) - ready}",
             "",
             "## Projects",
             "",
@@ -336,16 +309,17 @@ class MetaAuditor:
 
         for audit in self.audits:
             status = "✅" if audit.promotion_ready else "❌"
-            lines.append(f"### {status} {audit.organization}/{audit.name}")
-            lines.append("")
-            lines.append(f"- **Score:** {audit.compliance_score:.1f}%")
-            lines.append(f"- **Language:** {audit.language or 'Unknown'}")
-            lines.append(f"- **Type:** {audit.repo_type}")
-            lines.append("")
+            lines.extend([
+                f"### {status} {audit.organization}/{audit.name}",
+                "",
+                f"- **Score:** {audit.compliance_score:.1f}%",
+                f"- **Language:** {audit.language or 'Unknown'}",
+                f"- **Type:** {audit.repo_type}",
+                ""
+            ])
             if audit.gaps:
                 lines.append("**Gaps:**")
-                for gap in audit.gaps:
-                    lines.append(f"- [{gap.severity.name}] {gap.message}")
+                lines.extend(f"- [{gap.severity.name}] {gap.message}" for gap in audit.gaps)
                 lines.append("")
 
         return "\n".join(lines)
@@ -398,48 +372,41 @@ class ProjectPromoter:
         language = self._detect_language(project_path)
 
         # Create .meta/repo.yaml
-        meta_dir = project_path / ".meta"
-        meta_file = meta_dir / "repo.yaml"
+        meta_file = project_path / ".meta" / "repo.yaml"
         if not meta_file.exists():
             metadata = {
                 "type": self._infer_type(project_path.name),
                 "language": language or "unknown",
-                "tier": 3,  # Default tier
+                "tier": 3,
                 "status": "active"
             }
             if not dry_run:
-                meta_dir.mkdir(parents=True, exist_ok=True)
-                with open(meta_file, "w") as f:
-                    yaml.dump(metadata, f, default_flow_style=False)
+                meta_file.parent.mkdir(parents=True, exist_ok=True)
+                meta_file.write_text(yaml.dump(metadata, default_flow_style=False))
             result["files_created"].append(str(meta_file))
 
         # Create .github/CODEOWNERS
-        github_dir = project_path / ".github"
-        codeowners_file = github_dir / "CODEOWNERS"
+        codeowners_file = project_path / ".github" / "CODEOWNERS"
         if not codeowners_file.exists():
-            content = f"* @{organization}\n"
             if not dry_run:
-                github_dir.mkdir(parents=True, exist_ok=True)
-                codeowners_file.write_text(content)
+                codeowners_file.parent.mkdir(parents=True, exist_ok=True)
+                codeowners_file.write_text(f"* @{organization}\n")
             result["files_created"].append(str(codeowners_file))
 
         # Create .github/workflows/ci.yml
-        workflows_dir = github_dir / "workflows"
-        ci_file = workflows_dir / "ci.yml"
+        ci_file = project_path / ".github" / "workflows" / "ci.yml"
         if not ci_file.exists():
-            ci_content = self._generate_ci_workflow(language)
             if not dry_run:
-                workflows_dir.mkdir(parents=True, exist_ok=True)
-                ci_file.write_text(ci_content)
+                ci_file.parent.mkdir(parents=True, exist_ok=True)
+                ci_file.write_text(self._generate_ci_workflow(language))
             result["files_created"].append(str(ci_file))
 
         # Create .pre-commit-config.yaml
         precommit_file = project_path / ".pre-commit-config.yaml"
         if not precommit_file.exists():
-            precommit_content = self._get_precommit_config(language)
-            if precommit_content and not dry_run:
-                precommit_file.write_text(precommit_content)
-            if precommit_content:
+            if precommit_content := self._get_precommit_config(language):
+                if not dry_run:
+                    precommit_file.write_text(precommit_content)
                 result["files_created"].append(str(precommit_file))
 
         return result
@@ -467,59 +434,41 @@ class ProjectPromoter:
 
     def _generate_ci_workflow(self, language: str) -> str:
         """Generate CI workflow for language."""
-        base = {
-            "name": "CI",
-            "on": {"push": {"branches": ["main"]}, "pull_request": {"branches": ["main"]}},
-            "permissions": {"contents": "read"},
-            "jobs": {
-                "build": {
-                    "runs-on": "ubuntu-latest",
-                    "steps": [
-                        {"uses": "actions/checkout@v4"}
-                    ]
-                }
-            }
-        }
-
+        steps = [{"uses": "actions/checkout@v4"}]
+        
         if language == "python":
-            base["jobs"]["build"]["steps"].extend([
+            steps.extend([
                 {"name": "Set up Python", "uses": "actions/setup-python@v5", "with": {"python-version": "3.11"}},
                 {"name": "Install dependencies", "run": "pip install -e '.[dev]'"},
                 {"name": "Run tests", "run": "pytest"}
             ])
         elif language in ("typescript", "javascript"):
-            base["jobs"]["build"]["steps"].extend([
+            steps.extend([
                 {"name": "Set up Node", "uses": "actions/setup-node@v4", "with": {"node-version": "20"}},
                 {"name": "Install dependencies", "run": "npm ci"},
                 {"name": "Run tests", "run": "npm test"}
             ])
 
-        return yaml.dump(base, default_flow_style=False)
+        return yaml.dump({
+            "name": "CI",
+            "on": {"push": {"branches": ["main"]}, "pull_request": {"branches": ["main"]}},
+            "permissions": {"contents": "read"},
+            "jobs": {"build": {"runs-on": "ubuntu-latest", "steps": steps}}
+        }, default_flow_style=False)
 
     def _get_precommit_config(self, language: str) -> Optional[str]:
         """Get pre-commit config for language."""
-        # Try to load from templates
-        template_file = self.templates_path / "pre-commit" / f"{language}.yaml"
-        if template_file.exists():
-            return template_file.read_text()
+        for file in (self.templates_path / "pre-commit" / f"{language}.yaml", 
+                     self.templates_path / "pre-commit" / "generic.yaml"):
+            if file.exists():
+                return file.read_text()
 
-        generic_file = self.templates_path / "pre-commit" / "generic.yaml"
-        if generic_file.exists():
-            return generic_file.read_text()
-
-        # Default minimal config
         return yaml.dump({
-            "repos": [
-                {
-                    "repo": "https://github.com/pre-commit/pre-commit-hooks",
-                    "rev": "v4.5.0",
-                    "hooks": [
-                        {"id": "trailing-whitespace"},
-                        {"id": "end-of-file-fixer"},
-                        {"id": "check-yaml"}
-                    ]
-                }
-            ]
+            "repos": [{
+                "repo": "https://github.com/pre-commit/pre-commit-hooks",
+                "rev": "v4.5.0",
+                "hooks": [{"id": "trailing-whitespace"}, {"id": "end-of-file-fixer"}, {"id": "check-yaml"}]
+            }]
         }, default_flow_style=False)
 
 
