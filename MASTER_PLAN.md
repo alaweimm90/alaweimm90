@@ -146,6 +146,7 @@ graph TD
 | **MEZAN**                   | SaaS       | $10-100K/year | Production  | P2       |
 | **HELIOS**                  | Enterprise | $100K+/year   | Alpha       | P3       |
 | **Repz**                    | Consumer   | $9.99/mo      | Development | P4       |
+| **MarketingAutomation**     | Internal   | N/A           | Planned     | P5       |
 
 ### TalAI Product Suite (25+ Products)
 
@@ -446,9 +447,11 @@ ATLAS_OUTPUT_STYLE       → ORCHEX_OUTPUT_STYLE
 | ----------- | --------------------------------------- |
 | Dec 5, 2025 | Created SSOT (this document)            |
 | Dec 5, 2025 | Consolidated from 12 planning documents |
-| Dec 5, 2025 | Updated username alawein → alaweimm90   |
+| Dec 5, 2025 | Updated username alaweimm90 → alawein   |
 | Dec 5, 2025 | Completed Atlas → Orchex rename         |
 | Dec 5, 2025 | Completed CrazyIdeas → Foundry rename   |
+| Dec 5, 2025 | Added MarketingAutomation to registry   |
+| Dec 5, 2025 | Created ACTION_PLAN.md                  |
 
 ---
 

@@ -3,85 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TalAI | AI Research Tools</title>
-    <meta name="description" content="TalAI - AI-powered tools for accelerating scientific research, literature review, and hypothesis generation.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>TalAI™ | Autonomous Research Assistant</title>
+    <meta name="description" content="AI-powered research tools for scientists. Automate literature reviews, generate hypotheses, and accelerate discovery.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #10b981; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #34d399; }
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #a855f7;
+            --success: #10b981;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        
+        /* Header */
         header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
         nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-        .back-link { color: var(--text-muted); text-decoration: none; }
-        .hero { padding: 4rem 0; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
-        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
-        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .modules { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 2rem 0 4rem; }
-        .module-card { background: var(--surface); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #334155; }
-        .module-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
-        .module-card p { color: var(--text-muted); font-size: 0.9rem; }
-        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
+        .logo { font-size: 1.75rem; font-weight: 800; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        
+        /* Hero */
+        .hero { padding: 6rem 0; text-align: center; }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem; 
+                   background: linear-gradient(135deg, var(--accent), #ec4899); 
+                   -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero .tagline { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 3rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 1rem 2rem; border-radius: 0.5rem; 
+               font-weight: 600; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-secondary { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+        .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); }
+        
+        /* Features */
+        .features { padding: 6rem 0; }
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 700; margin-bottom: 3rem; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .feature-card { background: var(--surface); border-radius: 1rem; padding: 2rem; 
+                        border: 1px solid #334155; transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-4px); border-color: var(--accent); 
+                              box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .feature-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--accent); }
+        .feature-card p { color: var(--text-muted); }
+        
+        /* Products */
+        .products { padding: 6rem 0; background: var(--surface); }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .product-card { background: var(--bg); border-radius: 0.75rem; padding: 1.5rem; 
+                        border: 1px solid #334155; transition: all 0.2s; }
+        .product-card:hover { border-color: var(--accent); }
+        .product-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.75rem; }
+        .product-name { font-weight: 600; font-size: 1.1rem; }
+        .product-price { color: var(--success); font-weight: 600; }
+        .product-desc { color: var(--text-muted); font-size: 0.9rem; }
+        
+        /* Pricing */
+        .pricing { padding: 6rem 0; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .pricing-card { background: var(--surface); border-radius: 1rem; padding: 2.5rem; 
+                        border: 2px solid #334155; text-align: center; transition: all 0.3s; }
+        .pricing-card.featured { border-color: var(--accent); transform: scale(1.05); }
+        .pricing-card:hover { transform: translateY(-4px) scale(1.05); }
+        .plan-name { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .plan-price { font-size: 3rem; font-weight: 800; color: var(--accent); margin-bottom: 1rem; }
+        .plan-price span { font-size: 1rem; color: var(--text-muted); }
+        .plan-features { list-style: none; margin: 2rem 0; text-align: left; }
+        .plan-features li { padding: 0.5rem 0; color: var(--text-muted); }
+        .plan-features li:before { content: "✓ "; color: var(--success); font-weight: bold; margin-right: 0.5rem; }
+        
+        /* CTA Section */
+        .cta-section { padding: 6rem 0; text-align: center; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1)); }
+        .cta-section h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
+        .cta-section p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; }
+        
+        /* Footer */
+        footer { border-top: 1px solid var(--surface); padding: 3rem 0; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-section h4 { margin-bottom: 1rem; color: var(--accent); }
+        .footer-section ul { list-style: none; }
+        .footer-section a { color: var(--text-muted); text-decoration: none; display: block; padding: 0.25rem 0; }
+        .footer-section a:hover { color: var(--accent); }
+        .footer-bottom { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--surface); color: var(--text-muted); }
     </style>
 </head>
 <body>
     <header>
         <nav class="container">
-            <div class="logo">TalAI</div>
-            <a href="../../" class="back-link">← Back to Alawein</a>
+            <div class="logo">TalAI™</div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="https://github.com/alawein">GitHub</a></li>
+                <li><a href="#" class="btn btn-primary" style="padding: 0.5rem 1.5rem;">Start Free Trial</a></li>
+            </ul>
         </nav>
     </header>
+
     <main>
+        <!-- Hero Section -->
         <section class="hero container">
-            <p class="tagline">AI Research Platform</p>
-            <h1>TalAI</h1>
-            <p>AI-powered tools for accelerating scientific research. From literature review to hypothesis generation, automate the tedious parts of research.</p>
+            <h1>Autonomous Research<br>Assistant</h1>
+            <p class="tagline">25+ AI-powered tools to accelerate scientific discovery.<br>From literature review to hypothesis generation.</p>
+            <div class="cta-buttons">
+                <a href="#pricing" class="btn btn-primary">Start Free Trial</a>
+                <a href="#products" class="btn btn-secondary">Explore Products</a>
+            </div>
         </section>
-        <section class="container">
-            <h2 style="margin-bottom: 1.5rem;">Modules</h2>
-            <div class="modules">
-                <div class="module-card">
-                    <h3>Lit-Review Bot</h3>
-                    <p>Automated literature review with semantic search and citation analysis.</p>
+
+        <!-- Features Section -->
+        <section id="features" class="features container">
+            <h2 class="section-title">Why Researchers Choose TalAI</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Autonomous Research</h3>
+                    <p>AI agents that design experiments, analyze data, and suggest next steps while checking against physics constraints.</p>
                 </div>
-                <div class="module-card">
-                    <h3>Ghost Researcher</h3>
-                    <p>AI agent that explores research directions autonomously.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>3-5x Faster</h3>
+                    <p>Speed up hypothesis testing and experiment design. What took weeks now takes days.</p>
                 </div>
-                <div class="module-card">
-                    <h3>Paper Miner</h3>
-                    <p>Extract structured data from academic papers at scale.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">🔬</div>
+                    <h3>Physics-First</h3>
+                    <p>LLMs for reasoning + Physics engines for fact-checking. No hallucinations, just validated results.</p>
                 </div>
-                <div class="module-card">
-                    <h3>Grant Writer</h3>
-                    <p>AI-assisted grant proposal drafting and optimization.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Literature Mining</h3>
+                    <p>Automated literature reviews, citation prediction, and paper data extraction.</p>
                 </div>
-                <div class="module-card">
-                    <h3>Hypothesis Match</h3>
-                    <p>Generate and validate research hypotheses automatically.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Idea Generation</h3>
+                    <p>Hypothesis matching, idea calculus, and creative ideation tools to spark innovation.</p>
                 </div>
-                <div class="module-card">
-                    <h3>Experiment Designer</h3>
-                    <p>Design optimal experiments with statistical power analysis.</p>
-                </div>
-                <div class="module-card">
-                    <h3>Chaos Engine</h3>
-                    <p>Stress-test research methods with adversarial analysis.</p>
-                </div>
-                <div class="module-card">
-                    <h3>Abstract Writer</h3>
-                    <p>Generate publication-ready abstracts from research data.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">✍️</div>
+                    <h3>Writing Assistance</h3>
+                    <p>Grant proposals, abstracts, and papers. AI-powered writing that sounds like you.</p>
                 </div>
             </div>
         </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products">
+            <div class="container">
+                <h2 class="section-title">25+ Research Tools</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">AdversarialReview</span>
+                            <span class="product-price">$79/mo</span>
+                        </div>
+                        <p class="product-desc">AI peer review before submission. Get adversarial feedback to strengthen your paper.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">GrantWriter</span>
+                            <span class="product-price">$199/mo</span>
+                        </div>
+                        <p class="product-desc">AI-powered grant proposal assistance. Increase your funding success rate.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">LitReviewBot</span>
+                            <span class="product-price">$49/mo</span>
+                        </div>
+                        <p class="product-desc">Automated literature review. Save weeks of reading and summarizing papers.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">HypothesisMatch</span>
+                            <span class="product-price">$39/mo</span>
+                        </div>
+                        <p class="product-desc">Generate and validate research hypotheses using AI and domain knowledge.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">ExperimentDesigner</span>
+                            <span class="product-price">$89/mo</span>
+                        </div>
+                        <p class="product-desc">Optimal experiment design using Bayesian optimization and active learning.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">CitationPredictor</span>
+                            <span class="product-price">$29/mo</span>
+                        </div>
+                        <p class="product-desc">Predict citation impact before publication. Optimize for maximum reach.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">DataCleaner</span>
+                            <span class="product-price">$59/mo</span>
+                        </div>
+                        <p class="product-desc">Automated data cleaning and validation. Spend less time on preprocessing.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">IdeaForge</span>
+                            <span class="product-price">$99/mo</span>
+                        </div>
+                        <p class="product-desc">Creative ideation tools and idea combination engine for breakthrough research.</p>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-header">
+                            <span class="product-name">+ 17 More Tools</span>
+                            <span class="product-price">Suite</span>
+                        </div>
+                        <p class="product-desc">Full access to all 25+ research tools with the Research Suite plan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing container">
+            <h2 class="section-title">Simple, Transparent Pricing</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">$29<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>3 tools of your choice</li>
+                        <li>100 queries/month</li>
+                        <li>Email support</li>
+                        <li>Basic analytics</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price">$99<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>10 tools of your choice</li>
+                        <li>Unlimited queries</li>
+                        <li>Priority support</li>
+                        <li>Advanced analytics</li>
+                        <li>API access</li>
+                        <li>Custom integrations</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-name">Research Suite</div>
+                    <div class="plan-price">$499<span>/month</span></div>
+                    <ul class="plan-features">
+                        <li>All 25+ tools included</li>
+                        <li>Unlimited everything</li>
+                        <li>Dedicated support</li>
+                        <li>Custom AI models</li>
+                        <li>White-label options</li>
+                        <li>Team collaboration</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Accelerate Your Research?</h2>
+                <p>Join hundreds of researchers using TalAI to speed up discovery.</p>
+                <a href="#" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2.5rem;">Start Free 14-Day Trial</a>
+            </div>
+        </section>
     </main>
+
     <footer>
         <div class="container">
-            <p>TalAI is a product of <a href="../../" style="color: var(--accent);">Alawein Technologies LLC</a></p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#products">All Products</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../../">Alawein Technologies</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="https://github.com/alawein">GitHub</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">API Docs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Alawein Technologies LLC. TalAI™ is a trademark of Alawein Technologies. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 </body>
 </html>
-

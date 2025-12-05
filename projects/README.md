@@ -1,7 +1,7 @@
 # Complete Projects Registry
 
 > **Last Updated:** December 5, 2025
-> **Total Projects Found:** 85+ (including sub-modules)
+> **Total Projects Found:** 86+ (including sub-modules)
 > **Archive Location:** `.archive/organizations/` (47,805 files)
 
 ---
@@ -76,10 +76,11 @@
 
 ## LLC: REPZ LLC
 
-| Project        | Description             | Domain           | Status         | Archive Path                |
-| -------------- | ----------------------- | ---------------- | -------------- | --------------------------- |
-| **Repz**       | AI fitness tracking app | getrepz.app ✅   | 🟡 Development | `alaweimm90-business/Repz/` |
-| **Repz Coach** | AI coaching features    | repzcoach.com ✅ | 🔴 Planned     | (in Repz)                   |
+| Project                 | Description                | Domain           | Status         | Archive Path                               |
+| ----------------------- | -------------------------- | ---------------- | -------------- | ------------------------------------------ |
+| **Repz**                | AI fitness tracking app    | getrepz.app ✅   | 🟡 Development | `alaweimm90-business/Repz/`                |
+| **Repz Coach**          | AI coaching features       | repzcoach.com ✅ | 🔴 Planned     | (in Repz)                                  |
+| **MarketingAutomation** | Marketing automation tools | -                | 🔴 Planned     | `alaweimm90-business/MarketingAutomation/` |
 
 ---
 
