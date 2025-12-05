@@ -54,7 +54,7 @@ def consolidate_all():
 if __name__ == "__main__":
     print("=== EXTENDING CONSOLIDATION ===\n")
     stats = consolidate_all()
-    print(f"\n=== SUMMARY ===")
+    print("\n=== SUMMARY ===")
     print(f"Linked: {stats['linked']}")
     print(f"Backed up: {stats['backed_up']}")
     print(f"Skipped: {stats['skipped']}")

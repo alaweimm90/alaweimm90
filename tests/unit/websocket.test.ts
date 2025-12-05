@@ -2,8 +2,7 @@
  * WebSocket Server Tests
  */
 
-import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
-import { WebSocket } from 'ws';
+import { describe, it, expect, vi } from 'vitest';
 
 // Mock the ws module for testing
 vi.mock('ws', async () => {

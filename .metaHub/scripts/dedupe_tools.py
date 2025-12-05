@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 from collections import defaultdict
-from typing import Dict, List, Set
+from typing import Dict, List
 
 ROOT = Path(__file__).parent.parent.parent
 GLOBAL_TOOLS = ROOT / "tools"
