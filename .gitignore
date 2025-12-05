@@ -394,3 +394,11 @@ temp_*.ts
 
 # Auto-generated AI state files
 .ai/*.json
+
+# =============================================================================
+# ATLAS Runtime Data
+# =============================================================================
+.atlas/*.json
+.atlas/reports/
+.atlas/evidence/
+!.atlas/.gitkeep

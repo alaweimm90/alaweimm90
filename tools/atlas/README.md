@@ -2,6 +2,11 @@
 
 ATLAS Multi-Agent Orchestration Platform - A production-ready system for routing tasks to AI agents (Claude, GPT-4, Gemini) with automatic failover, circuit breakers, and intelligent load balancing.
 
+**Directory Structure**:
+
+- **Implementation**: `tools/atlas/` (tracked in git)
+- **Runtime Data**: `.atlas/` (gitignored - reports, metrics, evidence)
+
 ## Features
 
 - **Multi-Agent Routing** - Route tasks to the best available AI agent based on capability, cost, or latency
