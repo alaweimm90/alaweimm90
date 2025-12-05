@@ -42,6 +42,24 @@ superprompts:
     feedback_enabled: true
 
 # =============================================================================
+# AGENTS, WORKFLOWS & ORCHESTRATION
+# =============================================================================
+agents:
+  registry: .ai/agents/config/agents.yaml
+  templates: .ai/agents/templates/
+
+workflows:
+  registry: .ai/workflows/config/workflows.yaml
+  templates: .ai/workflows/templates/
+
+orchestration:
+  config: .ai/orchestration/config/orchestration.yaml
+  patterns: .ai/orchestration/patterns/
+
+scripts:
+  directory: .ai/scripts/
+
+# =============================================================================
 # CORE DOCUMENTATION
 # =============================================================================
 documentation:

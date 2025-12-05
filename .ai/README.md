@@ -11,6 +11,20 @@ Unified AI configurations and self-learning superprompt infrastructure.
 ├── context.md                # Shared AI context
 ├── task-history.json         # Historical task data
 │
+├── agents/                   # Agent definitions (from automation/)
+│   ├── config/               # Agent registry and configurations
+│   └── templates/            # Agent templates
+│
+├── workflows/                # Workflow definitions (from automation/)
+│   ├── config/               # Workflow registry
+│   └── templates/            # Workflow templates
+│
+├── orchestration/            # Orchestration patterns (from automation/)
+│   ├── config/               # Orchestration configuration
+│   └── patterns/             # Orchestration patterns
+│
+├── scripts/                  # AI utility scripts (from tools/ai/)
+│
 ├── superprompts/             # Meta-cognitive guidance systems
 │   ├── codebase-sentinel.yaml    # Code quality & 7 Laws
 │   ├── security-auditor.yaml     # OWASP & security scanning
