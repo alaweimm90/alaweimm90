@@ -10,59 +10,12 @@ import { exec } from 'child_process';
 const execAsync = promisify(exec);
 
 // ============================================================================
-// Performance Optimizations
+// Database Cache Integration
 // ============================================================================
 
-// Simple in-memory cache for expensive operations
-interface CacheEntry {
-  value: unknown;
-  timestamp: number;
-  ttl: number; // Time to live in milliseconds
-}
+import { DatabaseCache } from '../utils/database.js';
 
-class SimpleCache {
-  private cache = new Map<string, CacheEntry>();
-
-  get(key: string): unknown | null {
-    const entry = this.cache.get(key);
-    if (!entry) return null;
-
-    if (Date.now() - entry.timestamp > entry.ttl) {
-      this.cache.delete(key);
-      return null;
-    }
-
-    return entry.value;
-  }
-
-  set(key: string, value: unknown, ttlMs = 300000): void {
-    // Default 5 minutes
-    this.cache.set(key, {
-      value,
-      timestamp: Date.now(),
-      ttl: ttlMs,
-    });
-  }
-
-  clear(pattern?: string): void {
-    if (!pattern) {
-      this.cache.clear();
-      return;
-    }
-
-    for (const key of this.cache.keys()) {
-      if (key.includes(pattern)) {
-        this.cache.delete(key);
-      }
-    }
-  }
-
-  size(): number {
-    return this.cache.size;
-  }
-}
-
-const toolCache = new SimpleCache();
+const toolCache = new DatabaseCache();
 const REQUEST_TIMEOUT = 30000; // 30 seconds timeout for tool execution
 
 // Async tool execution with timeout
@@ -72,7 +25,7 @@ async function executeToolAsync(name: string, params: Record<string, unknown>): 
   try {
     // Create cache key
     const cacheKey = `${name}:${JSON.stringify(params)}`;
-    const cached = toolCache.get(cacheKey);
+    const cached = toolCache.get<unknown>(cacheKey);
     if (cached) return cached;
 
     let result: unknown;
@@ -119,7 +72,7 @@ async function executeToolAsync(name: string, params: Record<string, unknown>): 
     const executionTime = Date.now() - startTime;
     if (executionTime > 1000) {
       // Only cache operations that took > 1 second
-      toolCache.set(cacheKey, result, 300000); // 5 minute cache
+      toolCache.set(cacheKey, result, 'result', 300000); // 5 minute cache
     }
 
     return result;
@@ -718,7 +671,7 @@ async function handleRequest(request: MCPRequest): Promise<MCPResponse> {
         // Special handling for cache statistics
         result = {
           success: true,
-          cacheSize: toolCache.size(),
+          stats: toolCache.getStats(),
           timestamp: new Date().toISOString(),
         };
       } else {

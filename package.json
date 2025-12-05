@@ -72,7 +72,11 @@
     "ai:mcp:tools": "tsx tools/ai/mcp/server.ts tools",
     "ai:mcp:resources": "tsx tools/ai/mcp/server.ts resources",
     "ai:api": "tsx tools/ai/api/server.ts",
-    "ai:api:start": "tsx tools/ai/api/server.ts start"
+    "ai:api:start": "tsx tools/ai/api/server.ts start",
+    "db": "tsx tools/ai/utils/database.ts",
+    "db:init": "tsx tools/ai/utils/database.ts init",
+    "db:migrate": "tsx tools/ai/utils/database.ts migrate",
+    "db:stats": "tsx tools/ai/utils/database.ts stats"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

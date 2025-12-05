@@ -1,0 +1,51 @@
+name: Universal CI
+
+on:
+  workflow_call:
+    inputs:
+      language:
+        required: true
+        type: string
+        description: 'python or typescript'
+      test-command:
+        required: false
+        type: string
+        default: 'test'
+      lint-command:
+        required: false
+        type: string
+        default: 'lint'
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        if: inputs.language == 'python'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Setup Node
+        if: inputs.language == 'typescript'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install Python deps
+        if: inputs.language == 'python'
+        run: pip install -r requirements.txt
+      
+      - name: Install Node deps
+        if: inputs.language == 'typescript'
+        run: npm ci
+      
+      - name: Lint
+        run: npm run ${{ inputs.lint-command }} || python -m ruff check .
+      
+      - name: Test
+        run: npm run ${{ inputs.test-command }} || pytest
