@@ -55,7 +55,7 @@ describe('meta-cli', () => {
       const result = await runCLI(['--help']);
       expect(result.stdout).toContain('Meta-governance repository CLI');
       expect(result.stdout).toContain('ai');
-      expect(result.stdout).toContain('atlas');
+      expect(result.stdout).toContain('ORCHEX');
       expect(result.stdout).toContain('devops');
       expect(result.stdout).toContain('automation');
       expect(result.code).toBe(0);
@@ -94,10 +94,10 @@ describe('meta-cli', () => {
     });
   });
 
-  describe('Atlas Command', () => {
-    it('should display atlas help', async () => {
-      const result = await runCLI(['atlas', '--help']);
-      expect(result.stdout).toContain('ATLAS research orchestration');
+  describe('ORCHEX Command', () => {
+    it('should display ORCHEX help', async () => {
+      const result = await runCLI(['ORCHEX', '--help']);
+      expect(result.stdout).toContain('ORCHEX research orchestration');
       expect(result.code).toBe(0);
     });
   });

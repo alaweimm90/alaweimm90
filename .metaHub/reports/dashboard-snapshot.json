@@ -259,8 +259,8 @@
         }
       ]
     },
-    "atlas": {
-      "framework": "ATLAS",
+    "ORCHEX": {
+      "framework": "ORCHEX",
       "total_agents": 4,
       "total_mcp_integrations": 15,
       "mappings": [

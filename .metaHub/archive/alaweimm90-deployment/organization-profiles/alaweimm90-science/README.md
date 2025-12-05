@@ -1,12 +1,12 @@
 <div align="center">
 
-![alaweimm90-science header featuring optimization landscape visualization and research branding](header.svg)
+![alawein-science header featuring optimization landscape visualization and research branding](header.svg)
 
 <br>
 
-[![Website](https://img.shields.io/badge/🌐_Lab_Website-alaweimm90-science.org-A855F7?style=for-the-badge&labelColor=1a1b27)](https://alaweimm90-science.org)
+[![Website](https://img.shields.io/badge/🌐_Lab_Website-alawein-science.org-A855F7?style=for-the-badge&labelColor=1a1b27)](https://alawein-science.org)
 [![Research](https://img.shields.io/badge/📚_Research-Publications-EC4899?style=for-the-badge&labelColor=1a1b27)](#publications)
-[![Contact](https://img.shields.io/badge/📧_Contact-research@alaweimm90-science.org-4CC9F0?style=for-the-badge&labelColor=1a1b27)](mailto:research@alaweimm90-science.org)
+[![Contact](https://img.shields.io/badge/📧_Contact-research@alawein-science.org-4CC9F0?style=for-the-badge&labelColor=1a1b27)](mailto:research@alawein-science.org)
 
 </div>
 
@@ -14,7 +14,7 @@
 
 > **Advancing the frontiers of computational optimization through rigorous research, elegant implementations, and open science.**
 
-alaweimm90-science is a research organization dedicated to bridging the gap between **theoretical optimization** and **practical high-performance computing**. We develop algorithms that don't just work—they work *fast*, *correctly*, and *beautifully*.
+alawein-science is a research organization dedicated to bridging the gap between **theoretical optimization** and **practical high-performance computing**. We develop algorithms that don't just work—they work *fast*, *correctly*, and *beautifully*.
 
 ### What We Do
 
@@ -32,7 +32,7 @@ alaweimm90-science is a research organization dedicated to bridging the gap betw
 <tr>
 <td width="50%" valign="top">
 
-### [🐍 Optilibria](https://github.com/alaweimm90-science/optilibria)
+### [🐍 Optilibria](https://github.com/alawein-science/optilibria)
 
 **Universal Optimization Framework**
 
@@ -61,7 +61,7 @@ result = optimize(
 </td>
 <td width="50%" valign="top">
 
-### [⚙️ ATLAS](https://github.com/alaweimm90-science/atlas)
+### [⚙️ ORCHEX](https://github.com/alawein-science/ORCHEX)
 
 **Autonomous Testing & Laboratory Analysis System**
 
@@ -77,7 +77,7 @@ AI-powered research assistant that autonomously designs experiments, analyzes re
 **Status:** 🧪 Beta Testing
 
 ```python
-atlas.propose_experiment(
+ORCHEX.propose_experiment(
     target_property="high-Tc superconductor",
     constraints={"budget": 100_hours},
     strategy="exploitation"  # or "exploration"
@@ -97,21 +97,21 @@ atlas.propose_experiment(
 
 #### Core Libraries
 
-- **[OptiUtils](https://github.com/alaweimm90-science/optiutils)** — Utilities for optimization benchmarking and visualization
-- **[ConvergenceAnalyzer](https://github.com/alaweimm90-science/convergence-analyzer)** — Tools for analyzing algorithm convergence properties
-- **[MaterialsDB](https://github.com/alaweimm90-science/materials-db)** — Curated database of computational materials data
+- **[OptiUtils](https://github.com/alawein-science/optiutils)** — Utilities for optimization benchmarking and visualization
+- **[ConvergenceAnalyzer](https://github.com/alawein-science/convergence-analyzer)** — Tools for analyzing algorithm convergence properties
+- **[MaterialsDB](https://github.com/alawein-science/materials-db)** — Curated database of computational materials data
 
 #### Benchmarking & Testing
 
-- **[OptiBench](https://github.com/alaweimm90-science/optibench)** — Comprehensive optimization benchmark suite
-- **[TestFunctions](https://github.com/alaweimm90-science/test-functions)** — Classical and novel test functions for algorithms
-- **[PerformanceProfiler](https://github.com/alaweimm90-science/performance-profiler)** — GPU/CPU profiling for scientific computing
+- **[OptiBench](https://github.com/alawein-science/optibench)** — Comprehensive optimization benchmark suite
+- **[TestFunctions](https://github.com/alawein-science/test-functions)** — Classical and novel test functions for algorithms
+- **[PerformanceProfiler](https://github.com/alawein-science/performance-profiler)** — GPU/CPU profiling for scientific computing
 
 #### Educational Resources
 
-- **[OptimizationCourse](https://github.com/alaweimm90-science/optimization-course)** — Interactive course on optimization theory
-- **[AlgorithmVisualizations](https://github.com/alaweimm90-science/algorithm-viz)** — Beautiful visualizations of optimization algorithms
-- **[ResearchNotebooks](https://github.com/alaweimm90-science/research-notebooks)** — Jupyter notebooks from published research
+- **[OptimizationCourse](https://github.com/alawein-science/optimization-course)** — Interactive course on optimization theory
+- **[AlgorithmVisualizations](https://github.com/alawein-science/algorithm-viz)** — Beautiful visualizations of optimization algorithms
+- **[ResearchNotebooks](https://github.com/alawein-science/research-notebooks)** — Jupyter notebooks from published research
 
 </details>
 
@@ -121,7 +121,7 @@ atlas.propose_experiment(
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=alaweimm90-science&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=A855F7&icon_color=EC4899&text_color=C9D1D9)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=alawein-science&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=A855F7&icon_color=EC4899&text_color=C9D1D9)
 
 ### Current Metrics
 
@@ -187,7 +187,7 @@ Physics-Inspired            █████████████████�
 
 ### 2024
 
-3. **"ATLAS: Autonomous Testing & Laboratory Analysis System for Materials Science"**
+3. **"ORCHEX: Autonomous Testing & Laboratory Analysis System for Materials Science"**
    - *Preprint* | arXiv:2024.xxxxx
    - M. Alawein et al.
 
@@ -223,10 +223,10 @@ We believe world-class optimization tools should be:
 
 ### Learning Resources
 
-📖 **[Optimization Theory Textbook](https://github.com/alaweimm90-science/optimization-textbook)** — Free online textbook
-🎥 **[Video Lecture Series](https://youtube.com/@alaweimm90-science)** — Theory and implementation
-💻 **[Interactive Tutorials](https://github.com/alaweimm90-science/tutorials)** — Hands-on Jupyter notebooks
-🧮 **[Algorithm Visualizations](https://viz.alaweimm90-science.org)** — See algorithms in action
+📖 **[Optimization Theory Textbook](https://github.com/alawein-science/optimization-textbook)** — Free online textbook
+🎥 **[Video Lecture Series](https://youtube.com/@alawein-science)** — Theory and implementation
+💻 **[Interactive Tutorials](https://github.com/alawein-science/tutorials)** — Hands-on Jupyter notebooks
+🧮 **[Algorithm Visualizations](https://viz.alawein-science.org)** — See algorithms in action
 
 ---
 
@@ -245,7 +245,7 @@ We welcome collaboration from:
 2. **🐛 Report issues** — Help us improve with bug reports and feature requests
 3. **🔀 Submit PRs** — Contribute code, documentation, or examples
 4. **💬 Join discussions** — GitHub Discussions for Q&A and ideas
-5. **📧 Reach out** — research@alaweimm90-science.org for formal collaborations
+5. **📧 Reach out** — research@alawein-science.org for formal collaborations
 
 ---
 
@@ -294,9 +294,9 @@ We welcome collaboration from:
 
 ## 📫 Contact
 
-**Research Inquiries:** research@alaweimm90-science.org
-**General Questions:** hello@alaweimm90-science.org
-**Collaborations:** partnerships@alaweimm90-science.org
+**Research Inquiries:** research@alawein-science.org
+**General Questions:** hello@alawein-science.org
+**Collaborations:** partnerships@alawein-science.org
 
 <br>
 
@@ -312,6 +312,6 @@ We welcome collaboration from:
 
 ---
 
-<sub>alaweimm90-science © 2024-2025 • Open Science • Open Source • Open Mind</sub>
+<sub>alawein-science © 2024-2025 • Open Science • Open Source • Open Mind</sub>
 
 </div>

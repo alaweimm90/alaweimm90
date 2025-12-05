@@ -121,7 +121,7 @@ context:
   checkpointing:
     enabled: true
     after_phases: ['observe', 'analyze', 'critique', 'validate']
-    storage: '.atlas/checkpoints/'
+    storage: '.ORCHEX/checkpoints/'
 
 # =============================================================================
 # EXECUTION MODEL
@@ -238,5 +238,5 @@ example:
     python -m automation.cli workflows run codebase_audit_workflow
 
   expected_output:
-    - '.atlas/reports/orchestration-report.json'
-    - '.atlas/reports/codebase-audit-{timestamp}.md'
+    - '.ORCHEX/reports/orchestration-report.json'
+    - '.ORCHEX/reports/codebase-audit-{timestamp}.md'

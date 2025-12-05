@@ -1,12 +1,12 @@
 /**
- * ATLAS Integration Configuration
+ * ORCHEX Integration Configuration
  *
  * Configuration and setup for seamless integration between
- * AI Tools Suite and ATLAS orchestration platform.
+ * AI Tools Suite and ORCHEX orchestration platform.
  */
 
-// TODO: Import when atlas-integration module is available
-// import { ATLASIntegration } from '../src/core/atlas-integration.js';
+// TODO: Import when ORCHEX-integration module is available
+// import { ATLASIntegration } from '../src/core/ORCHEX-integration.js';
 
 interface AgentInfo {
   agent_id: string;
@@ -40,7 +40,7 @@ export interface ATLASIntegrationConfig {
 }
 
 /**
- * Create ATLAS integration instance with default configuration
+ * Create ORCHEX integration instance with default configuration
  */
 export function createATLASIntegration(config: ATLASIntegrationConfig = {}): ATLASIntegration {
   const defaultConfig = {
@@ -60,14 +60,14 @@ export function createATLASIntegration(config: ATLASIntegrationConfig = {}): ATL
 }
 
 /**
- * Validate ATLAS connection and capabilities
+ * Validate ORCHEX connection and capabilities
  */
-export async function validateATLASConnection(atlas: ATLASIntegration): Promise<boolean> {
+export async function validateATLASConnection(ORCHEX: ATLASIntegration): Promise<boolean> {
   try {
-    const health = await atlas.getHealth();
+    const health = await ORCHEX.getHealth();
     return health.status === 'healthy';
   } catch (error) {
-    console.error('ATLAS connection validation failed:', error);
+    console.error('ORCHEX connection validation failed:', error);
     return false;
   }
 }
@@ -83,9 +83,9 @@ interface SimplifiedAgent {
 /**
  * Get available agents and their capabilities
  */
-export async function getAvailableAgents(atlas: ATLASIntegration): Promise<SimplifiedAgent[]> {
+export async function getAvailableAgents(ORCHEX: ATLASIntegration): Promise<SimplifiedAgent[]> {
   try {
-    const agents = await atlas.getAgents();
+    const agents = await ORCHEX.getAgents();
     return agents.map((agent) => ({
       id: agent.agent_id,
       name: agent.name,
@@ -100,24 +100,24 @@ export async function getAvailableAgents(atlas: ATLASIntegration): Promise<Simpl
 }
 
 /**
- * Setup ATLAS integration for AI Tools
+ * Setup ORCHEX integration for AI Tools
  */
 export async function setupATLASIntegration(
   config: ATLASIntegrationConfig = {}
-): Promise<{ atlas: ATLASIntegration; agents: SimplifiedAgent[] }> {
-  const atlas = createATLASIntegration(config);
+): Promise<{ ORCHEX: ATLASIntegration; agents: SimplifiedAgent[] }> {
+  const ORCHEX = createATLASIntegration(config);
 
   // Validate connection
-  const isConnected = await validateATLASConnection(atlas);
+  const isConnected = await validateATLASConnection(ORCHEX);
   if (!isConnected) {
-    throw new Error('Failed to connect to ATLAS. Please check your configuration.');
+    throw new Error('Failed to connect to ORCHEX. Please check your configuration.');
   }
 
   // Get available agents
-  const agents = await getAvailableAgents(atlas);
+  const agents = await getAvailableAgents(ORCHEX);
 
-  console.log(`✅ Connected to ATLAS at ${config.url || 'http://localhost:8000'}`);
+  console.log(`✅ Connected to ORCHEX at ${config.url || 'http://localhost:8000'}`);
   console.log(`📊 Available agents: ${agents.length}`);
   console.log(`🤖 Agents: ${agents.map((a) => `${a.name} (${a.provider})`).join(', ')}`);
-  return { atlas, agents };
+  return { ORCHEX, agents };
 }

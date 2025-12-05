@@ -61,7 +61,7 @@ result = optimize(
 </td>
 <td width="50%" valign="top">
 
-### [⚙️ ATLAS](https://github.com/AlaweinLabs/atlas)
+### [⚙️ ORCHEX](https://github.com/AlaweinLabs/ORCHEX)
 
 **Autonomous Testing & Laboratory Analysis System**
 
@@ -77,7 +77,7 @@ AI-powered research assistant that autonomously designs experiments, analyzes re
 **Status:** 🧪 Beta Testing
 
 ```python
-atlas.propose_experiment(
+ORCHEX.propose_experiment(
     target_property="high-Tc superconductor",
     constraints={"budget": 100_hours},
     strategy="exploitation"  # or "exploration"
@@ -187,7 +187,7 @@ Physics-Inspired            █████████████████�
 
 ### 2024
 
-3. **"ATLAS: Autonomous Testing & Laboratory Analysis System for Materials Science"**
+3. **"ORCHEX: Autonomous Testing & Laboratory Analysis System for Materials Science"**
    - *Preprint* | arXiv:2024.xxxxx
    - M. Alawein et al.
 

@@ -35,7 +35,7 @@ npm install -g ajv-cli
 
 # Validate against governance contract schema
 ajv validate \
-  -s https://github.com/alaweimm90/alaweimm90/raw/main/.metaHub/schemas/repo-schema.json \
+  -s https://github.com/alawein/alawein/raw/main/.metaHub/schemas/repo-schema.json \
   -d .meta/repo.yaml
 ```
 
@@ -55,28 +55,28 @@ on:
 jobs:
   # For Python repositories
   python-ci:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
       test-command: 'pytest tests/'
 
   # For TypeScript repositories
   typescript-ci:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-ts-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-ts-ci.yml@main
     with:
       node-version: '18'
       package-manager: 'npm'
 
   # For all repositories - OPA policy validation
   policy-validation:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
     with:
       policy-path: .metaHub/policies
 
   # For releases
   release:
     if: startsWith(github.ref, 'refs/tags/v')
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-release.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-release.yml@main
     with:
       version: ${{ github.ref_name }}
       prerelease: false
@@ -107,7 +107,7 @@ chmod +x opa
 sudo mv opa /usr/local/bin/
 
 # Validate your repository
-opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+opa eval -d https://github.com/alawein/alawein/.metaHub/policies \
   -i <(cat .meta/repo.yaml) 'data.repo.warn'
 ```
 
@@ -282,7 +282,7 @@ jobs:
 # ✅ DO: Use reusable workflow from governance contract
 jobs:
   test:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
 ```
@@ -291,7 +291,7 @@ jobs:
 
 Governance policies are maintained in the central contract repository. To request a policy change:
 
-1. Open an issue in `alaweimm90/alaweimm90`
+1. Open an issue in `alawein/alawein`
 2. Describe the policy change needed
 3. Submit a pull request with tests
 4. All consumer repositories automatically benefit from the update
@@ -354,7 +354,7 @@ opa eval -d .metaHub/policies -i <(cat .meta/repo.yaml) 'data.repo.warn' -f pret
 
 **Solution:** Verify the governance contract repository path and branch:
 ```yaml
-uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+uses: alawein/alawein/.github/workflows/reusable-python-ci.yml@main
 #     └─ owner ─┘└─ repo ─┘ └─ path to workflow ─┘           └─ branch
 ```
 
@@ -363,7 +363,7 @@ uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
 **Solution:** Validate your `.meta/repo.yaml` structure:
 ```bash
 ajv validate \
-  -s https://github.com/alaweimm90/alaweimm90/raw/main/.metaHub/schemas/repo-schema.json \
+  -s https://github.com/alawein/alawein/raw/main/.metaHub/schemas/repo-schema.json \
   -d .meta/repo.yaml
 ```
 
@@ -402,7 +402,7 @@ For questions about the governance contract:
 
 1. **Review Examples:** Start with `.metaHub/examples/consumer-repo/`
 2. **Check Documentation:** See `.metaHub/policies/README.md` and `.metaHub/schemas/README.md`
-3. **Open an Issue:** Report problems in `alaweimm90/alaweimm90`
+3. **Open an Issue:** Report problems in `alawein/alawein`
 4. **Submit PR:** Contribute improvements to the contract
 
 ## Next Steps
@@ -416,6 +416,6 @@ For questions about the governance contract:
 
 ---
 
-**Governance Contract:** [alaweimm90/alaweimm90](https://github.com/alaweimm90/alaweimm90)
+**Governance Contract:** [alawein/alawein](https://github.com/alawein/alawein)
 **Last Updated:** 2025-11-26
 **Version:** 1.0

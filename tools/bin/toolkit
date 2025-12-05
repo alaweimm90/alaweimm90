@@ -1,6 +1,6 @@
 #!/bin/bash
 # Unified Toolkit CLI v1.0
-# alaweimm90-tools - Central command dispatcher
+# alawein-tools - Central command dispatcher
 
 set -e
 
@@ -16,7 +16,7 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 show_help() {
-    echo -e "${CYAN}alaweimm90-tools Unified Toolkit v${VERSION}${NC}"
+    echo -e "${CYAN}alawein-tools Unified Toolkit v${VERSION}${NC}"
     echo ""
     echo "Usage: toolkit <category> <command> [options]"
     echo ""

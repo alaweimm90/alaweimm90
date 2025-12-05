@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/chrishayuk/mcp-cli/main/schemas/mcp-servers.schema.json",
   "version": "1.0",
-  "description": "MCP Server Configuration for alaweimm90 Orchestration System",
+  "description": "MCP Server Configuration for alawein Orchestration System",
   "defaults": {
     "provider": "anthropic",
     "model": "claude-sonnet-4-5-20250929",
@@ -11,7 +11,7 @@
   "mcpServers": {
     "context": {
       "command": "npx",
-      "args": ["-y", "@alaweimm90/context-server"],
+      "args": ["-y", "@alawein/context-server"],
       "description": "Centralized context and memory management for AI tool handoffs",
       "env": {
         "CONTEXT_STORAGE_PATH": ".metaHub/orchestration/context/",

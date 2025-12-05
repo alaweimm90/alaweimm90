@@ -52,7 +52,7 @@ class MonorepoPusher:
 
     def _get_remote_url(self, org_name: str) -> str:
         """Get the correct GitHub remote URL for an organization."""
-        # Actual repos are at {org}/monorepo, not alaweimm90/{org}-monorepo
+        # Actual repos are at {org}/monorepo, not alawein/{org}-monorepo
         return f"https://github.com/{org_name}/monorepo.git"
 
     def _run_git(self, args: List[str], cwd: Path, check: bool = True) -> subprocess.CompletedProcess:
@@ -159,7 +159,7 @@ class MonorepoPusher:
             "organizations": []
         }
 
-        organizations = ["alaweimm90-business", "alaweimm90-science", "alaweimm90-tools", "AlaweinOS", "MeatheadPhysicist"]
+        organizations = ["alawein-business", "alawein-science", "alawein-tools", "AlaweinOS", "MeatheadPhysicist"]
 
         print(f"\n{'='*60}")
         print("Syncing Governance Fixes to Organization Monorepos")

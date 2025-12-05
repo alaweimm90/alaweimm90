@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 env:
-  ORGANIZATIONS: 'alaweimm90-business alaweimm90-science alaweimm90-tools AlaweinOS MeatheadPhysicist'
+  ORGANIZATIONS: 'alawein-business alawein-science alawein-tools AlaweinOS MeatheadPhysicist'
 
 jobs:
   compliance-check:
@@ -146,9 +146,9 @@ jobs:
               '- **Violations**: ' + violations + '\n' +
               '- **Warnings**: ' + warnings + '\n\n' +
               '### Organizations Checked\n' +
-              '- alaweimm90-business/monorepo\n' +
-              '- alaweimm90-science/monorepo\n' +
-              '- alaweimm90-tools/monorepo\n' +
+              '- alawein-business/monorepo\n' +
+              '- alawein-science/monorepo\n' +
+              '- alawein-tools/monorepo\n' +
               '- AlaweinOS/monorepo\n' +
               '- MeatheadPhysicist/monorepo\n\n' +
               '### Action Required\n' +

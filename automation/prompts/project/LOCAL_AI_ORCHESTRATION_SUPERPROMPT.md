@@ -1,7 +1,7 @@
 # 🎯 LOCAL AI/ML/LLM ORCHESTRATION SUPERPROMPT
 
 **For**: Claude Instance 3 (Local Development Environment Setup)
-**Context**: While ATLAS Engine and Libria Suite are being built in parallel
+**Context**: While ORCHEX Engine and Libria Suite are being built in parallel
 **Goal**: Unified AI/ML/LLM instruction framework for local WSL/PowerShell development
 **Duration**: 2-4 hours for initial setup, ongoing maintenance
 
@@ -31,7 +31,7 @@ Create a **comprehensive, unified instruction framework** for managing AI/ML/LLM
 ### What We Know Works
 
 - Claude Code CLI functioning
-- Multi-Claude coordination (ATLAS + Libria)
+- Multi-Claude coordination (ORCHEX + Libria)
 - Git workflow management
 - Docker/Docker-compose support
 
@@ -97,7 +97,7 @@ Define **5-8 specialized internal agents** for local development:
 - **LogAnalyzerAgent** - Parse and analyze logs
 - **ConsolidationAgent** - Consolidates findings from other agents
 
-**Agent Schema** (similar to ATLAS):
+**Agent Schema** (similar to ORCHEX):
 
 ```yaml
 agent:
@@ -323,7 +323,7 @@ orchestrate list-agents                   # Show all agents
 
 ### Step 3: Define Internal Agents
 
-- [ ] Create agent definition schema (similar to ATLAS ResearchAgent)
+- [ ] Create agent definition schema (similar to ORCHEX ResearchAgent)
 - [ ] Implement 5-8 core agents with clear purposes
 - [ ] Document each agent's capabilities and triggers
 - [ ] Create agent templates for easy addition
@@ -368,7 +368,7 @@ orchestrate list-agents                   # Show all agents
 
 ## REFERENCE SPECIFICATIONS
 
-### Agent Schema (Match ATLAS Style)
+### Agent Schema (Match ORCHEX Style)
 
 ```yaml
 ResearchAgent:
@@ -406,11 +406,11 @@ Workflow:
 
 ---
 
-## INTEGRATION WITH ATLAS/LIBRIA
+## INTEGRATION WITH ORCHEX/LIBRIA
 
 **Connection Points**:
 
-- Local agents can test ATLAS Engine before deployment
+- Local agents can test ORCHEX Engine before deployment
 - Workflows can orchestrate multi-Claude tasks
 - MCPs can provide system context to remote instances
 - Configuration can define when to use local vs remote agents
@@ -418,7 +418,7 @@ Workflow:
 **Example**: Pre-commit workflow could:
 
 1. Run LocalCodeReviewerAgent locally
-2. Optionally invoke ATLAS Engine for complex analysis
+2. Optionally invoke ORCHEX Engine for complex analysis
 3. Use git MCP to commit results
 
 ---
@@ -436,7 +436,7 @@ Workflow:
 - [ ] Validation script created
 - [ ] Example workflows included
 - [ ] Troubleshooting guide written
-- [ ] Integration with ATLAS/Libria documented
+- [ ] Integration with ORCHEX/Libria documented
 
 ---
 
@@ -449,7 +449,7 @@ Workflow:
 - ✅ Easy to add new agents, MCPs, workflows
 - ✅ Works across WSL, PowerShell, and all IDEs
 - ✅ Clear documentation for each component
-- ✅ Integration points with ATLAS/Libria defined
+- ✅ Integration points with ORCHEX/Libria defined
 
 ---
 
@@ -490,7 +490,7 @@ Once complete, this framework will enable:
 **Next Steps After Setup**:
 
 1. Test with local projects
-2. Integrate with ATLAS/Libria
+2. Integrate with ORCHEX/Libria
 3. Share configurations across team
 4. Iterate based on usage
 5. Expand agent library as needed

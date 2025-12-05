@@ -71,7 +71,7 @@ Generates **cryptographically signed build provenance** for all governance artif
 **Verification ensures:**
 - ✅ Artifacts haven't been modified
 - ✅ Provenance is cryptographically valid
-- ✅ Provenance source is trusted (github.com/alaweimm90/alaweimm90)
+- ✅ Provenance source is trusted (github.com/alawein/alawein)
 
 #### Stage 4: GitHub Attestations
 ```yaml
@@ -116,7 +116,7 @@ SLSA provenance workflow runs on:
 # Download artifact and provenance
 slsa-verifier verify-artifact \
   --provenance-path governance-provenance.intoto.jsonl \
-  --source-uri github.com/alaweimm90/alaweimm90 \
+  --source-uri github.com/alawein/alawein \
   governance-configs.tar.gz
 
 # Expected output
@@ -274,7 +274,7 @@ Branch protection is not properly configured for this repository.
 - OPA Policy Enforcement
 - policy-bot
 
-Please configure branch protection at: https://github.com/alaweimm90/alaweimm90/settings/branches
+Please configure branch protection at: https://github.com/alawein/alawein/settings/branches
 ```
 
 ### Setup Status
@@ -493,7 +493,7 @@ git push origin master
 # 4. Run verification
 slsa-verifier verify-artifact \
   --provenance-path governance-provenance.intoto.jsonl \
-  --source-uri github.com/alaweimm90/alaweimm90 \
+  --source-uri github.com/alawein/alawein \
   governance-configs.tar.gz
 
 # Expected output

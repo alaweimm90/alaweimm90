@@ -21,12 +21,12 @@ Allstar is part of the OpenSSF (Open Source Security Foundation) and provides:
 
 2. **Select repository:**
    - Choose "Only select repositories"
-   - Select: `alaweimm90/alaweimm90`
+   - Select: `alawein/alawein`
    - Grant required permissions
 
 3. **Verify installation:**
    - Allstar will automatically read `.allstar/` configuration
-   - Check for created issues at: https://github.com/alaweimm90/alaweimm90/issues?q=label:allstar
+   - Check for created issues at: https://github.com/alawein/alawein/issues?q=label:allstar
 
 ### Option 2: Self-Host Allstar
 
@@ -85,7 +85,7 @@ Our Allstar configuration is located in `.allstar/` directory:
 ```yaml
 optConfig:
   optInRepos:
-    - alaweimm90 # Enabled for this repo
+    - alawein # Enabled for this repo
 
 action: issue # Create GitHub issues for violations
 

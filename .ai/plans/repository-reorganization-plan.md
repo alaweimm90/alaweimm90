@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This plan addresses critical organizational drift in the meta-governance repository through a systematic, multi-phase approach leveraging the existing ATLAS orchestration framework and automation systems.
+This plan addresses critical organizational drift in the meta-governance repository through a systematic, multi-phase approach leveraging the existing ORCHEX orchestration framework and automation systems.
 
 ### Key Problems Identified
 
@@ -186,7 +186,7 @@ Update `.metaHub/policies/root-structure.yaml`:
 allowed_root_items:
   directories:
     - .ai
-    - .atlas
+    - .orchex
     - .github
     - .husky
     - .metaHub
@@ -256,13 +256,13 @@ Add to `.pre-commit-config.yaml`:
 
 ## Phase 6: Workflow Integration
 
-### 6.1 Connect ATLAS to Governance
+### 6.1 Connect ORCHEX to Governance
 
-Update `tools/atlas/orchestration/` to:
+Update `tools/orchex/orchestration/` to:
 
 - Check governance compliance before task execution
 - Route refactoring tasks through compliance validator
-- Log governance violations to `.atlas/evidence/`
+- Log governance violations to `.orchex/evidence/`
 
 ### 6.2 Create Reorganization Workflow
 
@@ -321,7 +321,7 @@ repository_reorganization:
 │  └── Add pre-commit hooks                                    │
 │                                                              │
 │  Phase 6: Integration Agent                                  │
-│  ├── Connect ATLAS to governance                             │
+│  ├── Connect ORCHEX to governance                             │
 │  └── Create reorganization workflow                          │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘

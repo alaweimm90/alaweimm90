@@ -7,7 +7,7 @@ templates defined in portfolio-structure.yaml.
 
 Usage:
     python structure_validator.py                    # Validate all
-    python structure_validator.py --org alaweimm90-tools
+    python structure_validator.py --org alawein-tools
     python structure_validator.py --fix             # Auto-create missing structure
     python structure_validator.py --report json     # JSON output
 """
@@ -565,11 +565,11 @@ class StructureValidator:
                             f.write("type: unknown\n")
                             f.write("language: unknown\n")
                             f.write("tier: 4\n")
-                            f.write("# owner: @alaweimm90\n")
+                            f.write("# owner: @alawein\n")
                         changes.append(f"Created file: {file_path} (needs update)")
                     elif file_path == "LICENSE":
                         with open(full_path, 'w') as f:
-                            f.write("MIT License\n\nCopyright (c) 2025 alaweimm90\n")
+                            f.write("MIT License\n\nCopyright (c) 2025 alawein\n")
                         changes.append(f"Created file: {file_path}")
                     elif file_path == "README.md":
                         with open(full_path, 'w') as f:

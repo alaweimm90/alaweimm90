@@ -12,7 +12,7 @@ tests/
 │   ├── errors.test.ts
 │   ├── monitor.test.ts
 │   └── security.test.ts
-├── atlas/                 # ATLAS framework tests
+├── ORCHEX/                 # ORCHEX framework tests
 │   └── utils/
 ├── devops_*.test.ts       # DevOps CLI tests
 ├── test_*.py              # Python unit tests

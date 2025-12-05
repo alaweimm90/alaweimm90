@@ -1,10 +1,10 @@
-site_name: alaweimm90 Governance
-site_url: https://alaweimm90.github.io/alaweimm90
+site_name: alawein Governance
+site_url: https://alawein.github.io/alawein
 site_description: Portfolio governance documentation
-site_author: alaweimm90
+site_author: alawein
 
-repo_url: https://github.com/alaweimm90/alaweimm90
-repo_name: alaweimm90/alaweimm90
+repo_url: https://github.com/alawein/alawein
+repo_name: alawein/alawein
 
 nav:
   - Home: index.md

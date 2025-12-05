@@ -12,8 +12,8 @@
 ### Scientific Computing & Research
 
 - **`organizations/`** - Multi-tenant organization structures
-  - `alaweimm90-science/` - Quantum mechanics and computational physics projects
-  - `alaweimm90-business/` - Commercial applications and analytics platforms
+  - `alawein-science/` - Quantum mechanics and computational physics projects
+  - `alawein-business/` - Commercial applications and analytics platforms
   - `AlaweinOS/` - Core optimization frameworks and system tools
   - `MeatheadPhysicist/` - Educational physics visualization platform
 
@@ -21,7 +21,7 @@
 
 - **`ai-tools/`** - AI assistant integration and orchestration framework
 - **`tools/`** - CLI utilities, governance scripts, and automation tools
-  - `atlas/` - Autonomous research agent components
+  - `ORCHEX/` - Autonomous research agent components
   - `ai-orchestration/` - Multi-agent workflow management
   - `cli/` - Command-line interfaces for DevOps and governance
 
@@ -29,7 +29,7 @@
 
 - **`docs/`** - Comprehensive documentation including:
   - `ai-coding-tools/` - Catalog of AI assistant integrations
-  - `atlas/` - ATLAS research system documentation
+  - `ORCHEX/` - ORCHEX research system documentation
   - `reports/` - Governance audits and compliance reports
 
 ### Infrastructure & Deployment
@@ -45,7 +45,7 @@
 ```
 Optilibria (JAX/CUDA) → GPU Optimization → Materials Discovery
      ↓
-ATLAS Agent → Experiment Design → Physics Validation
+ORCHEX Agent → Experiment Design → Physics Validation
      ↓
 MeatheadPhysicist → Education → Visualization
 ```
@@ -74,7 +74,7 @@ Monitoring → Telemetry → Self-Healing
 
 ### Multi-Tenant Organization Structure
 
-- Each organization (`alaweimm90-*`, `AlaweinOS`, `MeatheadPhysicist`) maintains isolated configurations
+- Each organization (`alawein-*`, `AlaweinOS`, `MeatheadPhysicist`) maintains isolated configurations
 - Shared governance policies and templates across organizations
 - Centralized monitoring and compliance validation
 
@@ -107,7 +107,7 @@ Monitoring → Telemetry → Self-Healing
 
 ### Internal Services
 
-- **ATLAS Agent** - Autonomous research coordination
+- **ORCHEX Agent** - Autonomous research coordination
 - **Governance Engine** - Policy enforcement and compliance validation
 - **Template Manager** - Project scaffolding and configuration management
 - **Telemetry System** - Performance monitoring and optimization insights
@@ -116,7 +116,7 @@ Monitoring → Telemetry → Self-Healing
 
 ### Research Workflow
 
-1. **Hypothesis Generation** (ATLAS) → **Experiment Design** → **GPU Execution** (Optilibria)
+1. **Hypothesis Generation** (ORCHEX) → **Experiment Design** → **GPU Execution** (Optilibria)
 2. **Results Analysis** → **Physics Validation** → **Next Iteration Planning**
 
 ### DevOps Pipeline

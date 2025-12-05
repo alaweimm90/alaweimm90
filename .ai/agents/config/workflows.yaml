@@ -27,7 +27,7 @@ steps:
     action: k8sDeploy
     onError: continue
     inputs:
-      command: 'kubectl apply -f k8s/atlas/secret.yaml -n atlas --validate=false || echo skip'
+      command: 'kubectl apply -f k8s/ORCHEX/secret.yaml -n ORCHEX --validate=false || echo skip'
   - id: image
     task: analysis
     description: Build container image

@@ -4,23 +4,23 @@
 
 ```bash
 # List all assets
-atlas prompts list
-atlas agents list
-atlas workflows list
+ORCHEX prompts list
+ORCHEX agents list
+ORCHEX workflows list
 
 # Show specific asset
-atlas prompts show orchestrator
-atlas agents show scientist_agent
-atlas workflows show code_review
+ORCHEX prompts show orchestrator
+ORCHEX agents show scientist_agent
+ORCHEX workflows show code_review
 
 # Route a task
-atlas route "refactor the authentication module"
+ORCHEX route "refactor the authentication module"
 
 # Search prompts
-atlas automation prompts search "optimization"
+ORCHEX automation prompts search "optimization"
 
 # View orchestration patterns
-atlas automation patterns
+ORCHEX automation patterns
 ```
 
 ## Python API

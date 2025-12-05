@@ -67,7 +67,7 @@ servers:
   context:
     name: 'Context Server'
     description: 'Centralized context and memory management for AI tool handoffs'
-    package: '@alaweimm90/context-server'
+    package: '@alawein/context-server'
     status: 'active'
     category: 'infrastructure'
     priority: 1
@@ -565,7 +565,7 @@ agent_frameworks:
     use_cases:
       ['academic_research', 'scientific_analysis', 'literature_review', 'structured_reasoning']
 
-  ATLAS:
+  ORCHEX:
     description: 'Advanced analysis and task orchestration'
     agents: ['Coordinator', 'Analyst', 'Synthesizer', 'Workflow_Orchestrator']
     mcp_servers:

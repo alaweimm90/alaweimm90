@@ -96,4 +96,4 @@ central_alignment:
 
   mcp_governance:
     status: "integrated"
-    agents_supported: ["ATLAS", "Turingo", "MeatheadPhysicist"]
+    agents_supported: ["ORCHEX", "Turingo", "MeatheadPhysicist"]

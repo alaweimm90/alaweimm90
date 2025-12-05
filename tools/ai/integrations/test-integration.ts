@@ -8,7 +8,7 @@
 
 // TODO: Import when modules are available
 // import { AITools } from './src/core/ai-tools.js';
-// import { ATLASIntegration } from './src/core/atlas-integration.js';
+// import { ATLASIntegration } from './src/core/ORCHEX-integration.js';
 
 // Placeholder classes until modules are available
 class AITools {
@@ -19,7 +19,7 @@ class AITools {
   perf: () => string = () => 'perf';
   security: () => string = () => 'security';
 
-  constructor(_config?: { atlas?: ATLASIntegration }) {}
+  constructor(_config?: { ORCHEX?: ATLASIntegration }) {}
   async validateAll(): Promise<{ success: boolean; results: unknown[] }> {
     return { success: true, results: [] };
   }
@@ -42,14 +42,14 @@ async function testIntegration(): Promise<void> {
   console.log('🧪 Testing AI Tools Suite Integration...\n');
 
   try {
-    // Test ATLAS integration (will fail if ATLAS is not running, but that's expected)
-    console.log('1. Testing ATLAS Integration...');
-    const atlas = new ATLASIntegration();
-    console.log('   ✅ ATLAS client created');
+    // Test ORCHEX integration (will fail if ORCHEX is not running, but that's expected)
+    console.log('1. Testing ORCHEX Integration...');
+    const ORCHEX = new ATLASIntegration();
+    console.log('   ✅ ORCHEX client created');
 
     // Test AI Tools instantiation
     console.log('2. Testing AI Tools instantiation...');
-    const aiTools = new AITools({ atlas });
+    const aiTools = new AITools({ ORCHEX });
     console.log('   ✅ AI Tools instance created');
 
     // Test tool access
@@ -67,8 +67,8 @@ async function testIntegration(): Promise<void> {
     console.log('   ✅ Health check result:', health.success ? 'PASS' : 'FAIL');
 
     console.log('\n🎉 All integration tests passed!');
-    console.log('\n📝 Note: ATLAS-dependent functionality requires a running ATLAS server.');
-    console.log('   Start ATLAS with: npm run atlas');
+    console.log('\n📝 Note: ORCHEX-dependent functionality requires a running ORCHEX server.');
+    console.log('   Start ORCHEX with: npm run ORCHEX');
   } catch (error) {
     console.error('❌ Integration test failed:', error);
     process.exit(1);

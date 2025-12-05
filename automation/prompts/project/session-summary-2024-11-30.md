@@ -177,7 +177,7 @@ Searched PowerShell history for deletion commands. Found:
 
 The other Claude session confirmed:
 
-- They only worked in `tools/atlas/`, `sdk/python/`, `k8s/atlas/`, `docs/atlas/`
+- They only worked in `tools/orchex/`, `sdk/python/`, `k8s/ORCHEX/`, `docs/ORCHEX/`
 - Never ran deletion commands on `automation-ts/`
 - Claude sessions are isolated and don't share memory
 

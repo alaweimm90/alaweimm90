@@ -2,7 +2,7 @@
 # Copy this file to .meta/repo.yaml in each project and fill in the details
 
 schema_version: "1.0"
-organization: "alaweimm90"  # Organization name
+organization: "alawein"  # Organization name
 project_name: "project-name"  # Project name (kebab-case)
 project_type: "service"  # service|library|tool|research|application
 

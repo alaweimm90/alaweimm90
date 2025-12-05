@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 Personal Profile (alaweimm90/alaweimm90)
+## 🎯 Personal Profile (alawein/alawein)
 
 ### **Before → After**
 
@@ -40,7 +40,7 @@
 
 🚀 **Featured Projects** (Completely Redesigned)
 - **Optilibria:** Full description, impact metrics, code example, tech stack
-- **ATLAS:** Detailed features, research applications, code snippet
+- **ORCHEX:** Detailed features, research applications, code snippet
 - **MeatheadPhysicist:** Impact stats (10K+ students, 150+ stars)
 - **REPZCoach:** User metrics (500+ athletes, 92% accuracy)
 - All with status badges and technology labels
@@ -86,7 +86,7 @@
 
 **Content Highlights:**
 - Mission statement and research focus
-- Optilibria & ATLAS detailed project pages
+- Optilibria & ORCHEX detailed project pages
 - Supporting libraries ecosystem (12+ tools)
 - Research publications and conference talks
 - Educational resources (course, visualizations, notebooks)

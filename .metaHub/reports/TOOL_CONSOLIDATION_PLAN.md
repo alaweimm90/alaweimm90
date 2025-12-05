@@ -11,11 +11,11 @@ metaHub provides centralized tools for:
 - **Security**: Secret scanning, SAST, dependency checks
 - **Compliance**: Policy enforcement, validation
 - **AI**: Orchestration, caching, monitoring
-- **DevOps**: Atlas, governance, automation
+- **DevOps**: ORCHEX, governance, automation
 
 ## Consolidation Opportunities
 
-### alaweimm90-business (9 projects)
+### alawein-business (9 projects)
 - **Savings**: 21 configs
 - **Actions**:
   - CI: 9 projects → 1 global workflow
@@ -24,7 +24,7 @@ metaHub provides centralized tools for:
   - Format: 3 projects → 1 .prettierrc
   - Docker: 3 projects → 1 Dockerfile template
 
-### alaweimm90-science (6 projects)
+### alawein-science (6 projects)
 - **Savings**: 11 configs
 - **Actions**:
   - CI: 6 projects → 1 global workflow

@@ -6,7 +6,7 @@
 
 ## Overview
 
-SuperTool is an enterprise-grade DevOps platform that follows governance patterns defined in this central repository (alaweimm90).
+SuperTool is an enterprise-grade DevOps platform that follows governance patterns defined in this central repository (alawein).
 
 ### Project Statistics
 - 8-phase DevOps transformation

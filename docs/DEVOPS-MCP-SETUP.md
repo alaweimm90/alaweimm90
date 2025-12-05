@@ -6,7 +6,7 @@
 
 ## Overview
 
-This document outlines the comprehensive Model Context Protocol (MCP) server setup for **error-free DevOps development** across the alaweimm90 GitHub workspace.
+This document outlines the comprehensive Model Context Protocol (MCP) server setup for **error-free DevOps development** across the alawein GitHub workspace.
 
 ---
 
@@ -72,7 +72,7 @@ This document outlines the comprehensive Model Context Protocol (MCP) server set
 - **Total MCPs:** github, git, filesystem, sqlite, playwright, sequential_thinking
 - **New Capabilities:** Automated testing, error-free code validation
 
-#### **ATLAS** (Task Orchestration)
+#### **ORCHEX** (Task Orchestration)
 
 - **Added MCPs:** git, sequential_thinking, terraform, kubernetes
 - **Total MCPs:** context, filesystem, github, git, sequential_thinking, terraform, kubernetes
@@ -215,11 +215,11 @@ graph LR
 
 **Agent Integration:**
 
-1. **ATLAS Workflow_Orchestrator** coordinates the pipeline
+1. **ORCHEX Workflow_Orchestrator** coordinates the pipeline
 2. **Turingo CodeCowboy** implements the code
 3. **Turingo VerificationVigilante** runs Playwright tests
-4. **ATLAS Coordinator** deploys via Terraform & Kubernetes
-5. **ATLAS Analyst** monitors with Prometheus
+4. **ORCHEX Coordinator** deploys via Terraform & Kubernetes
+5. **ORCHEX Analyst** monitors with Prometheus
 
 ---
 
@@ -333,6 +333,6 @@ All MCPs follow the **principle of least privilege**:
 
 ---
 
-**Maintained by:** alaweimm90
-**Organization:** AlaweinOS, MeatheadPhysicist, alaweimm90-business
+**Maintained by:** alawein
+**Organization:** AlaweinOS, MeatheadPhysicist, alawein-business
 **GitHub Workspace:** `/mnt/c/Users/mesha/Desktop/GitHub/`

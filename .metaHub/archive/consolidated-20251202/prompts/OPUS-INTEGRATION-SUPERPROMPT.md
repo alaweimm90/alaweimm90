@@ -118,7 +118,7 @@ READ: /mnt/c/Users/mesha/Desktop/GitHub/.ai/mcp/server-registry.yaml
 ```
 **What to Learn:**
 - Category definitions (testing, security, infrastructure, monitoring, etc.)
-- Agent framework mappings (MeatheadPhysicist, Turingo, ATLAS)
+- Agent framework mappings (MeatheadPhysicist, Turingo, ORCHEX)
 - MCP-to-agent wiring rules
 - Priority classifications
 
@@ -198,7 +198,7 @@ READ: /mnt/c/Users/mesha/Desktop/GitHub/.metaHub/scripts/agent_mcp_integrator.py
 **Expected Understanding:**
 - How MeatheadPhysicist agents map to MCPs
 - How Turingo agents map to MCPs
-- How ATLAS agents map to MCPs
+- How ORCHEX agents map to MCPs
 - Total: 46 integrations across 13 agents
 
 **Validate:**
@@ -295,7 +295,7 @@ READ: /mnt/c/Users/mesha/Desktop/GitHub/.metaHub/reports/agent-mcp-integration.j
 **Expected Understanding:**
 - MeatheadPhysicist: 5 agents, 17 integrations
 - Turingo: 4 agents, 14 integrations
-- ATLAS: 4 agents, 15 integrations
+- ORCHEX: 4 agents, 15 integrations
 - 10 unique MCPs used
 
 **Validate:**
@@ -463,9 +463,9 @@ docs/
 # Organizations (if present)
 AlaweinOS/
 MeatheadPhysicist/
-alaweimm90-business/
-alaweimm90-science/
-alaweimm90-tools/
+alawein-business/
+alawein-science/
+alawein-tools/
 ```
 
 **Create a complete inventory:**
@@ -519,7 +519,7 @@ User → Quick Start CLI → Workflow Runner → 6 Stages → Telemetry
 Show connections:
 MeatheadPhysicist (5 agents) → [sequential_thinking, brave_search, git, filesystem, context]
 Turingo (4 agents)           → [playwright, github, git, sequential_thinking, filesystem]
-ATLAS (4 agents)             → [terraform, kubernetes, prometheus, git, sequential_thinking]
+ORCHEX (4 agents)             → [terraform, kubernetes, prometheus, git, sequential_thinking]
 ```
 
 #### 2.3 Workflow Pipeline
@@ -550,7 +550,7 @@ GitHub/
 - [ ] Total integrations = 46
 - [ ] MeatheadPhysicist: 5 agents, 17 integrations
 - [ ] Turingo: 4 agents, 14 integrations
-- [ ] ATLAS: 4 agents, 15 integrations
+- [ ] ORCHEX: 4 agents, 15 integrations
 - [ ] Unique MCPs = 10
 - [ ] No orphaned agents (all have >= 1 MCP)
 - [ ] No orphaned MCPs (all used by >= 1 agent)

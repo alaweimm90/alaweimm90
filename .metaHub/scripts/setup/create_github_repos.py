@@ -31,7 +31,7 @@ class GitHubRepoCreator:
             # Create the repository
             cmd = [
                 "gh", "repo", "create",
-                f"alaweimm90/{repo_name}",
+                f"alawein/{repo_name}",
                 "--public",
                 "--description", f"{org_name} organization monorepo - {description}",
                 "--confirm"
@@ -42,7 +42,7 @@ class GitHubRepoCreator:
                 print(f"Failed to create GitHub repo {repo_name}: {result.stderr}")
                 return False
 
-            print(f"Created GitHub repository: alaweimm90/{repo_name}")
+            print(f"Created GitHub repository: alawein/{repo_name}")
             return True
 
         except Exception as e:
@@ -80,7 +80,7 @@ class GitHubRepoCreator:
 
             # Add remote and push
             repo_name = f"{org_name}-monorepo"
-            remote_url = f"https://github.com/alaweimm90/{repo_name}.git"
+            remote_url = f"https://github.com/alawein/{repo_name}.git"
 
             # Remove existing remote if it exists
             subprocess.run(["git", "remote", "remove", "origin"], cwd=temp_repo_dir, capture_output=True)
@@ -106,7 +106,7 @@ class GitHubRepoCreator:
             "organizations": []
         }
 
-        organizations = ["alaweimm90-business", "alaweimm90-science", "alaweimm90-tools", "AlaweinOS", "MeatheadPhysicist"]
+        organizations = ["alawein-business", "alawein-science", "alawein-tools", "AlaweinOS", "MeatheadPhysicist"]
 
         for org_name in organizations:
             results["total_organizations"] += 1

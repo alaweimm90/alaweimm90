@@ -202,7 +202,7 @@ interface ScientificPlotProps {
 
 ```bash
 # Clone and setup
-git clone https://github.com/alaweimm90/SimCore.git
+git clone https://github.com/alawein/SimCore.git
 cd SimCore
 npm install
 

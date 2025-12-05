@@ -7,7 +7,7 @@ import asyncio
 from pathlib import Path
 
 """
-Automation CLI - Manage prompts, agents, workflows, and technical debt for alaweimm90-business.
+Automation CLI - Manage prompts, agents, workflows, and technical debt for alawein-business.
 
 Usage:
     python -m automation.cli prompts list

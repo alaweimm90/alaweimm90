@@ -109,7 +109,7 @@ Batch Size: 100 requests/batch
 
 ```bash
 # Load & analyze
-Analyze TalAI in ORGANIZATIONS/alaweimm90-science/TalAI
+Analyze TalAI in ORGANIZATIONS/alawein-science/TalAI
 Show me the structure and main components
 
 # Specific tasks

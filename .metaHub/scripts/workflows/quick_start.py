@@ -3,7 +3,7 @@
 Quick Start CLI - Simplified Workflow Execution Interface
 One-command access to autonomous DevOps workflows
 
-Author: alaweimm90
+Author: alawein
 Last Updated: 2025-11-28
 """
 

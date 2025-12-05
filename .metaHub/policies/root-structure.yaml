@@ -2,9 +2,9 @@
 # Defines what files and directories are allowed at the repository root level
 # Enforced by structure_validator.py and GitHub Actions
 
-version: "3.1"
-last_updated: "2025-12-02"
-updated_by: "governance-gap-resolution"
+version: "3.2"
+last_updated: "2025-12-05"
+updated_by: "repository-cleanup-audit"
 
 # =============================================================================
 # ALLOWED ROOT-LEVEL FILES
@@ -77,17 +77,19 @@ allowed_directories:
   required:
     - name: ".metaHub"
       purpose: "Central governance system - scripts, templates, policies"
-    - name: "organizations"
-      purpose: "Organization monorepo templates (gitignored)"
     - name: ".github"
       purpose: "GitHub-specific configs, workflows, issue templates"
+    - name: "projects"
+      purpose: "Project registry documenting all 85+ projects"
+    - name: "business"
+      purpose: "LLC & business planning documentation"
 
   # AI & Orchestration (required)
   ai_infrastructure:
     - name: ".ai"
       purpose: "Consolidated AI assistant configurations (canonical location)"
-    - name: ".atlas"
-      purpose: "ATLAS agent framework runtime state and metrics"
+    - name: ".ORCHEX"
+      purpose: "ORCHEX agent framework runtime state and metrics"
     - name: ".claude"
       purpose: "Claude Code specific configurations"
 
@@ -141,7 +143,9 @@ allowed_directories:
     - name: "dist"
       purpose: "Build output"
     - name: ".archive"
-      purpose: "Archived files and historical data"
+      purpose: "Archived files and historical data (includes organizations/)"
+    - name: ".personal"
+      purpose: "Personal projects (portfolio, drmalawein, rounaq)"
 
 # =============================================================================
 # FORBIDDEN AT ROOT

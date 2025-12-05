@@ -8,7 +8,7 @@
 
 ## Merge Strategy
 
-### alaweimm90-business (9 → 3 projects)
+### alawein-business (9 → 3 projects)
 
 #### Merge 1: Business Apps (5 → 1)
 **Target**: `business-apps`  
@@ -36,7 +36,7 @@ business-apps/
 
 ---
 
-### alaweimm90-science (6 → 2 projects)
+### alawein-science (6 → 2 projects)
 
 #### Merge 1: Physics Simulations (5 → 1)
 **Target**: `physics-sim`  
@@ -68,7 +68,7 @@ physics-sim/
 
 #### Merge 2: Optimization Suite (3 → 1)
 **Target**: `libria` (already named!)  
-**Merge**: Optilibria, QAPlibria, MEZAN  
+**Merge**: Optilibria, Librex.QAP, MEZAN  
 **Reason**: Core optimization platform  
 
 #### Merge 3: Research Tools (3 → 1)
@@ -78,7 +78,7 @@ physics-sim/
 
 #### Keep Separate (5)
 - FitnessApp (consumer product)
-- CrazyIdeas (ideation/prototypes)
+- Foundry (ideation/prototypes)
 - docker (infrastructure)
 - k8s (infrastructure)
 - docs (documentation)
@@ -128,8 +128,8 @@ physics-sim/
 
 | Organization | Before | After | Reduction | Key Merges |
 |--------------|--------|-------|-----------|------------|
-| alaweimm90-business | 9 | 3 | 67% | 5 React apps → 1 |
-| alaweimm90-science | 6 | 2 | 67% | 5 physics libs → 1 |
+| alawein-business | 9 | 3 | 67% | 5 React apps → 1 |
+| alawein-science | 6 | 2 | 67% | 5 physics libs → 1 |
 | AlaweinOS | 19 | 8 | 58% | 3 optimization → libria |
 | MeatheadPhysicist | 30 | 10 | 67% | 8 core libs → 1 |
 | **Total** | **64** | **23** | **64%** | **21 merges** |
@@ -137,11 +137,11 @@ physics-sim/
 ## Implementation Plan
 
 ### Phase 1: Low Risk (1 week)
-- Merge alaweimm90-science physics libs
-- Merge AlaweinOS optimization (Optilibria + QAPlibria + MEZAN → Libria)
+- Merge alawein-science physics libs
+- Merge AlaweinOS optimization (Optilibria + Librex.QAP + MEZAN → Libria)
 
 ### Phase 2: Medium Risk (2 weeks)
-- Merge alaweimm90-business React apps
+- Merge alawein-business React apps
 - Merge AlaweinOS web apps
 
 ### Phase 3: High Risk (3 weeks)
@@ -193,7 +193,7 @@ git revert <merge-commit>
 ## Next Steps
 
 1. **Review recommendations** - Approve/modify merge groups
-2. **Pilot merge** - Start with alaweimm90-science (lowest risk)
+2. **Pilot merge** - Start with alawein-science (lowest risk)
 3. **Validate** - Ensure tests pass, builds work
 4. **Iterate** - Apply pattern to remaining orgs
 5. **Cleanup** - Archive old repos
@@ -201,6 +201,6 @@ git revert <merge-commit>
 ## Decision Needed
 
 **Which org to start with?**
-- alaweimm90-science (6 → 2, lowest risk)
+- alawein-science (6 → 2, lowest risk)
 - AlaweinOS optimization (3 → 1, high value)
-- alaweimm90-business (9 → 3, medium risk)
+- alawein-business (9 → 3, medium risk)

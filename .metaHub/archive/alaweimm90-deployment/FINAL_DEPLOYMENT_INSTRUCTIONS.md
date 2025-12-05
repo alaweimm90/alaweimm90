@@ -6,17 +6,17 @@ I've prepared stunning custom READMEs for your 3 organizations:
 
 ```
 /tmp/org-deployments/
-├── alaweimm90-science/
+├── alawein-science/
 │   ├── README.md (Research & Optimization theme)
 │   ├── header.svg (Purple/pink quantum physics design)
 │   └── .git/ (initialized and ready)
 │
-├── alaweimm90-tools/
+├── alawein-tools/
 │   ├── README.md (Tools & Automation theme)
 │   ├── header.svg (Green developer CLI design)
 │   └── .git/ (initialized and ready)
 │
-└── alaweimm90-business/
+└── alawein-business/
     ├── README.md (E-Commerce platform theme)
     ├── header.svg (Gold luxury premium design)
     └── .git/ (initialized and ready)
@@ -32,23 +32,23 @@ Since the profile repositories don't exist yet, you need to create them manually
 
 For each organization, you need to create a **public repository** with the **same name as the organization**:
 
-#### **For alaweimm90-science:**
-1. Go to: https://github.com/organizations/alaweimm90-science/repositories/new
-2. Repository name: `alaweimm90-science` (must match exactly)
+#### **For alawein-science:**
+1. Go to: https://github.com/organizations/alawein-science/repositories/new
+2. Repository name: `alawein-science` (must match exactly)
 3. Visibility: **Public**
 4. Do NOT initialize with README
 5. Click "Create repository"
 
-#### **For alaweimm90-tools:**
-1. Go to: https://github.com/organizations/alaweimm90-tools/repositories/new
-2. Repository name: `alaweimm90-tools` (must match exactly)
+#### **For alawein-tools:**
+1. Go to: https://github.com/organizations/alawein-tools/repositories/new
+2. Repository name: `alawein-tools` (must match exactly)
 3. Visibility: **Public**
 4. Do NOT initialize with README
 5. Click "Create repository"
 
-#### **For alaweimm90-business:**
-1. Go to: https://github.com/organizations/alaweimm90-business/repositories/new
-2. Repository name: `alaweimm90-business` (must match exactly)
+#### **For alawein-business:**
+1. Go to: https://github.com/organizations/alawein-business/repositories/new
+2. Repository name: `alawein-business` (must match exactly)
 3. Visibility: **Public**
 4. Do NOT initialize with README
 5. Click "Create repository"
@@ -71,27 +71,27 @@ This will push all the custom READMEs to your organizations!
 
 If the script fails, you can push each one manually:
 
-### **alaweimm90-science**
+### **alawein-science**
 ```bash
-cd /tmp/org-deployments/alaweimm90-science
+cd /tmp/org-deployments/alawein-science
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-science/alaweimm90-science
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-science/alawein-science
 git push -u origin main
 ```
 
-### **alaweimm90-tools**
+### **alawein-tools**
 ```bash
-cd /tmp/org-deployments/alaweimm90-tools
+cd /tmp/org-deployments/alawein-tools
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-tools/alaweimm90-tools
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-tools/alawein-tools
 git push -u origin main
 ```
 
-### **alaweimm90-business**
+### **alawein-business**
 ```bash
-cd /tmp/org-deployments/alaweimm90-business
+cd /tmp/org-deployments/alawein-business
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-business/alaweimm90-business
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-business/alawein-business
 git push -u origin main
 ```
 
@@ -99,22 +99,22 @@ git push -u origin main
 
 ## 🎨 **What Each README Includes**
 
-### **🔬 alaweimm90-science** (Research & Optimization)
+### **🔬 alawein-science** (Research & Optimization)
 - **Custom purple/pink quantum header** with animated particles
-- Featured projects: Optilibria, ATLAS
+- Featured projects: Optilibria, ORCHEX
 - Research publications section
 - Educational resources
 - Tech stack: Python, JAX, CUDA, PyTorch
 - **347 lines** of comprehensive content
 
-### **🛠️ alaweimm90-tools** (Tools & Automation)
+### **🛠️ alawein-tools** (Tools & Automation)
 - **Custom green CLI-themed header** with mesh networks
 - Featured tools: meshctl, datasync, compenv, plotfast
 - Python libraries and automation scripts
 - Contribution guide
 - **412 lines** of detailed content
 
-### **💼 alaweimm90-business** (E-Commerce Platform)
+### **💼 alawein-business** (E-Commerce Platform)
 - **Custom gold luxury header** with shimmer effects
 - AI Style Profiler and personalization
 - Curated collections
@@ -128,9 +128,9 @@ git push -u origin main
 
 After pushing, verify each organization displays correctly:
 
-1. **alaweimm90-science:** https://github.com/alaweimm90-science
-2. **alaweimm90-tools:** https://github.com/alaweimm90-tools
-3. **alaweimm90-business:** https://github.com/alaweimm90-business
+1. **alawein-science:** https://github.com/alawein-science
+2. **alawein-tools:** https://github.com/alawein-tools
+3. **alawein-business:** https://github.com/alawein-business
 
 You should see:
 - ✅ Custom SVG header (not the generic "We think you're gonna like it" message)
@@ -174,9 +174,9 @@ Once deployed, each organization will have:
 
 ## 🎯 **Quick Checklist**
 
-- [ ] Create `alaweimm90-science/alaweimm90-science` repository (PUBLIC)
-- [ ] Create `alaweimm90-tools/alaweimm90-tools` repository (PUBLIC)
-- [ ] Create `alaweimm90-business/alaweimm90-business` repository (PUBLIC)
+- [ ] Create `alawein-science/alawein-science` repository (PUBLIC)
+- [ ] Create `alawein-tools/alawein-tools` repository (PUBLIC)
+- [ ] Create `alawein-business/alawein-business` repository (PUBLIC)
 - [ ] Run `/tmp/org-deployments/deploy-3-orgs.sh`
 - [ ] Verify all 3 profiles display correctly
 - [ ] Celebrate! 🎉

@@ -11,7 +11,7 @@ This script demonstrates the **Autonomous DevOps MCP System** - a production-rea
 
 **Key Highlights:**
 - 17 MCP servers providing real tools to AI agents
-- 13 agents across 3 frameworks (MeatheadPhysicist, Turingo, ATLAS)
+- 13 agents across 3 frameworks (MeatheadPhysicist, Turingo, ORCHEX)
 - 100% DevOps coverage (Code → Build → Test → Security → Package → Deploy → Monitor → Operate)
 - Error-free workflows with autonomous validation
 - Real-time telemetry and monitoring
@@ -69,7 +69,7 @@ watch -n 2 'git status --short'
               ↓
    ┌──────────┬──────────┬──────────┐
    │          │          │          │
-MeatheadPhy  Turingo    ATLAS      (3 Frameworks)
+MeatheadPhy  Turingo    ORCHEX      (3 Frameworks)
 5 agents     4 agents   4 agents
    │          │          │
    └──────────┴──────────┘
@@ -141,7 +141,7 @@ MeatheadPhy  Turingo    ATLAS      (3 Frameworks)
 ```
 
 **Script:**
-> "46 connections between agents and tools. For example, ATLAS's Workflow_Orchestrator agent uses Terraform for infrastructure, Kubernetes for deployment, and Prometheus for monitoring - all autonomously."
+> "46 connections between agents and tools. For example, ORCHEX's Workflow_Orchestrator agent uses Terraform for infrastructure, Kubernetes for deployment, and Prometheus for monitoring - all autonomously."
 
 ---
 
@@ -542,6 +542,6 @@ python .metaHub/scripts/quick_start.py --help
 
 ---
 
-**Demo Prepared by:** alaweimm90
+**Demo Prepared by:** alawein
 **System Version:** v1.0 (100% DevOps Coverage)
 **Last Updated:** 2025-11-28

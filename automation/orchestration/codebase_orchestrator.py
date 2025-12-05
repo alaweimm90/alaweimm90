@@ -861,7 +861,7 @@ async def main():
     report = await orchestrator.orchestrate()
 
     # Save report
-    output_path = Path(root_path) / ".atlas" / "reports" / "orchestration-report.json"
+    output_path = Path(root_path) / ".ORCHEX" / "reports" / "orchestration-report.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as f:

@@ -10,7 +10,7 @@
 - `tools/config/README.md` - Usage docs
 
 ### Projects Migrated (10 configs)
-- 5 in alaweimm90-business
+- 5 in alawein-business
 - 5 in AlaweinOS
 
 ## 🎯 Priority Queue
@@ -52,8 +52,8 @@ python consolidate_tools.py --extend
 **Why**: Reduce maintenance from 64 → ~20 projects  
 **Effort**: 1 week per org  
 **Discuss**:
-- alaweimm90-business: 7 TS projects → 2-3?
-- alaweimm90-science: 5 Python projects → 2?
+- alawein-business: 7 TS projects → 2-3?
+- alawein-science: 5 Python projects → 2?
 - AlaweinOS: 19 projects → 8-10?
 - MeatheadPhysicist: 30 projects → 10-15?
 

@@ -3,9 +3,9 @@
 ## Executive Summary
 
 Consolidate all custom tools and utilities into a single, authoritative source at:
-**`C:\Users\mesha\Desktop\GitHub\organizations\alaweimm90-tools`**
+**`C:\Users\mesha\Desktop\GitHub\organizations\alawein-tools`**
 
-This transforms alaweimm90-tools from its current microservices platform into a comprehensive toolkit library.
+This transforms alawein-tools from its current microservices platform into a comprehensive toolkit library.
 
 ---
 
@@ -20,7 +20,7 @@ This transforms alaweimm90-tools from its current microservices platform into a 
 | `templates/devops/` | 8 template categories | ~1,500 | Infrastructure Templates |
 | `AI-Tools-Validator/` | 14 bash scripts | ~4,000 | AI Orchestration |
 | `SuperTool/devops/` | 11+ bash/shell scripts | ~3,000 | DevOps Automation |
-| `alaweimm90-tools/` (current) | 6 microservices | 82,000+ | Application Platform |
+| `alawein-tools/` (current) | 6 microservices | 82,000+ | Application Platform |
 
 ### Total Assets to Consolidate
 
@@ -37,7 +37,7 @@ Total LoC:        ~100,000+
 ## Proposed Structure
 
 ```
-alaweimm90-tools/
+alawein-tools/
 ├── .github/
 │   ├── workflows/
 │   │   ├── validate.yml
@@ -377,7 +377,7 @@ governance   → toolkit governance
 ## Migration Approach
 
 ### Option A: Clean Restructure (Recommended)
-- Archive current alaweimm90-tools content
+- Archive current alawein-tools content
 - Build new structure from scratch
 - Copy tools from source locations
 - Single clean git history going forward

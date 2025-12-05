@@ -1,12 +1,12 @@
 <div align="center">
 
-![alaweimm90-business header with luxury branding and premium commerce elements](header.svg)
+![alawein-business header with luxury branding and premium commerce elements](header.svg)
 
 <br>
 
-[![Shop](https://img.shields.io/badge/🛍️_Shop_Now-Explore_Collections-F59E0B?style=for-the-badge&labelColor=1A1510)](https://alaweimm90-business.com)
-[![Platform](https://img.shields.io/badge/🏢_Sell_With_Us-Partner_Program-FBBF24?style=for-the-badge&labelColor=1A1510)](https://partners.alaweimm90-business.com)
-[![App](https://img.shields.io/badge/📱_Mobile_App-Download-FCD34D?style=for-the-badge&labelColor=1A1510)](https://app.alaweimm90-business.com)
+[![Shop](https://img.shields.io/badge/🛍️_Shop_Now-Explore_Collections-F59E0B?style=for-the-badge&labelColor=1A1510)](https://alawein-business.com)
+[![Platform](https://img.shields.io/badge/🏢_Sell_With_Us-Partner_Program-FBBF24?style=for-the-badge&labelColor=1A1510)](https://partners.alawein-business.com)
+[![App](https://img.shields.io/badge/📱_Mobile_App-Download-FCD34D?style=for-the-badge&labelColor=1A1510)](https://app.alawein-business.com)
 
 </div>
 
@@ -14,11 +14,11 @@
 
 > **Where premium meets personal. Where commerce meets curation. Where shopping becomes an experience.**
 
-alaweimm90-business is a **curated e-commerce platform** that combines **AI-driven personalization** with **premium brand partnerships** to create shopping experiences that feel less like transactions and more like discoveries.
+alawein-business is a **curated e-commerce platform** that combines **AI-driven personalization** with **premium brand partnerships** to create shopping experiences that feel less like transactions and more like discoveries.
 
 We're not Amazon. We're not another marketplace. We're a carefully curated collection of exceptional products, matched to your unique taste through intelligent algorithms.
 
-### The alaweimm90-business Difference
+### The alawein-business Difference
 
 - 🎯 **Curation over Volume** — Every product handpicked, every brand vetted
 - 🤖 **AI Personalization** — Smart recommendations that actually understand you
@@ -230,7 +230,7 @@ We work exclusively with brands that meet our standards for quality, design, and
 
 ### Partner Program
 
-**Want to sell on alaweimm90-business?**
+**Want to sell on alawein-business?**
 
 We're selective, but if your brand aligns with our values, we'd love to talk.
 
@@ -248,7 +248,7 @@ We're selective, but if your brand aligns with our values, we'd love to talk.
 - 💬 Direct customer feedback
 - 🚀 Marketing support
 
-📧 **Apply:** partners@alaweimm90-business.com
+📧 **Apply:** partners@alawein-business.com
 
 ---
 
@@ -360,7 +360,7 @@ Power your e-commerce with our infrastructure:
 - Boutique marketplaces
 - Lifestyle subscription boxes
 
-📧 **Inquire:** enterprise@alaweimm90-business.com
+📧 **Inquire:** enterprise@alawein-business.com
 
 ---
 
@@ -368,10 +368,10 @@ Power your e-commerce with our infrastructure:
 
 <div align="center">
 
-<a href="https://apps.apple.com/app/alaweimm90-business">
+<a href="https://apps.apple.com/app/alawein-business">
   <img src="https://img.shields.io/badge/Download_on-App_Store-F59E0B?style=for-the-badge&logo=apple&logoColor=white" alt="iOS App"/>
 </a>
-<a href="https://play.google.com/store/apps/alaweimm90-business">
+<a href="https://play.google.com/store/apps/alawein-business">
   <img src="https://img.shields.io/badge/Get_it_on-Google_Play-FBBF24?style=for-the-badge&logo=googleplay&logoColor=white" alt="Android App"/>
 </a>
 
@@ -440,19 +440,19 @@ Power your e-commerce with our infrastructure:
 
 ## ✨ Join the Icon ic Life
 
-<a href="https://alaweimm90-business.com/signup">
+<a href="https://alawein-business.com/signup">
   <img src="https://img.shields.io/badge/Sign_Up-Start_Shopping-F59E0B?style=for-the-badge" alt="Sign up"/>
 </a>
-<a href="https://partners.alaweimm90-business.com">
+<a href="https://partners.alawein-business.com">
   <img src="https://img.shields.io/badge/Become_a_Partner-Apply_Now-FBBF24?style=for-the-badge" alt="Partner program"/>
 </a>
 
 <br><br>
 
-**Contact:** hello@alaweimm90-business.com
-**Support:** support@alaweimm90-business.com
-**Press:** press@alaweimm90-business.com
-**Partnerships:** partners@alaweimm90-business.com
+**Contact:** hello@alawein-business.com
+**Support:** support@alawein-business.com
+**Press:** press@alawein-business.com
+**Partnerships:** partners@alawein-business.com
 
 <br>
 
@@ -473,7 +473,7 @@ Power your e-commerce with our infrastructure:
 │  "Buy less. Choose well. Make it last."             │
 │  — Vivienne Westwood                                 │
 │                                                       │
-│  That's the alaweimm90-business way. ✨                     │
+│  That's the alawein-business way. ✨                     │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -481,6 +481,6 @@ Power your e-commerce with our infrastructure:
 
 ---
 
-<sub>alaweimm90-business © 2023-2025 • Elevating everyday commerce</sub>
+<sub>alawein-business © 2023-2025 • Elevating everyday commerce</sub>
 
 </div>

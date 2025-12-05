@@ -1,20 +1,20 @@
 <div align="center">
 
-![alaweimm90-tools header featuring network mesh and automation elements](header.svg)
+![alawein-tools header featuring network mesh and automation elements](header.svg)
 
 <br>
 
-[![Tools](https://img.shields.io/badge/🛠️_Browse_Tools-Explore-10B981?style=for-the-badge&labelColor=0D1117)](https://github.com/orgs/alaweimm90-tools/repositories)
-[![Docs](https://img.shields.io/badge/📖_Documentation-Read-34D399?style=for-the-badge&labelColor=0D1117)](https://alaweimm90-tools.dev/docs)
-[![Discord](https://img.shields.io/badge/💬_Community-Join-6EE7B7?style=for-the-badge&labelColor=0D1117)](https://discord.gg/alaweimm90-tools)
+[![Tools](https://img.shields.io/badge/🛠️_Browse_Tools-Explore-10B981?style=for-the-badge&labelColor=0D1117)](https://github.com/orgs/alawein-tools/repositories)
+[![Docs](https://img.shields.io/badge/📖_Documentation-Read-34D399?style=for-the-badge&labelColor=0D1117)](https://alawein-tools.dev/docs)
+[![Discord](https://img.shields.io/badge/💬_Community-Join-6EE7B7?style=for-the-badge&labelColor=0D1117)](https://discord.gg/alawein-tools)
 
 </div>
 
-## 🛠️ What is alaweimm90-tools?
+## 🛠️ What is alawein-tools?
 
 > **Developer utilities and automation workflows that make complex tasks embarrassingly simple.**
 
-alaweimm90-tools is a collection of **command-line tools**, **automation scripts**, and **utility libraries** designed for scientists, engineers, and developers who value their time. We build the boring stuff so you can focus on the exciting stuff.
+alawein-tools is a collection of **command-line tools**, **automation scripts**, and **utility libraries** designed for scientists, engineers, and developers who value their time. We build the boring stuff so you can focus on the exciting stuff.
 
 ### Philosophy
 
@@ -36,7 +36,7 @@ $ meshy --philosophy
 <tr>
 <td width="50%" valign="top">
 
-#### **[meshctl](https://github.com/alaweimm90-tools/meshctl)**
+#### **[meshctl](https://github.com/alawein-tools/meshctl)**
 
 **Universal Workflow Orchestrator**
 
@@ -64,7 +64,7 @@ meshctl run deploy --env production
 </td>
 <td width="50%" valign="top">
 
-#### **[datasync](https://github.com/alaweimm90-tools/datasync)**
+#### **[datasync](https://github.com/alawein-tools/datasync)**
 
 **Intelligent File Synchronization**
 
@@ -94,7 +94,7 @@ datasync sync ./local /mnt/server/backup \
 <tr>
 <td width="50%" valign="top">
 
-#### **[compenv](https://github.com/alaweimm90-tools/compenv)**
+#### **[compenv](https://github.com/alawein-tools/compenv)**
 
 **Computational Environment Manager**
 
@@ -124,7 +124,7 @@ compenv activate physics-sim
 </td>
 <td width="50%" valign="top">
 
-#### **[plotfast](https://github.com/alaweimm90-tools/plotfast)**
+#### **[plotfast](https://github.com/alawein-tools/plotfast)**
 
 **Publication-Ready Plotting**
 
@@ -162,7 +162,7 @@ plotfast line data.csv \
 
 <br>
 
-#### **[meshy-utils](https://github.com/alaweimm90-tools/meshy-utils)**
+#### **[meshy-utils](https://github.com/alawein-tools/meshy-utils)**
 
 General-purpose utilities for scientific Python projects.
 
@@ -176,7 +176,7 @@ def expensive_computation(x):
     return complex_calculation(x)
 ```
 
-#### **[config-magic](https://github.com/alaweimm90-tools/config-magic)**
+#### **[config-magic](https://github.com/alawein-tools/config-magic)**
 
 Configuration management that doesn't suck.
 
@@ -188,7 +188,7 @@ config = Config.load("settings.yaml", validate=True)
 db = config.database.connect()  # dot notation FTW
 ```
 
-#### **[loguru-sci](https://github.com/alaweimm90-tools/loguru-sci)**
+#### **[loguru-sci](https://github.com/alawein-tools/loguru-sci)**
 
 Scientific computing logging with structured outputs.
 
@@ -240,7 +240,7 @@ logger.artifact("model.pt", "checkpoint")
 
 <div align="center">
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=alaweimm90-tools&show_icons=true&theme=dark&hide_border=true&bg_color=0D1117&title_color=10B981&icon_color=34D399&text_color=C9D1D9)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=alawein-tools&show_icons=true&theme=dark&hide_border=true&bg_color=0D1117&title_color=10B981&icon_color=34D399&text_color=C9D1D9)
 
 <br>
 
@@ -279,11 +279,11 @@ VS Code Extensions          ██████████░░░░░░░�
 
 ```bash
 # Install CLI tools (Homebrew)
-brew tap alaweimm90-tools/tap
+brew tap alawein-tools/tap
 brew install meshctl datasync compenv plotfast
 
 # Or via pip
-pip install alaweimm90-tools-cli
+pip install alawein-tools-cli
 
 # Python libraries
 pip install meshy-utils config-magic loguru-sci
@@ -385,7 +385,7 @@ We welcome contributions! Whether it's:
 
 ```bash
 # 1. Fork & clone
-git clone https://github.com/alaweimm90-tools/<tool-name>
+git clone https://github.com/alawein-tools/<tool-name>
 
 # 2. Create feature branch
 git checkout -b feature/awesome-addition
@@ -401,10 +401,10 @@ pytest tests/
 
 ## 📚 Documentation
 
-- 📖 **[Full Docs](https://alaweimm90-tools.dev/docs)** — Comprehensive guides
-- 🎥 **[Video Tutorials](https://youtube.com/@alaweimm90-tools)** — Visual walkthroughs
-- 💬 **[Discord Community](https://discord.gg/alaweimm90-tools)** — Get help, share ideas
-- 📝 **[Blog](https://alaweimm90-tools.dev/blog)** — Tips, tricks, and updates
+- 📖 **[Full Docs](https://alawein-tools.dev/docs)** — Comprehensive guides
+- 🎥 **[Video Tutorials](https://youtube.com/@alawein-tools)** — Visual walkthroughs
+- 💬 **[Discord Community](https://discord.gg/alawein-tools)** — Get help, share ideas
+- 📝 **[Blog](https://alawein-tools.dev/blog)** — Tips, tricks, and updates
 
 ---
 
@@ -431,10 +431,10 @@ pytest tests/
 
 ## 📫 Get in Touch
 
-**General:** hello@alaweimm90-tools.dev
-**Support:** support@alaweimm90-tools.dev
-**Twitter:** [@alaweimm90-tools](https://twitter.com/alaweimm90-tools)
-**Discord:** [Join Community](https://discord.gg/alaweimm90-tools)
+**General:** hello@alawein-tools.dev
+**Support:** support@alawein-tools.dev
+**Twitter:** [@alawein-tools](https://twitter.com/alawein-tools)
+**Discord:** [Join Community](https://discord.gg/alawein-tools)
 
 <br>
 
@@ -450,6 +450,6 @@ pytest tests/
 
 ---
 
-<sub>alaweimm90-tools © 2024-2025 • Making developers' lives easier, one tool at a time</sub>
+<sub>alawein-tools © 2024-2025 • Making developers' lives easier, one tool at a time</sub>
 
 </div>

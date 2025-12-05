@@ -110,7 +110,7 @@ Batch Size: 100 requests/batch
 
 ```bash
 # Load & analyze
-Analyze Repz in ORGANIZATIONS/alaweimm90-business/repz
+Analyze Repz in ORGANIZATIONS/alawein-business/repz
 Show me the structure and parsing logic
 
 # Specific tasks

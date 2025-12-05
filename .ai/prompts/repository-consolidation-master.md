@@ -53,7 +53,7 @@ GitHub/
 **Actions**:
 
 1. Move `tools/ai/` → `.metaHub/tools/ai/`
-2. Move `tools/atlas/` → `.metaHub/tools/atlas/`
+2. Move `tools/orchex/` → `.metaHub/tools/orchex/`
 3. Move `tools/cli/` → `.metaHub/tools/cli/`
 4. Move `tools/devops/` → `.metaHub/tools/devops/`
 5. Move `tools/security/` → `.metaHub/tools/security/`
@@ -101,7 +101,7 @@ GitHub/
 
 **Actions**:
 
-1. Move `examples/atlas/` → `docs/examples/atlas/`
+1. Move `examples/ORCHEX/` → `docs/examples/ORCHEX/`
 2. Delete empty `examples/` folder
 
 **Validation**: Update documentation links
@@ -171,7 +171,7 @@ GitHub/
 ```json
 {
   "devops": "tsx .metaHub/tools/cli/devops.ts",
-  "atlas": "tsx .metaHub/tools/atlas/cli/index.ts",
+  "ORCHEX": "tsx .metaHub/tools/orchex/cli/index.ts",
   "ai": "tsx .ai/tools/orchestrator.ts"
 }
 ```

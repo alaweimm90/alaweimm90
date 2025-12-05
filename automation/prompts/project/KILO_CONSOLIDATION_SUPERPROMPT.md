@@ -333,7 +333,7 @@ export class UnifiedCLI {
 
 // Example: Consolidating 22 tools into 4 CLIs
 export function createAtlasCLI(): UnifiedCLI {
-  const cli = new UnifiedCLI('atlas', '2.0.0', 'Unified automation and orchestration CLI');
+  const cli = new UnifiedCLI('ORCHEX', '2.0.0', 'Unified automation and orchestration CLI');
 
   // Module 1: Prompts (consolidates prompt-optimizer, prompt-manager, etc.)
   cli.registerModule({
@@ -670,21 +670,21 @@ exit 0
 
 ## Overview
 
-This guide helps you migrate from `old-tool` to the unified `atlas` CLI.
+This guide helps you migrate from `old-tool` to the unified `ORCHEX` CLI.
 
 ## Command Mapping
 
-| Old Command                   | New Command                 | Notes                   |
-| ----------------------------- | --------------------------- | ----------------------- |
-| `old-tool do-thing`           | `atlas module do-thing`     | Identical functionality |
-| `old-tool other-thing --flag` | `atlas module other --flag` | Flag renamed            |
+| Old Command                   | New Command                  | Notes                   |
+| ----------------------------- | ---------------------------- | ----------------------- |
+| `old-tool do-thing`           | `ORCHEX module do-thing`     | Identical functionality |
+| `old-tool other-thing --flag` | `ORCHEX module other --flag` | Flag renamed            |
 
 ## Breaking Changes
 
 1. **Configuration location changed**
    - Old: `~/.old-tool/config.yaml`
-   - New: `~/.atlas/config.yaml`
-   - Migration: Run `atlas migrate config`
+   - New: `~/.orchex/config.yaml`
+   - Migration: Run `ORCHEX migrate config`
 
 2. **Output format changed**
    - Old: Plain text
@@ -699,8 +699,8 @@ This guide helps you migrate from `old-tool` to the unified `atlas` CLI.
 
 ## Getting Help
 
-- Run `atlas help module` for command help
-- See [full documentation](./docs/atlas-cli.md)
+- Run `ORCHEX help module` for command help
+- See [full documentation](./docs/ORCHEX-cli.md)
 - Report issues at [GitHub Issues](./issues)
 ```
 

@@ -222,7 +222,7 @@ lovable-templates/
 │   └── simulation-interface/          # Interactive simulations
 │
 ├── 02-dashboards-analytics/           # Dashboard Templates
-│   ├── metrics-command-center/        # ATLAS-style dashboard
+│   ├── metrics-command-center/        # ORCHEX-style dashboard
 │   ├── performance-analytics/         # REPZCoach-style
 │   ├── real-time-monitor/             # Live data visualization
 │   └── admin-panel/                   # Admin interface
@@ -561,7 +561,7 @@ Create an interactive physics simulation control panel:
 
 ### 3.2 Dashboard/Analytics Templates
 
-#### Template 5: Metrics Command Center (ATLAS-style)
+#### Template 5: Metrics Command Center (ORCHEX-style)
 
 ```markdown
 # LOVABLE PROMPT: Code Analysis Command Center
@@ -578,7 +578,7 @@ Create a comprehensive metrics dashboard for code analysis:
 ## Layout Structure
 
 1. **Header**:
-   - "ATLAS Command Center" title with rocket emoji
+   - "ORCHEX Command Center" title with rocket emoji
    - Timestamp of last analysis
    - Refresh button
 
@@ -606,7 +606,7 @@ Create a comprehensive metrics dashboard for code analysis:
 
 6. **Footer**:
    - Generation timestamp
-   - "ATLAS Demo Environment" badge
+   - "ORCHEX Demo Environment" badge
 
 ## Data Visualization
 

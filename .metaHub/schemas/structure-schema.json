@@ -245,7 +245,7 @@
       "description": "Contains all organization directories",
       "children": {
         "{org-name}/": {
-          "description": "Organization directory (e.g., alaweimm90-tools)",
+          "description": "Organization directory (e.g., alawein-tools)",
           "required_files": ["README.md", "CODEOWNERS", ".gitignore"],
           "children": {
             "{repo-name}/": {

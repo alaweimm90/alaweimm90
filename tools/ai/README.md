@@ -9,7 +9,7 @@ tools/ai/
 ├── api/            # REST API server
 ├── cli/            # CLI commands (compliance, security, issues)
 ├── docs/           # Documentation generator
-├── integrations/   # External integrations (Atlas, etc.)
+├── integrations/   # External integrations (ORCHEX, etc.)
 ├── mcp/            # Model Context Protocol server
 ├── scripts/        # Shell and Python automation scripts
 ├── utils/          # Utility functions
@@ -49,6 +49,6 @@ npm run ai:security
 
 This module integrates with:
 
-- ATLAS agent framework (`tools/atlas/`)
+- ORCHEX agent framework (`tools/orchex/`)
 - MCP servers (`.ai/mcp/`)
 - Governance policies (`.metaHub/policies/`)

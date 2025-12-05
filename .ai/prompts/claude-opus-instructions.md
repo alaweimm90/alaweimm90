@@ -71,7 +71,7 @@ git commit -m "chore: remove cache folders from repository"
 Documentation consolidation:
 
 ```bash
-git mv examples/atlas/ docs/examples/atlas/
+git mv examples/ORCHEX/ docs/examples/ORCHEX/
 rmdir examples/
 git commit -m "docs: consolidate examples into docs/"
 ```
@@ -152,7 +152,7 @@ npm run lint
 
 ```bash
 npm run devops -- --help
-npm run atlas -- --help
+npm run ORCHEX -- --help
 npm run ai:start
 ```
 

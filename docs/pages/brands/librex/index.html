@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librex | Optimization Framework</title>
+    <meta name="description" content="Librex - A unified optimization framework with modular solvers for QAP, network flow, resource allocation, and more.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #8b5cf6; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #a78bfa; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .back-link { color: var(--text-muted); text-decoration: none; }
+        .hero { padding: 4rem 0; text-align: center; }
+        .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .solvers { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 2rem 0 4rem; }
+        .solver-card { background: var(--surface); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #334155; }
+        .solver-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .solver-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .solver-card code { background: rgba(139, 92, 246, 0.2); padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.8rem; }
+        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Librex</div>
+            <a href="../../" class="back-link">← Back to Alawein</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero container">
+            <p class="tagline">Optimization Framework</p>
+            <h1>Librex</h1>
+            <p>A unified optimization framework with modular solvers for complex combinatorial and continuous problems. From Latin "libra" (balance) + "rex" (king).</p>
+        </section>
+        <section class="container">
+            <h2 style="margin-bottom: 1.5rem;">Solvers</h2>
+            <div class="solvers">
+                <div class="solver-card">
+                    <h3>Librex.QAP</h3>
+                    <p>Quadratic Assignment Problem solver for facility layout and network design.</p>
+                    <code>pip install librex-qap</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Flow</h3>
+                    <p>Network flow optimization for supply chains and logistics.</p>
+                    <code>pip install librex-flow</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Alloc</h3>
+                    <p>Resource allocation for workforce and capacity planning.</p>
+                    <code>pip install librex-alloc</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Evo</h3>
+                    <p>Evolutionary optimization with genetic algorithms.</p>
+                    <code>pip install librex-evo</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Graph</h3>
+                    <p>Graph optimization for routing and network problems.</p>
+                    <code>pip install librex-graph</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Dual</h3>
+                    <p>Dual decomposition for large-scale problems.</p>
+                    <code>pip install librex-dual</code>
+                </div>
+                <div class="solver-card">
+                    <h3>Librex.Meta</h3>
+                    <p>Meta-optimization for automatic algorithm selection.</p>
+                    <code>pip install librex-meta</code>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>Librex is a product of <a href="../../" style="color: var(--accent);">Alawein Technologies LLC</a></p>
+        </div>
+    </footer>
+</body>
+</html>
+

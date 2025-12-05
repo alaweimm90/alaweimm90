@@ -15,15 +15,15 @@ import click
 
 # Organization metadata
 ORGS = {
-    "alaweimm90-business": {
+    "alawein-business": {
         "description": "Business and enterprise projects",
         "topics": ["business", "enterprise", "portfolio"],
     },
-    "alaweimm90-science": {
+    "alawein-science": {
         "description": "Scientific computing and research",
         "topics": ["science", "research", "physics", "quantum"],
     },
-    "alaweimm90-tools": {
+    "alawein-tools": {
         "description": "Developer tools and utilities",
         "topics": ["devtools", "cli", "automation", "utilities"],
     },

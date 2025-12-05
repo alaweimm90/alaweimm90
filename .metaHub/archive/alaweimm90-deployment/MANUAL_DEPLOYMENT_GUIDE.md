@@ -6,13 +6,13 @@ All your organization profile files are now in your repository:
 
 ```
 organization-profiles/
-├── alaweimm90-science/
+├── alawein-science/
 │   ├── README.md
 │   └── header.svg
-├── alaweimm90-tools/
+├── alawein-tools/
 │   ├── README.md
 │   └── header.svg
-└── alaweimm90-business/
+└── alawein-business/
     ├── README.md
     └── header.svg
 ```
@@ -25,11 +25,11 @@ organization-profiles/
 
 ---
 
-### **1️⃣ alaweimm90-science**
+### **1️⃣ alawein-science**
 
 #### Step 1: Create the repository
-- Go to: https://github.com/organizations/alaweimm90-science/repositories/new
-- Repository name: `alaweimm90-science`
+- Go to: https://github.com/organizations/alawein-science/repositories/new
+- Repository name: `alawein-science`
 - Public ✅
 - Click "Create repository"
 
@@ -37,57 +37,57 @@ organization-profiles/
 - After creating, GitHub shows "Quick setup" page
 - Click "uploading an existing file"
 - Drag and drop or select these 2 files:
-  - `organization-profiles/alaweimm90-science/README.md`
-  - `organization-profiles/alaweimm90-science/header.svg`
+  - `organization-profiles/alawein-science/README.md`
+  - `organization-profiles/alawein-science/header.svg`
 - Commit message: "Add organization profile"
 - Click "Commit changes"
 
 #### Step 3: Verify
-- Go to: https://github.com/alaweimm90-science
+- Go to: https://github.com/alawein-science
 - You should see the beautiful custom README!
 
 ---
 
-### **2️⃣ alaweimm90-tools**
+### **2️⃣ alawein-tools**
 
 #### Step 1: Create the repository
-- Go to: https://github.com/organizations/alaweimm90-tools/repositories/new
-- Repository name: `alaweimm90-tools`
+- Go to: https://github.com/organizations/alawein-tools/repositories/new
+- Repository name: `alawein-tools`
 - Public ✅
 - Click "Create repository"
 
 #### Step 2: Upload the files
 - Click "uploading an existing file"
 - Upload:
-  - `organization-profiles/alaweimm90-tools/README.md`
-  - `organization-profiles/alaweimm90-tools/header.svg`
+  - `organization-profiles/alawein-tools/README.md`
+  - `organization-profiles/alawein-tools/header.svg`
 - Commit message: "Add organization profile"
 - Click "Commit changes"
 
 #### Step 3: Verify
-- Go to: https://github.com/alaweimm90-tools
+- Go to: https://github.com/alawein-tools
 - Custom README should display!
 
 ---
 
-### **3️⃣ alaweimm90-business**
+### **3️⃣ alawein-business**
 
 #### Step 1: Create the repository
-- Go to: https://github.com/organizations/alaweimm90-business/repositories/new
-- Repository name: `alaweimm90-business`
+- Go to: https://github.com/organizations/alawein-business/repositories/new
+- Repository name: `alawein-business`
 - Public ✅
 - Click "Create repository"
 
 #### Step 2: Upload the files
 - Click "uploading an existing file"
 - Upload:
-  - `organization-profiles/alaweimm90-business/README.md`
-  - `organization-profiles/alaweimm90-business/header.svg`
+  - `organization-profiles/alawein-business/README.md`
+  - `organization-profiles/alawein-business/header.svg`
 - Commit message: "Add organization profile"
 - Click "Commit changes"
 
 #### Step 3: Verify
-- Go to: https://github.com/alaweimm90-business
+- Go to: https://github.com/alawein-business
 - Custom README should display!
 
 ---
@@ -98,16 +98,16 @@ If you have `gh` CLI installed:
 
 ```bash
 # Science
-cd organization-profiles/alaweimm90-science
-gh repo create alaweimm90-science/alaweimm90-science --public --source=. --push
+cd organization-profiles/alawein-science
+gh repo create alawein-science/alawein-science --public --source=. --push
 
 # Tools
-cd ../alaweimm90-tools
-gh repo create alaweimm90-tools/alaweimm90-tools --public --source=. --push
+cd ../alawein-tools
+gh repo create alawein-tools/alawein-tools --public --source=. --push
 
 # Business
-cd ../alaweimm90-business
-gh repo create alaweimm90-business/alaweimm90-business --public --source=. --push
+cd ../alawein-business
+gh repo create alawein-business/alawein-business --public --source=. --push
 ```
 
 ---
@@ -116,15 +116,15 @@ gh repo create alaweimm90-business/alaweimm90-business --public --source=. --pus
 
 Visit your organization pages to see the results:
 
-1. **alaweimm90-science** → https://github.com/alaweimm90-science
+1. **alawein-science** → https://github.com/alawein-science
    - Purple/pink quantum physics theme
    - Research & optimization focus
 
-2. **alaweimm90-tools** → https://github.com/alaweimm90-tools
+2. **alawein-tools** → https://github.com/alawein-tools
    - Green CLI/terminal theme
    - Developer tools focus
 
-3. **alaweimm90-business** → https://github.com/alaweimm90-business
+3. **alawein-business** → https://github.com/alawein-business
    - Gold luxury theme
    - E-commerce platform focus
 

@@ -2,13 +2,13 @@
 # This file defines the canonical folder hierarchy for the entire portfolio
 
 version: "1.0"
-description: "Canonical structure for alaweimm90 portfolio"
+description: "Canonical structure for alawein portfolio"
 
 # =============================================================================
 # PORTFOLIO LEVEL (Root)
 # =============================================================================
 portfolio:
-  name: "alaweimm90"
+  name: "alawein"
   description: "Central governance repository"
 
   required_structure:
@@ -25,7 +25,7 @@ portfolio:
 # ORGANIZATION LEVEL
 # =============================================================================
 organizations:
-  - name: "alaweimm90-business"
+  - name: "alawein-business"
     description: "Business and enterprise projects"
     required_structure:
       files:
@@ -35,7 +35,7 @@ organizations:
       dirs:
         - ".github/"
 
-  - name: "alaweimm90-science"
+  - name: "alawein-science"
     description: "Scientific computing and research"
     required_structure:
       files:
@@ -45,7 +45,7 @@ organizations:
       dirs:
         - ".github/"
 
-  - name: "alaweimm90-tools"
+  - name: "alawein-tools"
     description: "Developer tools and utilities"
     required_structure:
       files:
@@ -338,7 +338,7 @@ meta_template:
     type: library
     language: python
     tier: 2
-    owner: "@alaweimm90"
+    owner: "@alawein"
     status: active
     description: "Core utilities library"
     coverage:

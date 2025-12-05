@@ -87,7 +87,7 @@ tools:
 
   # Orchestration
   orchestrator: automation/orchestration/codebase_orchestrator.py
-  atlas: tools/atlas/
+  ORCHEX: tools/ORCHEX/
 
   # CLI
   devops_cli: tools/cli/devops.ts

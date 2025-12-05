@@ -91,7 +91,7 @@ Reusable prompts for common development and research tasks.
 | File                        | Purpose                                  |
 | --------------------------- | ---------------------------------------- |
 | `PROMPT_OPTIMIZER.md`       | Optimize prompts for better AI responses |
-| `ATLAS_PROMPT_OPTIMIZER.md` | Atlas-specific prompt optimization       |
+| `ATLAS_PROMPT_OPTIMIZER.md` | ORCHEX-specific prompt optimization      |
 | `MASTER_CLEANUP_PROMPT.md`  | Repository cleanup and organization      |
 
 ### Design & Architecture
@@ -106,15 +106,15 @@ Reusable prompts for common development and research tasks.
 
 Specialized prompts for optimization problem domains:
 
-| File                    | Domain                       |
-| ----------------------- | ---------------------------- |
-| `PROMPT_QAPLibria.md`   | Quadratic Assignment Problem |
-| `PROMPT_FlowLibria.md`  | Network Flow Optimization    |
-| `PROMPT_GraphLibria.md` | Graph Optimization           |
-| `PROMPT_AllocLibria.md` | Resource Allocation          |
-| `PROMPT_DualLibria.md`  | Dual Optimization            |
-| `PROMPT_EvoLibria.md`   | Evolutionary Algorithms      |
-| `PROMPT_MetaLibria.md`  | Meta-heuristics              |
+| File                     | Domain                       |
+| ------------------------ | ---------------------------- |
+| `PROMPT_Librex.QAP.md`   | Quadratic Assignment Problem |
+| `PROMPT_Librex.Flow.md`  | Network Flow Optimization    |
+| `PROMPT_Librex.Graph.md` | Graph Optimization           |
+| `PROMPT_Librex.Alloc.md` | Resource Allocation          |
+| `PROMPT_Librex.Dual.md`  | Dual Optimization            |
+| `PROMPT_Librex.Evo.md`   | Evolutionary Algorithms      |
+| `PROMPT_Librex.Meta.md`  | Meta-heuristics              |
 
 ---
 

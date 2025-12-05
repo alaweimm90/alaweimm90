@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://alaweimm90.github.io/schemas/handoff-envelope.json",
+  "$id": "https://alawein.github.io/schemas/handoff-envelope.json",
   "title": "Handoff Envelope Schema",
   "description": "Schema for validating tool-to-tool handoff envelopes in the AI orchestration system",
   "type": "object",

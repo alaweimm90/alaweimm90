@@ -99,7 +99,7 @@ private scheduleAnalysisTrigger(repository: MonitoredRepository): void {
 
 ### Policy-Based Validation Bridges
 
-**A2K (Atlas-to-Kilo) Bridge Pattern:**
+**A2K (ORCHEX-to-Kilo) Bridge Pattern:**
 
 ```typescript
 // Policy-driven compliance checking with scoring

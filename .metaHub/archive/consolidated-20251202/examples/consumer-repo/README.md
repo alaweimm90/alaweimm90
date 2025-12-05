@@ -1,6 +1,6 @@
 # Example Consumer Repository
 
-This directory demonstrates how a **consumer repository** uses the governance contract from the parent repository (`alaweimm90/alaweimm90`).
+This directory demonstrates how a **consumer repository** uses the governance contract from the parent repository (`alawein/alawein`).
 
 ## Structure
 
@@ -31,7 +31,7 @@ Implements the schema defined in the governance contract:
 ```bash
 # Validate this repo's metadata against the governance contract schema
 ajv validate \
-  -s https://github.com/alaweimm90/alaweimm90/raw/main/.metaHub/schemas/repo-schema.json \
+  -s https://github.com/alawein/alawein/raw/main/.metaHub/schemas/repo-schema.json \
   -d .meta/repo.yaml
 ```
 
@@ -49,13 +49,13 @@ References callable workflows from the governance contract using `workflow_call`
 ```yaml
 jobs:
   python-ci:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
       test-command: 'pytest tests/ -v --cov=src'
 
   policy-validation:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
     with:
       policy-path: .metaHub/policies
 ```
@@ -88,7 +88,7 @@ Validates the repository structure and configuration against governance policies
 
 ```bash
 # Run OPA policies locally
-opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+opa eval -d https://github.com/alawein/alawein/.metaHub/policies \
   -i <(./scripts/repo-snapshot.sh) 'data.repo.warn'
 ```
 
@@ -159,7 +159,7 @@ All workflows are **reusable workflows** from the governance contract, ensuring:
 
 This repository implements the governance contract defined in:
 
-📍 **Governance Contract Repository:** [`alaweimm90/alaweimm90`](https://github.com/alaweimm90/alaweimm90)
+📍 **Governance Contract Repository:** [`alawein/alawein`](https://github.com/alawein/alawein)
 
 **Core Components:**
 - **Policies:** `.metaHub/policies/` — OPA/Rego governance rules
@@ -200,4 +200,4 @@ If you're looking to adopt this governance contract across your portfolio:
 
 **Last Updated:** 2025-11-26
 **Maintainer:** Platform Team
-**Governance Contract Version:** [See parent repo](https://github.com/alaweimm90/alaweimm90)
+**Governance Contract Version:** [See parent repo](https://github.com/alawein/alawein)

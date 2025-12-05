@@ -20,7 +20,7 @@ Claude Code completed a **comprehensive 6-phase governance audit** of the GitHub
 ### Phase 1: Discovery & Inventory
 
 **Scanned Assets**:
-- 4 organizations: alaweimm90-business, alaweimm90-science, AlaweinOS, MeatheadPhysicist
+- 4 organizations: alawein-business, alawein-science, AlaweinOS, MeatheadPhysicist
 - 64 total repositories across organizations
 - 326 GitHub Actions workflow files
 - 69 `.meta` directories with `repo.yaml` files

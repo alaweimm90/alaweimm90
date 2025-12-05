@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-describe('ATLAS Testing Framework', () => {
+describe('ORCHEX Testing Framework', () => {
   it('should work', () => {
     expect(true).toBe(true);
   });

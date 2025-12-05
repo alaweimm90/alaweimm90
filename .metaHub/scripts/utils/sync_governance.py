@@ -186,7 +186,7 @@ class GovernanceSyncer:
             "organizations": []
         }
 
-        organizations = ["alaweimm90-business", "alaweimm90-science", "alaweimm90-tools", "AlaweinOS", "MeatheadPhysicist"]
+        organizations = ["alawein-business", "alawein-science", "alawein-tools", "AlaweinOS", "MeatheadPhysicist"]
 
         for org_name in organizations:
             overall_results["total_organizations"] += 1

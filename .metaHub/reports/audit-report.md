@@ -23,7 +23,7 @@
 | docs | 100.0% | unknown | unknown | Ready |
 | k8s | 100.0% | unknown | unknown | Ready |
 | optilibria | 100.0% | unknown | python | Ready |
-| QAPlibria-new | 100.0% | unknown | python | Ready |
+| Librex.QAP-new | 100.0% | unknown | python | Ready |
 | qmlab | 100.0% | unknown | typescript | Ready |
 | reports | 100.0% | unknown | unknown | Ready |
 | scripts | 100.0% | unknown | unknown | Ready |
@@ -68,7 +68,7 @@
 | visualizations | 100.0% | unknown | typescript | Ready |
 | integrations | 75% | unknown | python | 1 gaps |
 
-### alaweimm90-business
+### alawein-business
 
 | Project | Score | Type | Language | Status |
 |---------|-------|------|----------|--------|
@@ -82,7 +82,7 @@
 | scripts | 100.0% | unknown | unknown | Ready |
 | templates | 100.0% | unknown | unknown | Ready |
 
-### alaweimm90-science
+### alawein-science
 
 | Project | Score | Type | Language | Status |
 |---------|-------|------|----------|--------|
@@ -93,15 +93,15 @@
 | spin-circ | 100.0% | unknown | python | Ready |
 | TalAI | 100.0% | unknown | unknown | Ready |
 
-### alaweimm90-tools
+### alawein-tools
 
 | Project | Score | Type | Language | Status |
 |---------|-------|------|----------|--------|
 | admin-dashboard | 100.0% | unknown | typescript | Ready |
-| alaweimm90-cli | 100.0% | unknown | python | Ready |
+| alawein-cli | 100.0% | unknown | python | Ready |
 | Attributa | 100.0% | unknown | typescript | Ready |
 | business-intelligence | 100.0% | unknown | python | Ready |
-| CrazyIdeas | 100.0% | unknown | unknown | Ready |
+| Foundry | 100.0% | unknown | unknown | Ready |
 | devops-platform | 100.0% | unknown | python | Ready |
 | docs | 100.0% | unknown | unknown | Ready |
 | fitness-app | 100.0% | unknown | python | Ready |
@@ -117,16 +117,16 @@
 | prompty-service | 100.0% | unknown | python | Ready |
 | shared | 100.0% | unknown | unknown | Ready |
 | terraform | 100.0% | unknown | unknown | Ready |
-| alaweimm90-python-sdk | 75% | unknown | python | 1 gaps |
+| alawein-python-sdk | 75% | unknown | python | 1 gaps |
 | core-framework | 70% | tool | python | 2 gaps |
 
 ## Critical Gaps (P0)
 
 These must be fixed before deployment:
 
-- **alaweimm90-tools/alaweimm90-python-sdk**: Potential hardcoded secret detected
+- **alawein-tools/alawein-python-sdk**: Potential hardcoded secret detected
   - Recommendation: Remove hardcoded secrets, use environment variables
-- **alaweimm90-tools/core-framework**: Potential hardcoded secret detected
+- **alawein-tools/core-framework**: Potential hardcoded secret detected
   - Recommendation: Remove hardcoded secrets, use environment variables
 - **AlaweinOS/MEZAN**: Potential hardcoded secret detected
   - Recommendation: Remove hardcoded secrets, use environment variables

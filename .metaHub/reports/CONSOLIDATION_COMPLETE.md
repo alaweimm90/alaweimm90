@@ -14,7 +14,7 @@
 
 ### Projects Updated
 
-**alaweimm90-business** (3 configs):
+**alawein-business** (3 configs):
 - BenchBarrier/vitest.config.ts → global
 - LiveItIconic/eslint.config.js → global
 - LiveItIconic/.prettierrc → global

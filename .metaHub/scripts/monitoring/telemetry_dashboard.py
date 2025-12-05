@@ -3,7 +3,7 @@
 Telemetry Dashboard - Real-time MCP Workflow Monitoring
 Visualizes workflow execution, agent-MCP integrations, and system health
 
-Author: alaweimm90
+Author: alawein
 Last Updated: 2025-11-28
 """
 
@@ -154,7 +154,7 @@ class TelemetryDashboard:
         # Count MCP usage across frameworks
         mcp_counts = defaultdict(int)
 
-        for framework_key in ["meathead_physicist", "turingo", "atlas"]:
+        for framework_key in ["meathead_physicist", "turingo", "ORCHEX"]:
             if framework_key in integration:
                 framework_data = integration[framework_key]
                 for mapping in framework_data.get("mappings", []):
@@ -183,7 +183,7 @@ class TelemetryDashboard:
         frameworks = [
             ("meathead_physicist", "MeatheadPhysicist"),
             ("turingo", "Turingo"),
-            ("atlas", "ATLAS")
+            ("ORCHEX", "ORCHEX")
         ]
 
         for framework_key, framework_name in frameworks:

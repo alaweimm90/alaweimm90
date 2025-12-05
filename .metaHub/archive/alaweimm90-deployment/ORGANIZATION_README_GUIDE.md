@@ -34,8 +34,8 @@ git clone https://github.com/AlaweinLabs/AlaweinLabs
 cd AlaweinLabs
 
 # 3. Copy the README and header
-cp ../alaweimm90/org-readmes/AlaweinLabs/README.md ./
-cp ../alaweimm90/org-readmes/AlaweinLabs/header.svg ./
+cp ../alawein/org-readmes/AlaweinLabs/README.md ./
+cp ../alawein/org-readmes/AlaweinLabs/header.svg ./
 
 # 4. Commit and push
 git add README.md header.svg
@@ -60,7 +60,7 @@ git push origin main
 gh repo create MeshyTools/MeshyTools --public
 git clone https://github.com/MeshyTools/MeshyTools
 cd MeshyTools
-cp ../alaweimm90/org-readmes/MeshyTools/* ./
+cp ../alawein/org-readmes/MeshyTools/* ./
 git add .
 git commit -m "Add developer tools organization profile"
 git push origin main
@@ -83,7 +83,7 @@ git push origin main
 gh repo create MeatheadPhysicist/MeatheadPhysicist --public
 git clone https://github.com/MeatheadPhysicist/MeatheadPhysicist
 cd MeatheadPhysicist
-cp ../alaweimm90/org-readmes/MeatheadPhysicist/* ./
+cp ../alawein/org-readmes/MeatheadPhysicist/* ./
 git add .
 git commit -m "Add physics education organization profile"
 git push origin main
@@ -106,7 +106,7 @@ git push origin main
 gh repo create REPZCoach/REPZCoach --public
 git clone https://github.com/REPZCoach/REPZCoach
 cd REPZCoach
-cp ../alaweimm90/org-readmes/REPZCoach/* ./
+cp ../alawein/org-readmes/REPZCoach/* ./
 git add .
 git commit -m "Add AI coaching platform organization profile"
 git push origin main
@@ -129,7 +129,7 @@ git push origin main
 gh repo create LiveItIconic/LiveItIconic --public
 git clone https://github.com/LiveItIconic/LiveItIconic
 cd LiveItIconic
-cp ../alaweimm90/org-readmes/LiveItIconic/* ./
+cp ../alawein/org-readmes/LiveItIconic/* ./
 git add .
 git commit -m "Add premium commerce organization profile"
 git push origin main

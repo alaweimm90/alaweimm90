@@ -151,7 +151,7 @@ Create `variables.yaml`:
 
 ```yaml
 FULL_NAME: "Meshal Alawein"
-GITHUB_USERNAME: "alaweimm90"
+GITHUB_USERNAME: "alawein"
 EMAIL: "meshal@berkeley.edu"
 PRIMARY_COLOR: "A855F7"
 # ... more variables
@@ -169,7 +169,7 @@ Create `variables.json`:
 ```json
 {
   "FULL_NAME": "Meshal Alawein",
-  "GITHUB_USERNAME": "alaweimm90",
+  "GITHUB_USERNAME": "alawein",
   "EMAIL": "meshal@berkeley.edu",
   "PRIMARY_COLOR": "A855F7"
 }
@@ -186,7 +186,7 @@ Create `.env`:
 
 ```bash
 export FULL_NAME="Meshal Alawein"
-export GITHUB_USERNAME="alaweimm90"
+export GITHUB_USERNAME="alawein"
 export EMAIL="meshal@berkeley.edu"
 export PRIMARY_COLOR="A855F7"
 ```

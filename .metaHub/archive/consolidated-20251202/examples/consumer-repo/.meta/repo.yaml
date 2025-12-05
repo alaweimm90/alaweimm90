@@ -1,6 +1,6 @@
 ---
 # Repository Metadata — Implements schema from governance contract
-# Schema: https://github.com/alaweimm90/alaweimm90/blob/main/.metaHub/schemas/repo-schema.json
+# Schema: https://github.com/alawein/alawein/blob/main/.metaHub/schemas/repo-schema.json
 
 metadata:
   name: example-microservice
@@ -41,7 +41,7 @@ deployment:
   helm_chart: ./deploy/helm/example-microservice
 
 dependencies:
-  governance_contract: https://github.com/alaweimm90/alaweimm90
+  governance_contract: https://github.com/alawein/alawein
   python_version: ">=3.11"
   required_services:
     - auth-service

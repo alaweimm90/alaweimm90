@@ -1,4 +1,4 @@
-# Pre-commit configuration for alaweimm90 Governance Repo
+# Pre-commit configuration for alawein Governance Repo
 # Install: pip install pre-commit && pre-commit install
 # Run: pre-commit run --all-files
 

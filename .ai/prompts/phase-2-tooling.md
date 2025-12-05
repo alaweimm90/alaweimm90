@@ -23,10 +23,10 @@ tree tools/ scripts/ .metaHub/tools/ -L 2 > phase2-before.txt
 git mv tools/ai/ .metaHub/tools/ai/
 ```
 
-### Step 2: Atlas Tools
+### Step 2: ORCHEX Tools
 
 ```bash
-git mv tools/atlas/ .metaHub/tools/atlas/
+git mv tools/orchex/ .metaHub/tools/orchex/
 ```
 
 ### Step 3: CLI Tools
@@ -77,7 +77,7 @@ rmdir scripts/
 {
   "scripts": {
     "devops": "tsx .metaHub/tools/cli/devops.ts",
-    "atlas": "tsx .metaHub/tools/atlas/cli/index.ts",
+    "ORCHEX": "tsx .metaHub/tools/orchex/cli/index.ts",
     "ai": "tsx .metaHub/tools/ai/orchestrator.ts",
     "codemap": "tsx .metaHub/scripts/generate-codemap.ts"
   }
@@ -105,7 +105,7 @@ Search and replace in all Python files:
 
 ```bash
 npm run devops -- --help
-npm run atlas -- --help
+npm run ORCHEX -- --help
 npm run ai -- --help
 ```
 
@@ -152,7 +152,7 @@ git branch -D consolidation-phase-2
 feat: consolidate tooling into .metaHub
 
 - Move tools/ai/ → .metaHub/tools/ai/
-- Move tools/atlas/ → .metaHub/tools/atlas/
+- Move tools/orchex/ → .metaHub/tools/orchex/
 - Move tools/cli/ → .metaHub/tools/cli/
 - Move tools/devops/ → .metaHub/tools/devops/
 - Move tools/security/ → .metaHub/tools/security/

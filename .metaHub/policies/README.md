@@ -86,7 +86,7 @@ All policies run in **warning-only mode** — violations generate warnings but d
 **Option 1: OPA Bundle Reference**
 
 ```bash
-opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
+opa eval -d https://github.com/alawein/alawein/.metaHub/policies \
   -i <(cat .meta/repo.yaml) 'data.repo.warn'
 ```
 
@@ -95,7 +95,7 @@ opa eval -d https://github.com/alaweimm90/alaweimm90/.metaHub/policies \
 ```yaml
 jobs:
   policies:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
 ```
 
 **Option 3: Pre-commit Hook**

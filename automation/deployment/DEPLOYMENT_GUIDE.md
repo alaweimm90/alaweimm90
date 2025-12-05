@@ -7,8 +7,8 @@ Comprehensive guide for deploying portfolios, knowledge bases, and web interface
 ### Deploy a Portfolio
 
 ```bash
-# Using atlas CLI
-atlas deploy portfolio --source ./my-portfolio --platform netlify
+# Using ORCHEX CLI
+ORCHEX deploy portfolio --source ./my-portfolio --platform netlify
 
 # Using Python
 python -m automation.deployment.portfolio ./my-portfolio
@@ -18,7 +18,7 @@ python -m automation.deployment.portfolio ./my-portfolio
 
 ```bash
 # Organize and deploy Downloads folder
-atlas deploy knowledge-base --source ~/Downloads
+ORCHEX deploy knowledge-base --source ~/Downloads
 
 # Using Python
 python -m automation.deployment.knowledge_base ~/Downloads
@@ -169,7 +169,7 @@ All generated interfaces include:
 
 ```bash
 # Deploy portfolio
-atlas deploy portfolio --source <path> [options]
+ORCHEX deploy portfolio --source <path> [options]
 
 Options:
   --platform <name>     Deployment platform (netlify, vercel, github-pages)
@@ -183,7 +183,7 @@ Options:
 
 ```bash
 # Deploy knowledge base
-atlas deploy knowledge-base --source <path> [options]
+ORCHEX deploy knowledge-base --source <path> [options]
 
 Options:
   --output <path>       Output directory for organized files
@@ -196,7 +196,7 @@ Options:
 
 ```bash
 # Generate web interface
-atlas generate web --type <template> --output <path> [options]
+ORCHEX generate web --type <template> --output <path> [options]
 
 Templates:
   dashboard             Stats and sections
@@ -248,7 +248,7 @@ chmod 755 ./output
 
 ```bash
 # Enable verbose logging
-atlas deploy portfolio --source ./site --verbose
+ORCHEX deploy portfolio --source ./site --verbose
 
 # Check deployment logs
 cat ./deploy.log

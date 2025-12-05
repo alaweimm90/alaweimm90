@@ -19,9 +19,9 @@
 
 | Organization | Repos | Enforcement Status | Notes |
 |--------------|-------|-------------------|-------|
-| alaweimm90-business | 9 | ✅ PASS | All repos compliant |
-| alaweimm90-science | 6 | ✅ PASS | All repos compliant |
-| alaweimm90-tools | 14 | ✅ PASS | 2 repos with P0 security gaps |
+| alawein-business | 9 | ✅ PASS | All repos compliant |
+| alawein-science | 6 | ✅ PASS | All repos compliant |
+| alawein-tools | 14 | ✅ PASS | 2 repos with P0 security gaps |
 | AlaweinOS | 28 | ⚠️ WARNINGS | Missing org-level .meta/repo.yaml, 32 warnings |
 | MeatheadPhysicist | 23 | ✅ PASS | 1 repo with P0 security gap |
 
@@ -35,9 +35,9 @@ These must be addressed immediately:
 
 | Project | File | Recommendation |
 |---------|------|----------------|
-| `alaweimm90-tools/alaweimm90-python-sdk` | `examples/authentication.py` | Remove hardcoded secrets, use environment variables |
-| `alaweimm90-tools/core-framework` | `src/core_framework/api/routes.py` | Remove hardcoded secrets, use environment variables |
-| `AlaweinOS/MEZAN/ATLAS/atlas-core` | `atlas_core/distributed.py` | Remove hardcoded secrets, use environment variables |
+| `alawein-tools/alawein-python-sdk` | `examples/authentication.py` | Remove hardcoded secrets, use environment variables |
+| `alawein-tools/core-framework` | `src/core_framework/api/routes.py` | Remove hardcoded secrets, use environment variables |
+| `AlaweinOS/MEZAN/ORCHEX/ORCHEX-core` | `atlas_core/distributed.py` | Remove hardcoded secrets, use environment variables |
 | `AlaweinOS/TalAI/enterprise` | `auth_routes.py` | Remove hardcoded secrets, use environment variables |
 | `MeatheadPhysicist/integrations` | `anthropic_client.py` | Remove hardcoded secrets, use environment variables |
 
@@ -96,7 +96,7 @@ permissions:
 
 Several Dockerfiles are missing `HEALTHCHECK` directives:
 - `AlaweinOS/fitness-app/Dockerfile`
-- `AlaweinOS/QAPlibria-new/Dockerfile`
+- `AlaweinOS/Librex.QAP-new/Dockerfile`
 - `AlaweinOS/MEZAN/Libria/libria-meta/Dockerfile`
 
 **Fix**: Add HEALTHCHECK to Dockerfiles:
@@ -133,9 +133,9 @@ This baseline will be used for future drift detection to identify:
 
 | Artifact | Path |
 |----------|------|
-| Enforcement Report (alaweimm90-business) | `.metaHub/reports/enforce-alaweimm90-business.json` |
-| Enforcement Report (alaweimm90-science) | `.metaHub/reports/enforce-alaweimm90-science.json` |
-| Enforcement Report (alaweimm90-tools) | `.metaHub/reports/enforce-alaweimm90-tools.json` |
+| Enforcement Report (alawein-business) | `.metaHub/reports/enforce-alawein-business.json` |
+| Enforcement Report (alawein-science) | `.metaHub/reports/enforce-alawein-science.json` |
+| Enforcement Report (alawein-tools) | `.metaHub/reports/enforce-alawein-tools.json` |
 | Enforcement Report (AlaweinOS) | `.metaHub/reports/enforce-AlaweinOS.json` |
 | Enforcement Report (MeatheadPhysicist) | `.metaHub/reports/enforce-MeatheadPhysicist.json` |
 | Meta Audit Report | `.metaHub/reports/meta-audit.json` |

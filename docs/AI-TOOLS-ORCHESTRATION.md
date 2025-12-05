@@ -1,6 +1,6 @@
 # AI Tools Orchestration Guide
 
-This document describes the multi-agent AI tool orchestration system for the alaweimm90 portfolio governance infrastructure.
+This document describes the multi-agent AI tool orchestration system for the alawein portfolio governance infrastructure.
 
 ## Overview
 
@@ -425,7 +425,7 @@ The orchestration system integrates with existing multi-agent frameworks:
 - **Use for**: Brainstorming, innovation
 - **Agents**: WildCard, ChaosMonkey, Futurist, MetaOrchestrator
 
-### ATLAS
+### ORCHEX
 
 - **Use for**: Complex multi-step analysis
 - **Agents**: Coordinator, Analyst, Synthesizer

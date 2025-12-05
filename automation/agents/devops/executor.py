@@ -317,7 +317,7 @@ async def _execute_compliance_audit(
     return {
         "passed": True,
         "violations": [],
-        "evidenceArtifacts": [".atlas/evidence/compliance-report.json"],
+        "evidenceArtifacts": [".ORCHEX/evidence/compliance-report.json"],
     }
 
 

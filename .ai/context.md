@@ -6,13 +6,13 @@ Multi-organization GitHub portfolio governance system managing 5 organizations w
 
 ## Organizations
 
-| Org                 | Purpose                       |
-| ------------------- | ----------------------------- |
-| alaweimm90-tools    | Developer tools and utilities |
-| alaweimm90-science  | Scientific computing projects |
-| alaweimm90-internal | Internal company tools        |
-| alaweimm90-oss      | Open source projects          |
-| alaweimm90-labs     | Experimental projects         |
+| Org              | Purpose                       |
+| ---------------- | ----------------------------- |
+| alawein-tools    | Developer tools and utilities |
+| alawein-science  | Scientific computing projects |
+| alawein-internal | Internal company tools        |
+| alawein-oss      | Open source projects          |
+| alawein-labs     | Experimental projects         |
 
 ## Architecture
 

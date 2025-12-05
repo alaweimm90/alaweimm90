@@ -22,7 +22,7 @@
             "docs": {
               "profile": "standard"
             },
-            "owner": "alaweimm90-tools",
+            "owner": "alawein-tools",
             "description": "Repository: Attributa",
             "status": "active",
             "created": "2025-11-26"
@@ -39,7 +39,7 @@
           "language": "TypeScript",
           "tier": 2,
           "status": "active",
-          "owner": "alaweimm90-tools",
+          "owner": "alawein-tools",
           "description": "Repository: Attributa"
         },
         {
@@ -86,7 +86,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-tools",
+            "owner": "alawein-tools",
             "description": "Repository: CrazyIdeas",
             "status": "active",
             "created": "2025-11-26"
@@ -103,7 +103,7 @@
           "language": "Mixed",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-tools",
+          "owner": "alawein-tools",
           "description": "Repository: CrazyIdeas"
         },
         {
@@ -121,7 +121,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-tools",
+            "owner": "alawein-tools",
             "description": "Repository: fitness-app",
             "status": "active",
             "created": "2025-11-26"
@@ -138,7 +138,7 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-tools",
+          "owner": "alawein-tools",
           "description": "Repository: fitness-app"
         },
         {
@@ -156,7 +156,7 @@
             "docs": {
               "profile": "standard"
             },
-            "owner": "alaweimm90-tools",
+            "owner": "alawein-tools",
             "description": "Repository: HELIOS",
             "status": "active",
             "created": "2025-11-26"
@@ -173,7 +173,7 @@
           "language": "Python",
           "tier": 2,
           "status": "active",
-          "owner": "alaweimm90-tools",
+          "owner": "alawein-tools",
           "description": "Repository: HELIOS"
         },
         {
@@ -191,7 +191,7 @@
             "docs": {
               "profile": "standard"
             },
-            "owner": "alaweimm90-tools",
+            "owner": "alawein-tools",
             "description": "Repository: LLMWorks",
             "status": "active",
             "created": "2025-11-26"
@@ -208,7 +208,7 @@
           "language": "TypeScript",
           "tier": 2,
           "status": "active",
-          "owner": "alaweimm90-tools",
+          "owner": "alawein-tools",
           "description": "Repository: LLMWorks"
         },
         {
@@ -282,10 +282,10 @@
           "description": "Repository: optilibria"
         },
         {
-          "name": "QAPlibria",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\QAPlibria",
+          "name": "Librex.QAP",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\AlaweinOS\\Librex.QAP",
           "organization": "AlaweinOS",
-          "full_name": "AlaweinOS/QAPlibria",
+          "full_name": "AlaweinOS/Librex.QAP",
           "metadata": {
             "type": "library",
             "language": "Python",
@@ -297,7 +297,7 @@
               "profile": "standard"
             },
             "owner": "AlaweinOS",
-            "description": "Repository: QAPlibria-new",
+            "description": "Repository: Librex.QAP-new",
             "status": "active",
             "created": "2025-11-26"
           },
@@ -314,7 +314,7 @@
           "tier": 2,
           "status": "active",
           "owner": "AlaweinOS",
-          "description": "Repository: QAPlibria-new"
+          "description": "Repository: Librex.QAP-new"
         },
         {
           "name": "QMLab",
@@ -1684,14 +1684,14 @@
       }
     },
     {
-      "name": "alaweimm90-business",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business",
+      "name": "alawein-business",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business",
       "repos": [
         {
           "name": "BenchBarrier",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\BenchBarrier",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/BenchBarrier",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\BenchBarrier",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/BenchBarrier",
           "metadata": {
             "type": "web-application",
             "language": "TypeScript",
@@ -1702,7 +1702,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: benchbarrier",
             "status": "active",
             "created": "2025-11-26"
@@ -1719,14 +1719,14 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: benchbarrier"
         },
         {
           "name": "CallaLilyCouture",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\CallaLilyCouture",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/CallaLilyCouture",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\CallaLilyCouture",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/CallaLilyCouture",
           "metadata": {
             "type": "ecommerce",
             "language": "TypeScript",
@@ -1737,7 +1737,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: calla-lily-couture",
             "status": "active",
             "created": "2025-11-26"
@@ -1754,14 +1754,14 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: calla-lily-couture"
         },
         {
           "name": "DrAloweinPortfolio",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\DrAloweinPortfolio",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/DrAloweinPortfolio",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\DrAloweinPortfolio",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/DrAloweinPortfolio",
           "metadata": {
             "type": "portfolio",
             "language": "TypeScript",
@@ -1772,7 +1772,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: dr-alowein-portfolio",
             "status": "active",
             "created": "2025-11-26"
@@ -1789,14 +1789,14 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: dr-alowein-portfolio"
         },
         {
           "name": "LiveItIconic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\LiveItIconic",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/LiveItIconic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\LiveItIconic",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/LiveItIconic",
           "metadata": {
             "type": "web-application",
             "language": "TypeScript",
@@ -1807,7 +1807,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: live-it-iconic",
             "status": "active",
             "created": "2025-11-26"
@@ -1824,14 +1824,14 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: live-it-iconic"
         },
         {
           "name": "MarketingAutomation",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\MarketingAutomation",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/MarketingAutomation",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\MarketingAutomation",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/MarketingAutomation",
           "metadata": {
             "type": "automation",
             "language": "TypeScript",
@@ -1842,7 +1842,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: marketing-automation",
             "status": "active",
             "created": "2025-11-26"
@@ -1859,14 +1859,14 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: marketing-automation"
         },
         {
           "name": "Repz",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\Repz",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/Repz",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\Repz",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/Repz",
           "metadata": {
             "type": "framework",
             "language": "TypeScript",
@@ -1877,7 +1877,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "Repository: repz",
             "status": "active",
             "created": "2025-11-26"
@@ -1894,19 +1894,19 @@
           "language": "TypeScript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "Repository: repz"
         },
         {
           "name": "docs",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\docs",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/docs",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\docs",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/docs",
           "metadata": {
             "type": "unknown",
             "language": "unknown",
             "tier": 4,
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "docs repository",
             "status": "active",
             "created": "2025-11-26"
@@ -1923,19 +1923,19 @@
           "language": "unknown",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "docs repository"
         },
         {
           "name": "scripts",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\scripts",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/scripts",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\scripts",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/scripts",
           "metadata": {
             "type": "unknown",
             "language": "unknown",
             "tier": 4,
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "scripts repository",
             "status": "active",
             "created": "2025-11-26"
@@ -1952,19 +1952,19 @@
           "language": "unknown",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "scripts repository"
         },
         {
           "name": "templates",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-business\\templates",
-          "organization": "alaweimm90-business",
-          "full_name": "alaweimm90-business/templates",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-business\\templates",
+          "organization": "alawein-business",
+          "full_name": "alawein-business/templates",
           "metadata": {
             "type": "unknown",
             "language": "typescript",
             "tier": 4,
-            "owner": "alaweimm90-business",
+            "owner": "alawein-business",
             "description": "templates repository",
             "status": "active",
             "created": "2025-11-26"
@@ -1981,7 +1981,7 @@
           "language": "typescript",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-business",
+          "owner": "alawein-business",
           "description": "templates repository"
         }
       ],
@@ -2009,14 +2009,14 @@
       }
     },
     {
-      "name": "alaweimm90-science",
-      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science",
+      "name": "alawein-science",
+      "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science",
       "repos": [
         {
           "name": "MagLogic",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\MagLogic",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/MagLogic",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\MagLogic",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/MagLogic",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2027,7 +2027,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-science",
+            "owner": "alawein-science",
             "description": "Repository: mag-logic",
             "status": "active",
             "created": "2025-11-26"
@@ -2044,14 +2044,14 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-science",
+          "owner": "alawein-science",
           "description": "Repository: mag-logic"
         },
         {
           "name": "QMatSim",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\QMatSim",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/QMatSim",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\QMatSim",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/QMatSim",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2062,7 +2062,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-science",
+            "owner": "alawein-science",
             "description": "Repository: qmat-sim",
             "status": "active",
             "created": "2025-11-26"
@@ -2079,14 +2079,14 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-science",
+          "owner": "alawein-science",
           "description": "Repository: qmat-sim"
         },
         {
           "name": "QubeML",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\QubeML",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/QubeML",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\QubeML",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/QubeML",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2097,7 +2097,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-science",
+            "owner": "alawein-science",
             "description": "Repository: qube-ml",
             "status": "active",
             "created": "2025-11-26"
@@ -2114,14 +2114,14 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-science",
+          "owner": "alawein-science",
           "description": "Repository: qube-ml"
         },
         {
           "name": "SciComp",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\SciComp",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/SciComp",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\SciComp",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/SciComp",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2132,7 +2132,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-science",
+            "owner": "alawein-science",
             "description": "Repository: sci-comp",
             "status": "active",
             "created": "2025-11-26"
@@ -2149,14 +2149,14 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-science",
+          "owner": "alawein-science",
           "description": "Repository: sci-comp"
         },
         {
           "name": "SpinCirc",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\SpinCirc",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/SpinCirc",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\SpinCirc",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/SpinCirc",
           "metadata": {
             "type": "scientific-library",
             "language": "Python",
@@ -2167,7 +2167,7 @@
             "docs": {
               "profile": "minimal"
             },
-            "owner": "alaweimm90-science",
+            "owner": "alawein-science",
             "description": "Repository: spin-circ",
             "status": "active",
             "created": "2025-11-26"
@@ -2184,14 +2184,14 @@
           "language": "Python",
           "tier": 4,
           "status": "active",
-          "owner": "alaweimm90-science",
+          "owner": "alawein-science",
           "description": "Repository: spin-circ"
         },
         {
           "name": "TalAI",
-          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alaweimm90-science\\TalAI",
-          "organization": "alaweimm90-science",
-          "full_name": "alaweimm90-science/TalAI",
+          "path": "C:\\Users\\mesha\\Desktop\\GitHub\\organizations\\alawein-science\\TalAI",
+          "organization": "alawein-science",
+          "full_name": "alawein-science/TalAI",
           "metadata": {
             "type": "documentation",
             "language": "Markdown",
@@ -2202,7 +2202,7 @@
             "docs": {
               "profile": "standard"
             },
-            "owner": "alaweimm90",
+            "owner": "alawein",
             "description": "TalAI - AI prompt engineering and documentation",
             "status": "active",
             "created": "2025-11-26"
@@ -2219,7 +2219,7 @@
           "language": "Markdown",
           "tier": 3,
           "status": "active",
-          "owner": "alaweimm90",
+          "owner": "alawein",
           "description": "TalAI - AI prompt engineering and documentation"
         }
       ],

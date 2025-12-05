@@ -480,7 +480,7 @@ class KnowledgeBaseDeployer:
 
         <footer>
             <p>Generated on {datetime.now().strftime('%Y-%m-%d %H:%M')} |
-               <a href="https://github.com/alaweimm90">GitHub</a>
+               <a href="https://github.com/alawein">GitHub</a>
             </p>
         </footer>
     </div>

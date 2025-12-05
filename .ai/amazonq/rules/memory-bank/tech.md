@@ -112,7 +112,7 @@ npm run governance          # Policy enforcement
 npm run orchestrate         # AI workflow management
 
 # Scientific computing
-npm run atlas               # ATLAS research agent
+npm run ORCHEX               # ORCHEX research agent
 npm run ai:start            # AI orchestration
 npm run codemap             # Code analysis
 ```

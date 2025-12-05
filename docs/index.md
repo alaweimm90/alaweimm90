@@ -1,6 +1,6 @@
-# alaweimm90 Governance System
+# alawein Governance System
 
-Welcome to the governance documentation for the alaweimm90 portfolio.
+Welcome to the governance documentation for the alawein portfolio.
 
 ## Quick Links
 
@@ -31,9 +31,9 @@ Welcome to the governance documentation for the alaweimm90 portfolio.
 
 ## Organizations
 
-- **alaweimm90-business** - Business and enterprise projects
-- **alaweimm90-science** - Scientific computing and research
-- **alaweimm90-tools** - Developer tools and utilities
+- **alawein-business** - Business and enterprise projects
+- **alawein-science** - Scientific computing and research
+- **alawein-tools** - Developer tools and utilities
 - **AlaweinOS** - Operating system and infrastructure
 - **MeatheadPhysicist** - Physics education and outreach
 

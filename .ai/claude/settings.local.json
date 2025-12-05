@@ -2,7 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(\"python .metaHub/scripts/structure_validator.py --root\")",
-      "Bash(\"python .metaHub/scripts/enforce.py organizations/alaweimm90-business/\")",
+      "Bash(\"python .metaHub/scripts/enforce.py organizations/alawein-business/\")",
       "Bash(\"python .metaHub/scripts/push_monorepos.py --all\")",
       "Bash(\"python .metaHub/scripts/catalog.py --format json\")",
       "Bash(\"python .metaHub/scripts/meta.py scan-projects\")",

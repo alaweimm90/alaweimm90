@@ -1,4 +1,4 @@
-# ATLAS System Architecture
+# ORCHEX System Architecture
 
 **Autonomous Technical Leadership & Adaptive System**
 
@@ -26,7 +26,7 @@
 
 ### Purpose and Goals
 
-ATLAS is an enterprise-grade multiagent LLM orchestration platform designed to provide:
+ORCHEX is an enterprise-grade multiagent LLM orchestration platform designed to provide:
 
 1. **Intelligent Agent Routing** - Automatically select the best AI agent for each task based on capabilities, performance history, and current load
 2. **Resilient Execution** - Multi-tier fallback chains ensure task completion even when primary agents fail
@@ -45,10 +45,10 @@ ATLAS is an enterprise-grade multiagent LLM orchestration platform designed to p
 
 ### Integration with KILO
 
-ATLAS builds directly on the KILO foundation:
+ORCHEX builds directly on the KILO foundation:
 
 ```
-KILO Foundation (Existing)          ATLAS Extensions (New)
+KILO Foundation (Existing)          ORCHEX Extensions (New)
 ├── tools/lib/validation.py    →   Agent capability validation
 ├── tools/lib/checkpoint.py     →   Task state management
 ├── tools/lib/telemetry.py      →   Agent performance tracking
@@ -73,7 +73,7 @@ KILO Foundation (Existing)          ATLAS Extensions (New)
 ```mermaid
 graph TB
     subgraph Client Layer
-        CLI[ATLAS CLI]
+        CLI[ORCHEX CLI]
         API[REST API]
         SDK[Python SDK]
     end
@@ -281,9 +281,9 @@ class AgentRegistry:
 
 **Data Storage:**
 
-- Agent metadata: `.metaHub/atlas/agents/registry.json`
-- Health metrics: `.metaHub/atlas/agents/health.jsonl`
-- Performance history: `.metaHub/atlas/agents/performance.jsonl`
+- Agent metadata: `.metaHub/ORCHEX/agents/registry.json`
+- Health metrics: `.metaHub/ORCHEX/agents/health.jsonl`
+- Performance history: `.metaHub/ORCHEX/agents/performance.jsonl`
 
 ---
 
@@ -1520,11 +1520,11 @@ def escalate_to_human(task: Task) -> TaskResult:
 
         **Action Required:** Manual intervention needed
         """,
-        labels=['escalation', 'atlas', 'urgent']
+        labels=['escalation', 'ORCHEX', 'urgent']
     )
 
     send_notification(
-        channel='#atlas-escalations',
+        channel='#ORCHEX-escalations',
         message=f"Task {task.task_id} escalated to human. Issue: {issue.url}"
     )
 
@@ -1864,91 +1864,91 @@ Response: 200 OK
 ### CLI Command Structure
 
 ```bash
-# ATLAS CLI - Unified command interface
+# ORCHEX CLI - Unified command interface
 
-atlas --version
-atlas --help
+ORCHEX --version
+ORCHEX --help
 
 # ============================================================================
 # AGENT COMMANDS
 # ============================================================================
 
-atlas agent register \
+ORCHEX agent register \
   --id claude-sonnet-4 \
   --name "Claude Sonnet 4" \
   --provider anthropic \
   --capabilities code_generation,code_review,refactoring
 
-atlas agent list
-atlas agent show <agent-id>
-atlas agent health <agent-id>
-atlas agent remove <agent-id>
+ORCHEX agent list
+ORCHEX agent show <agent-id>
+ORCHEX agent health <agent-id>
+ORCHEX agent remove <agent-id>
 
 # ============================================================================
 # TASK COMMANDS
 # ============================================================================
 
-atlas task submit \
+ORCHEX task submit \
   --type code_generation \
   --description "Create REST API endpoint" \
   --context repository=my-app,language=python \
   --priority high
 
-atlas task status <task-id>
-atlas task list --status running
-atlas task cancel <task-id>
-atlas task retry <task-id>
+ORCHEX task status <task-id>
+ORCHEX task list --status running
+ORCHEX task cancel <task-id>
+ORCHEX task retry <task-id>
 
 # ============================================================================
 # ANALYSIS COMMANDS
 # ============================================================================
 
-atlas analyze <repository-path> \
+ORCHEX analyze <repository-path> \
   --type full \
   --output report.json
 
-atlas analyze status <analysis-id>
-atlas analyze report <analysis-id> --format markdown
+ORCHEX analyze status <analysis-id>
+ORCHEX analyze report <analysis-id> --format markdown
 
 # ============================================================================
 # REFACTORING COMMANDS
 # ============================================================================
 
-atlas refactor apply <opportunity-id> \
+ORCHEX refactor apply <opportunity-id> \
   --dry-run \
   --create-pr
 
-atlas refactor status <refactoring-id>
-atlas refactor list --repository <path>
+ORCHEX refactor status <refactoring-id>
+ORCHEX refactor list --repository <path>
 
 # ============================================================================
 # OPTIMIZATION COMMANDS
 # ============================================================================
 
-atlas optimize start \
+ORCHEX optimize start \
   --schedule daily \
   --repository <path>
 
-atlas optimize status
-atlas optimize stop
-atlas optimize report --period 7d
+ORCHEX optimize status
+ORCHEX optimize stop
+ORCHEX optimize report --period 7d
 
 # ============================================================================
 # METRICS COMMANDS
 # ============================================================================
 
-atlas metrics show --period 24h
-atlas metrics agent <agent-id> --period 7d
-atlas metrics export --format json --output metrics.json
+ORCHEX metrics show --period 24h
+ORCHEX metrics agent <agent-id> --period 7d
+ORCHEX metrics export --format json --output metrics.json
 
 # ============================================================================
 # SYSTEM COMMANDS
 # ============================================================================
 
-atlas health
-atlas status
-atlas config show
-atlas config set <key> <value>
+ORCHEX health
+ORCHEX status
+ORCHEX config show
+ORCHEX config set <key> <value>
 ```
 
 ### Service Interface
@@ -1956,10 +1956,10 @@ atlas config set <key> <value>
 ```python
 # Python SDK Interface
 
-from atlas import ATLAS, Task, Agent
+from ORCHEX import ORCHEX, Task, Agent
 
-# Initialize ATLAS client
-atlas = ATLAS(api_url="http://localhost:8000")
+# Initialize ORCHEX client
+ORCHEX = ORCHEX(api_url="http://localhost:8000")
 
 # Register an agent
 agent = Agent(
@@ -1968,7 +1968,7 @@ agent = Agent(
     provider="anthropic",
     capabilities=["code_generation", "code_review"]
 )
-atlas.agents.register(agent)
+ORCHEX.agents.register(agent)
 
 # Submit a task
 task = Task(
@@ -1979,14 +1979,14 @@ task = Task(
         "language": "python"
     }
 )
-result = atlas.tasks.submit(task)
+result = ORCHEX.tasks.submit(task)
 
 # Wait for completion
 result.wait()
 print(result.output)
 
 # Analyze repository
-analysis = atlas.analyze(
+analysis = ORCHEX.analyze(
     repository_path="/path/to/repo",
     analysis_type="full"
 )
@@ -1994,7 +1994,7 @@ analysis.wait()
 print(f"Chaos score: {analysis.summary.avg_chaos_score}")
 
 # Apply refactoring
-refactoring = atlas.refactor.apply(
+refactoring = ORCHEX.refactor.apply(
     opportunity_id="opp_123",
     create_pr=True
 )
@@ -2002,7 +2002,7 @@ refactoring.wait()
 print(f"PR created: {refactoring.pull_request}")
 
 # Get metrics
-metrics = atlas.metrics.get(period="24h")
+metrics = ORCHEX.metrics.get(period="24h")
 print(f"Success rate: {metrics.success_rate:.1%}")
 ```
 
@@ -2010,7 +2010,7 @@ print(f"Success rate: {metrics.success_rate:.1%}")
 
 ## Integration Points
 
-### How ATLAS Uses KILO Tools
+### How ORCHEX Uses KILO Tools
 
 ```python
 # 1. Validation Integration
@@ -2039,7 +2039,7 @@ from tools.lib.checkpoint import CheckpointManager
 
 class TaskRouter:
     def __init__(self):
-        self.checkpoint_mgr = CheckpointManager(workflow="atlas")
+        self.checkpoint_mgr = CheckpointManager(workflow="ORCHEX")
 
     def route(self, task: Task) -> RoutingDecision:
         """Route task with checkpoint for recovery."""
@@ -2109,30 +2109,30 @@ class FallbackManager:
             return self._fallback(task, agent, e)
 ```
 
-### How Agents Interact with ATLAS
+### How Agents Interact with ORCHEX
 
 ```python
 # Agent SDK for integration
 
 class ATLASAgent:
-    """Base class for ATLAS-compatible agents."""
+    """Base class for ORCHEX-compatible agents."""
 
     def __init__(self, agent_id: str, atlas_url: str):
         self.agent_id = agent_id
-        self.atlas = ATLASClient(atlas_url)
+        self.orchex = ATLASClient(atlas_url)
         self.register()
 
     def register(self):
-        """Register with ATLAS system."""
-        self.atlas.agents.register(
+        """Register with ORCHEX system."""
+        self.orchex.agents.register(
             agent_id=self.agent_id,
             capabilities=self.get_capabilities(),
             constraints=self.get_constraints()
         )
 
     def heartbeat(self):
-        """Send health status to ATLAS."""
-        self.atlas.agents.update_health(
+        """Send health status to ORCHEX."""
+        self.orchex.agents.update_health(
             agent_id=self.agent_id,
             status=self.get_health_status(),
             metrics=self.get_metrics()
@@ -2143,16 +2143,16 @@ class ATLASAgent:
         try:
             result = self._execute_internal(task)
 
-            # Report success to ATLAS
-            self.atlas.tasks.complete(
+            # Report success to ORCHEX
+            self.orchex.tasks.complete(
                 task_id=task.task_id,
                 result=result
             )
 
             return result
         except Exception as e:
-            # Report failure to ATLAS
-            self.atlas.tasks.fail(
+            # Report failure to ORCHEX
+            self.orchex.tasks.fail(
                 task_id=task.task_id,
                 error=str(e)
             )
@@ -2290,10 +2290,10 @@ class OptimizationService:
 
 **Tasks:**
 
-1. Create ATLAS directory structure
-   - `.metaHub/atlas/agents/`
-   - `.metaHub/atlas/tasks/`
-   - `.metaHub/atlas/metrics/`
+1. Create ORCHEX directory structure
+   - `.metaHub/ORCHEX/agents/`
+   - `.metaHub/ORCHEX/tasks/`
+   - `.metaHub/ORCHEX/metrics/`
 
 2. Implement Agent Registry
    - Agent metadata storage
@@ -2307,15 +2307,15 @@ class OptimizationService:
    - Basic agent selection
 
 4. Set up telemetry integration
-   - Extend KILO telemetry for ATLAS events
-   - Create ATLAS-specific event types
+   - Extend KILO telemetry for ORCHEX events
+   - Create ORCHEX-specific event types
    - Implement metrics collection
 
 **Deliverables:**
 
-- `tools/atlas/registry.py` - Agent registry implementation
-- `tools/atlas/router.py` - Basic task router
-- `tools/atlas/models.py` - Data models
+- `tools/orchex/registry.py` - Agent registry implementation
+- `tools/orchex/router.py` - Basic task router
+- `tools/orchex/models.py` - Data models
 - Tests for core components
 
 **Success Criteria:**
@@ -2344,9 +2344,9 @@ class OptimizationService:
    - Queue management
 
 3. Create CLI interface
-   - `atlas agent` commands
-   - `atlas task` commands
-   - `atlas metrics` commands
+   - `ORCHEX agent` commands
+   - `ORCHEX task` commands
+   - `ORCHEX metrics` commands
 
 4. Integration testing
    - Multi-agent scenarios
@@ -2355,8 +2355,8 @@ class OptimizationService:
 
 **Deliverables:**
 
-- `tools/atlas/balancer.py` - Load balancer
-- `tools/cli/atlas.py` - CLI interface
+- `tools/orchex/balancer.py` - Load balancer
+- `tools/cli/ORCHEX.py` - CLI interface
 - Integration tests
 - Performance benchmarks
 
@@ -2398,8 +2398,8 @@ class OptimizationService:
 
 **Deliverables:**
 
-- `tools/atlas/fallback.py` - Fallback manager
-- `tools/atlas/api.py` - REST API server
+- `tools/orchex/fallback.py` - Fallback manager
+- `tools/orchex/api.py` - REST API server
 - Monitoring dashboard
 - Alert configuration
 
@@ -2440,8 +2440,8 @@ class OptimizationService:
 
 **Deliverables:**
 
-- `tools/atlas/analyzer.py` - Repository analyzer
-- `tools/atlas/metrics.py` - Chaos metrics
+- `tools/orchex/analyzer.py` - Repository analyzer
+- `tools/orchex/metrics.py` - Chaos metrics
 - Analysis reports
 - Governance integration
 
@@ -2484,8 +2484,8 @@ class OptimizationService:
 
 **Deliverables:**
 
-- `tools/atlas/refactoring.py` - Refactoring engine
-- `tools/atlas/optimizer.py` - Optimization service
+- `tools/orchex/refactoring.py` - Refactoring engine
+- `tools/orchex/optimizer.py` - Optimization service
 - Refactoring operations
 - E2E tests
 
@@ -2577,7 +2577,7 @@ graph TB
 
 ## Conclusion
 
-ATLAS represents a comprehensive enterprise-grade solution for multiagent LLM orchestration and continuous repository optimization. By building on the solid KILO foundation, ATLAS provides:
+ORCHEX represents a comprehensive enterprise-grade solution for multiagent LLM orchestration and continuous repository optimization. By building on the solid KILO foundation, ORCHEX provides:
 
 1. **Intelligent Orchestration** - Smart agent selection and load balancing
 2. **Resilient Execution** - Multi-tier fallback chains ensure reliability

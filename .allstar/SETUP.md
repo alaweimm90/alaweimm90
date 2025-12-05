@@ -36,7 +36,7 @@ To activate Allstar for this repository:
 
 1. Visit: https://github.com/apps/allstar-app
 2. Click "Install"
-3. Select this repository (alaweimm90/alaweimm90)
+3. Select this repository (alawein/alawein)
 4. Authorize the app
 5. Allstar will begin monitoring within 24 hours
 

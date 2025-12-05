@@ -3,7 +3,7 @@
 DevOps Workflow Runner - Autonomous Error-Free Development Pipeline
 Integrates all critical DevOps MCPs for end-to-end workflow automation
 
-Author: alaweimm90
+Author: alawein
 Organization: AlaweinOS
 Last Updated: 2025-11-28
 """

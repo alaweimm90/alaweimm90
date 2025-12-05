@@ -36,7 +36,7 @@ This governance system provides automated compliance checking, structure validat
 ### Governance Repository Layout
 
 ```
-alaweimm90/alaweimm90/
+alawein/alawein/
 ├── .metaHub/                    # Governance infrastructure
 │   ├── scripts/                 # Automation scripts
 │   ├── schemas/                 # JSON schemas
@@ -45,9 +45,9 @@ alaweimm90/alaweimm90/
 │   └── docs/                    # Governance docs
 ├── .github/workflows/           # CI/CD workflows
 ├── organizations/               # Local working copies
-│   ├── alaweimm90-business/     # Business projects
-│   ├── alaweimm90-science/      # Scientific computing
-│   ├── alaweimm90-tools/        # Developer tools
+│   ├── alawein-business/     # Business projects
+│   ├── alawein-science/      # Scientific computing
+│   ├── alawein-tools/        # Developer tools
 │   ├── AlaweinOS/              # OS & infrastructure
 │   └── MeatheadPhysicist/      # Physics education
 └── docs/                        # Documentation
@@ -117,7 +117,7 @@ repository/
 python .metaHub/scripts/structure_validator.py --report text
 
 # Check specific organization
-python .metaHub/scripts/structure_validator.py --org alaweimm90-tools
+python .metaHub/scripts/structure_validator.py --org alawein-tools
 
 # JSON output for automation
 python .metaHub/scripts/structure_validator.py --report json --output report.json
@@ -140,7 +140,7 @@ python .metaHub/scripts/structure_validator.py --fix --dry-run
 python .metaHub/scripts/sync_governance.py --all
 
 # Update specific organization
-python .metaHub/scripts/sync_governance.py --org alaweimm90-business
+python .metaHub/scripts/sync_governance.py --org alawein-business
 ```
 
 ### Repository Onboarding
@@ -159,7 +159,7 @@ python .metaHub/scripts/sync_governance.py --org alaweimm90-business
 type: library # library | service | tool | demo | research
 language: python # python | typescript | go | rust | docs
 tier: 2 # 1-4 (1=critical, 4=experimental)
-owner: '@alaweimm90' # GitHub username or team
+owner: '@alawein' # GitHub username or team
 status: active # active | archived | deprecated
 description: 'Brief project description'
 ```
@@ -173,7 +173,7 @@ description: 'Brief project description'
 python .metaHub/scripts/setup_repo_ci.py --all
 
 # Set up specific organization
-python .metaHub/scripts/setup_repo_ci.py --org alaweimm90-tools
+python .metaHub/scripts/setup_repo_ci.py --org alawein-tools
 ```
 
 #### Manual CI Configuration
@@ -193,7 +193,7 @@ Each repository gets appropriate CI workflow based on:
 python .metaHub/scripts/push_monorepos.py --all
 
 # Push specific organization
-python .metaHub/scripts/push_monorepos.py --org alaweimm90-business
+python .metaHub/scripts/push_monorepos.py --org alawein-business
 ```
 
 ## Monitoring and Reporting
@@ -274,13 +274,13 @@ python .metaHub/scripts/enforce.py organizations/ --report json
 #### Validate Single Repository
 
 ```bash
-python .metaHub/scripts/structure_validator.py --repo organizations/alaweimm90-tools/my-repo
+python .metaHub/scripts/structure_validator.py --repo organizations/alawein-tools/my-repo
 ```
 
 #### Test Policy Against Repository
 
 ```bash
-python .metaHub/scripts/enforce.py organizations/alaweimm90-tools/my-repo --policy repo-structure
+python .metaHub/scripts/enforce.py organizations/alawein-tools/my-repo --policy repo-structure
 ```
 
 #### Check GitHub CLI Authentication
@@ -332,4 +332,4 @@ For issues or questions:
 
 **Last Updated**: 2025-11-27
 **Version**: 1.0.0
-**Maintained by**: @alaweimm90
+**Maintained by**: @alawein

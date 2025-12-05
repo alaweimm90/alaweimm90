@@ -1,7 +1,7 @@
 # CLI Tool Extraction Report
 
 **Date:** November 30, 2025  
-**Scope:** Portfolio-wide analysis across alaweimm90-business projects, automation, tools, and .metaHub
+**Scope:** Portfolio-wide analysis across alawein-business projects, automation, tools, and .metaHub
 
 ---
 
@@ -51,9 +51,9 @@ This analysis identified **22 candidate CLI tools** extractable from existing co
 | Tool Name | Projects | Description | Commands | Complexity |
 |-----------|----------|-------------|----------|------------|
 | `mh-analytics` | LiveItIconic, BenchBarrier, MarketingAutomation | Analytics tracking setup (GA4, custom events) | `init`, `track`, `export`, `dashboard` | Medium |
-| `mh-predict` | enterprise/predictive, tools/atlas | ML quality predictor for code metrics | `train`, `predict`, `explain`, `report` | High |
+| `mh-predict` | enterprise/predictive, tools/orchex | ML quality predictor for code metrics | `train`, `predict`, `explain`, `report` | High |
 | `mh-recommend` | LiveItIconic | Product recommendation engine | `train`, `suggest`, `evaluate` | High |
-| `mh-perf` | LiveItIconic, tools/atlas | Performance analysis (complexity, bundle size) | `analyze`, `report`, `compare`, `ci-check` | Medium |
+| `mh-perf` | LiveItIconic, tools/orchex | Performance analysis (complexity, bundle size) | `analyze`, `report`, `compare`, `ci-check` | Medium |
 
 ### Category D: Infrastructure & DevOps
 
@@ -193,7 +193,7 @@ mh-security report --format json       # Generate report
 ### 5.3 CLI Pattern Standardization
 Current CLIs use different patterns:
 - **Python:** Click (governance.py) ✅ Preferred
-- **TypeScript:** Commander (atlas/cli) ✅ Preferred
+- **TypeScript:** Commander (ORCHEX/cli) ✅ Preferred
 - **Shell:** Plain bash (security/) ⚠️ Should wrap
 
 **Recommendation:** Standardize on:

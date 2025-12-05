@@ -17,25 +17,25 @@ You need to create **3 public repositories** on GitHub. Each repository MUST:
 
 **Click these links to create them:**
 
-#### 1️⃣ **alaweimm90-science**
-**→ Go to:** https://github.com/organizations/alaweimm90-science/repositories/new
-- Repository name: `alaweimm90-science`
+#### 1️⃣ **alawein-science**
+**→ Go to:** https://github.com/organizations/alawein-science/repositories/new
+- Repository name: `alawein-science`
 - Description: "Research & Optimization organization profile"
 - Public ✅
 - Do NOT add README, .gitignore, or license
 - Click "Create repository"
 
-#### 2️⃣ **alaweimm90-tools**
-**→ Go to:** https://github.com/organizations/alaweimm90-tools/repositories/new
-- Repository name: `alaweimm90-tools`
+#### 2️⃣ **alawein-tools**
+**→ Go to:** https://github.com/organizations/alawein-tools/repositories/new
+- Repository name: `alawein-tools`
 - Description: "Tools & Automation organization profile"
 - Public ✅
 - Do NOT add README, .gitignore, or license
 - Click "Create repository"
 
-#### 3️⃣ **alaweimm90-business**
-**→ Go to:** https://github.com/organizations/alaweimm90-business/repositories/new
-- Repository name: `alaweimm90-business`
+#### 3️⃣ **alawein-business**
+**→ Go to:** https://github.com/organizations/alawein-business/repositories/new
+- Repository name: `alawein-business`
 - Description: "Business & Commerce organization profile"
 - Public ✅
 - Do NOT add README, .gitignore, or license
@@ -55,21 +55,21 @@ After creating all 3 repositories, run this single command:
 
 ```bash
 # Science
-cd /tmp/org-deployments/alaweimm90-science
+cd /tmp/org-deployments/alawein-science
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-science/alaweimm90-science
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-science/alawein-science
 git push -u origin main
 
 # Tools
-cd /tmp/org-deployments/alaweimm90-tools
+cd /tmp/org-deployments/alawein-tools
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-tools/alaweimm90-tools
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-tools/alawein-tools
 git push -u origin main
 
 # Business
-cd /tmp/org-deployments/alaweimm90-business
+cd /tmp/org-deployments/alawein-business
 git remote remove origin 2>/dev/null || true
-git remote add origin http://local_proxy@127.0.0.1:52785/git/alaweimm90-business/alaweimm90-business
+git remote add origin http://local_proxy@127.0.0.1:52785/git/alawein-business/alawein-business
 git push -u origin main
 ```
 
@@ -79,9 +79,9 @@ git push -u origin main
 
 Visit your organization pages to see the beautiful results:
 
-1. **alaweimm90-science:** https://github.com/alaweimm90-science
-2. **alaweimm90-tools:** https://github.com/alaweimm90-tools
-3. **alaweimm90-business:** https://github.com/alaweimm90-business
+1. **alawein-science:** https://github.com/alawein-science
+2. **alawein-tools:** https://github.com/alawein-tools
+3. **alawein-business:** https://github.com/alawein-business
 
 You should see:
 - ✅ Custom SVG header (no more generic GitHub messages!)
@@ -92,12 +92,12 @@ You should see:
 
 ## 🎯 **Quick Checklist**
 
-- [ ] Open https://github.com/organizations/alaweimm90-science/repositories/new
-  - [ ] Create repository named `alaweimm90-science` (public, empty)
-- [ ] Open https://github.com/organizations/alaweimm90-tools/repositories/new
-  - [ ] Create repository named `alaweimm90-tools` (public, empty)
-- [ ] Open https://github.com/organizations/alaweimm90-business/repositories/new
-  - [ ] Create repository named `alaweimm90-business` (public, empty)
+- [ ] Open https://github.com/organizations/alawein-science/repositories/new
+  - [ ] Create repository named `alawein-science` (public, empty)
+- [ ] Open https://github.com/organizations/alawein-tools/repositories/new
+  - [ ] Create repository named `alawein-tools` (public, empty)
+- [ ] Open https://github.com/organizations/alawein-business/repositories/new
+  - [ ] Create repository named `alawein-business` (public, empty)
 - [ ] Run: `/tmp/org-deployments/deploy-3-orgs.sh`
 - [ ] Verify all 3 profiles look amazing!
 
@@ -108,9 +108,9 @@ You should see:
 I've also created backup archives in case you need them:
 
 ```
-/tmp/org-deployments/alaweimm90-science.tar.gz
-/tmp/org-deployments/alaweimm90-tools.tar.gz
-/tmp/org-deployments/alaweimm90-business.tar.gz
+/tmp/org-deployments/alawein-science.tar.gz
+/tmp/org-deployments/alawein-tools.tar.gz
+/tmp/org-deployments/alawein-business.tar.gz
 ```
 
 ---

@@ -23,7 +23,7 @@ meta-governance/
 ├── tests/               # Unit tests (Vitest + Pytest)
 ├── tools/               # TypeScript toolkit
 │   ├── ai/              # AI orchestration & MCP integration
-│   ├── atlas/           # Code analysis & refactoring engine
+│   ├── ORCHEX/           # Code analysis & refactoring engine
 │   ├── bin/             # Binary entry points
 │   ├── cli/             # Main CLI entry points
 │   ├── devops/          # DevOps agents & templates
@@ -32,7 +32,7 @@ meta-governance/
 │   └── security/        # Security scanning tools
 ├── .ai/                 # AI assistant configurations
 ├── .allstar/            # GitHub Allstar security config
-├── .atlas/              # ATLAS runtime state & reports
+├── .orchex/              # ORCHEX runtime state & reports
 ├── .claude/             # Claude Code configuration
 ├── .github/             # GitHub Actions & workflows
 ├── .husky/              # Git hooks (pre-commit)
@@ -46,7 +46,7 @@ meta-governance/
 ```mermaid
 flowchart TB
     subgraph User["User Interface"]
-        CLI[ATLAS CLI]
+        CLI[ORCHEX CLI]
         VSCode[VS Code Extension]
         MCP[MCP Servers]
     end
@@ -58,7 +58,7 @@ flowchart TB
     end
 
     subgraph Core["Core Systems"]
-        Atlas[ATLAS Engine]
+        ORCHEX[ORCHEX Engine]
         AI[AI Integration]
         Governance[Governance]
     end
@@ -75,19 +75,19 @@ flowchart TB
 
     Router --> DevOpsAgents
     Router --> Workflow
-    DevOpsAgents --> Atlas
-    Workflow --> Atlas
+    DevOpsAgents --> ORCHEX
+    Workflow --> ORCHEX
 
-    Atlas --> AI
-    Atlas --> Governance
+    ORCHEX --> AI
+    ORCHEX --> Governance
 
     AI --> Reports
     Governance --> Metrics
-    Atlas --> Artifacts
+    ORCHEX --> Artifacts
 
     style Router fill:#6366F1,color:#fff
     style DevOpsAgents fill:#10B981,color:#fff
-    style Atlas fill:#F59E0B,color:#fff
+    style ORCHEX fill:#F59E0B,color:#fff
 ```
 
 ## DevOps Agent System
@@ -157,13 +157,13 @@ flowchart TD
     style Incident fill:#EF4444,color:#fff
 ```
 
-## ATLAS Analysis Flow
+## ORCHEX Analysis Flow
 
 ```mermaid
 flowchart LR
     subgraph Input["Input"]
         Source[Source Code]
-        Config[atlas.config.yaml]
+        Config[ORCHEX.config.yaml]
     end
 
     subgraph Analysis["Analysis"]
@@ -240,14 +240,14 @@ flowchart TB
 
 ## Quick Reference
 
-| Component      | Path                                                                                        | Purpose                  |
-| -------------- | ------------------------------------------------------------------------------------------- | ------------------------ |
-| ATLAS CLI      | [tools/atlas/cli/](../tools/atlas/cli/)                                                     | Main command interface   |
-| DevOps Agents  | [tools/atlas/orchestration/devops-agents.ts](../tools/atlas/orchestration/devops-agents.ts) | 20 specialized agents    |
-| AI Integration | [tools/ai/](../tools/ai/)                                                                   | MCP servers & AI routing |
-| Governance     | [.metaHub/policies/](../.metaHub/policies/)                                                 | Policy definitions       |
-| Workflows      | [.github/workflows/](../.github/workflows/)                                                 | CI/CD automation         |
-| Tests          | [tests/](../tests/)                                                                         | Unit & integration tests |
+| Component      | Path                                                                                          | Purpose                  |
+| -------------- | --------------------------------------------------------------------------------------------- | ------------------------ |
+| ORCHEX CLI     | [tools/orchex/cli/](../tools/orchex/cli/)                                                     | Main command interface   |
+| DevOps Agents  | [tools/orchex/orchestration/devops-agents.ts](../tools/orchex/orchestration/devops-agents.ts) | 20 specialized agents    |
+| AI Integration | [tools/ai/](../tools/ai/)                                                                     | MCP servers & AI routing |
+| Governance     | [.metaHub/policies/](../.metaHub/policies/)                                                   | Policy definitions       |
+| Workflows      | [.github/workflows/](../.github/workflows/)                                                   | CI/CD automation         |
+| Tests          | [tests/](../tests/)                                                                           | Unit & integration tests |
 
 ## Key Files
 
@@ -258,17 +258,17 @@ tsconfig.json                # TypeScript configuration
 eslint.config.js             # ESLint v9 flat config
 vitest.config.ts             # Test runner config
 .metaHub/policies/*.yaml     # Governance policies
-tools/atlas/cli/commands.ts  # CLI command registry
+tools/orchex/cli/commands.ts  # CLI command registry
 ```
 
 ## CLI Commands
 
 ```bash
-# ATLAS Commands
-npm run atlas -- agents       # List DevOps agents
-npm run atlas -- workflows    # List available workflows
-npm run atlas -- run <name>   # Execute a workflow
-npm run atlas -- devops ci    # Run CI/CD pipeline
+# ORCHEX Commands
+npm run ORCHEX -- agents       # List DevOps agents
+npm run ORCHEX -- workflows    # List available workflows
+npm run ORCHEX -- run <name>   # Execute a workflow
+npm run ORCHEX -- devops ci    # Run CI/CD pipeline
 
 # Development
 npm run lint                  # Run ESLint

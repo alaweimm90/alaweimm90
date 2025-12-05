@@ -470,7 +470,7 @@ class AgentIntegrator:
         ]
     
     def get_atlas_mappings(self) -> List[AgentMCPMapping]:
-        """Define ATLAS agent → MCP mappings."""
+        """Define ORCHEX agent → MCP mappings."""
         return [
             AgentMCPMapping(
                 agent_name="Workflow_Orchestrator",
@@ -494,8 +494,8 @@ class AgentIntegrator:
                 "total_agents": 1,
                 "mappings": [asdict(m) for m in self.get_turingo_mappings()]
             },
-            "atlas": {
-                "framework": "ATLAS",
+            "ORCHEX": {
+                "framework": "ORCHEX",
                 "total_agents": 1,
                 "mappings": [asdict(m) for m in self.get_atlas_mappings()]
             }

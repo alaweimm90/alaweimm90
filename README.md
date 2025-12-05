@@ -39,7 +39,7 @@ I care less about buzzwords and more about how and why things work. I like code 
 ```python
 current_state = {
     "research": "GPU-accelerated optimization for materials discovery",
-    "building": ["Optilibria framework", "ATLAS research system"],
+    "building": ["Librex framework", "ORCHEX research system"],
     "learning": "Distributed systems & Rust",
     "reading": "Convex Optimization (Boyd)"
 }
@@ -79,7 +79,7 @@ result = optimizer.optimize(f, x0, gpu=True)
 </td>
 <td width="50%" valign="top">
 
-### ATLAS
+### ORCHEX
 
 **Autonomous research agent**
 
@@ -92,7 +92,7 @@ An AI system I built to handle the boring parts of research. It designs experime
 
 ```python
 # Automated experiment proposal
-atlas.propose_experiment(
+ORCHEX.propose_experiment(
     target="high-Tc superconductor",
     constraints={"max_temp": 300}
 )
@@ -187,12 +187,12 @@ System Architecture        █████████████████�
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=alaweimm90&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=A855F7&icon_color=EC4899&text_color=C9D1D9&ring_color=4CC9F0" width="49%" />
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=alaweimm90&theme=tokyonight&hide_border=true&background=0D1117&ring=A855F7&fire=EC4899&currStreakLabel=4CC9F0" width="49%" />
+<img src="https://github-readme-stats.vercel.app/api?username=alawein&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=A855F7&icon_color=EC4899&text_color=C9D1D9&ring_color=4CC9F0" width="49%" />
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=alawein&theme=tokyonight&hide_border=true&background=0D1117&ring=A855F7&fire=EC4899&currStreakLabel=4CC9F0" width="49%" />
 <br>
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=alaweimm90&theme=tokyo-night&hide_border=true&bg_color=0D1117&color=A855F7&line=EC4899&point=4CC9F0" width="98%" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=alawein&theme=tokyo-night&hide_border=true&bg_color=0D1117&color=A855F7&line=EC4899&point=4CC9F0" width="98%" />
 <br>
-<img src="https://github-profile-trophy.vercel.app/?username=alaweimm90&theme=tokyonight&no-frame=true&no-bg=true&row=1&column=7&margin-w=10&margin-h=10" width="98%" />
+<img src="https://github-profile-trophy.vercel.app/?username=alawein&theme=tokyonight&no-frame=true&no-bg=true&row=1&column=7&margin-w=10&margin-h=10" width="98%" />
 
 </div>
 
@@ -325,7 +325,7 @@ If you made it this far, include the phrase **"Hamiltonian"** in your message so
 
 <div align="center">
 
-<img src="https://komarev.com/ghpvc/?username=alaweimm90&label=Views&color=A855F7&style=flat-square" alt="Profile Views"/>
+<img src="https://komarev.com/ghpvc/?username=alawein&label=Views&color=A855F7&style=flat-square" alt="Profile Views"/>
 
 <br><br>
 

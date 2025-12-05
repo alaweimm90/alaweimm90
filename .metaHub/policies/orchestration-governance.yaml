@@ -76,7 +76,7 @@ agent_framework_routing:
   # Map complex tasks to existing multi-agent frameworks
   research_tasks:
     primary: "MeatheadPhysicist"
-    fallback: "ATLAS"
+    fallback: "ORCHEX"
     agents: ["Scientist", "Literature", "Scout", "Theory", "Critic"]
     use_when: ["academic_research", "scientific_analysis", "literature_review"]
 
@@ -93,7 +93,7 @@ agent_framework_routing:
 
   verification_tasks:
     primary: "Turingo"
-    fallback: "ATLAS"
+    fallback: "ORCHEX"
     agents: ["VerificationVigilante", "SkepticSorcerer", "Critic", "Ethics Review"]
     use_when: ["code_review", "validation", "quality_assurance"]
 

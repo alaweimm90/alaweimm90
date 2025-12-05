@@ -39,9 +39,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/alaweimm90"
-Repository = "https://github.com/alaweimm90/automation"
-Documentation = "https://github.com/alaweimm90/automation#readme"
+Homepage = "https://github.com/alawein"
+Repository = "https://github.com/alawein/automation"
+Documentation = "https://github.com/alawein/automation#readme"
 
 [tool.setuptools.packages.find]
 where = ["."]

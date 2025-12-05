@@ -7,7 +7,7 @@ This repository implements a **Golden Path** / **Internal Developer Platform (ID
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                     META-GOVERNANCE REPO                        │
-│                    (alaweimm90/alaweimm90)                       │
+│                    (alawein/alawein)                       │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
 │  │  Templates  │  │  Policies   │  │   Tools     │              │
@@ -46,7 +46,7 @@ This repository implements a **Golden Path** / **Internal Developer Platform (ID
 ## Directory Structure
 
 ```
-alaweimm90/
+alawein/
 ├── .github/
 │   └── workflows/           # Reusable workflows (called by other repos)
 │       ├── reusable-ci.yml
@@ -66,7 +66,7 @@ alaweimm90/
 │       └── monitoring/
 │
 ├── tools/
-│   ├── atlas/               # AI-powered refactoring
+│   ├── ORCHEX/               # AI-powered refactoring
 │   ├── devops/              # Template CLI tools
 │   └── governance/          # Policy validators
 │
@@ -92,7 +92,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-ci.yml@main
     with:
       node-version: '20'
     secrets: inherit
@@ -104,7 +104,7 @@ Use the DevOps CLI to scaffold new projects:
 
 ```bash
 # From consumer repo
-npx @alaweimm90/devops-cli init --template=node-service
+npx @alawein/devops-cli init --template=node-service
 ```
 
 ### 3. Policy Inheritance
@@ -113,7 +113,7 @@ Consumer repos can reference policies:
 
 ```yaml
 # In consumer repo: .metaHub/config.yaml
-extends: alaweimm90/alaweimm90/.metaHub/policies/governance.yaml
+extends: alawein/alawein/.metaHub/policies/governance.yaml
 ```
 
 ## Enforcement Layers

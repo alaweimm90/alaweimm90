@@ -177,7 +177,7 @@ def cmd_debt_monitor(args):
         print(f"   Alert threshold: {args.threshold}% increase")
 
         print(f"\n💡 Next Steps:")
-        print(f"   • Run 'atlas debt scan' periodically to check for new debt")
+        print(f"   • Run 'ORCHEX debt scan' periodically to check for new debt")
         print(f"   • Set up CI/CD integration to run scans automatically")
         print(f"   • Review remediation plan and prioritize high-impact items")
 
@@ -287,7 +287,7 @@ def _add_plan_parser(subparsers):
 
 def main():
     """Main entry point for standalone debt CLI."""
-    parser = argparse.ArgumentParser(description='Technical Debt Management CLI', prog='atlas-debt')
+    parser = argparse.ArgumentParser(description='Technical Debt Management CLI', prog='ORCHEX-debt')
     parser.add_argument('--version', action='version', version='1.0.0')
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
 

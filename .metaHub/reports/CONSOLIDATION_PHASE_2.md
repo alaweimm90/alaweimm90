@@ -11,12 +11,12 @@
 
 ### Extended Consolidation (21 configs)
 - **Python Linting**: 11 projects → `tools/config/ruff.toml`
-  - alaweimm90-science: MagLogic, QMatSim, QubeML, SciComp, SpinCirc
+  - alawein-science: MagLogic, QMatSim, QubeML, SciComp, SpinCirc
   - AlaweinOS: FitnessApp, MEZAN, Optilibria, TalAI
   - MeatheadPhysicist: Config, docs, Notes, Papers, Projects, scripts, src, tests, Tools
 
 - **E2E Testing**: 3 projects → `tools/config/playwright.config.ts`
-  - alaweimm90-business: LiveItIconic
+  - alawein-business: LiveItIconic
   - AlaweinOS: Attributa, LLMWorks
 
 ### Global Configs Created (5 total)

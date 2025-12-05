@@ -71,7 +71,7 @@ def substitute_template(template_path, variables):
 # Example usage
 variables = {
     'FULL_NAME': 'Meshal Alawein',
-    'GITHUB_USERNAME': 'alaweimm90',
+    'GITHUB_USERNAME': 'alawein',
     'EMAIL': 'meshal@berkeley.edu',
     # ... more variables
 }
@@ -403,7 +403,7 @@ For an enterprise governance repository, use the consumer repo template with the
 ```bash
 # Identity
 FULL_NAME="Meshal Alawein"
-GITHUB_USERNAME="alaweimm90"
+GITHUB_USERNAME="alawein"
 EMAIL="meshal@berkeley.edu"
 WEBSITE_URL="https://malawein.com"
 WEBSITE_DOMAIN="malawein.com"
@@ -437,7 +437,7 @@ envsubst < README_PROFILE_TEMPLATE.md > README.md
 
 # Or with sed
 sed -i 's|{{FULL_NAME}}|Meshal Alawein|g' README.md
-sed -i 's|{{GITHUB_USERNAME}}|alaweimm90|g' README.md
+sed -i 's|{{GITHUB_USERNAME}}|alawein|g' README.md
 # ... etc
 ```
 

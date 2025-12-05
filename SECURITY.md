@@ -85,8 +85,8 @@
 
 ## Contact
 
-| Channel                                      | Use For           |
-| -------------------------------------------- | ----------------- |
-| GitHub Private Reporting                     | Security issues   |
-| GitHub Issues                                | General questions |
-| [@alaweimm90](https://github.com/alaweimm90) | Maintainer        |
+| Channel                                | Use For           |
+| -------------------------------------- | ----------------- |
+| GitHub Private Reporting               | Security issues   |
+| GitHub Issues                          | General questions |
+| [@alawein](https://github.com/alawein) | Maintainer        |

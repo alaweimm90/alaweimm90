@@ -106,13 +106,13 @@ npx automation deploy stats
 
 ## Integration Capabilities
 
-### Atlas CLI Integration
+### ORCHEX CLI Integration
 
 ```bash
-atlas automation prompts list
-atlas automation route "implement new feature"
-atlas prompts list    # shortcut commands
-atlas route "fix bug" # shortcut commands
+ORCHEX automation prompts list
+ORCHEX automation route "implement new feature"
+ORCHEX prompts list    # shortcut commands
+ORCHEX route "fix bug" # shortcut commands
 ```
 
 ### Asset Compatibility

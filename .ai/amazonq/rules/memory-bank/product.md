@@ -6,7 +6,7 @@ This is Meshal Alawein's comprehensive GitHub workspace - a meta-governance repo
 
 ## Core Value Proposition
 
-- **Scientific Computing Hub**: Advanced optimization frameworks (Optilibria), autonomous research agents (ATLAS), and physics simulation tools
+- **Scientific Computing Hub**: Advanced optimization frameworks (Optilibria), autonomous research agents (ORCHEX), and physics simulation tools
 - **AI Tool Orchestration**: Comprehensive integration and management of multiple AI coding assistants and agents
 - **DevOps Automation**: Template-driven infrastructure management with governance enforcement and compliance validation
 - **Research Acceleration**: GPU-accelerated optimization for materials discovery and quantum system simulation
@@ -16,7 +16,7 @@ This is Meshal Alawein's comprehensive GitHub workspace - a meta-governance repo
 ### Scientific Computing
 
 - **Optilibria Framework**: JAX-based optimization library with 31+ algorithms, 5-10x faster than SciPy on GPU
-- **ATLAS Research System**: Autonomous AI agent for experiment design and hypothesis testing
+- **ORCHEX Research System**: Autonomous AI agent for experiment design and hypothesis testing
 - **Quantum Mechanics Tools**: Interactive physics education platform with WebGL visualizations
 - **Performance Analytics**: ML-powered behavioral analytics for athletes and research optimization
 

@@ -1,4 +1,4 @@
-// ATLAS Optimizer Tests
+// ORCHEX Optimizer Tests
 // Tests for job queue, telemetry, and rollback functionality
 
 import { describe, it, expect, beforeEach, vi } from 'vitest';

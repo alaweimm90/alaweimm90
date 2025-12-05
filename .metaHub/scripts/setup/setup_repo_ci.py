@@ -57,7 +57,7 @@ class RepoCISetup:
                 codeowners_file.parent.mkdir(exist_ok=True)
                 with open(codeowners_file, 'w', encoding='utf-8') as f:
                     f.write("# Repository maintainers\n")
-                    f.write("* @alaweimm90\n")
+                    f.write("* @alawein\n")
 
             print(f"Set up CI for {repo_path.name} ({language}, tier {tier})")
             return True
@@ -85,13 +85,13 @@ class RepoCISetup:
         if language == 'python':
             workflow['jobs']['python-ci'] = {
                 'name': 'Python CI',
-                'uses': 'alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main',
+                'uses': 'alawein/alawein/.github/workflows/reusable-python-ci.yml@main',
                 'with': {'python-version': '3.11'}
             }
         elif language == 'typescript':
             workflow['jobs']['typescript-ci'] = {
                 'name': 'TypeScript CI',
-                'uses': 'alaweimm90/alaweimm90/.github/workflows/reusable-ts-ci.yml@main'
+                'uses': 'alawein/alawein/.github/workflows/reusable-ts-ci.yml@main'
             }
         else:
             # Generic CI for other languages
@@ -106,14 +106,14 @@ class RepoCISetup:
         # Policy check job (always included)
         workflow['jobs']['policy-check'] = {
             'name': 'Policy Check',
-            'uses': 'alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main'
+            'uses': 'alawein/alawein/.github/workflows/reusable-policy.yml@main'
         }
 
         # Security scan for tier 1-2
         if tier <= 2:
             workflow['jobs']['security'] = {
                 'name': 'Security Scan',
-                'uses': 'alaweimm90/alaweimm90/.github/workflows/scorecard.yml@main'
+                'uses': 'alawein/alawein/.github/workflows/scorecard.yml@main'
             }
 
         return workflow

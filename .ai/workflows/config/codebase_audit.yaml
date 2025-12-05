@@ -259,7 +259,7 @@ success_criteria:
 # OUTPUT CONFIGURATION
 # =============================================================================
 outputs:
-  report_path: '.atlas/reports/codebase-audit-{timestamp}.md'
-  json_path: '.atlas/reports/codebase-audit-{timestamp}.json'
-  codemap_diff_path: '.atlas/reports/codemap-diff-{timestamp}.md'
+  report_path: '.ORCHEX/reports/codebase-audit-{timestamp}.md'
+  json_path: '.ORCHEX/reports/codebase-audit-{timestamp}.json'
+  codemap_diff_path: '.ORCHEX/reports/codemap-diff-{timestamp}.md'
   format: ['markdown', 'json']

@@ -7,21 +7,21 @@ steps:
     description: Build REPZ platform
     action: buildArtifacts
     inputs:
-      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm ci; npm run build"'
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alawein-business/Repz/REPZ/platform''; npm ci; npm run build"'
   - id: repz-test
     task: testing
     description: Run REPZ tests
     dependsOn: [repz-build]
     action: runTests
     inputs:
-      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm run test:run"'
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alawein-business/Repz/REPZ/platform''; npm run test:run"'
   - id: security-scan
     task: analysis
     description: Security scan REPZ
     dependsOn: [repz-build]
     action: imageScan
     inputs:
-      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alaweimm90-business/Repz/REPZ/platform''; npm run ai:security scan"'
+      command: 'pwsh -NoProfile -Command "Set-Location ''organizations/alawein-business/Repz/REPZ/platform''; npm run ai:security scan"'
   - id: repz-deploy
     task: documentation
     description: Deploy REPZ (preview)

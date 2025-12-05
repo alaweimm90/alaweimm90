@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@atlas/*": ["tools/atlas/*"],
+      "@ORCHEX/*": ["tools/ORCHEX/*"],
       "@ai/*": ["tools/ai/*"],
       "@automation/*": ["automation/*"],
       "@lib/*": ["tools/lib/*"],

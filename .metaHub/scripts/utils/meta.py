@@ -10,8 +10,8 @@ Portfolio-level auditing and project promotion capabilities:
 
 Usage:
     python meta.py scan-projects                    # Scan all projects
-    python meta.py scan-projects --org alaweimm90-tools
-    python meta.py promote-project my-project --org alaweimm90-tools
+    python meta.py scan-projects --org alawein-tools
+    python meta.py promote-project my-project --org alawein-tools
     python meta.py audit --output audit-report.md
 """
 
@@ -738,12 +738,12 @@ permissions:
 
 jobs:
   python:
-    uses: alaweimm90/.github/.github/workflows/reusable-python-ci.yml@main
+    uses: alawein/.github/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
 
   policy:
-    uses: alaweimm90/.github/.github/workflows/reusable-policy.yml@main
+    uses: alawein/.github/.github/workflows/reusable-policy.yml@main
 """
         elif language == "typescript":
             workflow = """name: CI
@@ -759,12 +759,12 @@ permissions:
 
 jobs:
   typescript:
-    uses: alaweimm90/.github/.github/workflows/reusable-ts-ci.yml@main
+    uses: alawein/.github/.github/workflows/reusable-ts-ci.yml@main
     with:
       node-version: '20'
 
   policy:
-    uses: alaweimm90/.github/.github/workflows/reusable-policy.yml@main
+    uses: alawein/.github/.github/workflows/reusable-policy.yml@main
 """
         else:
             workflow = """name: CI
@@ -780,7 +780,7 @@ permissions:
 
 jobs:
   policy:
-    uses: alaweimm90/.github/.github/workflows/reusable-policy.yml@main
+    uses: alawein/.github/.github/workflows/reusable-policy.yml@main
 """
 
         if not dry_run:

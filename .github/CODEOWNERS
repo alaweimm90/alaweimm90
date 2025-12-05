@@ -2,38 +2,38 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Default owner for everything in the repo
-* @alaweimm90
+* @alawein
 
 # Governance & Infrastructure - Requires security team review
-.metaHub/ @alaweimm90
-.metaHub/policies/ @alaweimm90
-.metaHub/security/ @alaweimm90
-.metaHub/backstage/ @alaweimm90
+.metaHub/ @alawein
+.metaHub/policies/ @alawein
+.metaHub/security/ @alawein
+.metaHub/backstage/ @alawein
 
 # GitHub Workflows & Actions - Requires DevOps review
-.github/workflows/ @alaweimm90
-.github/actions/ @alaweimm90
-.github/CODEOWNERS @alaweimm90
+.github/workflows/ @alawein
+.github/actions/ @alawein
+.github/CODEOWNERS @alawein
 
 # Repository Policy Files - Requires governance approval
-SECURITY.md @alaweimm90
-LICENSE @alaweimm90
-.gitignore @alaweimm90
+SECURITY.md @alawein
+LICENSE @alawein
+.gitignore @alawein
 
 # Dependency Management - Requires security review
-.metaHub/renovate.json @alaweimm90
-package.json @alaweimm90
-pnpm-workspace.yaml @alaweimm90
+.metaHub/renovate.json @alawein
+package.json @alawein
+pnpm-workspace.yaml @alawein
 
 # Docker & Infrastructure - Requires platform team review
-docker-compose*.yml @alaweimm90
-Dockerfile @alaweimm90
-.dockerignore @alaweimm90
+docker-compose*.yml @alawein
+Dockerfile @alawein
+.dockerignore @alawein
 
 # Monorepo Configuration - Requires architecture review
-turbo.json @alaweimm90
-Makefile @alaweimm90
+turbo.json @alawein
+Makefile @alawein
 
 # Organization Workspaces - Respective owners
-alaweimm90/ @alaweimm90
-organizations/ @alaweimm90
+alawein/ @alawein
+organizations/ @alawein

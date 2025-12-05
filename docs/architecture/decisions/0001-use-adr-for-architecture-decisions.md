@@ -12,7 +12,7 @@
 
 ## Context
 
-As the repository grows in complexity with multiple subsystems (Atlas, AI orchestration, governance automation), we need a structured way to document significant architectural decisions. Current challenges include:
+As the repository grows in complexity with multiple subsystems (ORCHEX, AI orchestration, governance automation), we need a structured way to document significant architectural decisions. Current challenges include:
 
 - Architectural decisions are scattered across commit messages, PR discussions, and Slack
 - New team members struggle to understand why certain approaches were chosen

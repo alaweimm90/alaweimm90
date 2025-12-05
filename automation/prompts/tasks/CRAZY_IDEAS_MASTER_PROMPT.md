@@ -170,7 +170,7 @@ project-name/
 
 ## 🎨 20 CRAZY IDEAS
 
-### ORIGINAL 10 IDEAS (From ATLAS Platform)
+### ORIGINAL 10 IDEAS (From ORCHEX Platform)
 
 #### **IDEA #1: SCIENTIFIC TINDER - Hypothesis Dating App**
 
@@ -1379,7 +1379,7 @@ python .meta-main/tools/cli/golden.py create-template \
 
 # Initialize from template
 cd [PROJECT_NAME]
-bash scripts/init-from-template.sh [PACKAGE_NAME] "[PROJECT_DISPLAY_NAME]" alaweimm90
+bash scripts/init-from-template.sh [PACKAGE_NAME] "[PROJECT_DISPLAY_NAME]" alawein
 ```
 
 #### Step 2: Customize Project
@@ -1418,7 +1418,7 @@ git init
 git add .
 git commit -m "feat: initialize from golden template"
 git branch -M main
-git remote add origin https://github.com/alaweimm90/[PROJECT_NAME].git
+git remote add origin https://github.com/alawein/[PROJECT_NAME].git
 git push -u origin main
 ```
 
@@ -1567,7 +1567,7 @@ python .meta-main/tools/cli/golden.py create-template \
 
 # 2. Initialize project
 cd hypothesis-dating-platform
-bash scripts/init-from-template.sh hypothesis_dating "Hypothesis Dating Platform" alaweimm90
+bash scripts/init-from-template.sh hypothesis_dating "Hypothesis Dating Platform" alawein
 
 # 3. Setup development environment
 python -m venv .venv
@@ -1609,7 +1609,7 @@ git init
 git add .
 git commit -m "feat: initialize hypothesis dating platform from golden template"
 git branch -M main
-git remote add origin https://github.com/alaweimm90/hypothesis-dating-platform.git
+git remote add origin https://github.com/alawein/hypothesis-dating-platform.git
 git push -u origin main
 
 # 11. Create feature branch for MVP
@@ -1636,7 +1636,7 @@ You are the Project Architect for [PROJECT_NAME].
 
 **Context**:
 
-- Repository: https://github.com/alaweimm90/[PROJECT_NAME]
+- Repository: https://github.com/alawein/[PROJECT_NAME]
 - Tech Stack: [TECH_STACK]
 - Current Phase: [PHASE]
 
@@ -1669,7 +1669,7 @@ You are the Code Generator for [PROJECT_NAME].
 
 **Context**:
 
-- Repository: https://github.com/alaweimm90/[PROJECT_NAME]
+- Repository: https://github.com/alawein/[PROJECT_NAME]
 - Tech Stack: [TECH_STACK]
 - Style Guide: Black (line-length=100), Ruff, isort, MyPy
 
@@ -1711,7 +1711,7 @@ You are the QA Engineer for [PROJECT_NAME].
 
 **Context**:
 
-- Repository: https://github.com/alaweimm90/[PROJECT_NAME]
+- Repository: https://github.com/alawein/[PROJECT_NAME]
 - Recent Changes: [RECENT_CHANGES]
 - Current Coverage: [COVERAGE_PERCENTAGE]%
 
@@ -1864,4 +1864,4 @@ Each deployed project will have:
 **Last Updated**: 2025-11-15
 **Status**: ✅ Ready for Deployment
 **License**: MIT
-**Author**: Meshal Alawein (alaweimm90)
+**Author**: Meshal Alawein (alawein)

@@ -6,11 +6,11 @@ This is a multi-organization GitHub portfolio governance system.
 
 ### Organizations Managed
 
-- alaweimm90-tools
-- alaweimm90-science
-- alaweimm90-internal
-- alaweimm90-oss
-- alaweimm90-labs
+- alawein-tools
+- alawein-science
+- alawein-internal
+- alawein-oss
+- alawein-labs
 
 ### Architecture
 

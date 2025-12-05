@@ -11,7 +11,7 @@
 
 ### Build Configs (8 projects)
 - **Vite**: 8 projects → `tools/config/vite.config.ts`
-  - alaweimm90-business: BenchBarrier, LiveItIconic, Repz
+  - alawein-business: BenchBarrier, LiveItIconic, Repz
   - AlaweinOS: Attributa, LLMWorks, QMLab, SimCore
   - MeatheadPhysicist: Frontend
 

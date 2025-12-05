@@ -6,9 +6,9 @@ Wires multi-agent frameworks to DevOps MCP servers
 Integrates:
 - MeatheadPhysicist → Sequential Thinking, Git, Brave Search
 - Turingo → Playwright, Git, Sequential Thinking, GitHub
-- ATLAS → Terraform, Kubernetes, Sequential Thinking, Git
+- ORCHEX → Terraform, Kubernetes, Sequential Thinking, Git
 
-Author: alaweimm90
+Author: alawein
 Last Updated: 2025-11-28
 """
 
@@ -179,7 +179,7 @@ class AgentMCPIntegrator:
         ]
 
     def get_atlas_mappings(self) -> List[AgentMCPMapping]:
-        """Define ATLAS agent → MCP mappings"""
+        """Define ORCHEX agent → MCP mappings"""
         return [
             AgentMCPMapping(
                 agent_name="Workflow_Orchestrator",
@@ -260,8 +260,8 @@ class AgentMCPIntegrator:
                 "total_mcp_integrations": 0,
                 "mappings": []
             },
-            "atlas": {
-                "framework": "ATLAS",
+            "ORCHEX": {
+                "framework": "ORCHEX",
                 "total_agents": 4,
                 "total_mcp_integrations": 0,
                 "mappings": []
@@ -272,7 +272,7 @@ class AgentMCPIntegrator:
         for framework_key, mappings_func in [
             ("meathead_physicist", self.get_meathead_physicist_mappings),
             ("turingo", self.get_turingo_mappings),
-            ("atlas", self.get_atlas_mappings)
+            ("ORCHEX", self.get_atlas_mappings)
         ]:
             mappings = mappings_func()
             report[framework_key]["mappings"] = [asdict(m) for m in mappings]

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeatheadPhysicist | Physics Education</title>
+    <meta name="description" content="Physics education with a fitness twist. Making science accessible for athletes and curious minds.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #f59e0b; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #fbbf24; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .back-link { color: var(--text-muted); text-decoration: none; }
+        .hero { padding: 4rem 0; text-align: center; }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
+        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .content-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 2rem 0 4rem; }
+        .area-card { background: var(--surface); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #334155; text-align: center; }
+        .area-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .area-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .emoji { font-size: 2rem; margin-bottom: 1rem; }
+        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">🏋️‍♂️ MeatheadPhysicist</div>
+            <a href="../../" class="back-link">← Back to Alawein</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero container">
+            <p class="tagline">Physics Education</p>
+            <h1>MeatheadPhysicist</h1>
+            <p>Physics education with a fitness twist. Making quantum mechanics, thermodynamics, and electromagnetism accessible for athletes and curious minds.</p>
+        </section>
+        <section class="container">
+            <h2 style="margin-bottom: 1.5rem; text-align: center;">Content Areas</h2>
+            <div class="content-areas">
+                <div class="area-card">
+                    <div class="emoji">⚛️</div>
+                    <h3>Quantum Mechanics</h3>
+                    <p>Bell inequalities, entanglement, and the foundations of quantum theory.</p>
+                </div>
+                <div class="area-card">
+                    <div class="emoji">🔥</div>
+                    <h3>Thermodynamics</h3>
+                    <p>Entropy, heat engines, and the physics of metabolism.</p>
+                </div>
+                <div class="area-card">
+                    <div class="emoji">⚡</div>
+                    <h3>Electromagnetism</h3>
+                    <p>Maxwell's equations, circuits, and magnetic materials.</p>
+                </div>
+                <div class="area-card">
+                    <div class="emoji">💪</div>
+                    <h3>Physics of Training</h3>
+                    <p>Biomechanics, force curves, and optimal lifting technique.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>A personal project by <a href="../../" style="color: var(--accent);">Meshal Alawein</a></p>
+        </div>
+    </footer>
+</body>
+</html>
+

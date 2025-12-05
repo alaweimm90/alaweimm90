@@ -40,8 +40,8 @@
 
 | Organization | Repos | Workflows | Status |
 |--------------|-------|-----------|--------|
-| alaweimm90-business | 9 | 45 | COMPLIANT |
-| alaweimm90-science | 6 | 25 | COMPLIANT |
+| alawein-business | 9 | 45 | COMPLIANT |
+| alawein-science | 6 | 25 | COMPLIANT |
 | AlaweinOS | 19 | 65 | COMPLIANT |
 | MeatheadPhysicist | 30 | 85 | COMPLIANT |
 

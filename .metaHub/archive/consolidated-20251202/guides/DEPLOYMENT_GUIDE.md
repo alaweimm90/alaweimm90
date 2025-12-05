@@ -91,7 +91,7 @@ Before deployment:
 2. **Enforce on remaining orgs**
 
    ```bash
-   for org in alaweimm90-business alaweimm90-science alaweimm90-tools AlaweinOS MeatheadPhysicist; do
+   for org in alawein-business alawein-science alawein-tools AlaweinOS MeatheadPhysicist; do
      python .metaHub/scripts/enforce.py ./organizations/$org/ --report json --output "enforcement-$org.json"
    done
    ```
@@ -249,5 +249,5 @@ python .metaHub/scripts/catalog.py --quiet 2>&1 | head -50
 ## Support
 
 - **Issues**: Create GitHub issue with `governance` label
-- **Urgent**: Tag @alaweimm90
+- **Urgent**: Tag @alawein
 - **Documentation**: See README.md and CONTRIBUTING.md

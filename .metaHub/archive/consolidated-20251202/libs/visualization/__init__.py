@@ -4,7 +4,7 @@ MetaHub Visualization Library
 Professional visualization utilities and styles for scientific computing.
 
 Consolidated from:
-- organizations/alaweimm90-science/MagLogic/ (Berkeley style)
+- organizations/alawein-science/MagLogic/ (Berkeley style)
 - Future: Additional visualization code from other projects
 
 Usage:

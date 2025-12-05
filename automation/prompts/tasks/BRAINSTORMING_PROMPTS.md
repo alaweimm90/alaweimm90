@@ -55,7 +55,7 @@ Emphasize **novel, actionable, and automatable** concepts—beyond what GitHub A
 
 ## Prompt:
 
-""New chatChatsProjectsArtifactsRecentsMaster prompt for Claude Code web repositoryMaster prompt for Claude Code web repositoryUntitledMeshyTools ecosystem commercialization strategyAttractor programming for optimizationDynamical systems constraint satisfactionConstraint satisfaction research frameworkUntitled ConversationClaude coding best practices guideFile organization and cleanup strategyComprehensive outline strategyNotebook development strategyLBL payment data visualizationMMeshalFree planMaster prompt for Claude Code web repositoryShare# 🚀 10 INSANE Ideas to Transform Project ATLAS into a Paradigm-Shifting Platform
+""New chatChatsProjectsArtifactsRecentsMaster prompt for Claude Code web repositoryMaster prompt for Claude Code web repositoryUntitledMeshyTools ecosystem commercialization strategyAttractor programming for optimizationDynamical systems constraint satisfactionConstraint satisfaction research frameworkUntitled ConversationClaude coding best practices guideFile organization and cleanup strategyComprehensive outline strategyNotebook development strategyLBL payment data visualizationMMeshalFree planMaster prompt for Claude Code web repositoryShare# 🚀 10 INSANE Ideas to Transform Project ORCHEX into a Paradigm-Shifting Platform
 
 ---
 
@@ -73,7 +73,7 @@ You are working in a highly ambitious multi-project repository focused on buildi
 📁 Repository Structure
 /Users/k8ieone/repo/
 ├── agents/ # Multi-agent orchestration system
-├── QAPlibria/ # Quantum/AI optimization research
+├── Librex.QAP/ # Quantum/AI optimization research
 ├── REPZ/ # Web application (Vite + React)
 ├── LiveItIconic/ # Another web application
 ├── Attributa/ # Attribution tracking system
@@ -83,13 +83,13 @@ You are working in a highly ambitious multi-project repository focused on buildi
 └── [15+ additional projects]
 Core Project Categories
 
-Research & Discovery: QAPlibria, Optilibria, attractor-programming
+Research & Discovery: Librex.QAP, Optilibria, attractor-programming
 Web Applications: REPZ, LiveItIconic, Attributa
 AI Systems: agents/, AegisAIEvaluator, multi-agent frameworks
 Infrastructure: .meta/, shared configs, templates
 
 🏗️ System Architecture Overview
-ATLAS Research System (20+ agents)
+ORCHEX Research System (20+ agents)
 
 Literature Review: Automated paper analysis and synthesis
 Hypothesis Generation: AI-driven scientific ideation
@@ -436,7 +436,7 @@ find . pastedMNo .metea please. please develop independetn repos for each and an
 Based on your request, I'll analyze each of the 10 ideas and develop independent repository structures for each one. Let me break this down systematically.
 
 🎯 Executive Summary
-I've evaluated all 10 ideas from your ATLAS transformation document. Here's my analysis with independent repository recommendations:
+I've evaluated all 10 ideas from your ORCHEX transformation document. Here's my analysis with independent repository recommendations:
 
 1. Scientific Tinder - Hypothesis Dating App
    Feasibility: ⭐⭐⭐⭐⭐ (9/10)
@@ -1104,20 +1104,20 @@ ROI: 875% by end of Year 2
 
 🏗️ Independent Repository Recommendations
 Naming Convention
-atlas-[feature-name]/
+ORCHEX-[feature-name]/
 Example Repository URLs
-github.com/your-org/atlas-hypothesis-matcher
-github.com/your-org/atlas-failure-futures
-github.com/your-org/atlas-nightmare-validator
-github.com/your-org/atlas-future-impact
-github.com/your-org/atlas-chaos-engine
-github.com/your-org/atlas-research-royale
-github.com/your-org/atlas-ghost-scientists
-github.com/your-org/atlas-idea-evolution
-github.com/your-org/atlas-interrogator
-github.com/your-org/atlas-multiverse
+github.com/your-org/ORCHEX-hypothesis-matcher
+github.com/your-org/ORCHEX-failure-futures
+github.com/your-org/ORCHEX-nightmare-validator
+github.com/your-org/ORCHEX-future-impact
+github.com/your-org/ORCHEX-chaos-engine
+github.com/your-org/ORCHEX-research-royale
+github.com/your-org/ORCHEX-ghost-scientists
+github.com/your-org/ORCHEX-idea-evolution
+github.com/your-org/ORCHEX-interrogator
+github.com/your-org/ORCHEX-multiverse
 Shared Infrastructure Repository
-atlas-core/
+ORCHEX-core/
 ├── shared-components/ # React components used by all
 ├── auth-service/ # Centralized authentication
 ├── payment-service/ # Stripe integration
@@ -1753,9 +1753,9 @@ Encodes a scientific hypothesis as a "genome" that can mutate and recombine.
 Option A: Start with Phase 1 Quick Wins
 Create 3 independent repos and begin development:
 
-atlas-nightmare-validator (12 weeks)
-atlas-chaos-engine (10 weeks)
-atlas-interrogator (8 weeks)
+ORCHEX-nightmare-validator (12 weeks)
+ORCHEX-chaos-engine (10 weeks)
+ORCHEX-interrogator (8 weeks)
 
 Action: I can create starter repos with:
 
@@ -1765,7 +1765,7 @@ Initial code scaffolding
 Development roadmap
 
 Option B: Design Shared Infrastructure First
-Create atlas-core repository with:
+Create ORCHEX-core repository with:
 
 Authentication service
 Payment processing
@@ -1838,10 +1838,10 @@ Launching the three fastest-moving, self-contained projects (Nightmare Validator
 - Backend Lead (ML/infra) → orchestrates FastAPI microservices and model endpoints.
 - Frontend Engineer → shared Next.js UI library across repos.
 - AI Engineer → fine-tunes LLM prompts and builds evaluation pipelines.
-- Designer → consistent UI/UX language for ATLAS projects.
+- Designer → consistent UI/UX language for ORCHEX projects.
 - PM/Integrator → synchronizes milestones and QA.
 
-Use contract developers for CI/CD, security, and data-ops as needed. Shared tools (Docker Compose, GitHub Actions, Vite templates) should live in **atlas-core/** to cut duplication.
+Use contract developers for CI/CD, security, and data-ops as needed. Shared tools (Docker Compose, GitHub Actions, Vite templates) should live in **ORCHEX-core/** to cut duplication.
 
 ---
 
@@ -1860,7 +1860,7 @@ This phased cadence balances rapid iteration with technical rigor, enabling earl
 ### **4\. Integration Strategy**
 
 **Build modular, interoperable repositories with optional federation.**  
-Each project (atlas-\*) must run independently but communicate via shared services in **atlas-core/**:
+Each project (ORCHEX-\*) must run independently but communicate via shared services in **ORCHEX-core/**:
 
 - **Auth Service** → OAuth + JWT tokens for cross-repo login.
 - **ML Model Hub** → centralized weights and embedding models.
@@ -1875,11 +1875,11 @@ This architecture ensures rapid deployment of each app while retaining long-term
 
 **Create repository structures and initial scaffolds for Phase 1:**
 
-1.  **atlas-nightmare-validator** – multi-model attack ensemble; deploy FastAPI + Next.js skeleton.
-2.  **atlas-chaos-engine** – domain collision AI; initialize Python ML modules and React UI.
-3.  **atlas-interrogator** – dialogic validation framework; start question bank and persona system.
+1.  **ORCHEX-nightmare-validator** – multi-model attack ensemble; deploy FastAPI + Next.js skeleton.
+2.  **ORCHEX-chaos-engine** – domain collision AI; initialize Python ML modules and React UI.
+3.  **ORCHEX-interrogator** – dialogic validation framework; start question bank and persona system.
 
-In parallel, spin up **atlas-core/** with Dockerized auth, shared ML model loader, and standard CI pipeline.  
+In parallel, spin up **ORCHEX-core/** with Dockerized auth, shared ML model loader, and standard CI pipeline.  
 Deliver readable README.md files, Mermaid architecture diagrams, and roadmaps for each repo within the first two weeks.
 
 ---
@@ -1893,7 +1893,7 @@ By Week 16 you will have:
 - Analytics and user feedback to inform feature prioritization.
 - Demonstrable traction for funding pitches and press coverage.
 
-This approach achieves measurable progress while building a scalable ecosystem for the larger ATLAS vision.
+This approach achieves measurable progress while building a scalable ecosystem for the larger ORCHEX vision.
 
 2/2
 
@@ -1911,7 +1911,7 @@ markdown
 
 Building a multi-pillar autonomous AI system:
 
-- **ATLAS RESEARCH**: 20+ agents for Nobel-level scientific discovery (literature review, hypothesis generation, experimentation, self-refutation)
+- **ORCHEX RESEARCH**: 20+ agents for Nobel-level scientific discovery (literature review, hypothesis generation, experimentation, self-refutation)
 - **PRODUCT LAUNCH**: 26+ agents for market/design/branding execution
 - **Core Innovation**: Self-learning at every layer with continuous improvement, failure analysis, and cross-domain knowledge transfer
 
@@ -2124,7 +2124,7 @@ You are acting as a senior research engineer and architect designing a multi-pil
 
 We are building:
 
-- **ATLAS RESEARCH**: 20+ agents for Nobel-level scientific discovery (literature review, hypothesis generation, experimentation, self-refutation).
+- **ORCHEX RESEARCH**: 20+ agents for Nobel-level scientific discovery (literature review, hypothesis generation, experimentation, self-refutation).
 - **PRODUCT LAUNCH**: 26+ agents for market/design/branding execution and growth loops.
 - **INFRASTRUCTURE CORE**: Shared data, orchestration, monitoring, and CI/CD layer enabling safe continuous operation.
 
@@ -2176,7 +2176,7 @@ Use headings, bullet points, and code blocks for clarity. Structure the answer a
 
 #### 1. META-LEARNING CORE
 
-- What meta-learning architecture best supports multi-domain discovery across ATLAS RESEARCH and PRODUCT LAUNCH? (Provide pseudocode for the loop.)
+- What meta-learning architecture best supports multi-domain discovery across ORCHEX RESEARCH and PRODUCT LAUNCH? (Provide pseudocode for the loop.)
 - Should we implement **agent tournaments** (competitive resource allocation)? If so, how?
 - How should exploration vs. exploitation be managed? (Adapt UCB, Thompson Sampling, or other bandit-style methods; give formulas.)
 - Does meta-meta-learning (learning how to learn how to learn) add practical value? Where would it live in the stack?
@@ -2402,7 +2402,7 @@ Let’s do three things:
 
 ## 1\. What is this system, actually?
 
-Given everything you’ve described (ATLAS, UARO, Attractor Programming), the most coherent framing is:
+Given everything you’ve described (ORCHEX, UARO, Attractor Programming), the most coherent framing is:
 
 > **A universal research & product automation system** with a **single source of truth (SSOT)** and **self-learning, multi-agent orchestration.**
 
@@ -2415,7 +2415,7 @@ Concretely:
     - A **self-learning autonomous system** (meta-learning + self-critique loops).
     - A **SSOT system** (one canonical knowledge base used by all agents).
   - It includes:
-    - **ATLAS RESEARCH** pillar (scientific discovery).
+    - **ORCHEX RESEARCH** pillar (scientific discovery).
     - **PRODUCT LAUNCH** pillar (go-to-market, branding, growth).
     - **INFRASTRUCTURE / SSOT CORE** (data, orchestration, MLOps, governance).
 - **Inputs (runtime, not just prompt-time)**
@@ -2441,7 +2441,7 @@ Concretely:
     - **Co-design the architecture and roadmap** for that system.
     - Do so **iteratively**, with **built-in self-critique**, not as a one-shot “brain dump”.
 
-So think of the prompt as the **design orchestrator** for UARO/ATLAS, not the final runtime logic.
+So think of the prompt as the **design orchestrator** for UARO/ORCHEX, not the final runtime logic.
 
 ---
 
@@ -2454,11 +2454,11 @@ Below is a **multi-phase prompt** you can paste into Claude. It:
 - Clarifies assumptions about universality, SSOT, datasets, etc.
 
 ```markdown
-# ATLAS / UARO – Multi-Phase Design & Self-Critique Session
+# ORCHEX / UARO – Multi-Phase Design & Self-Critique Session
 
 You are an expert research engineer and architect. We are designing a **universal research & product automation system** with:
 
-- **ATLAS RESEARCH** (scientific discovery pillar),
+- **ORCHEX RESEARCH** (scientific discovery pillar),
 - **PRODUCT LAUNCH** (market/branding/launch pillar),
 - **SSOT / INFRASTRUCTURE CORE** (data, orchestration, MLOps, governance).
 
@@ -2554,7 +2554,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
   2.3 **Definitions & Ontology**
 
 - Define key terms: “hypothesis”, “experiment”, “playbook”, “agent”, “workflow”, etc.
-- Propose a **minimal domain-agnostic ontology** that ATLAS can reuse across physics, optimization, product, etc.
+- Propose a **minimal domain-agnostic ontology** that ORCHEX can reuse across physics, optimization, product, etc.
 
   2.4 **PHASE 2 Self-Critique**
 
@@ -2572,7 +2572,7 @@ Then propose **one tighter alternative framing** (more constrained) and **one mo
 3.1 **Agent Types & Roles**
 
 - Define major agent classes for:
-  - ATLAS RESEARCH (literature, hypothesis, experiment, self-refutation),
+  - ORCHEX RESEARCH (literature, hypothesis, experiment, self-refutation),
   - PRODUCT LAUNCH (research, copy, design, campaigns),
   - INFRASTRUCTURE (data, MLOps, governance, security).
 - Describe how they interact with the SSOT and each other.

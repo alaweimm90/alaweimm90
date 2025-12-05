@@ -48,7 +48,7 @@ http://github.com/settings/emails
 **Recommended Fix:**
 ```bash
 # Option 1: Configure git with GitHub noreply email
-git config user.email "alaweimm90@users.noreply.github.com"
+git config user.email "alawein@users.noreply.github.com"
 
 # Option 2: Make berkeley.edu email public in GitHub settings
 # Visit: https://github.com/settings/emails
@@ -252,7 +252,7 @@ Create `.metaHub/scripts/generate_metrics_report.py`:
 ### Phase 1: Critical Fixes (30 minutes)
 1. ✅ **Configure Git Email** (5 min)
    ```bash
-   git config user.email "alaweimm90@users.noreply.github.com"
+   git config user.email "alawein@users.noreply.github.com"
    git push origin main
    ```
 
@@ -307,7 +307,7 @@ Create `.metaHub/scripts/generate_metrics_report.py`:
 |-----------|--------|--------------|------|
 | MeatheadPhysicist | 5 | 17 | Brave Search API key missing |
 | Turingo | 4 | 14 | None |
-| ATLAS | 4 | 15 | Terraform/K8s tokens missing |
+| ORCHEX | 4 | 15 | Terraform/K8s tokens missing |
 
 **Total:** 46 integrations, 3 requiring API tokens
 

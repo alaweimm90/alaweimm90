@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alawein Technologies | AI Research & Optimization</title>
+    <meta name="description" content="AI research tools, optimization frameworks, and scientific computing by Meshal Alawein">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #22d3ee;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .hero { padding: 6rem 0; text-align: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--accent), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
+        .btn { display: inline-block; padding: 0.75rem 1.5rem; background: var(--primary); color: white; text-decoration: none; border-radius: 0.5rem; font-weight: 500; transition: background 0.2s; }
+        .btn:hover { background: var(--primary-dark); }
+        .llcs { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; padding: 4rem 0; }
+        .llc-card { background: var(--surface); border-radius: 1rem; padding: 2rem; border: 1px solid #334155; transition: transform 0.2s, border-color 0.2s; }
+        .llc-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .llc-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .llc-card p { color: var(--text-muted); margin-bottom: 1rem; }
+        .products { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+        .product-tag { background: rgba(34, 211, 238, 0.1); color: var(--accent); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; }
+        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Alawein</div>
+            <ul class="nav-links">
+                <li><a href="#products">Products</a></li>
+                <li><a href="./brands/librex/">Librex</a></li>
+                <li><a href="./brands/talai/">TalAI</a></li>
+                <li><a href="./personas/meathead-physicist/">MeatheadPhysicist</a></li>
+                <li><a href="https://github.com/alawein">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero container">
+            <h1>Build. Optimize. Research.</h1>
+            <p>Three LLCs. One mission: accelerating scientific discovery through AI-powered tools and optimization frameworks.</p>
+            <a href="#products" class="btn">Explore Products</a>
+        </section>
+
+        <section id="products" class="container">
+            <div class="llcs">
+                <div class="llc-card">
+                    <h3>Alawein Technologies LLC</h3>
+                    <p>AI research tools, optimization frameworks, and scientific computing platforms.</p>
+                    <div class="products">
+                        <span class="product-tag">TalAI</span>
+                        <span class="product-tag">Librex</span>
+                        <span class="product-tag">MEZAN</span>
+                        <span class="product-tag">Attributa</span>
+                        <span class="product-tag">SimCore</span>
+                        <span class="product-tag">QMLab</span>
+                    </div>
+                </div>
+                <div class="llc-card">
+                    <h3>REPZ LLC</h3>
+                    <p>AI-powered fitness tracking and personalized workout optimization.</p>
+                    <div class="products">
+                        <span class="product-tag">Repz App</span>
+                        <span class="product-tag">Repz Coach</span>
+                    </div>
+                </div>
+                <div class="llc-card">
+                    <h3>Live It Iconic LLC</h3>
+                    <p>Luxury lifestyle e-commerce and brand experiences.</p>
+                    <div class="products">
+                        <span class="product-tag">LiveItIconic</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Meshal Alawein. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+

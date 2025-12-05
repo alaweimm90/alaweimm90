@@ -84,18 +84,18 @@ Consolidated 64 projects, standardized tooling, identified merge opportunities.
 ## Merge Recommendations
 
 ### Priority 1: AlaweinOS Optimization (3 → 1)
-**Merge**: Optilibria + QAPlibria + MEZAN → **Libria**  
+**Merge**: Optilibria + Librex.QAP + MEZAN → **Libria**  
 **Risk**: Low (already related)  
 **Value**: High (core product)  
 **Time**: 1 week
 
-### Priority 2: alaweimm90-science (5 → 1)
+### Priority 2: alawein-science (5 → 1)
 **Merge**: MagLogic, QMatSim, QubeML, SciComp, SpinCirc → **physics-sim**  
 **Risk**: Low (independent libraries)  
 **Value**: Medium (maintenance reduction)  
 **Time**: 1 week
 
-### Priority 3: alaweimm90-business (5 → 1)
+### Priority 3: alawein-business (5 → 1)
 **Merge**: 5 React apps → **business-apps**  
 **Risk**: Medium (different domains)  
 **Value**: High (code reuse)  
@@ -147,7 +147,7 @@ Consolidated 64 projects, standardized tooling, identified merge opportunities.
 
 Infrastructure consolidated. Merge strategy defined. Ready for execution.
 
-**Recommended next step**: Pilot merge AlaweinOS optimization (Optilibria + QAPlibria + MEZAN → Libria)
+**Recommended next step**: Pilot merge AlaweinOS optimization (Optilibria + Librex.QAP + MEZAN → Libria)
 
 ---
 

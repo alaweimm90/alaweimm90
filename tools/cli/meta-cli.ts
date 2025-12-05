@@ -101,23 +101,23 @@ security
   .action(() => runCommand('tsx', ['tools/ai/cli/security-cli.ts', 'vulns']));
 
 // ============================================================================
-// ATLAS Commands - Research and orchestration
+// ORCHEX Commands - Research and orchestration
 // ============================================================================
 
-const atlas = program
-  .command('atlas')
-  .description('ATLAS research orchestration platform')
-  .action(() => runCommand('tsx', ['tools/atlas/cli/index.ts']));
+const ORCHEX = program
+  .command('ORCHEX')
+  .description('ORCHEX research orchestration platform')
+  .action(() => runCommand('tsx', ['tools/ORCHEX/cli/index.ts']));
 
-atlas
+ORCHEX
   .command('api')
-  .description('Start ATLAS API server')
-  .action(() => runCommand('tsx', ['tools/atlas/api/cli.ts']));
+  .description('Start ORCHEX API server')
+  .action(() => runCommand('tsx', ['tools/ORCHEX/api/cli.ts']));
 
-atlas
+ORCHEX
   .command('migrate')
   .description('Run storage migrations')
-  .action(() => runCommand('tsx', ['tools/atlas/storage/migrate.ts']));
+  .action(() => runCommand('tsx', ['tools/ORCHEX/storage/migrate.ts']));
 
 // ============================================================================
 // DevOps Commands - Template and generation tools

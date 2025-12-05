@@ -174,7 +174,7 @@ make monitor
 **Author:** Meshal Alawein  
 **Email:** meshal@berkeley.edu  
 **Portfolio:** malawein.com  
-**GitHub:** @alaweimm90  
+**GitHub:** @alawein  
 
 ---
 

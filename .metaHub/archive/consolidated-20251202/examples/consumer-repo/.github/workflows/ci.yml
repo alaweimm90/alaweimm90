@@ -13,7 +13,7 @@ on:
 jobs:
   # Use reusable Python CI workflow from governance contract
   python-ci:
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-python-ci.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-python-ci.yml@main
     with:
       python-version: '3.11'
       test-command: 'pytest tests/ -v --cov=src'
@@ -21,7 +21,7 @@ jobs:
   # Use reusable OPA Policy Gate from governance contract
   policy-validation:
     needs: python-ci
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
     with:
       policy-path: .metaHub/policies
 
@@ -29,7 +29,7 @@ jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: python-ci
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-release.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-release.yml@main
     with:
       version: ${{ github.ref_name }}
       prerelease: false

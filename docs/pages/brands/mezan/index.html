@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEZAN | Meta-Solver Orchestrator</title>
+    <meta name="description" content="MEZAN - Intelligent meta-solver orchestration for complex optimization pipelines.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #818cf8; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
+        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+        .back-link { color: var(--text-muted); text-decoration: none; }
+        .hero { padding: 4rem 0; text-align: center; }
+        .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
+        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .status { background: var(--surface); border-radius: 0.75rem; padding: 2rem; margin: 2rem 0; text-align: center; border: 1px solid var(--primary); }
+        .status h3 { color: var(--accent); margin-bottom: 0.5rem; }
+        .capabilities { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 2rem 0; }
+        .cap { background: var(--surface); border-radius: 0.5rem; padding: 1rem; }
+        .cap h4 { color: var(--accent); font-size: 0.9rem; margin-bottom: 0.25rem; }
+        .cap p { color: var(--text-muted); font-size: 0.8rem; }
+        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">MEZAN</div>
+            <a href="../../" class="back-link">← Back to Alawein</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero container">
+            <p class="tagline">Meta-Solver Orchestration</p>
+            <h1>MEZAN</h1>
+            <p>Intelligent orchestration layer that coordinates multiple Librex solvers for complex, multi-stage optimization pipelines. From Arabic "ميزان" (balance/scale).</p>
+        </section>
+        <section class="container">
+            <div class="status">
+                <h3>🚧 In Development</h3>
+                <p>MEZAN is currently in research phase. Check back for updates.</p>
+            </div>
+            <h2 style="margin: 2rem 0 1rem;">Planned Capabilities</h2>
+            <div class="capabilities">
+                <div class="cap">
+                    <h4>Solver Selection</h4>
+                    <p>Auto-select optimal Librex solver for each problem type.</p>
+                </div>
+                <div class="cap">
+                    <h4>Pipeline Orchestration</h4>
+                    <p>Chain solvers for multi-stage optimization.</p>
+                </div>
+                <div class="cap">
+                    <h4>Adaptive Tuning</h4>
+                    <p>Learn from past runs to improve performance.</p>
+                </div>
+                <div class="cap">
+                    <h4>Resource Management</h4>
+                    <p>Distribute workloads across compute resources.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container">
+            <p>MEZAN is a product of <a href="../../" style="color: var(--accent);">Alawein Technologies LLC</a></p>
+        </div>
+    </footer>
+</body>
+</html>
+

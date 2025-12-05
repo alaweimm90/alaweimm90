@@ -10,7 +10,7 @@
 
 ## 1. Overview and Goals
 
-This document defines the **authoritative contract** for the root directory structure of the `alaweimm90` portfolio governance repository. It establishes:
+This document defines the **authoritative contract** for the root directory structure of the `alawein` portfolio governance repository. It establishes:
 
 1. **What MUST exist** at root (required items)
 2. **What MAY exist** at root (optional items with governance)
@@ -498,7 +498,7 @@ governance:
 | ------------------ | ---------------------- | ---------- |
 | `*-report.json`    | Generated file at root | Gitignored |
 | `*.code-workspace` | Workspace at root      | Gitignored |
-| `alaweimm90/`      | Local clone directory  | Gitignored |
+| `alawein/`         | Local clone directory  | Gitignored |
 | `new-repos/`       | Staging directory      | Gitignored |
 | `.env`             | Environment file       | Gitignored |
 

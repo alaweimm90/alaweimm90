@@ -7,7 +7,7 @@ analysis, recommendations, and automated remediation.
 
 Usage:
     python ai_audit.py organizations/              # Audit all
-    python ai_audit.py organizations/alaweimm90-tools --deep
+    python ai_audit.py organizations/alawein-tools --deep
     python ai_audit.py --report markdown --output audit.md
 """
 

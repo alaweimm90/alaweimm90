@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://github.com/alaweimm90/alaweimm90/tree/main/.metaHub
+    url: https://github.com/alawein/alawein/tree/main/.metaHub
     about: Check the governance documentation first
   - name: Discussions
-    url: https://github.com/alaweimm90/alaweimm90/discussions
+    url: https://github.com/alawein/alawein/discussions
     about: Ask questions and share ideas
