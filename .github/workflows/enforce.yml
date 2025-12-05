@@ -20,9 +20,9 @@ jobs:
   enforce:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -106,7 +106,7 @@ jobs:
 
       - name: Upload enforcement reports
         if: steps.check.outputs.has_orgs == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: enforcement-reports
           path: enforcement-reports/
@@ -114,7 +114,7 @@ jobs:
 
       - name: Comment on PR
         if: github.event_name == 'pull_request' && steps.check.outputs.has_orgs == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
@@ -129,9 +129,9 @@ jobs:
   compliance:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -152,7 +152,7 @@ jobs:
           " >> $GITHUB_STEP_SUMMARY
 
       - name: Upload compliance report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: compliance-report
           path: compliance-report.json

@@ -43,12 +43,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -81,13 +81,13 @@ jobs:
           echo "$RESULT" > compliance-report.txt
 
       - name: Upload compliance report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: compliance-report
           path: compliance-report.txt
 
       - name: Add PR label based on compliance
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const score = parseInt('${{ steps.compliance.outputs.score }}');
@@ -136,7 +136,7 @@ jobs:
 
       - name: Comment compliance results
         if: github.event.action == 'opened' || github.event.action == 'synchronize'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const score = '${{ steps.compliance.outputs.score }}';
@@ -213,12 +213,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -281,7 +281,7 @@ jobs:
           EOF
 
       - name: Upload security report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: security-report
           path: |
@@ -290,7 +290,7 @@ jobs:
 
       - name: Create issue for critical vulnerabilities
         if: steps.audit.outputs.vulnerabilities > 0 && github.event_name == 'schedule'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const vulns = '${{ steps.audit.outputs.vulnerabilities }}';
@@ -379,12 +379,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -439,12 +439,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -495,10 +495,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
@@ -531,7 +531,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment with context
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const context = `${{ steps.context.outputs.context }}`;

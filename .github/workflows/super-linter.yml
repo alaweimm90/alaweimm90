@@ -19,12 +19,12 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Run Super-Linter
-        uses: super-linter/super-linter@v7
+        uses: super-linter/super-linter@v8
         continue-on-error: true # Report issues but don't block for meta governance repo
         env:
           DEFAULT_BRANCH: master
