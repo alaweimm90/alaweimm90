@@ -32,7 +32,9 @@
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["ES2022"],
-    "types": ["node"]
+    "types": ["node"],
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo"
   },
   "include": ["tools/**/*.ts", "tests/**/*.ts", "automation/**/*.ts"],
   "exclude": ["node_modules", "dist", ".metaHub", "tools/config", "tools/docker"]

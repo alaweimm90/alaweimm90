@@ -1,0 +1,211 @@
+# Research Workflow
+# Systematic literature review and research synthesis
+
+name: "research_synthesis"
+description: "Conduct systematic research on a topic and synthesize findings"
+version: "1.0"
+
+pattern: "orchestrator_workers"
+
+triggers:
+  - type: "manual"
+  - type: "keyword"
+    keywords: ["research", "literature review", "investigate"]
+
+inputs:
+  required:
+    - name: "research_question"
+      type: "string"
+      description: "The main research question to investigate"
+  optional:
+    - name: "scope"
+      type: "object"
+      description: "Scope constraints (time period, domains, etc.)"
+    - name: "existing_knowledge"
+      type: "string"
+      description: "What is already known about the topic"
+    - name: "output_format"
+      type: "string"
+      default: "report"
+      description: "Output format (report, summary, annotated_bibliography)"
+
+# Orchestrator configuration
+orchestrator:
+  agent: "scientist_agent"
+  responsibilities:
+    - "Break down research question into sub-questions"
+    - "Assign sub-questions to worker agents"
+    - "Synthesize findings from workers"
+    - "Identify gaps and contradictions"
+
+# Worker agents
+workers:
+  - agent: "scout_agent"
+    role: "Literature search"
+  - agent: "theory_agent"
+    role: "Theoretical analysis"
+  - agent: "critic_agent"
+    role: "Critical evaluation"
+  - agent: "writer_agent"
+    role: "Report writing"
+
+stages:
+  - name: "decompose"
+    description: "Break research question into sub-questions"
+    agent: "scientist_agent"
+    action: |
+      Analyze the research question and decompose into:
+      1. Key concepts to define
+      2. Sub-questions to investigate
+      3. Types of evidence needed
+      4. Potential sources to search
+    inputs:
+      - "research_question"
+      - "scope"
+    outputs:
+      - "research_plan"
+    timeout_minutes: 10
+
+  - name: "search"
+    description: "Search for relevant literature"
+    agent: "scout_agent"
+    action: |
+      Search academic databases for relevant papers:
+      1. Search arXiv, Semantic Scholar, Google Scholar
+      2. Filter by relevance and quality
+      3. Extract key metadata
+      4. Prioritize by citation count and recency
+    inputs:
+      - "research_plan"
+    outputs:
+      - "paper_list"
+    timeout_minutes: 20
+    depends_on:
+      - "decompose"
+
+  - name: "analyze"
+    description: "Analyze and extract findings from papers"
+    agent: "theory_agent"
+    action: |
+      For each paper in the list:
+      1. Extract key findings
+      2. Identify methodology
+      3. Note limitations
+      4. Map to research sub-questions
+    inputs:
+      - "paper_list"
+      - "research_plan"
+    outputs:
+      - "findings_matrix"
+    timeout_minutes: 30
+    depends_on:
+      - "search"
+
+  - name: "evaluate"
+    description: "Critically evaluate the evidence"
+    agent: "critic_agent"
+    action: |
+      Evaluate the collected evidence:
+      1. Assess quality of sources
+      2. Identify contradictions
+      3. Find gaps in evidence
+      4. Rate confidence in conclusions
+    inputs:
+      - "findings_matrix"
+    outputs:
+      - "evaluation_report"
+    timeout_minutes: 15
+    depends_on:
+      - "analyze"
+
+  - name: "synthesize"
+    description: "Synthesize findings into coherent narrative"
+    agent: "scientist_agent"
+    action: |
+      Synthesize all findings:
+      1. Answer each sub-question
+      2. Integrate into overall answer
+      3. Acknowledge uncertainties
+      4. Suggest future research
+    inputs:
+      - "findings_matrix"
+      - "evaluation_report"
+      - "research_question"
+    outputs:
+      - "synthesis"
+    timeout_minutes: 20
+    depends_on:
+      - "evaluate"
+
+  - name: "write_report"
+    description: "Write final research report"
+    agent: "writer_agent"
+    action: |
+      Create comprehensive research report:
+      1. Executive summary
+      2. Introduction and background
+      3. Methodology
+      4. Findings by sub-question
+      5. Discussion and synthesis
+      6. Limitations
+      7. Conclusions and recommendations
+      8. References
+    inputs:
+      - "synthesis"
+      - "paper_list"
+      - "evaluation_report"
+    outputs:
+      - "final_report"
+    timeout_minutes: 20
+    depends_on:
+      - "synthesize"
+
+gates:
+  - after_stage: "search"
+    condition: "min_papers_found"
+    threshold: 5
+    on_fail: "expand_search"
+
+  - after_stage: "evaluate"
+    condition: "confidence_threshold"
+    threshold: 0.6
+    on_fail: "flag_for_review"
+
+success_criteria:
+  - "At least 5 relevant sources found"
+  - "All sub-questions addressed"
+  - "Final report generated"
+  - "References properly cited"
+
+error_handling:
+  default_strategy: "retry"
+  strategies:
+    no_results:
+      action: "expand_search"
+      expand_terms: true
+    low_confidence:
+      action: "flag"
+      continue: true
+    timeout:
+      action: "partial_results"
+
+outputs:
+  format: "markdown"
+  include:
+    - "final_report"
+    - "paper_list"
+    - "synthesis"
+
+execution:
+  timeout_minutes: 120
+  checkpoint_enabled: true
+  telemetry_enabled: true
+  parallel_stages: false  # Sequential for research
+
+metadata:
+  created: "2024-11-29"
+  category: "research"
+  tags:
+    - research
+    - literature_review
+    - synthesis

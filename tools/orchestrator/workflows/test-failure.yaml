@@ -1,0 +1,18 @@
+name: test-failure-handling
+description: Test error handling and recovery
+
+steps:
+  - id: step1
+    run: echo "Step 1 success"
+    
+  - id: step2-fail
+    run: exit 1
+    depends_on: [step1]
+    
+  - id: step3-independent
+    run: echo "Step 3 runs independently"
+    depends_on: [step1]
+    
+  - id: step4-blocked
+    run: echo "Step 4 should be blocked"
+    depends_on: [step2-fail]

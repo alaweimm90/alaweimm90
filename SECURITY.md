@@ -12,8 +12,10 @@
 | ------------ | --------------------------------------------------------------- |
 | **Do NOT**   | Create public GitHub issues for security vulnerabilities        |
 | **Do**       | Use GitHub's private vulnerability reporting                    |
-| **Include**  | Detailed reproduction steps                                     |
+| **Include**  | Detailed reproduction steps, impact assessment, and affected versions |
 | **Response** | Acknowledgment within 48 hours, detailed response within 7 days |
+| **Disclosure** | 90-day disclosure timeline for coordinated vulnerability disclosure |
+| **Contact**  | security@alaweintechnologies.com for urgent security matters |
 
 ---
 

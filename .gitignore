@@ -12,6 +12,8 @@ out/
 .next/
 .nuxt/
 .cache/
+.logs/
+.backups/
 
 # Environment and secrets
 .env
@@ -402,3 +404,6 @@ temp_*.ts
 .atlas/reports/
 .atlas/evidence/
 !.atlas/.gitkeep
+
+# Personal/private content
+.personal/

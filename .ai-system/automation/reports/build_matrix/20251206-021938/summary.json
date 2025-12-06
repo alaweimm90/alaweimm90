@@ -1,0 +1,67 @@
+{
+  "run_id": "20251206-021938",
+  "started_at": "2025-12-06T02:19:38.490679+00:00",
+  "config": "automation/tools/build_matrix_config.json",
+  "projects": [
+    {
+      "project": "librex",
+      "root": "alawein-technologies-llc/librex",
+      "status": "failed",
+      "steps": [
+        {
+          "name": "pip-upgrade",
+          "status": "passed",
+          "command": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "--upgrade",
+            "pip",
+            "setuptools",
+            "wheel"
+          ],
+          "return_code": 0,
+          "duration_seconds": 7.79,
+          "log": "automation/reports/build_matrix/20251206-021938/librex__pip-upgrade.log"
+        },
+        {
+          "name": "install-editable",
+          "status": "passed",
+          "command": [
+            "python",
+            "-m",
+            "pip",
+            "install",
+            "-e",
+            "."
+          ],
+          "return_code": 0,
+          "duration_seconds": 10.95,
+          "log": "automation/reports/build_matrix/20251206-021938/librex__install-editable.log"
+        },
+        {
+          "name": "install-dev-requirements",
+          "status": "skipped",
+          "reason": "missing required path(s): requirements-dev.txt"
+        },
+        {
+          "name": "pytest",
+          "status": "failed",
+          "command": [
+            "python",
+            "-m",
+            "pytest",
+            "-q"
+          ],
+          "return_code": 1,
+          "duration_seconds": 3.75,
+          "log": "automation/reports/build_matrix/20251206-021938/librex__pytest.log"
+        }
+      ],
+      "error": "Step 'pytest' failed"
+    }
+  ],
+  "ended_at": "2025-12-06T02:20:00.988470+00:00",
+  "duration_seconds": 22.5
+}

@@ -1,0 +1,290 @@
+{
+  "$schema": "https://raw.githubusercontent.com/chrishayuk/mcp-cli/main/schemas/mcp-servers.schema.json",
+  "version": "1.0",
+  "description": "MCP Server Configuration for alawein Orchestration System",
+  "defaults": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-5-20250929",
+    "timeout": 30000,
+    "retries": 3
+  },
+  "mcpServers": {
+    "context": {
+      "command": "npx",
+      "args": ["-y", "@alawein/context-server"],
+      "description": "Centralized context and memory management for AI tool handoffs",
+      "env": {
+        "CONTEXT_STORAGE_PATH": ".metaHub/orchestration/context/",
+        "MAX_CONTEXT_MB": "50",
+        "RETENTION_HOURS": "168"
+      },
+      "capabilities": ["context_storage", "memory_bank", "handoff_state", "session_persistence"],
+      "tags": ["infrastructure", "orchestration", "priority-1"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "description": "GitHub API integration for repository management",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "capabilities": [
+        "repository_management",
+        "pull_request_operations",
+        "issue_tracking",
+        "code_search"
+      ],
+      "tags": ["code_management", "priority-1"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "--allowed-directories", "."],
+      "description": "Secure file system access for AI tools",
+      "env": {},
+      "capabilities": ["file_read", "file_write", "directory_listing", "file_search"],
+      "tags": ["code_management", "priority-1"]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "description": "Browser automation for testing and scraping",
+      "env": {
+        "PUPPETEER_HEADLESS": "true",
+        "PUPPETEER_TIMEOUT": "30000"
+      },
+      "capabilities": [
+        "browser_control",
+        "page_navigation",
+        "screenshot_capture",
+        "pdf_generation"
+      ],
+      "tags": ["browser_automation", "priority-2"]
+    },
+    "sqlite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "--db-path",
+        ".metaHub/data/orchestration.db"
+      ],
+      "description": "SQLite database for orchestration data",
+      "env": {},
+      "capabilities": ["sql_queries", "schema_inspection", "data_export"],
+      "tags": ["data_processing", "priority-2"]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "description": "PostgreSQL database integration",
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "${POSTGRES_URL}"
+      },
+      "capabilities": ["sql_queries", "schema_management", "connection_pooling"],
+      "tags": ["data_processing", "priority-2"]
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "description": "Web search via Brave Search API",
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "capabilities": ["web_search", "news_search", "image_search"],
+      "tags": ["search", "priority-2"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "description": "Persistent memory for long-running workflows",
+      "env": {},
+      "capabilities": ["key_value_storage", "session_memory", "workflow_state"],
+      "tags": ["infrastructure", "priority-2"]
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "description": "HTTP fetch capabilities for API interactions",
+      "env": {},
+      "capabilities": ["http_get", "http_post", "api_calls"],
+      "tags": ["external_services", "priority-3"]
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "description": "Slack workspace integration",
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_TEAM_ID": "${SLACK_TEAM_ID}"
+      },
+      "capabilities": ["message_posting", "channel_management", "file_sharing"],
+      "tags": ["external_services", "priority-3"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-playwright"],
+      "description": "Playwright browser testing automation for error-free UI workflows",
+      "env": {
+        "PLAYWRIGHT_HEADLESS": "true",
+        "PLAYWRIGHT_TIMEOUT": "60000",
+        "PLAYWRIGHT_BROWSERS_PATH": ".metaHub/playwright-browsers"
+      },
+      "capabilities": [
+        "browser_testing",
+        "ui_validation",
+        "screenshot_compare",
+        "e2e_testing",
+        "test_generation"
+      ],
+      "tags": ["testing", "quality_assurance", "priority-1", "devops"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Dynamic and reflective problem-solving for debugging complex issues",
+      "env": {},
+      "capabilities": [
+        "structured_reasoning",
+        "debug_workflows",
+        "problem_decomposition",
+        "step_by_step_analysis"
+      ],
+      "tags": ["debugging", "reasoning", "priority-1", "devops"]
+    },
+    "terraform": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "TFE_ADDRESS",
+        "-e",
+        "TFE_TOKEN",
+        "-e",
+        "ENABLE_TF_OPERATIONS",
+        "hashicorp/terraform-mcp-server:latest"
+      ],
+      "description": "HashiCorp Terraform MCP for infrastructure as code automation",
+      "env": {
+        "TFE_ADDRESS": "https://app.terraform.io",
+        "TFE_TOKEN": "${TERRAFORM_TOKEN}",
+        "ENABLE_TF_OPERATIONS": "true"
+      },
+      "capabilities": [
+        "terraform_plan",
+        "terraform_apply",
+        "workspace_management",
+        "state_inspection",
+        "iac_validation"
+      ],
+      "tags": ["infrastructure", "iac", "deployment", "priority-1", "devops"]
+    },
+    "git": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-git"],
+      "description": "Git operations for local repository management and analysis",
+      "env": {},
+      "capabilities": ["git_operations", "commit_history", "diff_analysis", "branch_management"],
+      "tags": ["code_management", "version_control", "priority-1", "devops"]
+    },
+    "kubernetes": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "${HOME}/.kube:/root/.kube",
+        "ghcr.io/manusa/kubernetes-mcp-server:latest"
+      ],
+      "description": "Kubernetes cluster management and CRUD operations",
+      "env": {
+        "KUBECONFIG": "/root/.kube/config"
+      },
+      "capabilities": [
+        "k8s_crud",
+        "pod_management",
+        "deployment_operations",
+        "service_discovery",
+        "namespace_management"
+      ],
+      "tags": ["infrastructure", "container_orchestration", "priority-2", "devops"]
+    },
+    "prometheus": {
+      "command": "python",
+      "args": ["-m", "prometheus_mcp_server"],
+      "description": "Prometheus metrics querying and analysis for observability",
+      "env": {
+        "PROMETHEUS_URL": "${PROMETHEUS_URL}"
+      },
+      "capabilities": [
+        "metrics_query",
+        "performance_analysis",
+        "alert_inspection",
+        "time_series_analysis"
+      ],
+      "tags": ["monitoring", "observability", "priority-2", "devops"]
+    },
+    "semgrep": {
+      "command": "npx",
+      "args": ["-y", "@semgrep/mcp-server"],
+      "description": "Security vulnerability scanning and SAST for error-free security",
+      "env": {
+        "SEMGREP_APP_TOKEN": "${SEMGREP_APP_TOKEN}"
+      },
+      "capabilities": [
+        "security_scanning",
+        "vulnerability_detection",
+        "sast_analysis",
+        "code_quality",
+        "compliance_check"
+      ],
+      "tags": ["security", "quality_assurance", "priority-1", "devops"]
+    }
+  },
+  "serverGroups": {
+    "core": ["context", "github", "filesystem", "git"],
+    "automation": ["puppeteer", "fetch"],
+    "data": ["sqlite", "postgres"],
+    "search": ["brave-search"],
+    "communication": ["slack"],
+    "orchestration": ["context", "github", "filesystem", "memory"],
+    "devops-critical": ["playwright", "sequential-thinking", "terraform", "git", "semgrep"],
+    "testing": ["playwright", "puppeteer"],
+    "infrastructure": ["terraform", "kubernetes"],
+    "monitoring": ["prometheus"],
+    "security": ["semgrep"],
+    "error-free-pipeline": [
+      "git",
+      "semgrep",
+      "playwright",
+      "terraform",
+      "sequential-thinking",
+      "prometheus"
+    ],
+    "governance": ["filesystem", "git", "semgrep", "sequential-thinking"],
+    "multi-agent-review": ["filesystem", "git", "sequential-thinking", "memory"]
+  },
+  "providerConfig": {
+    "anthropic": {
+      "models": [
+        "claude-sonnet-4-5-20250929",
+        "claude-3-5-sonnet-20241022",
+        "claude-3-opus-20240229"
+      ],
+      "defaultModel": "claude-sonnet-4-5-20250929",
+      "apiKeyEnv": "ANTHROPIC_API_KEY"
+    },
+    "openai": {
+      "models": ["gpt-4o", "gpt-4-turbo", "gpt-4"],
+      "defaultModel": "gpt-4o",
+      "apiKeyEnv": "OPENAI_API_KEY"
+    },
+    "ollama": {
+      "models": ["llama3.3", "qwen2.5-coder", "codellama"],
+      "defaultModel": "llama3.3",
+      "baseUrl": "http://localhost:11434"
+    }
+  }
+}

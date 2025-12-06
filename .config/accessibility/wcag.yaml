@@ -1,0 +1,34 @@
+version: "1.0"
+accessibility:
+  standard: "WCAG 2.1 AA"
+
+  requirements:
+    perceivable:
+      - text_alternatives: "All images have alt text"
+      - captions: "Videos have captions"
+      - contrast: "4.5:1 minimum for normal text"
+
+    operable:
+      - keyboard: "All functionality keyboard accessible"
+      - timing: "Users can extend time limits"
+      - seizures: "No content flashes > 3 times/second"
+
+    understandable:
+      - readable: "Language defined in HTML"
+      - predictable: "Navigation consistent across pages"
+      - input_assistance: "Error prevention and recovery"
+
+    robust:
+      - compatible: "Valid HTML, ARIA correctly used"
+
+  testing:
+    automated:
+      - tool: "axe-core"
+        integration: "jest-axe for unit tests"
+      - tool: "lighthouse"
+        threshold: 90
+
+    manual:
+      - "Screen reader testing (NVDA/VoiceOver)"
+      - "Keyboard-only navigation"
+      - "Zoom to 200%"

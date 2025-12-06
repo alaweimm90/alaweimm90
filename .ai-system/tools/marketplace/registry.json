@@ -1,0 +1,61 @@
+{
+  "alawein/code-optimizer": {
+    "name": "code-optimizer",
+    "author": "alawein",
+    "description": "Optimize code performance",
+    "tags": [
+      "optimization",
+      "performance"
+    ],
+    "version": "1.0.0",
+    "category": "community",
+    "id": "alawein/code-optimizer",
+    "published_at": "2025-12-06T00:52:25.525827",
+    "downloads": 2,
+    "rating": 4.75,
+    "reviews": [
+      {
+        "rating": 4.5,
+        "review": "Great prompt!",
+        "date": "2025-12-06T00:52:25.527718"
+      },
+      {
+        "rating": 5.0,
+        "review": "Excellent!",
+        "date": "2025-12-06T00:52:25.528272"
+      }
+    ]
+  },
+  "alawein/test-generator": {
+    "name": "test-generator",
+    "author": "alawein",
+    "description": "Generate unit tests",
+    "tags": [
+      "testing",
+      "automation"
+    ],
+    "version": "1.0.0",
+    "category": "community",
+    "id": "alawein/test-generator",
+    "published_at": "2025-12-06T00:52:25.527040",
+    "downloads": 0,
+    "rating": 0.0,
+    "reviews": []
+  },
+  "community/api-designer": {
+    "name": "api-designer",
+    "author": "community",
+    "description": "Design REST APIs",
+    "tags": [
+      "api",
+      "design"
+    ],
+    "version": "1.0.0",
+    "category": "community",
+    "id": "community/api-designer",
+    "published_at": "2025-12-06T00:52:25.527419",
+    "downloads": 0,
+    "rating": 0.0,
+    "reviews": []
+  }
+}

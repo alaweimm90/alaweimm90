@@ -1,10 +1,76 @@
 version: 2
 updates:
-  # Python dependencies
+  # Root npm dependencies
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: 'deps(npm)'
+    labels: ['dependencies', 'javascript']
+    groups:
+      npm-production:
+        dependency-type: 'production'
+        update-types: ['minor', 'patch']
+      npm-development:
+        dependency-type: 'development'
+        update-types: ['minor', 'patch']
+
+  # Python automation dependencies
+  - package-ecosystem: 'pip'
+    directory: '/automation'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'deps(python)'
+    labels: ['dependencies', 'python', 'automation']
+    groups:
+      python-minor:
+        update-types: ['minor', 'patch']
+
+  # Librex QAP solver dependencies
+  - package-ecosystem: 'pip'
+    directory: '/alawein-technologies-llc/librex'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'deps(python)'
+    labels: ['dependencies', 'python', 'librex']
+    groups:
+      python-minor:
+        update-types: ['minor', 'patch']
+
+  # MagLogic simulator dependencies
+  - package-ecosystem: 'pip'
+    directory: '/research/maglogic'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'deps(python)'
+    labels: ['dependencies', 'python', 'research']
+    groups:
+      python-minor:
+        update-types: ['minor', 'patch']
+
+  # MetaHub scripts dependencies
   - package-ecosystem: 'pip'
     directory: '/.metaHub/scripts'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 5
     commit-message:
       prefix: 'deps(python)'
@@ -18,6 +84,8 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 5
     commit-message:
       prefix: 'deps(actions)'
@@ -25,16 +93,20 @@ updates:
     groups:
       actions:
         patterns: ['*']
+        update-types: ['minor', 'patch']
 
-  # npm (if any)
-  - package-ecosystem: 'npm'
+  # Docker dependencies
+  - package-ecosystem: 'docker'
     directory: '/'
     schedule:
       interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
     open-pull-requests-limit: 5
     commit-message:
-      prefix: 'deps(npm)'
-    labels: ['dependencies', 'javascript']
+      prefix: 'deps(docker)'
+    labels: ['dependencies', 'docker']
     groups:
-      npm-minor:
+      docker:
+        patterns: ['*']
         update-types: ['minor', 'patch']

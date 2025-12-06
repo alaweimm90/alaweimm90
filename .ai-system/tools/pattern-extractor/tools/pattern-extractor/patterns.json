@@ -1,0 +1,76 @@
+{
+  "section-structure": {
+    "structure": "Organized sections",
+    "frequency": 2188,
+    "examples": [
+      [
+        "Layout Structure",
+        35
+      ],
+      [
+        "Visual Design",
+        34
+      ],
+      [
+        "Technical Requirements",
+        34
+      ],
+      [
+        "Purpose",
+        24
+      ],
+      [
+        "Animations",
+        16
+      ]
+    ]
+  },
+  "code-examples": {
+    "structure": "Includes code",
+    "frequency": 1300,
+    "examples": [
+      "",
+      "hcl",
+      "graphql",
+      "javascript",
+      "bash"
+    ]
+  },
+  "instruction-style": {
+    "structure": "Imperative verbs",
+    "frequency": 263,
+    "examples": [
+      [
+        "test",
+        44
+      ],
+      [
+        "create",
+        38
+      ],
+      [
+        "implement",
+        35
+      ],
+      [
+        "build",
+        27
+      ],
+      [
+        "generate",
+        26
+      ]
+    ]
+  },
+  "context-setting": {
+    "structure": "Domain context",
+    "frequency": 24,
+    "examples": [
+      "given",
+      "context",
+      "scenario",
+      "domain",
+      "background"
+    ]
+  }
+}

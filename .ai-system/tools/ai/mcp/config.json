@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "ai-tools": {
+      "command": "npx",
+      "args": ["tsx", "tools/ai/mcp/server.ts", "start"],
+      "env": {
+        "MCP_PORT": "3100"
+      }
+    }
+  },
+  "server": {
+    "name": "ai-tools-mcp",
+    "version": "1.0.0",
+    "description": "MCP server exposing AI orchestration, compliance, security, and monitoring tools",
+    "protocol": "2024-11-05"
+  },
+  "tools": {
+    "categories": {
+      "compliance": ["ai_compliance_check", "ai_compliance_score"],
+      "security": ["ai_security_scan"],
+      "cache": ["ai_cache_stats", "ai_cache_clear"],
+      "monitoring": ["ai_monitor_status"],
+      "errors": ["ai_errors_list", "ai_errors_stats"],
+      "issues": ["ai_issues_list", "ai_issues_critical"],
+      "orchestration": ["ai_sync", "ai_task_start", "ai_task_complete", "ai_context", "ai_metrics"]
+    }
+  },
+  "resources": {
+    "base_uri": "ai://",
+    "available": [
+      "ai://context/current",
+      "ai://metrics/dashboard",
+      "ai://compliance/report",
+      "ai://security/report"
+    ]
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "librex": {
+    "project": "librex",
+    "exists": true,
+    "manifests": [
+      "alawein-technologies-llc/librex/pyproject.toml"
+    ],
+    "dependency_files": [],
+    "build_scripts": [],
+    "test_assets": [
+      "alawein-technologies-llc/librex/benchmarks",
+      "alawein-technologies-llc/librex/Librex/benchmarks",
+      "alawein-technologies-llc/librex/examples",
+      "alawein-technologies-llc/librex/tests",
+      "alawein-technologies-llc/librex/tests/benchmarks"
+    ],
+    "ci_workflows": [
+      "alawein-technologies-llc/librex/.github/workflows/ci.yml",
+      "alawein-technologies-llc/librex/.github/workflows/codeql.yml",
+      "alawein-technologies-llc/librex/.github/workflows/compliance_check.yml",
+      "alawein-technologies-llc/librex/.github/workflows/llm-eval-caller.yml",
+      "alawein-technologies-llc/librex/.github/workflows/policy.yml",
+      "alawein-technologies-llc/librex/.github/workflows/publish.yml",
+      "alawein-technologies-llc/librex/.github/workflows/reusable-policy.yml",
+      "alawein-technologies-llc/librex/.github/workflows/scorecard.yml",
+      "alawein-technologies-llc/librex/.github/workflows/test.yml"
+    ]
+  },
+  "mezan": {
+    "project": "mezan",
+    "exists": true,
+    "manifests": [
+      "alawein-technologies-llc/mezan/ATLAS/atlas-core/requirements.txt",
+      "alawein-technologies-llc/mezan/ATLAS/atlas-core/setup.py",
+      "alawein-technologies-llc/mezan/ATLAS/pyproject.toml",
+      "alawein-technologies-llc/mezan/ATLAS/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-alloc/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-dual/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-evo/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-flow/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-graph/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/requirements.txt",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/setup.py",
+      "alawein-technologies-llc/mezan/Libria/libria-qap/requirements.txt",
+      "alawein-technologies-llc/mezan/pyproject.toml"
+    ],
+    "dependency_files": [
+      "alawein-technologies-llc/mezan/ATLAS/requirements-dev.txt"
+    ],
+    "build_scripts": [
+      "alawein-technologies-llc/mezan/ATLAS/Dockerfile",
+      "alawein-technologies-llc/mezan/ATLAS/Makefile",
+      "alawein-technologies-llc/mezan/ATLAS/atlas-core/Dockerfile",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/Dockerfile",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/Makefile",
+      "alawein-technologies-llc/mezan/Makefile"
+    ],
+    "test_assets": [
+      "alawein-technologies-llc/mezan/ATLAS/atlas-core/examples",
+      "alawein-technologies-llc/mezan/ATLAS/atlas-core/tests",
+      "alawein-technologies-llc/mezan/ATLAS/examples",
+      "alawein-technologies-llc/mezan/ATLAS/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-alloc/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-dual/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-evo/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-flow/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-graph/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/examples",
+      "alawein-technologies-llc/mezan/Libria/libria-meta/tests",
+      "alawein-technologies-llc/mezan/Libria/libria-qap/tests",
+      "alawein-technologies-llc/mezan/core/tests",
+      "alawein-technologies-llc/mezan/tests"
+    ],
+    "ci_workflows": [
+      "alawein-technologies-llc/mezan/.github/workflows/ci.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/codeql.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/optibench-nightly.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/optibench-promote-baseline.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/policy.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/qapflow-nightly.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/repo-hygiene.yml",
+      "alawein-technologies-llc/mezan/.github/workflows/reusable-policy.yml"
+    ]
+  },
+  "simcore": {
+    "project": "simcore",
+    "exists": true,
+    "manifests": [
+      "alawein-technologies-llc/simcore/package.json"
+    ],
+    "dependency_files": [
+      "alawein-technologies-llc/simcore/package-lock.json"
+    ],
+    "build_scripts": [],
+    "test_assets": [
+      "alawein-technologies-llc/simcore/scripts/tests",
+      "alawein-technologies-llc/simcore/tests"
+    ],
+    "ci_workflows": [
+      "alawein-technologies-llc/simcore/.github/workflows/audit.yml",
+      "alawein-technologies-llc/simcore/.github/workflows/ci.yml",
+      "alawein-technologies-llc/simcore/.github/workflows/codeql.yml",
+      "alawein-technologies-llc/simcore/.github/workflows/policy.yml",
+      "alawein-technologies-llc/simcore/.github/workflows/reusable-policy.yml",
+      "alawein-technologies-llc/simcore/.github/workflows/scorecard.yml"
+    ]
+  },
+  "qmlab": {
+    "project": "qmlab",
+    "exists": true,
+    "manifests": [
+      "alawein-technologies-llc/qmlab/package.json"
+    ],
+    "dependency_files": [
+      "alawein-technologies-llc/qmlab/package-lock.json"
+    ],
+    "build_scripts": [],
+    "test_assets": [
+      "alawein-technologies-llc/qmlab/tests"
+    ],
+    "ci_workflows": [
+      "alawein-technologies-llc/qmlab/.github/workflows/accessibility.yml",
+      "alawein-technologies-llc/qmlab/.github/workflows/ci.yml",
+      "alawein-technologies-llc/qmlab/.github/workflows/code-quality.yml",
+      "alawein-technologies-llc/qmlab/.github/workflows/codeql.yml",
+      "alawein-technologies-llc/qmlab/.github/workflows/policy.yml",
+      "alawein-technologies-llc/qmlab/.github/workflows/reusable-policy.yml"
+    ]
+  },
+  "marketing-automation": {
+    "project": "marketing-automation",
+    "exists": true,
+    "manifests": [
+      "alawein-technologies-llc/marketing-automation/frontend/dashboard/package.json",
+      "alawein-technologies-llc/marketing-automation/package.json",
+      "alawein-technologies-llc/marketing-automation/services/api-gateway/package.json",
+      "alawein-technologies-llc/marketing-automation/services/content-generation/package.json",
+      "alawein-technologies-llc/marketing-automation/services/email-marketing/package.json",
+      "alawein-technologies-llc/marketing-automation/services/scheduling/package.json",
+      "alawein-technologies-llc/marketing-automation/services/social-media/package.json",
+      "alawein-technologies-llc/marketing-automation/shared/types/package.json"
+    ],
+    "dependency_files": [],
+    "build_scripts": [
+      "alawein-technologies-llc/marketing-automation/Makefile"
+    ],
+    "test_assets": [
+      "alawein-technologies-llc/marketing-automation/tests"
+    ],
+    "ci_workflows": [
+      "alawein-technologies-llc/marketing-automation/.github/workflows/ci.yml",
+      "alawein-technologies-llc/marketing-automation/.github/workflows/policy.yml",
+      "alawein-technologies-llc/marketing-automation/.github/workflows/reusable-policy.yml"
+    ]
+  },
+  "liveiticonic": {
+    "project": "liveiticonic",
+    "exists": true,
+    "manifests": [
+      "live-it-iconic-llc/liveiticonic/package.json"
+    ],
+    "dependency_files": [
+      "live-it-iconic-llc/liveiticonic/package-lock.json"
+    ],
+    "build_scripts": [
+      "live-it-iconic-llc/liveiticonic/Dockerfile"
+    ],
+    "test_assets": [
+      "live-it-iconic-llc/liveiticonic/src/launch-platform/examples",
+      "live-it-iconic-llc/liveiticonic/tests"
+    ],
+    "ci_workflows": [
+      "live-it-iconic-llc/liveiticonic/.github/workflows/chromatic.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/ci.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/codeql.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/commitlint.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/deploy-production.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/deploy-staging.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/enterprise-cicd-pipeline.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/performance.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/policy.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/reusable-policy.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/sbom.yml",
+      "live-it-iconic-llc/liveiticonic/.github/workflows/security.yml"
+    ]
+  },
+  "repz": {
+    "project": "repz",
+    "exists": true,
+    "manifests": [
+      "repz-llc/repz/package.json",
+      "repz-llc/repz/packages/api-schema/package.json",
+      "repz-llc/repz/packages/eslint-config/package.json",
+      "repz-llc/repz/packages/feature-flags/package.json",
+      "repz-llc/repz/packages/infrastructure/package.json",
+      "repz-llc/repz/packages/prettier-config/package.json",
+      "repz-llc/repz/packages/typescript-config/package.json",
+      "repz-llc/repz/packages/ui-components/package.json"
+    ],
+    "dependency_files": [
+      "repz-llc/repz/package-lock.json"
+    ],
+    "build_scripts": [],
+    "test_assets": [
+      "repz-llc/repz/tests"
+    ],
+    "ci_workflows": []
+  },
+  "qmatsim": {
+    "project": "qmatsim",
+    "exists": true,
+    "manifests": [
+      "research/qmatsim/pyproject.toml",
+      "research/qmatsim/setup.py"
+    ],
+    "dependency_files": [],
+    "build_scripts": [],
+    "test_assets": [
+      "research/qmatsim/tests"
+    ],
+    "ci_workflows": [
+      "research/qmatsim/.github/workflows/ci.yml",
+      "research/qmatsim/.github/workflows/codeql.yml",
+      "research/qmatsim/.github/workflows/policy.yml",
+      "research/qmatsim/.github/workflows/reusable-policy.yml"
+    ]
+  },
+  "qubeml": {
+    "project": "qubeml",
+    "exists": true,
+    "manifests": [
+      "research/qubeml/pyproject.toml",
+      "research/qubeml/requirements.txt"
+    ],
+    "dependency_files": [],
+    "build_scripts": [],
+    "test_assets": [
+      "research/qubeml/tests"
+    ],
+    "ci_workflows": [
+      "research/qubeml/.github/workflows/ci.yml",
+      "research/qubeml/.github/workflows/codeql.yml",
+      "research/qubeml/.github/workflows/policy.yml",
+      "research/qubeml/.github/workflows/reusable-policy.yml"
+    ]
+  },
+  "scicomp": {
+    "project": "scicomp",
+    "exists": true,
+    "manifests": [
+      "research/scicomp/.backup_20250807_151803/pyproject.toml",
+      "research/scicomp/.backup_20250807_151803/requirements.txt",
+      "research/scicomp/.backup_20250807_151803/setup.py",
+      "research/scicomp/pyproject.toml",
+      "research/scicomp/requirements.txt",
+      "research/scicomp/setup.py"
+    ],
+    "dependency_files": [
+      "research/scicomp/.backup_20250807_151803/requirements-dev.txt",
+      "research/scicomp/requirements-dev.txt"
+    ],
+    "build_scripts": [
+      "research/scicomp/Dockerfile",
+      "research/scicomp/docs/Makefile"
+    ],
+    "test_assets": [
+      "research/scicomp/.backup_20250807_151803/examples",
+      "research/scicomp/.backup_20250807_151803/tests",
+      "research/scicomp/MATLAB/Control/examples",
+      "research/scicomp/MATLAB/Crystallography/examples",
+      "research/scicomp/MATLAB/Elasticity/examples",
+      "research/scicomp/MATLAB/FEM/examples",
+      "research/scicomp/MATLAB/Linear_Algebra/examples",
+      "research/scicomp/MATLAB/Linear_Algebra/tests",
+      "research/scicomp/MATLAB/Machine_Learning/examples",
+      "research/scicomp/MATLAB/Machine_Learning/tests",
+      "research/scicomp/MATLAB/ODE_PDE/examples",
+      "research/scicomp/MATLAB/ODE_PDE/tests",
+      "research/scicomp/MATLAB/Optics/examples",
+      "research/scicomp/Mathematica/Control/examples",
+      "research/scicomp/Mathematica/Crystallography/examples",
+      "research/scicomp/Mathematica/Crystallography/tests",
+      "research/scicomp/Mathematica/Linear_Algebra/examples",
+      "research/scicomp/Mathematica/Linear_Algebra/tests",
+      "research/scicomp/Mathematica/Machine_Learning/examples",
+      "research/scicomp/Mathematica/Machine_Learning/tests",
+      "research/scicomp/Mathematica/ODE_PDE/examples",
+      "research/scicomp/Mathematica/Optics/examples",
+      "research/scicomp/Python/Control/examples",
+      "research/scicomp/Python/Control/tests",
+      "research/scicomp/Python/Crystallography/examples",
+      "research/scicomp/Python/Elasticity/examples",
+      "research/scicomp/Python/FEM/examples",
+      "research/scicomp/Python/FEM/tests",
+      "research/scicomp/Python/Linear_Algebra/examples",
+      "research/scicomp/Python/Linear_Algebra/tests",
+      "research/scicomp/Python/Machine_Learning/examples",
+      "research/scicomp/Python/Machine_Learning/tests",
+      "research/scicomp/Python/Monte_Carlo/examples",
+      "research/scicomp/Python/Monte_Carlo/tests",
+      "research/scicomp/Python/Multiphysics/examples",
+      "research/scicomp/Python/Multiphysics/tests",
+      "research/scicomp/Python/ODE_PDE/examples",
+      "research/scicomp/Python/ODE_PDE/tests",
+      "research/scicomp/Python/Optics/examples",
+      "research/scicomp/Python/Optics/tests",
+      "research/scicomp/Python/Quantum/tests",
+      "research/scicomp/examples",
+      "research/scicomp/tests",
+      "research/scicomp/tests/tests"
+    ],
+    "ci_workflows": [
+      "research/scicomp/.github/workflows/ci.yml",
+      "research/scicomp/.github/workflows/codeql.yml",
+      "research/scicomp/.github/workflows/policy.yml",
+      "research/scicomp/.github/workflows/reusable-policy.yml",
+      "research/scicomp/.github/workflows/scicomp-ci.yml"
+    ]
+  }
+}

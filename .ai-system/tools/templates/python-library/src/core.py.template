@@ -1,0 +1,43 @@
+"""Core module for {{PROJECT_NAME}}."""
+
+from typing import Any
+
+
+def hello_world() -> str:
+    """Return a greeting message.
+    
+    Returns:
+        A friendly greeting string.
+    """
+    return "Hello from {{PROJECT_NAME}}!"
+
+
+class BaseClass:
+    """Base class template.
+    
+    Attributes:
+        name: The name of the instance.
+    """
+    
+    def __init__(self, name: str) -> None:
+        """Initialize the base class.
+        
+        Args:
+            name: The name to assign to this instance.
+        """
+        self.name = name
+    
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(name={self.name!r})"
+    
+    def process(self, data: Any) -> Any:
+        """Process input data.
+        
+        Args:
+            data: The data to process.
+            
+        Returns:
+            The processed data.
+        """
+        raise NotImplementedError("Subclasses must implement process()")
+

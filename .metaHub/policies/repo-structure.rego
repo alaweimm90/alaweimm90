@@ -56,3 +56,18 @@ warn[msg] {
 
 # Allow everything (no hard denials)
 pass = true
+
+# Hint: suggest structured locations for configs and tools
+warn[msg] {
+    input.file.path
+    endswith(input.file.path, "-config.yaml")
+    not startswith(input.file.path, ".config/")
+    msg := sprintf("LINT: Config '%s' should live under .config/** instead of repo root.", [input.file.path])
+}
+
+warn[msg] {
+    input.file.path
+    endswith(input.file.path, ".ts")
+    re_match("^[^/]+-(cli|script)\\.ts$", input.file.path)
+    msg := sprintf("LINT: CLI '%s' should live under tools/** instead of repo root.", [input.file.path])
+}

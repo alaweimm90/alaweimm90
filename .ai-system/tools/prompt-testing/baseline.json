@@ -1,0 +1,262 @@
+{
+  "DESIGN_SYSTEM_PROMPTS": {
+    "score": 1.0,
+    "hash": "aeb763402ccbdcef7826e7bba04b9e0f"
+  },
+  "LOVABLE_FULLSTACK_TEMPLATE_SYSTEM": {
+    "score": 1.0,
+    "hash": "7e7d61c8f9ce5597fe061712d3b7a7e4"
+  },
+  "agentic-code-review": {
+    "score": 0.75,
+    "hash": "bcfe6e982a69cea8d0f2371a7200555d"
+  },
+  "physics-code-review": {
+    "score": 1.0,
+    "hash": "fecd5e68121d14a07ad8214ba445df1d"
+  },
+  "debugger": {
+    "score": 0.75,
+    "hash": "df7c4643713c867927809dd0ef754bd1"
+  },
+  "ai-best-practices": {
+    "score": 1.0,
+    "hash": "d392b77a714ea3970626a45352206075"
+  },
+  "ai-integration-phase": {
+    "score": 0.75,
+    "hash": "85dee3bcf52880ae328f12aa72fb20ec"
+  },
+  "ai-ml-integration": {
+    "score": 1.0,
+    "hash": "14499025e4f4b4aaf28d658eaf0f4405"
+  },
+  "ai-research-platform": {
+    "score": 0.75,
+    "hash": "fe5e54a3dec29b302e5d1ff39fee0130"
+  },
+  "api-design-development": {
+    "score": 1.0,
+    "hash": "3b48e6cb063a6594c035f869874e4b49"
+  },
+  "approval-gating-system": {
+    "score": 0.75,
+    "hash": "1eaf00a3ce1b330a56e47ee64344d4e3"
+  },
+  "automated-test-generation": {
+    "score": 0.75,
+    "hash": "8e9952f5d81d4919fba7286f558edce1"
+  },
+  "brainstorming-facilitation": {
+    "score": 1.0,
+    "hash": "e51361b2b54ac798312eae9f528032e9"
+  },
+  "chain-of-thought-reasoning": {
+    "score": 0.75,
+    "hash": "db181295cc13e60b8a46944183e51ad8"
+  },
+  "cicd-pipeline-setup": {
+    "score": 1.0,
+    "hash": "6cce372ce2f9b6e2029e641c141c4a92"
+  },
+  "claude-opus-configuration": {
+    "score": 1.0,
+    "hash": "e9280c7969872a89b817f7f2d35e53ad"
+  },
+  "code-evaluation": {
+    "score": 0.75,
+    "hash": "571f485fd2f0f3e85172a2f780adb3ce"
+  },
+  "codebase-cleanup": {
+    "score": 1.0,
+    "hash": "2c700481eb793d1a29fa0caf7260dc64"
+  },
+  "constitutional-ai-alignment": {
+    "score": 0.75,
+    "hash": "fa887fc3a57a9ab23d646e3eba1153ca"
+  },
+  "context-engineering": {
+    "score": 1.0,
+    "hash": "b6c75907fe09bad5df18d1efb2a334be"
+  },
+  "creative-ideation": {
+    "score": 1.0,
+    "hash": "de6c24d2c9030b4e6251ec8181ea63d6"
+  },
+  "data-pipeline-engineering": {
+    "score": 1.0,
+    "hash": "da0385f9af63d06b999d50f3b0d029b0"
+  },
+  "dual-problem-optimization": {
+    "score": 1.0,
+    "hash": "fc61f9508a9a08476375c8e08f836786"
+  },
+  "enterprise-ai-agents": {
+    "score": 1.0,
+    "hash": "89847d33c56439a89504ec4a2dc96703"
+  },
+  "evolutionary-optimization": {
+    "score": 1.0,
+    "hash": "9d6059418ab7b6b4f67057f8970c31fc"
+  },
+  "fitness-platform-development": {
+    "score": 1.0,
+    "hash": "8fe1def0c2a2c9c8d54be4ba43dc31b9"
+  },
+  "flow-optimization": {
+    "score": 1.0,
+    "hash": "fe153e6e39130dd71f5983ca1031a3e7"
+  },
+  "fullstack-saas-template": {
+    "score": 1.0,
+    "hash": "f1b220882cef30b5e5dc9b9f290dc0e2"
+  },
+  "governance-compliance": {
+    "score": 1.0,
+    "hash": "f680aa96daff0e03885da37e17c62857"
+  },
+  "gpu-optimization": {
+    "score": 1.0,
+    "hash": "82efb75c631b92a1fc26a44e237dfc30"
+  },
+  "graph-optimization": {
+    "score": 0.75,
+    "hash": "3156b2aa7b4e02389d779d0ef727fc10"
+  },
+  "infrastructure-setup-phase": {
+    "score": 0.75,
+    "hash": "c4c38b89dda2496e349dcc687aaf09b7"
+  },
+  "local-ai-orchestration": {
+    "score": 1.0,
+    "hash": "c1e471bad773b2badb75139331c90c6d"
+  },
+  "magnetic-simulation-system": {
+    "score": 0.75,
+    "hash": "67d2b6e5031637ca62a079f81fe5a4f7"
+  },
+  "meta-optimization": {
+    "score": 1.0,
+    "hash": "f041deafa8aca6da1182e68eedb08a29"
+  },
+  "ml-pipeline-design": {
+    "score": 0.75,
+    "hash": "80573cc04b771d1732df7797878d77cb"
+  },
+  "monorepo-architecture": {
+    "score": 0.75,
+    "hash": "42c7cee81d33a2152cf15e4b0d4b1ca7"
+  },
+  "multi-agent-coordination": {
+    "score": 0.75,
+    "hash": "a7700bc515246f22f19de3c25266775e"
+  },
+  "multi-hop-rag": {
+    "score": 0.75,
+    "hash": "2bc37a55147392739bd54edc2136ac20"
+  },
+  "optimization-algorithms-library": {
+    "score": 0.75,
+    "hash": "4dfe5980d28f475cab8b0e7f5ee03b66"
+  },
+  "optimization-framework": {
+    "score": 0.75,
+    "hash": "0c74be8d7ffc3593638264385d8b6793"
+  },
+  "physics-simulation-engine": {
+    "score": 1.0,
+    "hash": "89ecb2bf4a140efe0d74b24da3211841"
+  },
+  "platform-deployment": {
+    "score": 1.0,
+    "hash": "301f5b5f8f3061924ec6a3d823a54191"
+  },
+  "prompt-engineering-optimizer": {
+    "score": 1.0,
+    "hash": "0e5e9c8dc7bbef50e9bcbfebad0b31d7"
+  },
+  "prompt-optimization": {
+    "score": 1.0,
+    "hash": "acf615bebffc6d493b0fce62371ebe7f"
+  },
+  "prompt-refinement": {
+    "score": 1.0,
+    "hash": "0e5e9c8dc7bbef50e9bcbfebad0b31d7"
+  },
+  "quadratic-assignment-problem": {
+    "score": 1.0,
+    "hash": "dfb44612b395b20c630dc0f66ce52004"
+  },
+  "quantum-circuit-simulator": {
+    "score": 0.75,
+    "hash": "0bd45c0e925c6ff242efbf08f4617976"
+  },
+  "quantum-materials-simulation": {
+    "score": 0.75,
+    "hash": "2ace64e0f678326e7cd4f55b38b32711"
+  },
+  "quantum-ml-framework": {
+    "score": 0.75,
+    "hash": "59e855169c06393b49c22f00a65ea1f2"
+  },
+  "repository-consolidation-master": {
+    "score": 1.0,
+    "hash": "173ed913c1110d93c40c638b044942a3"
+  },
+  "repository-consolidation": {
+    "score": 1.0,
+    "hash": "446391240a5523042a5150a1db01ab27"
+  },
+  "request-routing": {
+    "score": 0.75,
+    "hash": "9a437f54f1f2e4f4942f69fd01a6711c"
+  },
+  "resource-allocation-optimization": {
+    "score": 1.0,
+    "hash": "782592c6bef5fd3acc650acb0de6b8d3"
+  },
+  "scientific-computing-library": {
+    "score": 0.75,
+    "hash": "d27666c49425620065e4ca885de43cbc"
+  },
+  "security-implementation": {
+    "score": 1.0,
+    "hash": "dac463cedd91109afb6bd2f7c6c0c834"
+  },
+  "session-summary-template": {
+    "score": 0.5,
+    "hash": "7ad39447262b2a5d1d02099613a21029"
+  },
+  "SIMCORE_SUPERPROMPT": {
+    "score": 0.75,
+    "hash": "7bd5000b2abd97387d7dddeae5b8016c"
+  },
+  "test-api-testing": {
+    "score": 1.0,
+    "hash": "744ab63f068b88bbd75ad7c15eb87dd5"
+  },
+  "test-memory-optimization": {
+    "score": 1.0,
+    "hash": "791f4de057d89579e7e35499204dfc89"
+  },
+  "testing-qa-strategy": {
+    "score": 1.0,
+    "hash": "aaa3bc8495b15cc9cfaf509bf944ea4d"
+  },
+  "tooling-setup-phase": {
+    "score": 0.75,
+    "hash": "dd07ce7ee06293fcb0c17ac93ec84f74"
+  },
+  "typescript-automation": {
+    "score": 0.75,
+    "hash": "540a447d4e18ae65450a219b081cf57a"
+  },
+  "ui-ux-design": {
+    "score": 1.0,
+    "hash": "17ca7f8cc5164827de10172d0b7c75b5"
+  },
+  "workflow-orchestration": {
+    "score": 0.75,
+    "hash": "389fdbc1a9acb08e44ef229e14586cfa"
+  }
+}

@@ -28,6 +28,13 @@ _CANONICAL_MODULE = importlib.import_module(_CANONICAL_PACKAGE)
 __doc__ = _CANONICAL_MODULE.__doc__
 __all__ = getattr(_CANONICAL_MODULE, "__all__", [])
 
+__version__ = getattr(_CANONICAL_MODULE, "__version__", "1.0.0")
+__package_info__ = {
+    "name": "librex-qap",
+    "author": "Meshal Alawein",
+    "email": "meshal@alaweintechnologies.com",
+}
+
 def _alias_submodule(name: str) -> ModuleType:
     """Load the canonical submodule and register it under the Librex namespace."""
     canonical_name = f"{_CANONICAL_PACKAGE}.{name}"

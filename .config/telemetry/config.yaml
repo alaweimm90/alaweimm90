@@ -1,0 +1,39 @@
+version: "1.0"
+telemetry:
+  enabled: true
+
+  # Log destinations
+  destinations:
+    file:
+      enabled: true
+      path: ".logs/"
+      rotation: "daily"
+      retention_days: 30
+
+    console:
+      enabled: true
+      level: "info"
+
+  # Metrics collection
+  metrics:
+    ai_tokens:
+      enabled: true
+      log_file: ".config/ai/logs/token-usage.jsonl"
+
+    build_times:
+      enabled: true
+      log_file: ".logs/build-metrics.jsonl"
+
+    test_results:
+      enabled: true
+      log_file: ".logs/test-metrics.jsonl"
+
+  # Alerts
+  alerts:
+    token_budget_exceeded:
+      threshold: 100000
+      channel: "console"
+
+    build_time_exceeded:
+      threshold_seconds: 300
+      channel: "console"

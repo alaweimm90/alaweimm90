@@ -1,0 +1,6 @@
+{
+  "style": "concise",
+  "language": "rust",
+  "framework": "actix",
+  "tone": "professional"
+}

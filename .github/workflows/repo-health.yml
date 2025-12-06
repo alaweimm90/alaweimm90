@@ -1,0 +1,129 @@
+name: Repo Health
+# Runs weekly and on-demand to keep the repo clean
+
+on:
+  schedule:
+    # Run every Sunday at 2am UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      fix:
+        description: 'Auto-fix safe issues'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  health-check:
+    name: 🏥 Health Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git health check
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Parallel health checks
+      - name: 🔒 Security Audit
+        id: security
+        continue-on-error: true
+        run: |
+          echo "## Security Audit" >> $GITHUB_STEP_SUMMARY
+          npm audit --audit-level=high 2>&1 | tee audit.txt || true
+          if grep -q "found 0 vulnerabilities" audit.txt; then
+            echo "✅ No high/critical vulnerabilities" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ Vulnerabilities found - run \`npm audit fix\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: 📦 Outdated Dependencies
+        id: outdated
+        continue-on-error: true
+        run: |
+          echo "## Outdated Dependencies" >> $GITHUB_STEP_SUMMARY
+          npm outdated 2>&1 | head -20 >> $GITHUB_STEP_SUMMARY || echo "✅ All up to date" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🔍 TypeScript Check
+        id: typescript
+        continue-on-error: true
+        run: |
+          echo "## TypeScript Health" >> $GITHUB_STEP_SUMMARY
+          npx tsc --noEmit 2>&1 | head -10 >> $GITHUB_STEP_SUMMARY || echo "✅ Clean compilation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Any types: $(grep -r ': any' --include='*.ts' --exclude-dir=node_modules . 2>/dev/null | wc -l)" >> $GITHUB_STEP_SUMMARY
+
+      - name: 📄 Documentation Links
+        id: docs
+        continue-on-error: true
+        run: |
+          echo "## Documentation Health" >> $GITHUB_STEP_SUMMARY
+          # Count markdown files
+          MD_COUNT=$(find docs -name "*.md" 2>/dev/null | wc -l)
+          echo "📄 $MD_COUNT markdown files" >> $GITHUB_STEP_SUMMARY
+
+          # Check for broken internal links (basic)
+          BROKEN=0
+          for file in $(find docs -name "*.md" 2>/dev/null); do
+            # Extract relative links and check if they exist
+            grep -oP '\]\(\K[^)]+(?=\))' "$file" 2>/dev/null | grep -v '^http' | while read link; do
+              target=$(dirname "$file")/${link%%#*}
+              if [[ ! -f "$target" && ! -d "$target" ]]; then
+                BROKEN=$((BROKEN + 1))
+              fi
+            done
+          done
+
+          if [ $BROKEN -eq 0 ]; then
+            echo "✅ No broken links detected" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ $BROKEN potential broken links" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: 🔐 Secret Scan
+        id: secrets
+        continue-on-error: true
+        run: |
+          echo "## Secret Scan" >> $GITHUB_STEP_SUMMARY
+          # Basic pattern matching for common secrets
+          FOUND=0
+          for pattern in "sk-live" "sk-test" "ghp_" "-----BEGIN.*PRIVATE KEY-----"; do
+            if git grep -l "$pattern" -- ':!*.lock' ':!package-lock.json' 2>/dev/null | head -1; then
+              FOUND=1
+            fi
+          done
+
+          if [ $FOUND -eq 0 ]; then
+            echo "✅ No exposed secrets detected" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Potential secrets found - review immediately" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: 📊 Generate Report
+        run: |
+          echo "## Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Security | ${{ steps.security.outcome == 'success' && '✅' || '⚠️' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Dependencies | ${{ steps.outdated.outcome == 'success' && '✅' || '⚠️' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| TypeScript | ${{ steps.typescript.outcome == 'success' && '✅' || '⚠️' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Documentation | ${{ steps.docs.outcome == 'success' && '✅' || '⚠️' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Secrets | ${{ steps.secrets.outcome == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🚨 Fail on Critical Issues
+        if: steps.secrets.outcome == 'failure'
+        run: exit 1

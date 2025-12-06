@@ -1,0 +1,34 @@
+name: full-development-cycle
+description: Complete development workflow with testing and deployment
+
+steps:
+  - id: lint
+    run: echo "Running linter..."
+    
+  - id: unit-tests
+    run: echo "Running unit tests..."
+    depends_on: [lint]
+    
+  - id: integration-tests
+    run: echo "Running integration tests..."
+    depends_on: [lint]
+    
+  - id: build
+    run: echo "Building application..."
+    depends_on: [unit-tests, integration-tests]
+    
+  - id: benchmark
+    run: echo "Running benchmarks..."
+    depends_on: [build]
+    
+  - id: security-scan
+    run: echo "Running security scan..."
+    depends_on: [build]
+    
+  - id: deploy-staging
+    run: echo "Deploying to staging..."
+    depends_on: [benchmark, security-scan]
+    
+  - id: smoke-tests
+    run: echo "Running smoke tests..."
+    depends_on: [deploy-staging]

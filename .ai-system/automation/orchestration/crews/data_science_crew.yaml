@@ -1,0 +1,166 @@
+# Data Science Pipeline Crew
+# End-to-end ML model development and deployment
+
+name: data_science_crew
+description: 'Multi-agent crew for ML model development and deployment'
+version: '1.0'
+
+agents:
+  - name: data_lead
+    agent_ref: data_engineer_agent
+    role_in_crew: 'Data Engineering Lead'
+    responsibilities:
+      - Design data pipelines
+      - Ensure data quality
+      - Manage feature stores
+    delegation_authority: true
+
+  - name: ml_lead
+    agent_ref: ml_engineer_agent
+    role_in_crew: 'ML Engineering Lead'
+    responsibilities:
+      - Design model architecture
+      - Train and evaluate models
+      - Optimize hyperparameters
+    delegation_authority: true
+
+  - name: analyst
+    agent_ref: data_analyst_agent
+    role_in_crew: 'Data Analyst'
+    responsibilities:
+      - Exploratory data analysis
+      - Feature engineering
+      - Results interpretation
+    delegation_authority: false
+
+  - name: mlops_lead
+    agent_ref: mlops_agent
+    role_in_crew: 'MLOps Lead'
+    responsibilities:
+      - Model deployment
+      - Monitoring setup
+      - A/B testing infrastructure
+    delegation_authority: false
+
+  - name: reviewer
+    agent_ref: critic_agent
+    role_in_crew: 'Model Reviewer'
+    responsibilities:
+      - Validate model performance
+      - Check for bias and fairness
+      - Review documentation
+    delegation_authority: false
+
+tasks:
+  - name: data_ingestion
+    description: 'Set up data ingestion pipeline'
+    assigned_to: data_lead
+    expected_output: 'Working data pipeline with validation'
+    priority: 1
+
+  - name: exploratory_analysis
+    description: 'Perform EDA and feature analysis'
+    assigned_to: analyst
+    depends_on: [data_ingestion]
+    expected_output: 'EDA report with insights'
+    priority: 2
+
+  - name: feature_engineering
+    description: 'Create and validate features'
+    assigned_to: analyst
+    depends_on: [exploratory_analysis]
+    expected_output: 'Feature set with documentation'
+    priority: 3
+
+  - name: model_development
+    description: 'Train and evaluate models'
+    assigned_to: ml_lead
+    depends_on: [feature_engineering]
+    expected_output: 'Trained model with metrics'
+    priority: 4
+
+  - name: model_review
+    description: 'Review model for quality and bias'
+    assigned_to: reviewer
+    depends_on: [model_development]
+    expected_output: 'Model review report'
+    priority: 5
+
+  - name: model_deployment
+    description: 'Deploy model to production'
+    assigned_to: mlops_lead
+    depends_on: [model_review]
+    expected_output: 'Deployed model with monitoring'
+    priority: 6
+
+  - name: monitoring_setup
+    description: 'Set up model monitoring and alerts'
+    assigned_to: mlops_lead
+    depends_on: [model_deployment]
+    expected_output: 'Monitoring dashboard and alerts'
+    priority: 7
+
+process:
+  type: sequential
+
+  workflow:
+    - phase: data_preparation
+      tasks: [data_ingestion, exploratory_analysis, feature_engineering]
+      parallel: false
+
+    - phase: model_training
+      tasks: [model_development, model_review]
+      parallel: false
+
+    - phase: deployment
+      tasks: [model_deployment, monitoring_setup]
+      parallel: false
+
+  communication:
+    format: structured_json
+    handoff_required: true
+    artifacts:
+      - type: dataset
+        format: parquet
+      - type: model
+        format: mlflow
+      - type: metrics
+        format: json
+
+quality_gates:
+  - name: data_quality
+    condition: 'Data validation passes with < 1% errors'
+    blocking: true
+
+  - name: model_performance
+    condition: 'Model meets baseline metrics'
+    blocking: true
+
+  - name: bias_check
+    condition: 'No significant bias detected'
+    blocking: true
+
+  - name: latency_requirement
+    condition: 'Inference latency < 100ms p99'
+    blocking: false
+
+metrics:
+  track:
+    - model_accuracy
+    - data_freshness
+    - inference_latency
+    - prediction_drift
+
+  targets:
+    accuracy_threshold: 0.85
+    latency_p99_ms: 100
+    drift_threshold: 0.1
+
+model_card:
+  required_sections:
+    - model_details
+    - intended_use
+    - training_data
+    - evaluation_results
+    - ethical_considerations
+    - limitations

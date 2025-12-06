@@ -1,67 +1,182 @@
-# Pre-commit configuration for alawein Governance Repo
-# Install: pip install pre-commit && pre-commit install
-# Run: pre-commit run --all-files
+# Pre-commit hooks configuration
+# Enterprise-grade quality enforcement
 
 repos:
-  # Ruff - Fast Python linter and formatter
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.0
-    hooks:
-      - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
-        files: ^\.metaHub/scripts/|^tests/
-      - id: ruff-format
-        files: ^\.metaHub/scripts/|^tests/
-
-  # Standard pre-commit hooks
+  # Built-in hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
       - id: end-of-file-fixer
       - id: check-yaml
-        args: [--unsafe]
       - id: check-json
       - id: check-toml
-      - id: check-added-large-files
-        args: [--maxkb=1000]
+      - id: check-xml
       - id: check-merge-conflict
       - id: check-case-conflict
-      - id: detect-private-key
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: mixed-line-ending
+      - id: check-byte-order-marker
+      - id: check-docstring-first
+      - id: debug-statements
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+  # Security scanning
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: package-lock\.json|yarn\.lock|\.venv/|node_modules/
+
+  # Python specific
+  - repo: https://github.com/psf/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+        language_version: python3
+        args: [--line-length=88]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: [--profile=black, --line-length=88]
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503]
+
+  # JavaScript/TypeScript specific
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.54.0
+    hooks:
+      - id: eslint
+        additional_dependencies:
+          - eslint@8.54.0
+          - "@typescript-eslint/eslint-plugin@6.12.0"
+          - "@typescript-eslint/parser@6.12.0"
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx]
+        args: [--fix, --config=eslint.config.enhanced.js]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@3.1.0
+        types_or: [javascript, jsx, ts, tsx, json, yaml, markdown, css, scss, html]
+        args: [--config=.prettierrc.json]
+
+  # Docker security
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        args: [--ignore, DL3008, --ignore, DL3009]
 
   # YAML linting
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.35.1
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.33.0
     hooks:
       - id: yamllint
-        args: [-c, .yamllint.yml]
-        files: \.(yml|yaml)$
+        args: [-d, relaxed]
 
   # Markdown linting
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.42.0
+    rev: v0.37.0
     hooks:
       - id: markdownlint
-        args: [--fix, --ignore, 'organizations/**']
+        args: [--fix, --disable=MD013, --disable=MD033, --disable=MD041]
 
-  # Governance validation
+  # Shell script linting
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+
+  # Terraform security
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.83.5
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_tflint
+        args: [--deep]
+      - id: terraform_tfsec
+
+  # Custom security scripts
   - repo: local
     hooks:
-      - id: structure-validator
-        name: Structure Validator
-        entry: python .metaHub/scripts/structure_validator.py --report summary
+      - id: security-audit
+        name: Security audit
+        entry: npm run security:audit
         language: system
         pass_filenames: false
         always_run: true
-        types: [yaml]
 
-# CI configuration for pre-commit.ci
+      - id: dependency-check
+        name: Dependency vulnerability check
+        entry: npm audit --audit-level=moderate
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: python-security-check
+        name: Python security check
+        entry: bandit -r . -f json -o bandit-report.json || true
+        language: system
+        pass_filenames: false
+        always_run: true
+
+# Global configuration
+default_language_version:
+  python: python3
+  node: "18"
+
+# Exclude patterns
+exclude: |
+  (?x)^(
+    \.git/.*|
+    \.venv/.*|
+    node_modules/.*|
+    \.tox/.*|
+    \.pytest_cache/.*|
+    __pycache__/.*|
+    \.coverage.*|
+    htmlcov/.*|
+    dist/.*|
+    build/.*|
+    \.next/.*|
+    \.nuxt/.*|
+    coverage/.*|
+    \.vscode/.*|
+    \.idea/.*|
+    \*.min\.(js|css)$|
+    \.bundle/.*|
+    vendor/.*|
+    \.cache/.*|
+    \.tmp/.*
+  )$
+
+# CI configuration
 ci:
   autofix_commit_msg: |
-    [pre-commit.ci] auto fixes from pre-commit hooks
+    [ci skip] style: auto fixes from pre-commit hooks
+
+    For more information, see:
+    https://pre-commit.ci
   autofix_prs: true
   autoupdate_branch: ''
   autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
   autoupdate_schedule: weekly
-  skip: [structure-validator]
+  skip: []
   submodules: false

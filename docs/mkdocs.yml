@@ -1,0 +1,176 @@
+site_name: GitHub Repository Documentation
+site_description: Comprehensive documentation for the GitHub repository ecosystem
+site_author: Meshal Alawein
+site_url: https://docs.github-alawein.com
+
+# Repository configuration
+repo_name: alaweimm90/alaweimm90
+repo_url: https://github.com/alaweimm90/alaweimm90
+edit_uri: edit/main/docs/
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: getting-started/quick-start.md
+    - Installation: getting-started/installation.md
+    - Development Setup: getting-started/development-setup.md
+  - Repository Structure:
+    - Overview: structure/overview.md
+    - LLC Organization: structure/llc-organization.md
+    - Research Projects: structure/research-projects.md
+    - Personal Platforms: structure/personal-platforms.md
+  - Governance:
+    - Framework: governance/framework.md
+    - Security Policies: governance/security-policies.md
+    - Compliance: governance/compliance.md
+    - Access Control: governance/access-control.md
+  - Development:
+    - Code Standards: development/code-standards.md
+    - Testing: development/testing.md
+    - CI/CD: development/cicd.md
+    - Deployment: development/deployment.md
+  - API Documentation:
+    - Overview: api/overview.md
+    - LLC APIs: api/llc-apis.md
+    - Research APIs: api/research-apis.md
+    - Personal APIs: api/personal-apis.md
+  - Architecture:
+    - System Design: architecture/system-design.md
+    - Infrastructure: architecture/infrastructure.md
+    - Security Architecture: architecture/security-architecture.md
+  - Guides:
+    - Contributing: guides/contributing.md
+    - Code Review: guides/code-review.md
+    - Security: guides/security.md
+    - Troubleshooting: guides/troubleshooting.md
+  - Reference:
+    - CLI Commands: reference/cli-commands.md
+    - Configuration: reference/configuration.md
+    - Glossary: reference/glossary.md
+    - FAQ: reference/faq.md
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - header.autohide
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      type: datetime
+      timezone: UTC
+      locale: en
+  - awesome-pages
+  - macros
+  - mkdocs-jupyter:
+      include_source: True
+      ignore_h1_titles: True
+
+# Markdown extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: alaweimm90
+      repo: alaweimm90
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra CSS and JavaScript
+extra_css:
+  - stylesheets/extra.css
+extra_javascript:
+  - javascripts/extra.js
+
+# Extra configuration
+extra:
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/alaweimm90
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/meshal_alawein
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:meshal@alawein.com
+
+# Development server configuration
+dev_addr: 0.0.0.0:8000
+
+# Build configuration
+strict: true
+use_directory_urls: true
+copyright: Copyright &copy; 2025 Meshal Alawein

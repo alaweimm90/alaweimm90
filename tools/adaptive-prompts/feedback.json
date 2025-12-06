@@ -1,0 +1,66 @@
+{
+  "optimization": [
+    {
+      "type": "positive",
+      "data": {
+        "comment": "Clear and helpful"
+      }
+    },
+    {
+      "type": "positive",
+      "data": {
+        "comment": "Great examples"
+      }
+    },
+    {
+      "type": "positive",
+      "data": {
+        "comment": "Clear and helpful"
+      }
+    },
+    {
+      "type": "positive",
+      "data": {
+        "comment": "Great examples"
+      }
+    }
+  ],
+  "testing": [
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Too complex"
+      }
+    },
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Needs more examples"
+      }
+    },
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Unclear instructions"
+      }
+    },
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Too complex"
+      }
+    },
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Needs more examples"
+      }
+    },
+    {
+      "type": "negative",
+      "data": {
+        "comment": "Unclear instructions"
+      }
+    }
+  ]
+}

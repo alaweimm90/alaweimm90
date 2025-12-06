@@ -1,0 +1,65 @@
+{
+  "name": "family-platforms",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Family websites monorepo - DrMAlowein Academic Portfolio & Rounaq Fashion Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:drmalowein\" \"npm run dev:rounaq\"",
+    "dev:drmalowein": "npm run dev --workspace=apps/drmalowein",
+    "dev:rounaq": "npm run dev --workspace=apps/rounaq",
+    "build": "npm run build --workspaces",
+    "build:drmalowein": "npm run build --workspace=apps/drmalowein",
+    "build:rounaq": "npm run build --workspace=apps/rounaq",
+    "build:production": "npm run build:drmalowein -- --mode production && npm run build:rounaq -- --mode production",
+    "test": "npm run test --workspaces",
+    "test:unit": "npm run test:unit --workspaces",
+    "test:integration": "npm run test:integration --workspaces",
+    "test:e2e": "npm run test:e2e --workspaces",
+    "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "npm run clean --workspaces && rm -rf node_modules",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "storybook": "npm run storybook --workspace=packages/ui-components",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "npm run build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "concurrently": "^8.2.1",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alaweimm90/family-platforms.git"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "monorepo",
+    "academic",
+    "fashion",
+    "e-commerce",
+    "portfolio"
+  ],
+  "author": "Meshal Alawein <meshal.alawein@berkeley.edu>",
+  "license": "MIT"
+}

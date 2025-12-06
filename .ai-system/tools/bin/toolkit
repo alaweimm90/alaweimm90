@@ -1,0 +1,310 @@
+#!/bin/bash
+# Unified Toolkit CLI v1.0
+# alawein-tools - Central command dispatcher
+
+set -e
+
+TOOLKIT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VERSION="1.0.0"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+show_help() {
+    echo -e "${CYAN}alawein-tools Unified Toolkit v${VERSION}${NC}"
+    echo ""
+    echo "Usage: toolkit <category> <command> [options]"
+    echo ""
+    echo "Categories:"
+    echo "  ai          AI orchestration tools (routing, dashboard, costs)"
+    echo "  governance  Compliance and policy enforcement"
+    echo "  devops      Template generation and DevOps CLI"
+    echo "  security    Security scanning tools"
+    echo "  mcp         MCP server management"
+    echo "  orchestration  Workflow orchestration"
+    echo ""
+    echo "Examples:"
+    echo "  toolkit ai route \"Create REST API\""
+    echo "  toolkit ai dashboard"
+    echo "  toolkit governance validate"
+    echo "  toolkit devops list"
+    echo "  toolkit security scan-all"
+    echo "  toolkit mcp start"
+    echo ""
+    echo "Options:"
+    echo "  -h, --help     Show this help"
+    echo "  -v, --version  Show version"
+    echo "  --list         List tools in category"
+}
+
+show_version() {
+    echo "toolkit v${VERSION}"
+}
+
+# AI commands
+cmd_ai() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        route)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/task-router.sh" "$@"
+            ;;
+        dashboard)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/dashboard.sh" "$@"
+            ;;
+        cost)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/cost-tracker.sh" "$@"
+            ;;
+        parallel)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/parallel-executor.sh" "$@"
+            ;;
+        checkpoint)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/checkpoint.sh" "$@"
+            ;;
+        validate)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/validate.sh" "$@"
+            ;;
+        learn)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/self-improving.sh" "$@"
+            ;;
+        test)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/test-runner.sh" "$@"
+            ;;
+        template)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/template-manager.sh" "$@"
+            ;;
+        chain)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/tool-chainer.sh" "$@"
+            ;;
+        compress)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/context-compressor.sh" "$@"
+            ;;
+        secrets)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/secrets-manager.sh" "$@"
+            ;;
+        --list|list)
+            echo "AI Orchestration Tools:"
+            ls -1 "$TOOLKIT_ROOT/tools/ai-orchestration/"*.sh 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown ai command: $subcmd${NC}"
+            echo "Available: route, dashboard, cost, parallel, checkpoint, validate, learn, test, template, chain, compress, secrets"
+            exit 1
+            ;;
+    esac
+}
+
+# Governance commands
+cmd_governance() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        validate)
+            python "$TOOLKIT_ROOT/tools/governance/compliance_validator.py" "$@"
+            ;;
+        structure)
+            python "$TOOLKIT_ROOT/tools/governance/structure_validator.py" "$@"
+            ;;
+        enforce)
+            python "$TOOLKIT_ROOT/tools/governance/enforce.py" "$@"
+            ;;
+        catalog)
+            python "$TOOLKIT_ROOT/tools/governance/catalog.py" "$@"
+            ;;
+        checkpoint)
+            python "$TOOLKIT_ROOT/tools/governance/checkpoint.py" "$@"
+            ;;
+        sync)
+            python "$TOOLKIT_ROOT/tools/governance/sync_governance.py" "$@"
+            ;;
+        audit)
+            python "$TOOLKIT_ROOT/tools/governance/ai_audit.py" "$@"
+            ;;
+        meta)
+            python "$TOOLKIT_ROOT/tools/governance/meta.py" "$@"
+            ;;
+        --list|list)
+            echo "Governance Tools:"
+            ls -1 "$TOOLKIT_ROOT/tools/governance/"*.py 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown governance command: $subcmd${NC}"
+            echo "Available: validate, structure, enforce, catalog, checkpoint, sync, audit, meta"
+            exit 1
+            ;;
+    esac
+}
+
+# DevOps commands
+cmd_devops() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        list)
+            echo "Available Templates:"
+            ls -1 "$TOOLKIT_ROOT/templates/"
+            ;;
+        build)
+            npx ts-node "$TOOLKIT_ROOT/tools/devops-cli/builder.ts" "$@"
+            ;;
+        generate)
+            npx ts-node "$TOOLKIT_ROOT/tools/devops-cli/coder.ts" "$@"
+            ;;
+        bootstrap)
+            npx ts-node "$TOOLKIT_ROOT/tools/devops-cli/bootstrap.ts" "$@"
+            ;;
+        install)
+            npx ts-node "$TOOLKIT_ROOT/tools/devops-cli/install.ts" "$@"
+            ;;
+        --list)
+            echo "DevOps CLI Modules:"
+            ls -1 "$TOOLKIT_ROOT/tools/devops-cli/"*.ts 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown devops command: $subcmd${NC}"
+            echo "Available: list, build, generate, bootstrap, install"
+            exit 1
+            ;;
+    esac
+}
+
+# Security commands
+cmd_security() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        scan-all)
+            "$TOOLKIT_ROOT/tools/security/security-scan-all.sh" "$@"
+            ;;
+        dependencies)
+            "$TOOLKIT_ROOT/tools/security/dependency-scan.sh" "$@"
+            ;;
+        sast)
+            "$TOOLKIT_ROOT/tools/security/sast-scan.sh" "$@"
+            ;;
+        secrets)
+            "$TOOLKIT_ROOT/tools/security/secret-scan.sh" "$@"
+            ;;
+        trivy)
+            "$TOOLKIT_ROOT/tools/security/trivy-scan.sh" "$@"
+            ;;
+        --list|list)
+            echo "Security Tools:"
+            ls -1 "$TOOLKIT_ROOT/tools/security/"*.sh 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown security command: $subcmd${NC}"
+            echo "Available: scan-all, dependencies, sast, secrets, trivy"
+            exit 1
+            ;;
+    esac
+}
+
+# MCP commands
+cmd_mcp() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        start)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/mcp/start-ecosystem.sh" "$@"
+            ;;
+        stop)
+            "$TOOLKIT_ROOT/tools/ai-orchestration/mcp/stop-ecosystem.sh" "$@"
+            ;;
+        test)
+            python "$TOOLKIT_ROOT/tools/mcp-servers/mcp_server_tester.py" "$@"
+            ;;
+        wrap)
+            python "$TOOLKIT_ROOT/tools/mcp-servers/mcp_cli_wrapper.py" "$@"
+            ;;
+        --list|list)
+            echo "MCP Tools:"
+            ls -1 "$TOOLKIT_ROOT/tools/mcp-servers/"*.py 2>/dev/null | xargs -n1 basename
+            ls -1 "$TOOLKIT_ROOT/tools/ai-orchestration/mcp/"*.sh 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown mcp command: $subcmd${NC}"
+            echo "Available: start, stop, test, wrap"
+            exit 1
+            ;;
+    esac
+}
+
+# Orchestration commands
+cmd_orchestration() {
+    local subcmd="$1"
+    shift
+    case "$subcmd" in
+        checkpoint)
+            python "$TOOLKIT_ROOT/tools/orchestration/orchestration_checkpoint.py" "$@"
+            ;;
+        validate)
+            python "$TOOLKIT_ROOT/tools/orchestration/orchestration_validator.py" "$@"
+            ;;
+        telemetry)
+            python "$TOOLKIT_ROOT/tools/orchestration/orchestration_telemetry.py" "$@"
+            ;;
+        verify)
+            python "$TOOLKIT_ROOT/tools/orchestration/hallucination_verifier.py" "$@"
+            ;;
+        heal)
+            python "$TOOLKIT_ROOT/tools/orchestration/self_healing_workflow.py" "$@"
+            ;;
+        --list|list)
+            echo "Orchestration Tools:"
+            ls -1 "$TOOLKIT_ROOT/tools/orchestration/"*.py 2>/dev/null | xargs -n1 basename
+            ;;
+        *)
+            echo -e "${RED}Unknown orchestration command: $subcmd${NC}"
+            echo "Available: checkpoint, validate, telemetry, verify, heal"
+            exit 1
+            ;;
+    esac
+}
+
+# Main dispatcher
+case "$1" in
+    ai)
+        shift
+        cmd_ai "$@"
+        ;;
+    governance|gov)
+        shift
+        cmd_governance "$@"
+        ;;
+    devops)
+        shift
+        cmd_devops "$@"
+        ;;
+    security|sec)
+        shift
+        cmd_security "$@"
+        ;;
+    mcp)
+        shift
+        cmd_mcp "$@"
+        ;;
+    orchestration|orch)
+        shift
+        cmd_orchestration "$@"
+        ;;
+    -h|--help|help)
+        show_help
+        ;;
+    -v|--version)
+        show_version
+        ;;
+    "")
+        show_help
+        ;;
+    *)
+        echo -e "${RED}Unknown category: $1${NC}"
+        echo "Run 'toolkit --help' for usage"
+        exit 1
+        ;;
+esac

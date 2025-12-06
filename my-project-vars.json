@@ -1,0 +1,7 @@
+{
+  "project_name": "Optilibria",
+  "tech_stack": "Python + JAX + CUDA",
+  "backend_lang": "Python",
+  "frontend_lang": "TypeScript",
+  "coverage_target": "90"
+}

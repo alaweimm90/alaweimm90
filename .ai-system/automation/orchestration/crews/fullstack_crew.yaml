@@ -1,0 +1,166 @@
+# Full-Stack Development Crew
+# End-to-end application development with specialized agents
+
+name: fullstack_crew
+description: 'Multi-agent crew for full-stack application development'
+version: '1.0'
+
+agents:
+  - name: product_lead
+    agent_ref: product_manager_agent
+    role_in_crew: 'Requirements Lead'
+    responsibilities:
+      - Define user stories and acceptance criteria
+      - Prioritize features
+      - Validate deliverables against requirements
+    delegation_authority: true
+
+  - name: architect
+    agent_ref: architect_agent
+    role_in_crew: 'Technical Lead'
+    responsibilities:
+      - Design system architecture
+      - Make technology decisions
+      - Review technical implementations
+    delegation_authority: true
+
+  - name: frontend_dev
+    agent_ref: coder_agent
+    role_in_crew: 'Frontend Developer'
+    responsibilities:
+      - Implement UI components
+      - Handle state management
+      - Ensure responsive design
+    specialization:
+      languages: ['TypeScript', 'JavaScript']
+      frameworks: ['React', 'Vue', 'Next.js']
+
+  - name: backend_dev
+    agent_ref: coder_agent
+    role_in_crew: 'Backend Developer'
+    responsibilities:
+      - Implement API endpoints
+      - Design database schemas
+      - Handle business logic
+    specialization:
+      languages: ['Python', 'TypeScript', 'Go']
+      frameworks: ['FastAPI', 'Express', 'Django']
+
+  - name: qa_lead
+    agent_ref: qa_engineer_agent
+    role_in_crew: 'QA Lead'
+    responsibilities:
+      - Design test strategy
+      - Write and run tests
+      - Validate quality gates
+    delegation_authority: false
+
+  - name: devops_lead
+    agent_ref: devops_agent
+    role_in_crew: 'DevOps Lead'
+    responsibilities:
+      - Set up CI/CD pipelines
+      - Configure infrastructure
+      - Manage deployments
+    delegation_authority: false
+
+tasks:
+  - name: requirements_analysis
+    description: 'Analyze and document requirements'
+    assigned_to: product_lead
+    expected_output: 'User stories with acceptance criteria'
+    priority: 1
+
+  - name: architecture_design
+    description: 'Design system architecture'
+    assigned_to: architect
+    depends_on: [requirements_analysis]
+    expected_output: 'Architecture document with diagrams'
+    priority: 2
+
+  - name: frontend_implementation
+    description: 'Implement frontend components'
+    assigned_to: frontend_dev
+    depends_on: [architecture_design]
+    expected_output: 'Working frontend with tests'
+    priority: 3
+
+  - name: backend_implementation
+    description: 'Implement backend services'
+    assigned_to: backend_dev
+    depends_on: [architecture_design]
+    expected_output: 'Working API with tests'
+    priority: 3
+
+  - name: integration_testing
+    description: 'Test full system integration'
+    assigned_to: qa_lead
+    depends_on: [frontend_implementation, backend_implementation]
+    expected_output: 'Test report with coverage'
+    priority: 4
+
+  - name: deployment
+    description: 'Deploy to staging and production'
+    assigned_to: devops_lead
+    depends_on: [integration_testing]
+    expected_output: 'Deployed application with monitoring'
+    priority: 5
+
+process:
+  type: hierarchical
+  manager: architect
+
+  workflow:
+    - phase: planning
+      tasks: [requirements_analysis, architecture_design]
+      parallel: false
+
+    - phase: implementation
+      tasks: [frontend_implementation, backend_implementation]
+      parallel: true
+
+    - phase: validation
+      tasks: [integration_testing]
+      parallel: false
+
+    - phase: release
+      tasks: [deployment]
+      parallel: false
+
+  communication:
+    format: structured_json
+    handoff_required: true
+    review_gates:
+      - after: architecture_design
+        reviewer: product_lead
+      - after: integration_testing
+        reviewer: architect
+
+quality_gates:
+  - name: architecture_review
+    condition: 'Architecture approved by product lead'
+    blocking: true
+
+  - name: code_coverage
+    condition: 'Test coverage >= 80%'
+    blocking: true
+
+  - name: security_scan
+    condition: 'No critical vulnerabilities'
+    blocking: true
+
+  - name: performance_baseline
+    condition: 'Response time < 200ms p95'
+    blocking: false
+
+metrics:
+  track:
+    - cycle_time
+    - defect_rate
+    - test_coverage
+    - deployment_frequency
+
+  targets:
+    cycle_time_days: 5
+    defect_rate_percent: 2
+    test_coverage_percent: 80

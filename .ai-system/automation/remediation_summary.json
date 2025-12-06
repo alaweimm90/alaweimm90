@@ -1,0 +1,181 @@
+{
+  "path": ".",
+  "available_hours": 20,
+  "generated_at": "2025-12-03T06:31:25.029986Z",
+  "assessment": {
+    "total_debt_items": 806,
+    "estimated_remediation_time": 1676,
+    "debt_by_type": {
+      "code_complexity": 695,
+      "naming_consistency": 93,
+      "documentation_drift": 15,
+      "architectural_violations": 1,
+      "performance_bottlenecks": 1,
+      "test_coverage_gaps": 1
+    },
+    "debt_by_severity": {
+      "high": 662,
+      "medium": 51,
+      "low": 93
+    },
+    "priority_items_count": 10,
+    "assessment_timestamp": 1764743484.0520732
+  },
+  "prioritized_items": [
+    {
+      "id": "nested_complex_de7aac1c",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 63,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 9
+      }
+    },
+    {
+      "id": "nested_complex_8c71baca",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 71,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 6
+      }
+    },
+    {
+      "id": "nested_complex_3436528c",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 72,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 5
+      }
+    },
+    {
+      "id": "nested_complex_8c008430",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 73,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 5
+      }
+    },
+    {
+      "id": "nested_complex_914bfee8",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 75,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 6
+      }
+    },
+    {
+      "id": "nested_complex_74583c77",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 76,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 5
+      }
+    },
+    {
+      "id": "nested_complex_31c128cf",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 79,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 5
+      }
+    },
+    {
+      "id": "nested_complex_78a6b3ac",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 83,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 6
+      }
+    },
+    {
+      "id": "nested_complex_e600d8b4",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 84,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 5
+      }
+    },
+    {
+      "id": "nested_complex_f26a37e2",
+      "type": "code_complexity",
+      "severity": "high",
+      "description": "Deeply nested code detected",
+      "file_path": "claude_http_integration.py",
+      "line_number": 87,
+      "estimated_effort": 2,
+      "business_impact": "Difficult to understand and maintain",
+      "metadata": {
+        "indentation_level": 6
+      }
+    }
+  ],
+  "remediation_results": {
+    "total_items": 10,
+    "successful": 0,
+    "failed": 10,
+    "success_rate": 0.0
+  },
+  "monitoring_baseline": {
+    "total_debt_items": 806,
+    "estimated_remediation_time": 1676,
+    "debt_by_type": {
+      "code_complexity": 695,
+      "naming_consistency": 93,
+      "documentation_drift": 15,
+      "architectural_violations": 1,
+      "performance_bottlenecks": 1,
+      "test_coverage_gaps": 1
+    },
+    "debt_by_severity": {
+      "high": 662,
+      "medium": 51,
+      "low": 93
+    },
+    "priority_items_count": 10,
+    "assessment_timestamp": 1764743485.022224
+  }
+}

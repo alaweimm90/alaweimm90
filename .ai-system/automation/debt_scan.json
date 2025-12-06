@@ -1,0 +1,23 @@
+{
+  "path": ".",
+  "generated_at": "2025-12-04T01:50:19.190607+00:00",
+  "assessment": {
+    "total_debt_items": 80,
+    "estimated_remediation_time": 349,
+    "debt_by_type": {
+      "code_complexity": 53,
+      "naming_consistency": 9,
+      "documentation_drift": 15,
+      "architectural_violations": 1,
+      "performance_bottlenecks": 1,
+      "test_coverage_gaps": 1
+    },
+    "debt_by_severity": {
+      "medium": 29,
+      "high": 42,
+      "low": 9
+    },
+    "priority_items_count": 10,
+    "assessment_timestamp": 1764813019.1889913
+  }
+}

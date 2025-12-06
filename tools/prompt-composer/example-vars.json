@@ -1,0 +1,7 @@
+{
+  "project_name": "EcommerceApp",
+  "tech_stack": "Next.js + PostgreSQL",
+  "backend_lang": "TypeScript",
+  "frontend_lang": "TypeScript",
+  "coverage_target": "90"
+}

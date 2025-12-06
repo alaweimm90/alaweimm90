@@ -1,0 +1,459 @@
+{
+  "prompts": [
+    {
+      "id": "README",
+      "name": "Readme",
+      "category": "prompts",
+      "path": "prompts\\README.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "DESIGN_SYSTEM_PROMPTS",
+      "name": "Design_System_Prompts",
+      "category": "architecture",
+      "path": "prompts\\architecture\\DESIGN_SYSTEM_PROMPTS.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "LOVABLE_FULLSTACK_TEMPLATE_SYSTEM",
+      "name": "Lovable_Fullstack_Template_System",
+      "category": "architecture",
+      "path": "prompts\\architecture\\LOVABLE_FULLSTACK_TEMPLATE_SYSTEM.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "agentic-code-review",
+      "name": "Agentic Code Review",
+      "category": "code-review",
+      "path": "prompts\\code-review\\agentic-code-review.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "physics-code-review",
+      "name": "Physics Code Review",
+      "category": "code-review",
+      "path": "prompts\\code-review\\physics-code-review.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "debugger",
+      "name": "Debugger",
+      "category": "debugging",
+      "path": "prompts\\debugging\\debugger.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ai-best-practices",
+      "name": "Ai Best Practices",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ai-best-practices.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ai-integration-phase",
+      "name": "Ai Integration Phase",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ai-integration-phase.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ai-ml-integration",
+      "name": "Ai Ml Integration",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ai-ml-integration.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ai-research-platform",
+      "name": "Ai Research Platform",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ai-research-platform.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "api-design-development",
+      "name": "Api Design Development",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\api-design-development.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "approval-gating-system",
+      "name": "Approval Gating System",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\approval-gating-system.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "automated-test-generation",
+      "name": "Automated Test Generation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\automated-test-generation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "brainstorming-facilitation",
+      "name": "Brainstorming Facilitation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\brainstorming-facilitation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "chain-of-thought-reasoning",
+      "name": "Chain Of Thought Reasoning",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\chain-of-thought-reasoning.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "cicd-pipeline-setup",
+      "name": "Cicd Pipeline Setup",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\cicd-pipeline-setup.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "claude-opus-configuration",
+      "name": "Claude Opus Configuration",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\claude-opus-configuration.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "code-evaluation",
+      "name": "Code Evaluation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\code-evaluation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "codebase-cleanup",
+      "name": "Codebase Cleanup",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\codebase-cleanup.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "constitutional-ai-alignment",
+      "name": "Constitutional Ai Alignment",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\constitutional-ai-alignment.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "context-engineering",
+      "name": "Context Engineering",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\context-engineering.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "creative-ideation",
+      "name": "Creative Ideation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\creative-ideation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "data-pipeline-engineering",
+      "name": "Data Pipeline Engineering",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\data-pipeline-engineering.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "dual-problem-optimization",
+      "name": "Dual Problem Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\dual-problem-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "enterprise-ai-agents",
+      "name": "Enterprise Ai Agents",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\enterprise-ai-agents.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "evolutionary-optimization",
+      "name": "Evolutionary Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\evolutionary-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "fitness-platform-development",
+      "name": "Fitness Platform Development",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\fitness-platform-development.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "flow-optimization",
+      "name": "Flow Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\flow-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "fullstack-saas-template",
+      "name": "Fullstack Saas Template",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\fullstack-saas-template.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "governance-compliance",
+      "name": "Governance Compliance",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\governance-compliance.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "gpu-optimization",
+      "name": "Gpu Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\gpu-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "graph-optimization",
+      "name": "Graph Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\graph-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "infrastructure-setup-phase",
+      "name": "Infrastructure Setup Phase",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\infrastructure-setup-phase.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "local-ai-orchestration",
+      "name": "Local Ai Orchestration",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\local-ai-orchestration.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "magnetic-simulation-system",
+      "name": "Magnetic Simulation System",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\magnetic-simulation-system.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "meta-optimization",
+      "name": "Meta Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\meta-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ml-pipeline-design",
+      "name": "Ml Pipeline Design",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ml-pipeline-design.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "monorepo-architecture",
+      "name": "Monorepo Architecture",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\monorepo-architecture.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "multi-agent-coordination",
+      "name": "Multi Agent Coordination",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\multi-agent-coordination.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "multi-hop-rag",
+      "name": "Multi Hop Rag",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\multi-hop-rag.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "optimization-algorithms-library",
+      "name": "Optimization Algorithms Library",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\optimization-algorithms-library.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "optimization-framework",
+      "name": "Optimization Framework",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\optimization-framework.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "physics-simulation-engine",
+      "name": "Physics Simulation Engine",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\physics-simulation-engine.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "platform-deployment",
+      "name": "Platform Deployment",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\platform-deployment.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "prompt-engineering-optimizer",
+      "name": "Prompt Engineering Optimizer",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\prompt-engineering-optimizer.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "prompt-optimization",
+      "name": "Prompt Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\prompt-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "prompt-refinement",
+      "name": "Prompt Refinement",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\prompt-refinement.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "quadratic-assignment-problem",
+      "name": "Quadratic Assignment Problem",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\quadratic-assignment-problem.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "quantum-circuit-simulator",
+      "name": "Quantum Circuit Simulator",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\quantum-circuit-simulator.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "quantum-materials-simulation",
+      "name": "Quantum Materials Simulation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\quantum-materials-simulation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "quantum-ml-framework",
+      "name": "Quantum Ml Framework",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\quantum-ml-framework.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "README",
+      "name": "Readme",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\README.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "repository-consolidation-master",
+      "name": "Repository Consolidation Master",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\repository-consolidation-master.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "repository-consolidation",
+      "name": "Repository Consolidation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\repository-consolidation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "request-routing",
+      "name": "Request Routing",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\request-routing.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "resource-allocation-optimization",
+      "name": "Resource Allocation Optimization",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\resource-allocation-optimization.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "scientific-computing-library",
+      "name": "Scientific Computing Library",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\scientific-computing-library.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "security-implementation",
+      "name": "Security Implementation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\security-implementation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "session-summary-template",
+      "name": "Session Summary Template",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\session-summary-template.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "SIMCORE_SUPERPROMPT",
+      "name": "Simcore_Superprompt",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\SIMCORE_SUPERPROMPT.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "testing-qa-strategy",
+      "name": "Testing Qa Strategy",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\testing-qa-strategy.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "tooling-setup-phase",
+      "name": "Tooling Setup Phase",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\tooling-setup-phase.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "typescript-automation",
+      "name": "Typescript Automation",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\typescript-automation.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "ui-ux-design",
+      "name": "Ui Ux Design",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\ui-ux-design.md",
+      "last_updated": "2025-12-05"
+    },
+    {
+      "id": "workflow-orchestration",
+      "name": "Workflow Orchestration",
+      "category": "superprompts",
+      "path": "prompts\\superprompts\\workflow-orchestration.md",
+      "last_updated": "2025-12-05"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+# Workflow Definitions for Orchex Automation System
+# These workflows define the execution patterns for various task types
+
+workflows:
+  default:
+    name: Default Workflow
+    description: Basic workflow for general task execution
+    pattern: direct
+    stages:
+      - name: analyze
+        action: Analyze task requirements
+      - name: execute
+        action: Execute task
+      - name: validate
+        action: Validate results
+
+  debugging:
+    name: Debugging Workflow
+    description: Workflow for debugging and troubleshooting tasks
+    pattern: iterative
+    stages:
+      - name: identify
+        action: Identify the issue
+      - name: analyze
+        action: Analyze root cause
+      - name: fix
+        action: Apply fix
+      - name: verify
+        action: Verify solution
+
+  testing:
+    name: Testing Workflow
+    description: Workflow for test creation and execution
+    pattern: sequential
+    stages:
+      - name: plan
+        action: Plan test cases
+      - name: implement
+        action: Implement tests
+      - name: execute
+        action: Run tests
+      - name: report
+        action: Generate test report
+
+  documentation:
+    name: Documentation Workflow
+    description: Workflow for documentation tasks
+    pattern: sequential
+    stages:
+      - name: outline
+        action: Create document outline
+      - name: draft
+        action: Write initial draft
+      - name: review
+        action: Review and refine
+      - name: publish
+        action: Finalize and publish
+
+  refactoring:
+    name: Refactoring Workflow
+    description: Workflow for code refactoring tasks
+    pattern: iterative
+    stages:
+      - name: analyze
+        action: Analyze code structure
+      - name: plan
+        action: Plan refactoring steps
+      - name: implement
+        action: Apply refactoring
+      - name: test
+        action: Run tests
+      - name: review
+        action: Code review
+
+  feature:
+    name: Feature Development Workflow
+    description: Workflow for new feature development
+    pattern: sequential
+    stages:
+      - name: design
+        action: Design feature architecture
+      - name: implement
+        action: Implement feature
+      - name: test
+        action: Write and run tests
+      - name: document
+        action: Update documentation
+      - name: review
+        action: Code review
+
+  auto-refactor:
+    name: Auto-Refactor Workflow
+    description: Automated code refactoring workflow
+    pattern: parallel
+    stages:
+      - name: scan
+        action: Scan codebase for patterns
+      - name: analyze
+        action: Analyze refactoring opportunities
+      - name: apply
+        action: Apply safe refactoring
+      - name: validate
+        action: Validate changes
+

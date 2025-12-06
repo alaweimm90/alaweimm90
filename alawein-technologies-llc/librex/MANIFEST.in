@@ -1,0 +1,49 @@
+# MANIFEST.in for Librex.QAP v1.0
+# Include all necessary files in the PyPI distribution
+
+# Documentation files
+include README.md
+include LICENSE
+include BENCHMARK_RESULTS.md
+include CONTRIBUTING.md
+include CHANGELOG.md
+
+# Configuration files
+include pyproject.toml
+include MANIFEST.in
+
+# Python source files
+recursive-include librex *.py
+recursive-include tests *.py
+
+# Data files and benchmarks
+recursive-include librex *.json
+recursive-include librex *.dat
+recursive-include data *.json *.dat
+recursive-include benchmarks *.json *.dat *.py
+
+# Example scripts
+recursive-include examples *.py *.ipynb
+recursive-include docs *.md *.rst *.txt
+
+# Publishing and testing scripts
+include publish_to_pypi.py
+include test_installation.py
+
+# Exclude development and cache files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .coverage
+global-exclude .pytest_cache
+global-exclude build
+global-exclude dist
+global-exclude *.egg-info
+
+# Include important configuration files
+include .pre-commit-config.yaml
+include .secrets.baseline

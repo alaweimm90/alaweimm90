@@ -1,0 +1,40 @@
+"""Tests for core module."""
+
+import pytest
+from {{PROJECT_NAME}}.core import hello_world, BaseClass
+
+
+class TestHelloWorld:
+    """Tests for hello_world function."""
+    
+    def test_returns_string(self) -> None:
+        """Test that hello_world returns a string."""
+        result = hello_world()
+        assert isinstance(result, str)
+    
+    def test_contains_project_name(self) -> None:
+        """Test that greeting contains project name."""
+        result = hello_world()
+        assert "{{PROJECT_NAME}}" in result
+
+
+class TestBaseClass:
+    """Tests for BaseClass."""
+    
+    def test_init(self) -> None:
+        """Test initialization."""
+        obj = BaseClass(name="test")
+        assert obj.name == "test"
+    
+    def test_repr(self) -> None:
+        """Test string representation."""
+        obj = BaseClass(name="test")
+        assert "BaseClass" in repr(obj)
+        assert "test" in repr(obj)
+    
+    def test_process_not_implemented(self) -> None:
+        """Test that process raises NotImplementedError."""
+        obj = BaseClass(name="test")
+        with pytest.raises(NotImplementedError):
+            obj.process({})
+

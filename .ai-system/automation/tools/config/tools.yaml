@@ -1,0 +1,362 @@
+# Tools Registry - Centralized Tool Definitions
+# Tools available to agents for task execution
+
+version: '1.0'
+metadata:
+  created: '2024-11-29'
+  description: 'Centralized tool definitions for AI agents'
+
+# Tool Categories
+categories:
+  search:
+    description: 'Information retrieval tools'
+    tools:
+      - web_search
+      - arxiv_search
+      - semantic_scholar
+      - code_search
+
+  computation:
+    description: 'Calculation and analysis tools'
+    tools:
+      - calculator
+      - symbolic_math
+      - data_analyzer
+
+  code:
+    description: 'Code manipulation tools'
+    tools:
+      - code_executor
+      - linter
+      - test_runner
+      - static_analyzer
+      - security_scanner
+      - debugger
+      - profiler
+
+  content:
+    description: 'Content creation tools'
+    tools:
+      - markdown_formatter
+      - latex_renderer
+      - mermaid
+
+  visualization:
+    description: 'Data visualization tools'
+    tools:
+      - matplotlib
+      - plotly
+      - chart_generator
+
+  system:
+    description: 'System interaction tools'
+    tools:
+      - file_system
+      - shell_command
+      - git_operations
+
+# Tool Definitions
+tools:
+  # Search Tools
+  web_search:
+    name: 'Web Search'
+    description: 'Search the web for information'
+    provider: 'exa'
+    config:
+      max_results: 10
+      include_domains: []
+      exclude_domains: []
+    permissions:
+      - 'network_access'
+    rate_limit:
+      requests_per_minute: 30
+
+  arxiv_search:
+    name: 'arXiv Search'
+    description: 'Search arXiv for academic papers'
+    provider: 'arxiv_api'
+    config:
+      max_results: 20
+      sort_by: 'relevance'
+    permissions:
+      - 'network_access'
+
+  semantic_scholar:
+    name: 'Semantic Scholar'
+    description: 'Search Semantic Scholar for papers and citations'
+    provider: 'semantic_scholar_api'
+    config:
+      max_results: 20
+      include_citations: true
+    permissions:
+      - 'network_access'
+
+  code_search:
+    name: 'Code Search'
+    description: 'Search codebase for patterns and definitions'
+    provider: 'ripgrep'
+    config:
+      case_sensitive: false
+      include_hidden: false
+    permissions:
+      - 'file_read'
+
+  # Computation Tools
+  calculator:
+    name: 'Calculator'
+    description: 'Perform mathematical calculations'
+    provider: 'builtin'
+    config:
+      precision: 15
+    permissions: []
+
+  symbolic_math:
+    name: 'Symbolic Math'
+    description: 'Symbolic mathematics with SymPy'
+    provider: 'sympy'
+    config:
+      simplify: true
+    permissions: []
+
+  data_analyzer:
+    name: 'Data Analyzer'
+    description: 'Analyze datasets with pandas'
+    provider: 'pandas'
+    config:
+      max_rows: 100000
+    permissions:
+      - 'file_read'
+
+  # Code Tools
+  code_executor:
+    name: 'Code Executor'
+    description: 'Execute code in sandboxed environment'
+    provider: 'docker_sandbox'
+    config:
+      timeout_seconds: 60
+      memory_limit_mb: 512
+      allowed_languages:
+        - 'python'
+        - 'javascript'
+        - 'typescript'
+    permissions:
+      - 'code_execution'
+    restricted: true
+
+  linter:
+    name: 'Linter'
+    description: 'Run linting on code'
+    provider: 'multi'
+    config:
+      python: 'ruff'
+      javascript: 'eslint'
+      typescript: 'eslint'
+    permissions:
+      - 'file_read'
+
+  test_runner:
+    name: 'Test Runner'
+    description: 'Run test suites'
+    provider: 'multi'
+    config:
+      python: 'pytest'
+      javascript: 'vitest'
+    permissions:
+      - 'file_read'
+      - 'code_execution'
+
+  static_analyzer:
+    name: 'Static Analyzer'
+    description: 'Static code analysis'
+    provider: 'multi'
+    config:
+      python: 'mypy'
+      typescript: 'tsc'
+    permissions:
+      - 'file_read'
+
+  security_scanner:
+    name: 'Security Scanner'
+    description: 'Scan for security vulnerabilities'
+    provider: 'multi'
+    config:
+      tools:
+        - 'bandit'
+        - 'semgrep'
+        - 'snyk'
+    permissions:
+      - 'file_read'
+      - 'network_access'
+
+  debugger:
+    name: 'Debugger'
+    description: 'Debug code execution'
+    provider: 'builtin'
+    permissions:
+      - 'code_execution'
+    restricted: true
+
+  profiler:
+    name: 'Profiler'
+    description: 'Profile code performance'
+    provider: 'multi'
+    config:
+      python: 'cProfile'
+      javascript: 'clinic'
+    permissions:
+      - 'code_execution'
+
+  # Content Tools
+  markdown_formatter:
+    name: 'Markdown Formatter'
+    description: 'Format and validate markdown'
+    provider: 'builtin'
+    permissions: []
+
+  latex_renderer:
+    name: 'LaTeX Renderer'
+    description: 'Render LaTeX equations'
+    provider: 'mathjax'
+    permissions: []
+
+  mermaid:
+    name: 'Mermaid Diagrams'
+    description: 'Generate diagrams from Mermaid syntax'
+    provider: 'mermaid_cli'
+    permissions:
+      - 'file_write'
+
+  # Visualization Tools
+  matplotlib:
+    name: 'Matplotlib'
+    description: 'Create static visualizations'
+    provider: 'matplotlib'
+    config:
+      default_style: 'seaborn'
+      dpi: 150
+    permissions:
+      - 'file_write'
+
+  plotly:
+    name: 'Plotly'
+    description: 'Create interactive visualizations'
+    provider: 'plotly'
+    permissions:
+      - 'file_write'
+
+  chart_generator:
+    name: 'Chart Generator'
+    description: 'Generate charts from data'
+    provider: 'multi'
+    permissions:
+      - 'file_write'
+
+  # System Tools
+  file_system:
+    name: 'File System'
+    description: 'Read and write files'
+    provider: 'builtin'
+    config:
+      allowed_paths:
+        - '${WORKSPACE}'
+      denied_paths:
+        - '**/.git/**'
+        - '**/node_modules/**'
+        - '**/.env*'
+    permissions:
+      - 'file_read'
+      - 'file_write'
+    restricted: true
+
+  shell_command:
+    name: 'Shell Command'
+    description: 'Execute shell commands'
+    provider: 'builtin'
+    config:
+      allowed_commands:
+        - 'ls'
+        - 'cat'
+        - 'grep'
+        - 'find'
+        - 'git status'
+        - 'git log'
+        - 'git diff'
+      denied_commands:
+        - 'rm -rf'
+        - 'sudo'
+        - 'chmod'
+    permissions:
+      - 'shell_access'
+    restricted: true
+
+  git_operations:
+    name: 'Git Operations'
+    description: 'Perform git operations'
+    provider: 'git'
+    config:
+      allowed_operations:
+        - 'status'
+        - 'log'
+        - 'diff'
+        - 'branch'
+        - 'add'
+        - 'commit'
+      denied_operations:
+        - 'push --force'
+        - 'reset --hard'
+    permissions:
+      - 'git_access'
+
+# MCP Server Integrations
+mcp_servers:
+  filesystem:
+    enabled: true
+    tools:
+      - 'read_file'
+      - 'write_file'
+      - 'list_directory'
+
+  puppeteer:
+    enabled: true
+    tools:
+      - 'navigate'
+      - 'screenshot'
+      - 'click'
+      - 'fill'
+
+  exa:
+    enabled: true
+    tools:
+      - 'web_search'
+      - 'code_search'
+
+  memory:
+    enabled: true
+    tools:
+      - 'create_entities'
+      - 'search_nodes'
+      - 'read_graph'
+
+# Permission Levels
+permission_levels:
+  public:
+    description: 'Available to all agents'
+    tools:
+      - 'web_search'
+      - 'calculator'
+      - 'markdown_formatter'
+
+  standard:
+    description: 'Available to trusted agents'
+    tools:
+      - 'code_search'
+      - 'linter'
+      - 'test_runner'
+      - 'file_system'
+
+  elevated:
+    description: 'Requires explicit approval'
+    tools:
+      - 'code_executor'
+      - 'shell_command'
+      - 'git_operations'
