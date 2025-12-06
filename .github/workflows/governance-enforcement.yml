@@ -202,7 +202,7 @@ jobs:
         continue-on-error: true
 
       - name: Audit Python Dependencies
-        uses: pypa/gh-action-pip-audit@v1.0.8
+        uses: pypa/gh-action-pip-audit@v1.1.0
         with:
           inputs: requirements.txt
         continue-on-error: true
