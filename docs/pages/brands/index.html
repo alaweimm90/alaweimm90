@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alawein Platforms | Brand Directory</title>
+  <meta name="description" content="Directory of all Alawein Technologies platforms, products, and research projects." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --surface: #0f172a;
+      --border: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --primary: #38bdf8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Header */
+    header {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(2, 6, 23, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    nav { display: flex; justify-content: space-between; align-items: center; }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.04em;
+    }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    /* Hero */
+    .hero {
+      padding: 3rem 0 2rem;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Sections */
+    section {
+      padding: 2rem 0;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-header h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .card-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+    .status-active { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+    .status-backend { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+    .status-planned { background: rgba(148, 163, 184, 0.2); color: #94a3b8; }
+    .card-tagline {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2rem; }
+      .stats { gap: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo">Alawein Platforms</div>
+      <div class="nav-links">
+        <a href="https://malawein.com">Portfolio</a>
+        <a href="https://github.com/alaweimm90">GitHub</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Platform Directory</h1>
+      <p>
+        All products, research projects, and platforms across Alawein Technologies LLC,
+        REPZ LLC, and Live It Iconic LLC.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value">22</div>
+          <div class="stat-label">Platforms</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">8</div>
+          <div class="stat-label">Active SPAs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">3</div>
+          <div class="stat-label">LLCs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">11</div>
+          <div class="stat-label">Domains</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scientific / Technical -->
+    <section>
+      <div class="section-header">
+        <h2>Scientific / Technical</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="simcore/" class="card">
+          <div class="card-header">
+            <span class="card-title">SimCore</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">Interactive Scientific Computing Platform</p>
+          <div class="card-tags">
+            <span class="tag">simcore.dev</span>
+            <span class="tag">React</span>
+            <span class="tag">Quantum</span>
+          </div>
+        </a>
+        <a href="qmlab/" class="card">
+          <div class="card-header">
+            <span class="card-title">QMLab</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">Quantum Mechanics in the Browser</p>
+          <div class="card-tags">
+            <span class="tag">qmlab.online</span>
+            <span class="tag">A11y-first</span>
+          </div>
+        </a>
+        <a href="librex/" class="card">
+          <div class="card-header">
+            <span class="card-title">Librex / OptiLibria</span>
+            <span class="card-status status-planned">Planned</span>
+          </div>
+          <p class="card-tagline">GPU-Accelerated Optimization Framework</p>
+          <div class="card-tags">
+            <span class="tag">31+ algorithms</span>
+            <span class="tag">Python</span>
+          </div>
+        </a>
+        <a href="helios/" class="card">
+          <div class="card-header">
+            <span class="card-title">HELIOS</span>
+            <span class="card-status status-planned">Planned</span>
+          </div>
+          <p class="card-tagline">High-Performance Scientific Computing</p>
+          <div class="card-tags">
+            <span class="tag">Infrastructure</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- AI / Machine Learning -->
+    <section>
+      <div class="section-header">
+        <h2>AI / Machine Learning</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="talai/" class="card">
+          <div class="card-header">
+            <span class="card-title">TalAI</span>
+            <span class="card-status status-backend">Backend</span>
+          </div>
+          <p class="card-tagline">Autonomous AI Research Assistant</p>
+          <div class="card-tags">
+            <span class="tag">talai.dev</span>
+            <span class="tag">50+ modules</span>
+            <span class="tag">Python</span>
+          </div>
+        </a>
+        <a href="llmworks/" class="card">
+          <div class="card-header">
+            <span class="card-title">LLMWorks</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">Interactive LLM Evaluation & Benchmarking</p>
+          <div class="card-tags">
+            <span class="tag">llmworks.dev</span>
+            <span class="tag">React</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </a>
+        <a href="qubeml/" class="card">
+          <div class="card-header">
+            <span class="card-title">QubeML</span>
+            <span class="card-status status-planned">Research</span>
+          </div>
+          <p class="card-tagline">Quantum Machine Learning Framework</p>
+          <div class="card-tags">
+            <span class="tag">Research</span>
+            <span class="tag">QML</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Business / Professional -->
+    <section>
+      <div class="section-header">
+        <h2>Business / Professional</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="attributa/" class="card">
+          <div class="card-header">
+            <span class="card-title">Attributa</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">AI-Powered Attribution & Resume Analysis</p>
+          <div class="card-tags">
+            <span class="tag">attributa.dev</span>
+            <span class="tag">AI Detection</span>
+          </div>
+        </a>
+        <a href="repz/" class="card">
+          <div class="card-header">
+            <span class="card-title">REPZ Coach</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">AI-Powered Fitness Coaching Platform</p>
+          <div class="card-tags">
+            <span class="tag">getrepz.app</span>
+            <span class="tag">Stripe</span>
+            <span class="tag">Supabase</span>
+          </div>
+        </a>
+        <a href="mezan/" class="card">
+          <div class="card-header">
+            <span class="card-title">MEZAN</span>
+            <span class="card-status status-backend">Backend</span>
+          </div>
+          <p class="card-tagline">Meta-Solver Orchestrator for Optimization</p>
+          <div class="card-tags">
+            <span class="tag">mezan.dev</span>
+            <span class="tag">Python</span>
+          </div>
+        </a>
+        <a href="foundry/" class="card">
+          <div class="card-header">
+            <span class="card-title">Foundry</span>
+            <span class="card-status status-planned">Internal</span>
+          </div>
+          <p class="card-tagline">Product Incubator & Template Library</p>
+          <div class="card-tags">
+            <span class="tag">Templates</span>
+            <span class="tag">Scaffolds</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Lifestyle / E-commerce -->
+    <section>
+      <div class="section-header">
+        <h2>Lifestyle / E-commerce</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="liveiticonic/" class="card">
+          <div class="card-header">
+            <span class="card-title">Live It Iconic</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">Luxury Automotive Lifestyle Brand</p>
+          <div class="card-tags">
+            <span class="tag">liveiticonic.com</span>
+            <span class="tag">E-commerce</span>
+            <span class="tag">Stripe</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Research Projects -->
+    <section>
+      <div class="section-header">
+        <h2>Research Projects</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="maglogic/" class="card">
+          <div class="card-header">
+            <span class="card-title">MagLogic</span>
+            <span class="card-status status-planned">Research</span>
+          </div>
+          <p class="card-tagline">Magnetic Logic Circuits Research</p>
+          <div class="card-tags"><span class="tag">Spintronics</span></div>
+        </a>
+        <a href="qmatsim/" class="card">
+          <div class="card-header">
+            <span class="card-title">QMatSim</span>
+            <span class="card-status status-planned">Research</span>
+          </div>
+          <p class="card-tagline">Quantum Materials Simulation</p>
+          <div class="card-tags"><span class="tag">Materials Science</span></div>
+        </a>
+        <a href="scicomp/" class="card">
+          <div class="card-header">
+            <span class="card-title">SciComp</span>
+            <span class="card-status status-planned">Research</span>
+          </div>
+          <p class="card-tagline">Scientific Computing Utilities</p>
+          <div class="card-tags"><span class="tag">Numerical Methods</span></div>
+        </a>
+        <a href="spincirc/" class="card">
+          <div class="card-header">
+            <span class="card-title">SpinCirc</span>
+            <span class="card-status status-planned">Research</span>
+          </div>
+          <p class="card-tagline">Spintronics Circuit Research</p>
+          <div class="card-tags"><span class="tag">Devices</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Portfolio / Personal -->
+    <section>
+      <div class="section-header">
+        <h2>Portfolio / Personal</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="grid">
+        <a href="portfolio/" class="card">
+          <div class="card-header">
+            <span class="card-title">Portfolio</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">Professional Portfolio & Resume Generator</p>
+          <div class="card-tags">
+            <span class="tag">malawein.com</span>
+            <span class="tag">PDF Resume</span>
+          </div>
+        </a>
+        <a href="meatheadphysicist/" class="card">
+          <div class="card-header">
+            <span class="card-title">MeatheadPhysicist</span>
+            <span class="card-status status-active">Active</span>
+          </div>
+          <p class="card-tagline">High-Intensity Physics Education</p>
+          <div class="card-tags">
+            <span class="tag">Education</span>
+            <span class="tag">Content</span>
+          </div>
+        </a>
+        <a href="drmalawein/" class="card">
+          <div class="card-header">
+            <span class="card-title">DrMalawein</span>
+            <span class="card-status status-planned">Planned</span>
+          </div>
+          <p class="card-tagline">Medical Practice Website</p>
+          <div class="card-tags"><span class="tag">Family</span></div>
+        </a>
+        <a href="rounaq/" class="card">
+          <div class="card-header">
+            <span class="card-title">Rounaq</span>
+            <span class="card-status status-planned">Planned</span>
+          </div>
+          <p class="card-tagline">Personal Blog & Stories</p>
+          <div class="card-tags"><span class="tag">Family</span></div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Alawein Technologies LLC · REPZ LLC · Live It Iconic LLC<br />
+        <a href="https://github.com/alaweimm90">GitHub</a> ·
+        <a href="https://malawein.com">malawein.com</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

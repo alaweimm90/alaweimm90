@@ -409,9 +409,63 @@ export const PLATFORMS: PlatformDefinition[] = [
   },
 ];
 
-// Convenience helpers for use in your Studios UI
+// ---------------------------------------------------------------------------
+// Convenience helpers for Studios UI integration
+// ---------------------------------------------------------------------------
+
+/** Get all platforms for a specific tier */
+export const getPlatformsByTier = (tier: PlatformTier): PlatformDefinition[] =>
+  PLATFORMS.filter((p) => p.tier === tier);
+
+/** Get only active platforms for a specific tier */
 export const getActivePlatformsByTier = (tier: PlatformTier): PlatformDefinition[] =>
   PLATFORMS.filter((p) => p.tier === tier && p.status === "active");
 
+/** Get all active SPA platforms (deployable front-ends) */
 export const getAllActiveSpaPlatforms = (): PlatformDefinition[] =>
   PLATFORMS.filter((p) => p.status === "active" && p.appType === "spa");
+
+/** Get a single platform by ID */
+export const getPlatformById = (id: string): PlatformDefinition | undefined =>
+  PLATFORMS.find((p) => p.id === id);
+
+/** Get all platforms grouped by tier */
+export const getPlatformsGroupedByTier = (): Record<PlatformTier, PlatformDefinition[]> => {
+  const grouped: Record<PlatformTier, PlatformDefinition[]> = {
+    scientific: [],
+    "ai-ml": [],
+    cultural: [],
+    business: [],
+    lifestyle: [],
+    family: [],
+    portfolio: [],
+  };
+  PLATFORMS.forEach((p) => grouped[p.tier].push(p));
+  return grouped;
+};
+
+/** Get the primary URL for a platform (domain > brandPage > github) */
+export const getPlatformPrimaryUrl = (platform: PlatformDefinition): string | undefined =>
+  platform.domainUrl || platform.brandPageUrl || platform.githubUrl;
+
+/** Tier display names for UI */
+export const TIER_LABELS: Record<PlatformTier, string> = {
+  scientific: "Scientific / Technical",
+  "ai-ml": "AI / Machine Learning",
+  cultural: "Cultural / Themed",
+  business: "Business / Professional",
+  lifestyle: "Lifestyle / E-commerce",
+  family: "Family / Personal",
+  portfolio: "Portfolio / Education",
+};
+
+/** Tier ordering for consistent display */
+export const TIER_ORDER: PlatformTier[] = [
+  "scientific",
+  "ai-ml",
+  "cultural",
+  "business",
+  "lifestyle",
+  "portfolio",
+  "family",
+];

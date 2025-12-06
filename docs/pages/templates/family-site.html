@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{SITE_NAME}} | {{TAGLINE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <link rel="stylesheet" href="../styles/design-system.css">
+  <style>
+    /* Template-specific: Family/Personal Site */
+    :root {
+      --family-color: #f97316;
+      --family-accent: #fbbf24;
+    }
+
+    .family-hero {
+      background: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.06) 0%, transparent 60%);
+      text-align: center;
+    }
+
+    .hero-title span { color: var(--family-color); }
+    .header-logo { color: var(--family-color); }
+
+    .status-banner {
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(251, 191, 36, 0.1));
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-6);
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .status-banner p {
+      color: var(--family-color);
+      font-weight: 500;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .info-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+    }
+
+    .info-card h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+      color: var(--family-color);
+    }
+
+    .info-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+
+    .contact-section {
+      text-align: center;
+      padding: var(--space-10) 0;
+    }
+
+    .contact-title {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-4);
+    }
+
+    .contact-info {
+      color: var(--color-text-muted);
+      font-size: var(--text-base);
+    }
+
+    .contact-info a {
+      color: var(--family-color);
+    }
+  </style>
+</head>
+<body class="template-family">
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">{{SITE_NAME}}</div>
+      <a href="../../brands/" class="header-back">← Back to Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero family-hero container">
+      <p class="hero-tagline">{{CATEGORY}}</p>
+      <h1 class="hero-title">{{HEADLINE_PART1}} <span>{{HEADLINE_PART2}}</span></h1>
+      <p class="hero-description">{{DESCRIPTION}}</p>
+
+      <div class="badge-row" style="justify-content: center;">
+        <span class="badge badge-planned">{{STATUS}}</span>
+      </div>
+    </section>
+
+    {{#IF_PLANNED}}
+    <section class="container">
+      <div class="status-banner">
+        <p>🚧 This site is currently under development. Check back soon!</p>
+      </div>
+    </section>
+    {{/IF_PLANNED}}
+
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">About</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="info-grid">
+        {{#INFO_CARDS}}
+        <div class="info-card">
+          <h3>{{TITLE}}</h3>
+          <p>{{CONTENT}}</p>
+        </div>
+        {{/INFO_CARDS}}
+      </div>
+    </section>
+
+    {{#IF_CONTACT}}
+    <section class="contact-section container">
+      <h2 class="contact-title">Get in Touch</h2>
+      <p class="contact-info">
+        {{CONTACT_TEXT}}<br>
+        <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a>
+      </p>
+    </section>
+    {{/IF_CONTACT}}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        A family project in the <a href="../../" class="footer-link">Alawein</a> ecosystem
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

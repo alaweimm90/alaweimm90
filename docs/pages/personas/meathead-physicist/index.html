@@ -1,76 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeatheadPhysicist | Physics Education</title>
-    <meta name="description" content="Physics education with a fitness twist. Making science accessible for athletes and curious minds.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #f59e0b; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #fbbf24; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
-        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-        .back-link { color: var(--text-muted); text-decoration: none; }
-        .hero { padding: 4rem 0; text-align: center; }
-        .hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
-        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
-        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .content-areas { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 2rem 0 4rem; }
-        .area-card { background: var(--surface); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid #334155; text-align: center; }
-        .area-card h3 { color: var(--accent); margin-bottom: 0.5rem; }
-        .area-card p { color: var(--text-muted); font-size: 0.9rem; }
-        .emoji { font-size: 2rem; margin-bottom: 1rem; }
-        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MeatheadPhysicist | Physics Education with Intensity</title>
+  <meta name="description" content="Physics education with a fitness twist. Making quantum mechanics, thermodynamics, and electromagnetism accessible for athletes and curious minds.">
+  <link rel="stylesheet" href="../../styles/design-system.css">
+  <style>
+    /* MeatheadPhysicist - Persona Template */
+    :root {
+      --mp-orange: #f97316;
+      --mp-amber: #fbbf24;
+      --color-primary: var(--mp-orange);
+    }
+
+    .mp-hero {
+      background: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.1) 0%, transparent 60%);
+      text-align: center;
+      padding: var(--space-16) 0 var(--space-10);
+    }
+
+    .hero-title { color: var(--mp-orange); }
+    .header-logo { color: var(--mp-orange); }
+
+    .mp-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--mp-orange), var(--mp-amber));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      margin: 0 auto var(--space-6);
+      border: 4px solid var(--color-border);
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.2);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .content-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .content-card:hover {
+      border-color: var(--mp-orange);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(249, 115, 22, 0.1);
+    }
+
+    .content-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .content-card h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--mp-orange);
+    }
+
+    .content-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .philosophy-quote {
+      font-size: var(--text-xl);
+      font-style: italic;
+      color: var(--color-text-muted);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: var(--space-8) 0;
+      border-top: 1px solid var(--color-border-subtle);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .philosophy-quote span {
+      color: var(--mp-orange);
+      font-weight: 600;
+    }
+  </style>
 </head>
-<body>
-    <header>
-        <nav class="container">
-            <div class="logo">🏋️‍♂️ MeatheadPhysicist</div>
-            <a href="../../" class="back-link">← Back to Alawein</a>
-        </nav>
-    </header>
-    <main>
-        <section class="hero container">
-            <p class="tagline">Physics Education</p>
-            <h1>MeatheadPhysicist</h1>
-            <p>Physics education with a fitness twist. Making quantum mechanics, thermodynamics, and electromagnetism accessible for athletes and curious minds.</p>
-        </section>
-        <section class="container">
-            <h2 style="margin-bottom: 1.5rem; text-align: center;">Content Areas</h2>
-            <div class="content-areas">
-                <div class="area-card">
-                    <div class="emoji">⚛️</div>
-                    <h3>Quantum Mechanics</h3>
-                    <p>Bell inequalities, entanglement, and the foundations of quantum theory.</p>
-                </div>
-                <div class="area-card">
-                    <div class="emoji">🔥</div>
-                    <h3>Thermodynamics</h3>
-                    <p>Entropy, heat engines, and the physics of metabolism.</p>
-                </div>
-                <div class="area-card">
-                    <div class="emoji">⚡</div>
-                    <h3>Electromagnetism</h3>
-                    <p>Maxwell's equations, circuits, and magnetic materials.</p>
-                </div>
-                <div class="area-card">
-                    <div class="emoji">💪</div>
-                    <h3>Physics of Training</h3>
-                    <p>Biomechanics, force curves, and optimal lifting technique.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="container">
-            <p>A personal project by <a href="../../" style="color: var(--accent);">Meshal Alawein</a></p>
+<body class="template-portfolio">
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">🏋️ MeatheadPhysicist</div>
+      <a href="../../brands/" class="header-back">← All Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero mp-hero container">
+      <div class="mp-avatar">🏋️</div>
+      <p class="hero-tagline">Physics Education · Fitness · Science Communication</p>
+      <h1 class="hero-title">MeatheadPhysicist</h1>
+      <p class="hero-description">
+        Physics education with intensity. Making quantum mechanics, thermodynamics, and electromagnetism
+        accessible through the lens of training, discipline, and real-world applications.
+      </p>
+
+      <div class="badge-row" style="justify-content: center;">
+        <span class="badge badge-active">Active</span>
+        <span class="badge">Education</span>
+        <span class="badge">Content Creator</span>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">Content Areas</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card">
+          <div class="content-icon">⚛️</div>
+          <h3>Quantum Mechanics</h3>
+          <p>Bell inequalities, entanglement, superposition, and the foundations of quantum theory explained with clarity.</p>
         </div>
-    </footer>
+        <div class="content-card">
+          <div class="content-icon">🔥</div>
+          <h3>Thermodynamics</h3>
+          <p>Entropy, heat engines, statistical mechanics, and the physics of metabolism and energy systems.</p>
+        </div>
+        <div class="content-card">
+          <div class="content-icon">⚡</div>
+          <h3>Electromagnetism</h3>
+          <p>Maxwell's equations, circuits, magnetic materials, and the electromagnetic spectrum.</p>
+        </div>
+        <div class="content-card">
+          <div class="content-icon">💪</div>
+          <h3>Physics of Training</h3>
+          <p>Biomechanics, force-velocity curves, optimal lifting technique, and the science of strength.</p>
+        </div>
+        <div class="content-card">
+          <div class="content-icon">🧲</div>
+          <h3>Condensed Matter</h3>
+          <p>Solid state physics, band theory, superconductivity, and magnetic materials research.</p>
+        </div>
+        <div class="content-card">
+          <div class="content-icon">📐</div>
+          <h3>Mathematical Physics</h3>
+          <p>The math behind the physics — linear algebra, differential equations, and group theory.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <p class="philosophy-quote">
+        "Train your mind like you train your body — with <span>intensity</span>, <span>consistency</span>,
+        and <span>progressive overload</span>."
+      </p>
+    </section>
+
+    <section class="section container">
+      <div class="panel">
+        <h2 class="panel-title">Philosophy</h2>
+        <p class="panel-content">
+          Physics isn't just for academics. The same discipline that builds strength in the gym builds
+          understanding in the mind. Every complex concept can be broken down, practiced, and mastered
+          through deliberate effort and the right approach.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        A personal project by <a href="https://malawein.com" class="footer-link">Meshal Alawein</a>
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
 

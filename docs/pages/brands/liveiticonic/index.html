@@ -1,78 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live It Iconic | Luxury Automotive Lifestyle Brand</title>
-  <meta
-    name="description"
-    content="Live It Iconic is a premium lifestyle brand and e‑commerce platform for luxury automotive enthusiasts."
-  />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Live It Iconic is a premium lifestyle brand and e‑commerce platform for luxury automotive enthusiasts.">
+  <link rel="stylesheet" href="../../styles/design-system.css">
   <style>
-    :root { --primary: #facc15; --bg: #020617; --surface: #020617; --panel: #020617; --text: #e5e7eb; --muted: #9ca3af; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top, #111827 0, #020617 55%); color: var(--text); line-height: 1.6; }
-    .container { max-width: 880px; margin: 0 auto; padding: 0 1.75rem; }
-    header { padding: 1.5rem 0; border-bottom: 1px solid #111827; }
-    nav { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: 0.08em; text-transform: uppercase; }
-    .back-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
-    .back-link:hover { color: var(--primary); }
-    .hero { padding: 3.5rem 0 2.5rem; }
-    .tagline { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.75rem; }
-    .hero h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 1rem; }
-    .hero h1 span { color: var(--primary); }
-    .hero p { font-size: 1.02rem; color: var(--muted); max-width: 36rem; }
-    .cta-row { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 999px; font-size: 0.9rem; font-weight: 500; text-decoration: none; }
-    .btn-primary { background: var(--primary); color: #020617; }
-    .btn-primary:hover { opacity: 0.9; }
-    .badge-row { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.75rem; }
-    .badge { padding: 0.3rem 0.7rem; border-radius: 999px; border: 1px solid #1f2937; background: rgba(15,23,42,0.95); color: var(--muted); }
-    section { padding: 0 0 2.5rem; }
-    h2 { font-size: 1rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-    .panel { background: #020617; border-radius: 1rem; border: 1px solid #111827; padding: 1.5rem 1.5rem 1.25rem; margin-bottom: 1.25rem; }
-    .panel p { font-size: 0.9rem; color: var(--muted); }
-    footer { border-top: 1px solid #111827; padding: 1.75rem 0 2.25rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
+    /* Live It Iconic - Premium Lifestyle Template */
+    :root {
+      --lii-gold: #facc15;
+      --lii-gold-dark: #ca8a04;
+      --lii-charcoal: #1c1917;
+      --color-primary: var(--lii-gold);
+    }
+
+    .lii-hero {
+      background:
+        radial-gradient(ellipse at top right, rgba(250, 204, 21, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(202, 138, 4, 0.05) 0%, transparent 50%);
+      padding: var(--space-16) 0 var(--space-12);
+    }
+
+    .hero-title span { color: var(--lii-gold); }
+    .header-logo {
+      color: var(--lii-gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .lii-badge {
+      background: rgba(250, 204, 21, 0.1);
+      border-color: rgba(250, 204, 21, 0.25);
+      color: var(--lii-gold);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .product-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .product-card:hover {
+      border-color: var(--lii-gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(250, 204, 21, 0.1);
+    }
+
+    .product-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .product-card h3 {
+      font-size: var(--text-base);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--lii-gold);
+    }
+
+    .product-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .feature-check {
+      color: var(--lii-gold);
+    }
+
+    @media (max-width: 640px) {
+      .feature-list { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
-<body>
-  <header>
-    <nav class="container">
-      <div class="logo">LIVE IT ICONIC</div>
-      <a href="../../" class="back-link">← Back to Live It Iconic LLC</a>
+<body class="template-lifestyle">
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">Live It Iconic</div>
+      <a href="../" class="header-back">← All Platforms</a>
     </nav>
   </header>
-  <main class="container">
-    <section class="hero">
-      <p class="tagline">Lifestyle · Automotive</p>
-      <h1>Luxury <span>Automotive Lifestyle</span> Brand</h1>
-      <p>
-        Live It Iconic is a premium lifestyle brand and e‑commerce platform for enthusiasts of high-end cars,
-        motorsport culture, and automotive design.
+
+  <main>
+    <section class="hero lii-hero container">
+      <p class="hero-tagline">Lifestyle · Automotive · E-Commerce</p>
+      <h1 class="hero-title">Luxury <span>Automotive Lifestyle</span> Brand</h1>
+      <p class="hero-description">
+        Premium apparel, accessories, and digital experiences for enthusiasts of high-end cars,
+        motorsport culture, and iconic automotive design.
       </p>
-      <div class="cta-row">
-        <a href="https://github.com/alawein-business/live-it-iconic" class="btn btn-primary">View on GitHub</a>
+
+      <div class="btn-row">
+        <a href="https://liveiticonic.com" class="btn btn-primary">Visit Store →</a>
+        <a href="https://github.com/live-it-iconic-llc/liveiticonic" class="btn btn-secondary">View on GitHub</a>
       </div>
+
       <div class="badge-row">
-        <span class="badge">liveiticonic.com (primary domain)</span>
+        <span class="badge lii-badge"><span class="badge-dot" style="background: var(--lii-gold);"></span>Active</span>
+        <span class="badge">liveiticonic.com</span>
         <span class="badge">React · Supabase · Stripe</span>
       </div>
     </section>
-    <section>
+
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">Product Categories</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-icon">👕</div>
+          <h3>Apparel</h3>
+          <p>Premium tees, hoodies, and outerwear with iconic automotive designs.</p>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🧢</div>
+          <h3>Accessories</h3>
+          <p>Caps, bags, and lifestyle accessories for the modern enthusiast.</p>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🖼️</div>
+          <h3>Art & Prints</h3>
+          <p>Limited edition automotive art and photography prints.</p>
+        </div>
+        <div class="product-card">
+          <div class="product-icon">🎁</div>
+          <h3>Gift Sets</h3>
+          <p>Curated collections for the car lover in your life.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
       <div class="panel">
-        <h2>Focus</h2>
-        <p>
-          Apparel, accessories, and digital experiences that celebrate iconic automotive design and the culture
-          around it.
+        <h2 class="panel-title">Platform Features</h2>
+        <p class="panel-content">
+          Full-featured e-commerce platform with modern tech stack and premium user experience.
         </p>
+        <div class="feature-list">
+          <div class="feature-item"><span class="feature-check">✓</span> Secure Stripe payments</div>
+          <div class="feature-item"><span class="feature-check">✓</span> Real-time inventory</div>
+          <div class="feature-item"><span class="feature-check">✓</span> User accounts & wishlists</div>
+          <div class="feature-item"><span class="feature-check">✓</span> Admin dashboard</div>
+          <div class="feature-item"><span class="feature-check">✓</span> Multi-currency support</div>
+          <div class="feature-item"><span class="feature-check">✓</span> Mobile-first design</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Technology Stack</h2>
+        <p class="panel-content">
+          Built with React, TypeScript, Tailwind CSS, and shadcn/ui. Backend powered by Supabase
+          with Stripe for payments and Sentry for monitoring.
+        </p>
+        <div class="pill-row">
+          <span class="pill pill-primary">React 18</span>
+          <span class="pill pill-primary">TypeScript</span>
+          <span class="pill pill-primary">Tailwind CSS</span>
+          <span class="pill pill-primary">Supabase</span>
+          <span class="pill pill-primary">Stripe</span>
+          <span class="pill pill-primary">Vite</span>
+        </div>
       </div>
     </section>
   </main>
-  <footer>
+
+  <footer class="footer">
     <div class="container">
-      <p>Live It Iconic is operated by Live It Iconic LLC.</p>
+      <p class="footer-text">
+        Live It Iconic is operated by <a href="#" class="footer-link">Live It Iconic LLC</a>
+      </p>
     </div>
   </footer>
 </body>

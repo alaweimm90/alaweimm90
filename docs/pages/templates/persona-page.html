@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{PERSONA_NAME}} | {{TAGLINE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <link rel="stylesheet" href="../styles/design-system.css">
+  <style>
+    /* Template-specific: Persona Page */
+    :root {
+      --persona-color: {{PRIMARY_COLOR}};
+      --persona-accent: {{ACCENT_COLOR}};
+    }
+
+    .persona-hero {
+      background: radial-gradient(ellipse at top, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
+      text-align: center;
+    }
+
+    .hero-title { color: var(--persona-color); }
+    .header-logo { color: var(--persona-color); }
+
+    .persona-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--persona-color), var(--persona-accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto var(--space-6);
+      border: 3px solid var(--color-border);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .content-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .content-card:hover {
+      border-color: var(--persona-color);
+      transform: translateY(-2px);
+    }
+
+    .content-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .content-card h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--persona-color);
+    }
+
+    .content-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-full);
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      transition: all var(--transition-fast);
+    }
+
+    .social-link:hover {
+      border-color: var(--persona-color);
+      color: var(--persona-color);
+    }
+  </style>
+</head>
+<body class="template-portfolio">
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">{{PERSONA_NAME}}</div>
+      <a href="../../brands/" class="header-back">← All Projects</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero persona-hero container">
+      <div class="persona-avatar">{{AVATAR_EMOJI}}</div>
+      <p class="hero-tagline">{{CATEGORY}}</p>
+      <h1 class="hero-title">{{PERSONA_NAME}}</h1>
+      <p class="hero-description">{{DESCRIPTION}}</p>
+
+      {{#IF_SOCIAL}}
+      <div class="social-links">
+        {{#SOCIAL_LINKS}}
+        <a href="{{URL}}" class="social-link">{{ICON}} {{NAME}}</a>
+        {{/SOCIAL_LINKS}}
+      </div>
+      {{/IF_SOCIAL}}
+    </section>
+
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">Content Areas</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="content-grid">
+        {{#CONTENT_AREAS}}
+        <div class="content-card">
+          <div class="content-icon">{{ICON}}</div>
+          <h3>{{TITLE}}</h3>
+          <p>{{DESCRIPTION}}</p>
+        </div>
+        {{/CONTENT_AREAS}}
+      </div>
+    </section>
+
+    {{#IF_FEATURED}}
+    <section class="section container">
+      <div class="panel">
+        <h2 class="panel-title">Featured Content</h2>
+        <p class="panel-content">{{FEATURED_DESCRIPTION}}</p>
+        <div class="btn-row mt-4">
+          {{#FEATURED_LINKS}}
+          <a href="{{URL}}" class="btn btn-secondary">{{TITLE}}</a>
+          {{/FEATURED_LINKS}}
+        </div>
+      </div>
+    </section>
+    {{/IF_FEATURED}}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        A personal project by <a href="{{AUTHOR_URL}}" class="footer-link">{{AUTHOR_NAME}}</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
