@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mezan-ORCHEX
+  labels:
+    name: mezan-ORCHEX
+    environment: production
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/part-of: mezan
+    app.kubernetes.io/managed-by: kustomize
+  annotations:
+    owner: "meshal@berkeley.edu"
+    description: "MEZAN ORCHEX Multi-Agent Research Orchestration System"
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: mezan-ORCHEX-quota
+  namespace: mezan-ORCHEX
+spec:
+  hard:
+    requests.cpu: "100"
+    requests.memory: 200Gi
+    limits.cpu: "200"
+    limits.memory: 400Gi
+    persistentvolumeclaims: "10"
+    services.loadbalancers: "2"
+    services.nodeports: "10"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mezan-ORCHEX-network-policy
+  namespace: mezan-ORCHEX
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/part-of: mezan
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: mezan-ORCHEX
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 5000
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to:
+    - namespaceSelector: {}
+    ports:
+    - protocol: TCP
+      port: 443  # HTTPS
+    - protocol: TCP
+      port: 6379  # Redis
+    - protocol: TCP
+      port: 5432  # PostgreSQL
+    - protocol: TCP
+      port: 53   # DNS
+    - protocol: UDP
+      port: 53   # DNS

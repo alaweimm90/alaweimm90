@@ -1,0 +1,61 @@
+import { loadStripe } from '@stripe/stripe-js'
+import { supabase } from '@/integrations/supabase/client'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '')
+
+interface CreateCheckoutOptions {
+  priceId: string
+  successUrl?: string
+  cancelUrl?: string
+}
+
+export const stripeService = {
+  /**
+   * Create a Stripe Checkout session and redirect
+   */
+  async createCheckoutSession({ priceId, successUrl, cancelUrl }: CreateCheckoutOptions) {
+    const { data, error } = await supabase.functions.invoke('create-checkout', {
+      body: {
+        priceId,
+        successUrl: successUrl || `${window.location.origin}/checkout/success`,
+        cancelUrl: cancelUrl || `${window.location.origin}/checkout/cancel`,
+      },
+    })
+
+    if (error) throw error
+
+    const stripe = await stripePromise
+    if (!stripe) throw new Error('Stripe not loaded')
+
+    const { error: stripeError } = await stripe.redirectToCheckout({
+      sessionId: data.sessionId,
+    })
+
+    if (stripeError) throw stripeError
+  },
+
+  /**
+   * Open customer portal for subscription management
+   */
+  async openCustomerPortal() {
+    const { data, error } = await supabase.functions.invoke('customer-portal', {
+      body: {
+        returnUrl: window.location.origin,
+      },
+    })
+
+    if (error) throw error
+
+    window.location.href = data.url
+  },
+
+  /**
+   * Get user's subscription status
+   */
+  async getSubscriptionStatus() {
+    const { data, error } = await supabase.functions.invoke('subscription-status')
+    if (error) throw error
+    return data
+  },
+}
+

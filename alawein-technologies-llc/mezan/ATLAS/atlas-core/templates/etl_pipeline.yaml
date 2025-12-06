@@ -1,0 +1,225 @@
+name: etl_pipeline
+version: 1.0.0
+category: data_processing
+description: Extract-Transform-Load pipeline with data validation and incremental processing
+author: ORCHEX Team
+tags:
+  - etl
+  - data-pipeline
+  - transformation
+  - incremental
+
+parameters:
+  source_type:
+    type: string
+    description: Type of data source (database, api, file, stream)
+    required: true
+    allowed_values: [database, api, file, stream]
+
+  source_config:
+    type: dict
+    description: Configuration for data source connection
+    required: true
+
+  transformation_rules:
+    type: list
+    description: List of transformation rules to apply
+    required: true
+
+  target_type:
+    type: string
+    description: Type of target system (warehouse, lake, database, api)
+    required: true
+    allowed_values: [warehouse, lake, database, api]
+
+  target_config:
+    type: dict
+    description: Configuration for target system
+    required: true
+
+  incremental_mode:
+    type: bool
+    description: Enable incremental processing
+    required: false
+    default: true
+
+  batch_size:
+    type: int
+    description: Batch size for processing
+    required: false
+    default: 1000
+
+  schedule:
+    type: string
+    description: Cron expression for scheduling
+    required: false
+    default: "0 */6 * * *"
+
+workflow:
+  config:
+    type: etl
+    mode: "{{incremental_mode}}"
+    schedule: "{{schedule}}"
+    monitoring_enabled: true
+
+  tasks:
+    - name: initialize_pipeline
+      type: initialization
+      description: Initialize ETL pipeline and check prerequisites
+      parameters:
+        check_connectivity: true
+        validate_schema: true
+        create_checkpoints: "{{incremental_mode}}"
+
+    - name: get_checkpoint
+      type: checkpoint
+      description: Get last successful checkpoint for incremental processing
+      depends_on: [initialize_pipeline]
+      condition: "{{incremental_mode}} == true"
+      parameters:
+        checkpoint_store: metadata_store
+        pipeline_id: "${pipeline.id}"
+
+    - name: extract_data
+      type: extraction
+      description: Extract data from source
+      depends_on: [get_checkpoint]
+      parameters:
+        source_type: "{{source_type}}"
+        source_config: "{{source_config}}"
+        extraction_mode:
+          incremental: "{{incremental_mode}}"
+          last_checkpoint: "${get_checkpoint.timestamp}"
+          batch_size: "{{batch_size}}"
+        output: raw_data
+
+    - name: validate_extracted_data
+      type: validation
+      description: Validate extracted data
+      depends_on: [extract_data]
+      parameters:
+        data: "${extract_data.output}"
+        validation_rules:
+          - schema_compliance: true
+          - data_types: strict
+          - null_checks: required_fields
+          - range_checks: numeric_fields
+
+    - name: transform_data
+      type: transformation
+      description: Apply transformation rules
+      depends_on: [validate_extracted_data]
+      parameters:
+        input_data: "${extract_data.output}"
+        transformations: "{{transformation_rules}}"
+        parallel_processing: true
+        error_handling:
+          strategy: quarantine
+          quarantine_path: errors/transformations
+
+    - name: data_quality_checks
+      type: quality_check
+      description: Perform data quality checks
+      depends_on: [transform_data]
+      parameters:
+        data: "${transform_data.output}"
+        quality_rules:
+          - uniqueness: primary_keys
+          - referential_integrity: foreign_keys
+          - business_rules: custom_validations
+          - completeness: 0.95
+
+    - name: enrich_data
+      type: enrichment
+      description: Enrich data with additional information
+      depends_on: [data_quality_checks]
+      optional: true
+      parameters:
+        data: "${transform_data.output}"
+        enrichment_sources:
+          - type: lookup
+            source: reference_data
+            join_keys: [id, date]
+          - type: api
+            endpoint: enrichment_service
+            rate_limit: 100
+
+    - name: deduplicate_data
+      type: deduplication
+      description: Remove duplicate records
+      depends_on: [enrich_data]
+      parameters:
+        data: "${enrich_data.output}"
+        dedup_keys: [id, timestamp]
+        keep: last
+
+    - name: load_data
+      type: loading
+      description: Load data to target system
+      depends_on: [deduplicate_data]
+      parameters:
+        data: "${deduplicate_data.output}"
+        target_type: "{{target_type}}"
+        target_config: "{{target_config}}"
+        load_strategy:
+          mode: upsert
+          batch_size: "{{batch_size}}"
+          parallel_connections: 4
+
+    - name: verify_load
+      type: verification
+      description: Verify data loaded successfully
+      depends_on: [load_data]
+      parameters:
+        source_count: "${deduplicate_data.record_count}"
+        target_query: "SELECT COUNT(*) FROM target_table"
+        tolerance: 0.001
+
+    - name: update_checkpoint
+      type: checkpoint
+      description: Update checkpoint for next run
+      depends_on: [verify_load]
+      condition: "{{incremental_mode}} == true"
+      parameters:
+        checkpoint_store: metadata_store
+        pipeline_id: "${pipeline.id}"
+        timestamp: "${extract_data.max_timestamp}"
+        records_processed: "${load_data.records_loaded}"
+
+    - name: generate_metrics
+      type: metrics
+      description: Generate pipeline metrics
+      depends_on: [update_checkpoint]
+      parameters:
+        metrics:
+          - records_extracted: "${extract_data.record_count}"
+          - records_transformed: "${transform_data.record_count}"
+          - records_loaded: "${load_data.records_loaded}"
+          - errors_encountered: "${transform_data.error_count}"
+          - processing_time: "${pipeline.elapsed_time}"
+
+    - name: send_notification
+      type: notification
+      description: Send completion notification
+      depends_on: [generate_metrics]
+      on_failure: continue
+      parameters:
+        channels: [email, slack]
+        status: "${pipeline.status}"
+        metrics: "${generate_metrics.output}"
+
+dependencies:
+  - data_extractor
+  - data_transformer
+  - data_loader
+  - quality_checker
+
+metadata:
+  sla:
+    max_duration: 3600
+    error_threshold: 0.05
+
+  recovery:
+    checkpoint_enabled: true
+    retry_strategy: exponential
+    max_retries: 3

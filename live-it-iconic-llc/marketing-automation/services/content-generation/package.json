@@ -1,0 +1,41 @@
+{
+  "name": "@marketing-automation/content-generation",
+  "version": "1.0.0",
+  "description": "AI-powered content generation service",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@marketing-automation/types": "*",
+    "express": "^4.18.2",
+    "openai": "^4.20.0",
+    "@anthropic-ai/sdk": "^0.9.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "joi": "^17.11.0",
+    "bull": "^4.11.5",
+    "ioredis": "^5.3.2",
+    "winston": "^3.11.0",
+    "mongoose": "^8.0.0",
+    "pg": "^8.11.3",
+    "typeorm": "^0.3.17",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4",
+    "rate-limiter-flexible": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.0",
+    "@types/cors": "^2.8.17",
+    "@types/compression": "^1.7.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.2",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8"
+  }
+}

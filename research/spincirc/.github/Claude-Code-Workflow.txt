@@ -1,0 +1,38 @@
+🎯 Claude Code + Git Workflow
+
+Setup Complete ✅
+- Repository is Claude-clean (no AI attribution)
+- Git hook prevents future Claude attribution  
+- Universal shortcuts installed
+
+Every Claude Code Session:
+
+# 1. Before making changes in Claude Code: PULL
+cd /path/to/your/repo
+repo-start
+
+# 2. Use Claude Code (changes saved locally, NOT committed)
+
+# 3. After Claude Code session: REVIEW & PUSH
+repo-review                    # See what changed
+repo-save                      # Auto-commits with timestamp
+
+⚠️ IMPORTANT WARNINGS:
+- ❌ Never use /init - will break your clean setup
+- ❌ Don't assume changes are saved - they're local only
+- ✅ Always pull before starting - get latest changes
+- ✅ You control commits - Claude never commits automatically
+
+All Available Shortcuts:
+- repo-start - Pull latest + check status
+- repo-review - See detailed changes made
+- repo-stage-all - Stage all changes for commit
+- repo-save - Stage + commit + push (auto-generates message)
+- repo-save "msg" - Same but with custom message
+- repo-help - Show full command guide
+
+Manual Backup (if shortcuts fail):
+git pull origin main
+git status && git add . && git commit -m "update" && git push
+
+No more typing commit messages! Your repo stays Claude-clean forever! 🚀

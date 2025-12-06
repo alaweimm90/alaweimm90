@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atlas-autonomous-research"
+version = "0.1.0"
+description = "ATLAS - Autonomous Theorist & Laboratory Autonomous System (NOT Nobel Turing Challenge)"
+readme = "README.md"
+authors = [
+    {name = "Project ATLAS Team", email = "atlas@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["autonomous-research", "scientific-discovery", "hypothesis-generation", "automated-science", "agentic-ai"]
+requires-python = ">=3.9"
+
+dependencies = [
+    "atlas-orchestrator>=0.1.0",
+    "turing-self-refutation>=0.1.0",
+    "turing-interrogation>=0.1.0",
+    "turing-hall-of-failures>=0.1.0",
+    "pydantic>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "requests>=2.31.0",
+    "gitpython>=3.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+atlas = "atlas.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]

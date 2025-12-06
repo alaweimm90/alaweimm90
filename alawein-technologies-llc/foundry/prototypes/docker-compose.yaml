@@ -1,0 +1,175 @@
+version: '3.8'
+
+services:
+  # Research Prison - AI Interrogation System
+  research-prison:
+    build:
+      context: .
+      dockerfile: Dockerfile.research-prison
+    container_name: research-prison
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/research_prison
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./research_prison:/app
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+  # Nightmare Mode - Brutal Code Reviewer
+  nightmare-mode:
+    build:
+      context: .
+      dockerfile: Dockerfile.nightmare-mode
+    container_name: nightmare-mode
+    ports:
+      - "8001:8001"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nightmare_mode
+      - REDIS_URL=redis://redis:6379/1
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./nightmare_mode:/app
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+  # Chaos Engine - Domain Collision Generator
+  chaos-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile.chaos-engine
+    container_name: chaos-engine
+    ports:
+      - "8002:8002"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/chaos_engine
+      - REDIS_URL=redis://redis:6379/2
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./chaos_engine:/app
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+  # PostgreSQL Database
+  db:
+    image: postgres:14-alpine
+    container_name: crazyideas-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=research_prison,nightmare_mode,chaos_engine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: crazyideas-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx Reverse Proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: crazyideas-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - research-prison
+      - nightmare-mode
+      - chaos-engine
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+  # Celery Worker for Background Tasks
+  celery-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.celery
+    container_name: celery-worker
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/3
+      - CELERY_RESULT_BACKEND=redis://redis:6379/4
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/crazyideas
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - ./:/app
+    command: celery -A celery_app worker --loglevel=info
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+  # Flower for Celery Monitoring
+  flower:
+    image: mher/flower:latest
+    container_name: celery-flower
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/3
+      - FLOWER_PORT=5555
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+      - celery-worker
+    restart: unless-stopped
+    networks:
+      - crazyideas-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  crazyideas-network:
+    driver: bridge

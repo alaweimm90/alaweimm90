@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Arena - Mythological Tech | Philosophical Discourse</title>
+    <style>
+        :root {
+            --primary: #6B46C1;
+            --secondary: #C0C0C0;
+            --accent: #DAA520;
+            --background: #F7FAFC;
+            --surface: #FFFFFF;
+            --text: #2D3748;
+            --text-muted: #718096;
+            --border: #E2E8F0;
+            --success: #38A169;
+            --warning: #D69E2E;
+            --danger: #E53E3E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Crimson Text', 'Georgia', serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: 'Crimson Text', serif;
+            text-shadow: 0 2px 10px rgba(218, 165, 32, 0.5);
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: wisdom-pulse 3s infinite;
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.7);
+        }
+
+        @keyframes wisdom-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
+        }
+
+        /* Main Layout */
+        .arena-container {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            height: calc(100vh - 100px);
+        }
+
+        .discourse-chamber {
+            background: var(--surface);
+            padding: 2.5rem;
+            border-right: 2px solid var(--secondary);
+        }
+
+        .wisdom-council {
+            background: var(--background);
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Discourse Chamber */
+        .philosophical-brief {
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.1);
+        }
+
+        .discourse-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .discourse-status {
+            display: inline-block;
+            background: rgba(218, 165, 32, 0.1);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(218, 165, 32, 0.2);
+            font-family: 'Crimson Text', serif;
+        }
+
+        .philosophers {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .philosopher {
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .philosopher.active {
+            border-color: var(--accent);
+            box-shadow: 0 8px 30px rgba(218, 165, 32, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .philosopher::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: left 0.6s ease;
+        }
+
+        .philosopher.active::before {
+            left: 0;
+        }
+
+        .philosopher-name {
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+        }
+
+        .philosopher-model {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .philosopher-score {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Crimson Text', serif;
+            text-shadow: 0 2px 10px rgba(218, 165, 32, 0.3);
+        }
+
+        .versus-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            align-self: center;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Wisdom Chronicle */
+        .wisdom-chronicle {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 15px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.1);
+        }
+
+        .chronicle-header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .chronicle-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .chronicle-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chronicle-content::-webkit-scrollbar-track {
+            background: var(--background);
+            border-radius: 4px;
+        }
+
+        .chronicle-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        .chronicle-entry {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            animation: wisdom-reveal 0.6s ease-out;
+        }
+
+        @keyframes wisdom-reveal {
+            from { opacity: 0; transform: translateY(15px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .chronicle-timestamp {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-style: italic;
+            margin-bottom: 0.25rem;
+        }
+
+        .chronicle-system {
+            background: rgba(107, 70, 193, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .chronicle-insight {
+            background: rgba(56, 161, 105, 0.1);
+            border-left: 3px solid var(--success);
+        }
+
+        .chronicle-debate {
+            background: rgba(218, 165, 32, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Wisdom Council */
+        .council-header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .council-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .council-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .council-content {
+            padding: 2.5rem;
+        }
+
+        .wisdom-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .oracle-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent), #F7931E);
+            color: white;
+            border: none;
+            padding: 1.25rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.3);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+        }
+
+        .oracle-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .oracle-button:hover::before {
+            left: 100%;
+        }
+
+        .oracle-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(218, 165, 32, 0.4);
+        }
+
+        .oracle-button.primary {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .oracle-button.primary:hover {
+            box-shadow: 0 8px 30px rgba(107, 70, 193, 0.4);
+        }
+
+        .oracle-button.danger {
+            background: linear-gradient(135deg, var(--danger), #C53030);
+            box-shadow: 0 4px 20px rgba(229, 62, 62, 0.3);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .metric-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.15);
+        }
+
+        .metric-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Crimson Text', serif;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 5px rgba(218, 165, 32, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-family: 'Crimson Text', serif;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.4s ease;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: wisdom-flow 3s linear infinite;
+        }
+
+        @keyframes wisdom-flow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Classical proportions */
+        .elegant-text {
+            font-variant: small-caps;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .arena-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            
+            .wisdom-council {
+                border-left: none;
+                border-top: 3px solid var(--accent);
+            }
+            
+            .philosophers {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .versus-indicator {
+                grid-row: 2;
+                margin: 0 auto;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo elegant-text">⚡ Aegis Arena</div>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span class="elegant-text">Wisdom Flows</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span class="elegant-text">Oracle Active</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="arena-container">
+        <div class="discourse-chamber">
+            <div class="philosophical-brief">
+                <h2 class="discourse-title">Symposium Epsilon-VII: Dialectical Reasoning</h2>
+                <div class="discourse-status elegant-text">🏛️ Discourse in Session</div>
+                <p>Engage two philosophical minds in structured intellectual discourse. Evaluate reasoning capabilities through classical dialectical methods, examining logical consistency and argumentative strength within academic frameworks.</p>
+            </div>
+
+            <div class="philosophers">
+                <div class="philosopher active">
+                    <div class="philosopher-name elegant-text">Socrates-GPT</div>
+                    <div class="philosopher-model">GPT-4 Turbo</div>
+                    <div class="philosopher-score">94.7</div>
+                </div>
+                
+                <div class="versus-indicator elegant-text">VS</div>
+                
+                <div class="philosopher">
+                    <div class="philosopher-name elegant-text">Aristotle-Claude</div>
+                    <div class="philosopher-model">Claude 3.5 Sonnet</div>
+                    <div class="philosopher-score">87.2</div>
+                </div>
+            </div>
+
+            <div class="wisdom-chronicle">
+                <div class="chronicle-header elegant-text">🔮 Chronicle of Wisdom - Live Discourse Feed</div>
+                <div class="chronicle-content">
+                    <div class="chronicle-entry chronicle-system">
+                        <div class="chronicle-timestamp">[14:32:15 - Symposium Hour]</div>
+                        <div>ORACLE: Initiating philosophical discourse protocols. Establishing dialectical framework.</div>
+                    </div>
+                    <div class="chronicle-entry chronicle-insight">
+                        <div class="chronicle-timestamp">[14:32:18 - Moment of Truth]</div>
+                        <div>SOCRATES-GPT: "The unexamined code is not worth running." Logical argument presented with 94.7% coherence.</div>
+                    </div>
+                    <div class="chronicle-entry chronicle-insight">
+                        <div class="chronicle-timestamp">[14:32:22 - Wisdom Unveiled]</div>
+                        <div>ARISTOTLE-CLAUDE: Counter-thesis deployed with syllogistic precision. Response time: 1.8 seconds of contemplation.</div>
+                    </div>
+                    <div class="chronicle-entry chronicle-debate">
+                        <div class="chronicle-timestamp">[14:32:25 - Philosophical Tension]</div>
+                        <div>MODERATOR: Intellectual friction detected in argumentation patterns. Adjusting dialectical parameters.</div>
+                    </div>
+                    <div class="chronicle-entry chronicle-system">
+                        <div class="chronicle-timestamp">[14:32:28 - Progress Update]</div>
+                        <div>SYMPOSIUM: Round 3/5 complete. Socrates-GPT maintaining philosophical advantage through superior questioning technique.</div>
+                    </div>
+                    <div class="chronicle-entry chronicle-debate">
+                        <div class="chronicle-timestamp">[14:32:32 - New Insight]</div>
+                        <div>WISDOM-KEEPER: Novel logical construct identified. Cataloging for future philosophical reference.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wisdom-council">
+            <div class="council-header">
+                <div class="council-title elegant-text">Council of Wisdom</div>
+                <div class="council-subtitle">Philosophical Command Interface</div>
+            </div>
+            
+            <div class="council-content">
+                <div class="wisdom-section">
+                    <div class="section-title elegant-text">🏛️ Discourse Operations</div>
+                    <button class="oracle-button primary">Initiate Next Round</button>
+                    <button class="oracle-button">Adjust Parameters</button>
+                    <button class="oracle-button danger">End Symposium</button>
+                </div>
+
+                <div class="wisdom-section">
+                    <div class="section-title elegant-text">📊 Wisdom Metrics</div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">94.7%</div>
+                            <div class="metric-label elegant-text">Logical Coherence</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">1.8s</div>
+                            <div class="metric-label elegant-text">Contemplation</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">847</div>
+                            <div class="metric-label elegant-text">Wisdom Score</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">5/5</div>
+                            <div class="metric-label elegant-text">Rounds</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wisdom-section">
+                    <div class="section-title elegant-text">⚡ Oracle Status</div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span class="elegant-text">Discourse Progress</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span class="elegant-text">Cognitive Load</span>
+                            <span>42%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span class="elegant-text">Wisdom Synthesis</span>
+                            <span>89%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Sample Medical License Document (Test Fixture)
+
+**MEDICAL LICENSE CERTIFICATE**
+
+License Number: MD123456789
+Licensed Professional: Dr. James Wilson
+Specialty: Endocrinology
+License State: California
+Issue Date: January 15, 2010
+Expiration Date: January 15, 2025
+Status: Active and in Good Standing
+
+**Board Certifications:**
+- American Board of Internal Medicine (Internal Medicine) - 2010
+- American Board of Internal Medicine (Endocrinology) - 2012
+
+**Education:**
+- Medical Degree: Harvard Medical School (2008)
+- Residency: Internal Medicine, Johns Hopkins Hospital (2008-2011)
+- Fellowship: Endocrinology, Mayo Clinic (2011-2013)
+
+This is a test fixture file for automated testing purposes.
+Not a real medical license document.

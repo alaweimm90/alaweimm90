@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-tournaments"
+version = "0.1.0"
+description = "Agent Tournament System - Competitive selection through tournaments (Turing Challenge Feature #5)"
+authors = [{name = "TalAI Turing Challenge Team"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+agent-tournaments = "agent_tournaments.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"

@@ -1,0 +1,167 @@
+name: E2E Status Table
+
+on:
+  schedule:
+    - cron: "17 */12 * * *"  # twice daily
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OWNER: ${{ github.repository_owner }}
+      REPO: ${{ github.event.repository.name || github.repository }}
+      DEFAULT_BRANCH: main
+      WORKFLOW_FILE: e2e.yml
+      RUNS_TO_SCAN: "6"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Ensure deps
+        run: sudo apt-get update && sudo apt-get install -y jq unzip >/dev/null
+
+      - name: Fetch latest E2E runs
+        id: runs
+        run: |
+          # List completed runs for e2e.yml on default branch
+          URL="https://api.github.com/repos/${{ github.repository }}/actions/workflows/${WORKFLOW_FILE}/runs?branch=${DEFAULT_BRANCH}&status=completed&per_page=${RUNS_TO_SCAN}"
+          curl -sS -H "Authorization: Bearer ${GH_TOKEN}" "$URL" > runs.json
+          jq '.workflow_runs | map({id, created_at, html_url})' runs.json > runs_slim.json
+          cat runs_slim.json
+
+      - name: Download & extract qa_results from artifacts
+        run: |
+          mkdir -p status_tmp
+          i=0
+          for RUN_ID in $(jq '.[].id' runs_slim.json); do
+            i=$((i+1))
+            ART_URL="https://api.github.com/repos/${{ github.repository }}/actions/runs/${RUN_ID}/artifacts"
+            curl -sS -H "Authorization: Bearer ${GH_TOKEN}" "$ART_URL" > "status_tmp/artifacts_${RUN_ID}.json"
+            ART_ID=$(jq -r '.artifacts[] | select(.name|startswith("e2e-artifacts-")) | .id' "status_tmp/artifacts_${RUN_ID}.json" | head -n1)
+            if [ -z "$ART_ID" ] || [ "$ART_ID" = "null" ]; then
+              echo "No E2E artifact for run $RUN_ID"; continue
+            fi
+            DL_URL="https://api.github.com/repos/${{ github.repository }}/actions/artifacts/${ART_ID}/zip"
+            curl -L -sS -H "Authorization: Bearer ${GH_TOKEN}" "$DL_URL" -o "status_tmp/art_${RUN_ID}.zip"
+            # Extract qa_results.json (path inside zip unknown; search)
+            mkdir -p "status_tmp/unz_${RUN_ID}"
+            unzip -qq "status_tmp/art_${RUN_ID}.zip" -d "status_tmp/unz_${RUN_ID}" || true
+            # Find file
+            FOUND=$(ls status_tmp/unz_${RUN_ID}/**/qa_results.json 2>/dev/null | head -n1 || true)
+            if [ -z "$FOUND" ]; then
+              echo "{}" > "status_tmp/qa_${RUN_ID}.json"
+            else
+              cp "$FOUND" "status_tmp/qa_${RUN_ID}.json"
+            fi
+          done
+          echo "Downloaded qa_results.json for up to ${RUNS_TO_SCAN} runs."
+
+      - name: Build STATUS.md + README section
+        run: |
+          echo "# E2E Status (recent runs)" > STATUS.md
+          echo "" >> STATUS.md
+          echo "| Date (UTC) | Run | Warm (ms) | Chromium | Firefox | WebKit | Model | GLTR | Worker Errors |" >> STATUS.md
+          echo "|---|---:|---:|:--:|:--:|:--:|:--:|:--:|---:|" >> STATUS.md
+
+          # Collect data for aggregates
+          WARM_TIMES=""
+          CHR_SUCCESS=0
+          FFX_SUCCESS=0  
+          WKT_SUCCESS=0
+          TOTAL_RUNS=0
+
+          TABLE_ROWS=""
+          while read -r RUN_ID; do
+            CREATED=$(jq -r ".[] | select(.id==$RUN_ID) | .created_at" runs_slim.json)
+            RUN_URL=$(jq -r ".[] | select(.id==$RUN_ID) | .html_url" runs_slim.json)
+            FILE="status_tmp/qa_${RUN_ID}.json"
+            if [ ! -f "$FILE" ]; then continue; fi
+            WARM=$(jq -r '.timings.secondRunMs // 0' "$FILE")
+            CHR=$(jq -r '.checks.crossBrowser.chromium // false' "$FILE")
+            FFX=$(jq -r '.checks.crossBrowser.firefox // false' "$FILE")
+            WKT=$(jq -r '.checks.crossBrowser.webkit // false' "$FILE")
+            MOD=$(jq -r '.checks.modelName // false' "$FILE")
+            GLT=$(jq -r '.checks.gltrVisible // false' "$FILE")
+            ERR=$(jq -r '.consoleErrors | length' "$FILE")
+
+            # Collect for aggregates
+            if [ "$WARM" != "0" ] && [ "$WARM" != "null" ]; then
+              WARM_TIMES="$WARM_TIMES $WARM"
+            fi
+            [ "$CHR" = "true" ] && CHR_SUCCESS=$((CHR_SUCCESS + 1))
+            [ "$FFX" = "true" ] && FFX_SUCCESS=$((FFX_SUCCESS + 1))
+            [ "$WKT" = "true" ] && WKT_SUCCESS=$((WKT_SUCCESS + 1))
+            TOTAL_RUNS=$((TOTAL_RUNS + 1))
+
+            TF(){ [ "$1" = "true" ] && echo "✓" || echo "✗"; }
+            ROW="| ${CREATED%Z} | [#${RUN_ID}](${RUN_URL}) | ${WARM} | $(TF $CHR) | $(TF $FFX) | $(TF $WKT) | $(TF $MOD) | $(TF $GLT) | ${ERR} |"
+            echo "$ROW" >> STATUS.md
+            TABLE_ROWS="$TABLE_ROWS"\n'"$ROW"
+          done < <(jq -r '.[].id' runs_slim.json)
+          
+          # Calculate averages
+          WARM_AVG="N/A"
+          if [ -n "$WARM_TIMES" ]; then
+            WARM_AVG=$(echo "$WARM_TIMES" | tr ' ' '\n' | awk '{sum+=$1; count++} END {if(count>0) printf "%.0f", sum/count}')
+          fi
+
+          # README section between markers
+          START="<!-- E2E_STATUS_START -->"
+          END="<!-- E2E_STATUS_END -->"
+          SUMMARY_LINE="**Recent E2E (warm run, cross-browser):** see STATUS.md for full history."
+          
+          # Create aggregate summary line
+          if [ "$TOTAL_RUNS" -gt 0 ]; then
+            AGGREGATES="Averages (last $TOTAL_RUNS): warm ${WARM_AVG} ms • Chromium ✓${CHR_SUCCESS}/${TOTAL_RUNS} • Firefox ✓${FFX_SUCCESS}/${TOTAL_RUNS} • WebKit ✓${WKT_SUCCESS}/${TOTAL_RUNS}"
+          else
+            AGGREGATES="No recent runs available for aggregates."
+          fi
+          
+          # Create compact table for README (3 most recent runs)
+          echo "$START" > /tmp/_block.md
+          echo "$SUMMARY_LINE" >> /tmp/_block.md
+          echo "" >> /tmp/_block.md
+          echo "| Date (UTC) | Warm (ms) | Chromium | Firefox | WebKit |" >> /tmp/_block.md
+          echo "|---|---:|:--:|:--:|:--:|" >> /tmp/_block.md
+          # Take first 3 data rows from STATUS.md
+          tail -n +4 STATUS.md | head -n 3 | while read -r line; do
+            # line: | date | [#run](url) | warm | chr | ffx | wkt | model | gltr | errors |
+            DATE=$(echo "$line" | awk -F'|' '{gsub(/^ +| +$/,"",$2); print $2}')
+            WARM=$(echo "$line" | awk -F'|' '{gsub(/^ +| +$/,"",$4); print $4}')
+            CHR=$(echo "$line" | awk -F'|' '{gsub(/^ +| +$/,"",$5); print $5}')
+            FFX=$(echo "$line" | awk -F'|' '{gsub(/^ +| +$/,"",$6); print $6}')
+            WKT=$(echo "$line" | awk -F'|' '{gsub(/^ +| +$/,"",$7); print $7}')
+            printf "| %s | %s | %s | %s | %s |\n" "$DATE" "$WARM" "$CHR" "$FFX" "$WKT" >> /tmp/_block.md
+          done
+          echo "" >> /tmp/_block.md
+          echo "$AGGREGATES" >> /tmp/_block.md
+          echo "$END" >> /tmp/_block.md
+
+          # Insert/replace in README
+          if grep -q "$START" README.md; then
+            awk -v start="$START" -v end="$END" -v file="/tmp/_block.md" '
+              BEGIN{printed=0}
+              $0 ~ start {system("cat " file); skip=1; next}
+              $0 ~ end {skip=0; next}
+              skip!=1 {print}
+            ' README.md > README.tmp && mv README.tmp README.md
+          else
+            # Append to end if markers not found
+            echo "" >> README.md
+            cat /tmp/_block.md >> README.md
+          fi
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add STATUS.md README.md
+          if git diff --cached --quiet; then
+            echo "No STATUS/README changes to commit."
+          else
+            git commit -m "chore(status): update STATUS.md and README E2E summary table"
+            git push
+          fi

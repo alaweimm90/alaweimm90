@@ -1,0 +1,407 @@
+# MagLogic Docker Compose Configuration
+# Complete simulation environment with OOMMF, MuMax3, and analysis tools
+# Author: Meshal Alawein <meshal@berkeley.edu>
+
+version: '3.8'
+
+services:
+  # OOMMF simulation service
+  oommf:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.oommf
+      args:
+        BUILD_DATE: ${BUILD_DATE:-}
+        VCS_REF: ${VCS_REF:-}
+        VERSION: ${VERSION:-latest}
+    container_name: maglogic-oommf
+    hostname: maglogic-oommf
+    image: meshalalawein/maglogic:oommf-${VERSION:-latest}
+    
+    # Environment variables
+    environment:
+      - DISPLAY=${DISPLAY:-:99}
+      - OOMMF_ROOT=/opt/oommf
+      - PYTHONPATH=/home/oommf/python
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-maglogic2025}
+      
+    # Port mapping
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "8080:8080"  # Additional web interface
+      
+    # Volume mounts for persistent data
+    volumes:
+      - ./oommf:/home/oommf/simulations/oommf:ro
+      - ./python:/home/oommf/python:ro
+      - ./examples:/home/oommf/examples:ro
+      - ./data:/home/oommf/data
+      - oommf_results:/home/oommf/results
+      - oommf_cache:/home/oommf/.cache
+      
+    # X11 forwarding for GUI (Linux/macOS)
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '2.0'
+          memory: 4G
+          
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "tclsh", "/opt/oommf/oommf.tcl", "+version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+      
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+    # Default command
+    command: ["daemon"]
+
+  # MuMax3 simulation service (requires NVIDIA GPU)
+  mumax3:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.mumax3
+      args:
+        BUILD_DATE: ${BUILD_DATE:-}
+        VCS_REF: ${VCS_REF:-}
+        VERSION: ${VERSION:-latest}
+    container_name: maglogic-mumax3
+    hostname: maglogic-mumax3
+    image: meshalalawein/maglogic:mumax3-${VERSION:-latest}
+    
+    # GPU access
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTHONPATH=/home/mumax3/python
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-maglogic2025}
+      
+    # Port mapping
+    ports:
+      - "8889:8888"  # Jupyter Lab (different port to avoid conflicts)
+      - "8081:8080"  # Additional web interface
+      
+    # Volume mounts
+    volumes:
+      - ./mumax3:/home/mumax3/simulations/mumax3:ro
+      - ./python:/home/mumax3/python:ro
+      - ./examples:/home/mumax3/examples:ro
+      - ./data:/home/mumax3/data
+      - mumax3_results:/home/mumax3/results
+      - mumax3_cache:/home/mumax3/.cache
+      
+    # Resource limits (with GPU)
+    deploy:
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 16G
+        reservations:
+          cpus: '2.0'
+          memory: 8G
+          
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "mumax3", "-version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+      
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+    # Default command
+    command: ["daemon"]
+    
+    # Only start if GPU available
+    profiles:
+      - gpu
+
+  # Analysis and visualization service
+  analysis:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.analysis
+      args:
+        BUILD_DATE: ${BUILD_DATE:-}
+        VCS_REF: ${VCS_REF:-}
+        VERSION: ${VERSION:-latest}
+    container_name: maglogic-analysis
+    hostname: maglogic-analysis
+    image: meshalalawein/maglogic:analysis-${VERSION:-latest}
+    
+    # Environment
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-maglogic2025}
+      - PYTHONPATH=/app/python
+      - MPLBACKEND=Agg  # For headless matplotlib
+      
+    # Port mapping
+    ports:
+      - "8890:8888"  # Jupyter Lab
+      - "8050:8050"  # Plotly Dash apps
+      - "8501:8501"  # Streamlit apps
+      
+    # Volume mounts
+    volumes:
+      - ./python:/app/python:ro
+      - ./notebooks:/app/notebooks:ro
+      - ./examples:/app/examples:ro
+      - ./data:/app/data
+      - ./figures:/app/figures
+      - analysis_results:/app/results
+      - analysis_cache:/app/.cache
+      
+    # Depends on simulation services
+    depends_on:
+      - oommf
+      
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+          
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import maglogic; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+      
+    # Default command
+    command: ["jupyter"]
+
+  # Documentation service
+  docs:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.docs
+    container_name: maglogic-docs
+    hostname: maglogic-docs
+    image: meshalalawein/maglogic:docs-${VERSION:-latest}
+    
+    # Port mapping
+    ports:
+      - "8000:8000"  # MkDocs development server
+      
+    # Volume mounts
+    volumes:
+      - ./docs:/app/docs:ro
+      - ./README.md:/app/README.md:ro
+      - ./python:/app/python:ro
+      
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+          
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      
+    # Default command
+    command: ["mkdocs", "serve", "-a", "0.0.0.0:8000"]
+
+  # Database service for storing simulation metadata
+  database:
+    image: postgres:13-alpine
+    container_name: maglogic-db
+    hostname: maglogic-db
+    
+    # Environment
+    environment:
+      - POSTGRES_DB=maglogic
+      - POSTGRES_USER=maglogic
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-maglogic2025}
+      
+    # Volume for persistent data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./ci/scripts/init_db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+          
+    # Health check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U maglogic"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      
+    # Only expose port for development
+    profiles:
+      - development
+    ports:
+      - "5432:5432"
+
+  # Redis cache for simulation results
+  cache:
+    image: redis:7-alpine
+    container_name: maglogic-cache
+    hostname: maglogic-cache
+    
+    # Configuration
+    command: redis-server --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+    
+    # Volume for persistence
+    volumes:
+      - redis_data:/data
+      
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+          
+    # Health check
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Monitoring service
+  monitoring:
+    image: prom/prometheus:latest
+    container_name: maglogic-monitoring
+    hostname: maglogic-monitoring
+    
+    # Configuration
+    volumes:
+      - ./ci/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+      
+    # Port mapping
+    ports:
+      - "9090:9090"
+      
+    # Command
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      
+    # Only for development/monitoring
+    profiles:
+      - monitoring
+
+# Named volumes for persistent data
+volumes:
+  oommf_results:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./results/oommf
+      
+  mumax3_results:
+    driver: local
+    driver_opts:
+      type: none  
+      o: bind
+      device: ./results/mumax3
+      
+  analysis_results:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./results/analysis
+      
+  oommf_cache:
+    driver: local
+    
+  mumax3_cache:
+    driver: local
+    
+  analysis_cache:
+    driver: local
+    
+  postgres_data:
+    driver: local
+    
+  redis_data:
+    driver: local
+    
+  prometheus_data:
+    driver: local
+
+# Networks
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          
+  maglogic_internal:
+    driver: bridge
+    internal: true
+
+# Configuration for different deployment profiles
+# Usage examples:
+#   docker-compose up                          # Basic services (OOMMF + Analysis)
+#   docker-compose --profile gpu up           # Include GPU services (MuMax3)
+#   docker-compose --profile development up   # Include database
+#   docker-compose --profile monitoring up    # Include monitoring

@@ -1,0 +1,33 @@
+#!/bin/bash
+# Universal: Stage all, commit, and push changes
+# Usage: repo-save ["optional custom message"]
+
+if [ ! -d ".git" ]; then
+    echo "❌ Not in a Git repository!"
+    exit 1
+fi
+
+REPO_NAME=$(basename "$(pwd)")
+echo "💾 Saving changes to: $REPO_NAME"
+echo ""
+
+# Auto-generate commit message if none provided
+if [ -z "$1" ]; then
+    COMMIT_MSG="Update $(date '+%Y-%m-%d %H:%M')"
+    echo "🤖 Auto-generated commit message: \"$COMMIT_MSG\""
+else
+    COMMIT_MSG="$1"
+    echo "💾 Using custom message: \"$COMMIT_MSG\""
+fi
+
+echo "📁 Staging all changes..."
+git add .
+
+echo "💾 Committing..."
+git commit -m "$COMMIT_MSG"
+
+echo "🚀 Pushing to GitHub..."
+git push origin main || git push origin master || echo "⚠️  Could not push (check branch name)"
+
+echo ""
+echo "✅ All changes saved and pushed!"

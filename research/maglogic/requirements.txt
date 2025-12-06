@@ -1,0 +1,92 @@
+# MagLogic: Nanomagnetic Logic Simulation Suite
+# Python dependencies for computational magnetism analysis
+# Author: Meshal Alawein <meshal@berkeley.edu>
+# Updated: January 2025
+
+# Core scientific computing
+numpy>=1.21.0,<2.0.0          # Numerical arrays and linear algebra
+scipy>=1.7.0,<2.0.0           # Scientific computing algorithms
+matplotlib>=3.5.0,<4.0.0      # 2D plotting and visualization
+pandas>=1.3.0,<3.0.0          # Data analysis and manipulation
+
+# Advanced visualization
+plotly>=5.0.0,<6.0.0          # Interactive plotting
+seaborn>=0.11.0,<1.0.0        # Statistical data visualization
+bokeh>=2.3.0,<4.0.0           # Interactive web-based plotting
+mayavi>=4.7.0,<5.0.0          # 3D scientific data visualization
+
+# Jupyter ecosystem
+jupyter>=1.0.0,<2.0.0         # Jupyter metapackage
+jupyterlab>=3.0.0,<5.0.0      # Modern Jupyter interface
+notebook>=6.4.0,<8.0.0        # Classic Jupyter notebook
+ipywidgets>=7.6.0,<9.0.0      # Interactive widgets
+ipympl>=0.8.0,<1.0.0          # Matplotlib Jupyter integration
+
+# File I/O and data formats
+h5py>=3.2.0,<4.0.0            # HDF5 file format support
+pillow>=8.3.0,<11.0.0         # Image processing and formats
+imageio>=2.9.0,<3.0.0         # Image I/O for animations
+tifffile>=2021.7.2,<2025.0.0  # TIFF file support
+netcdf4>=1.5.0,<2.0.0         # NetCDF scientific data format
+
+# Machine learning and AI
+scikit-learn>=1.0.0,<2.0.0    # Machine learning algorithms
+torch>=1.9.0,<3.0.0           # PyTorch deep learning framework
+tensorflow>=2.6.0,<3.0.0      # TensorFlow machine learning platform
+joblib>=1.0.0,<2.0.0          # Parallel computing for ML
+
+# GUI frameworks
+tkinter-page>=0.1.0           # Tkinter page layout tool
+PyQt5>=5.15.0,<6.0.0         # Cross-platform GUI toolkit
+
+# Performance and parallel computing
+numba>=0.54.0,<1.0.0         # JIT compiler for numerical functions
+dask>=2021.6.0,<2025.0.0     # Parallel computing with task scheduling
+mpi4py>=3.1.0,<4.0.0         # MPI for Python parallel computing
+
+# Testing and development tools
+pytest>=6.2.0,<9.0.0         # Testing framework
+pytest-cov>=2.12.0,<5.0.0    # Coverage plugin for pytest
+black>=21.0.0,<25.0.0        # Code formatter
+flake8>=3.9.0,<8.0.0         # Code linting
+mypy>=0.910,<2.0.0           # Static type checking
+pre-commit>=2.13.0,<4.0.0    # Git pre-commit hooks
+
+# Documentation generation
+sphinx>=4.0.0,<8.0.0         # Documentation generator
+sphinx-rtd-theme>=0.5.0,<3.0.0 # Read the Docs Sphinx theme
+myst-parser>=0.15.0,<3.0.0   # Markdown parser for Sphinx
+sphinx-autodoc-typehints>=1.12.0,<2.0.0 # Type hints in documentation
+
+# Configuration and utilities
+pyyaml>=5.4.0,<7.0.0         # YAML file parsing
+toml>=0.10.0,<1.0.0          # TOML configuration format
+click>=8.0.0,<9.0.0          # Command-line interface creation
+tqdm>=4.61.0,<5.0.0          # Progress bars
+colorama>=0.4.0,<1.0.0       # Cross-platform colored terminal text
+
+# Specialized scientific packages
+sympy>=1.8.0,<2.0.0          # Symbolic mathematics
+networkx>=2.6.0,<4.0.0       # Graph theory and network analysis
+astropy>=4.3.0,<7.0.0        # Astronomy and astrophysics tools
+lmfit>=1.0.0,<2.0.0          # Non-linear least-squares fitting
+
+# Additional utilities for micromagnetism
+vtk>=9.0.0,<10.0.0           # Visualization Toolkit
+pyvista>=0.32.0,<1.0.0       # 3D plotting and mesh analysis
+meshio>=5.0.0,<6.0.0         # Mesh I/O for various formats
+scikit-image>=0.18.0,<1.0.0  # Image processing algorithms
+
+# Web and API integration
+requests>=2.25.0,<3.0.0      # HTTP library
+flask>=2.0.0,<4.0.0          # Web framework for APIs
+fastapi>=0.70.0,<1.0.0       # Modern web framework
+
+# Memory profiling and optimization
+memory-profiler>=0.60.0,<1.0.0 # Memory usage profiling
+psutil>=5.8.0,<6.0.0         # System and process utilities
+
+# Version constraints for stability
+setuptools>=45.0.0           # Package development tools
+wheel>=0.36.0                # Python wheel packaging standard
+pip>=21.0.0                  # Package installer

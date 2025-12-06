@@ -1,0 +1,1 @@
+# Sample Research Resume\n\nSummary: Researcher focusing on NLP and ML.\n\nSkills: Python, NLP, PyTorch, Transformers, Experiment Design\n\nExperience\n- Published papers on language models.\n- Built datasets and evaluation pipelines.\n

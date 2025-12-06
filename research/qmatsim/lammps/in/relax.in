@@ -1,0 +1,46 @@
+############################### Initialization ###############################
+units metal                                                                   # Units setting
+dimension 3                                                                   # Simulation dimension
+boundary p p f                                                                # Periodic in x and y, fixed in z
+atom_style atomic                                                             # Style of atoms
+
+# Neighbor Settings
+neighbor 1.0 bin                                                              # Neighbor list skin distance for efficiency
+neigh_modify delay 5 every 1                                                  # Update neighbor list every step after 5 delay steps
+
+############################ System definition ############################
+read_data 1x10_rectangular.data                                                           # Read data file
+
+# Group Definitions
+group MoGroup type 2                                                          # Define a group (Mo atoms)
+group SGroup type 1                                                           # Define a group (S atoms)
+
+############################ Force field settings ############################
+pair_style rebomos                                                             # Set the formulas LAMMPS uses to compute pairwise interactions
+pair_coeff * * MoS.REBO.set5b M S                                             # Pairwise force field coefficients
+
+######################### Fixed-cell Atomic Relaxation #########################
+# This step relaxes atomic positions while keeping the box size fixed
+minimize 1.0e-6 1.0e-8 10000 10000                                            # Conjugate gradient minimization
+write_dump all atom relaxed_fixed_cell.dump                                    # Save the relaxed structure
+
+######################## Variable-cell Relaxation ########################
+# Now, allow x and y lattice vectors to relax while keeping z-direction fixed.
+fix 3 all box/relax x 0.0 y 0.0                                                # Relax x and y, keep z fixed
+minimize 1.0e-6 1.0e-8 10000 10000                                            # Minimize after allowing box relaxation
+write_dump all atom relaxed_variable_cell.dump                                 # Save the relaxed variable-cell structure
+
+unfix 3                                                                       # Remove the variable-cell fix
+
+######################### Final Fixed-cell Relaxation #########################
+# Final relaxation of atomic coordinates with a fixed box size (x, y, z are fixed)
+minimize 1.0e-6 1.0e-8 10000 10000                                            # Final minimization
+write_dump all atom final_relaxed_fixed_cell.dump                              # Save the final structure
+
+######################### Thermodynamic Outputs #########################
+variable Nprint equal 100                                                      # Frequency of thermodynamic output
+thermo ${Nprint}                                                               # Output thermodynamic data every Nprint steps
+thermo_style custom step temp press pe ke etotal lx ly lz vol fnorm            # Custom thermodynamic output format
+thermo_modify lost error flush yes                                             # Error handling and output flushing
+
+print "Simulation Complete"                                                    # Completion message

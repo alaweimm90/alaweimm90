@@ -1,0 +1,22 @@
+{
+  "title": "Cross-Domain Innovation Discovery",
+  "hypothesis": "Novel breakthrough innovations emerge from unexpected domain collisions",
+  "feature": "chaos",
+  "parameters": {
+    "domain_pools": ["quantum_computing", "biology", "economics", "music", "architecture"],
+    "novelty_threshold": 0.85,
+    "feasibility_constraints": {
+      "min_plausibility": 0.3,
+      "max_cost": 1000000,
+      "time_horizon_years": 5
+    },
+    "ensemble_size": 5,
+    "consensus_method": "majority",
+    "budget_limit": 1.5
+  },
+  "seed_hypotheses": [
+    "Quantum entanglement for secure biological data storage",
+    "Economic models based on mycelial network behavior"
+  ],
+  "tags": ["innovation", "cross-domain", "serendipity"]
+}

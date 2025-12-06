@@ -1,0 +1,11 @@
+type: scientific-library
+language: Python
+tier: 4
+coverage:
+  target: 70
+docs:
+  profile: minimal
+owner: alaweimm90-science
+description: 'Repository: spin-circ'
+status: active
+created: '2025-11-26'

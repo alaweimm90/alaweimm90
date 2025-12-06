@@ -1,0 +1,749 @@
+# MagLogic Documentation Environment
+# UC Berkeley Nanomagnetic Logic Research
+# 
+# This container provides documentation generation and hosting
+# for the MagLogic project using Sphinx.
+
+FROM python:3.11-slim-bullseye
+
+# Metadata
+LABEL maintainer="Meshal Alawein <meshal@berkeley.edu>"
+LABEL description="Documentation environment for MagLogic project"
+LABEL version="1.0.0"
+LABEL repository="https://github.com/alaweimm90/MagLogic"
+
+# Environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Build tools
+    build-essential \
+    git \
+    wget \
+    curl \
+    # LaTeX for PDF generation
+    texlive-latex-base \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-fonts-extra \
+    latexmk \
+    # Graphics tools
+    imagemagick \
+    graphviz \
+    # Additional utilities
+    vim \
+    tree \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python documentation tools
+RUN pip install --no-cache-dir \
+    # Core documentation
+    sphinx>=4.5.0 \
+    sphinx-rtd-theme>=1.0.0 \
+    sphinx-autodoc-typehints>=1.12.0 \
+    myst-parser>=0.17.0 \
+    # Jupyter notebook support
+    nbsphinx>=0.8.8 \
+    ipykernel>=6.9.0 \
+    # API documentation
+    sphinx-autoapi>=1.8.0 \
+    # Enhanced features
+    sphinx-copybutton>=0.5.0 \
+    sphinx-tabs>=3.3.1 \
+    sphinxcontrib-bibtex>=2.4.0 \
+    # Scientific libraries for documentation examples
+    numpy>=1.21.0 \
+    matplotlib>=3.5.0 \
+    pandas>=1.3.0 \
+    # Web server
+    flask>=2.1.0
+
+# Create working directories
+RUN mkdir -p /workspace/docs \
+             /workspace/build \
+             /workspace/source \
+             /workspace/examples
+
+# Set up MagLogic source
+WORKDIR /workspace
+COPY docs/ ./docs/
+COPY python/ ./python/  
+COPY README.md ./
+COPY LICENSE ./
+
+# Install MagLogic package for documentation
+RUN pip install -e ./python/
+
+# Create Sphinx configuration
+RUN cat > /workspace/docs/conf.py << 'EOF'
+"""
+Configuration file for MagLogic documentation.
+
+UC Berkeley Nanomagnetic Logic Research
+Meshal Alawein
+"""
+
+import os
+import sys
+from pathlib import Path
+
+# Add project root to path
+sys.path.insert(0, os.path.abspath('../python'))
+
+# Project information
+project = 'MagLogic'
+copyright = '2025, Meshal Alawein, UC Berkeley'
+author = 'Meshal Alawein'
+version = '1.0.0'
+release = '1.0.0'
+
+# Extensions
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx_rtd_theme',
+    'myst_parser',
+    'nbsphinx',
+    'sphinx_copybutton',
+    'sphinx_tabs.tabs',
+]
+
+# Source file types
+source_suffix = {
+    '.rst': None,
+    '.md': None,
+    '.ipynb': None,
+}
+
+# Master document
+master_doc = 'index'
+
+# Language
+language = 'en'
+
+# Exclude patterns
+exclude_patterns = [
+    '_build',
+    'Thumbs.db',
+    '.DS_Store',
+    '**.ipynb_checkpoints',
+]
+
+# HTML theme
+html_theme = 'sphinx_rtd_theme'
+html_theme_options = {
+    'logo_only': False,
+    'display_version': True,
+    'prev_next_buttons_location': 'bottom',
+    'style_external_links': False,
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False,
+    'style_nav_header_background': '#003262',  # Berkeley Blue
+}
+
+# HTML options
+html_title = f'{project} v{version}'
+html_short_title = project
+html_logo = '_static/berkeley_seal.png'
+html_favicon = '_static/favicon.ico'
+
+# Static files
+html_static_path = ['_static']
+html_css_files = [
+    'custom.css',
+]
+
+# HTML context
+html_context = {
+    'display_github': True,
+    'github_user': 'alaweimm90',
+    'github_repo': 'MagLogic',
+    'github_version': 'main',
+    'conf_py_path': '/docs/',
+}
+
+# Autodoc options
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'exclude-members': '__weakref__'
+}
+
+# Napoleon options
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+
+# Intersphinx mapping
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'scipy': ('https://docs.scipy.org/doc/scipy/', None),
+    'matplotlib': ('https://matplotlib.org/stable/', None),
+    'pandas': ('https://pandas.pydata.org/docs/', None),
+}
+
+# NBSphinx options
+nbsphinx_execute = 'never'  # Don't execute notebooks during build
+nbsphinx_allow_errors = True
+
+# Math support
+mathjax3_config = {
+    'tex': {
+        'inlineMath': [['$', '$'], ['\\(', '\\)']],
+        'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+    }
+}
+
+# Copy button configuration
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+EOF
+
+# Create main documentation index
+RUN cat > /workspace/docs/index.rst << 'EOF'
+MagLogic: Nanomagnetic Logic Simulation Suite
+=============================================
+
+**UC Berkeley Nanomagnetic Logic Research**  
+**Meshal Alawein**
+
+.. image:: _static/berkeley_logo.png
+   :width: 200px
+   :align: center
+
+MagLogic is a comprehensive simulation and analysis suite for nanomagnetic logic devices, 
+developed at UC Berkeley. It provides tools for micromagnetic simulations, 
+magnetization analysis, and logic gate characterization.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   getting_started/index
+   user_guide/index
+   api_reference/index
+   examples/index
+   tutorials/index
+   contributing/index
+
+Features
+--------
+
+* **Multi-Simulator Support**: OOMMF and MuMax3 integration
+* **Comprehensive Analysis**: Domain analysis, energy calculations, topological features
+* **Logic Gate Demonstrations**: NAND/NOR reconfigurable gates
+* **Docker Integration**: Containerized simulation environments
+* **Python API**: Complete programmatic access
+* **Visualization Tools**: Advanced plotting and animation capabilities
+
+Quick Start
+-----------
+
+Install MagLogic using pip:
+
+.. code-block:: bash
+
+   pip install maglogic
+
+Or use Docker for a complete environment:
+
+.. code-block:: bash
+
+   docker run -it maglogic/analysis
+
+Key Capabilities
+----------------
+
+Simulation Parsers
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   from maglogic.parsers import OOMMFParser, MuMax3Parser
+   
+   # Parse OOMMF results
+   oommf_parser = OOMMFParser()
+   data = oommf_parser.parse_ovf('magnetization.ovf')
+   
+   # Parse MuMax3 results
+   mumax3_parser = MuMax3Parser()
+   results = mumax3_parser.parse_table('table.txt')
+
+Magnetization Analysis
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   from maglogic.analysis import MagnetizationAnalyzer
+   
+   analyzer = MagnetizationAnalyzer()
+   analysis = analyzer.analyze_ovf_file('simulation.ovf')
+   
+   # Comprehensive analysis results
+   domains = analysis['domain_analysis']
+   energy = analysis['energy_analysis']
+   topology = analysis['topological_analysis']
+
+Logic Gate Simulation
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: python
+
+   from maglogic.demos import NANDNORDemo
+   
+   demo = NANDNORDemo()
+   results = demo.run_complete_demo()
+
+Research Applications
+---------------------
+
+MagLogic is designed for research in:
+
+* **Nanomagnetic Logic**: Beyond-CMOS computing paradigms
+* **Spintronics**: Spin-based information processing
+* **Magnetic Memory**: Novel storage technologies
+* **Cellular Automata**: Unconventional computation
+* **Quantum Effects**: Magnetic quantum phenomena
+
+Citation
+--------
+
+If you use MagLogic in your research, please cite:
+
+.. code-block:: bibtex
+
+   @software{maglogic2024,
+     title={MagLogic: Nanomagnetic Logic Simulation Suite},
+     author={Alawein, Meshal},
+     year={2024},
+     institution={University of California, Berkeley},
+     url={https://github.com/alaweimm90/MagLogic}
+   }
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+EOF
+
+# Create getting started guide
+RUN mkdir -p /workspace/docs/getting_started
+RUN cat > /workspace/docs/getting_started/index.rst << 'EOF'
+Getting Started
+===============
+
+This guide will help you get up and running with MagLogic quickly.
+
+.. toctree::
+   :maxdepth: 2
+
+   installation
+   first_simulation
+   basic_analysis
+
+Installation
+------------
+
+MagLogic can be installed in several ways depending on your needs.
+
+Python Package
+~~~~~~~~~~~~~~
+
+Install the Python package directly:
+
+.. code-block:: bash
+
+   pip install maglogic
+
+Docker Environment
+~~~~~~~~~~~~~~~~~~
+
+For a complete simulation environment:
+
+.. code-block:: bash
+
+   # Analysis environment
+   docker pull maglogic/analysis
+   docker run -it -p 8888:8888 maglogic/analysis
+
+   # MuMax3 simulation environment (requires GPU)
+   docker pull maglogic/mumax3
+   docker run --gpus all -it maglogic/mumax3
+
+From Source
+~~~~~~~~~~~
+
+Clone and install from source:
+
+.. code-block:: bash
+
+   git clone https://github.com/alaweimm90/MagLogic.git
+   cd MagLogic
+   pip install -e python/
+
+First Steps
+-----------
+
+After installation, verify everything works:
+
+.. code-block:: python
+
+   import maglogic
+   from maglogic.parsers import OOMMFParser
+   
+   parser = OOMMFParser()
+   print("MagLogic installed successfully!")
+EOF
+
+# Create API reference structure  
+RUN mkdir -p /workspace/docs/api_reference
+RUN cat > /workspace/docs/api_reference/index.rst << 'EOF'
+API Reference
+=============
+
+Complete API documentation for MagLogic modules.
+
+Core Modules
+------------
+
+.. toctree::
+   :maxdepth: 2
+
+   parsers
+   analysis
+   simulation
+   demos
+   core
+
+.. automodule:: maglogic
+   :members:
+   :undoc-members:
+   :show-inheritance:
+EOF
+
+# Create examples directory
+RUN mkdir -p /workspace/docs/examples
+RUN cat > /workspace/docs/examples/index.rst << 'EOF'
+Examples and Tutorials
+======================
+
+Comprehensive examples and tutorials for using MagLogic.
+
+.. toctree::
+   :maxdepth: 2
+
+   basic_parsing
+   magnetization_analysis
+   logic_gates
+   advanced_techniques
+
+Interactive Examples
+--------------------
+
+The following Jupyter notebooks provide interactive examples:
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/MagLogic_Analysis_Tutorial
+   notebooks/NAND_NOR_Demo
+   notebooks/Advanced_Analysis
+EOF
+
+# Create static files directory
+RUN mkdir -p /workspace/docs/_static
+
+# Create UC Berkeley themed CSS
+RUN cat > /workspace/docs/_static/custom.css << 'EOF'
+/* UC Berkeley themed CSS for MagLogic documentation */
+
+:root {
+    --berkeley-blue: #003262;
+    --california-gold: #FDB515;
+    --founders-rock: #3B7EA1;
+    --medalist: #C4820E;
+}
+
+/* Header styling */
+.wy-nav-top {
+    background-color: var(--berkeley-blue) !important;
+}
+
+/* Sidebar styling */
+.wy-nav-side {
+    background: linear-gradient(180deg, var(--berkeley-blue) 0%, #004080 100%);
+}
+
+.wy-menu-vertical a {
+    color: #ffffff;
+}
+
+.wy-menu-vertical a:hover {
+    background-color: var(--california-gold);
+    color: var(--berkeley-blue);
+}
+
+/* Content area */
+.wy-nav-content {
+    background: #ffffff;
+}
+
+/* Code blocks */
+.highlight {
+    background: #f8f9fa;
+    border-left: 4px solid var(--california-gold);
+    padding-left: 10px;
+}
+
+/* Links */
+a {
+    color: var(--founders-rock);
+}
+
+a:hover {
+    color: var(--medalist);
+}
+
+/* Admonitions */
+.admonition.note {
+    border-color: var(--berkeley-blue);
+}
+
+.admonition.warning {
+    border-color: var(--california-gold);
+}
+
+/* Tables */
+.wy-table-odd td, .wy-table-striped tr:nth-child(2n-1) td {
+    background-color: #f8f9fa;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--berkeley-blue);
+    border-color: var(--berkeley-blue);
+}
+
+.btn-primary:hover {
+    background-color: var(--california-gold);
+    border-color: var(--california-gold);
+    color: var(--berkeley-blue);
+}
+
+/* Logo styling */
+.wy-side-nav-search .wy-dropdown > a img.logo, 
+.wy-side-nav-search > a img.logo {
+    width: 150px;
+    margin: 10px 0;
+}
+EOF
+
+# Create documentation build script
+RUN cat > /usr/local/bin/build-docs << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Documentation Builder ==="
+echo "UC Berkeley Nanomagnetic Logic Research"
+echo ""
+
+DOCS_DIR="/workspace/docs"
+BUILD_DIR="/workspace/build"
+OUTPUT_DIR="${BUILD_DIR}/html"
+
+echo "Building documentation..."
+echo "Source: ${DOCS_DIR}"
+echo "Output: ${OUTPUT_DIR}"
+echo ""
+
+# Clean previous build
+rm -rf "${BUILD_DIR}"
+mkdir -p "${BUILD_DIR}"
+
+# Change to docs directory
+cd "${DOCS_DIR}"
+
+# Build HTML documentation
+echo "Building HTML documentation..."
+sphinx-build -b html . "${OUTPUT_DIR}"
+
+# Build PDF documentation (if LaTeX is available)
+if command -v pdflatex &> /dev/null; then
+    echo ""
+    echo "Building PDF documentation..."
+    sphinx-build -b latex . "${BUILD_DIR}/latex"
+    cd "${BUILD_DIR}/latex"
+    make all-pdf
+    cp *.pdf "${OUTPUT_DIR}/"
+    cd "${DOCS_DIR}"
+else
+    echo "LaTeX not available, skipping PDF generation"
+fi
+
+echo ""
+echo "Documentation build complete!"
+echo "HTML files: ${OUTPUT_DIR}/"
+echo ""
+
+# List generated files
+echo "Generated files:"
+find "${OUTPUT_DIR}" -name "*.html" | head -10
+if [ -f "${OUTPUT_DIR}/MagLogic.pdf" ]; then
+    echo "${OUTPUT_DIR}/MagLogic.pdf"
+fi
+EOF
+
+RUN chmod +x /usr/local/bin/build-docs
+
+# Create documentation server script
+RUN cat > /usr/local/bin/serve-docs << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Documentation Server ==="
+echo ""
+
+BUILD_DIR="/workspace/build/html"
+PORT=${1:-8080}
+
+# Check if documentation is built
+if [ ! -d "${BUILD_DIR}" ]; then
+    echo "Documentation not found. Building now..."
+    build-docs
+fi
+
+echo "Starting documentation server on port ${PORT}..."
+echo "Access documentation at: http://localhost:${PORT}"
+echo ""
+
+# Serve documentation
+cd "${BUILD_DIR}"
+python3 -m http.server ${PORT}
+EOF
+
+RUN chmod +x /usr/local/bin/serve-docs
+
+# Create auto-build script with live reload
+RUN cat > /usr/local/bin/live-docs << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Live Documentation ==="
+echo "Auto-rebuilds on file changes"
+echo ""
+
+DOCS_DIR="/workspace/docs"
+BUILD_DIR="/workspace/build/html"
+
+# Install sphinx-autobuild if not present
+pip install sphinx-autobuild
+
+# Start live documentation server
+echo "Starting live documentation server..."
+echo "Access at: http://localhost:8080"
+echo "Press Ctrl+C to stop"
+echo ""
+
+cd "${DOCS_DIR}"
+sphinx-autobuild . "${BUILD_DIR}" \
+    --host 0.0.0.0 \
+    --port 8080 \
+    --ignore "*.tmp" \
+    --ignore "*.swp" \
+    --ignore "*~"
+EOF
+
+RUN chmod +x /usr/local/bin/live-docs
+
+# Create documentation status checker
+RUN cat > /usr/local/bin/check-docs << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Documentation Status ==="
+echo ""
+
+DOCS_DIR="/workspace/docs"
+BUILD_DIR="/workspace/build"
+
+# Check source files
+echo "Source files:"
+find "${DOCS_DIR}" -name "*.rst" -o -name "*.md" | wc -l | xargs echo "  RST/MD files:"
+find "${DOCS_DIR}" -name "*.ipynb" | wc -l | xargs echo "  Jupyter notebooks:"
+find "${DOCS_DIR}" -name "*.py" | wc -l | xargs echo "  Python files:"
+
+echo ""
+
+# Check if built
+if [ -d "${BUILD_DIR}/html" ]; then
+    echo "Documentation build status: BUILT ✓"
+    
+    # Count generated files
+    html_count=$(find "${BUILD_DIR}/html" -name "*.html" | wc -l)
+    echo "  HTML files: ${html_count}"
+    
+    if [ -f "${BUILD_DIR}/html/MagLogic.pdf" ]; then
+        echo "  PDF documentation: Available ✓"
+    else
+        echo "  PDF documentation: Not built"
+    fi
+    
+    # Check for common issues
+    if [ -f "${BUILD_DIR}/html/.buildinfo" ]; then
+        echo "  Build info: Available ✓"
+    fi
+    
+else
+    echo "Documentation build status: NOT BUILT ✗"
+    echo "  Run 'build-docs' to generate documentation"
+fi
+
+echo ""
+
+# Check Python package documentation
+echo "Python package status:"
+python3 -c "import maglogic; print('  MagLogic package: Available ✓')" 2>/dev/null || echo "  MagLogic package: Not available ✗"
+
+# Check dependencies
+echo ""
+echo "Documentation dependencies:"
+python3 -c "import sphinx; print('  Sphinx:', sphinx.__version__)" 2>/dev/null || echo "  Sphinx: Not installed ✗"
+python3 -c "import sphinx_rtd_theme; print('  RTD Theme: Available ✓')" 2>/dev/null || echo "  RTD Theme: Not available ✗"
+python3 -c "import nbsphinx; print('  NBSphinx: Available ✓')" 2>/dev/null || echo "  NBSphinx: Not available ✗"
+EOF
+
+RUN chmod +x /usr/local/bin/check-docs
+
+# Create non-root user and set permissions
+RUN groupadd -r maglogic && useradd -r -g maglogic maglogic && \
+    chown -R maglogic:maglogic /workspace
+
+# Set working directory
+WORKDIR /workspace/docs
+
+# Switch to non-root user
+USER maglogic
+
+# Expose documentation server port
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=60s --timeout=10s --start-period=30s --retries=3 \
+    CMD python3 -c "import sphinx; import maglogic" || exit 1
+
+# Default command
+CMD ["bash", "-c", "echo 'MagLogic Documentation Container Started' && echo '' && echo 'Available commands:' && echo '  build-docs        - Build static documentation' && echo '  serve-docs [port] - Serve documentation (default port 8080)' && echo '  live-docs         - Live documentation with auto-rebuild' && echo '  check-docs        - Check documentation status' && echo '' && echo 'Quick start:' && echo '  build-docs && serve-docs' && echo '' && exec bash"]

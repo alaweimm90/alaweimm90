@@ -1,0 +1,93 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "success": "¡Éxito!",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Atrás",
+    "next": "Siguiente"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "shop": "Tienda",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "cart": "Carrito",
+    "account": "Cuenta"
+  },
+  "product": {
+    "addToCart": "Añadir al carrito",
+    "outOfStock": "Agotado",
+    "inStock": "En stock",
+    "price": "Precio",
+    "size": "Tamaño",
+    "color": "Color",
+    "quantity": "Cantidad",
+    "description": "Descripción",
+    "features": "Características",
+    "reviews": "Reseñas",
+    "rating": "Calificación"
+  },
+  "cart": {
+    "title": "Carrito de compras",
+    "empty": "Tu carrito está vacío",
+    "subtotal": "Subtotal",
+    "shipping": "Envío",
+    "total": "Total",
+    "checkout": "Proceder al pago",
+    "continueShopping": "Continuar comprando",
+    "removeItem": "Eliminar artículo",
+    "updateQuantity": "Actualizar cantidad"
+  },
+  "checkout": {
+    "title": "Pago",
+    "shippingInfo": "Información de envío",
+    "paymentInfo": "Información de pago",
+    "orderSummary": "Resumen de pedido",
+    "placeOrder": "Realizar pedido",
+    "processingOrder": "Procesando tu pedido...",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "state": "Estado/Provincia",
+    "zipCode": "Código postal",
+    "country": "País"
+  },
+  "hero": {
+    "title": "Live It Iconic",
+    "tagline": "Diseñado para el movimiento; refinado para las noches",
+    "subtitle": "Ropa de precisión inspirada en la disciplina automotriz",
+    "cta": "Ver colección"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "signup": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "rememberMe": "Recuérdame",
+    "signupNow": "¿No tienes cuenta? Registrate"
+  },
+  "errors": {
+    "invalidEmail": "Por favor ingresa una dirección de correo válida",
+    "passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "fieldRequired": "Este campo es obligatorio",
+    "serverError": "Error del servidor. Por favor intenta más tarde",
+    "notFound": "Página no encontrada"
+  },
+  "messages": {
+    "addedToCart": "Agregado al carrito con éxito",
+    "removedFromCart": "Eliminado del carrito",
+    "orderPlaced": "Pedido realizado con éxito",
+    "profileUpdated": "Perfil actualizado con éxito"
+  }
+}

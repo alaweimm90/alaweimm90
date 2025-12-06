@@ -1,0 +1,236 @@
+[
+  {
+    "id": "first_principles_0_1763271164.275393",
+    "title": "Idea from first_principles #1",
+    "description": "Generated using first_principles framework on general",
+    "framework": "first_principles",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from first_principles"
+    ],
+    "risks": [
+      "Risk identified by first_principles"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276156",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "first_principles_1_1763271164.276176",
+    "title": "Idea from first_principles #2",
+    "description": "Generated using first_principles framework on general",
+    "framework": "first_principles",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from first_principles"
+    ],
+    "risks": [
+      "Risk identified by first_principles"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276179",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "first_principles_2_1763271164.276182",
+    "title": "Idea from first_principles #3",
+    "description": "Generated using first_principles framework on general",
+    "framework": "first_principles",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from first_principles"
+    ],
+    "risks": [
+      "Risk identified by first_principles"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276184",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "inversion_0_1763271164.276187",
+    "title": "Idea from inversion #1",
+    "description": "Generated using inversion framework on general",
+    "framework": "inversion",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from inversion"
+    ],
+    "risks": [
+      "Risk identified by inversion"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276229",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "inversion_1_1763271164.276235",
+    "title": "Idea from inversion #2",
+    "description": "Generated using inversion framework on general",
+    "framework": "inversion",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from inversion"
+    ],
+    "risks": [
+      "Risk identified by inversion"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276238",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "inversion_2_1763271164.276241",
+    "title": "Idea from inversion #3",
+    "description": "Generated using inversion framework on general",
+    "framework": "inversion",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from inversion"
+    ],
+    "risks": [
+      "Risk identified by inversion"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276243",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "cross_domain_analogy_0_1763271164.276245",
+    "title": "Idea from cross_domain_analogy #1",
+    "description": "Generated using cross_domain_analogy framework on general",
+    "framework": "cross_domain_analogy",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from cross_domain_analogy"
+    ],
+    "risks": [
+      "Risk identified by cross_domain_analogy"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276247",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "cross_domain_analogy_1_1763271164.276249",
+    "title": "Idea from cross_domain_analogy #2",
+    "description": "Generated using cross_domain_analogy framework on general",
+    "framework": "cross_domain_analogy",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from cross_domain_analogy"
+    ],
+    "risks": [
+      "Risk identified by cross_domain_analogy"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276251",
+    "agent": "meta_orchestrator"
+  },
+  {
+    "id": "cross_domain_analogy_2_1763271164.276252",
+    "title": "Idea from cross_domain_analogy #3",
+    "description": "Generated using cross_domain_analogy framework on general",
+    "framework": "cross_domain_analogy",
+    "novelty_score": 7.5,
+    "impact_score": 8.0,
+    "feasibility_score": 6.5,
+    "combined_score": 390.0,
+    "domain": "general",
+    "keywords": [
+      "improve",
+      "combinatorial",
+      "algorithms",
+      "optimization",
+      "problems?"
+    ],
+    "implementation_hints": [
+      "Hint from cross_domain_analogy"
+    ],
+    "risks": [
+      "Risk identified by cross_domain_analogy"
+    ],
+    "generated_at": "2025-11-15T21:32:44.276254",
+    "agent": "meta_orchestrator"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "title": "Universal Constants of Democratic Governance",
+  "hypothesis": "Certain democratic principles remain stable across all possible societal configurations",
+  "feature": "multiverse",
+  "universe_count": 20,
+  "universe_types": ["physics", "history", "social"],
+  "plausibility_mode": "exploratory",
+  "parameters": {
+    "physics_variations": {
+      "speed_of_light": [0.5, 1.0, 2.0],
+      "gravity_constant": [0.8, 1.0, 1.2]
+    },
+    "social_variations": {
+      "communication_speed": ["instant", "lightspeed", "subluminal"],
+      "lifespan": ["50years", "200years", "1000years"],
+      "cognitive_bandwidth": ["limited", "enhanced", "collective"]
+    },
+    "ensemble_size": 3,
+    "parallel_universes": 5,
+    "budget_limit": 4.0
+  },
+  "tags": ["governance", "democracy", "multiverse", "universals"]
+}

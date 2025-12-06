@@ -1,0 +1,59 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "workouts": "Workouts",
+    "nutrition": "Ernährung",
+    "progress": "Fortschritt",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signUp": "Registrieren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "forgotPassword": "Passwort Vergessen?",
+    "createAccount": "Konto Erstellen",
+    "welcomeBack": "Willkommen Zurück",
+    "getStarted": "Loslegen"
+  },
+  "tiers": {
+    "core": "Basis",
+    "adaptive": "Adaptiv",
+    "performance": "Leistung",
+    "longevity": "Langlebigkeit",
+    "selectPlan": "Plan Auswählen",
+    "currentPlan": "Aktueller Plan",
+    "upgradeNow": "Jetzt Upgraden"
+  },
+  "dashboard": {
+    "welcome": "Willkommen",
+    "todaysWorkout": "Heutiges Training",
+    "recentProgress": "Neuester Fortschritt",
+    "weeklyGoals": "Wöchentliche Ziele",
+    "achievements": "Erfolge"
+  },
+  "global": {
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "export": "Exportieren"
+  },
+  "enterprise": {
+    "globalInfrastructure": "Globale Infrastruktur",
+    "internationalFeatures": "Internationale Funktionen",
+    "securityCompliance": "Sicherheit & Compliance",
+    "performanceMetrics": "Leistungsmetriken",
+    "scalingManagement": "Skalierungsmanagement"
+  }
+}

@@ -1,0 +1,13 @@
+Machine Learning Improves Cancer Detection
+
+Abstract: We developed a novel deep learning model that achieves 95% accuracy on cancer detection from medical images. Our approach uses a convolutional neural network trained on 1000 images. Results show our model outperforms traditional methods. This breakthrough could revolutionize medical diagnostics.
+
+Introduction: Cancer is a major health problem. Machine learning has shown promise in medical imaging. We hypothesized that deep learning could improve cancer detection accuracy.
+
+Methods: We collected 1000 medical images from a single hospital. Images were labeled by one radiologist. We split data 80/20 for training and testing. We trained a ResNet-50 model for 10 epochs using Adam optimizer with default parameters. We evaluated using accuracy.
+
+Results: Our model achieved 95% accuracy on the test set. This is better than the baseline method which achieved 85% accuracy. We found statistically significant results (p=0.04).
+
+Discussion: Our model shows that AI can detect cancer. This could help doctors. The 95% accuracy suggests our approach is effective. We recommend deploying this system in hospitals.
+
+Conclusion: Deep learning improves cancer detection. Our model achieves high accuracy and could save lives.

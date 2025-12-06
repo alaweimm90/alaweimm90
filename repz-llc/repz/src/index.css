@@ -1,0 +1,444 @@
+/* =========================================================================
+   REPZ COACH - UPDATED CSS VARIABLES SYSTEM
+   Enhanced design tokens with complete backwards compatibility
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import './styles/semantic-tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Mobile-first responsive foundation */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "liga", "kern";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    /* Enhanced browser compatibility */
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Improved touch scrolling for iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  * { 
+    box-sizing: border-box;
+    /* Enhanced focus management for accessibility */
+    -webkit-focus-ring-color: transparent;
+  }
+
+  /* Enhanced form and input styling for cross-browser consistency */
+  input, textarea, select, button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0; /* Reset iOS default border radius */
+  }
+
+  /* Button consistency across browsers */
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+
+  /* Improved focus states for accessibility */
+  :focus-visible {
+    outline: 2px solid hsl(var(--repz-primary));
+    outline-offset: 2px;
+  }
+
+  /* Enhanced scroll performance */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* =====================================================================
+     ENHANCED CSS VARIABLES SYSTEM - Complete Design Token Coverage
+     ===================================================================== */
+  :root {
+    /* CORE BRAND IDENTITY */
+    --repz-primary: 14 87% 54%;              /* #F15B23 - Official REPZ Orange */
+    --repz-primary-rgb: 241, 91, 35;        /* RGB values for shadows */
+    --repz-complement: 210 80% 50%;          /* #1976D2 - Complementary Blue */
+    --repz-complement-rgb: 25, 118, 210;    /* RGB values for shadows */
+    --repz-black: 0 0% 10%;                  /* #1A1A1A - Official REPZ Black */
+    --repz-white: 0 0% 100%;                 /* #FFFFFF */
+    
+    /* TIER COLOR SYSTEM */
+    --tier-core: 210 15% 60%;                /* Gray foundation */
+    --tier-core-light: 210 15% 70%;
+    --tier-core-dark: 210 15% 50%;
+    
+    --tier-adaptive: 330 60% 75%;            /* Pink enhanced */
+    --tier-adaptive-light: 330 60% 85%;
+    --tier-adaptive-dark: 330 60% 65%;
+    
+    --tier-performance: 269 60% 35%;         /* Purple elite */
+    --tier-performance-light: 269 60% 45%;
+    --tier-performance-dark: 269 60% 25%;
+    
+    --tier-longevity: 43 84% 40%;            /* Gold luxury */
+    --tier-longevity-light: 43 84% 50%;
+    --tier-longevity-dark: 43 84% 30%;
+    
+    /* SEMANTIC COLORS */
+    --success: 142 71% 45%;                  /* #10B981 - Emerald */
+    --warning: 38 92% 50%;                   /* #F59E0B - Amber */
+    --error: 0 84% 60%;                      /* #EF4444 - Red */
+    --info: 217 91% 60%;                     /* Blue */
+    
+    /* SURFACE SYSTEM */
+    --surface-base: 0 0% 8%;                 /* #141414 - Charcoal premium */
+    --surface-elevated: 0 0% 12%;            /* #1F1F1F - Graphite soft */
+    --surface-overlay: 0 0% 18%;             /* #2E2E2E - Ash warm */
+    --surface-glass: 0 0% 18% / 0.15;
+    --surface-frost: 0 0% 25% / 0.08;
+    
+    /* SPACING SYSTEM (8px base) */
+    --spacing-xs: 0.25rem;    /* 4px */
+    --spacing-sm: 0.5rem;     /* 8px */
+    --spacing-md: 1rem;       /* 16px */
+    --spacing-lg: 1.5rem;     /* 24px */
+    --spacing-xl: 2rem;       /* 32px */
+    --spacing-2xl: 3rem;      /* 48px */
+    --spacing-3xl: 4rem;      /* 64px */
+    --spacing-4xl: 6rem;      /* 96px */
+    --spacing-5xl: 8rem;      /* 128px */
+    
+    /* BORDER RADIUS */
+    --radius-xs: 0.25rem;     /* 4px */
+    --radius-sm: 0.5rem;      /* 8px */
+    --radius-md: 0.75rem;     /* 12px */
+    --radius-lg: 1rem;        /* 16px */
+    --radius-xl: 1.5rem;      /* 24px */
+    --radius-2xl: 2rem;       /* 32px */
+    --radius-3xl: 2.5rem;     /* 40px */
+    
+    /* SHADOW SYSTEM */
+    --shadow-subtle: 0 1px 3px hsla(0, 0%, 0%, 0.12), 0 1px 2px hsla(0, 0%, 0%, 0.24);
+    --shadow-moderate: 0 4px 6px hsla(0, 0%, 0%, 0.16), 0 2px 4px hsla(0, 0%, 0%, 0.06);
+    --shadow-strong: 0 10px 25px hsla(0, 0%, 0%, 0.19), 0 6px 10px hsla(0, 0%, 0%, 0.23);
+    --shadow-elegant: 0 20px 60px hsla(0, 0%, 0%, 0.4);
+    --shadow-glow-orange: 0 8px 32px hsla(14, 87%, 54%, 0.3);
+    --shadow-glow-gold: 0 8px 32px hsla(43, 84%, 40%, 0.25);
+    --shadow-glow-blue: 0 8px 32px hsla(217, 91%, 60%, 0.2);
+    --shadow-glow-purple: 0 8px 32px hsla(269, 60%, 35%, 0.25);
+    
+    /* TRANSITION TIMINGS */
+    --transition-instant: 150ms;
+    --transition-quick: 250ms;
+    --transition-smooth: 350ms;
+    --transition-elegant: 500ms;
+    --transition-luxurious: 750ms;
+    
+    /* EASING FUNCTIONS */
+    --easing-premium: cubic-bezier(0.2, 0, 0.13, 1.5);
+    --easing-elegant: cubic-bezier(0.4, 0, 0.2, 1);
+    --easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    
+    /* LEGACY COMPATIBILITY - Keep all existing variables */
+    --repz-orange: 14 87% 54%;
+    --repz-orange-light: 25 96% 62%;
+    --repz-orange-dark: 16 84% 45%;
+    --repz-orange-glow: 20 100% 65%;
+    --amber-elegant: 45 96% 55%;
+    --gold-luxe: 50 100% 60%;
+    --copper-warm: 15 85% 50%;
+    --rust-deep: 12 78% 42%;
+    --blue-steel: 210 30% 40%;
+    --teal-elegant: 180 25% 45%;
+    --purple-luxe: 260 35% 50%;
+    --slate-sophisticated: 215 25% 35%;
+    --charcoal-premium: 0 0% 8%;
+    --graphite-soft: 0 0% 12%;
+    --ash-warm: 0 0% 18%;
+    --silver-muted: 0 0% 25%;
+    --pearl-subtle: 0 0% 95%;
+    
+    /* Background gradients */
+    --bg-primary: linear-gradient(135deg, hsl(var(--charcoal-premium)) 0%, hsl(var(--graphite-soft)) 50%, hsl(var(--ash-warm)) 100%);
+    --bg-secondary: linear-gradient(165deg, hsl(var(--graphite-soft)) 0%, hsl(var(--charcoal-premium)) 40%, hsl(var(--ash-warm)) 100%);
+    --bg-accent: linear-gradient(45deg, hsl(var(--ash-warm)) 0%, hsl(var(--silver-muted) / 0.3) 50%, hsl(var(--graphite-soft)) 100%);
+    --bg-hero: radial-gradient(ellipse at top, hsl(var(--charcoal-premium)) 0%, hsl(var(--graphite-soft)) 60%, hsl(var(--ash-warm)) 100%);
+    
+    /* Glow effects */
+    --glow-orange: 0 8px 32px hsla(var(--repz-orange), 0.3);
+    --glow-gold: 0 8px 32px hsla(var(--gold-luxe), 0.25);
+    --glow-blue: 0 8px 32px hsla(var(--blue-steel), 0.2);
+    --glow-purple: 0 8px 32px hsla(var(--purple-luxe), 0.25);
+    --shadow-floating: 0 12px 40px hsla(0, 0%, 0%, 0.3);
+    
+    /* Animation timing */
+    --timing-instant: 150ms;
+    --timing-quick: 250ms;
+    --timing-smooth: 350ms;
+    --timing-elegant: 500ms;
+    --timing-luxurious: 750ms;
+    
+    /* SEMANTIC THEME COLORS */
+    --background: var(--charcoal-premium);
+    --foreground: var(--pearl-subtle);
+    --card: var(--graphite-soft);
+    --card-foreground: var(--pearl-subtle);
+    --popover: var(--ash-warm);
+    --popover-foreground: var(--pearl-subtle);
+    --primary: var(--repz-orange);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--blue-steel);
+    --secondary-foreground: var(--pearl-subtle);
+    --muted: var(--silver-muted);
+    --muted-foreground: 0 0% 70%;
+    --accent: var(--amber-elegant);
+    --accent-foreground: var(--charcoal-premium);
+    --destructive: 0 62% 45%;
+    --destructive-foreground: var(--pearl-subtle);
+    --border: var(--silver-muted);
+    --input: var(--ash-warm);
+    --ring: var(--repz-orange);
+    --radius: 0.75rem;
+  }
+}
+
+/* =====================================================================
+   COMPONENT SYSTEM - Keep existing classes for backwards compatibility
+   ===================================================================== */
+@layer components {
+  /* PREMIUM PANEL SYSTEM */
+  .panel-glass {
+    @apply bg-surface-glass backdrop-blur-xl border border-white/10 rounded-2xl shadow-elegant;
+    background: var(--surface-glass);
+    backdrop-filter: blur(24px);
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+  }
+  
+  .panel-frost {
+    @apply bg-surface-frost backdrop-blur-lg border border-white/5 rounded-xl shadow-moderate;
+    background: var(--surface-frost);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsla(0, 0%, 100%, 0.05);
+  }
+  
+  .panel-velvet {
+    background: hsla(var(--surface-overlay), 0.4);
+    @apply border border-white/15 rounded-xl shadow-subtle;
+    border: 1px solid hsla(0, 0%, 100%, 0.15);
+  }
+  
+  .panel-hero {
+    background: var(--bg-hero);
+    @apply border border-repz-orange/20 rounded-3xl shadow-elegant backdrop-blur-sm;
+  }
+
+  /* PREMIUM BUTTON SYSTEM */
+  .btn-premium {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-montserrat font-semibold;
+    @apply bg-gradient-to-r from-repz-orange to-amber-elegant text-white shadow-lg;
+    @apply hover:shadow-xl hover:scale-105 hover:from-amber-elegant hover:to-repz-orange;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-glow-orange);
+    transition: all var(--timing-elegant) var(--easing-premium);
+  }
+  
+  .btn-elegant {
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-lg font-inter font-medium;
+    @apply text-white backdrop-blur-sm;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-moderate);
+    transition: all var(--transition-smooth) var(--easing-elegant);
+  }
+
+  .btn-elegant:hover {
+    @apply scale-102;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--shadow-strong);
+  }
+
+  /* SOPHISTICATED CARD SYSTEM */
+  .card-premium {
+    @apply panel-glass p-6 hover:shadow-xl transition-all duration-500;
+    @apply hover:scale-105 hover:border-repz-orange/30;
+  }
+  
+  .card-interactive {
+    @apply panel-frost p-5 cursor-pointer transition-all duration-300;
+    @apply hover:panel-glass hover:scale-102;
+  }
+  
+  .card-hero {
+    @apply panel-hero p-8 transition-all duration-700;
+    @apply hover:shadow-2xl hover:border-repz-orange/40;
+  }
+
+  /* TIER-SPECIFIC UTILITIES */
+  .tier-core-theme { @apply text-tier-core bg-tier-core/10 border-tier-core/20; }
+  .tier-adaptive-theme { @apply text-tier-adaptive bg-tier-adaptive/10 border-tier-adaptive/20; }
+  .tier-performance-theme { @apply text-tier-performance bg-tier-performance/10 border-tier-performance/20; }
+  .tier-longevity-theme { @apply text-tier-longevity bg-tier-longevity/10 border-tier-longevity/20; }
+
+  /* ELEGANT TYPOGRAPHY SYSTEM */
+  .heading-hero {
+    @apply text-4xl md:text-6xl lg:text-7xl font-montserrat font-black text-white;
+    @apply bg-gradient-to-r from-white via-white to-repz-orange bg-clip-text text-transparent;
+    text-shadow: 0 4px 20px hsla(0, 0%, 0%, 0.5);
+  }
+  
+  .heading-section {
+    @apply text-2xl md:text-3xl lg:text-4xl font-montserrat font-bold text-white mb-4;
+    @apply bg-gradient-to-r from-white to-repz-orange/90 bg-clip-text text-transparent;
+  }
+  
+  .text-elegant {
+    @apply text-base md:text-lg font-inter text-white/80 leading-relaxed;
+  }
+  
+  .text-premium {
+    @apply text-lg md:text-xl font-inter text-white/90 leading-relaxed;
+    text-shadow: 0 2px 8px hsla(0, 0%, 0%, 0.3);
+  }
+
+  /* RESPONSIVE UTILITIES */
+  .container-premium {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  }
+  
+  .section-padding {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+  
+  .grid-premium {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8;
+  }
+
+  /* NAVIGATION STYLES - Elegant Transparent Panels */
+  .nav-premium {
+    @apply text-white font-montserrat font-semibold text-base px-8 py-4 rounded-2xl;
+    @apply relative overflow-hidden;
+    background: linear-gradient(135deg, 
+      rgba(241, 91, 35, 0.12) 0%, 
+      rgba(251, 146, 60, 0.08) 50%, 
+      rgba(241, 91, 35, 0.06) 100%);
+    border: 2px solid rgba(241, 91, 35, 0.25);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+      0 8px 32px rgba(241, 91, 35, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    @apply transition-all duration-700 ease-out;
+    color: #F15B23;
+    text-shadow: 0 2px 8px rgba(241, 91, 35, 0.4);
+  }
+  
+  .nav-premium:hover {
+    background: linear-gradient(135deg, 
+      rgba(241, 91, 35, 0.20) 0%, 
+      rgba(251, 146, 60, 0.15) 50%, 
+      rgba(241, 91, 35, 0.12) 100%);
+    border-color: rgba(241, 91, 35, 0.45);
+    box-shadow: 
+      0 12px 40px rgba(241, 91, 35, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 20px rgba(241, 91, 35, 0.3);
+    @apply scale-105;
+    text-shadow: 0 2px 12px rgba(241, 91, 35, 0.6);
+  }
+  
+  .nav-premium::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+  }
+  
+  .nav-premium:hover::before {
+    opacity: 1;
+  }
+  
+  .nav-premium::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1rem;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    opacity: 0;
+    transition: opacity 700ms ease-out;
+  }
+  
+  .nav-premium:hover::after {
+    opacity: 1;
+  }
+
+  .nav-elegant {
+    @apply text-white/80 font-inter font-medium text-sm px-3 py-1.5 rounded-md;
+    @apply hover:text-white hover:bg-white/10;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .nav-elegant {
+    @apply text-white/80 font-inter font-medium text-sm px-3 py-1.5 rounded-md;
+    @apply hover:text-white hover:bg-white/10;
+    @apply transition-all duration-300 ease-out;
+  }
+}
+
+/* =====================================================================
+   REPZ BRAND LOGO SYSTEM - NEW SVG-BASED LOGO (DEPRECATED STYLES REMOVED)
+   The RepzLogo component now uses inline SVG with the new bar chart design
+   ===================================================================== */
+
+/* Animation classes */
+.animate-elegant-float { animation: elegantFloat 8s ease-in-out infinite; }
+.animate-premium-glow { animation: premiumGlow 4s ease-in-out infinite; }
+
+/* Blue shining animation */
+@keyframes shine-blue {
+  0%, 100% { 
+    color: rgb(96, 165, 250);
+    text-shadow: 0 0 10px rgb(59, 130, 246), 0 0 20px rgb(59, 130, 246, 0.5);
+  }
+  50% { 
+    color: rgb(147, 197, 253);
+    text-shadow: 0 0 15px rgb(59, 130, 246), 0 0 30px rgb(59, 130, 246, 0.8), 0 0 40px rgb(59, 130, 246, 0.3);
+  }
+}
+
+/* Remove bullets from table lists */
+table td ul,
+table td li,
+.pricing-table ul,
+.pricing-table li,
+.no-bullet {
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+/* Ensure no bullets in comparison tables */
+.comparison-table ul,
+.comparison-table li,
+.feature-list ul,
+.feature-list li {
+  list-style-type: none !important;
+  list-style: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}

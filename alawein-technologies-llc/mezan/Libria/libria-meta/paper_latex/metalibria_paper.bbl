@@ -1,0 +1,101 @@
+\begin{thebibliography}{}
+
+\bibitem[Bischl et~al., 2016]{bischl2016aslib}
+Bischl, B., Kerschke, P., Kotthoff, L., Lindauer, M., Malitsky, Y.,
+  Fr{\'e}chette, A., Hoos, H., Hutter, F., Leyton-Brown, K., Tierney, K.,
+  et~al. (2016).
+\newblock Aslib: A benchmark library for algorithm selection.
+\newblock {\em Artificial Intelligence}, 237:41--58.
+
+\bibitem[Elo, 1978]{elo1978rating}
+Elo, A.~E. (1978).
+\newblock {\em The rating of chessplayers, past and present}.
+\newblock Arco Publishing.
+
+\bibitem[Falkner et~al., 2018]{falkner2018bohb}
+Falkner, S., Klein, A., and Hutter, F. (2018).
+\newblock Bohb: Robust and efficient hyperparameter optimization at scale.
+\newblock In {\em International Conference on Machine Learning}, pages
+  1437--1446. PMLR.
+
+\bibitem[Feurer et~al., 2015]{feurer2015autosklearn}
+Feurer, M., Klein, A., Eggensperger, K., Springenberg, J., Blum, M., and
+  Hutter, F. (2015).
+\newblock Efficient and robust automated machine learning.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~28, pages 2962--2970.
+
+\bibitem[Herbrich et~al., 2007]{herbrich2007trueskill}
+Herbrich, R., Minka, T., and Graepel, T. (2007).
+\newblock Trueskill: A bayesian skill rating system.
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~19, pages 569--576.
+
+\bibitem[Hutter et~al., 2011]{hutter2011smac}
+Hutter, F., Hoos, H.~H., and Leyton-Brown, K. (2011).
+\newblock Sequential model-based optimization for general algorithm
+  configuration.
+\newblock In {\em International Conference on Learning and Intelligent
+  Optimization}, pages 507--523. Springer.
+
+\bibitem[Kadioglu et~al., 2010]{kadioglu2010isac}
+Kadioglu, S., Malitsky, Y., Sabharwal, A., Samulowitz, H., and Sellmann, M.
+  (2010).
+\newblock Isac-instance-specific algorithm configuration.
+\newblock In {\em ECAI}, volume 215, pages 751--756.
+
+\bibitem[Kadioglu et~al., 2011]{kadioglu2011isac}
+Kadioglu, S., Malitsky, Y., Sellmann, M., and Tierney, K. (2011).
+\newblock Algorithm selection and scheduling.
+\newblock In {\em International Conference on Principles and Practice of
+  Constraint Programming}, pages 454--469. Springer.
+
+\bibitem[Kotthoff et~al., 2017]{kotthoff2017autoweka}
+Kotthoff, L., Thornton, C., Hoos, H.~H., Hutter, F., and Leyton-Brown, K.
+  (2017).
+\newblock Auto-weka 2.0: Automatic model selection and hyperparameter
+  optimization in weka.
+\newblock {\em Journal of Machine Learning Research}, 18(25):1--5.
+
+\bibitem[Leyton-Brown et~al., 2009]{leytonbrown2009algorithm}
+Leyton-Brown, K., Nudelman, E., and Shoham, Y. (2009).
+\newblock A portfolio approach to algorithm selection.
+\newblock In {\em Proceedings of the 18th International Joint Conference on
+  Artificial Intelligence}, pages 1542--1543.
+
+\bibitem[Li et~al., 2017]{li2017hyperband}
+Li, L., Jamieson, K., DeSalvo, G., Rostamizadeh, A., and Talwalkar, A. (2017).
+\newblock Hyperband: A novel bandit-based approach to hyperparameter
+  optimization.
+\newblock In {\em Journal of Machine Learning Research}, volume~18, pages
+  1--52.
+
+\bibitem[Lindauer et~al., 2015]{lindauer2015autofolio}
+Lindauer, M., Hoos, H.~H., Hutter, F., and Schaub, T. (2015).
+\newblock Autofolio: An automatically configured algorithm selector.
+\newblock In {\em Journal of Artificial Intelligence Research}, volume~53,
+  pages 745--778.
+
+\bibitem[Rice, 1976]{rice1976algorithm}
+Rice, J.~R. (1976).
+\newblock The algorithm selection problem.
+\newblock {\em Advances in Computers}, 15:65--118.
+
+\bibitem[Smith-Miles and Bowly, 2015]{smith2015instance}
+Smith-Miles, K. and Bowly, S. (2015).
+\newblock Measuring instance difficulty for combinatorial optimization
+  problems.
+\newblock {\em Computers \& Operations Research}, 39(5):875--889.
+
+\bibitem[Xu et~al., 2008]{xu2008satzilla}
+Xu, L., Hutter, F., Hoos, H.~H., and Leyton-Brown, K. (2008).
+\newblock Satzilla: Portfolio-based algorithm selection for sat.
+\newblock In {\em Journal of Artificial Intelligence Research}, volume~32,
+  pages 565--606.
+
+\bibitem[Xu et~al., 2012]{xu2012satzilla}
+Xu, L., Hutter, F., Hoos, H.~H., and Leyton-Brown, K. (2012).
+\newblock Satzilla: An algorithm portfolio for sat.
+\newblock {\em Solver Description, SAT Competition}.
+
+\end{thebibliography}

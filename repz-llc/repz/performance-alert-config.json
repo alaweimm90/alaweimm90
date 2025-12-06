@@ -1,0 +1,57 @@
+{
+  "thresholds": {
+    "lcp": {
+      "warning": 2500,
+      "critical": 4000
+    },
+    "fid": {
+      "warning": 100,
+      "critical": 300
+    },
+    "cls": {
+      "warning": 0.1,
+      "critical": 0.25
+    },
+    "fcp": {
+      "warning": 1800,
+      "critical": 3000
+    },
+    "ttfb": {
+      "warning": 800,
+      "critical": 1800
+    },
+    "buildTime": {
+      "warning": 60,
+      "critical": 120
+    },
+    "bundleSize": {
+      "warning": 5,
+      "critical": 10
+    },
+    "memoryUsage": {
+      "warning": 100,
+      "critical": 200
+    },
+    "slowRender": {
+      "warning": 100,
+      "critical": 200
+    }
+  },
+  "channels": {
+    "slack": {
+      "enabled": false,
+      "webhook": "",
+      "channel": "#performance-alerts"
+    },
+    "email": {
+      "enabled": false,
+      "recipients": [
+        "engineering@company.com"
+      ]
+    },
+    "dashboard": {
+      "enabled": true,
+      "url": "/performance-dashboard"
+    }
+  }
+}

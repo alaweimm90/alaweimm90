@@ -1,0 +1,370 @@
+# RBAC (Role-Based Access Control) Policies
+# Production-grade authorization configuration
+
+# Permissions definition
+permissions:
+  # Read permissions
+  - name: "read:public"
+    resource: "public"
+    action: "read"
+    description: "Read public resources"
+
+  - name: "read:own"
+    resource: "own"
+    action: "read"
+    description: "Read own resources"
+    constraints:
+      owner_check: true
+
+  - name: "read:all"
+    resource: "all"
+    action: "read"
+    description: "Read all resources"
+
+  - name: "read:metrics"
+    resource: "metrics"
+    action: "read"
+    description: "Read system metrics"
+
+  - name: "read:logs"
+    resource: "logs"
+    action: "read"
+    description: "Read system logs"
+
+  # Write permissions
+  - name: "write:own"
+    resource: "own"
+    action: "write"
+    description: "Write own resources"
+    constraints:
+      owner_check: true
+
+  - name: "write:all"
+    resource: "all"
+    action: "write"
+    description: "Write all resources"
+
+  - name: "write:config"
+    resource: "config"
+    action: "write"
+    description: "Modify system configuration"
+
+  # Delete permissions
+  - name: "delete:own"
+    resource: "own"
+    action: "delete"
+    description: "Delete own resources"
+    constraints:
+      owner_check: true
+
+  - name: "delete:all"
+    resource: "all"
+    action: "delete"
+    description: "Delete all resources"
+
+  # Solve permissions
+  - name: "solve:basic"
+    resource: "solver"
+    action: "solve"
+    description: "Use basic solvers"
+    constraints:
+      max_problem_size: 100
+      max_iterations: 10
+
+  - name: "solve:advanced"
+    resource: "solver"
+    action: "solve"
+    description: "Use advanced solvers"
+    constraints:
+      max_problem_size: 1000
+      max_iterations: 100
+
+  - name: "solve:unlimited"
+    resource: "solver"
+    action: "solve"
+    description: "Unlimited solver access"
+
+  # Research permissions
+  - name: "research:create"
+    resource: "research"
+    action: "create"
+    description: "Create research tasks"
+
+  - name: "research:execute"
+    resource: "research"
+    action: "execute"
+    description: "Execute research workflows"
+    constraints:
+      max_agents: 5
+      max_duration: 3600
+
+  - name: "research:unlimited"
+    resource: "research"
+    action: "execute"
+    description: "Unlimited research access"
+
+  # Benchmark permissions
+  - name: "benchmark:run"
+    resource: "benchmark"
+    action: "run"
+    description: "Run benchmarks"
+    constraints:
+      max_duration: 600
+      max_instances: 10
+
+  - name: "benchmark:unlimited"
+    resource: "benchmark"
+    action: "run"
+    description: "Unlimited benchmark access"
+
+  # API Key permissions
+  - name: "apikey:create"
+    resource: "apikey"
+    action: "create"
+    description: "Create API keys"
+    constraints:
+      max_keys: 5
+
+  - name: "apikey:manage"
+    resource: "apikey"
+    action: "manage"
+    description: "Manage all API keys"
+
+  # Admin permissions
+  - name: "admin:users"
+    resource: "users"
+    action: "admin"
+    description: "Administer users"
+
+  - name: "admin:system"
+    resource: "system"
+    action: "admin"
+    description: "Administer system"
+
+  - name: "admin:all"
+    resource: "*"
+    action: "admin"
+    description: "Full administrative access"
+
+# Roles definition
+roles:
+  # Guest role (minimal access)
+  - name: guest
+    description: "Guest user with read-only access to public resources"
+    permissions:
+      - "read:public"
+
+  # Free tier user
+  - name: user_free
+    description: "Free tier user with basic access"
+    permissions:
+      - "read:public"
+      - "read:own"
+      - "write:own"
+      - "delete:own"
+      - "solve:basic"
+      - "apikey:create"
+
+  # Premium tier user
+  - name: user_premium
+    description: "Premium user with advanced features"
+    parent_roles:
+      - user_free  # Inherits free user permissions
+    permissions:
+      - "solve:advanced"
+      - "research:create"
+      - "research:execute"
+      - "benchmark:run"
+
+  # Enterprise user
+  - name: user_enterprise
+    description: "Enterprise user with full feature access"
+    parent_roles:
+      - user_premium  # Inherits premium permissions
+    permissions:
+      - "solve:unlimited"
+      - "research:unlimited"
+      - "benchmark:unlimited"
+      - "read:metrics"
+
+  # Developer role
+  - name: developer
+    description: "Developer with API and integration access"
+    parent_roles:
+      - user_premium
+    permissions:
+      - "apikey:manage"
+      - "read:logs"
+
+  # Analyst role
+  - name: analyst
+    description: "Data analyst with read access to all data"
+    permissions:
+      - "read:all"
+      - "read:metrics"
+      - "read:logs"
+      - "solve:advanced"
+      - "benchmark:run"
+
+  # Operator role
+  - name: operator
+    description: "System operator with monitoring capabilities"
+    permissions:
+      - "read:metrics"
+      - "read:logs"
+      - "admin:system"
+
+  # Admin role
+  - name: admin
+    description: "Administrator with full access"
+    permissions:
+      - "admin:all"
+      - "read:all"
+      - "write:all"
+      - "delete:all"
+      - "solve:unlimited"
+      - "research:unlimited"
+      - "benchmark:unlimited"
+
+  # Service account roles
+  - name: service_monitoring
+    description: "Service account for monitoring"
+    permissions:
+      - "read:metrics"
+      - "read:logs"
+
+  - name: service_ci_cd
+    description: "Service account for CI/CD"
+    permissions:
+      - "read:all"
+      - "solve:basic"
+      - "benchmark:run"
+
+# Default users (for initial setup)
+users:
+  - username: admin
+    email: admin@mezan.local
+    password: "$2b$12$CHANGE_THIS_HASH"  # Change this!
+    roles:
+      - admin
+    verified: true
+    active: true
+
+  - username: demo
+    email: demo@mezan.local
+    password: "$2b$12$CHANGE_THIS_HASH"  # Change this!
+    roles:
+      - user_free
+    verified: true
+    active: true
+
+  - username: monitoring
+    email: monitoring@mezan.local
+    roles:
+      - service_monitoring
+    verified: true
+    active: true
+
+# OAuth2 client configurations
+oauth2_clients:
+  - client_id: mezan-web
+    client_secret: "$2b$12$CHANGE_THIS_HASH"  # Change this!
+    grant_types:
+      - authorization_code
+      - refresh_token
+    redirect_uris:
+      - http://localhost:3000/callback
+      - https://mezan.app/callback
+    scopes:
+      - read
+      - write
+      - admin
+
+  - client_id: mezan-cli
+    client_secret: "$2b$12$CHANGE_THIS_HASH"  # Change this!
+    grant_types:
+      - client_credentials
+    scopes:
+      - read
+      - write
+
+# API Key scopes
+api_key_scopes:
+  read:
+    description: "Read access to resources"
+    permissions:
+      - "read:own"
+      - "read:public"
+
+  write:
+    description: "Write access to resources"
+    permissions:
+      - "read:own"
+      - "write:own"
+
+  solve:
+    description: "Access to solvers"
+    permissions:
+      - "solve:basic"
+      - "solve:advanced"
+
+  research:
+    description: "Access to research features"
+    permissions:
+      - "research:create"
+      - "research:execute"
+
+  admin:
+    description: "Administrative access"
+    permissions:
+      - "admin:all"
+
+# Security policies
+security:
+  password_policy:
+    min_length: 12
+    require_uppercase: true
+    require_lowercase: true
+    require_numbers: true
+    require_special: true
+    max_age_days: 90
+    history_count: 5  # Can't reuse last 5 passwords
+
+  session_policy:
+    max_duration: 86400  # 24 hours
+    idle_timeout: 3600   # 1 hour
+    max_concurrent: 5    # Max concurrent sessions per user
+
+  mfa_policy:
+    required_for_roles:
+      - admin
+      - operator
+    methods:
+      - totp
+      - backup_codes
+
+  api_key_policy:
+    max_per_user: 10
+    default_expiry_days: 365
+    rotation_reminder_days: 30
+
+# Audit settings
+audit:
+  enabled: true
+  log_level: INFO
+  retention_days: 90
+  sensitive_actions:
+    - "admin:*"
+    - "delete:all"
+    - "write:config"
+    - "apikey:manage"
+
+# Feature flags (for gradual rollout)
+feature_flags:
+  enable_mfa: true
+  enable_oauth2: true
+  enable_api_keys: true
+  enable_session_management: true
+  enable_audit_logging: true
+  enable_password_policy: true
+  enable_role_hierarchy: true

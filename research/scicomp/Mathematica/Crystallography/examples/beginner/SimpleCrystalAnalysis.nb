@@ -1,0 +1,698 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     15000,        400]
+NotebookOptionsPosition[     14000,        375]
+NotebookOutlinePosition[     14400,        392]
+CellTagsIndexPosition[     14357,        389]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Simple Crystal Structure Analysis", "Title",
+ CellChangeTimes->{{3.8, 3.9}}],
+
+Cell["\<\
+This notebook demonstrates basic crystallographic calculations using simple \
+crystal structures like sodium chloride (NaCl) and diamond.
+
+Learning Objectives:
+- Understand crystal lattice parameters
+- Calculate unit cell volume and density
+- Compute interatomic distances  
+- Determine d-spacings and Bragg angles\
+\>", "Text",
+ CellChangeTimes->{{3.9, 4.0}}],
+
+Cell[CellGroupData[{
+
+Cell["Setup and Import Modules", "Section",
+ CellChangeTimes->{{4.0, 4.1}}],
+
+Cell[BoxData[{
+ RowBox[{"SetDirectory", "[", 
+  RowBox[{"NotebookDirectory", "[", "]"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<../../core/CrystalStructure.wl\>\"", "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Get", "[", "\"\<../../core/Diffraction.wl\>\"", "]"}]}], "Input",
+ CellChangeTimes->{{4.1, 4.2}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"berkeleyBlue", " ", "=", " ", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", " ", "0.2", ",", " ", "0.38"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"berkeleyGold", " ", "=", " ", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0.99", ",", " ", "0.71", ",", " ", "0.08"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{4.2, 4.3}}]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Creating NaCl (Sodium Chloride) Structure", "Section",
+ CellChangeTimes->{{4.3, 4.4}}],
+
+Cell["\<\
+NaCl has a face-centered cubic structure with lattice parameter a = 5.64 \[CapitalARing]\
+\>", "Text",
+ CellChangeTimes->{{4.4, 4.5}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"naclLattice", " ", "=", " ", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"\"\<a\>\"", " ", "->", " ", "5.64"}], ",", " ", 
+     RowBox[{"\"\<b\>\"", " ", "->", " ", "5.64"}], ",", " ", 
+     RowBox[{"\"\<c\>\"", " ", "->", " ", "5.64"}], ",", 
+     "\[IndentingNewLine]", "      ", 
+     RowBox[{"\"\<alpha\>\"", " ", "->", " ", "90"}], ",", " ", 
+     RowBox[{"\"\<beta\>\"", " ", "->", " ", "90"}], ",", " ", 
+     RowBox[{"\"\<gamma\>\"", " ", "->", " ", "90"}]}], "|>"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"naclAtoms", " ", "=", " ", 
+   RowBox[{"{", "\[IndentingNewLine]", "  ", 
+    RowBox[{
+     RowBox[{"(*", " ", 
+      RowBox[{"Sodium", " ", "atoms"}], " ", "*)"}], "\[IndentingNewLine]", 
+     "  ", 
+     RowBox[{
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Na\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Na\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Na\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Na\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Chlorine", " ", "atoms"}], " ", "*)"}], 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Cl\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Cl\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Cl\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}], ",", 
+      "\[IndentingNewLine]", "  ", 
+      RowBox[{"<|", 
+       RowBox[{
+        RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<Cl\>\""}], ",", " ", 
+        RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+        RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}]}], 
+     "\[IndentingNewLine]", "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{4.5, 4.6}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"naclCrystal", " ", "=", " ", 
+   RowBox[{"CrystalStructure", "[", 
+    RowBox[{"naclLattice", ",", " ", "naclAtoms"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{4.6, 4.7}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<NaCl Crystal Structure Analysis\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (Beginner Example)\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<==============================\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<=============\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Lattice parameters: a = b = c = \>\"", ",", " ", 
+   RowBox[{"naclLattice", "[", "\"\<a\>\"", "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Number of atoms in unit cell: \>\"", ",", " ", 
+   RowBox[{"Length", "[", "naclAtoms", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Unit cell volume: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{
+     RowBox[{"UnitCellVolume", "[", "naclCrystal", "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"6", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\[CenterDot]\>\""}], "]"}]}], "Input",
+ CellChangeTimes->{{4.7, 4.8}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"naclDensity", " ", "=", " ", 
+   RowBox[{"Density", "[", 
+    RowBox[{"naclCrystal", ",", " ", "58.44", ",", " ", "4"}], "]"}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{4.8, 4.9}}],
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Calculated density: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{"naclDensity", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< g/cm\[CenterDot]\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{
+  "\"\<Experimental density: \>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<~2.16 g/cm\[CenterDot]\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{4.9, 5.0}}]
+
+}, Open  ]]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Interatomic Distance Analysis", "Section",
+ CellChangeTimes->{{5.0, 5.1}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"naIndices", " ", "=", " ", 
+   RowBox[{"Position", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "[", "\"\<element\>\"", "]"}], " ", "&"}], " ", "/@", " ", 
+     "naclAtoms", ",", " ", "\"\<Na\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"clIndices", " ", "=", " ", 
+   RowBox[{"Position", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "[", "\"\<element\>\"", "]"}], " ", "&"}], " ", "/@", " ", 
+     "naclAtoms", ",", " ", "\"\<Cl\>\""}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{5.1, 5.2}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"naClDistances", " ", "=", " ", 
+   RowBox[{"Flatten", "[", "\[IndentingNewLine]", "  ", 
+    RowBox[{"Table", "[", "\[IndentingNewLine]", "    ", 
+     RowBox[{
+      RowBox[{"InteratomicDistance", "[", 
+       RowBox[{
+       "naclCrystal", ",", " ", "naIdx", ",", " ", "clIdx", ",", " ", 
+        "True"}], "]"}], ",", "\[IndentingNewLine]", "    ", 
+      RowBox[{"{", 
+       RowBox[{"naIdx", ",", " ", 
+        RowBox[{"Flatten", "[", "naIndices", "]"}]}], "}"}], ",", 
+      "\[IndentingNewLine]", "    ", 
+      RowBox[{"{", 
+       RowBox[{"clIdx", ",", " ", 
+        RowBox[{"Flatten", "[", "clIndices", "]"}]}], "}"}]}], 
+     "\[IndentingNewLine]", "  ", "]"}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"uniqueDistances", " ", "=", " ", 
+   RowBox[{"DeleteDuplicates", "[", 
+    RowBox[{"naClDistances", ",", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Abs", "[", 
+        RowBox[{"#1", " ", "-", " ", "#2"}], "]"}], " ", "<", " ", "0.01"}], 
+      " ", "&"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{5.2, 5.3}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nNa-Cl Interatomic Distances:\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (first 3 unique distances)\>\"", ",", " ", "Gray"}], 
+    "]"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", "\[IndentingNewLine]", "  ", 
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<  Distance \>\"", ",", " ", "i", ",", " ", "\"\<: \>\"", 
+     ",", " ", 
+     RowBox[{"NumberForm", "[", 
+      RowBox[{
+       RowBox[{"Sort", "[", "uniqueDistances", "]"}], "[", 
+       RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", " ", 
+     "\"\< \[CapitalARing]\>\""}], "]"}], ",", "\[IndentingNewLine]", "  ", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", " ", "1", ",", " ", 
+     RowBox[{"Min", "[", 
+      RowBox[{"3", ",", " ", 
+       RowBox[{"Length", "[", "uniqueDistances", "]"}]}], "]"}]}], "}"}]}], 
+  "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"theoreticalNN", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"naclLattice", "[", "\"\<a\>\"", "]"}], "/", "2"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Theoretical nearest neighbor distance: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{"theoreticalNN", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", " ", "3"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\>\""}], "]"}]}], "Input",
+ CellChangeTimes->{{5.3, 5.4}}]
+
+}, Open  ]]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["X-ray Diffraction Analysis", "Section",
+ CellChangeTimes->{{5.4, 5.5}}],
+
+Cell["\<\
+Calculate d-spacings and Bragg angles for common reflections using Cu K\[Alpha] \
+radiation (\[Lambda] = 1.54056 \[CapitalARing])\
+\>", "Text",
+ CellChangeTimes->{{5.5, 5.6}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", "1.54056"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"reflections", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", " ", "1", ",", " ", "1"}], "}"}], ",", 
+     "\[IndentingNewLine]", "                   ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "0", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "1", ",", " ", "1"}], "}"}], ",", 
+     "\[IndentingNewLine]", "                   ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "2", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", " ", "1", ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"2", ",", " ", "2", ",", " ", "2"}], "}"}]}], "}"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{5.6, 5.7}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nX-ray Diffraction Analysis for NaCl\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (Cu K\[Alpha] radiation)\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{
+  "\"\<Miller Indices | d-spacing (\[CapitalARing]) | 2\[Theta] (degrees)\>\""
+   }], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  "\"\<------------------------------------------\>\"", 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"diffractionData", " ", "=", " ", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", "\[IndentingNewLine]", "  ", 
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"h", ",", " ", "k", ",", " ", "l", ",", " ", "d", ",", " ", 
+       RowBox[{"twoTheta", " ", "=", " ", "Null"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", "    ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"h", ",", " ", "k", ",", " ", "l"}], "}"}], " ", "=", " ", 
+       "hkl"}], ";", "\[IndentingNewLine]", "    ", 
+      RowBox[{"d", " ", "=", " ", 
+       RowBox[{"DSpacing", "[", 
+        RowBox[{"naclCrystal", ",", " ", "h", ",", " ", "k", ",", " ", "l"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", "    ", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"d", " ", "=!=", " ", "$Failed"}], ",", 
+        "\[IndentingNewLine]", "      ", 
+        RowBox[{
+         RowBox[{"twoTheta", " ", "=", " ", 
+          RowBox[{"2", " ", 
+           RowBox[{"BraggAngle", "[", 
+            RowBox[{
+            "naclCrystal", ",", " ", "h", ",", " ", "k", ",", " ", "l", ",", 
+             " ", "wavelength"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+         "      ", 
+         RowBox[{"Print", "[", 
+          RowBox[{"\"\<    (\>\"", ",", " ", "h", ",", " ", "\"\<,\>\"", ",", 
+           " ", "k", ",", " ", "\"\<,\>\"", ",", " ", "l", ",", " ", 
+           "\"\<)     |    \>\"", ",", " ", 
+           RowBox[{"NumberForm", "[", 
+            RowBox[{"d", ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"5", ",", " ", "3"}], "}"}]}], "]"}], ",", " ", 
+           "\"\<     |    \>\"", ",", " ", 
+           RowBox[{"NumberForm", "[", 
+            RowBox[{"twoTheta", ",", " ", 
+             RowBox[{"{", 
+              RowBox[{"5", ",", " ", "2"}], "}"}]}], "]"}]}], "]"}], ";", 
+         "\[IndentingNewLine]", "      ", 
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"diffractionData", ",", " ", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<hkl\>\"", " ", "->", " ", 
+              RowBox[{"{", 
+               RowBox[{"h", ",", " ", "k", ",", " ", "l"}], "}"}]}], ",", " ", 
+             RowBox[{"\"\<dSpacing\>\"", " ", "->", " ", "d"}], ",", " ", 
+             RowBox[{"\"\<twoTheta\>\"", " ", "->", " ", "twoTheta"}]}], 
+            "|>"}]}], "]"}]}], ",", "\[IndentingNewLine]", "      ", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<    (\>\"", ",", " ", "h", ",", " ", "\"\<,\>\"", ",", 
+          " ", "k", ",", " ", "\"\<,\>\"", ",", " ", "l", ",", " ", 
+          "\"\<)     |   forbidden   |     N/A\>\""}], "]"}]}], 
+       "\[IndentingNewLine]", "    ", "]"}]}]}], "\[IndentingNewLine]", "  ",
+     "]"}], ",", "\[IndentingNewLine]", "  ", 
+   RowBox[{"{", 
+    RowBox[{"hkl", ",", " ", "reflections"}], "}"}]}], "\[IndentingNewLine]", 
+  "]"}]}], "Input",
+ CellChangeTimes->{{5.7, 5.8}}]
+
+}, Open  ]]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Coordination Analysis", "Section",
+ CellChangeTimes->{{5.8, 5.9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"cutoffRadius", " ", "=", " ", "3.5"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nCoordination Analysis for NaCl\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (first 4 atoms)\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Do", "[", "\[IndentingNewLine]", "  ", 
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"atom", ",", " ", "coordNum"}], "}"}], ",", 
+     "\[IndentingNewLine]", "    ", 
+     RowBox[{
+      RowBox[{"atom", " ", "=", " ", 
+       RowBox[{"naclAtoms", "[", 
+        RowBox[{"[", "i", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "    ", 
+      RowBox[{"coordNum", " ", "=", " ", 
+       RowBox[{"CoordinationNumber", "[", 
+        RowBox[{"naclCrystal", ",", " ", "i", ",", " ", "cutoffRadius"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", "    ", 
+      RowBox[{"Print", "[", 
+       RowBox[{"\"\<Atom \>\"", ",", " ", "i", ",", " ", "\"\< (\>\"", ",", 
+        " ", 
+        RowBox[{"atom", "[", "\"\<element\>\"", "]"}], ",", " ", 
+        "\"\<): coordination number = \>\"", ",", " ", "coordNum"}], "]"}], 
+      ";", "\[IndentingNewLine]", "    ", 
+      RowBox[{"Print", "[", 
+       RowBox[{"\"\<  Position: (\>\"", ",", " ", 
+        RowBox[{"NumberForm", "[", 
+         RowBox[{
+          RowBox[{"atom", "[", "\"\<x\>\"", "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"4", ",", " ", "3"}], "}"}]}], "]"}], ",", " ", 
+        "\"\<, \>\"", ",", " ", 
+        RowBox[{"NumberForm", "[", 
+         RowBox[{
+          RowBox[{"atom", "[", "\"\<y\>\"", "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"4", ",", " ", "3"}], "}"}]}], "]"}], ",", " ", 
+        "\"\<, \>\"", ",", " ", 
+        RowBox[{"NumberForm", "[", 
+         RowBox[{
+          RowBox[{"atom", "[", "\"\<z\>\"", "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"4", ",", " ", "3"}], "}"}]}], "]"}], ",", " ", 
+        "\"\<)\>\""}], "]"}]}]}], "\[IndentingNewLine]", "  ", "]"}], ",", 
+   "\[IndentingNewLine]", "  ", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", " ", "1", ",", " ", "4"}], "}"}]}], 
+  "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{5.9, 6.0}}]
+
+}, Open  ]]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Diamond Structure Comparison", "Section",
+ CellChangeTimes->{{6.0, 6.1}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"diamondLattice", " ", "=", " ", 
+   RowBox[{"<|", 
+    RowBox[{
+     RowBox[{"\"\<a\>\"", " ", "->", " ", "3.567"}], ",", " ", 
+     RowBox[{"\"\<b\>\"", " ", "->", " ", "3.567"}], ",", " ", 
+     RowBox[{"\"\<c\>\"", " ", "->", " ", "3.567"}], ",", 
+     "\[IndentingNewLine]", "                   ", 
+     RowBox[{"\"\<alpha\>\"", " ", "->", " ", "90"}], ",", " ", 
+     RowBox[{"\"\<beta\>\"", " ", "->", " ", "90"}], ",", " ", 
+     RowBox[{"\"\<gamma\>\"", " ", "->", " ", "90"}]}], "|>"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"diamondAtoms", " ", "=", " ", 
+   RowBox[{"{", "\[IndentingNewLine]", "  ", 
+    RowBox[{
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.25"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.25"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.25"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.0"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.75"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.75"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.25"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.75"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.25"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.75"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.0"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.5"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.5"}]}], "|>"}], ",", 
+     "\[IndentingNewLine]", "  ", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<element\>\"", " ", "->", " ", "\"\<C\>\""}], ",", " ", 
+       RowBox[{"\"\<x\>\"", " ", "->", " ", "0.25"}], ",", " ", 
+       RowBox[{"\"\<y\>\"", " ", "->", " ", "0.75"}], ",", " ", 
+       RowBox[{"\"\<z\>\"", " ", "->", " ", "0.75"}]}], "|>"}]}], 
+     "\[IndentingNewLine]", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"diamondCrystal", " ", "=", " ", 
+   RowBox[{"CrystalStructure", "[", 
+    RowBox[{"diamondLattice", ",", " ", "diamondAtoms"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{6.1, 6.2}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nStructure Comparison\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (NaCl vs Diamond)\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<NaCl unit cell volume: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{
+     RowBox[{"UnitCellVolume", "[", "naclCrystal", "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"6", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\[CenterDot]\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Diamond unit cell volume: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{
+     RowBox[{"UnitCellVolume", "[", "diamondCrystal", "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"6", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\[CenterDot]\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nNaCl coordination: \>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<6 (octahedral)\>\"", ",", " ", "berkeleyBlue"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Diamond coordination: \>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\<4 (tetrahedral)\>\"", ",", " ", "berkeleyGold"}], "]"}]}], 
+  "]"}]}], "Input",
+ CellChangeTimes->{{6.2, 6.3}}]
+
+}, Open  ]]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Supercell Example", "Section",
+ CellChangeTimes->{{6.3, 6.4}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"supercell", " ", "=", " ", 
+   RowBox[{"Supercell", "[", 
+    RowBox[{"naclCrystal", ",", " ", "2", ",", " ", "2", ",", " ", "2"}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<\\nSupercell Creation Example\>\"", ",", " ", 
+   RowBox[{"Style", "[", 
+    RowBox[{"\"\< (2x2x2 NaCl supercell)\>\"", ",", " ", "Gray"}], "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Original unit cell: \>\"", ",", " ", 
+   RowBox[{"Length", "[", "naclAtoms", "]"}], ",", " ", "\"\< atoms\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<2x2x2 supercell: \>\"", ",", " ", 
+   RowBox[{"Length", "[", 
+    RowBox[{"supercell", "[", "\"\<atoms\>\"", "]"}], "]"}], ",", " ", 
+   "\"\< atoms\>\""}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Supercell volume: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{
+     RowBox[{"UnitCellVolume", "[", "supercell", "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"6", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", 
+   "\"\< \[CapitalARing]\[CenterDot]\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Volume ratio: \>\"", ",", " ", 
+   RowBox[{"NumberForm", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"UnitCellVolume", "[", "supercell", "]"}], "/", 
+      RowBox[{"UnitCellVolume", "[", "naclCrystal", "]"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", " ", "0"}], "}"}]}], "]"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{6.4, 6.5}}]
+
+}, Open  ]]
+
+}, Open  ]]
+
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{Automatic, 50}, {Automatic, 50}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb"
+]

@@ -1,0 +1,11 @@
+type: experimental
+language: Mixed
+tier: 4
+coverage:
+  target: 70
+docs:
+  profile: minimal
+owner: alaweimm90-tools
+description: 'Repository: CrazyIdeas'
+status: active
+created: '2025-11-26'

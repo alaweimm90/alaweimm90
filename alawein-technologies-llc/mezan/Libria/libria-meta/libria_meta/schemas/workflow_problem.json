@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": ["stages", "start", "end"],
+  "properties": {
+    "stages": { "type": "array", "items": { "type": "string" } },
+    "start": { "type": "string" },
+    "end": { "type": "string" },
+    "safety": { "type": "array", "items": { "type": "string" } },
+    "edges": {
+      "type": "array",
+      "items": { "type": "array", "items": { "type": "string" } }
+    }
+  }
+}
+

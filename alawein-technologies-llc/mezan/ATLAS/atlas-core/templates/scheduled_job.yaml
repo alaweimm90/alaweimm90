@@ -1,0 +1,291 @@
+name: scheduled_job
+version: 1.0.0
+category: automation
+description: Cron-like scheduled job execution with timezone support and job dependencies
+author: ORCHEX Team
+tags:
+  - scheduling
+  - cron
+  - automation
+  - recurring
+
+parameters:
+  job_name:
+    type: string
+    description: Name of the scheduled job
+    required: true
+
+  schedule_expression:
+    type: string
+    description: Cron expression or interval (e.g., "0 2 * * *", "@hourly", "every 30m")
+    required: true
+
+  timezone:
+    type: string
+    description: Timezone for schedule (e.g., "America/New_York")
+    required: false
+    default: "UTC"
+
+  job_timeout:
+    type: int
+    description: Maximum job execution time in seconds
+    required: false
+    default: 3600
+
+  max_concurrent:
+    type: int
+    description: Maximum concurrent executions
+    required: false
+    default: 1
+
+  retry_failed:
+    type: bool
+    description: Retry failed executions
+    required: false
+    default: true
+
+  alert_on_failure:
+    type: bool
+    description: Send alerts on job failure
+    required: false
+    default: true
+
+  data_retention_days:
+    type: int
+    description: Days to retain job execution history
+    required: false
+    default: 30
+
+workflow:
+  config:
+    type: scheduled
+    persistent: true
+    monitoring: true
+
+  tasks:
+    - name: validate_schedule
+      type: schedule_validation
+      description: Validate cron expression or interval
+      parameters:
+        expression: "{{schedule_expression}}"
+        timezone: "{{timezone}}"
+        validate_next_runs: 5
+
+    - name: check_dependencies
+      type: dependency_check
+      description: Check if dependent jobs have completed
+      parameters:
+        dependencies:
+          - job: daily_data_import
+            status: success
+            lookback_hours: 24
+          - job: weekly_cleanup
+            status: any
+            optional: true
+
+    - name: acquire_lock
+      type: distributed_lock
+      description: Acquire distributed lock for job execution
+      depends_on: [check_dependencies]
+      parameters:
+        lock_name: "job_{{job_name}}"
+        timeout: 30
+        max_concurrent: "{{max_concurrent}}"
+
+    - name: check_previous_execution
+      type: execution_check
+      description: Check if previous execution is still running
+      depends_on: [acquire_lock]
+      parameters:
+        job_name: "{{job_name}}"
+        action_if_running:
+          skip: "${max_concurrent} == 1"
+          queue: "${max_concurrent} > 1"
+          kill_previous: false
+
+    - name: load_job_state
+      type: state_loading
+      description: Load previous job state for incremental processing
+      depends_on: [check_previous_execution]
+      parameters:
+        job_name: "{{job_name}}"
+        state_keys:
+          - last_processed_id
+          - last_run_timestamp
+          - processing_offset
+
+    - name: determine_execution_window
+      type: window_calculation
+      description: Calculate execution window for this run
+      depends_on: [load_job_state]
+      parameters:
+        schedule: "{{schedule_expression}}"
+        timezone: "{{timezone}}"
+        last_execution: "${load_job_state.last_run_timestamp}"
+        catch_up: true
+
+    - name: pre_execution_checks
+      type: pre_checks
+      description: Perform pre-execution validation
+      depends_on: [determine_execution_window]
+      parameters:
+        checks:
+          - resource_availability:
+              cpu: 2
+              memory: "4GB"
+              disk: "10GB"
+          - service_health:
+              required_services: [database, api, cache]
+          - data_freshness:
+              max_age_hours: 24
+
+    - name: execute_main_job
+      type: job_execution
+      description: Execute the main scheduled job
+      depends_on: [pre_execution_checks]
+      timeout: "{{job_timeout}}"
+      parameters:
+        job_name: "{{job_name}}"
+        execution_window: "${determine_execution_window.window}"
+        state: "${load_job_state.state}"
+        parallel_processing: true
+
+      monitoring:
+        log_level: info
+        metrics:
+          - records_processed
+          - processing_rate
+          - error_rate
+        checkpoints:
+          enabled: true
+          interval: 1000
+
+    - name: handle_job_failure
+      type: conditional
+      description: Handle job execution failure
+      depends_on: [execute_main_job]
+      condition: "${execute_main_job.failed} == true"
+      if_branch:
+        - name: retry_execution
+          type: retry
+          condition: "{{retry_failed}} == true"
+          parameters:
+            max_attempts: 3
+            backoff: exponential
+            initial_delay: 60
+
+        - name: send_failure_alert
+          type: alert
+          condition: "{{alert_on_failure}} == true"
+          parameters:
+            severity: high
+            channels: [email, slack, pagerduty]
+            message:
+              job: "{{job_name}}"
+              error: "${execute_main_job.error}"
+              next_run: "${validate_schedule.next_run}"
+
+        - name: execute_fallback
+          type: fallback_job
+          parameters:
+            fallback_action: minimal_processing
+            preserve_state: true
+
+    - name: update_job_state
+      type: state_update
+      description: Update job state for next execution
+      depends_on: [execute_main_job]
+      parameters:
+        job_name: "{{job_name}}"
+        state_updates:
+          last_processed_id: "${execute_main_job.last_id}"
+          last_run_timestamp: "${now()}"
+          processing_offset: "${execute_main_job.offset}"
+          execution_status: "${execute_main_job.status}"
+
+    - name: calculate_metrics
+      type: metrics_calculation
+      description: Calculate job execution metrics
+      depends_on: [execute_main_job]
+      parameters:
+        metrics:
+          - duration: "${execute_main_job.duration}"
+          - records_processed: "${execute_main_job.record_count}"
+          - throughput: "${execute_main_job.records_per_second}"
+          - success_rate: "${execute_main_job.success_rate}"
+
+    - name: cleanup_old_data
+      type: cleanup
+      description: Clean up old execution data
+      depends_on: [calculate_metrics]
+      parameters:
+        retention_days: "{{data_retention_days}}"
+        cleanup_targets:
+          - execution_logs
+          - temporary_data
+          - checkpoint_files
+
+    - name: release_lock
+      type: lock_release
+      description: Release distributed lock
+      depends_on: [cleanup_old_data]
+      on_failure: always
+      parameters:
+        lock_name: "job_{{job_name}}"
+
+    - name: schedule_next_run
+      type: schedule_next
+      description: Calculate and schedule next execution
+      depends_on: [release_lock]
+      parameters:
+        schedule: "{{schedule_expression}}"
+        timezone: "{{timezone}}"
+        skip_on_failure: false
+        catch_up_missed: true
+
+    - name: update_job_registry
+      type: registry_update
+      description: Update job registry with execution details
+      depends_on: [schedule_next_run]
+      parameters:
+        job_name: "{{job_name}}"
+        execution_id: "${workflow.id}"
+        status: "${execute_main_job.status}"
+        next_run: "${schedule_next_run.next_execution}"
+        metrics: "${calculate_metrics.output}"
+
+    - name: send_summary
+      type: notification
+      description: Send execution summary
+      depends_on: [update_job_registry]
+      optional: true
+      parameters:
+        recipients: job_admins
+        summary:
+          job: "{{job_name}}"
+          status: "${execute_main_job.status}"
+          duration: "${calculate_metrics.duration}"
+          records: "${calculate_metrics.records_processed}"
+          next_run: "${schedule_next_run.next_execution}"
+
+dependencies:
+  - scheduler
+  - distributed_lock_manager
+  - state_store
+
+metadata:
+  schedule_patterns:
+    daily_midnight: "0 0 * * *"
+    every_hour: "0 * * * *"
+    business_hours: "0 9-17 * * 1-5"
+    weekly_sunday: "0 0 * * 0"
+    monthly_first: "0 0 1 * *"
+
+  monitoring:
+    sla:
+      execution_time: 3600
+      success_rate: 0.95
+    alerts:
+      missed_execution: true
+      long_running: true
+      repeated_failures: 3

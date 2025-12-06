@@ -1,0 +1,23 @@
+name: Design request
+description: Request design work (UX/UI, branding, assets)
+labels: [design]
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements and constraints
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables
+  - type: input
+    id: due
+    attributes:
+      label: Due date
+

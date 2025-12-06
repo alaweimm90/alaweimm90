@@ -1,0 +1,87 @@
+# Ruff Configuration Template
+# Python linting and formatting configuration
+# https://docs.astral.sh/ruff/
+
+# Target Python version
+target-version = "py39"
+
+# Line length (consistent with Black)
+line-length = 100
+
+# Enable auto-fixing
+fix = true
+
+# Exclude patterns
+exclude = [
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[lint]
+# Enable specific rule sets
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "I",   # isort (import sorting)
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "PTH", # flake8-use-pathlib
+]
+
+# Ignore specific rules
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex (let developers decide)
+]
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[lint.per-file-ignores]
+# Ignore specific rules in specific files
+"__init__.py" = ["F401"]  # Allow unused imports in __init__.py
+"tests/*" = ["B018", "S101"]  # Allow assert statements in tests
+"**/migrations/*" = ["E501"]  # Allow long lines in migrations
+
+[lint.isort]
+# Import sorting configuration
+known-first-party = []  # Add your package name here
+force-single-line = false
+lines-after-imports = 2
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+
+[lint.mccabe]
+# Maximum complexity
+max-complexity = 10
+
+[lint.pydocstyle]
+# Docstring convention
+convention = "google"
+
+[format]
+# Formatting options (similar to Black)
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# Customize for your project:
+# 1. Update target-version to match your Python version
+# 2. Add your package name to known-first-party in [lint.isort]
+# 3. Adjust line-length if needed (default: 100)
+# 4. Add project-specific ignores to [lint.per-file-ignores]
+

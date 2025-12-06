@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": ["budget", "options"],
+  "properties": {
+    "budget": { "type": "number" },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "cost", "expected_return"],
+        "properties": {
+          "id": { "type": "string" },
+          "cost": { "type": "number" },
+          "expected_return": { "type": "number" }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,10 @@
+# OptiBench registry (skeleton)
+# Define benchmarks to replay and verify.
+
+benchmarks:
+  - name: qaplib-mini
+    type: qaplib
+    pattern: "tai20a|nug20"  # regex to filter instances (example)
+    time_limit: 15
+    modes: ["hybrid"]
+

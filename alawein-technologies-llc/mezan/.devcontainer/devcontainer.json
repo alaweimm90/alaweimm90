@@ -1,0 +1,23 @@
+{
+  "name": "MEZAN Monorepo DevContainer",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/node:1": {"version": "none"}
+  },
+  "postCreateCommand": "bash -lc 'pip install -U pip && pip install -r Libria/libria-meta/requirements.txt && pip install pre-commit ruff mypy pytest && pre-commit install'",
+  "postAttachCommand": "bash -lc 'make setup || true'",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}

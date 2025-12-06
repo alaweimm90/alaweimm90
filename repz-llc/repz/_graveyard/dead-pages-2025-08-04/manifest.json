@@ -1,0 +1,10 @@
+{
+  "timestamp": "2025-08-04T15:45:05.455Z",
+  "type": "dead-pages-cleanup",
+  "movedFiles": [
+    "src/pages/DesignSystemDocs.tsx",
+    "src/pages/RepzHome.tsx",
+    "src/pages/__tests__/RepzHome.test.tsx"
+  ],
+  "totalFiles": 3
+}

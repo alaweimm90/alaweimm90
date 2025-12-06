@@ -1,0 +1,11 @@
+type: automation
+language: TypeScript
+tier: 4
+coverage:
+  target: 70
+docs:
+  profile: minimal
+owner: alaweimm90-business
+description: 'Repository: marketing-automation'
+status: active
+created: '2025-11-26'

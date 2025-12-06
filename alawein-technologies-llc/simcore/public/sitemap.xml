@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>/modules/graphene-band-structure</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/modules/mos2-valley-physics</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>/modules/tdse-solver</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/modules/crystal-visualizer</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>/modules/llg-dynamics</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>/modules/bloch-sphere</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>/modules/quantum-tunneling</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/modules/bz-folding</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/phonon-band-structure</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>/modules/quantum-field-theory</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/laplace-eigenmodes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>/modules/pinn-schrodinger</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/ising-model</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>/modules/boltzmann-distribution</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/microstates-entropy</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/canonical-ensemble</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/modules/brownian-motion</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>/enhanced-examples</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/advanced-simulation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>/simulation-dashboard</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/interactive-learning</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/enhanced-visualization</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/data-export</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/scientific-computing</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/documentation</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/error-reporting</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/ml-showcase</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>/about-platform</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>/accessibility-features</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/pwa-features</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/webworker-demo</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>/testing-dashboard</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+</urlset>

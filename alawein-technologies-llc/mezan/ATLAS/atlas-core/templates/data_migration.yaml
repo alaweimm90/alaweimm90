@@ -1,0 +1,350 @@
+name: data_migration
+version: 1.0.0
+category: data_management
+description: Large-scale data migration with validation, transformation, and zero-downtime cutover
+author: ORCHEX Team
+tags:
+  - migration
+  - data-transfer
+  - transformation
+  - zero-downtime
+  - validation
+
+parameters:
+  source_system:
+    type: dict
+    description: Source system configuration
+    required: true
+
+  target_system:
+    type: dict
+    description: Target system configuration
+    required: true
+
+  migration_mode:
+    type: string
+    description: Migration mode
+    required: false
+    default: full
+    allowed_values: [full, incremental, delta, hybrid]
+
+  batch_size:
+    type: int
+    description: Batch size for data transfer
+    required: false
+    default: 10000
+
+  parallel_streams:
+    type: int
+    description: Number of parallel migration streams
+    required: false
+    default: 4
+
+  enable_transformation:
+    type: bool
+    description: Enable data transformation
+    required: false
+    default: true
+
+  validation_sampling_rate:
+    type: float
+    description: Rate of records to validate (0.0 to 1.0)
+    required: false
+    default: 0.1
+
+  cutover_strategy:
+    type: string
+    description: Strategy for final cutover
+    required: false
+    default: dual_write
+    allowed_values: [big_bang, dual_write, gradual, blue_green]
+
+workflow:
+  config:
+    type: data_migration
+    checkpointing: true
+    resumable: true
+
+  tasks:
+    - name: pre_migration_assessment
+      type: assessment
+      description: Assess migration readiness
+      parameters:
+        source: "{{source_system}}"
+        target: "{{target_system}}"
+        checks:
+          - connectivity: bidirectional
+          - permissions: read_write
+          - capacity: sufficient
+          - schema_compatibility: auto
+
+    - name: calculate_migration_stats
+      type: analysis
+      description: Analyze data volume and complexity
+      depends_on: [pre_migration_assessment]
+      parameters:
+        source: "{{source_system}}"
+        calculate:
+          - total_records
+          - total_size
+          - table_counts
+          - complexity_score
+          - estimated_duration
+
+    - name: create_migration_plan
+      type: planning
+      description: Generate detailed migration plan
+      depends_on: [calculate_migration_stats]
+      parameters:
+        stats: "${calculate_migration_stats.output}"
+        mode: "{{migration_mode}}"
+        optimization:
+          - partition_large_tables: true
+          - prioritize_critical: true
+          - parallel_tables: "${calculate_migration_stats.independent_tables}"
+
+    - name: setup_change_capture
+      type: cdc_setup
+      description: Setup change data capture for zero downtime
+      depends_on: [create_migration_plan]
+      condition: "{{cutover_strategy}} != 'big_bang'"
+      parameters:
+        source: "{{source_system}}"
+        capture_mode: log_based
+        start_position: current
+        buffer_size: 100000
+
+    - name: create_target_schema
+      type: schema_creation
+      description: Create or validate target schema
+      depends_on: [create_migration_plan]
+      parameters:
+        source_schema: "${pre_migration_assessment.source_schema}"
+        target: "{{target_system}}"
+        modifications:
+          - add_audit_columns: true
+          - optimize_indexes: true
+          - partition_strategy: auto
+
+    - name: initial_data_migration
+      type: parallel
+      description: Migrate initial data in parallel
+      depends_on: [create_target_schema, setup_change_capture]
+      subtasks:
+        - name: migrate_batch
+          type: batch_migration
+          foreach: "${create_migration_plan.batches}"
+          max_parallel: "{{parallel_streams}}"
+          parameters:
+            source: "{{source_system}}"
+            target: "{{target_system}}"
+            batch: "${item}"
+            batch_size: "{{batch_size}}"
+
+            extraction:
+              method: parallel_select
+              compression: true
+              checksum: true
+
+            transformation:
+              enabled: "{{enable_transformation}}"
+              rules: "${item.transformation_rules}"
+              error_handling: quarantine
+
+            loading:
+              method: bulk_insert
+              disable_constraints: temporarily
+              disable_indexes: temporarily
+
+            verification:
+              sample_rate: "{{validation_sampling_rate}}"
+              checksum: true
+
+    - name: validate_initial_migration
+      type: validation
+      description: Validate migrated data
+      depends_on: [initial_data_migration]
+      parameters:
+        source: "{{source_system}}"
+        target: "{{target_system}}"
+        validation_rules:
+          - record_counts:
+              tolerance: 0
+          - data_sampling:
+              rate: "{{validation_sampling_rate}}"
+              columns: all
+          - referential_integrity:
+              check_all: true
+          - business_rules:
+              critical_only: false
+
+    - name: sync_incremental_changes
+      type: cdc_sync
+      description: Sync changes during migration
+      depends_on: [validate_initial_migration]
+      condition: "{{cutover_strategy}} != 'big_bang'"
+      parameters:
+        source: "${setup_change_capture.cdc_stream}"
+        target: "{{target_system}}"
+        mode: continuous
+        lag_threshold: 60
+        conflict_resolution: source_wins
+
+    - name: performance_testing
+      type: performance_test
+      description: Test target system performance
+      depends_on: [validate_initial_migration]
+      parameters:
+        target: "{{target_system}}"
+        test_scenarios:
+          - read_heavy: 1000_qps
+          - write_heavy: 500_tps
+          - mixed_workload: realistic
+        duration: 600
+        compare_with_source: true
+
+    - name: application_compatibility
+      type: compatibility_test
+      description: Test application compatibility
+      depends_on: [performance_testing]
+      parameters:
+        applications: auto_discover
+        test_suite: migration_validation
+        connection_string: "${target_system.connection}"
+        rollback_on_failure: true
+
+    - name: cutover_preparation
+      type: cutover_prep
+      description: Prepare for cutover
+      depends_on: [sync_incremental_changes, application_compatibility]
+      parameters:
+        strategy: "{{cutover_strategy}}"
+        checklist:
+          - backup_source: true
+          - backup_target: true
+          - notify_users: true
+          - prepare_rollback: true
+
+    - name: cutover_execution
+      type: cutover
+      description: Execute cutover strategy
+      depends_on: [cutover_preparation]
+      parameters:
+        strategy: "{{cutover_strategy}}"
+
+        dual_write:
+          enable_writes: both
+          read_from: source
+          validation_period: 3600
+          switch_reads: gradual
+
+        gradual:
+          initial_percentage: 10
+          increment: 10
+          interval: 600
+          rollback_threshold: 0.01
+
+        blue_green:
+          switch_method: dns
+          validation_period: 300
+          keep_source_active: true
+
+    - name: final_sync
+      type: final_synchronization
+      description: Final data synchronization
+      depends_on: [cutover_execution]
+      parameters:
+        source: "{{source_system}}"
+        target: "{{target_system}}"
+        mode: catch_up
+        verification: full
+
+    - name: final_validation
+      type: comprehensive_validation
+      description: Comprehensive validation after cutover
+      depends_on: [final_sync]
+      parameters:
+        validations:
+          - data_completeness: 100%
+          - data_accuracy: sample_all
+          - schema_consistency: true
+          - constraint_validation: all
+          - application_testing: smoke_tests
+
+    - name: switch_applications
+      type: application_switch
+      description: Switch applications to target system
+      depends_on: [final_validation]
+      parameters:
+        applications: all
+        method: "{{cutover_strategy}}"
+        monitor_period: 1800
+        auto_rollback: true
+
+    - name: monitor_post_migration
+      type: monitoring
+      description: Monitor post-migration health
+      depends_on: [switch_applications]
+      parameters:
+        duration: 7200
+        metrics:
+          - application_errors
+          - query_performance
+          - data_consistency
+          - user_experience
+        alert_thresholds:
+          error_rate: 0.01
+          slow_queries: 100
+
+    - name: optimization
+      type: post_migration_optimization
+      description: Optimize target system
+      depends_on: [monitor_post_migration]
+      parameters:
+        optimizations:
+          - rebuild_indexes: true
+          - update_statistics: true
+          - optimize_queries: true
+          - adjust_configuration: true
+
+    - name: cleanup
+      type: cleanup
+      description: Clean up migration resources
+      depends_on: [optimization]
+      parameters:
+        retain_source: 30_days
+        cleanup:
+          - cdc_streams
+          - temporary_tables
+          - migration_logs
+          - backup_files
+
+    - name: documentation
+      type: documentation
+      description: Document migration process
+      depends_on: [cleanup]
+      parameters:
+        document:
+          - migration_summary
+          - data_mappings
+          - validation_results
+          - performance_comparison
+          - issues_resolved
+          - rollback_procedures
+
+dependencies:
+  - database_tools
+  - cdc_framework
+  - data_validation_suite
+
+metadata:
+  best_practices:
+    always_backup: true
+    test_rollback: true
+    validate_incrementally: true
+
+  migration_sizes:
+    small: "< 100GB"
+    medium: "100GB - 1TB"
+    large: "1TB - 10TB"
+    extra_large: "> 10TB"

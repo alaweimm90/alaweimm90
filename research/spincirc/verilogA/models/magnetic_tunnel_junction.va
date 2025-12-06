@@ -1,0 +1,235 @@
+/**
+ * @file magnetic_tunnel_junction.va
+ * @brief Magnetic Tunnel Junction (MTJ) Compact Model
+ * 
+ * Advanced MTJ model implementing:
+ * - Bias-dependent TMR with Simmons tunneling
+ * - Temperature effects on TMR and resistance
+ * - Thermal stability and switching dynamics
+ * - Process variations and reliability effects
+ * - Voltage-controlled magnetic anisotropy (VCMA)
+ * 
+ * Based on state-of-the-art MTJ physics and experimental data
+ * 
+ * @author Meshal Alawein <meshal@berkeley.edu>
+ * @copyright 2025, University of California Berkeley
+ * @license MIT License
+ */
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module magnetic_tunnel_junction(free_layer, reference_layer);
+    
+    // Terminal declarations
+    inout free_layer, reference_layer;
+    electrical free_layer, reference_layer;
+    
+    // Geometric parameters
+    parameter real area = 50e-18 from (1e-21:1e-12);         // Junction area (m^2)
+    parameter real tox = 1.2e-9 from (0.8e-9:3e-9);          // Oxide thickness (m)
+    parameter real diameter = 80e-9 from (10e-9:1e-6);       // Junction diameter (m)
+    
+    // Material parameters
+    parameter real phi_barrier = 0.4 from (0.1:2.0);         // Barrier height (eV)
+    parameter real epsilon_r = 9.8 from (3:15);               // Relative permittivity
+    parameter real ms_free = 1.4e6 from (1e5:2e6);           // Free layer saturation magnetization (A/m)
+    parameter real ms_ref = 1.4e6 from (1e5:2e6);            // Reference layer saturation magnetization (A/m)
+    parameter real t_free = 1.5e-9 from (0.8e-9:5e-9);       // Free layer thickness (m)
+    parameter real t_ref = 3e-9 from (1e-9:10e-9);           // Reference layer thickness (m)
+    
+    // TMR parameters
+    parameter real tmr0 = 200 from (10:600);                  // Zero-bias TMR (%)
+    parameter real vh = 0.5 from (0.1:2.0);                   // Half-bias voltage (V)
+    parameter real tmr_temp_coeff = -0.5 from (-2:0);         // TMR temperature coefficient (%/K)
+    parameter real ra_p = 10 from (0.1:1000);                 // RA product parallel state (Ohm-um^2)
+    
+    // Anisotropy parameters  
+    parameter real hk_free = 50e-3 from (1e-3:1);             // Free layer anisotropy field (T)
+    parameter real hk_ref = 200e-3 from (10e-3:2);            // Reference layer anisotropy field (T)
+    parameter real xi_vcma = 50e-6 from (0:500e-6);           // VCMA coefficient (J/V-m)
+    
+    // Thermal parameters
+    parameter real temperature = 300 from (4:500);            // Temperature (K)
+    parameter real delta_free = 60 from (20:100);             // Free layer energy barrier (kT)
+    parameter real alpha_free = 0.01 from (0.001:0.1);        // Free layer damping
+    
+    // Process variation parameters
+    parameter real sigma_area = 0.05 from (0:0.2);            // Area variation (relative)
+    parameter real sigma_tox = 0.05 from (0:0.2);             // Thickness variation (relative)
+    parameter real sigma_tmr = 0.1 from (0:0.3);              // TMR variation (relative)
+    
+    // Internal state variables
+    real state;                          // Magnetization state (-1: AP, +1: P)
+    real switching_prob;                 // Switching probability
+    real thermal_field;                  // Thermal fluctuation field
+    real vcma_field;                     // VCMA-induced field
+    
+    // Physical constants
+    parameter real kb = 1.380649e-23;   // Boltzmann constant
+    parameter real q = 1.602176634e-19;  // Elementary charge
+    parameter real mu0 = 4*`M_PI*1e-7;   // Permeability of free space
+    parameter real gamma0 = 1.76e11;     // Gyromagnetic ratio
+    
+    // Calculated parameters
+    real area_eff;                       // Effective area with variations
+    real tox_eff;                        // Effective thickness with variations
+    real tmr_eff;                        // Effective TMR with variations
+    real volume_free;                    // Free layer volume
+    real energy_barrier;                 // Energy barrier
+    real switching_time;                 // Characteristic switching time
+    real resistance_p, resistance_ap;    // Parallel and antiparallel resistances
+    real current_resistance;             // Current resistance based on state
+    
+    // Bias and temperature dependence
+    real bias_voltage;                   // Applied bias voltage
+    real tmr_bias;                       // Bias-dependent TMR
+    real tmr_temp;                       // Temperature-dependent TMR
+    real conductance;                    // Junction conductance
+    
+    // Noise parameters
+    real thermal_noise_psd;              // Thermal noise power spectral density
+    real flicker_noise_psd;              // 1/f noise power spectral density
+    
+    analog begin
+        
+        // Apply process variations (normally distributed)
+        area_eff = area * (1 + sigma_area * $rdist_normal(0, 0, 1));
+        tox_eff = tox * (1 + sigma_tox * $rdist_normal(1, 0, 1));
+        tmr_eff = tmr0 * (1 + sigma_tmr * $rdist_normal(2, 0, 1));
+        
+        // Ensure physical bounds
+        area_eff = max(area_eff, area * 0.5);
+        tox_eff = max(tox_eff, tox * 0.5);
+        tmr_eff = max(tmr_eff, 10);  // Minimum 10% TMR
+        
+        // Calculate physical parameters
+        volume_free = area_eff * t_free;
+        bias_voltage = V(free_layer) - V(reference_layer);
+        
+        // Temperature-dependent TMR
+        tmr_temp = tmr_eff * (1 + tmr_temp_coeff * (temperature - 300) / 100);
+        tmr_temp = max(tmr_temp, 1);  // Ensure positive TMR
+        
+        // Bias-dependent TMR (Simmons model modification)
+        if (abs(bias_voltage) > 1e-6) begin
+            tmr_bias = tmr_temp / (1 + pow(abs(bias_voltage) / vh, 2));
+        end else begin
+            tmr_bias = tmr_temp;
+        end
+        
+        // Calculate resistances
+        resistance_p = ra_p * 1e-12 / area_eff;  // Convert Ohm-um^2 to Ohm
+        resistance_ap = resistance_p * (1 + tmr_bias / 100);
+        
+        // VCMA effect on energy barrier
+        vcma_field = xi_vcma * bias_voltage / (mu0 * ms_free * t_free);
+        energy_barrier = delta_free + mu0 * ms_free * volume_free * vcma_field / (2 * kb * temperature);
+        energy_barrier = max(energy_barrier, 10);  // Minimum barrier
+        
+        // Thermal stability calculation
+        thermal_field = sqrt(2 * alpha_free * kb * temperature / (gamma0 * mu0 * ms_free * volume_free));
+        
+        // State-dependent resistance
+        if (state > 0) begin
+            current_resistance = resistance_p;
+        end else begin
+            current_resistance = resistance_ap;
+        end
+        
+        // Switching dynamics (simplified macrospin model)
+        switching_time = 1 / (gamma0 * alpha_free * hk_free * exp(-energy_barrier));
+        
+        // Current-voltage relationship with tunneling
+        if (abs(bias_voltage) > 1e-6) begin
+            // Simmons tunneling model
+            real tunneling_factor;
+            tunneling_factor = exp(-2 * sqrt(2 * 9.109e-31 * phi_barrier * q) * tox_eff / (1.055e-34));
+            conductance = (q * q * sqrt(2 * 9.109e-31 * phi_barrier) * area_eff * tunneling_factor) / 
+                         (4 * `M_PI * `M_PI * 1.055e-34 * tox_eff);
+            conductance = conductance / current_resistance;  // Include TMR effect
+        end else begin
+            conductance = 1 / current_resistance;
+        end
+        
+        // Apply Ohm's law with tunneling corrections
+        I(free_layer, reference_layer) <+ conductance * bias_voltage;
+        
+        // Switching probability calculation (for stochastic switching)
+        if (abs(bias_voltage) > 0.1) begin  // Only for significant bias
+            real energy_change, attempt_frequency;
+            energy_change = mu0 * ms_free * volume_free * hk_free / 2;
+            attempt_frequency = gamma0 * hk_free / (2 * `M_PI);
+            switching_prob = attempt_frequency * exp(-(energy_barrier - abs(bias_voltage) * q / (kb * temperature)));
+            
+            // Stochastic switching (simplified)
+            if ($random % 1000000 < switching_prob * 1e6) begin
+                state = -state;  // Flip state
+            end
+        end
+        
+        // Noise modeling
+        thermal_noise_psd = 4 * kb * temperature * conductance;
+        flicker_noise_psd = 1e-12 * pow(abs(I(free_layer, reference_layer)), 2) / (area_eff * 1e12);
+        
+        // Add noise sources
+        I(free_layer, reference_layer) <+ white_noise(thermal_noise_psd, "thermal");
+        I(free_layer, reference_layer) <+ flicker_noise(flicker_noise_psd, 1.0, "flicker");
+        
+        // Capacitive effects
+        real capacitance;
+        capacitance = 8.854e-12 * epsilon_r * area_eff / tox_eff;  // Parallel plate capacitor
+        I(free_layer, reference_layer) <+ capacitance * ddt(bias_voltage);
+        
+    end
+    
+    // Initial conditions and state initialization
+    initial begin
+        state = 1;  // Start in parallel state
+        
+        $display("=== Magnetic Tunnel Junction Model ===");
+        $display("Area: %g nm^2", area*1e18);
+        $display("Oxide thickness: %g nm", tox*1e9);
+        $display("Zero-bias TMR: %g %%", tmr0);
+        $display("RA product (P): %g Ohm-um^2", ra_p);
+        $display("Free layer thickness: %g nm", t_free*1e9);
+        $display("Reference layer thickness: %g nm", t_ref*1e9);
+        $display("Temperature: %g K", temperature);
+        $display("Energy barrier: %g kT", delta_free);
+        $display("VCMA coefficient: %g uJ/V-m", xi_vcma*1e6);
+        $display("=====================================");
+        
+        // Parameter validation
+        if (area <= 0 || tox <= 0) begin
+            $error("Geometric parameters must be positive");
+        end
+        
+        if (tmr0 <= 0) begin
+            $error("TMR must be positive");
+        end
+        
+        if (phi_barrier <= 0) begin
+            $error("Barrier height must be positive");
+        end
+        
+        if (temperature <= 0) begin
+            $error("Temperature must be positive");
+        end
+        
+        if (delta_free <= 0) begin
+            $warning("Energy barrier should be positive for thermal stability");
+        end
+        
+        // Calculate and display derived parameters
+        $display("Free layer volume: %g nm^3", volume_free*1e27);
+        $display("Parallel resistance: %g kOhm", resistance_p*1e-3);
+        $display("Antiparallel resistance: %g kOhm", resistance_ap*1e-3);
+        $display("Junction capacitance: %g fF", capacitance*1e15);
+    end
+    
+    // Model identification
+    analog begin
+        $bound_step(switching_time / 100);  // Limit timestep for switching dynamics
+    end
+    
+endmodule

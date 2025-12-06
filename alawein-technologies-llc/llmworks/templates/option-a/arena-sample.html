@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Arena - Military Precision | Combat Simulation</title>
+    <style>
+        :root {
+            --primary: #1B365D;
+            --secondary: #B8860B;
+            --accent: #00D4FF;
+            --background: #FAFAFA;
+            --surface: #F7F9FC;
+            --text: #2D3748;
+            --text-muted: #718096;
+            --border: #E2E8F0;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Layout */
+        .arena-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            height: calc(100vh - 80px);
+        }
+
+        .combat-zone {
+            background: var(--surface);
+            padding: 2rem;
+            border-right: 2px solid var(--border);
+        }
+
+        .control-panel {
+            background: white;
+            border-left: 4px solid var(--secondary);
+        }
+
+        /* Combat Zone */
+        .mission-briefing {
+            background: white;
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .mission-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-status {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .combatants {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .combatant {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .combatant.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .combatant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: left 0.5s ease;
+        }
+
+        .combatant.active::before {
+            left: 0;
+        }
+
+        .combatant-name {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .combatant-model {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .combatant-score {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .vs-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-weight: 900;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: center;
+        }
+
+        /* Battle Log */
+        .battle-log {
+            background: white;
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+        }
+
+        .log-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            animation: log-appear 0.3s ease-out;
+        }
+
+        @keyframes log-appear {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .log-timestamp {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .log-system {
+            background: rgba(27, 54, 93, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .log-success {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 3px solid var(--success);
+        }
+
+        .log-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--warning);
+        }
+
+        /* Control Panel */
+        .panel-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .panel-content {
+            padding: 2rem;
+        }
+
+        .control-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .tactical-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary), #D4AF37);
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tactical-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tactical-button:hover::before {
+            left: 100%;
+        }
+
+        .tactical-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .tactical-button.primary {
+            background: linear-gradient(135deg, var(--accent), #0EA5E9);
+            color: var(--primary);
+        }
+
+        .tactical-button.danger {
+            background: linear-gradient(135deg, var(--danger), #DC2626);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progress-sweep 2s linear infinite;
+        }
+
+        @keyframes progress-sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .arena-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            
+            .control-panel {
+                border-left: none;
+                border-top: 4px solid var(--secondary);
+            }
+            
+            .combatants {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .vs-indicator {
+                grid-row: 2;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">⚡ AEGIS ARENA</div>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span>Combat Ready</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span>All Systems Online</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="arena-container">
+        <div class="combat-zone">
+            <div class="mission-briefing">
+                <h2 class="mission-title">Mission Alpha-7: Code Evaluation</h2>
+                <div class="mission-status">🎯 Combat Active</div>
+                <p>Deploy two AI units in controlled evaluation scenario. Assess code generation capabilities under tactical pressure. Monitor performance metrics and identify optimal deployment strategies.</p>
+            </div>
+
+            <div class="combatants">
+                <div class="combatant active">
+                    <div class="combatant-name">Unit Alpha</div>
+                    <div class="combatant-model">GPT-4 Turbo</div>
+                    <div class="combatant-score">847</div>
+                </div>
+                
+                <div class="vs-indicator">VS</div>
+                
+                <div class="combatant">
+                    <div class="combatant-name">Unit Bravo</div>
+                    <div class="combatant-model">Claude 3.5 Sonnet</div>
+                    <div class="combatant-score">792</div>
+                </div>
+            </div>
+
+            <div class="battle-log">
+                <div class="log-header">🔥 Battle Log - Real Time Intelligence</div>
+                <div class="log-content">
+                    <div class="log-entry log-system">
+                        <div class="log-timestamp">[14:32:15]</div>
+                        <div>SYSTEM: Mission initiated. Deploying evaluation protocols.</div>
+                    </div>
+                    <div class="log-entry log-success">
+                        <div class="log-timestamp">[14:32:18]</div>
+                        <div>UNIT-ALPHA: Code generation completed. Accuracy: 94.2%</div>
+                    </div>
+                    <div class="log-entry log-success">
+                        <div class="log-timestamp">[14:32:22]</div>
+                        <div>UNIT-BRAVO: Response submitted. Processing time: 2.3s</div>
+                    </div>
+                    <div class="log-entry log-warning">
+                        <div class="log-timestamp">[14:32:25]</div>
+                        <div>TACTICAL: Performance variance detected. Adjusting parameters.</div>
+                    </div>
+                    <div class="log-entry log-system">
+                        <div class="log-timestamp">[14:32:28]</div>
+                        <div>SYSTEM: Round 3/5 complete. Unit Alpha maintaining tactical advantage.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <div class="panel-header">
+                <div class="panel-title">Mission Control</div>
+                <div class="panel-subtitle">Tactical Command Interface</div>
+            </div>
+            
+            <div class="panel-content">
+                <div class="control-section">
+                    <div class="section-title">🎯 Combat Operations</div>
+                    <button class="tactical-button primary">Execute Next Round</button>
+                    <button class="tactical-button">Adjust Parameters</button>
+                    <button class="tactical-button danger">Abort Mission</button>
+                </div>
+
+                <div class="control-section">
+                    <div class="section-title">📊 Performance Metrics</div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">94.2%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">2.3s</div>
+                            <div class="metric-label">Response Time</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">847</div>
+                            <div class="metric-label">Combat Score</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">5/5</div>
+                            <div class="metric-label">Mission Status</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <div class="section-title">⚡ System Status</div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>System Load</span>
+                            <span>34%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 34%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Tactical Readiness</span>
+                            <span>98%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 98%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

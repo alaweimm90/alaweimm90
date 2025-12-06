@@ -1,0 +1,11 @@
+# Active Voice - Prefer active over passive
+# Complements scripts/check_writing_style.py
+
+extends: existence
+message: "Possible passive voice: '%s'. Consider active voice."
+ignorecase: true
+level: warning
+tokens:
+  - '\b(is|are|was|were|be|been|being) \w+ed\b'
+  - '\b(is|are|was|were|be|been|being) \w+en\b'
+

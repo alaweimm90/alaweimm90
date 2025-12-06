@@ -1,0 +1,805 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     32156,        785]
+NotebookOptionsPosition[     30134,        742]
+NotebookOutlinePosition[     30573,        759]
+CellTagsIndexPosition[     30530,        756]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Iterative Methods for Linear Systems - Advanced Example", "Title",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "This notebook demonstrates advanced iterative methods for solving linear \
+systems, including Jacobi, Gauss-Seidel, and Conjugate Gradient methods \
+with convergence analysis.\n\n",
+ StyleBox["Learning Objectives:", "Subsubsection"],
+ "\n\[Bullet] Understand iterative methods vs direct methods\n\[Bullet] \
+Implement and analyze classical iterative methods\n\[Bullet] Apply \
+Conjugate Gradient for symmetric positive definite systems\n\[Bullet] \
+Analyze convergence rates and preconditioning\n\[Bullet] Solve practical \
+PDE problems using iterative methods"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["Setup and Dependencies", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/MatrixOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/VectorOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/LinearSystems.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Advanced Linear Algebra packages loaded successfully!\>\"", "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"berkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"50", "/", "255"}], ",", " ", 
+     RowBox[{"98", "/", "255"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"californiaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     RowBox[{"253", "/", "255"}], ",", " ", 
+     RowBox[{"181", "/", "255"}], ",", " ", 
+     RowBox[{"21", "/", "255"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Jacobi Iteration Method", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "The Jacobi method splits the matrix A = D + R, where D is diagonal and R \
+contains off-diagonal elements.\n",
+ "Update formula: x^(k+1) = D^(-1) * (b - R * x^(k))"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"n", "=", "10"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"A", "=", 
+   RowBox[{
+    RowBox[{"RandomReal", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "0.2"}], ",", "0.2"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"n", ",", "n"}], "}"}]}], "]"}], "+", 
+    RowBox[{"3", " ", 
+     RowBox[{"IdentityMatrix", "[", "n", "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"b", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", "n"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Testing Jacobi method on \>\"", ",", " ", "n", ",", " ", 
+    "\"\<x\>\"", ",", " ", "n", ",", " ", 
+    "\"\< diagonally dominant system\>\""}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultJacobi", "=", 
+   RowBox[{"LinearSystems`JacobiSolveChecked", "[", 
+    RowBox[{"A", ",", "b", ",", "Automatic", ",", "100", ",", 
+     SuperscriptBox["10", 
+      RowBox[{"-", "8"}]]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultJacobi", "[", "\"\<success\>\"", "]"}], "===", "True"}], 
+    ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Jacobi converged in \>\"", ",", " ", 
+       RowBox[{"resultJacobi", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+       "\"\< iterations\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Final residual norm: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"resultJacobi", "[", "\"\<residualNorm\>\"", "]"}], "]"}]}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"residuals", "=", 
+      RowBox[{
+       RowBox[{"resultJacobi", "[", "\"\<info\>\"", "]"}], "[", 
+       "\"\<residuals\>\"", "]"}]}], ";", "\n", "  ", 
+     RowBox[{"convergencePlot", "=", 
+      RowBox[{"ListLogPlot", "[", 
+       RowBox[{"residuals", ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"berkeleyBlue", ",", "Thick"}], "}"}]}], ",", 
+        RowBox[{"AxesLabel", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<Iteration\>\"", ",", "\"\<Residual Norm\>\""}], 
+          "}"}]}], ",", 
+        RowBox[{"PlotLabel", "\[Rule]", "\"\<Jacobi Convergence\>\""}], ",", 
+        RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", "convergencePlot", "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Jacobi failed to converge in \>\"", ",", " ", 
+      RowBox[{"resultJacobi", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\< iterations\>\""}], "]"}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Gauss-Seidel Method", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "Gauss-Seidel uses updated values immediately within each iteration.\n",
+ "Generally converges faster than Jacobi for the same systems."
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultGS", "=", 
+   RowBox[{"LinearSystems`GaussSeidelSolveChecked", "[", 
+    RowBox[{"A", ",", "b", ",", "Automatic", ",", "100", ",", 
+     SuperscriptBox["10", 
+      RowBox[{"-", "8"}]]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultGS", "[", "\"\<success\>\"", "]"}], "===", "True"}], ",",
+     "\n", "  ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Gauss-Seidel converged in \>\"", ",", " ", 
+       RowBox[{"resultGS", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+       "\"\< iterations\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Final residual norm: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"resultGS", "[", "\"\<residualNorm\>\"", "]"}], "]"}]}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"residualsGS", "=", 
+      RowBox[{
+       RowBox[{"resultGS", "[", "\"\<info\>\"", "]"}], "[", 
+       "\"\<residuals\>\"", "]"}]}], ";", "\n", "  ", 
+     RowBox[{"comparisonPlot", "=", 
+      RowBox[{"ListLogPlot", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"residuals", ",", "residualsGS"}], "}"}], ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"berkeleyBlue", ",", "Thick"}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"californiaGold", ",", "Thick"}], "}"}]}], "}"}]}], ",", 
+        RowBox[{"AxesLabel", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<Iteration\>\"", ",", "\"\<Residual Norm\>\""}], 
+          "}"}]}], ",", 
+        RowBox[{
+        "PlotLabel", "\[Rule]", 
+         "\"\<Jacobi vs Gauss-Seidel Convergence\>\""}], ",", 
+        RowBox[{"PlotLegends", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<Jacobi\>\"", ",", "\"\<Gauss-Seidel\>\""}], "}"}]}], 
+        ",", 
+        RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", "comparisonPlot", "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Gauss-Seidel failed to converge in \>\"", ",", " ", 
+      RowBox[{"resultGS", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\< iterations\>\""}], "]"}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Conjugate Gradient Method", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "Conjugate Gradient is optimal for symmetric positive definite systems.\n",
+ "Creates a symmetric positive definite test matrix for demonstration."
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"nCG", "=", "20"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ABase", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"nCG", ",", "nCG"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ASPD", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Transpose", "[", "ABase", "]"}], ".", "ABase"}], "+", 
+    RowBox[{"0.1", " ", 
+     RowBox[{"IdentityMatrix", "[", "nCG", "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"bCG", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", "nCG"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Testing CG on \>\"", ",", " ", "nCG", ",", " ", "\"\<x\>\"", 
+    ",", " ", "nCG", ",", " ", "\"\< SPD system\>\""}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Condition number: \>\"", ",", " ", 
+    RowBox[{"N", "[", 
+     RowBox[{"MatrixOperations`ConditionNumberChecked", "[", "ASPD", "]"}], 
+     "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultCG", "=", 
+   RowBox[{"LinearSystems`ConjugateGradientChecked", "[", 
+    RowBox[{"ASPD", ",", "bCG", ",", "Automatic", ",", "nCG", ",", 
+     SuperscriptBox["10", 
+      RowBox[{"-", "10"}]]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultCG", "[", "\"\<success\>\"", "]"}], "===", "True"}], ",",
+     "\n", "  ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<CG converged in \>\"", ",", " ", 
+       RowBox[{"resultCG", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+       "\"\< iterations\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Final residual norm: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"resultCG", "[", "\"\<residualNorm\>\"", "]"}], "]"}]}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"residualsCG", "=", 
+      RowBox[{
+       RowBox[{"resultCG", "[", "\"\<info\>\"", "]"}], "[", 
+       "\"\<residuals\>\"", "]"}]}], ";", "\n", "  ", 
+     RowBox[{"cgPlot", "=", 
+      RowBox[{"ListLogPlot", "[", 
+       RowBox[{"residualsCG", ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"berkeleyBlue", ",", "Thick"}], "}"}]}], ",", 
+        RowBox[{"AxesLabel", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<Iteration\>\"", ",", "\"\<Residual Norm\>\""}], 
+          "}"}]}], ",", 
+        RowBox[{
+        "PlotLabel", "\[Rule]", "\"\<Conjugate Gradient Convergence\>\""}], 
+        ",", 
+        RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", "cgPlot", "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<CG failed to converge in \>\"", ",", " ", 
+      RowBox[{"resultCG", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\< iterations\>\""}], "]"}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Convergence Analysis", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "Compare convergence rates and analyze the relationship between matrix \
+properties and convergence speed."
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Convergence Analysis:\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Method\t\tIterations\tFinal Residual\>\""}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<----------------------------------------\>\""}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultJacobi", "[", "\"\<success\>\"", "]"}], "===", "True"}], 
+    ",", "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Jacobi\t\t\>\"", ",", " ", 
+      RowBox[{"resultJacobi", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\<\t\t\>\"", ",", " ", 
+      RowBox[{"ScientificForm", "[", 
+       RowBox[{
+        RowBox[{"resultJacobi", "[", "\"\<residualNorm\>\"", "]"}], ",", 
+        "3"}], "]"}]}], "]"}]}], "\n", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultGS", "[", "\"\<success\>\"", "]"}], "===", "True"}], ",",
+     "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Gauss-Seidel\t\>\"", ",", " ", 
+      RowBox[{"resultGS", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\<\t\t\>\"", ",", " ", 
+      RowBox[{"ScientificForm", "[", 
+       RowBox[{
+        RowBox[{"resultGS", "[", "\"\<residualNorm\>\"", "]"}], ",", "3"}], 
+       "]"}]}], "]"}]}], "\n", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultCG", "[", "\"\<success\>\"", "]"}], "===", "True"}], ",",
+     "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Conj. Gradient\t\>\"", ",", " ", 
+      RowBox[{"resultCG", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\<\t\t\>\"", ",", " ", 
+      RowBox[{"ScientificForm", "[", 
+       RowBox[{
+        RowBox[{"resultCG", "[", "\"\<residualNorm\>\"", "]"}], ",", "3"}], 
+       "]"}]}], "]"}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Application: 2D Poisson Equation", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "Solve the 2D Poisson equation: -\[CapitalDelta]u = f on [0,1] x [0,1] \
+with u = 0 on boundary.\n",
+ "Discretized using finite differences, this leads to a large sparse linear \
+system."
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"buildPoisson2D", "[", "nx_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "h", ",", "n", ",", "A", ",", "diagMain", ",", "diagOff1", ",", 
+      "diagOff2"}], "}"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"h", "=", 
+      RowBox[{"1.0", "/", 
+       RowBox[{"(", 
+        RowBox[{"nx", "+", "1"}], ")"}]}]}], ";", "\n", "  ", 
+     RowBox[{"n", "=", 
+      RowBox[{"nx", "*", "nx"}]}], ";", "\n", "  ", 
+     RowBox[{"diagMain", "=", 
+      RowBox[{"ConstantArray", "[", 
+       RowBox[{
+        RowBox[{"4.0", "/", 
+         RowBox[{"h", "^", "2"}]}], ",", "n"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"diagOff1", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Mod", "[", 
+            RowBox[{"i", ",", "nx"}], "]"}], "==", "0"}], ",", "0", ",", 
+          RowBox[{
+           RowBox[{"-", "1.0"}], "/", 
+           RowBox[{"h", "^", "2"}]}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"diagOff2", "=", 
+      RowBox[{"ConstantArray", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "1.0"}], "/", 
+         RowBox[{"h", "^", "2"}]}], ",", 
+        RowBox[{"n", "-", "nx"}]}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"A", "=", 
+      RowBox[{
+       RowBox[{"DiagonalMatrix", "[", "diagMain", "]"}], "+", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"diagOff1", ",", "1"}], "]"}], "+", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"diagOff1", ",", 
+         RowBox[{"-", "1"}]}], "]"}], "+", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"diagOff2", ",", "nx"}], "]"}], "+", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"diagOff2", ",", 
+         RowBox[{"-", "nx"}]}], "]"}]}]}], ";", "\n", "  ", "A"}]}], "\n", 
+   "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"buildRHS2D", "[", "nx_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"h", ",", "f", ",", "x", ",", "y"}], "}"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"h", "=", 
+      RowBox[{"1.0", "/", 
+       RowBox[{"(", 
+        RowBox[{"nx", "+", "1"}], ")"}]}]}], ";", "\n", "  ", 
+     RowBox[{"f", "=", 
+      RowBox[{"Flatten", "[", 
+       RowBox[{"Table", "[", "\n", "    ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"x", "=", 
+           RowBox[{"i", "*", "h"}]}], ";", " ", 
+          RowBox[{"y", "=", 
+           RowBox[{"j", "*", "h"}]}], ";", "\n", "    ", 
+          RowBox[{"2", "*", 
+           RowBox[{"Pi", "^", "2"}], "*", 
+           RowBox[{"Sin", "[", 
+            RowBox[{"Pi", "*", "x"}], "]"}], "*", 
+           RowBox[{"Sin", "[", 
+            RowBox[{"Pi", "*", "y"}], "]"}]}]}], ",", "\n", "    ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "nx"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"j", ",", "1", ",", "nx"}], "}"}]}], "\n", "  ", "]"}], 
+       "]"}]}], ";", "\n", "  ", "f"}]}], "\n", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"nxPoisson", "=", "15"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"APoisson", "=", 
+   RowBox[{"buildPoisson2D", "[", "nxPoisson", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"bPoisson", "=", 
+   RowBox[{"buildRHS2D", "[", "nxPoisson", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<2D Poisson system size: \>\"", ",", " ", 
+    RowBox[{"Dimensions", "[", "APoisson", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Condition number: \>\"", ",", " ", 
+    RowBox[{"N", "[", 
+     RowBox[{"MatrixOperations`ConditionNumberChecked", "[", "APoisson", 
+      "]"}], "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultPoissonCG", "=", 
+   RowBox[{"LinearSystems`ConjugateGradientChecked", "[", 
+    RowBox[{"APoisson", ",", "bPoisson", ",", "Automatic", ",", "300", ",", 
+     SuperscriptBox["10", 
+      RowBox[{"-", "8"}]]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"resultPoissonCG", "[", "\"\<success\>\"", "]"}], "===", 
+     "True"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Poisson CG converged in \>\"", ",", " ", 
+       RowBox[{"resultPoissonCG", "[", "\"\<iterations\>\"", "]"}], ",", " ",
+        "\"\< iterations\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Final residual norm: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"resultPoissonCG", "[", "\"\<residualNorm\>\"", "]"}], 
+        "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"residualsPoisson", "=", 
+      RowBox[{
+       RowBox[{"resultPoissonCG", "[", "\"\<info\>\"", "]"}], "[", 
+       "\"\<residuals\>\"", "]"}]}], ";", "\n", "  ", 
+     RowBox[{"poissonPlot", "=", 
+      RowBox[{"ListLogPlot", "[", 
+       RowBox[{"residualsPoisson", ",", 
+        RowBox[{"PlotStyle", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"berkeleyBlue", ",", "Thick"}], "}"}]}], ",", 
+        RowBox[{"AxesLabel", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<Iteration\>\"", ",", "\"\<Residual Norm\>\""}], 
+          "}"}]}], ",", 
+        RowBox[{
+        "PlotLabel", "\[Rule]", "\"\<2D Poisson Equation CG Convergence\>\""}],
+         ",", 
+        RowBox[{"GridLines", "\[Rule]", "Automatic"}]}], "]"}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", "poissonPlot", "]"}], ";", "\n", "  ", 
+     RowBox[{"solution", "=", 
+      RowBox[{"resultPoissonCG", "[", "\"\<solution\>\"", "]"}]}], ";", "\n",
+      "  ", 
+     RowBox[{"solutionMatrix", "=", 
+      RowBox[{"ArrayReshape", "[", 
+       RowBox[{"solution", ",", 
+        RowBox[{"{", 
+         RowBox[{"nxPoisson", ",", "nxPoisson"}], "}"}]}], "]"}]}], ";", "\n",
+      "  ", 
+     RowBox[{"solutionPlot", "=", 
+      RowBox[{"ArrayPlot", "[", 
+       RowBox[{"solutionMatrix", ",", 
+        RowBox[{"ColorFunction", "\[Rule]", "\"\<TemperatureMap\>\""}], ",", 
+        RowBox[{
+        "PlotLabel", "\[Rule]", "\"\<2D Poisson Solution\>\""}], ",", 
+        RowBox[{"FrameLabel", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{"\"\<x\>\"", ",", "\"\<y\>\""}], "}"}]}]}], "]"}]}], ";", 
+     "\n", "  ", 
+     RowBox[{"Print", "[", "solutionPlot", "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Poisson CG failed to converge in \>\"", ",", " ", 
+      RowBox[{"resultPoissonCG", "[", "\"\<iterations\>\"", "]"}], ",", " ", 
+      "\"\< iterations\>\""}], "]"}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Performance Comparison", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "Compare the performance of different methods on various problem sizes and \
+matrix properties."
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"performanceTest", "[", 
+   RowBox[{"matrixSize_", ",", "conditionNumber_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "A", ",", "b", ",", "resultDirect", ",", "resultCG", ",", "timeDirect", 
+      ",", "timeCG"}], "}"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"SeedRandom", "[", "42", "]"}], ";", "\n", "  ", 
+     RowBox[{"A", "=", 
+      RowBox[{
+       RowBox[{"RandomReal", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"matrixSize", ",", "matrixSize"}], "}"}]}], "]"}], "+", 
+       RowBox[{"conditionNumber", " ", 
+        RowBox[{"IdentityMatrix", "[", "matrixSize", "]"}]}]}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"A", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Transpose", "[", "A", "]"}], ".", "A"}], "+", 
+       RowBox[{"0.01", " ", 
+        RowBox[{"IdentityMatrix", "[", "matrixSize", "]"}]}]}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"b", "=", 
+      RowBox[{"RandomReal", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", "matrixSize"}], "]"}]}],
+      ";", "\n", "  ", 
+     RowBox[{"timeDirect", "=", 
+      RowBox[{"First", "[", 
+       RowBox[{"AbsoluteTiming", "[", 
+        RowBox[{"resultDirect", "=", 
+         RowBox[{"LinearSystems`LUSolveChecked", "[", 
+          RowBox[{"A", ",", "b"}], "]"}]}], "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"timeCG", "=", 
+      RowBox[{"First", "[", 
+       RowBox[{"AbsoluteTiming", "[", 
+        RowBox[{"resultCG", "=", 
+         RowBox[{"LinearSystems`ConjugateGradientChecked", "[", 
+          RowBox[{"A", ",", "b", ",", "Automatic", ",", "matrixSize", ",", 
+           SuperscriptBox["10", 
+            RowBox[{"-", "8"}]]}], "]"}]}], "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"timeDirect", ",", "timeCG", ",", 
+       RowBox[{
+        RowBox[{"resultCG", "[", "\"\<success\>\"", "]"}], "===", "True"}], 
+       ",", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"resultCG", "[", "\"\<success\>\"", "]"}], "===", "True"}], 
+         ",", 
+         RowBox[{"resultCG", "[", "\"\<iterations\>\"", "]"}], ",", 
+         "\"\<Failed\>\""}], "]"}]}], "}"}]}]}], "\n", "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<Performance Comparison (Size, Direct Time, CG Time, CG Success, CG \
+Iterations)\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"sizes", "=", 
+   RowBox[{"{", 
+    RowBox[{"10", ",", "20", ",", "50"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"i", "=", "1"}], ",", 
+    RowBox[{"i", "<=", 
+     RowBox[{"Length", "[", "sizes", "]"}]}], ",", 
+    RowBox[{"i", "++"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"size", "=", 
+      RowBox[{"sizes", "[", 
+       RowBox[{"[", "i", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"result", "=", 
+      RowBox[{"performanceTest", "[", 
+       RowBox[{"size", ",", "1.0"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"size", ",", " ", "\"\< x \>\"", ",", " ", "size", ",", " ", 
+       "\"\<: Direct \>\"", ",", " ", 
+       RowBox[{"NumberForm", "[", 
+        RowBox[{
+         RowBox[{"result", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", "3"}], "]"}], ",", " ", 
+       "\"\<s, CG \>\"", ",", " ", 
+       RowBox[{"NumberForm", "[", 
+        RowBox[{
+         RowBox[{"result", "[", 
+          RowBox[{"[", "2", "]"}], "]"}], ",", "3"}], "]"}], ",", " ", 
+       "\"\<s, Success: \>\"", ",", " ", 
+       RowBox[{"result", "[", 
+        RowBox[{"[", "3", "]"}], "]"}], ",", " ", "\"\<, Iterations: \>\"", 
+       ",", " ", 
+       RowBox[{"result", "[", 
+        RowBox[{"[", "4", "]"}], "]"}]}], "]"}]}]}], "\n", "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ StyleBox["Key Learning Points:", "Subsubsection"],
+ "\n\[Bullet] Iterative methods are essential for large sparse systems\n\
+\[Bullet] Jacobi and Gauss-Seidel require diagonal dominance for \
+convergence\n\[Bullet] Conjugate Gradient is optimal for SPD systems\n\
+\[Bullet] Convergence rate depends on matrix condition number\n\[Bullet] \
+Iterative methods scale better for very large systems\n\[Bullet] Real \
+applications like PDEs naturally lead to iterative solver problems\n\[Bullet] \
+Preconditioning can dramatically improve convergence rates"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Mac OS X x86 (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"34567890-3456-7890-bcde-345678901234"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 138, 1, 98, "Title",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[721, 25, 682, 11, 173, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[CellGroupData[{
+Cell[1428, 40, 112, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[1543, 43, 636, 18, 115, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[2182, 63, 523, 14, 52, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2742, 82, 109, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[2854, 85, 269, 5, 58, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[3126, 92, 997, 30, 115, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[4126, 124, 1865, 45, 136, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6028, 174, 106, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[6137, 177, 222, 4, 35, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[6362, 183, 2319, 57, 136, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8718, 245, 113, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[8834, 248, 242, 4, 35, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[9079, 254, 1332, 40, 157, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[10414, 296, 1897, 47, 136, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12348, 348, 108, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[12459, 351, 200, 4, 35, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[12662, 357, 2014, 55, 220, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14713, 417, 118, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[14834, 420, 304, 6, 58, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[15141, 428, 3286, 87, 472, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[18430, 517, 735, 19, 115, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[19168, 538, 2726, 67, 241, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21931, 610, 111, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[22045, 613, 194, 4, 35, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[22242, 619, 4148, 106, 367, "Input",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26427, 730, 95, 1, 67, "Section",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"],
+Cell[26525, 733, 595, 10, 150, "Text",ExpressionUUID->"34567890-3456-7890-bcde-345678901234"]
+}, Open  ]]
+}, Open  ]]
+}
+]

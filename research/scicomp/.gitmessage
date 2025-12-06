@@ -1,0 +1,17 @@
+# Commit message template
+# 
+# Use concise, descriptive commit messages without emojis or symbols
+# 
+# Examples of good commit messages:
+# - "Add quantum state validation tests"
+# - "Fix BFGS convergence algorithm"
+# - "Update API documentation"
+# - "Remove unnecessary configuration files"
+#
+# Examples to avoid:
+# - "🚀 Major improvements"
+# - "✨ Add new feature"
+# - "🐛 Bug fix"
+#
+# Keep messages under 50 characters for the subject line
+# Use imperative mood (Add, Fix, Update, Remove)

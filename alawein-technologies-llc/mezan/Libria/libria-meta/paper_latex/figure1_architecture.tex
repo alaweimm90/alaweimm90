@@ -1,0 +1,101 @@
+% Figure 1: MetaLibria Architecture Diagram
+% Compile with: pdflatex figure1_architecture.tex
+
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, fit, backgrounds, calc}
+
+\begin{document}
+
+\tikzset{
+  % Define styles
+  process/.style={rectangle, rounded corners, minimum width=3cm, minimum height=1cm,
+                  text centered, draw=black, fill=blue!20, thick},
+  data/.style={cylinder, shape border rotate=90, minimum width=2.5cm, minimum height=0.8cm,
+               text centered, draw=black, fill=green!20, thick},
+  decision/.style={diamond, minimum width=2cm, minimum height=1cm,
+                   text centered, draw=black, fill=orange!20, thick},
+  output/.style={rectangle, rounded corners, minimum width=2.5cm, minimum height=0.8cm,
+                 text centered, draw=black, fill=red!20, thick, font=\bfseries},
+  arrow/.style={thick,->,>=Stealth},
+  phase/.style={rectangle, rounded corners, minimum width=16cm, minimum height=7cm,
+                draw=black, thick, dashed, fill=gray!5},
+  phaselabel/.style={font=\Large\bfseries}
+}
+
+\begin{tikzpicture}[node distance=1.5cm]
+
+% Training Phase Box
+\node[phase, label={[phaselabel]above:TRAINING PHASE (Offline)}] (train-box) at (0,0) {};
+
+% Training Phase Nodes
+\node[data] (train-instances) at (-6, 1.5) {Training\\Instances};
+\node[process] (extract-features) at (-6, -0.5) {Extract\\Features};
+\node[process] (clustering) at (-6, -2.5) {KMeans\\Clustering\\($k$ clusters)};
+
+\node[process] (tournaments) at (-1.5, -0.5) {Swiss-System\\Tournaments\\($R$ rounds)};
+\node[process] (elo-update) at (-1.5, -2.5) {Update\\Elo Ratings};
+
+\node[output] (elo-global) at (3.5, 0.5) {Global\\Elo};
+\node[output] (elo-cluster) at (3.5, -1.5) {Cluster-Specific\\Elo};
+\node[output] (cluster-model) at (3.5, -3.5) {Cluster\\Centroids};
+
+% Training Phase Arrows
+\draw[arrow] (train-instances) -- (extract-features);
+\draw[arrow] (extract-features) -- (clustering);
+\draw[arrow] (clustering) -- node[above] {clusters} (tournaments);
+\draw[arrow] (clustering) -- node[below] {assign} (elo-update);
+\draw[arrow] (tournaments) -- node[right, text width=2cm, align=center] {match\\outcomes} (elo-update);
+\draw[arrow] (elo-update) -- (elo-global);
+\draw[arrow] (elo-update) -- (elo-cluster);
+\draw[arrow] (clustering) -- (cluster-model);
+
+% Selection Phase Box
+\node[phase, label={[phaselabel]above:SELECTION PHASE (Online - 0.15ms)}] (select-box) at (0,-10) {};
+
+% Selection Phase Nodes
+\node[data] (new-instance) at (-6, -8.5) {New\\Instance};
+\node[process] (extract-features-test) at (-6, -10.5) {Extract\\Features\\$O(d)$};
+\node[process] (assign-cluster) at (-3, -10.5) {Assign to\\Cluster\\$O(kd)$};
+
+\node[process] (ucb-compute) at (1, -10.5) {Compute UCB\\Scores\\$O(m)$};
+\node[output] (selected-algo) at (5, -10.5) {Selected\\Algorithm};
+
+% Input from Training Phase
+\node[draw=none, fill=none] (elo-input-1) at (3.5, -7) {};
+\node[draw=none, fill=none] (elo-input-2) at (3.5, -8) {};
+\node[draw=none, fill=none] (cluster-input) at (3.5, -9) {};
+
+% Selection Phase Arrows
+\draw[arrow] (new-instance) -- (extract-features-test);
+\draw[arrow] (extract-features-test) -- (assign-cluster);
+\draw[arrow] (assign-cluster) -- node[above] {cluster $c$} (ucb-compute);
+\draw[arrow] (ucb-compute) -- (selected-algo);
+
+% Connections from Training to Selection
+\draw[arrow, dashed, blue, very thick] (elo-cluster.south) -- (elo-input-1.center) -- (ucb-compute.north)
+      node[midway, right, text width=2.5cm, align=center] {Elo ratings\\(pre-computed)};
+\draw[arrow, dashed, green!60!black, very thick] (cluster-model.south) -- (cluster-input.center) -- (assign-cluster.north)
+      node[midway, left, text width=2.5cm, align=center] {Cluster\\centroids};
+
+% Legend
+\node[rectangle, draw=black, thick, fill=white, align=left, font=\small] at (8, -5) {
+  \textbf{Key:}\\[0.2cm]
+  \tikz\node[data, minimum width=1.5cm, minimum height=0.5cm] {};\ \ Data\\[0.1cm]
+  \tikz\node[process, minimum width=1.5cm, minimum height=0.5cm] {};\ \ Process\\[0.1cm]
+  \tikz\node[output, minimum width=1.5cm, minimum height=0.5cm] {};\ \ Output\\[0.1cm]
+  \tikz\draw[arrow, dashed, blue, very thick] (0,0) -- (0.5,0);\ \ Elo flow\\[0.1cm]
+  \tikz\draw[arrow, dashed, green!60!black, very thick] (0,0) -- (0.5,0);\ \ Cluster flow
+};
+
+% Annotations
+\node[font=\footnotesize, text width=3cm, align=center] at (-6, -4.5) {
+  \textbf{Offline:} 0.1-0.5s
+};
+\node[font=\footnotesize, text width=3cm, align=center] at (5, -12) {
+  \textbf{Online:} 0.15ms\\1664$\times$ faster
+};
+
+\end{tikzpicture}
+
+\end{document}

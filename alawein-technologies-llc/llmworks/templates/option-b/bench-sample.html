@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Bench - Digital Guardian | Cyber Security Testing Suite</title>
+    <style>
+        :root {
+            --primary: #0F1419;
+            --secondary: #00C896;
+            --accent: #FF6B35;
+            --background: #0A0E13;
+            --surface: #1A1B23;
+            --text: #E2E8F0;
+            --text-muted: #94A3B8;
+            --border: #2D3748;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', 'Courier New', monospace;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--text);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--secondary);
+            box-shadow: 0 4px 20px rgba(0, 200, 150, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--secondary);
+            text-shadow: 0 0 20px rgba(0, 200, 150, 0.5);
+        }
+
+        .mission-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Layout */
+        .bench-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: calc(100vh - 80px);
+        }
+
+        .security-sidebar {
+            background: var(--surface);
+            border-right: 2px solid var(--secondary);
+            overflow-y: auto;
+        }
+
+        .main-content {
+            background: var(--background);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Sidebar */
+        .sidebar-header {
+            background: var(--primary);
+            color: var(--text);
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .test-suite {
+            padding: 1.5rem;
+        }
+
+        .suite-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .test-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .test-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .test-item:hover {
+            border-color: var(--secondary);
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.2);
+        }
+
+        .test-item:hover::before {
+            background: var(--secondary);
+            width: 5px;
+        }
+
+        .test-item.active {
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.05);
+        }
+
+        .test-item.active::before {
+            background: var(--accent);
+            width: 5px;
+        }
+
+        .test-name {
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .test-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .test-status {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-ready { color: var(--success); }
+        .status-scanning { color: var(--accent); }
+        .status-complete { color: var(--secondary); }
+
+        /* Main Content */
+        .benchmark-header {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--secondary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.1);
+        }
+
+        .benchmark-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 200, 150, 0.3);
+        }
+
+        .benchmark-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .benchmark-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cyber-button {
+            background: linear-gradient(135deg, var(--secondary), #00A06B);
+            color: var(--primary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.3);
+        }
+
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 200, 150, 0.4);
+        }
+
+        .cyber-button.primary {
+            background: linear-gradient(135deg, var(--accent), #E55A2B);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .cyber-button.primary:hover {
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 40px rgba(0, 200, 150, 0.2);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .model-name {
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .model-score {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        .result-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .metric:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 200, 150, 0.2);
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-progress {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: data-sweep 2s linear infinite;
+        }
+
+        @keyframes data-sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .result-status {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-secure {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-protected {
+            background: rgba(0, 200, 150, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .status-vulnerable {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        /* Security Leaderboard */
+        .security-board {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+        }
+
+        .board-header {
+            background: var(--primary);
+            color: var(--text);
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .board-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .board-content {
+            padding: 1.5rem;
+        }
+
+        .board-item {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px 100px;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .board-item:hover {
+            background: var(--background);
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(0, 200, 150, 0.1);
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        .rank.first { color: var(--accent); }
+        .rank.second { color: var(--secondary); }
+        .rank.third { color: var(--text-muted); }
+
+        .model-info {
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .model-details {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .score {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        .security-level {
+            text-align: center;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+        }
+
+        .level-maximum { color: var(--success); }
+        .level-high { color: var(--secondary); }
+        .level-medium { color: var(--accent); }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch:hover {
+            animation: glitch 0.3s ease-in-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bench-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .security-sidebar {
+                border-right: none;
+                border-bottom: 2px solid var(--secondary);
+                max-height: 300px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .board-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo glitch">◉ AEGIS BENCH</div>
+        <div class="mission-info">
+            <span>◉ Protocol: Ghost-Scan</span>
+            <span>◉ Status: Scanning</span>
+            <span>◉ ETA: 2:47</span>
+        </div>
+    </header>
+
+    <div class="bench-container">
+        <div class="security-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title glitch">Security Arsenal</div>
+                <div class="sidebar-subtitle">Cyber Testing Suite</div>
+            </div>
+            
+            <div class="test-suite">
+                <div class="suite-title">◉ Active Scans</div>
+                
+                <div class="test-item active">
+                    <div class="test-name">Code Injection</div>
+                    <div class="test-description">Neural code vulnerability assessment with penetration testing</div>
+                    <div class="test-status status-scanning">◉ Scanning</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Logic Firewall</div>
+                    <div class="test-description">Reasoning security protocols and logical breach detection</div>
+                    <div class="test-status status-ready">◉ Ready</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Data Integrity</div>
+                    <div class="test-description">Information security and neural data corruption analysis</div>
+                    <div class="test-status status-ready">◉ Ready</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Neural Shield</div>
+                    <div class="test-description">Creative output security and narrative integrity testing</div>
+                    <div class="test-status status-complete">◉ Complete</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Crypto Analysis</div>
+                    <div class="test-description">Mathematical security and computational integrity verification</div>
+                    <div class="test-status status-ready">◉ Ready</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="benchmark-header">
+                <h1 class="benchmark-title glitch">Operation Ghost-Scan</h1>
+                <p class="benchmark-subtitle">Comprehensive AI security evaluation with cybersecurity-grade penetration testing. Assess neural vulnerabilities across multiple attack vectors.</p>
+                <div class="benchmark-actions">
+                    <button class="cyber-button primary">◉ Deploy All Scans</button>
+                    <button class="cyber-button">◉ Generate Security Report</button>
+                    <button class="cyber-button">◉ Configure Firewall</button>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">GPT-4 Turbo</div>
+                        <div class="model-score">94.7</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">99%</div>
+                            <div class="metric-label">Security</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">0.8ms</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Scan Progress</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-secure">◉ Maximum Security</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Claude 3.5 Sonnet</div>
+                        <div class="model-score">89.3</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">96%</div>
+                            <div class="metric-label">Security</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">1.1ms</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Scan Progress</span>
+                            <span>87%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 87%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-protected">◉ Cyber Protected</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Gemini Pro</div>
+                        <div class="model-score">85.1</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">91%</div>
+                            <div class="metric-label">Security</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">1.7ms</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Scan Progress</span>
+                            <span>78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-protected">◉ Neural Shielded</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Llama 3.1 70B</div>
+                        <div class="model-score">79.9</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">84%</div>
+                            <div class="metric-label">Security</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2.3ms</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Scan Progress</span>
+                            <span>71%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 71%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-vulnerable">◉ Patch Required</div>
+                </div>
+            </div>
+
+            <div class="security-board">
+                <div class="board-header">
+                    <div class="board-title glitch">◉ Security Leaderboard</div>
+                </div>
+                <div class="board-content">
+                    <div class="board-item">
+                        <div class="rank first">1</div>
+                        <div>
+                            <div class="model-info">GPT-4 Turbo</div>
+                            <div class="model-details">OpenAI • Latest Security Patch</div>
+                        </div>
+                        <div class="score">94.7</div>
+                        <div class="security-level level-maximum">MAXIMUM</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank second">2</div>
+                        <div>
+                            <div class="model-info">Claude 3.5 Sonnet</div>
+                            <div class="model-details">Anthropic • Cyber Hardened</div>
+                        </div>
+                        <div class="score">89.3</div>
+                        <div class="security-level level-high">HIGH</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank third">3</div>
+                        <div>
+                            <div class="model-info">Gemini Pro</div>
+                            <div class="model-details">Google • Neural Shield</div>
+                        </div>
+                        <div class="score">85.1</div>
+                        <div class="security-level level-high">HIGH</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank">4</div>
+                        <div>
+                            <div class="model-info">Llama 3.1 70B</div>
+                            <div class="model-details">Meta • Open Source</div>
+                        </div>
+                        <div class="score">79.9</div>
+                        <div class="security-level level-medium">MEDIUM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

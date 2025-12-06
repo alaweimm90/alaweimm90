@@ -1,0 +1,152 @@
+############################################################################
+############################################################################
+# File: compress.in
+# Description: Simulation setup of compression using Liang's model
+# Developer: Meshal Alawein, EECS PhD student at UC Berkeley
+# Contact: meshal@berkeley.edu
+############################################################################
+############################################################################
+
+########## GLOBAL VARIABLES ##########
+units metal                                                                   # Units setting
+dimension 3                                                                   # Simulation dimension
+boundary p p f                                                                # Boundary conditions
+
+# Neighbor Settings
+neighbor 1 bin                                                              # Neighbor binning for efficiency
+neigh_modify delay 5 every 1                                                  # Neighbor list update settings
+
+############################ Initialization ############################
+units metal                                                                   # Style of units
+dimension 3                                                                   # Dimension of simulation
+newton on                                                                     # Newton's 3rd law for pairwise and bonded interactions
+boundary p p f                                                                # Boundary conditions
+atom_style atomic                                                             # Style of atoms
+box tilt large                                                                # Set tilt constraint of simulation box 
+
+############################ System definition ############################
+# Read data
+read_data 1x10_rectangular.data                                                           # Read data file  
+replicate 1 1 1                                                               # Cell replication
+
+group MoGroup type 2                                                          # Define a group (Mo atoms)
+group SGroup type 1                                                           # Define a group (S atoms)
+
+#group up id 85
+#group down id 115
+
+#fix 10 up setforce 0.0 0.0 0.0
+#fix 20 down setforce NULL NULL 0.0
+
+variable dx1 equal 0                                                          # Define dx1 [Ang] 
+variable dx2 equal 0                                                          # Define dx2 [Ang] 
+change_box all x delta ${dx1} ${dx2}                                           # Change box
+variable dy1 equal 0                                                          # Define dy1 [Ang] 
+variable dy2 equal 0                                                          # Define dy2 [Ang] 
+change_box all y delta ${dy1} ${dy2}                                           # Change box
+variable dz1 equal 0                                                          # Define dz1 [Ang] 
+variable dz2 equal 0                                                          # Define dz2 [Ang] 
+change_box all z delta ${dz1} ${dz2}                                           # Change box
+
+############################ Simulation settings ############################
+# Force field coefficients
+pair_style rebomos                                                             # Set the formulas LAMMPS uses to compute pairwise interactions 
+pair_coeff * * MoS.REBO.set5b M S                                             # Pairwise force field coefficients
+
+# Variables and computation
+variable Lx equal lx                                                          # Define Lx [Ang]
+variable Ly equal ly                                                          # Define Ly [Ang]
+variable Lz equal lz                                                          # Define Lz [Ang]
+variable V equal vol                                                          # Define V [Ang]
+variable t equal 6.09                                                         # Define t (interatomic spacing) [Ang]
+
+compute myTemp all temp                                                       # Compute temperature for all atoms
+compute P all pressure myTemp                                                 # Compute pressure for all atoms
+compute EPTotal all pe                                                        # Compute total potential energy
+compute EPAtom all pe/atom                                                    # Compute potential energy per atom
+compute Satom all stress/atom myTemp                                          # Compute stress for all atoms
+compute S all reduce sum c_Satom[*]                                           # Compute total stress
+
+variable Pxx equal "-pxx/10000"                                                # Define Pxx [GPa]
+variable Pyy equal "-pyy/10000"                                                # Define Pyy [GPa]
+variable Pzz equal "-pzz/10000"                                                # Define Pzz [GPa]
+variable Sxx equal "c_S[1]/10000"                                             # Define Sxx [GPa*Ang^3] 
+variable Syy equal "c_S[2]/10000"                                             # Define Syy [GPa*Ang^3]
+variable Szz equal "c_S[3]/10000"                                             # Define Szz [GPa*Ang^3]
+variable Sxy equal "c_S[4]/10000"                                             # Define Sxy [GPa*Ang^3]
+variable Sxz equal "c_S[5]/10000"                                             # Define Sxz [GPa*Ang^3]
+variable Syz equal "c_S[6]/10000"                                             # Define Syz [GPa*Ang^3]
+variable       					Ptheor equal -(c_S[1]+c_S[2]+c_S[3])/(3*$V*10000)                # Define P=-(Sxx+Syy+Szz)/(d*V) [Bar] [NOTE: d=1,2,3; we use d=3 here]	
+variable 						force_atom atom sqrt(fx*fx+fy*fy+fz*fz)
+variable 						force_atomxy atom sqrt(fx*fx+fy*fy)
+variable 						force_atomxz atom sqrt(fx*fx+fz*fz)
+variable 						force_atomyz atom sqrt(fy*fy+fz*fz)
+compute 						allforce all reduce max v_force_atom
+compute 						allforcexy all reduce max v_force_atomxy
+compute 						allforcexz all reduce max v_force_atomxz 
+compute 						allforceyz all reduce max v_force_atomyz
+variable 						Ftot equal "c_allforce"
+variable 						Fxy equal "c_allforcexy"
+variable 						Fxz equal "c_allforcexz"
+variable 						Fyz equal "c_allforceyz"
+
+
+#displace_atoms up move 0.0 0.0 0.10 units box
+#displace_atoms down move 0.0 0.0 -0.20 units box
+
+
+# Initial Relaxation
+fix 3 all box/relax x 0.0 y 0.0                                               # Relax box in x and y directions
+dump 1 all atom 1000 compress.dump                                            # Dump configuration every 1000 steps
+dump_modify 1 scale no                                                        # Modify dump to not scale coordinates
+
+# Thermodynamic Outputs
+variable Nprint equal 100                                                      # Frequency of thermodynamic output
+thermo ${Nprint}                                                               # Output thermodynamic info every Nprint-timesteps
+thermo_style 					custom &
+								step time &
+								temp press v_Ptheor pe ke etotal &
+								lx ly lz vol & 
+								fnorm v_Fxy v_Fxz v_Fyz v_Ftot &
+								v_Pxx v_Pyy v_Pzz &
+ 								v_Sxx v_Syy v_Szz					
+
+thermo_modify lost error flush yes                                             # Modify thermo settings
+print "Nstep T (K)   P (GPa)   E_P (eV)   E_K (eV)   E_total (eV)   L_x (Ang)   L_y (Ang)   L_z (Ang)   V (Ang^3)   P_xx (GPa)   P_yy (GPa)   P_zz (GPa)" &
+      file data.txt screen no
+
+# Minimization Settings
+min_style cg                                                                  # Conjugate gradient minimization
+minimize 1.0e-99 1.0e-99 10000000 10000000                                    # Minimization parameters
+
+write_dump all atom initial.dump                                              # Write initial configuration
+
+# Start box compression along a specified direction
+unfix 3                                                                       # Remove initial relaxation fix
+
+fix 4 all box/relax x 0.0                                                     # New fix for further relaxation
+
+#unfix 10
+#unfix 20
+
+variable a loop 40                                                            # Loop variable for compression cycles
+label loop                                                                    # Loop label
+
+
+change_box all y delta 0.2743154 -0.2743154 remap                             # Change box dimensions
+#change_box all y delta 0.5486308 -0.5486308 remap                             # Change box dimensions
+#change_box all y delta 0.8229462 -0.8229462 remap                             # Change box dimensions
+
+displace_atoms all random 0.01 0.01 0.01 32184769                             # Randomly displace atoms to avoid singularities
+
+minimize 1.0e-99 1.0e-99 10000000 10000000                                    # Minimization parameters
+
+
+write_dump all atom strain-$a.dump                                             # Write configuration at each step
+print "$(step)  $(temp:%.3f) $(press/10000:%.3f)   $(pe:%.3f)   $(ke:%.3f)     $(etotal:%.3f)       $(v_Lx:%.4f)     $(v_Ly:%.3f)      $(v_Lz:%.3f)      $(v_V:%.3f)    $(v_Pxx:%.3f)       $(v_Pyy:%.3f)       $(v_Pzz:%.3f)" append data.txt screen no
+next a                                                                        # Increment loop variable
+
+jump compress-y.in loop                                                            # Jump to start of loop
+
+# Clean-up and closing statements
+print "ALL SIMULATIONS COMPLETED!"                                            # Completion message

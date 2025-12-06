@@ -1,0 +1,47 @@
+# Materials Science Research Module Requirements
+
+# Core dependencies
+pydantic==2.5.3
+numpy==1.24.3
+scipy==1.11.4
+asyncio-mqtt==0.16.2
+aiohttp==3.9.1
+
+# Scientific computing
+pandas==2.1.4
+matplotlib==3.8.2
+plotly==5.18.0
+
+# Crystal structure analysis
+pymatgen==2024.1.26  # Materials Project toolkit
+ase==3.22.1  # Atomic Simulation Environment
+spglib==2.2.0  # Space group library
+
+# Machine learning for property prediction
+scikit-learn==1.3.2
+xgboost==2.0.3
+
+# Chemistry tools
+rdkit==2023.9.4  # For molecular structures
+mendeleev==0.15.0  # Periodic table data
+
+# Database connectivity
+pymongo==4.6.1  # For materials database
+sqlalchemy==2.0.25
+
+# Visualization
+py3Dmol==2.0.6  # 3D structure visualization
+bokeh==3.3.2  # Interactive plots
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# Documentation
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0
+
+# Optional: Quantum chemistry (commented out by default)
+# qiskit==0.45.1
+# pennylane==0.33.1

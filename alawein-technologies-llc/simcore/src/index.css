@@ -1,0 +1,1177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600;700&display=swap');
+
+/* KaTeX Styles for Math Rendering */
+.katex-display {
+  margin: 1em 0 !important;
+  text-align: center !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.katex {
+  font-size: 1.1em !important;
+  color: inherit !important;
+  line-height: 1.4 !important;
+}
+
+.katex .base {
+  color: inherit !important;
+}
+
+.katex .mord, .katex .mop, .katex .mbin, .katex .mrel, .katex .mopen, .katex .mclose, .katex .mpunct {
+  color: inherit !important;
+}
+
+/* Ensure math renders correctly in cards and panels */
+.katex-html {
+  color: inherit !important;
+}
+
+/* Fix for dark mode */
+.dark .katex {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark .katex .base {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark .katex .mord, .dark .katex .mop, .dark .katex .mbin, .dark .katex .mrel, .dark .katex .mopen, .dark .katex .mclose, .dark .katex .mpunct {
+  color: hsl(var(--foreground)) !important;
+}
+
+
+/* iOS Safari Touch Optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+button, [role="button"], input[type="button"], input[type="submit"] {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* Ensure touch targets are large enough for mobile */
+@media (pointer: coarse) {
+  button, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* iPhone Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix text rendering issues on iOS Safari */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Fix button tap delays and highlights */
+  button, [role="button"], [role="tab"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  /* Fix grid and flexbox issues */
+  .grid {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  
+  /* Fix tab list display on Safari */
+  [role="tablist"] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-orient: horizontal !important;
+    -webkit-box-direction: normal !important;
+    -ms-flex-direction: row !important;
+    flex-direction: row !important;
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+  
+  [role="tab"] {
+    -webkit-box-flex: 0 !important;
+    -ms-flex: 0 0 auto !important;
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    min-width: -webkit-fit-content !important;
+    min-width: -moz-fit-content !important;
+    min-width: fit-content !important;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* SimCore Design System - Physics Token Architecture */
+
+@layer base {
+  :root {
+/* ===== TIER 1: PRIMITIVE TOKENS ===== */
+    
+    /* Enhanced responsive utilities */
+    --touch-target-min: 44px;
+    --spacing-mobile: 1rem;
+    --spacing-tablet: 1.5rem;
+    --spacing-desktop: 2rem;
+    /* Color Primitives - HSL values for precise manipulation */
+    --primitive-purple-050: 245 100% 97%;
+    --primitive-purple-100: 245 85% 93%;
+    --primitive-purple-200: 245 80% 85%;
+    --primitive-purple-300: 245 75% 75%;
+    --primitive-purple-400: 245 70% 65%;
+    --primitive-purple-500: 240 100% 65%;
+    --primitive-purple-600: 240 85% 55%;
+    --primitive-purple-700: 240 75% 45%;
+    --primitive-purple-800: 245 80% 20%;
+    --primitive-purple-900: 245 95% 8%;
+
+    --primitive-green-400: 142 76% 55%;
+    --primitive-green-500: 142 76% 45%;
+    --primitive-green-600: 142 76% 35%;
+
+    --primitive-red-500: 0 85% 60%;
+    --primitive-gold-500: 45 100% 55%;
+    --primitive-cyan-500: 190 100% 60%;
+
+    --primitive-neutral-000: 0 0% 100%;
+    --primitive-neutral-050: 0 0% 98%;
+    --primitive-neutral-900: 0 0% 7%;
+    --primitive-neutral-950: 0 0% 2%;
+
+    /* Spacing Primitives */
+    --primitive-space-1: 0.25rem;
+    --primitive-space-2: 0.5rem;
+    --primitive-space-3: 0.75rem;
+    --primitive-space-4: 1rem;
+    --primitive-space-6: 1.5rem;
+    --primitive-space-8: 2rem;
+    --primitive-space-12: 3rem;
+    --primitive-space-16: 4rem;
+
+    /* Shadow Primitives */
+    --primitive-shadow-quantum: 0 0 40px hsl(240 100% 65% / 0.3);
+    --primitive-shadow-statistical: 0 0 30px hsl(142 76% 45% / 0.25);
+    --primitive-shadow-elevation-1: 0 1px 3px hsla(0, 0%, 0%, 0.12);
+    --primitive-shadow-elevation-2: 0 4px 12px hsla(0, 0%, 0%, 0.15);
+
+    /* ===== TIER 2: SEMANTIC TOKENS ===== */
+    /* Core Theme Foundation */
+    --background: var(--primitive-purple-900);
+    --foreground: var(--primitive-purple-050);
+    
+    --card: hsl(220 25% 8%);
+    --card-foreground: var(--primitive-purple-050);
+    
+    --popover: hsl(220 25% 8%);
+    --popover-foreground: var(--primitive-purple-050);
+
+    /* Semantic Color System */
+    --semantic-background-primary: var(--primitive-purple-900);
+    --semantic-background-secondary: hsl(245, 85%, 10%);
+    --semantic-surface-elevated: hsla(245, 95%, 15%, 0.8);
+    --semantic-surface-glass: hsla(245, 95%, 20%, 0.1);
+
+    --semantic-text-primary: var(--primitive-purple-050);
+    --semantic-text-secondary: hsl(245, 15%, 75%);
+    --semantic-text-muted: hsl(245, 10%, 60%);
+    --semantic-text-accent: var(--primitive-purple-400);
+
+    /* Physics Domain Colors */
+    --semantic-domain-quantum: var(--primitive-purple-500);
+    --semantic-domain-energy: var(--primitive-red-500);
+    --semantic-domain-statistical: var(--primitive-green-500);
+    --semantic-domain-fields: var(--primitive-gold-500);
+
+    /* Interactive States */
+    --primary: var(--semantic-domain-quantum);
+    --primary-foreground: var(--semantic-background-primary);
+    --primary-glow: hsl(240 100% 75%);
+
+    --secondary: hsl(280 60% 20%);
+    --secondary-foreground: var(--semantic-text-primary);
+
+    --muted: hsl(220 20% 15%);
+    --muted-foreground: hsl(210 20% 70%);
+
+    --accent: var(--primitive-cyan-500);
+    --accent-foreground: var(--semantic-background-primary);
+    
+    /* Gradients for animations */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-physics: linear-gradient(135deg, hsl(var(--physics-valence)), hsl(var(--physics-conduction)));
+    
+    /* Shadows for depth */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.1);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.15);
+
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: var(--semantic-text-primary);
+
+    --border: hsl(220 20% 20%);
+    --input: hsl(220 20% 15%);
+    --ring: var(--semantic-domain-quantum);
+
+    /* Brand tokens */
+    --brand-primary: 272 88% 64%;            /* Refined purplish primary for wordmark */
+    --brand-primary-glow: 285 92% 70%;
+    --brand-ink: 260 80% 12%;                /* Dark elegant stroke for icon */
+    --brand-gradient-start: 268 88% 62%;
+    --brand-gradient-mid: 282 92% 66%;
+    --brand-gradient-end: 296 82% 58%;
+    --brand-gradient: linear-gradient(150deg,
+      hsl(var(--brand-gradient-start)) 0%,
+      hsl(var(--brand-gradient-start)) 42%,
+      hsl(var(--brand-gradient-mid)) 50%,
+      hsl(var(--brand-gradient-mid)) 56%,
+      hsl(var(--brand-gradient-end)) 100%);
+
+
+    /* Semantic Spacing */
+    --semantic-spacing-module: var(--primitive-space-8);
+    --semantic-spacing-section: var(--primitive-space-16);
+    --semantic-spacing-inline: var(--primitive-space-4);
+    --semantic-spacing-card: var(--primitive-space-6);
+
+    --radius: 0.75rem;
+
+    /* ===== TIER 3: COMPONENT TOKENS ===== */
+    /* Button Components */
+    --component-button-primary-bg: var(--semantic-domain-quantum);
+    --component-button-primary-text: var(--semantic-background-primary);
+    --component-button-primary-hover: hsl(240 100% 70%);
+    
+    --component-button-secondary-bg: transparent;
+    --component-button-secondary-text: var(--semantic-domain-quantum);
+    --component-button-secondary-border: var(--semantic-domain-quantum);
+    --component-button-secondary-hover: hsla(var(--semantic-domain-quantum), 0.1);
+
+    --component-button-physics-bg: var(--semantic-domain-quantum);
+    --component-button-physics-text: var(--semantic-text-primary);
+    --component-button-physics-shadow: var(--primitive-shadow-quantum);
+
+    /* Card Components */
+    --component-card-background: var(--semantic-surface-glass);
+    --component-card-border: hsla(var(--semantic-domain-quantum), 0.2);
+    --component-card-padding: var(--semantic-spacing-card);
+    --component-card-shadow: var(--primitive-shadow-quantum);
+    --component-card-hover-glow: 0 0 60px hsla(var(--semantic-domain-quantum), 0.15);
+
+    /* Scientific Gradients */
+    --gradient-quantum: linear-gradient(135deg, hsl(var(--semantic-domain-quantum)), hsl(280 80% 60%));
+    --gradient-field: linear-gradient(45deg, hsl(var(--primitive-cyan-500)), hsl(240 100% 75%));
+    --gradient-cosmic: linear-gradient(180deg, hsl(var(--semantic-background-primary)), hsl(240 40% 12%));
+    --gradient-wave: linear-gradient(90deg, transparent, hsl(var(--semantic-domain-quantum) / 0.3), transparent);
+
+    /* Enhanced Shadow System */
+    --shadow-quantum: 0 20px 40px -10px hsl(var(--semantic-domain-quantum) / 0.4);
+    --shadow-field: 0 10px 30px -5px hsl(var(--primitive-cyan-500) / 0.3);
+    --shadow-depth: 0 25px 50px -12px hsl(var(--semantic-background-primary) / 0.8);
+
+    /* Animations */
+    --transition-quantum: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-field: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Physics constants for visual scaling */
+    --lattice-scale: 1.2rem;
+    --wave-frequency: 2s;
+    --orbital-period: 8s;
+
+    /* Scientific Plot Colors - Theme-aware */
+    --physics-valence: 240 100% 65%;      /* Quantum blue for valence bands */
+    --physics-conduction: 0 84% 60%;      /* Research red for conduction bands */
+    --physics-fermi: 45 93% 47%;          /* Academic gold for Fermi level */
+    --physics-dos: 280 80% 60%;           /* Deep purple for DOS */
+    --physics-neutral: 220 20% 50%;       /* Neutral gray for auxiliary lines */
+    --physics-potential: 210 20% 60%;     /* Light gray for potentials */
+
+    /* Scientific Typography Scale - Fluid responsive sizing */
+    --font-size-plot-title: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);        /* 16px - 20px */
+    --font-size-plot-subtitle: clamp(0.875rem, 0.8rem + 0.375vw, 1.125rem); /* 14px - 18px */
+    --font-size-axis-label: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);     /* 12px - 14px */
+    --font-size-tick-label: clamp(0.6875rem, 0.65rem + 0.1875vw, 0.75rem); /* 11px - 12px */
+    --font-size-legend: clamp(0.6875rem, 0.65rem + 0.1875vw, 0.75rem);     /* 11px - 12px */
+    --font-size-annotation: clamp(0.625rem, 0.6rem + 0.125vw, 0.6875rem);  /* 10px - 11px */
+
+    /* Accessibility scaling factors */
+    --font-scale: 1;
+    --contrast-scale: 1;
+
+    /* Plot semantic tokens (colors use raw HSL triples) */
+    --plot-fg: var(--semantic-text-primary);
+    --plot-axis: 220 20% 78%;
+    --plot-axis-zero: 210 20% 60%;
+    --plot-legend-bg: 0 0% 0%;
+
+    /* Plot-specific spacing */
+    --plot-margin-left: 80px;
+    --plot-margin-right: 60px;
+    --plot-margin-top: 70px;
+    --plot-margin-bottom: 80px;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  /* High contrast overrides for better readability on dark backgrounds */
+  :root.high-contrast {
+    --muted-foreground: 210 20% 85%;
+    --border: 220 20% 40%;
+    --plot-fg: 0 0% 100%;
+    --plot-axis: 0 0% 92%;
+    --plot-axis-zero: 200 100% 70%;
+    --plot-legend-bg: 0 0% 0%;
+    --contrast-scale: 1.15;
+  }
+
+  /* Additional base styles */
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Keyframes for quantum field animations */
+@keyframes quantum-pulse {
+  0%, 100% { 
+    box-shadow: 0 0 20px hsl(240 100% 65% / 0.3); 
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 40px hsl(240 100% 65% / 0.6); 
+    transform: scale(1.02);
+  }
+}
+
+@keyframes wave-flow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes orbital-rotation {
+  0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
+
+@keyframes field-shimmer {
+  0% { opacity: 0.3; transform: translateX(-100px); }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.3; transform: translateX(100px); }
+}
+
+/* Scientific Plot Styling */
+@layer components {
+  /* Enhanced scientific plot container */
+  .scientific-plot {
+    @apply bg-card/30 rounded-lg border border-border/20 backdrop-blur-sm;
+  }
+
+  .scientific-plot-enhanced {
+    @apply scientific-plot shadow-sm;
+    /* Ensure plot respects theme colors */
+    --plotly-text-color: hsl(var(--foreground));
+    --plotly-grid-color: hsl(var(--muted-foreground) / 0.2);
+    --plotly-axis-color: hsl(var(--border));
+  }
+
+  /* Typography hierarchy for scientific content */
+.scientific-title {
+  @apply text-lg font-semibold font-display text-foreground;
+  letter-spacing: 0.005em;
+  font-size: calc(var(--font-size-plot-title) * var(--font-scale, 1) * var(--contrast-scale, 1));
+}
+
+  .scientific-subtitle {
+    @apply text-base font-medium font-serif text-muted-foreground;
+    font-size: calc(var(--font-size-plot-subtitle) * var(--font-scale, 1) * var(--contrast-scale, 1));
+  }
+
+  .scientific-axis-label {
+    @apply text-sm font-medium text-foreground;
+    font-size: calc(var(--font-size-axis-label) * var(--font-scale, 1) * var(--contrast-scale, 1));
+  }
+
+  .scientific-legend {
+    @apply text-xs text-muted-foreground;
+    font-size: calc(var(--font-size-legend) * var(--font-scale, 1) * var(--contrast-scale, 1));
+  }
+
+  /* Physics domain specific colors */
+  .physics-valence { color: hsl(var(--physics-valence)); }
+  .physics-conduction { color: hsl(var(--physics-conduction)); }
+  .physics-fermi { color: hsl(var(--physics-fermi)); }
+  .physics-dos { color: hsl(var(--physics-dos)); }
+  .physics-neutral { color: hsl(var(--physics-neutral)); }
+
+  /* Background variants for physics domains */
+  .bg-physics-valence { background-color: hsl(var(--physics-valence) / 0.1); }
+  .bg-physics-conduction { background-color: hsl(var(--physics-conduction) / 0.1); }
+  .bg-physics-fermi { background-color: hsl(var(--physics-fermi) / 0.1); }
+
+  /* Domain-aware utility classes (no inline styles) */
+  [data-domain="quantum"] .domain-fg { color: hsl(var(--semantic-domain-quantum)); }
+  [data-domain="energy"] .domain-fg { color: hsl(var(--semantic-domain-energy)); }
+  [data-domain="statistical"] .domain-fg { color: hsl(var(--semantic-domain-statistical)); }
+  [data-domain="fields"] .domain-fg { color: hsl(var(--semantic-domain-fields)); }
+
+  [data-domain="quantum"] .domain-bg { background-color: hsl(var(--semantic-domain-quantum)); }
+  [data-domain="energy"] .domain-bg { background-color: hsl(var(--semantic-domain-energy)); }
+  [data-domain="statistical"] .domain-bg { background-color: hsl(var(--semantic-domain-statistical)); }
+  [data-domain="fields"] .domain-bg { background-color: hsl(var(--semantic-domain-fields)); }
+
+  [data-domain="quantum"] .domain-bg-subtle { background-color: hsl(var(--semantic-domain-quantum) / 0.08); }
+  [data-domain="energy"] .domain-bg-subtle { background-color: hsl(var(--semantic-domain-energy) / 0.08); }
+  [data-domain="statistical"] .domain-bg-subtle { background-color: hsl(var(--semantic-domain-statistical) / 0.08); }
+  [data-domain="fields"] .domain-bg-subtle { background-color: hsl(var(--semantic-domain-fields) / 0.08); }
+
+  [data-domain="quantum"] .domain-border { border-color: hsl(var(--semantic-domain-quantum) / 0.3); }
+  [data-domain="energy"] .domain-border { border-color: hsl(var(--semantic-domain-energy) / 0.3); }
+  [data-domain="statistical"] .domain-border { border-color: hsl(var(--semantic-domain-statistical) / 0.3); }
+  [data-domain="fields"] .domain-border { border-color: hsl(var(--semantic-domain-fields) / 0.3); }
+
+  /* Scientific validation indicators */
+  .validation-excellent { @apply bg-green-500/10 text-green-600 border-green-500/20; }
+  .validation-good { @apply bg-blue-500/10 text-blue-600 border-blue-500/20; }
+  .validation-acceptable { @apply bg-yellow-500/10 text-yellow-600 border-yellow-500/20; }
+  .validation-poor { @apply bg-orange-500/10 text-orange-600 border-orange-500/20; }
+  .validation-failed { @apply bg-red-500/10 text-red-600 border-red-500/20; }
+
+/* Interactive Elements */
+  /* Mobile-first responsive design improvements */
+  .mobile-optimized {
+    @apply touch-manipulation select-none;
+  }
+  
+  /* iOS Safari button fix */
+  .ios-button {
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  
+  /* Underline Animation */
+  .story-link {
+    @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+  
+  /* Hover Scale Animation */
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  /* Brand subtle shimmer for science vibe */
+  .brand-sheen {
+    background-size: 200% 200%;
+    animation: gradient-shift 10s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .brand-sheen { animation: none; }
+  }
+  
+  /* Pulse Animation */
+  .pulse-quantum {
+    @apply animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite];
+  }
+
+  /* Navigation Link Animation */
+  .nav-link {
+    @apply relative transition-all duration-300 hover:text-primary-glow;
+  }
+
+  .nav-link::before {
+    @apply content-[''] absolute inset-0 bg-gradient-quantum opacity-0 rounded-md transition-opacity duration-300 -z-10;
+  }
+
+  .nav-link:hover::before {
+    @apply opacity-10;
+  }
+  
+  /* Scrollbar hiding utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+
+  /* Mobile touch optimization */
+  @media (pointer: coarse) {
+    .nav-link {
+      @apply py-3 px-4; /* Larger touch targets on mobile */
+    }
+    
+    .hover-scale:active {
+      @apply scale-95; /* Visual feedback for touch */
+    }
+  }
+
+  /* Centralized themed utilities */
+  .gradient-text-quantum {
+    background-image: var(--gradient-quantum);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .gradient-text-field {
+    background-image: var(--gradient-field);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .card-surface-glass {
+    background-color: var(--component-card-background);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--component-card-border);
+    box-shadow: var(--component-card-shadow);
+  }
+  .card-hover-raise {
+    transition: var(--transition-quantum);
+  }
+  .card-hover-raise:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--component-card-hover-glow);
+  }
+  .icon-chip-quantum {
+    width: 3.5rem; height: 3.5rem; border-radius: 0.75rem;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, hsl(var(--semantic-domain-quantum) / 0.1), hsl(var(--physics-dos) / 0.08));
+    border: 2px solid hsl(var(--semantic-domain-quantum));
+    box-shadow: var(--shadow-quantum);
+    transition: var(--transition-quantum);
+  }
+  .icon-chip-quantum:hover { transform: scale(1.1) rotate(6deg); }
+
+  /* Brand variant to match sidebar icon style */
+  .bg-gradient-brand { background-image: var(--brand-gradient); }
+  .icon-chip-brand {
+    background-image: var(--brand-gradient);
+    border: 1.5px solid hsl(var(--brand-ink) / 0.2);
+    box-shadow:
+      0 10px 24px hsl(var(--brand-gradient-end) / 0.35),
+      inset 0 1px 0 hsla(0,0%,100%,0.12);
+  }
+  .badge-outline-quantum {
+    border: 1px solid hsl(var(--semantic-domain-quantum) / 0.3);
+    background-color: hsl(var(--semantic-domain-quantum) / 0.08);
+    color: hsl(var(--semantic-domain-quantum));
+  }
+
+  .card-field-surface {
+    background-color: var(--component-card-background);
+    border: 1px solid hsl(var(--primitive-cyan-500) / 0.3);
+    box-shadow: var(--shadow-field);
+    backdrop-filter: blur(12px);
+    transition: var(--transition-field);
+  }
+  .card-field-surface:hover {
+    border-color: hsl(var(--primitive-cyan-500) / 0.5);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 10px 30px -5px hsl(var(--primitive-cyan-500) / 0.4);
+  }
+  .glow-overlay-field {
+    background: radial-gradient(500px 200px at 50% 0%, hsl(var(--primitive-cyan-500) / 0.15), hsl(var(--physics-valence) / 0.1), transparent 70%);
+  }
+  .glow-overlay-quantum {
+    background: radial-gradient(500px 200px at 50% 0%, hsl(var(--semantic-domain-quantum) / 0.15), hsl(var(--physics-dos) / 0.1), transparent 70%);
+  }
+  /* Elegant panel utilities */
+  .panel-hero {
+    background-color: var(--component-card-background);
+    backdrop-filter: blur(16px);
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-depth), var(--shadow-quantum);
+  }
+  .border-gradient-quantum {
+    background:
+      linear-gradient(var(--component-card-background), var(--component-card-background)) padding-box,
+      var(--gradient-quantum) border-box;
+    border: 1px solid transparent;
+  }
+  .hover-aura-quantum { transition: var(--transition-quantum); }
+  .hover-aura-quantum:hover {
+    box-shadow: 0 0 0 1px hsl(var(--semantic-domain-quantum) / 0.5), 0 0 40px hsl(var(--semantic-domain-quantum) / 0.2);
+  }
+  .bg-science-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: center;
+  }
+  .icon-chip-sm-quantum {
+    width: 2.25rem; height: 2.25rem; border-radius: 0.6rem;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, hsl(var(--semantic-domain-quantum) / 0.12), hsl(var(--physics-dos) / 0.08));
+    border: 1.5px solid hsl(var(--semantic-domain-quantum));
+    box-shadow: var(--shadow-quantum);
+    transition: var(--transition-quantum);
+  }
+  /* Tabs variant utilities */
+  .tabs-variant-quantum [role="tablist"] {
+    background-color: transparent;
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 0;
+  }
+  .tabs-variant-quantum [role="tab"] {
+    border-radius: 0;
+    padding: 0.5rem 0.75rem;
+    color: hsl(var(--muted-foreground));
+  }
+  .tabs-variant-quantum [role="tab"]:hover {
+    color: hsl(var(--semantic-domain-quantum));
+  }
+  .tabs-variant-quantum [role="tab"][data-state="active"] {
+    color: hsl(var(--semantic-text-primary));
+    box-shadow: inset 0 -2px 0 hsl(var(--semantic-domain-quantum));
+    background: transparent;
+  }
+
+  .tabs-variant-field [role="tablist"] {
+    background-color: transparent;
+    border-bottom: 1px solid hsl(var(--border));
+    padding: 0;
+  }
+  .tabs-variant-field [role="tab"] {
+    border-radius: 0;
+    padding: 0.5rem 0.75rem;
+    color: hsl(var(--muted-foreground));
+  }
+  .tabs-variant-field [role="tab"]:hover {
+    color: hsl(var(--primitive-cyan-500));
+  }
+  .tabs-variant-field [role="tab"][data-state="active"] {
+    color: hsl(var(--semantic-text-primary));
+    box-shadow: inset 0 -2px 0 hsl(var(--primitive-cyan-500));
+    background: transparent;
+  }
+}
+
+
+
+/* Floating Animation Keyframes */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+  25% { transform: translateY(-8px) rotate(1deg); opacity: 0.8; }
+  50% { transform: translateY(-4px) rotate(-0.5deg); opacity: 0.9; }
+  75% { transform: translateY(-12px) rotate(0.8deg); opacity: 0.7; }
+}
+
+@keyframes float-medium {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+  33% { transform: translateY(-10px) rotate(-1deg); opacity: 0.8; }
+  66% { transform: translateY(-6px) rotate(1.2deg); opacity: 0.9; }
+}
+
+@keyframes float-fast {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+  20% { transform: translateY(-6px) rotate(0.8deg); opacity: 0.7; }
+  40% { transform: translateY(-12px) rotate(-0.6deg); opacity: 0.9; }
+  60% { transform: translateY(-4px) rotate(1deg); opacity: 0.8; }
+  80% { transform: translateY(-8px) rotate(-0.4deg); opacity: 0.6; }
+}
+
+@keyframes quantum-drift {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  25% { transform: translate(20px, -15px) scale(1.2); opacity: 0.6; }
+  50% { transform: translate(-10px, -25px) scale(0.8); opacity: 0.9; }
+  75% { transform: translate(15px, -10px) scale(1.1); opacity: 0.5; }
+  100% { transform: translate(0, -30px) scale(0.6); opacity: 0; }
+}
+
+/* Animation Classes */
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 4s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float-fast 3s ease-in-out infinite;
+}
+
+.animate-quantum-drift {
+  animation: quantum-drift 12s linear infinite;
+}
+
+/* Advanced Quantum Effects */
+@keyframes quantum-pulse-advanced {
+  0%, 100% { 
+    box-shadow: 
+      0 0 20px hsl(240 100% 65% / 0.3),
+      0 0 40px hsl(240 100% 65% / 0.1),
+      inset 0 0 20px hsl(240 100% 65% / 0.1); 
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 
+      0 0 40px hsl(240 100% 65% / 0.6),
+      0 0 80px hsl(240 100% 65% / 0.3),
+      inset 0 0 40px hsl(240 100% 65% / 0.2); 
+    transform: scale(1.05);
+  }
+}
+
+.animate-quantum-pulse-advanced {
+  animation: quantum-pulse-advanced 3s ease-in-out infinite;
+}
+
+/* Enhanced Gradient Text */
+.gradient-text-advanced {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--accent)) 30%,
+    hsl(var(--primary-glow)) 60%,
+    hsl(var(--primary)) 100%
+  );
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Interactive Card Hover Effects */
+.physics-card-hover {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.physics-card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  filter: brightness(1.1) saturate(1.1);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 60px hsl(var(--primary) / 0.15);
+}
+
+/* Particle System Base */
+.particle-system {
+  position: relative;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%);
+  animation: particle-float 10s linear infinite;
+}
+
+@keyframes particle-float {
+  0% { 
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { 
+    transform: translateY(-10vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Enhanced Responsive Design System */
+@layer utilities {
+  /* Mobile-first responsive typography */
+  .text-responsive-hero {
+    @apply text-4xl sm:text-6xl lg:text-8xl;
+  }
+  
+  .text-responsive-title {
+    @apply text-2xl sm:text-3xl lg:text-4xl;
+  }
+  
+  .text-responsive-subtitle {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+  
+  /* Enhanced touch targets for mobile with semantic tokens */
+  .touch-target {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+
+  /* Enhanced focus indicators for accessibility */
+  .touch-target:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  
+  /* Responsive spacing utilities */
+  .space-responsive-sm {
+    @apply space-y-2 sm:space-y-3 lg:space-y-4;
+  }
+  
+  .space-responsive-md {
+    @apply space-y-3 sm:space-y-4 lg:space-y-6;
+  }
+  
+  .space-responsive-lg {
+    @apply space-y-4 sm:space-y-6 lg:space-y-8;
+  }
+  
+  /* Responsive grid gaps */
+  .gap-responsive {
+    @apply gap-4 sm:gap-6 lg:gap-8;
+  }
+  
+  /* Hide elements responsively */
+  .hide-mobile {
+    @apply hidden sm:block;
+  }
+  
+  .hide-desktop {
+    @apply block sm:hidden;
+  }
+  
+  /* Responsive container queries */
+  .container-responsive {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Enhanced scrollable areas */
+  .scroll-responsive {
+    @apply overflow-x-auto scrollbar-hide;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .scroll-responsive > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
+/* Responsive Breakpoint Utilities */
+@media (max-width: 640px) {
+  .floating-equations {
+    @apply hidden;
+  }
+  
+  .complex-animations {
+    @apply animate-none;
+  }
+  
+  .mobile-stack {
+    @apply flex-col space-y-2;
+  }
+}
+
+/* Enhanced Mobile Performance */
+@layer utilities {
+  /* GPU acceleration for smooth scrolling */
+  .smooth-scroll {
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0);
+  }
+  
+  /* Optimized tap highlights */
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Safe area utilities for iOS */
+  .safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+  
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  
+  .safe-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .safe-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+  
+  /* Enhanced focus management */
+  .focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+  }
+  
+  /* Gesture utilities */
+  .swipe-enabled {
+    touch-action: pan-x pan-y;
+  }
+  
+  .pan-disabled {
+    touch-action: none;
+  }
+}
+
+/* iOS specific optimizations */
+@supports (-webkit-appearance: none) and (stroke-color: transparent) {
+  .ios-momentum-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .ios-safe-area {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+}
+
+/* Android specific optimizations */
+@media (pointer: coarse) and (hover: none) {
+  .android-optimized {
+    -webkit-font-smoothing: subpixel-antialiased;
+    text-rendering: optimizeSpeed;
+  }
+  
+  .android-tap {
+    -webkit-tap-highlight-color: rgba(var(--primary), 0.1);
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .retina-optimized {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Touch target utility for accessibility - Apple HIG compliant with semantic tokens */
+.touch-target {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 220 20% 30%;
+    --ring: var(--primary);
+  }
+  
+  .touch-target:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 3px;
+  }
+}
+
+/* Responsive container utilities */
+.container-responsive {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1200px;
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container-responsive {
+    max-width: 1400px;
+  }
+}
+
+/* Physics Module Specific Animations */
+@keyframes quantum-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes field-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes particle-drift {
+  0% { transform: translateX(-10px) translateY(-10px); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateX(10px) translateY(10px); opacity: 0; }
+}
+
+@keyframes magnetic-rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes energy-wave {
+  0% { transform: scaleX(0); opacity: 0; }
+  50% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+
+/* Enhanced Background Patterns */
+.quantum-lattice { 
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='0' cy='30' r='1'/%3E%3Ccircle cx='60' cy='30' r='1'/%3E%3Ccircle cx='30' cy='0' r='1'/%3E%3Ccircle cx='30' cy='60' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.wave-interference { 
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 20c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16zm16 0c0-8.837-7.163-16-16-16s-16 7.163-16 16 7.163 16 16 16 16-7.163 16-16z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.crystal-structure { 
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 40h-2l2-2v2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.thermal-noise { 
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--muted) / 0.02) 2px, hsl(var(--muted) / 0.02) 4px);
+}
+
+.magnetic-field { 
+  background-image: conic-gradient(from 0deg at 50% 50%, hsl(var(--destructive) / 0.1) 0deg, transparent 60deg, hsl(var(--destructive) / 0.1) 120deg, transparent 180deg, hsl(var(--destructive) / 0.1) 240deg, transparent 300deg, hsl(var(--destructive) / 0.1) 360deg);
+}
+
+.field-lines { 
+  background-image: linear-gradient(90deg, transparent 48%, hsl(var(--primary) / 0.02) 49%, hsl(var(--primary) / 0.02) 51%, transparent 52%);
+}
+
+.neural-network { 
+  background-image: radial-gradient(circle at 20% 20%, hsl(var(--accent) / 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, hsl(var(--primary) / 0.1) 0%, transparent 50%);
+}
+
+/* Physics Module Layout Utilities */
+.physics-glass {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.physics-glow {
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.physics-glow:hover {
+  box-shadow: 0 0 30px hsl(var(--primary) / 0.3), 0 0 60px hsl(var(--primary) / 0.2);
+}
+
+/* Enhanced Animation Classes */
+.animate-quantum-pulse { animation: quantum-pulse 3s ease-in-out infinite; }
+.animate-field-flow { animation: field-flow 8s linear infinite; }
+.animate-particle-drift { animation: particle-drift 12s ease-in-out infinite; }
+.animate-magnetic-rotation { animation: magnetic-rotation 10s linear infinite; }
+.animate-energy-wave { animation: energy-wave 2s ease-in-out infinite; }
+
+/* Animation Delays for Staggered Effects */
+.animation-delay-0 { animation-delay: 0ms; }
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+.animation-delay-700 { animation-delay: 700ms; }
+.animation-delay-1000 { animation-delay: 1000ms; }
+.animation-delay-2000 { animation-delay: 2000ms; }
+.animation-delay-3000 { animation-delay: 3000ms; }
+
+/* Enhanced Slider Styling */
+.slider-thumb::-webkit-slider-thumb {
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  background: hsl(var(--primary));
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  transition: all 0.2s ease;
+}
+
+.slider-thumb::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.7);
+}
+
+.slider-thumb::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  background: hsl(var(--primary));
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+  transition: all 0.2s ease;
+}
+
+.slider-thumb::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.7);
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .respect-motion-preference {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .floating-equations,
+  .complex-animations {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* BrandLogo icon-only helper */
+.brand-logo.icon-only .brand-logo-text{display:none!important;}

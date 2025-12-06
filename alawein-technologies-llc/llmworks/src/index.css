@@ -1,0 +1,591 @@
+/* Import Sophisticated Design System */
+@import url('./styles/design-tokens.css');
+@import url('./styles/sophisticated-components.css');
+@import url('./components/accessibility/accessibility-styles.css');
+@import url('./styles/tokens.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LLM Works Design System - Professional LLM Evaluation Platform */
+
+@layer base {
+  :root {
+    /* Strategic Intelligence Command Center Theme */
+    /* Strategic Command Palette - WCAG AA Compliant */
+    --command-navy: 216 58% 18%;        /* Deep strategic navy (base) #1B2951 */
+    --tactical-blue: 217 91% 60%;       /* Professional blue #2563EB */
+    --intel-cyan: 195 100% 25%;         /* Darker intelligence cyan #007C9A for better contrast */
+    --victory-gold: 25 95% 38%;         /* Darker achievement gold #B45309 for better contrast */
+    
+    /* Metallic Ranking System */
+    --platinum: 218 11% 90%;            /* #E5E7EB - Rank #1 */
+    --gold: 45 93% 64%;                 /* #FCD34D - Top 3 */
+    --silver: 215 16% 65%;              /* #9CA3AF - Top 10 */
+    --bronze: 36 79% 36%;               /* #A16207 - Notable */
+    
+    /* Professional Surface Colors */
+    --surface-command: 222 84% 5%;      /* Main background #0F172A */
+    --surface-tactical: 215 25% 13%;    /* Panels #1E293B */
+    --surface-operational: 215 20% 21%; /* Cards #334155 */
+    
+    /* Core System Colors */
+    --background: 222 84% 5%;           /* Command center dark */
+    --foreground: 218 11% 90%;          /* High contrast text */
+
+    /* Card & Surface Colors */
+    --card: 215 25% 13%;                /* Tactical panel */
+    --card-foreground: 218 11% 90%;
+
+    --popover: 215 25% 13%;
+    --popover-foreground: 218 11% 90%;
+
+    /* Primary - Tactical Blue */
+    --primary: 217 91% 60%;             /* Tactical blue */
+    --primary-foreground: 222 84% 5%;
+
+    --secondary: 215 20% 21%;           /* Operational surface */
+    --secondary-foreground: 218 11% 90%;
+
+    --muted: 215 16% 47%;               /* Neutral tactical */
+    --muted-foreground: 218 11% 65%;
+
+    /* Accent - Victory Gold - WCAG Compliant */
+    --accent: 25 95% 38%;               /* Darker victory gold for better contrast */
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 73% 41%;               /* Strategic threat red */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 215 20% 25%;                  /* Tactical border */
+    --input: 215 25% 13%;                   /* Input backgrounds */
+    --ring: 217 91% 60%;                    /* Focus rings - tactical blue */
+
+    --radius: 0.5rem;
+
+    /* Strategic Status System */
+    --status-operational: 142 76% 36%;      /* Success green #059669 */
+    --status-degraded: 25 95% 48%;          /* Warning gold #D97706 */
+    --status-offline: 0 73% 41%;            /* Threat red #DC2626 */
+    --status-standby: 215 16% 47%;          /* Neutral slate #64748B */
+    
+    /* Badge System Colors - WCAG Compliant */
+    --info: 217 91% 60%;                    /* Tactical blue */
+    --success: 142 76% 36%;                 /* Success green */
+    --warning: 45 93% 53%;                  /* Warning yellow */
+    --danger: 0 73% 41%;                    /* Danger red */
+    
+    /* Legacy Domain Tokens (Updated) */
+    --trust: 217 91% 60%;                   /* Tactical blue */
+    --trust-contrast: 217 91% 50%;
+    --trust-foreground: 222 84% 5%;
+    --risk: 25 95% 48%;                     /* Victory gold for warnings */
+    --risk-foreground: 26 83% 14%;
+    --fail: 0 73% 41%;                      /* Strategic threat red */
+    --fail-foreground: 0 0% 98%;
+    --neutral: 215 16% 47%;                 /* Tactical neutral */
+    --neutral-foreground: 218 11% 90%;
+    
+    /* Digital Guardian Effects */
+    --analytical-blue: 214 84% 56%;
+    --insight-orange: 25 95% 53%;
+    --neural-dark: 215 28% 8%;
+    --neural-glow: 162 73% 60%;
+    --threat-red: 0 84% 60%;
+    
+    /* Glass Morphism System - Unified Tokens */
+    --glass-bg: rgba(16, 25, 45, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-blur: 18px;
+    
+    /* Custom Design Tokens */
+    --primary-glow: 162 73% 60%;
+    --accent-glow: 18 85% 68%;
+    
+    /* Enhanced Focus Ring System */
+    --focus-ring: 217 91% 75%; /* Enhanced focus ring color for better visibility */
+    
+    /* Digital Guardian Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 50%, hsl(var(--accent)) 100%);
+    --gradient-surface: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    --gradient-trust: linear-gradient(135deg, hsl(var(--trust)) 0%, hsl(var(--trust)) 100%);
+    --gradient-neural: radial-gradient(circle at 25% 25%, hsl(162 73% 46% / 0.1) 0%, transparent 50%);
+    
+    /* Digital Guardian Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.3);
+    --shadow-medium: 0 8px 30px -8px hsl(var(--primary) / 0.4);
+    --shadow-strong: 0 20px 60px -15px hsl(var(--primary) / 0.5);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.4);
+    --shadow-trust: 0 4px 20px hsl(var(--trust) / 0.4);
+    --shadow-elevated: 0 8px 32px hsl(0 0% 0% / 0.3);
+    --shadow-neural: 0 0 20px hsl(var(--primary) / 0.3);
+    
+    /* Energy signature colors */
+    --energy-analytical: hsl(var(--primary));
+    --energy-creative: hsl(var(--accent));
+    --energy-speed: hsl(var(--warning));
+    --energy-conversational: hsl(var(--success));
+    --energy-strategic: hsl(var(--danger));
+    
+    /* Border variants */
+    --border-primary-subtle: hsl(var(--primary) / 0.3);
+    --border-success-subtle: hsl(var(--success) / 0.3);
+    --border-warning-subtle: hsl(var(--warning) / 0.3);
+    
+    /* Cyber Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-cyber: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.175);
+
+    --sidebar-background: 220 25% 95%;
+    --sidebar-foreground: 220 30% 8%;
+    --sidebar-primary: 220 60% 15%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 200 25% 90%;
+    --sidebar-accent-foreground: 220 60% 15%;
+    --sidebar-border: 220 15% 85%;
+    --sidebar-ring: 180 85% 45%;
+  }
+
+  .dark {
+    /* Strategic Command Dark Mode (Enhanced) */
+    --background: 222 84% 4%;               /* Deeper command center */
+    --foreground: 218 11% 95%;              /* Higher contrast */
+
+    --card: 215 25% 10%;                    /* Darker tactical panels */
+    --card-foreground: 218 11% 95%;
+
+    --popover: 215 25% 10%;
+    --popover-foreground: 218 11% 95%;
+
+    --primary: 217 91% 65%;                 /* Brighter tactical blue */
+    --primary-foreground: 222 84% 4%;
+
+    --secondary: 215 20% 18%;               /* Darker operational */
+    --secondary-foreground: 218 11% 85%;
+
+    --muted: 215 20% 15%;                   /* Darker muted */
+    --muted-foreground: 218 11% 70%;
+
+    --accent: 25 95% 45%;                   /* Contrast-compliant victory gold */
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 73% 50%;               /* Adjusted threat red */
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 215 20% 20%;                  /* Darker tactical borders */
+    --input: 215 25% 10%;                   /* Darker inputs */
+    --ring: 217 91% 65%;                    /* Brighter focus rings */
+
+    /* Dark mode custom tokens */
+    --primary-glow: 180 85% 35%;
+    --accent-glow: 180 85% 65%;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 50%, hsl(var(--accent)) 100%);
+    --gradient-surface: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 8px 30px -8px hsl(0 0% 0% / 0.4);
+    --shadow-strong: 0 20px 60px -15px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.4);
+
+    /* Status colors */
+    --success: 142 76% 36%;
+    --warning: 45 93% 47%;
+    --error: 0 84% 60%;
+
+    --sidebar-background: 220 35% 6%;
+    --sidebar-foreground: 220 20% 90%;
+    --sidebar-primary: 180 85% 45%;
+    --sidebar-primary-foreground: 220 40% 4%;
+    --sidebar-accent: 220 30% 10%;
+    --sidebar-accent-foreground: 220 20% 85%;
+    --sidebar-border: 220 30% 12%;
+    --sidebar-ring: 180 85% 45%;
+  }
+}
+
+/* New elegant gradient tokens */
+@layer base {
+  :root {
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.3) 100%);
+    --gradient-elegant: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--accent) / 0.1) 100%);
+    --shadow-elegant: 0 8px 32px -8px hsl(var(--foreground) / 0.1);
+  }
+  
+  .dark {
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.2) 100%);
+    --gradient-elegant: linear-gradient(135deg, hsl(var(--primary) / 0.05) 0%, hsl(var(--accent) / 0.05) 100%);
+    --shadow-elegant: 0 8px 32px -8px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Subtle background pattern */
+  .neural-bg {
+    background: var(--gradient-subtle);
+  }
+
+  /* Professional text styling */
+  .neural-text {
+    font-weight: 600;
+    letter-spacing: var(--heading-tracking);
+  }
+  
+  /* Typography System - Normalized */
+  .heading-refined {
+    font-weight: 600;
+    letter-spacing: var(--heading-tracking);
+  }
+  
+  .body-elegant {
+    font-weight: 400;
+    letter-spacing: var(--body-tracking);
+  }
+  
+  .caption-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: var(--caption-tracking);
+  }
+
+  /* Professional hover effects */
+  .cyber-glow {
+    box-shadow: var(--shadow-elegant);
+    transition: var(--transition-smooth);
+  }
+
+  .cyber-glow:hover {
+    box-shadow: var(--shadow-strong);
+    transform: translateY(-1px);
+  }
+
+  /* Custom utility classes */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-surface {
+    background: var(--gradient-surface);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-spring {
+    transition: var(--transition-spring);
+  }
+
+  /* New gradient utilities */
+  .gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+  
+  .gradient-elegant {
+    background: var(--gradient-elegant);
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-trust {
+    box-shadow: var(--shadow-trust);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+
+  .bg-trust {
+    background-color: hsl(var(--trust));
+    color: hsl(var(--trust-foreground));
+  }
+
+  .bg-risk {
+    background-color: hsl(var(--risk));
+    color: hsl(var(--risk-foreground));
+  }
+
+  .bg-fail {
+    background-color: hsl(var(--fail));
+    color: hsl(var(--fail-foreground));
+  }
+
+  .text-trust {
+    color: hsl(var(--trust));
+  }
+
+  .text-trust-contrast {
+    color: hsl(var(--trust-contrast));
+  }
+
+  .text-risk {
+    color: hsl(var(--risk));
+  }
+
+  .text-fail {
+    color: hsl(var(--fail));
+  }
+
+  /* LLM Works Utilities */
+  .bg-analytical-blue { background-color: hsl(var(--analytical-blue)); }
+  .bg-insight-orange { background-color: hsl(var(--insight-orange)); }
+  .bg-neural-dark { background-color: hsl(var(--neural-dark)); }
+  .text-analytical-blue { color: hsl(var(--analytical-blue)); }
+  .text-insight-orange { color: hsl(var(--insight-orange)); }
+  .text-neural-glow { color: hsl(var(--neural-glow)); }
+  .text-threat-red { color: hsl(var(--threat-red)); }
+  .border-analytical-blue { border-color: hsl(var(--analytical-blue)); }
+  .border-insight-orange { border-color: hsl(var(--insight-orange)); }
+
+  /* Energy signature backgrounds */
+  .bg-energy-analytical { background-color: var(--energy-analytical); }
+  .bg-energy-creative { background-color: var(--energy-creative); }
+  .bg-energy-speed { background-color: var(--energy-speed); }
+  .bg-energy-conversational { background-color: var(--energy-conversational); }
+  .bg-energy-strategic { background-color: var(--energy-strategic); }
+  
+  /* Glass Morphism Allowlist - Standard Implementation */
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-subtle {
+    background: color-mix(in oklch, var(--glass-bg) 80%, transparent);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.7));
+    border: 1px solid color-mix(in oklch, var(--glass-border) 60%, transparent);
+  }
+  
+  .glass-minimal {
+    background: color-mix(in oklch, var(--glass-bg) 60%, transparent);
+    backdrop-filter: blur(calc(var(--glass-blur) * 0.5));
+    border: 1px solid color-mix(in oklch, var(--glass-border) 40%, transparent);
+  }
+  
+  /* Icon Sizing System - Standardized */
+  .icon-sm {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+  }
+  
+  .icon-md {
+    width: var(--icon-md);
+    height: var(--icon-md);
+  }
+  
+  .icon-lg {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+  }
+  
+  .icon-xl {
+    width: var(--icon-xl);
+    height: var(--icon-xl);
+  }
+}
+
+/* Reduced motion support and focus utilities */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link base style */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 0.75rem;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  z-index: 1000;
+}
+
+/* Generic focus ring utility */
+.focus-ring {
+  outline: 3px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Enhanced Focus Ring System - WCAG 2.1 AA Compliant */
+*:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in oklch, hsl(var(--focus-ring)) 45%, transparent);
+  border-radius: inherit;
+}
+
+/* Specific focus states for interactive elements */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="tab"]:focus-visible,
+[role="slider"]:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px color-mix(in oklch, hsl(var(--focus-ring)) 45%, transparent);
+  border-radius: inherit;
+}
+
+/* Mobile-first responsive grid utilities */
+.hero-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr 0.9fr;
+    gap: 3rem;
+  }
+}
+
+/* Tap target sizing for mobile */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Card grid responsive utility */
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Enhanced focus management */
+.focus-visible:focus-visible {
+  outline: 3px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: calc(var(--radius) - 1px);
+}
+
+/* Legacy focus styles - now handled by enhanced focus ring system above */
+
+/* Smooth scrolling for better UX */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Responsive improvements for hero text */
+@media (max-width: 400px) {
+  .hero-grid h1 { 
+    font-size: 2rem !important; 
+    line-height: 1.2 !important; 
+  }
+  .hero-grid h2 { 
+    font-size: 1.5rem !important; 
+    line-height: 1.3 !important; 
+  }
+}
+
+/* Landscape mobile fixes */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero-grid { 
+    min-height: auto !important; 
+    padding: 2rem 0 !important; 
+  }
+}
+
+/* Fix benchmark panel overlap on tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .benchmark-panel {
+    position: relative !important;
+    width: 100% !important;
+    margin-top: 2rem !important;
+  }
+}
+
+/* Ensure minimum tap targets on mobile */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

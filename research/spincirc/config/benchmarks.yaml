@@ -1,0 +1,27 @@
+# SpinCirc Benchmark Configuration
+# Spin circuit simulation performance benchmarks
+
+benchmarks:
+  - name: "Spin-Dynamics-Small"
+    module: "spincirc.core"
+    function: "simulate_dynamics"
+    iterations: 50
+    warmup: 5
+    metadata:
+      type: "simulation"
+      size: "small"
+      description: "Small spin circuit dynamics"
+
+  - name: "Spin-Dynamics-Medium"
+    module: "spincirc.core"
+    function: "simulate_dynamics"
+    iterations: 20
+    warmup: 3
+    metadata:
+      type: "simulation"
+      size: "medium"
+      description: "Medium spin circuit dynamics"
+
+output:
+  directory: "./results"
+  format: "json"

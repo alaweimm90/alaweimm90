@@ -1,0 +1,167 @@
+name: OptiBench Nightly
+
+on:
+  schedule:
+    - cron: '30 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  optibench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        working-directory: Libria/libria-meta
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyyaml
+      - name: Run replay (skips if QAPLIB_DATA_DIR unset)
+        working-directory: Libria/libria-meta
+        env:
+          QAPLIB_DATA_DIR: ${{ secrets.QAPLIB_DATA_DIR }}
+        run: |
+          if [ -n "${QAPLIB_DATA_DIR}" ]; then \
+            python -m optibench.replay --entry qaplib-mini --out results/optibench/qaplib-mini.json ; \
+          else \
+            echo "QAPLIB_DATA_DIR not set; skipping replay" ; \
+            exit 0 ; \
+          fi
+      - name: Generate HTML report
+        if: success()
+        working-directory: Libria/libria-meta
+        run: |
+          python - << 'PY'
+          import json
+          from pathlib import Path
+          from libria_meta.common.bench_html import generate_html
+          p = Path('results/optibench/qaplib-mini.json')
+          if p.exists():
+              data = json.loads(p.read_text())
+              html = generate_html(data.get('summary') or {}, data.get('results') or [])
+              out = Path('results/optibench/qaplib-mini.html')
+              out.parent.mkdir(parents=True, exist_ok=True)
+              out.write_text(html)
+              print('Wrote', out)
+          else:
+              print('No replay JSON to convert; skipping')
+          PY
+      - name: Drift checks (baseline thresholds)
+        working-directory: Libria/libria-meta
+        run: |
+          if [ ! -f results/optibench/qaplib-mini.json ]; then \
+            echo "Replay output missing; skipping drift check"; exit 0; \
+          fi
+          python - << 'PY'
+          import json, sys
+          from pathlib import Path
+          res = json.loads(Path('results/optibench/qaplib-mini.json').read_text())
+          base = json.loads(Path('optibench/baselines/qaplib-mini.json').read_text())
+          cnt = int(res.get('count', 0))
+          if cnt < int(base.get('min_count', 1)):
+              print(f"Count {cnt} < min_count; failing")
+              sys.exit(1)
+          summ = res.get('summary') or {}
+          modes = base.get('modes') or {}
+          for m, th in modes.items():
+              s = summ.get(m) or {}
+              avg_time = s.get('avg_solve_time')
+              if avg_time is None:
+                  print(f"Mode {m} missing avg_solve_time; failing")
+                  sys.exit(1)
+              if float(avg_time) > float(th.get('max_avg_time', 1e9)):
+                  print(f"Mode {m} avg_solve_time {avg_time} exceeds threshold {th.get('max_avg_time')}")
+                  sys.exit(1)
+          # Optional instance-level checks
+          idx = {}
+          for r in res.get('results', []):
+              if 'instance' in r and 'mode' in r and r.get('objective') is not None:
+                  idx[(r['instance'], r['mode'])] = float(r['objective'])
+          inst_cfg = base.get('instances') or {}
+          for inst, modes_cfg in inst_cfg.items():
+              for m, th in (modes_cfg or {}).items():
+                  obj = idx.get((inst, m))
+                  if obj is None:
+                      print(f"Missing result for instance={inst}, mode={m}; failing")
+                      sys.exit(1)
+                  if 'max_objective' in th and obj > float(th['max_objective']):
+                      print(f"Objective {obj} exceeds max_objective {th['max_objective']} for {inst}/{m}")
+                      sys.exit(1)
+          # Optional golden targets with tolerances
+          golden = base.get('golden') or {}
+          for inst, modes_cfg in golden.items():
+              for m, spec in (modes_cfg or {}).items():
+                  target = spec.get('target')
+                  if target is None:
+                      continue
+                  tol_pct = float(spec.get('percent_tolerance', 0))
+                  tol_abs = float(spec.get('absolute_tolerance', 0))
+                  obj = idx.get((inst, m))
+                  if obj is None:
+                      print(f"Missing result for golden instance={inst}, mode={m}; failing")
+                      sys.exit(1)
+                  diff = abs(obj - float(target))
+                  ok = (tol_abs and diff <= tol_abs) or (tol_pct and (diff <= (abs(target)*tol_pct))) or diff == 0.0
+                  if not ok:
+                      print(f"Golden check failed for {inst}/{m}: obj={obj} target={target} diff={diff} tol_abs={tol_abs} tol_pct={tol_pct}")
+                      sys.exit(1)
+          print('Drift checks passed')
+          PY
+      - name: Slack notify on failure
+        if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then \
+            curl -X POST -H 'Content-type: application/json' --data '{"text":"OptiBench Nightly failed: see logs/artifacts."}' "$SLACK_WEBHOOK_URL" ; \
+          else \
+            echo "SLACK_WEBHOOK_URL not set; skipping" ; \
+          fi
+      - name: Teams notify on failure
+        if: failure()
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+        run: |
+          if [ -n "$TEAMS_WEBHOOK_URL" ]; then \
+            curl -H 'Content-Type: application/json' -d '{"text":"OptiBench Nightly failed: see logs/artifacts."}' "$TEAMS_WEBHOOK_URL" ; \
+          else \
+            echo "TEAMS_WEBHOOK_URL not set; skipping" ; \
+          fi
+      - name: Email notify on failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        continue-on-error: true
+        with:
+          server_address: ${{ secrets.MAIL_HOST }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: OptiBench Nightly Failed
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_FROM }}
+          secure: true
+      - name: Create GitHub issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = 'OptiBench Nightly Drift Failure';
+            const body = 'Automated drift checks failed. Please inspect the workflow run logs and artifacts.';
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+            });
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: optibench-nightly
+          path: |
+            Libria/libria-meta/results/optibench/qaplib-mini.json
+            Libria/libria-meta/results/optibench/qaplib-mini.html
+          if-no-files-found: warn

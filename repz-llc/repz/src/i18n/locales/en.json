@@ -1,0 +1,59 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "workouts": "Workouts",
+    "nutrition": "Nutrition",
+    "progress": "Progress",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "createAccount": "Create Account",
+    "welcomeBack": "Welcome Back",
+    "getStarted": "Get Started"
+  },
+  "tiers": {
+    "core": "Core",
+    "adaptive": "Adaptive", 
+    "performance": "Performance",
+    "longevity": "Longevity",
+    "selectPlan": "Select Plan",
+    "currentPlan": "Current Plan",
+    "upgradeNow": "Upgrade Now"
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "todaysWorkout": "Today's Workout",
+    "recentProgress": "Recent Progress",
+    "weeklyGoals": "Weekly Goals",
+    "achievements": "Achievements"
+  },
+  "global": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export"
+  },
+  "enterprise": {
+    "globalInfrastructure": "Global Infrastructure",
+    "internationalFeatures": "International Features",
+    "securityCompliance": "Security & Compliance",
+    "performanceMetrics": "Performance Metrics",
+    "scalingManagement": "Scaling Management"
+  }
+}

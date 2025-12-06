@@ -1,0 +1,93 @@
+{
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès!",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "back": "Retour",
+    "next": "Suivant"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "shop": "Boutique",
+    "about": "À propos",
+    "contact": "Contact",
+    "cart": "Panier",
+    "account": "Compte"
+  },
+  "product": {
+    "addToCart": "Ajouter au panier",
+    "outOfStock": "Rupture de stock",
+    "inStock": "En stock",
+    "price": "Prix",
+    "size": "Taille",
+    "color": "Couleur",
+    "quantity": "Quantité",
+    "description": "Description",
+    "features": "Caractéristiques",
+    "reviews": "Avis",
+    "rating": "Évaluation"
+  },
+  "cart": {
+    "title": "Panier",
+    "empty": "Votre panier est vide",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "total": "Total",
+    "checkout": "Passer la commande",
+    "continueShopping": "Continuer vos achats",
+    "removeItem": "Supprimer l'article",
+    "updateQuantity": "Mettre à jour la quantité"
+  },
+  "checkout": {
+    "title": "Paiement",
+    "shippingInfo": "Informations de livraison",
+    "paymentInfo": "Informations de paiement",
+    "orderSummary": "Résumé de la commande",
+    "placeOrder": "Passer la commande",
+    "processingOrder": "Traitement de votre commande...",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Email",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "state": "État/Province",
+    "zipCode": "Code postal",
+    "country": "Pays"
+  },
+  "hero": {
+    "title": "Live It Iconic",
+    "tagline": "Conçu pour le mouvement; raffiné pour les soirées",
+    "subtitle": "Vêtements de précision inspirés de la discipline automobile",
+    "cta": "Découvrir la collection"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "signup": "S'inscrire",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "forgotPassword": "Mot de passe oublié?",
+    "rememberMe": "Se souvenir de moi",
+    "signupNow": "Pas encore de compte? S'inscrire"
+  },
+  "errors": {
+    "invalidEmail": "Veuillez entrer une adresse email valide",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "fieldRequired": "Ce champ est obligatoire",
+    "serverError": "Erreur serveur. Veuillez réessayer plus tard",
+    "notFound": "Page non trouvée"
+  },
+  "messages": {
+    "addedToCart": "Ajouté au panier avec succès",
+    "removedFromCart": "Supprimé du panier",
+    "orderPlaced": "Commande passée avec succès",
+    "profileUpdated": "Profil mis à jour avec succès"
+  }
+}

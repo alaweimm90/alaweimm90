@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Main Librex.QAP service for development
+  Librex.QAP:
+    build: .
+    image: Librex.QAP-new:latest
+    container_name: Librex.QAP-dev
+    volumes:
+      - .:/app
+      - /app/__pycache__
+      - /app/.pytest_cache
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    command: /bin/bash -c "pip install -e . && python -m pytest tests/ -v"
+    networks:
+      - Librex.QAP-network
+
+  # Jupyter notebook service for interactive development
+  jupyter:
+    build: .
+    image: Librex.QAP-new:latest
+    container_name: Librex.QAP-jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+      - jupyter-data:/root/.jupyter
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      /bin/bash -c "pip install jupyter notebook ipykernel &&
+      jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --no-browser"
+    networks:
+      - Librex.QAP-network
+
+  # API server service
+  api:
+    build: .
+    image: Librex.QAP-new:latest
+    container_name: Librex.QAP-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      /bin/bash -c "pip install fastapi uvicorn &&
+      python -m uvicorn app:app --host 0.0.0.0 --port 8000 --reload"
+    depends_on:
+      - Librex.QAP
+    networks:
+      - Librex.QAP-network
+
+  # Benchmark runner service
+  benchmarks:
+    build: .
+    image: Librex.QAP-new:latest
+    container_name: Librex.QAP-benchmarks
+    volumes:
+      - .:/app
+      - ./results:/app/results
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      /bin/bash -c "pip install -e . &&
+      python -c 'from tests.benchmarking import run_comprehensive_benchmarks;
+      run_comprehensive_benchmarks()'"
+    networks:
+      - Librex.QAP-network
+
+networks:
+  Librex.QAP-network:
+    driver: bridge
+
+volumes:
+  jupyter-data:

@@ -1,0 +1,129 @@
+# Docker Compose configuration for SpinCirc Framework
+# Provides easy multi-service deployment and development environment
+#
+# Usage:
+#   docker-compose up -d                    # Start all services
+#   docker-compose up jupyter               # Start only Jupyter service
+#   docker-compose run --rm spincirc bash   # Interactive shell
+#   docker-compose down                     # Stop all services
+#
+# Author: Meshal Alawein <meshal@berkeley.edu>
+# Copyright © 2025 Meshal Alawein — All rights reserved.
+# License: MIT
+
+version: '3.8'
+
+services:
+  # Main SpinCirc service
+  spincirc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
+    image: spincirc:latest
+    container_name: spincirc-framework
+    restart: unless-stopped
+    environment:
+      - SPINCIRC_VERSION=1.0.0
+      - PYTHONPATH=/opt/spincirc/python
+      - MATLABPATH=/opt/spincirc/matlab
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - ./data:/opt/spincirc/data:rw
+      - ./results:/opt/spincirc/results:rw
+      - ./logs:/opt/spincirc/logs:rw
+      - spincirc_temp:/opt/spincirc/temp
+    working_dir: /opt/spincirc
+    command: ["bash"]
+    stdin_open: true
+    tty: true
+    networks:
+      - spincirc-network
+    healthcheck:
+      test: ["/opt/spincirc/healthcheck.sh"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 120s
+
+  # Jupyter Lab service
+  jupyter:
+    extends: spincirc
+    container_name: spincirc-jupyter
+    ports:
+      - "8888:8888"
+      - "8889:8889"
+    command: ["jupyter"]
+    environment:
+      - JUPYTER_PORT=8888
+      - JUPYTER_IP=0.0.0.0
+      - JUPYTER_ENABLE_LAB=yes
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jupyter.rule=Host(`jupyter.localhost`)"
+      - "traefik.http.services.jupyter.loadbalancer.server.port=8888"
+
+  # Python development service
+  python-dev:
+    extends: spincirc
+    container_name: spincirc-python
+    command: ["python"]
+    environment:
+      - PYTHONPATH=/opt/spincirc/python
+      - PYTHON_INTERACTIVE=1
+
+  # Testing service
+  test-runner:
+    extends: spincirc
+    container_name: spincirc-tests
+    command: ["tests"]
+    environment:
+      - PYTEST_ARGS="-v --tb=short --cov=/opt/spincirc/python"
+    volumes:
+      - ./test-results:/opt/spincirc/test-results:rw
+
+  # Documentation service
+  docs:
+    extends: spincirc
+    container_name: spincirc-docs
+    ports:
+      - "8080:8080"
+    command: ["bash", "-c", "cd /opt/spincirc/docs && python -m http.server 8080"]
+    environment:
+      - DOCS_PORT=8080
+
+  # Development service with volume mounts for live development
+  dev:
+    extends: spincirc
+    container_name: spincirc-dev
+    volumes:
+      - ./matlab:/opt/spincirc/matlab:rw
+      - ./python:/opt/spincirc/python:rw
+      - ./verilogA:/opt/spincirc/verilogA:rw
+      - ./examples:/opt/spincirc/examples:rw
+      - ./docs:/opt/spincirc/docs:rw
+      - ./data:/opt/spincirc/data:rw
+      - ./results:/opt/spincirc/results:rw
+      - ./logs:/opt/spincirc/logs:rw
+      - spincirc_temp:/opt/spincirc/temp
+    environment:
+      - SPINCIRC_DEV_MODE=1
+      - PYTHONPATH=/opt/spincirc/python
+    command: ["bash"]
+
+# Named volumes
+volumes:
+  spincirc_temp:
+    driver: local
+  spincirc_data:
+    driver: local
+  spincirc_results:
+    driver: local
+  spincirc_logs:
+    driver: local
+
+# Networks
+networks:
+  spincirc-network:
+    driver: bridge
+    name: spincirc-net

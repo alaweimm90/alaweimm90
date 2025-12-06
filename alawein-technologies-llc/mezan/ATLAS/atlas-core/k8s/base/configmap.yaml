@@ -1,0 +1,222 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mezan-ORCHEX-config
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/component: config
+    app.kubernetes.io/part-of: mezan
+data:
+  # Flask Configuration
+  FLASK_ENV: "production"
+  FLASK_DEBUG: "false"
+  HOST: "0.0.0.0"
+  PORT: "5000"
+
+  # Redis Configuration
+  REDIS_HOST: "redis-service.mezan-ORCHEX.svc.cluster.local"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  REDIS_DECODE_RESPONSES: "true"
+  REDIS_MAX_CONNECTIONS: "50"
+  REDIS_SOCKET_KEEPALIVE: "true"
+  REDIS_SOCKET_KEEPALIVE_OPTIONS: "1,3,5"
+
+  # ORCHEX Engine Configuration
+  ATLAS_ENGINE_MODE: "production"
+  ATLAS_MAX_AGENTS: "10"
+  ATLAS_AGENT_TIMEOUT: "300"
+  ATLAS_WORKFLOW_MAX_ITERATIONS: "20"
+  ATLAS_ENABLE_METRICS: "true"
+  ATLAS_ENABLE_TRACING: "true"
+  ATLAS_LOG_LEVEL: "INFO"
+
+  # API Rate Limiting
+  API_RATE_LIMIT: "1000/hour"
+  API_BURST_LIMIT: "100"
+  API_TIMEOUT: "60"
+
+  # Worker Configuration
+  WORKER_PROCESSES: "4"
+  WORKER_THREADS: "2"
+  WORKER_MAX_REQUESTS: "1000"
+  WORKER_MAX_REQUESTS_JITTER: "50"
+
+  # Monitoring
+  PROMETHEUS_METRICS_PORT: "9090"
+  ENABLE_PROFILING: "false"
+  ENABLE_HEALTH_CHECKS: "true"
+
+  # Feature Flags
+  ENABLE_DIALECTICAL_WORKFLOW: "true"
+  ENABLE_MULTI_AGENT_COLLABORATION: "true"
+  ENABLE_ADAPTIVE_ROUTING: "true"
+  ENABLE_CAUSAL_ANALYSIS: "true"
+
+  # External Services (populated from secrets in production)
+  ANTHROPIC_API_ENABLED: "true"
+  OPENAI_API_ENABLED: "true"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mezan-ORCHEX-scripts
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/component: scripts
+data:
+  health-check.sh: |
+    #!/bin/bash
+    curl -f http://localhost:5000/health || exit 1
+
+  readiness-check.sh: |
+    #!/bin/bash
+    curl -f http://localhost:5000/ready || exit 1
+
+  startup-check.sh: |
+    #!/bin/bash
+    # Check Redis connection
+    redis-cli -h $REDIS_HOST -p $REDIS_PORT ping || exit 1
+    # Check API responsiveness
+    curl -f http://localhost:5000/api/v1/status || exit 1
+
+  pre-stop.sh: |
+    #!/bin/bash
+    # Graceful shutdown
+    echo "Initiating graceful shutdown..."
+    # Signal the application to stop accepting new requests
+    curl -X POST http://localhost:5000/shutdown/prepare
+    # Wait for ongoing requests to complete (max 30s)
+    sleep 30
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mezan-ORCHEX-nginx-config
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/component: nginx
+data:
+  nginx.conf: |
+    worker_processes auto;
+    error_log /var/log/nginx/error.log warn;
+    pid /var/run/nginx.pid;
+
+    events {
+        worker_connections 4096;
+        use epoll;
+        multi_accept on;
+    }
+
+    http {
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                       '$status $body_bytes_sent "$http_referer" '
+                       '"$http_user_agent" "$http_x_forwarded_for" '
+                       'rt=$request_time uct="$upstream_connect_time" '
+                       'uht="$upstream_header_time" urt="$upstream_response_time"';
+
+        access_log /var/log/nginx/access.log main;
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        # Gzip Settings
+        gzip on;
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_types text/plain text/css text/xml text/javascript
+                   application/json application/javascript application/xml+rss
+                   application/rss+xml application/atom+xml image/svg+xml
+                   text/x-js text/x-cross-domain-policy application/x-font-ttf
+                   application/x-font-opentype application/vnd.ms-fontobject
+                   image/x-icon;
+
+        # Rate limiting zones
+        limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+        limit_req_zone $binary_remote_addr zone=heavy:10m rate=1r/s;
+
+        upstream mezan_backend {
+            least_conn;
+            server mezan-ORCHEX-api:5000 max_fails=3 fail_timeout=30s;
+            keepalive 32;
+        }
+
+        server {
+            listen 8080;
+            server_name _;
+
+            # Security headers
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-XSS-Protection "1; mode=block" always;
+            add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+            # API endpoints
+            location /api/ {
+                limit_req zone=api burst=20 nodelay;
+
+                proxy_pass http://mezan_backend;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+
+                proxy_connect_timeout 60s;
+                proxy_send_timeout 60s;
+                proxy_read_timeout 60s;
+
+                proxy_buffering on;
+                proxy_buffer_size 4k;
+                proxy_buffers 8 4k;
+                proxy_busy_buffers_size 8k;
+            }
+
+            # Heavy operations endpoint
+            location /api/v1/orchestrate {
+                limit_req zone=heavy burst=5 nodelay;
+
+                proxy_pass http://mezan_backend;
+                proxy_http_version 1.1;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+                proxy_connect_timeout 300s;
+                proxy_send_timeout 300s;
+                proxy_read_timeout 300s;
+            }
+
+            # Health checks
+            location /health {
+                access_log off;
+                proxy_pass http://mezan_backend/health;
+            }
+
+            location /ready {
+                access_log off;
+                proxy_pass http://mezan_backend/ready;
+            }
+
+            # Metrics endpoint
+            location /metrics {
+                allow 10.0.0.0/8;
+                deny all;
+                proxy_pass http://mezan_backend/metrics;
+            }
+        }
+    }

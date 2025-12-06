@@ -1,0 +1,22 @@
+{
+  "title": "Evolving Optimal Climate Interventions",
+  "hypothesis": "Evolution can discover non-obvious climate intervention strategies through simulated selection pressure",
+  "feature": "evolution",
+  "parameters": {
+    "population_size": 100,
+    "mutation_rate": 0.1,
+    "selection_pressure": "high",
+    "map_elites_descriptors": ["cost", "effectiveness", "political_feasibility", "time_to_impact"],
+    "generations": 50,
+    "ensemble_size": 3,
+    "checkpoint_frequency": 10,
+    "budget_limit": 3.0
+  },
+  "seed": 42,
+  "initial_seeds": [
+    "Carbon capture and storage",
+    "Solar radiation management",
+    "Reforestation initiatives"
+  ],
+  "tags": ["climate", "evolution", "optimization", "policy"]
+}

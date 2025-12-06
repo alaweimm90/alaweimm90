@@ -1,0 +1,436 @@
+# MEZAN Alert Rules Configuration
+# This file defines alert rules for monitoring MEZAN system performance and health
+
+# Alert Rule Templates
+# Templates allow reusing common configurations across multiple rules
+templates:
+  performance_alert:
+    duration_seconds: 300
+    severity: warning
+    labels:
+      category: performance
+      team: infrastructure
+    annotations:
+      runbook: https://wiki.mezan.io/runbooks/performance
+      dashboard: https://grafana.mezan.io/dashboard/performance
+
+  resource_alert:
+    duration_seconds: 180
+    severity: error
+    labels:
+      category: resources
+      team: infrastructure
+    annotations:
+      runbook: https://wiki.mezan.io/runbooks/resources
+
+  workflow_alert:
+    duration_seconds: 60
+    severity: warning
+    labels:
+      category: workflow
+      team: ORCHEX
+    annotations:
+      runbook: https://wiki.mezan.io/runbooks/workflows
+
+# Alert Rules
+rules:
+  # CPU Alerts
+  - metric_name: system_cpu_percent
+    threshold: 80.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    labels:
+      resource: cpu
+      category: infrastructure
+    annotations:
+      summary: High CPU usage detected
+      description: CPU usage has been above 80% for 5 minutes
+      impact: System performance may be degraded
+      action: Scale up compute resources or optimize workload
+
+  - metric_name: system_cpu_percent
+    threshold: 95.0
+    condition: above
+    duration_seconds: 120
+    severity: critical
+    labels:
+      resource: cpu
+      category: infrastructure
+    annotations:
+      summary: Critical CPU usage
+      description: CPU usage has been above 95% for 2 minutes
+      impact: System is likely unresponsive or severely degraded
+      action: Immediate intervention required - scale resources or reduce load
+
+  # Memory Alerts
+  - metric_name: system_memory_percent
+    threshold: 85.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    labels:
+      resource: memory
+      category: infrastructure
+    annotations:
+      summary: High memory usage detected
+      description: Memory usage has been above 85% for 5 minutes
+      impact: System may experience performance issues
+      action: Monitor for memory leaks, consider scaling
+
+  - metric_name: system_memory_percent
+    threshold: 95.0
+    condition: above
+    duration_seconds: 60
+    severity: critical
+    labels:
+      resource: memory
+      category: infrastructure
+    annotations:
+      summary: Critical memory usage
+      description: Memory usage has been above 95% for 1 minute
+      impact: System may crash due to OOM
+      action: Immediate action required - restart services or scale memory
+
+  # Disk Alerts
+  - metric_name: system_disk_percent
+    threshold: 80.0
+    condition: above
+    duration_seconds: 600
+    severity: warning
+    labels:
+      resource: disk
+      category: infrastructure
+    annotations:
+      summary: High disk usage
+      description: Disk usage is above 80%
+      impact: May run out of disk space soon
+      action: Clean up old logs and data, or expand storage
+
+  - metric_name: system_disk_percent
+    threshold: 95.0
+    condition: above
+    duration_seconds: 60
+    severity: critical
+    labels:
+      resource: disk
+      category: infrastructure
+    annotations:
+      summary: Critical disk usage
+      description: Disk usage is above 95%
+      impact: System will fail when disk is full
+      action: Immediate cleanup required
+
+  # Network Alerts
+  - metric_name: system_network_sent_mb
+    threshold: 1000.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    anomaly_detection: true
+    labels:
+      resource: network
+      direction: outbound
+      category: infrastructure
+    annotations:
+      summary: High network traffic (outbound)
+      description: Outbound network traffic exceeds 1GB
+      impact: Network congestion possible
+      action: Investigate traffic patterns
+
+  - metric_name: system_network_recv_mb
+    threshold: 1000.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    anomaly_detection: true
+    labels:
+      resource: network
+      direction: inbound
+      category: infrastructure
+    annotations:
+      summary: High network traffic (inbound)
+      description: Inbound network traffic exceeds 1GB
+      impact: Network congestion possible
+      action: Investigate traffic patterns
+
+  # ORCHEX Workflow Alerts
+  - metric_name: atlas_workflow_duration_seconds
+    threshold: 300.0
+    condition: above
+    duration_seconds: 60
+    severity: warning
+    labels:
+      component: ORCHEX
+      category: performance
+    annotations:
+      summary: Slow workflow execution
+      description: Workflow taking longer than 5 minutes
+      impact: User experience degradation
+      action: Check workflow complexity and resource allocation
+
+  - metric_name: atlas_workflow_failures_total
+    threshold: 5.0
+    condition: above
+    duration_seconds: 300
+    severity: error
+    labels:
+      component: ORCHEX
+      category: reliability
+    annotations:
+      summary: High workflow failure rate
+      description: More than 5 workflow failures in 5 minutes
+      impact: Workflows not completing successfully
+      action: Check logs for error patterns
+
+  - metric_name: atlas_agent_errors_total
+    threshold: 10.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    labels:
+      component: ORCHEX
+      category: agents
+    annotations:
+      summary: Agent errors detected
+      description: Agent errors exceeding threshold
+      impact: Research tasks may fail
+      action: Review agent logs and configurations
+
+  # API Performance Alerts
+  - metric_name: mezan_request_duration_seconds
+    threshold: 2.0
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    labels:
+      component: api
+      category: performance
+    grouping_keys: ["endpoint", "method"]
+    annotations:
+      summary: Slow API response time
+      description: API requests taking longer than 2 seconds
+      impact: Poor user experience
+      action: Optimize slow endpoints
+
+  - metric_name: mezan_request_duration_p95
+    threshold: 5.0
+    condition: above
+    duration_seconds: 300
+    severity: error
+    labels:
+      component: api
+      category: performance
+      percentile: p95
+    annotations:
+      summary: P95 latency exceeding threshold
+      description: 95th percentile latency above 5 seconds
+      impact: 5% of users experiencing very slow responses
+      action: Investigate performance bottlenecks
+
+  # Error Rate Alerts
+  - metric_name: mezan_errors_total
+    threshold: 0.01
+    condition: rate
+    rate_window: 60
+    duration_seconds: 300
+    severity: warning
+    labels:
+      component: api
+      category: errors
+    annotations:
+      summary: Elevated error rate
+      description: Error rate above 1%
+      impact: Some requests failing
+      action: Check error logs for patterns
+
+  - metric_name: mezan_errors_total
+    threshold: 0.05
+    condition: rate
+    rate_window: 60
+    duration_seconds: 120
+    severity: critical
+    labels:
+      component: api
+      category: errors
+    annotations:
+      summary: Critical error rate
+      description: Error rate above 5%
+      impact: Significant number of requests failing
+      action: Immediate investigation required
+
+  # Database Alerts
+  - metric_name: db_connection_pool_used
+    threshold: 0.9
+    condition: above
+    duration_seconds: 120
+    severity: warning
+    labels:
+      component: database
+      category: connections
+    annotations:
+      summary: Database connection pool nearly exhausted
+      description: Connection pool usage above 90%
+      impact: New connections may fail
+      action: Scale connection pool or optimize queries
+
+  - metric_name: db_query_duration_seconds
+    threshold: 10.0
+    condition: above
+    duration_seconds: 60
+    severity: error
+    labels:
+      component: database
+      category: performance
+    annotations:
+      summary: Slow database queries
+      description: Queries taking longer than 10 seconds
+      impact: Application performance degradation
+      action: Optimize slow queries
+
+  # Cache Performance
+  - metric_name: cache_hit_ratio
+    threshold: 0.8
+    condition: below
+    duration_seconds: 600
+    severity: warning
+    labels:
+      component: cache
+      category: performance
+    annotations:
+      summary: Low cache hit ratio
+      description: Cache hit ratio below 80%
+      impact: Increased load on backend systems
+      action: Review cache configuration and key patterns
+
+  # Queue Monitoring
+  - metric_name: queue_size
+    threshold: 1000
+    condition: above
+    duration_seconds: 300
+    severity: warning
+    labels:
+      component: queue
+      category: capacity
+    grouping_keys: ["queue_name"]
+    annotations:
+      summary: Queue backlog growing
+      description: Queue size exceeding 1000 messages
+      impact: Processing delays expected
+      action: Scale workers or investigate processing issues
+
+  - metric_name: queue_processing_lag_seconds
+    threshold: 60
+    condition: above
+    duration_seconds: 180
+    severity: error
+    labels:
+      component: queue
+      category: latency
+    annotations:
+      summary: High queue processing lag
+      description: Messages waiting more than 60 seconds
+      impact: Real-time features degraded
+      action: Scale workers immediately
+
+  # Service Health
+  - metric_name: service_health_score
+    threshold: 0.95
+    condition: below
+    duration_seconds: 300
+    severity: warning
+    labels:
+      category: health
+    grouping_keys: ["service_name"]
+    annotations:
+      summary: Service health degraded
+      description: Service health score below 95%
+      impact: Service may have issues
+      action: Check service-specific metrics
+
+  # Anomaly Detection Based Rules
+  - metric_name: mezan_requests_total
+    threshold: 3.0  # z-score threshold
+    condition: anomaly
+    duration_seconds: 300
+    severity: info
+    anomaly_detection: true
+    labels:
+      category: anomaly
+      component: api
+    annotations:
+      summary: Anomalous request pattern detected
+      description: Request rate deviating from normal patterns
+      impact: Possible attack or system issue
+      action: Investigate traffic patterns
+
+  # Custom Expression Rules
+  - metric_name: custom_slo_breach
+    expression: "(error_rate > 0.01) and (p95_latency > 2.0)"
+    threshold: 1.0
+    condition: expression
+    duration_seconds: 300
+    severity: error
+    labels:
+      category: slo
+      team: platform
+    annotations:
+      summary: SLO breach detected
+      description: Combined error rate and latency SLO violated
+      impact: User experience significantly impacted
+      action: Activate incident response
+
+  # Rate of Change Alerts
+  - metric_name: memory_leak_detection
+    threshold: 100.0  # MB/hour
+    condition: rate
+    rate_window: 3600
+    duration_seconds: 1800
+    severity: warning
+    labels:
+      category: leak
+      component: memory
+    annotations:
+      summary: Potential memory leak detected
+      description: Memory usage increasing at 100MB/hour
+      impact: System will run out of memory
+      action: Investigate memory allocation patterns
+
+# Alert Aggregation Rules
+aggregation:
+  - name: cascade_failure
+    patterns:
+      - ".*errors_total.*"
+      - ".*timeout.*"
+      - ".*connection_refused.*"
+    time_window: 300
+    min_alerts: 5
+    action: escalate
+    metadata:
+      severity_override: critical
+      notification_channels: ["pagerduty", "slack", "email"]
+
+  - name: performance_degradation
+    patterns:
+      - ".*duration.*"
+      - ".*latency.*"
+      - ".*slow.*"
+    time_window: 600
+    min_alerts: 3
+    action: group
+    metadata:
+      group_name: performance_issues
+
+# On-Call Overrides for Specific Alerts
+oncall_overrides:
+  - alert_pattern: ".*critical.*"
+    schedule: primary
+    notification_delay: 0
+
+  - alert_pattern: ".*database.*"
+    schedule: database_team
+    notification_delay: 300
+
+  - alert_pattern: ".*ORCHEX.*"
+    schedule: atlas_team
+    notification_delay: 120

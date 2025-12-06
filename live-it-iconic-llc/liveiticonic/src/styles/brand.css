@@ -1,0 +1,40 @@
+/* Live It Iconic - brand.css
+   Small complementary brand stylesheet to centralize tokens and helpers.
+   Note: primary tokens already exist in index.css; this file provides small utilities
+   and an explicit import point for components that expect a dedicated brand stylesheet.
+*/
+
+:root {
+  /* Aliases for convenience */
+  --lii-gold: 38 42% 57%; /* gold */
+  --lii-champagne: 43 74% 66%;
+  --lii-ink: 222 13% 9%;
+}
+
+/* Simple helper classes */
+.lii-color-gold {
+  color: hsl(var(--lii-gold));
+}
+.lii-bg-gold {
+  background-color: hsl(var(--lii-gold));
+}
+.lii-stroke-gold {
+  stroke: hsl(var(--lii-gold));
+}
+
+.lii-font-display {
+  font-family: var(--font-display);
+}
+.lii-font-ui {
+  font-family: var(--font-ui);
+}
+
+/* Utility: visually-hidden for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

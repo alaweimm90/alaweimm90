@@ -1,0 +1,355 @@
+/* Performance Optimizations - QMLab Enhanced Experience */
+
+/* Critical rendering path optimizations */
+.critical-above-fold {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Lazy loading for below-fold content */
+.lazy-load-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 300px;
+}
+
+/* GPU-accelerated transforms */
+.hardware-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize animations for 60fps */
+.smooth-animation {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.smooth-animation:not(.animating) {
+  will-change: auto;
+}
+
+/* Composite layer promotion for complex elements */
+.composite-layer {
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+/* Optimize glass morphism for performance */
+.glass-optimized {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* Fallback for older browsers */
+  background-color: rgba(15, 23, 42, 0.8);
+}
+
+@supports not (backdrop-filter: blur(12px)) {
+  .glass-optimized {
+    background-color: rgba(15, 23, 42, 0.95);
+  }
+}
+
+/* Optimize images and media */
+.optimized-image {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+  image-rendering: optimizeQuality;
+  transform: translateZ(0);
+}
+
+/* Intersection observer optimization */
+.fade-in-viewport {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-viewport.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Throttle expensive operations */
+.throttled-hover {
+  transition: transform 0.2s ease;
+}
+
+.throttled-hover:hover {
+  transform: translateY(-2px);
+}
+
+/* Only apply on devices that support hover */
+@media (hover: none) {
+  .throttled-hover:hover {
+    transform: none;
+  }
+}
+
+/* Battery-aware animations */
+@media (prefers-reduced-motion: reduce) {
+  .smooth-animation,
+  .fade-in-viewport,
+  .throttled-hover {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Memory optimization for large lists */
+.virtual-scroll-container {
+  overflow: auto;
+  height: 300px;
+  contain: strict;
+}
+
+.virtual-scroll-item {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 60px;
+}
+
+/* CSS containment for components */
+.quantum-component {
+  contain: layout style paint;
+}
+
+.quantum-component-isolated {
+  contain: layout style paint size;
+  isolation: isolate;
+}
+
+/* Optimize text rendering */
+.optimized-text {
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.optimized-text-quality {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* Optimize scrolling performance */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Reduce layout thrashing */
+.no-layout-shift {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+}
+
+/* Optimize CSS Grid performance */
+.optimized-grid {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+  contain: layout;
+}
+
+/* Optimize Flexbox performance */
+.optimized-flex {
+  display: flex;
+  contain: layout style;
+}
+
+/* Critical resource hints */
+.preload-important {
+  /* Applied via HTML link tags */
+}
+
+/* Optimize form controls */
+.optimized-input {
+  contain: layout style;
+  will-change: contents;
+}
+
+.optimized-input:focus {
+  will-change: auto;
+}
+
+/* Memory-efficient shadows */
+.efficient-shadow {
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  /* Avoid complex multi-layer shadows on low-end devices */
+}
+
+@media (max-width: 768px) {
+  .efficient-shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Optimize background images */
+.optimized-background {
+  background-attachment: local;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  will-change: auto;
+}
+
+/* Reduce paint complexity */
+.simple-border {
+  border: 1px solid currentColor;
+  /* Avoid gradient borders on complex layouts */
+}
+
+/* Optimize pseudo-elements */
+.efficient-pseudo::before,
+.efficient-pseudo::after {
+  content: '';
+  position: absolute;
+  contain: layout style paint;
+}
+
+/* Battery-conscious features */
+@media (prefers-reduced-data: reduce) {
+  .data-heavy-animation {
+    animation: none !important;
+  }
+  
+  .decorative-background {
+    background-image: none !important;
+  }
+}
+
+/* Connection-aware optimizations */
+.connection-aware {
+  /* JavaScript will add classes based on navigator.connection */
+}
+
+.slow-connection .heavy-effect {
+  animation-duration: 0.1s !important;
+  animation-iteration-count: 1 !important;
+}
+
+.slow-connection .glass-optimized {
+  backdrop-filter: none;
+  background-color: rgba(15, 23, 42, 0.95);
+}
+
+/* CPU-intensive animation alternatives */
+.low-power-mode .complex-animation {
+  animation: simple-fade 0.3s ease;
+}
+
+@keyframes simple-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Memory optimization utilities */
+.memory-efficient {
+  transform: translateZ(0);
+  contain: layout style paint;
+  isolation: isolate;
+}
+
+/* Optimize for different screen densities */
+@media (-webkit-min-device-pixel-ratio: 2) {
+  .retina-optimized {
+    image-rendering: crisp-edges;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Optimize pointer interactions */
+@media (pointer: coarse) {
+  .touch-optimized {
+    touch-action: manipulation;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (pointer: fine) {
+  .mouse-optimized {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+}
+
+/* Optimize for different refresh rates */
+@media (prefers-refresh-rate: high) {
+  .high-refresh-animation {
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+  }
+}
+
+/* Container query optimizations */
+@container (max-width: 300px) {
+  .container-responsive {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+}
+
+@container (min-width: 600px) {
+  .container-responsive {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* Critical performance rules */
+.performance-critical {
+  /* Avoid expensive operations */
+  filter: none;
+  mask: none;
+  clip-path: none;
+  mix-blend-mode: normal;
+  
+  /* Optimize for compositing */
+  transform: translateZ(0);
+  opacity: 1;
+  
+  /* Reduce paint complexity */
+  background-attachment: local;
+  background-clip: padding-box;
+}
+
+/* Debugging performance issues */
+.debug-performance {
+  outline: 2px solid red;
+  background-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+/* Feature detection optimizations */
+@supports (content-visibility: auto) {
+  .modern-browser-optimization {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+  }
+}
+
+@supports not (content-visibility: auto) {
+  .fallback-optimization {
+    overflow: hidden;
+    height: 200px;
+  }
+}
+
+/* Print optimizations */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-optimized {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: 1px solid black !important;
+  }
+}

@@ -1,0 +1,53 @@
+name: OptiBench Promote Baseline
+
+on:
+  workflow_run:
+    workflows: ["OptiBench Nightly"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  promote:
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download artifact from nightly
+        if: ${{ github.event_name == 'workflow_run' }}
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: optibench-nightly.yml
+          name: optibench-nightly
+          path: Libria/libria-meta/results/optibench
+      - name: Promote baseline
+        working-directory: Libria/libria-meta
+        env:
+          OPTIBENCH_GOLDEN_INSTANCES: ${{ vars.OPTIBENCH_GOLDEN_INSTANCES }}
+          OPTIBENCH_GOLDEN_TOL_ABS: ${{ vars.OPTIBENCH_GOLDEN_TOL_ABS }}
+          OPTIBENCH_GOLDEN_TOL_PCT: ${{ vars.OPTIBENCH_GOLDEN_TOL_PCT }}
+        run: |
+          GOLDEN_LIST=${OPTIBENCH_GOLDEN_INSTANCES:-auto:2}
+          python -m optibench.update_baseline \
+            --result results/optibench/qaplib-mini.json \
+            --baseline optibench/baselines/qaplib-mini.json \
+            --golden "$GOLDEN_LIST" \
+            --golden-tol-abs "${OPTIBENCH_GOLDEN_TOL_ABS:-0}" \
+            --golden-tol-pct "${OPTIBENCH_GOLDEN_TOL_PCT:-0.05}"
+      - name: Create PR with updated baseline
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/optibench-promote-baseline
+          title: "chore(optibench): promote baseline from nightly results"
+          commit-message: "chore(optibench): promote baseline from nightly"
+          body: "This PR updates OptiBench baseline thresholds using the latest nightly results."
+          add-paths: |
+            Libria/libria-meta/optibench/baselines/qaplib-mini.json

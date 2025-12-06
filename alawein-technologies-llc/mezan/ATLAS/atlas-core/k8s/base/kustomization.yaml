@@ -1,0 +1,67 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mezan-ORCHEX
+
+namePrefix: ""
+nameSuffix: ""
+
+commonLabels:
+  app.kubernetes.io/part-of: mezan
+  app.kubernetes.io/managed-by: kustomize
+
+commonAnnotations:
+  app.kubernetes.io/version: "3.5.0"
+  managed-by: "meshal@berkeley.edu"
+
+resources:
+  - namespace.yaml
+  - serviceaccount.yaml
+  - configmap.yaml
+  - secret.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - hpa.yaml
+  - pdb.yaml
+  - redis-statefulset.yaml
+  - redis-service.yaml
+  - prometheus.yaml
+  - grafana.yaml
+
+configMapGenerator:
+  - name: mezan-ORCHEX-config-generated
+    literals:
+      - GENERATED_AT="$(date)"
+    options:
+      disableNameSuffixHash: true
+
+secretGenerator:
+  - name: mezan-ORCHEX-secrets-generated
+    type: Opaque
+    literals:
+      - PLACEHOLDER="to-be-replaced"
+    options:
+      disableNameSuffixHash: true
+
+generatorOptions:
+  labels:
+    generated: "true"
+  annotations:
+    generated-by: "kustomize"
+
+patchesStrategicMerge: []
+
+patchesJson6902: []
+
+images:
+  - name: mezan-ORCHEX
+    newTag: 3.5.0
+
+replicas:
+  - name: mezan-ORCHEX-api
+    count: 3
+  - name: mezan-ORCHEX-worker
+    count: 2
+  - name: redis
+    count: 3

@@ -1,0 +1,195 @@
+/**
+ * @file spin_transport_4terminal.va
+ * @brief 4-Terminal Spin Transport Compact Model
+ * 
+ * Implementation of the 4x4 conductance matrix spin transport formalism
+ * for F/N/F heterostructures as described in:
+ * "Circuit Models for Spintronic Devices Subject to Electric and Magnetic Fields"
+ * (Alawein & Fariborzi, IEEE J-XCDC 2018)
+ * 
+ * This model provides:
+ * - Complete 4-terminal spin transport with charge and spin degrees of freedom
+ * - Temperature-dependent transport coefficients
+ * - Magnetization angle-dependent conductances
+ * - Interface resistance and mixing conductance effects
+ * - Hanle precession under external magnetic fields
+ * 
+ * Terminal Configuration:
+ *   1: Left electrode charge
+ *   2: Right electrode charge
+ *   3: Left electrode spin (effective)
+ *   4: Right electrode spin (effective)
+ * 
+ * @author Meshal Alawein <meshal@berkeley.edu>
+ * @copyright 2025, University of California Berkeley
+ * @license MIT License
+ */
+
+`include "constants.vams"
+`include "disciplines.vams"
+
+module spin_transport_4terminal(c_left, c_right, s_left, s_right);
+    
+    // Terminal declarations
+    inout c_left, c_right;    // Charge terminals
+    inout s_left, s_right;    // Spin terminals
+    electrical c_left, c_right, s_left, s_right;
+    
+    // Model parameters
+    parameter real length = 200e-9 from (1e-9:1e-6);          // Device length (m)
+    parameter real width = 100e-9 from (1e-9:1e-6);           // Device width (m) 
+    parameter real thickness = 2e-9 from (0.1e-9:100e-9);     // Device thickness (m)
+    parameter real lambda_sf = 5e-9 from (0.1e-9:1e-6);       // Spin diffusion length (m)
+    parameter real rho_n = 100e-9 from (1e-9:1e-6);           // Normal metal resistivity (Ohm-m)
+    parameter real rho_f = 200e-9 from (1e-9:1e-6);           // Ferromagnet resistivity (Ohm-m)
+    parameter real beta = 0.7 from (0:1);                     // Spin asymmetry parameter
+    parameter real gamma_mix = 1e15 from (1e12:1e18);         // Mixing conductance (S/m^2)
+    parameter real r_int = 1e-12 from (1e-15:1e-9);           // Interface resistance (Ohm-m^2)
+    parameter real temperature = 300 from (4:1000);           // Temperature (K)
+    parameter real mag_angle_left = 0 from (-180:180);        // Left magnet angle (degrees)
+    parameter real mag_angle_right = 180 from (-180:180);     // Right magnet angle (degrees)
+    parameter real h_ext_x = 0 from (-10:10);                 // External field X (Tesla)
+    parameter real h_ext_y = 0 from (-10:10);                 // External field Y (Tesla)
+    parameter real h_ext_z = 0 from (-10:10);                 // External field Z (Tesla)
+    parameter real g_factor = 2.0 from (1.5:2.5);             // Landé g-factor
+    parameter real hbar = 1.054571817e-34;                    // Reduced Planck constant
+    parameter real mu_b = 9.274010078e-24;                    // Bohr magneton
+    parameter real kb = 1.380649e-23;                         // Boltzmann constant
+    
+    // Internal variables
+    real area, volume;                    // Geometric parameters
+    real sigma_n, sigma_f;                // Conductivities
+    real lambda_eff;                      // Effective spin diffusion length
+    real theta_left, theta_right;         // Magnetization angles (radians)
+    real cos_theta, sin_theta;            // Trigonometric functions
+    real omega_l;                         // Larmor frequency
+    real hanle_factor;                    // Hanle precession factor
+    real temp_factor;                     // Temperature correction factor
+    
+    // 4x4 Conductance matrix elements
+    real G11, G12, G13, G14;             // Row 1: Left charge node
+    real G21, G22, G23, G24;             // Row 2: Right charge node  
+    real G31, G32, G33, G34;             // Row 3: Left spin node
+    real G41, G42, G43, G44;             // Row 4: Right spin node
+    
+    // Terminal voltages and currents
+    real V_cl, V_cr, V_sl, V_sr;         // Terminal voltages
+    real I_cl, I_cr, I_sl, I_sr;         // Terminal currents
+    
+    analog begin
+        
+        // Calculate geometric parameters
+        area = width * thickness;
+        volume = length * width * thickness;
+        
+        // Convert angles to radians
+        theta_left = mag_angle_left * `M_PI / 180.0;
+        theta_right = mag_angle_right * `M_PI / 180.0;
+        cos_theta = cos(theta_right - theta_left);
+        sin_theta = sin(theta_right - theta_left);
+        
+        // Calculate conductivities with temperature dependence
+        temp_factor = 1.0 + 0.004 * (temperature - 300);  // Linear temperature coefficient
+        sigma_n = 1.0 / (rho_n * temp_factor);
+        sigma_f = 1.0 / (rho_f * temp_factor);
+        
+        // Effective spin diffusion length with temperature correction
+        lambda_eff = lambda_sf * sqrt(temp_factor);
+        
+        // Calculate Larmor frequency and Hanle factor
+        omega_l = g_factor * mu_b * sqrt(h_ext_x*h_ext_x + h_ext_y*h_ext_y + h_ext_z*h_ext_z) / hbar;
+        hanle_factor = 1.0 / (1.0 + pow(omega_l * lambda_eff / (sigma_n * area / length), 2));
+        
+        // Read terminal voltages
+        V_cl = V(c_left);
+        V_cr = V(c_right);
+        V_sl = V(s_left);  
+        V_sr = V(s_right);
+        
+        // Build 4x4 conductance matrix based on spin transport theory
+        // This implements the full 4x4 formalism from Alawein & Fariborzi 2018
+        
+        // Charge-charge conductances (diagonal terms)
+        G11 = (sigma_n * area / length) * (1.0 + beta*beta * cos_theta) + 1.0/r_int;
+        G22 = (sigma_n * area / length) * (1.0 + beta*beta * cos_theta) + 1.0/r_int;
+        
+        // Charge-charge cross-coupling
+        G12 = -(sigma_n * area / length) * (1.0 + beta*beta * cos_theta);
+        G21 = G12;  // Symmetry
+        
+        // Charge-spin coupling terms
+        G13 = (sigma_n * area / length) * beta * sin_theta * hanle_factor;
+        G14 = -(sigma_n * area / length) * beta * sin_theta * hanle_factor;
+        G23 = -G13;  // Anti-symmetry
+        G24 = -G14;  // Anti-symmetry
+        G31 = G13;   // Reciprocity
+        G32 = G23;   // Reciprocity  
+        G41 = G14;   // Reciprocity
+        G42 = G24;   // Reciprocity
+        
+        // Spin-spin conductances
+        G33 = (sigma_n * area / length) * (1.0 / (1.0 + length*length/(lambda_eff*lambda_eff))) * hanle_factor + gamma_mix * area;
+        G44 = G33;   // Symmetry
+        
+        // Spin-spin cross-coupling
+        G34 = -(sigma_n * area / length) * (1.0 / (1.0 + length*length/(lambda_eff*lambda_eff))) * hanle_factor * cos_theta;
+        G43 = G34;   // Symmetry
+        
+        // Calculate terminal currents using 4x4 conductance matrix
+        // I = G * V
+        I_cl = G11 * V_cl + G12 * V_cr + G13 * V_sl + G14 * V_sr;
+        I_cr = G21 * V_cl + G22 * V_cr + G23 * V_sl + G24 * V_sr;
+        I_sl = G31 * V_cl + G32 * V_cr + G33 * V_sl + G34 * V_sr;
+        I_sr = G41 * V_cl + G42 * V_cr + G43 * V_sl + G44 * V_sr;
+        
+        // Apply currents to terminals
+        I(c_left) <+ I_cl;
+        I(c_right) <+ I_cr;
+        I(s_left) <+ I_sl;
+        I(s_right) <+ I_sr;
+        
+        // Noise modeling (thermal and shot noise)
+        I(c_left) <+ white_noise(4.0 * kb * temperature * G11, "thermal_c_left");
+        I(c_right) <+ white_noise(4.0 * kb * temperature * G22, "thermal_c_right");
+        I(s_left) <+ white_noise(4.0 * kb * temperature * G33, "thermal_s_left");
+        I(s_right) <+ white_noise(4.0 * kb * temperature * G44, "thermal_s_right");
+        
+        // Shot noise (proportional to current)
+        I(c_left) <+ white_noise(2.0 * `P_Q * abs(I_cl), "shot_c_left");
+        I(c_right) <+ white_noise(2.0 * `P_Q * abs(I_cr), "shot_c_right");
+        
+    end
+    
+    // Model information and validation
+    initial begin
+        $display("=== Spin Transport 4-Terminal Model ===");
+        $display("Length: %g nm", length*1e9);
+        $display("Width: %g nm", width*1e9);
+        $display("Thickness: %g nm", thickness*1e9);
+        $display("Spin diffusion length: %g nm", lambda_sf*1e9);
+        $display("Beta (spin asymmetry): %g", beta);
+        $display("Temperature: %g K", temperature);
+        $display("Left magnet angle: %g deg", mag_angle_left);
+        $display("Right magnet angle: %g deg", mag_angle_right);
+        $display("External field: (%g, %g, %g) T", h_ext_x, h_ext_y, h_ext_z);
+        $display("======================================");
+        
+        // Parameter validation
+        if (length <= 0 || width <= 0 || thickness <= 0) begin
+            $error("Geometric parameters must be positive");
+        end
+        
+        if (lambda_sf <= 0) begin
+            $error("Spin diffusion length must be positive");
+        end
+        
+        if (beta < 0 || beta > 1) begin
+            $warning("Beta should typically be between 0 and 1");
+        end
+        
+        if (temperature <= 0) begin
+            $error("Temperature must be positive");
+        end
+    end
+    
+endmodule

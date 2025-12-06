@@ -1,0 +1,25 @@
+{
+  "name": "@repz/prettier-config",
+  "version": "1.0.0",
+  "description": "Shared Prettier configuration for REPZ platform",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "peerDependencies": {
+    "prettier": "^3.0.0"
+  },
+  "keywords": [
+    "prettier",
+    "prettier-config",
+    "repz",
+    "formatting",
+    "code-style"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/repz/repzcoach-pro-ai.git",
+    "directory": "packages/prettier-config"
+  }
+}

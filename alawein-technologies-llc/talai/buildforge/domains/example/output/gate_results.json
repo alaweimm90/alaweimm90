@@ -1,0 +1,109 @@
+[
+  {
+    "gate_number": 1,
+    "gate_name": "Novelty Assessment",
+    "verdict": "PIVOT",
+    "score": 40.0,
+    "confidence": 0.85,
+    "insights": [
+      "Found 3 related works",
+      "Novelty score: 40.0/100",
+      "Key differentiation: [Implementation detail here]"
+    ],
+    "risks": [
+      "Risk: Patent infringement possible",
+      "Risk: Crowded space, need strong differentiation"
+    ],
+    "recommendations": [
+      "Recommendation: Emphasize unique approach X",
+      "Recommendation: File provisional patent"
+    ],
+    "timestamp": "2025-11-15T21:42:41.701149",
+    "duration_seconds": 1.002605
+  },
+  {
+    "gate_number": 2,
+    "gate_name": "Theory Validation",
+    "verdict": "PROCEED",
+    "score": 75.0,
+    "confidence": 0.8,
+    "insights": [
+      "Formalized 3 theoretical components",
+      "Theory appears sound with minor gaps",
+      "Proof sketch completed for main claims"
+    ],
+    "risks": [
+      "Risk: Proof may not hold under all conditions",
+      "Risk: Assumptions may be too strong"
+    ],
+    "recommendations": [
+      "Recommendation: Formalize complete proof",
+      "Recommendation: Test edge cases"
+    ],
+    "timestamp": "2025-11-15T21:42:44.723565",
+    "duration_seconds": 3.022269
+  },
+  {
+    "gate_number": 3,
+    "gate_name": "Feasibility Analysis",
+    "verdict": "PROCEED",
+    "score": 70.0,
+    "confidence": 0.75,
+    "insights": [
+      "Timeline: 8 weeks",
+      "Budget: $25,000",
+      "Complexity: 7/10"
+    ],
+    "risks": [
+      "Risk: Timeline may slip by 20-30%",
+      "Risk: Need specialized expertise"
+    ],
+    "recommendations": [
+      "Recommendation: Build MVP first",
+      "Recommendation: Hire domain expert"
+    ],
+    "timestamp": "2025-11-15T21:42:46.227250",
+    "duration_seconds": 1.503259
+  },
+  {
+    "gate_number": 4,
+    "gate_name": "Benchmark Validation",
+    "verdict": "PIVOT",
+    "score": 65.0,
+    "confidence": 0.9,
+    "insights": [
+      "Beat SOTA on 2/3 metrics",
+      "Win rate: 66.7%",
+      "Strong performance on key benchmarks"
+    ],
+    "risks": [
+      "Risk: Overfitting to benchmarks",
+      "Risk: Real-world performance may differ"
+    ],
+    "recommendations": [
+      "Recommendation: Test on out-of-distribution data",
+      "Recommendation: Ablation study"
+    ],
+    "timestamp": "2025-11-15T21:42:48.739933",
+    "duration_seconds": 2.51254
+  },
+  {
+    "gate_number": 5,
+    "gate_name": "Publication & Deployment",
+    "verdict": "PROCEED",
+    "score": 90.0,
+    "confidence": 0.95,
+    "insights": [
+      "Paper submitted: arXiv:2025.12345",
+      "Product deployed: https://api.example.com",
+      "Documentation complete"
+    ],
+    "risks": [],
+    "recommendations": [
+      "Recommendation: Monitor user feedback",
+      "Recommendation: Submit to top-tier conference"
+    ],
+    "timestamp": "2025-11-15T21:42:54.755592",
+    "duration_seconds": 6.009326
+  }
+]

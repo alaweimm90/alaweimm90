@@ -1,0 +1,201 @@
+version: '3.8'
+
+services:
+  # Ghost Researcher Frontend
+  ghost-researcher:
+    build:
+      context: ./frontend/ghost-researcher
+      dockerfile: Dockerfile
+      target: development
+    container_name: ghost-researcher-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/ghost-researcher:/app
+      - ghost-researcher-node-modules:/app/node_modules
+      - ghost-researcher-next:/app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://api:8000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/crazyideas
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - api
+      - postgres
+      - redis
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+  # Scientific Tinder Frontend
+  scientific-tinder:
+    build:
+      context: ./frontend/scientific-tinder
+      dockerfile: Dockerfile
+      target: development
+    container_name: scientific-tinder-dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend/scientific-tinder:/app
+      - scientific-tinder-node-modules:/app/node_modules
+      - scientific-tinder-next:/app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://api:8000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/crazyideas
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - api
+      - postgres
+      - redis
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+  # Chaos Engine Frontend
+  chaos-engine:
+    build:
+      context: ./frontend/chaos-engine
+      dockerfile: Dockerfile
+      target: development
+    container_name: chaos-engine-dev
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./frontend/chaos-engine:/app
+      - chaos-engine-node-modules:/app/node_modules
+      - chaos-engine-next:/app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://api:8000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/crazyideas
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - api
+      - postgres
+      - redis
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+  # API Backend
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: api-dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - api-node-modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/crazyideas
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=dev-secret-key-change-in-production
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:3002
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=crazyideas
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Adminer for Database Management
+  adminer:
+    image: adminer:latest
+    container_name: adminer-dev
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DEFAULT_SERVER=postgres
+      - ADMINER_DESIGN=pepa-linha
+    depends_on:
+      - postgres
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+  # Mailhog for Email Testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog-dev
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - crazyideas-network
+    restart: unless-stopped
+
+networks:
+  crazyideas-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  # Database volumes
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+  # Node modules volumes for faster rebuilds
+  ghost-researcher-node-modules:
+    driver: local
+  ghost-researcher-next:
+    driver: local
+  scientific-tinder-node-modules:
+    driver: local
+  scientific-tinder-next:
+    driver: local
+  chaos-engine-node-modules:
+    driver: local
+  chaos-engine-next:
+    driver: local
+  api-node-modules:
+    driver: local

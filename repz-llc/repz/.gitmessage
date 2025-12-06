@@ -1,0 +1,64 @@
+# <type>(<scope>): <subject>
+#
+# <body>
+#
+# <footer>
+
+# Type can be:
+#   feat     (new feature)
+#   fix      (bug fix)
+#   docs     (documentation)
+#   style    (formatting, no code change)
+#   refactor (code change that doesn't fix bug or add feature)
+#   test     (adding or updating tests)
+#   chore    (maintenance)
+#   perf     (performance improvement)
+#   ci       (CI/CD changes)
+#   build    (build system changes)
+#   revert   (reverting changes)
+#   design   (design system changes)
+#   content  (content updates)
+#   config   (configuration changes)
+#   security (security fixes)
+#   deps     (dependency updates)
+#   auth     (authentication related)
+#   payment  (payment/Stripe related)
+#   coach    (coach-specific features)
+#   client   (client-specific features)
+#   admin    (admin panel features)
+#   mobile   (mobile app specific)
+#   ai       (AI/ML features)
+#   analytics (analytics and tracking)
+#
+# Scope is optional but can be:
+#   app, ui, components, pages, hooks, contexts, utils, lib, types,
+#   auth, dashboard, intake, pricing, analytics, testing, mobile, ai,
+#   api, db, build, deploy, config, deps, security,
+#   tokens, atoms, molecules, organisms, templates, storybook,
+#   tiers, subscriptions, coaching, nutrition, workouts, progress,
+#   supabase, stripe, openai, capacitor, sentry
+#
+# Subject should:
+#   - Use imperative mood ("add" not "added" or "adds")
+#   - Be no more than 100 characters
+#   - Not end with a period
+#
+# Body should:
+#   - Explain the "what" and "why" vs. "how"
+#   - Use present tense
+#   - Include motivation for change and contrast with previous behavior
+#
+# Footer should:
+#   - Reference issues and PRs (e.g., "Closes #123", "Fixes #456")
+#   - Note breaking changes with "BREAKING CHANGE:"
+#
+# Examples:
+#   feat(auth): add OAuth2 authentication flow
+#   fix(dashboard): resolve tier access control bug
+#   docs(api): update authentication endpoint documentation
+#   style(components): format button component with prettier
+#   refactor(hooks): extract common data fetching logic
+#   test(intake): add comprehensive form validation tests
+#   chore(deps): update React to version 18.3.1
+#   design(tokens): add new color palette for dark mode
+#   security(auth): implement rate limiting for login attempts

@@ -1,0 +1,81 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mezan-ORCHEX-dev
+
+namePrefix: dev-
+nameSuffix: ""
+
+commonLabels:
+  environment: development
+  team: engineering
+
+commonAnnotations:
+  environment: dev
+  cost-center: "engineering"
+
+bases:
+  - ../../base
+
+resources:
+  - namespace.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - service-patch.yaml
+  - ingress-patch.yaml
+
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: mezan-ORCHEX-api
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 250m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+
+configMapGenerator:
+  - name: mezan-ORCHEX-config
+    behavior: merge
+    literals:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=true
+      - ATLAS_LOG_LEVEL=DEBUG
+      - ENABLE_PROFILING=true
+      - ATLAS_MAX_AGENTS=5
+
+secretGenerator:
+  - name: mezan-ORCHEX-secrets
+    behavior: merge
+    envs:
+      - secrets.env
+
+images:
+  - name: mezan-ORCHEX
+    newName: localhost:5000/mezan-ORCHEX
+    newTag: dev
+
+replicas:
+  - name: mezan-ORCHEX-api
+    count: 1
+  - name: mezan-ORCHEX-worker
+    count: 1
+  - name: redis
+    count: 1
+
+# Remove resource limits in dev
+patches:
+  - patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/resources/limits
+    target:
+      kind: Deployment
+      name: ".*"

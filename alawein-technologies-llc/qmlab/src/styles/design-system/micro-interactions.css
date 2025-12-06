@@ -1,0 +1,343 @@
+/**
+ * Quantum Micro-Interactions
+ * Subtle, delightful interaction feedback
+ */
+
+/* Button Interactions */
+.btn-quantum {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-elegant);
+  transform-style: preserve-3d;
+}
+
+.btn-quantum::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(var(--primary-300) / 0.4) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-quantum:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-quantum:active {
+  transform: scale(0.96);
+}
+
+/* Card Interactions */
+.card-quantum {
+  position: relative;
+  transition: all var(--transition-elegant);
+  transform-style: preserve-3d;
+}
+
+.card-quantum::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-quantum-rainbow);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-elegant);
+  pointer-events: none;
+}
+
+.card-quantum:hover {
+  transform: translateY(-4px) translateZ(20px);
+  box-shadow: var(--shadow-quantum-lg);
+}
+
+.card-quantum:hover::after {
+  opacity: 1;
+}
+
+/* Input Focus Interactions */
+.input-quantum {
+  position: relative;
+  transition: all var(--transition-normal);
+}
+
+.input-quantum:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px hsl(var(--primary-500) / 0.1),
+              0 0 0 1px hsl(var(--primary-500) / 0.5);
+}
+
+.input-quantum:focus::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--gradient-shimmer);
+  opacity: 0.5;
+  animation: quantum-shimmer 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Toggle/Switch Interactions */
+.switch-quantum {
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-spring);
+}
+
+.switch-quantum:checked {
+  background: var(--gradient-quantum-blue);
+}
+
+.switch-quantum:checked::after {
+  transform: translateX(100%);
+}
+
+.switch-quantum::after {
+  transition: transform var(--transition-spring);
+  box-shadow: var(--shadow-quantum-sm);
+}
+
+/* Link Interactions */
+.link-quantum {
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.link-quantum::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gradient-quantum-blue);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--transition-elegant);
+}
+
+.link-quantum:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Ripple Effect */
+.ripple-quantum {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-quantum::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: hsl(var(--primary-400) / 0.3);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.ripple-quantum:active::after {
+  width: 200%;
+  height: 200%;
+  opacity: 1;
+  animation: quantum-ripple 0.6s ease-out;
+}
+
+/* Tooltip Interactions */
+.tooltip-quantum {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip-quantum::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 8px 12px;
+  background: var(--glass-quantum-bg);
+  border: 1px solid var(--glass-quantum-border);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  color: hsl(var(--primary-50));
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-elegant);
+  box-shadow: var(--shadow-quantum-lg);
+}
+
+.tooltip-quantum:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Badge Interactions */
+.badge-quantum {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--glass-quantum-bg);
+  border: 1px solid var(--glass-quantum-border);
+  backdrop-filter: blur(8px);
+  transition: all var(--transition-elegant);
+}
+
+.badge-quantum::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient-quantum-blue);
+  animation: quantum-pulse 2s ease-in-out infinite;
+}
+
+.badge-quantum:hover {
+  border-color: hsl(var(--primary-400) / 0.5);
+  box-shadow: var(--shadow-quantum-glow);
+}
+
+/* Progress Bar Interactions */
+.progress-quantum {
+  position: relative;
+  overflow: hidden;
+  background: hsl(var(--primary-950) / 0.3);
+  border-radius: 999px;
+}
+
+.progress-quantum::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-shimmer);
+  animation: quantum-shimmer 2s ease-in-out infinite;
+}
+
+.progress-quantum-bar {
+  height: 100%;
+  background: var(--gradient-quantum-blue);
+  border-radius: inherit;
+  transition: width var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-quantum-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary-200) / 0.3) 50%,
+    transparent 100%
+  );
+  animation: quantum-shimmer 1.5s ease-in-out infinite;
+}
+
+/* Checkbox/Radio Interactions */
+.checkbox-quantum {
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-elegant);
+}
+
+.checkbox-quantum:checked {
+  background: var(--gradient-quantum-blue);
+  border-color: hsl(var(--primary-500));
+  box-shadow: var(--shadow-quantum-glow);
+}
+
+.checkbox-quantum:checked::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkbox-quantum::after {
+  content: '';
+  opacity: 0;
+  transform: scale(0);
+  transition: all var(--transition-spring);
+}
+
+/* Skeleton Loading */
+.skeleton-quantum {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary-950) / 0.1) 0%,
+    hsl(var(--primary-900) / 0.2) 50%,
+    hsl(var(--primary-950) / 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: quantum-shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* Quantum Glow on Hover */
+.glow-on-hover {
+  position: relative;
+  z-index: 1;
+}
+
+.glow-on-hover::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: var(--gradient-quantum-rainbow);
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity var(--transition-elegant);
+  z-index: -1;
+}
+
+.glow-on-hover:hover::before {
+  opacity: 0.6;
+}
+
+/* Magnetic Effect */
+.magnetic-quantum {
+  transition: transform var(--transition-fast);
+}
+
+.magnetic-quantum:hover {
+  transform: scale(1.02);
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .btn-quantum::before,
+  .card-quantum::after,
+  .ripple-quantum::after,
+  .progress-quantum::after,
+  .progress-quantum-bar::after,
+  .skeleton-quantum,
+  .badge-quantum::before {
+    animation: none;
+  }
+
+  .btn-quantum:active,
+  .card-quantum:hover,
+  .magnetic-quantum:hover {
+    transform: none;
+  }
+}

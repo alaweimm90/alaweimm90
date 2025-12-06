@@ -1,0 +1,31 @@
+# Netlify/Vercel Redirects for LLM Works Domain Migration
+# From aegis-ai.com to llmworks.dev
+
+# Legacy domain redirects (when old domain is available)
+https://aegis-ai.com/* https://llmworks.dev/:splat 301!
+http://aegis-ai.com/* https://llmworks.dev/:splat 301!
+
+# Subdomain redirects
+https://www.aegis-ai.com/* https://llmworks.dev/:splat 301!
+https://app.aegis-ai.com/* https://llmworks.dev/:splat 301!
+
+# Common old paths to new structure
+/aegis/* /arena/:splat 301
+/aegis-ai/* /:splat 301
+/platform/* /:splat 301
+
+# API endpoint redirects (if applicable)
+/api/v1/aegis/* /api/v1/:splat 301
+
+# Documentation redirects  
+/docs/aegis/* /docs/:splat 301
+
+# SPA routing - catch-all for React Router
+/* /index.html 200
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff  
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin

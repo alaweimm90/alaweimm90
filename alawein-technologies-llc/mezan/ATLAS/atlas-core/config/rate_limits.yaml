@@ -1,0 +1,202 @@
+# Rate Limiting Configuration
+# Multi-algorithm, multi-scope rate limiting
+
+rate_limits:
+  # Global rate limits
+  - name: global_limit
+    algorithm: fixed_window
+    scope: global
+    limit: 10000
+    window: 60
+    block_duration: 300
+
+  # Per-user rate limits
+  - name: user_default
+    algorithm: token_bucket
+    scope: per_user
+    limit: 1000
+    window: 60
+    burst_size: 50
+    refill_rate: 16.67  # 1000/60
+
+  - name: user_premium
+    algorithm: token_bucket
+    scope: per_user
+    limit: 5000
+    window: 60
+    burst_size: 200
+    refill_rate: 83.33  # 5000/60
+
+  # Per-IP rate limits
+  - name: ip_default
+    algorithm: sliding_window_counter
+    scope: per_ip
+    limit: 500
+    window: 60
+    block_duration: 600
+
+  - name: ip_strict
+    algorithm: sliding_window_log
+    scope: per_ip
+    limit: 100
+    window: 60
+    block_duration: 3600
+
+  # Per-endpoint rate limits
+  - name: solve_limit
+    algorithm: token_bucket
+    scope: per_user_endpoint
+    limit: 100
+    window: 60
+    burst_size: 10
+    refill_rate: 1.67
+
+  - name: analyze_limit
+    algorithm: sliding_window_log
+    scope: per_user_endpoint
+    limit: 50
+    window: 60
+
+  - name: research_limit
+    algorithm: token_bucket
+    scope: per_user_endpoint
+    limit: 20
+    window: 60
+    burst_size: 5
+    refill_rate: 0.33
+
+  - name: libria_limit
+    algorithm: leaky_bucket
+    scope: per_user_endpoint
+    limit: 60
+    window: 60
+    leak_rate: 1.0
+
+  - name: benchmark_limit
+    algorithm: fixed_window
+    scope: per_user_endpoint
+    limit: 10
+    window: 3600  # 1 hour
+
+  - name: metrics_limit
+    algorithm: fixed_window
+    scope: per_ip_endpoint
+    limit: 100
+    window: 60
+
+  # Authentication rate limits
+  - name: login_limit
+    algorithm: sliding_window_log
+    scope: per_ip
+    limit: 5
+    window: 300  # 5 attempts per 5 minutes
+    block_duration: 900  # Block for 15 minutes
+
+  - name: token_refresh_limit
+    algorithm: fixed_window
+    scope: per_user
+    limit: 10
+    window: 3600  # 10 refreshes per hour
+
+  - name: api_key_generation_limit
+    algorithm: fixed_window
+    scope: per_user
+    limit: 5
+    window: 86400  # 5 API keys per day
+
+  # WebSocket rate limits
+  - name: websocket_connection_limit
+    algorithm: fixed_window
+    scope: per_ip
+    limit: 10
+    window: 60
+
+  - name: websocket_message_limit
+    algorithm: token_bucket
+    scope: per_user
+    limit: 100
+    window: 60
+    burst_size: 20
+    refill_rate: 1.67
+
+# Whitelist/Blacklist
+whitelists:
+  ip_addresses:
+    - "127.0.0.1"
+    - "::1"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+
+  user_ids:
+    - "admin"
+    - "system"
+    - "monitoring"
+
+blacklists:
+  ip_addresses: []
+  user_ids: []
+
+# Rate limit tiers (for different user types)
+tiers:
+  free:
+    multiplier: 1.0
+    limits:
+      - user_default
+      - ip_default
+      - solve_limit
+      - analyze_limit
+
+  premium:
+    multiplier: 5.0
+    limits:
+      - user_premium
+      - ip_default
+      - solve_limit
+      - analyze_limit
+      - research_limit
+      - libria_limit
+
+  enterprise:
+    multiplier: 10.0
+    limits:
+      - user_premium
+      - solve_limit
+      - analyze_limit
+      - research_limit
+      - libria_limit
+      - benchmark_limit
+
+# Alert thresholds
+alerts:
+  - name: high_global_usage
+    metric: global_limit_usage
+    threshold: 0.8  # Alert at 80% usage
+    action: notify
+
+  - name: repeated_blocks
+    metric: blocked_requests_per_ip
+    threshold: 10  # Alert if IP blocked 10 times
+    action: investigate
+
+  - name: ddos_detection
+    metric: requests_per_second
+    threshold: 1000
+    action: enable_protection
+
+# Redis configuration for distributed rate limiting
+redis:
+  enabled: true
+  host: localhost
+  port: 6379
+  db: 1
+  key_prefix: "ratelimit:"
+  ttl_buffer: 60  # Extra TTL buffer in seconds
+
+# Logging configuration
+logging:
+  level: INFO
+  log_denied_requests: true
+  log_near_limit_warnings: true  # Log when 80% of limit reached
+  include_headers: false  # Don't log sensitive headers
+  anonymize_ips: false

@@ -1,0 +1,56 @@
+# robots.txt for LLM Works (llmworks.dev)
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /arena
+Allow: /bench  
+Allow: /dashboard
+Allow: /settings
+
+# Documentation (when available)
+Allow: /docs
+Allow: /guide
+Allow: /api-docs
+
+# Static assets
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.svg
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.ico
+
+# Block development/internal paths
+Disallow: /dev/
+Disallow: /test/
+Disallow: /.env
+Disallow: /admin/
+Disallow: /private/
+
+# Block API endpoints from indexing (allow access but don't index)
+Disallow: /api/
+Allow: /api/docs
+
+# Sitemap location (update when domain migrated)
+Sitemap: https://llmworks.dev/sitemap.xml
+
+# Crawl delay (be respectful)
+Crawl-delay: 1

@@ -1,0 +1,9 @@
+name: policy
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  policy:
+    uses: GitHub/.github/workflows/reusable-policy.yml@main

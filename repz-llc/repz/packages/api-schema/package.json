@@ -1,0 +1,112 @@
+{
+  "name": "@repz/api-schema",
+  "version": "1.0.0",
+  "description": "REPZ API Schema - OpenAPI specifications and type generation",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./schemas": {
+      "import": "./dist/schemas/index.esm.js",
+      "require": "./dist/schemas/index.js",
+      "types": "./dist/schemas/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.esm.js",
+      "require": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./validators": {
+      "import": "./dist/validators/index.esm.js",
+      "require": "./dist/validators/index.js",
+      "types": "./dist/validators/index.d.ts"
+    },
+    "./openapi.json": "./openapi.json",
+    "./openapi.yaml": "./openapi.yaml"
+  },
+  "files": [
+    "dist",
+    "openapi.json",
+    "openapi.yaml",
+    "schemas",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "npm run build:schemas && npm run build:types && npm run build:package",
+    "build:schemas": "tsx scripts/build-schemas.ts",
+    "build:types": "openapi-typescript openapi.yaml -o src/types/generated.ts",
+    "build:package": "rollup -c",
+    "build:docs": "redoc-cli build openapi.yaml --output docs/api-reference.html",
+    "dev": "npm run build:schemas -- --watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "validate": "swagger-codegen validate -i openapi.yaml",
+    "serve": "swagger-ui-serve openapi.yaml",
+    "generate:client": "openapi-generator-cli generate -i openapi.yaml -g typescript-fetch -o generated/client",
+    "generate:server": "openapi-generator-cli generate -i openapi.yaml -g nodejs-express-server -o generated/server",
+    "clean": "rm -rf dist generated docs/api-reference.html",
+    "prepublishOnly": "npm run clean && npm run build && npm run validate"
+  },
+  "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^2.1.1",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.22.0"
+  },
+  "devDependencies": {
+    "@repz/eslint-config": "workspace:*",
+    "@repz/prettier-config": "workspace:*",
+    "@repz/typescript-config": "workspace:*",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@vitest/coverage-v8": "^3.2.4",
+    "openapi-generator-cli": "^2.7.0",
+    "openapi-typescript": "^6.7.0",
+    "redoc-cli": "^0.13.21",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.0.0",
+    "swagger-codegen": "^3.0.46",
+    "swagger-ui-serve": "^4.15.5",
+    "tsx": "^4.20.3",
+    "typescript": "^5.5.3",
+    "vitest": "^3.2.4",
+    "yaml": "^2.3.4"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/repz/repzcoach-pro-ai.git",
+    "directory": "packages/api-schema"
+  },
+  "keywords": [
+    "api",
+    "openapi",
+    "swagger",
+    "schema",
+    "types",
+    "validation",
+    "repz",
+    "typescript"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

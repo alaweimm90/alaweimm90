@@ -1,0 +1,46 @@
+name: Writing Style Enforcement
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - '**.rst'
+      - 'docs/**'
+  push:
+    branches: [main, master]
+    paths:
+      - '**.md'
+      - '**.rst'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  writing-style:
+    name: Check Writing Style (No Hype)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Writing Style Checker
+        run: |
+          # Copy checker from root if not present
+          if [ ! -f "scripts/check_writing_style.py" ]; then
+            mkdir -p scripts
+            curl -o scripts/check_writing_style.py https://raw.githubusercontent.com/alaweimm90/alaweimm90/main/scripts/check_writing_style.py
+          fi
+          python scripts/check_writing_style.py . || true
+
+      - name: Vale Linter
+        uses: errata-ai/vale-action@v2
+        with:
+          files: '**/*.md'
+          fail_on_error: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

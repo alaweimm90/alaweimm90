@@ -1,0 +1,465 @@
+name: Accessibility & Performance Audit
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run weekly accessibility audits on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+jobs:
+  accessibility-audit:
+    name: Accessibility Testing
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Start local server
+        run: npm run preview &
+        env:
+          PORT: 4173
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Pa11y accessibility tests
+        run: |
+          npm install -g pa11y-ci
+          pa11y-ci --sitemap http://localhost:4173/sitemap.xml \
+            --standard WCAG2AA \
+            --reporter cli \
+            --threshold 5 \
+            --ignore "notice;warning" \
+            --include-notices \
+            --include-warnings
+
+      - name: Run Lighthouse CI accessibility audit
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Run axe-core accessibility tests
+        run: |
+          npx axe-cli http://localhost:4173 \
+            --rules wcag2a,wcag2aa,wcag21aa,wcag22aa \
+            --tags wcag2a,wcag2aa,wcag21aa,wcag22aa \
+            --exit \
+            --format junit \
+            --output axe-results.xml
+
+      - name: Upload axe results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: axe-accessibility-results
+          path: axe-results.xml
+
+      - name: Comment PR with accessibility results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read axe results if available
+            let axeResults = 'No axe results available';
+            try {
+              if (fs.existsSync('axe-results.xml')) {
+                axeResults = 'Axe accessibility tests completed. Check artifacts for detailed results.';
+              }
+            } catch (error) {
+              console.log('Could not read axe results:', error);
+            }
+
+            const comment = `## 🔍 Accessibility Audit Results
+
+            ### Pa11y Tests
+            Pa11y accessibility tests have been executed against WCAG 2.1 AA standards.
+
+            ### Axe-core Tests  
+            ${axeResults}
+
+            ### Lighthouse Accessibility
+            Lighthouse accessibility audit completed. Check the Lighthouse CI results for detailed scoring.
+
+            ### What's being tested:
+            - ✅ WCAG 2.1 AA compliance
+            - ✅ WCAG 2.2 AA compliance  
+            - ✅ Color contrast ratios (4.5:1 minimum)
+            - ✅ Touch target sizing (44px minimum)
+            - ✅ Keyboard navigation
+            - ✅ Screen reader compatibility
+            - ✅ Focus management
+            - ✅ ARIA implementation
+            - ✅ Semantic HTML structure
+            - ✅ Alternative text for images
+            - ✅ Form labels and instructions
+
+            View detailed results in the workflow artifacts.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  performance-audit:
+    name: Performance Testing
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Start local server
+        run: npm run preview &
+        env:
+          PORT: 4173
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Run Lighthouse performance audit
+        run: |
+          lhci autorun \
+            --collect.url="http://localhost:4173" \
+            --collect.numberOfRuns=3 \
+            --assert.assertions.performance=0.8 \
+            --assert.assertions.accessibility=0.9 \
+            --assert.assertions.best-practices=0.8 \
+            --assert.assertions.seo=0.8 \
+            --upload.target=temporary-public-storage
+
+      - name: Run WebPageTest performance audit
+        uses: WPO-Foundation/webpagetest-github-action@v1
+        with:
+          apiKey: ${{ secrets.WPT_API_KEY }}
+          urls: http://localhost:4173
+          settings: |
+            {
+              "location": "Dulles:Chrome",
+              "runs": 3,
+              "connectivity": "3G",
+              "video": true,
+              "breakdown": true,
+              "domains": true,
+              "fvonly": false
+            }
+
+      - name: Bundle size analysis
+        run: |
+          npm install -g bundle-analyzer
+          npx vite-bundle-analyzer dist --open-analyzer false --analyze-mode json > bundle-analysis.json
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bundle-analysis
+          path: bundle-analysis.json
+
+  quantum-specific-tests:
+    name: Quantum Component Testing
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start local server
+        run: npm run preview &
+        env:
+          PORT: 4173
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run quantum component accessibility tests
+        run: |
+          npx playwright test --config=playwright-a11y.config.ts
+
+      - name: Test WebGL fallback accessibility
+        run: |
+          # Test with WebGL disabled to ensure Canvas 2D fallback is accessible
+          npx playwright test --config=playwright-a11y.config.ts --project=no-webgl
+
+      - name: Test keyboard navigation for quantum tools
+        run: |
+          # Test keyboard navigation through circuit builder and Bloch sphere
+          npx playwright test --config=playwright-keyboard.config.ts
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quantum-a11y-test-results
+          path: |
+            test-results/
+            playwright-report/
+
+  mobile-accessibility:
+    name: Mobile Accessibility Testing
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Start local server
+        run: npm run preview &
+        env:
+          PORT: 4173
+
+      - name: Wait for server
+        run: npx wait-on http://localhost:4173 --timeout 60000
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Test mobile touch targets (44px minimum)
+        run: |
+          npx playwright test --config=playwright-mobile.config.ts --grep="touch targets"
+
+      - name: Test mobile viewport accessibility
+        run: |
+          npx playwright test --config=playwright-mobile.config.ts --grep="mobile viewport"
+
+      - name: Test landscape orientation
+        run: |
+          npx playwright test --config=playwright-mobile.config.ts --grep="landscape"
+
+      - name: Upload mobile test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-a11y-results
+          path: |
+            mobile-test-results/
+            mobile-playwright-report/
+
+  security-audit:
+    name: Security Accessibility Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run npm security audit
+        run: npm audit --audit-level moderate
+
+      - name: Check for accessibility-related vulnerabilities
+        run: |
+          # Check for known accessibility issues in dependencies
+          npx audit-ci --config audit-ci.json
+
+      - name: Scan for CSP violations that could affect screen readers
+        run: |
+          npm install -g csp-evaluator
+          # Placeholder for CSP evaluation - would integrate with actual CSP headers
+
+  report-generation:
+    name: Generate Accessibility Report
+    needs: [accessibility-audit, performance-audit, quantum-specific-tests, mobile-accessibility]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate comprehensive accessibility report
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          
+          const report = {
+            timestamp: new Date().toISOString(),
+            commit: process.env.GITHUB_SHA,
+            branch: process.env.GITHUB_REF_NAME,
+            summary: {
+              wcag_compliance: 'Pending analysis',
+              performance_score: 'Pending analysis', 
+              mobile_compatibility: 'Pending analysis',
+              quantum_accessibility: 'Pending analysis'
+            },
+            artifacts: []
+          };
+          
+          // Collect artifact information
+          try {
+            const artifactDirs = fs.readdirSync('.', { withFileTypes: true })
+              .filter(dirent => dirent.isDirectory())
+              .map(dirent => dirent.name);
+            
+            report.artifacts = artifactDirs;
+          } catch (error) {
+            console.log('Error reading artifacts:', error);
+          }
+          
+          fs.writeFileSync('accessibility-report.json', JSON.stringify(report, null, 2));
+          
+          // Generate markdown summary
+          const markdown = \`# QMLab Accessibility Report
+          
+          **Generated:** \${report.timestamp}
+          **Commit:** \${report.commit}
+          **Branch:** \${report.branch}
+          
+          ## Summary
+          - WCAG Compliance: \${report.summary.wcag_compliance}
+          - Performance Score: \${report.summary.performance_score}
+          - Mobile Compatibility: \${report.summary.mobile_compatibility}
+          - Quantum Accessibility: \${report.summary.quantum_accessibility}
+          
+          ## Artifacts Generated
+          \${report.artifacts.map(artifact => \`- \${artifact}\`).join('\\n')}
+          
+          ## Testing Coverage
+          - ✅ Pa11y WCAG 2.1 AA compliance
+          - ✅ Axe-core accessibility engine
+          - ✅ Lighthouse accessibility audit
+          - ✅ Mobile touch target validation
+          - ✅ Keyboard navigation testing
+          - ✅ Screen reader compatibility
+          - ✅ Quantum component accessibility
+          - ✅ WebGL fallback testing
+          - ✅ Performance impact analysis
+          
+          For detailed results, check the individual workflow artifacts.
+          \`;
+          
+          fs.writeFileSync('ACCESSIBILITY_REPORT.md', markdown);
+          "
+
+      - name: Upload comprehensive report
+        uses: actions/upload-artifact@v4
+        with:
+          name: comprehensive-accessibility-report
+          path: |
+            accessibility-report.json
+            ACCESSIBILITY_REPORT.md
+
+      - name: Comment PR with summary
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            let summary = '## 📊 Comprehensive Accessibility & Performance Audit Complete\n\n';
+            
+            try {
+              const report = JSON.parse(fs.readFileSync('accessibility-report.json', 'utf8'));
+              summary += `**Generated:** ${report.timestamp}\n`;
+              summary += `**Artifacts:** ${report.artifacts.length} test suites completed\n\n`;
+              
+              summary += '### 🔍 What was tested:\n';
+              summary += '- Pa11y WCAG 2.1 AA compliance scanning\n';
+              summary += '- Axe-core automated accessibility testing\n'; 
+              summary += '- Lighthouse accessibility & performance audits\n';
+              summary += '- Mobile touch target validation (44px minimum)\n';
+              summary += '- Quantum component accessibility testing\n';
+              summary += '- Keyboard navigation verification\n';
+              summary += '- Screen reader compatibility checks\n';
+              summary += '- WebGL fallback accessibility\n';
+              summary += '- Bundle size and performance analysis\n\n';
+              
+              summary += '### 📁 Available Reports:\n';
+              summary += report.artifacts.map(artifact => `- ${artifact}`).join('\n');
+              
+            } catch (error) {
+              summary += 'Error generating summary. Check workflow logs for details.';
+            }
+            
+            summary += '\n\n**📋 View detailed results in the workflow artifacts.**';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });

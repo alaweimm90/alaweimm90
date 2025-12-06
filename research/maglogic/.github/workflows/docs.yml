@@ -1,0 +1,348 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'python/**/*.py'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - 'python/**/*.py'
+
+jobs:
+  # Build and deploy documentation
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for git info
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/pyproject.toml', '**/requirements*.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-docs-
+          ${{ runner.os }}-pip-
+    
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          pandoc \
+          texlive-latex-base \
+          texlive-latex-extra \
+          texlive-fonts-recommended \
+          latexmk
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e python/[docs]
+    
+    - name: Create docs directories
+      run: |
+        mkdir -p docs/_static
+        mkdir -p docs/_templates
+    
+    - name: Check documentation source
+      run: |
+        echo "Documentation source files:"
+        find docs/ -name "*.rst" -o -name "*.md" | head -20
+        
+        echo "Python modules for API docs:"
+        find python/maglogic -name "*.py" | grep -v __pycache__ | head -20
+    
+    - name: Build HTML documentation
+      run: |
+        cd docs
+        sphinx-build -b html . _build/html -W --keep-going
+      env:
+        SPHINXOPTS: "-W"
+    
+    - name: Build PDF documentation
+      run: |
+        cd docs
+        sphinx-build -b latex . _build/latex
+        cd _build/latex
+        make all-pdf
+        cp *.pdf ../html/
+      continue-on-error: true  # PDF build is optional
+    
+    - name: Check documentation links
+      run: |
+        cd docs
+        sphinx-build -b linkcheck . _build/linkcheck
+      continue-on-error: true  # Link checking is not blocking
+    
+    - name: Upload documentation artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: docs/_build/html/
+        retention-days: 30
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/html
+        cname: maglogic.berkeley.edu
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: 'Deploy documentation: ${{ github.event.head_commit.message }}'
+
+  # Test documentation build in Docker
+  docker-docs:
+    name: Docker Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Build documentation Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: docker/Dockerfile.docs
+        push: false
+        tags: maglogic-docs:test
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+    
+    - name: Test documentation build in Docker
+      run: |
+        docker run --rm -v $PWD/test-docs:/workspace/build maglogic-docs:test build-docs
+        
+        # Check if documentation was built
+        if [ -d "test-docs/html" ]; then
+          echo "✅ Documentation built successfully in Docker"
+          echo "Generated files:"
+          ls -la test-docs/html/ | head -10
+        else
+          echo "❌ Documentation build failed in Docker"
+          exit 1
+        fi
+    
+    - name: Test documentation server
+      run: |
+        # Start documentation server in background
+        docker run -d --name docs-server -p 8080:8080 maglogic-docs:test bash -c "build-docs && serve-docs 8080"
+        
+        # Wait for server to start
+        sleep 10
+        
+        # Test if server is responding
+        if curl -f http://localhost:8080 > /dev/null 2>&1; then
+          echo "✅ Documentation server is running"
+        else
+          echo "❌ Documentation server failed to start"
+          docker logs docs-server
+          exit 1
+        fi
+        
+        # Cleanup
+        docker stop docs-server
+        docker rm docs-server
+
+  # API Documentation Coverage
+  api-coverage:
+    name: API Documentation Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e python/[docs]
+        pip install interrogate
+    
+    - name: Check API documentation coverage
+      run: |
+        echo "## API Documentation Coverage Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Run interrogate to check docstring coverage
+        interrogate python/maglogic --quiet --fail-under=80 --generate-badge docs/_static/ || true
+        
+        # Generate detailed report
+        echo "### Docstring Coverage by Module" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        interrogate python/maglogic --verbose >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        
+        # Check for undocumented public functions
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Undocumented Public Functions" >> $GITHUB_STEP_SUMMARY
+        interrogate python/maglogic --fail-under=0 --quiet 2>&1 | head -20 >> $GITHUB_STEP_SUMMARY || echo "Docstring check complete" >> $GITHUB_STEP_SUMMARY
+
+  # Documentation Quality Check
+  docs-quality:
+    name: Documentation Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e python/[docs]
+        pip install doc8 rstcheck
+    
+    - name: Check reStructuredText files
+      run: |
+        echo "Checking RST syntax..."
+        find docs/ -name "*.rst" -exec rstcheck {} \; || true
+        
+        echo "Checking documentation style..."
+        doc8 docs/ --max-line-length=100 || true
+    
+    - name: Spell check documentation
+      uses: rojopolis/spellcheck-github-actions@0.33.1
+      with:
+        config_path: .github/spellcheck.yml
+        task_name: Markdown
+      continue-on-error: true
+    
+    - name: Check for broken internal links
+      run: |
+        cd docs
+        sphinx-build -b linkcheck . _build/linkcheck 2>&1 | tee linkcheck.log
+        
+        # Summary of link check results
+        echo "## Link Check Results" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if grep -q "broken" linkcheck.log; then
+          echo "❌ Found broken links:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          grep "broken" linkcheck.log | head -10 >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "✅ No broken links found" >> $GITHUB_STEP_SUMMARY
+        fi
+      continue-on-error: true
+
+  # Documentation Preview (for PRs)
+  preview-docs:
+    name: Documentation Preview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e python/[docs]
+    
+    - name: Build documentation
+      run: |
+        cd docs
+        sphinx-build -b html . _build/html
+    
+    - name: Deploy preview to Netlify
+      uses: nwtgck/actions-netlify@v2.0
+      with:
+        publish-dir: './docs/_build/html'
+        production-branch: main
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        deploy-message: "Deploy from GitHub Actions - PR #${{ github.event.number }}"
+        enable-pull-request-comment: true
+        enable-commit-comment: false
+        overwrites-pull-request-comment: true
+      env:
+        NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      if: env.NETLIFY_AUTH_TOKEN != ''
+      continue-on-error: true
+
+  # Documentation metrics
+  docs-metrics:
+    name: Documentation Metrics
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e python/[docs]
+    
+    - name: Generate documentation metrics
+      run: |
+        echo "## Documentation Metrics" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Count documentation files
+        rst_files=$(find docs/ -name "*.rst" | wc -l)
+        md_files=$(find docs/ -name "*.md" | wc -l)
+        ipynb_files=$(find docs/ -name "*.ipynb" | wc -l)
+        
+        echo "| Metric | Count |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| RST files | $rst_files |" >> $GITHUB_STEP_SUMMARY
+        echo "| Markdown files | $md_files |" >> $GITHUB_STEP_SUMMARY
+        echo "| Jupyter notebooks | $ipynb_files |" >> $GITHUB_STEP_SUMMARY
+        
+        # Count Python modules with docstrings
+        python_files=$(find python/maglogic -name "*.py" | wc -l)
+        echo "| Python modules | $python_files |" >> $GITHUB_STEP_SUMMARY
+        
+        # Build size
+        cd docs
+        sphinx-build -b html . _build/html -q
+        build_size=$(du -sh _build/html | cut -f1)
+        echo "| Built docs size | $build_size |" >> $GITHUB_STEP_SUMMARY
+        
+        # Count pages
+        html_files=$(find _build/html -name "*.html" | wc -l)
+        echo "| Generated HTML pages | $html_files |" >> $GITHUB_STEP_SUMMARY
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📊 Documentation successfully built and metrics collected!" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPZ - You're Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f15b23, #ff7849);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .offline-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #f15b23, #ff7849);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .offline-features {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .offline-features h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #f15b23;
+        }
+        
+        .offline-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .offline-features li {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .offline-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #f15b23;
+            font-weight: bold;
+        }
+        
+        .retry-button {
+            background: linear-gradient(135deg, #f15b23, #ff7849);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(241, 91, 35, 0.3);
+            margin-right: 12px;
+        }
+        
+        .retry-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(241, 91, 35, 0.4);
+        }
+        
+        .cache-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cache-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+        
+        .connection-status {
+            margin-top: 30px;
+            padding: 16px;
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 12px;
+            color: rgba(255, 193, 7, 0.9);
+            font-size: 14px;
+        }
+        
+        .connection-status.online {
+            background: rgba(40, 167, 69, 0.1);
+            border-color: rgba(40, 167, 69, 0.3);
+            color: rgba(40, 167, 69, 0.9);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #f15b23;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (max-width: 600px) {
+            .offline-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .retry-button, .cache-button {
+                display: block;
+                width: 100%;
+                margin: 8px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="logo">R</div>
+        
+        <div class="offline-icon">📡</div>
+        
+        <h1>You're Offline</h1>
+        <p class="subtitle">
+            Don't worry! You can still access some features while offline.
+        </p>
+        
+        <div class="offline-features">
+            <h3>Available Offline:</h3>
+            <ul>
+                <li>View cached workout plans</li>
+                <li>Browse previously loaded content</li>
+                <li>Access tier information</li>
+                <li>Review your progress data</li>
+            </ul>
+        </div>
+        
+        <div>
+            <button class="retry-button" onclick="retryConnection()">
+                <span class="retry-text">Try Again</span>
+            </button>
+            <button class="cache-button" onclick="viewCachedContent()">
+                View Cached Content
+            </button>
+        </div>
+        
+        <div class="connection-status" id="connectionStatus">
+            <span class="loading-spinner"></span>
+            Checking connection...
+        </div>
+        
+        <div class="footer">
+            REPZ will automatically reconnect when your internet is restored
+        </div>
+    </div>
+
+    <script>
+        // Monitor connection status
+        function updateConnectionStatus() {
+            const statusEl = document.getElementById('connectionStatus');
+            
+            if (navigator.onLine) {
+                statusEl.innerHTML = '✅ Connection restored! Redirecting...';
+                statusEl.className = 'connection-status online';
+                
+                // Redirect to home after a brief delay
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } else {
+                statusEl.innerHTML = '📡 You are currently offline';
+                statusEl.className = 'connection-status';
+            }
+        }
+        
+        // Retry connection
+        function retryConnection() {
+            const button = document.querySelector('.retry-button');
+            const originalText = button.innerHTML;
+            
+            button.innerHTML = '<span class="loading-spinner"></span>Checking...';
+            button.disabled = true;
+            
+            // Try to fetch a small resource to test connection
+            fetch('/', { 
+                method: 'HEAD',
+                cache: 'no-store'
+            })
+            .then(response => {
+                if (response.ok) {
+                    button.innerHTML = '✅ Connected! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    throw new Error('Still offline');
+                }
+            })
+            .catch(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Show temporary feedback
+                const tempStatus = document.createElement('div');
+                tempStatus.style.cssText = 'color: #ff6b6b; font-size: 14px; margin-top: 8px;';
+                tempStatus.textContent = 'Still offline. Please check your connection.';
+                button.parentNode.appendChild(tempStatus);
+                
+                setTimeout(() => {
+                    if (tempStatus.parentNode) {
+                        tempStatus.parentNode.removeChild(tempStatus);
+                    }
+                }, 3000);
+            });
+        }
+        
+        // View cached content
+        function viewCachedContent() {
+            // Try to navigate to the main app which will load cached content
+            window.location.href = '/dashboard';
+        }
+        
+        // Listen for online/offline events
+        window.addEventListener('online', updateConnectionStatus);
+        window.addEventListener('offline', updateConnectionStatus);
+        
+        // Initial status check
+        updateConnectionStatus();
+        
+        // Periodic connection check
+        setInterval(updateConnectionStatus, 30000); // Check every 30 seconds
+        
+        // Auto-retry when online
+        window.addEventListener('online', () => {
+            setTimeout(() => {
+                if (navigator.onLine) {
+                    window.location.href = '/';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

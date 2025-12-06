@@ -1,0 +1,118 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "QubeML"
+version = "0.1.0"
+description = "Educational quantum computing and materials informatics notebooks plus utilities."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Meshal Alawein", email = "meshal@berkeley.edu"},
+]
+keywords = [
+    "quantum-computing",
+    "materials-informatics",
+    "education",
+    "machine-learning",
+    "materials-science",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "numpy>=1.21.0,<2.0.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.5.0",
+    "pandas>=1.3.0",
+    "tqdm>=4.62.0",
+]
+
+[project.optional-dependencies]
+quantum = [
+    "qiskit>=0.45.0",
+    "qiskit-aer>=0.13.0",
+    "qiskit-nature>=0.7.0",
+    "cirq>=1.3.0",
+    "cirq-core>=1.3.0",
+    "pennylane>=0.33.0",
+    "pennylane-qiskit>=0.33.0",
+]
+ml = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "torch-geometric>=2.4.0",
+    "scikit-learn>=1.3.0",
+    "xgboost>=1.7.0",
+    "joblib>=1.2.0",
+]
+materials = [
+    "kwant>=1.4.3",
+    "ase>=3.22.0",
+    "pymatgen>=2023.1.1",
+    "matminer>=0.7.0",
+]
+viz = [
+    "seaborn>=0.12.0",
+    "plotly>=5.11.0",
+    "networkx>=2.8.0",
+]
+dev = [
+    "pytest>=7.2.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.10.0",
+    "flake8>=5.0.0",
+    "mypy>=0.990",
+    "pylint>=2.15.0",
+]
+docs = [
+    "sphinx>=5.3.0",
+    "sphinx-rtd-theme>=1.1.0",
+    "nbsphinx>=0.8.0",
+]
+utils = [
+    "pyyaml>=6.0",
+    "python-dotenv>=0.21.0",
+    "requests>=2.28.0",
+    "h5py>=3.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/alaweimm90/QubeML"
+Repository = "https://github.com/alaweimm90/QubeML"
+
+[tool.setuptools]
+packages = ["src"]
+include-package-data = true
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+

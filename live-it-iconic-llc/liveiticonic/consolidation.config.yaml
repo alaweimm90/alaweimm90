@@ -1,0 +1,231 @@
+# Live It Iconic - Code Consolidation Configuration
+# Version: 1.0
+# Date: 2025-11-11
+
+# Project Metadata
+project_name: "Live It Iconic"
+project_domain: "e-commerce-platform"
+consolidation_goal: "Merge platform/ and src/ directories, eliminate duplication, standardize architecture"
+
+# Repository Configuration
+root_dirs:
+  - "/home/user/live-it-iconic-e3e1196b/src"
+  - "/home/user/live-it-iconic-e3e1196b/platform/src"
+  - "/home/user/live-it-iconic-e3e1196b/src/launch-platform"
+
+# File Patterns
+include_globs:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/*.md"
+  - "**/*.json"
+  - "**/*.yaml"
+  - "**/*.yml"
+
+exclude_globs:
+  - "**/.venv/**"
+  - "**/node_modules/**"
+  - "**/.git/**"
+  - "**/dist/**"
+  - "**/build/**"
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+
+# Analysis Configuration
+large_file_mb: 30
+max_list: 50
+output_dir: "reports/consolidation"
+
+# Project-Specific Elements
+project_elements:
+  code:
+    - "React components"
+    - "API handlers"
+    - "Services"
+    - "Contexts"
+    - "Hooks"
+    - "Types/Interfaces"
+    - "Utilities"
+    - "Launch Platform Agents"
+
+  infrastructure:
+    - "CI/CD workflows"
+    - "Build configuration"
+    - "Test configuration"
+    - "Linting/formatting config"
+
+  documentation:
+    - "README files"
+    - "API documentation"
+    - "Architecture docs"
+    - "Governance docs"
+
+# Duplication Patterns
+duplication_patterns:
+  components:
+    - "src/components vs platform/src/components"
+    - "src/pages vs platform/src/pages"
+
+  contexts:
+    - "src/contexts vs platform/src/contexts"
+
+  hooks:
+    - "src/hooks vs platform/src/hooks"
+
+  api:
+    - "src/api vs platform/src/api"
+
+  services:
+    - "src/services vs platform/src/services"
+
+# Consolidation Strategy
+strategy: "unified-monorepo"
+consolidation_approach:
+  phase_1: "Analysis & Mapping"
+  phase_2: "Deduplicate Components"
+  phase_3: "Merge Infrastructure"
+  phase_4: "Standardize Structure"
+  phase_5: "Validate & Test"
+
+preserve_novelty: true
+maintain_history: true
+create_unified_structure: true
+
+# Target Structure
+target_structure: |
+  src/
+  ├── components/         # All React components (UI + Business)
+  │   ├── ui/            # Shadcn/Radix UI components
+  │   ├── product/       # Product-related components
+  │   ├── checkout/      # Checkout flow
+  │   ├── admin/         # Admin dashboard
+  │   └── shared/        # Shared components
+  ├── pages/             # Route pages
+  │   ├── admin/         # Admin pages
+  │   └── public/        # Public pages
+  ├── launch-platform/   # AI Agent System
+  │   ├── core/          # Core agent infrastructure
+  │   ├── agents/        # 26 specialized agents
+  │   ├── cli/           # CLI tools
+  │   └── examples/      # Examples
+  ├── api/               # API integration layer
+  ├── services/          # Business logic services
+  ├── contexts/          # React contexts
+  ├── hooks/             # Custom React hooks
+  ├── types/             # TypeScript types
+  ├── utils/             # Utility functions
+  ├── integrations/      # External integrations
+  ├── theme/             # Design system
+  ├── assets/            # Static assets
+  └── styles/            # Global styles
+
+# Quality Gates
+test_coverage_target: 80
+linting_required: true
+type_checking_required: true
+self_critique_required: true
+
+# Governance
+governance_prompts_dir: ".control/prompts"
+pr_checklist: "governance/pull_request_checklist.md"
+adr_dir: "docs/adr"
+
+# Success Metrics
+success_metrics:
+  - name: "Code Deduplication Rate"
+    target: 100
+    unit: "percent"
+    measurement: "File comparison analysis"
+    description: "Eliminate all duplicate code between src/ and platform/src/"
+
+  - name: "Test Coverage"
+    target: 80
+    unit: "percent"
+    measurement: "vitest coverage report"
+    description: "Achieve 80%+ test coverage for business logic"
+
+  - name: "Build Success Rate"
+    target: 100
+    unit: "percent"
+    measurement: "CI/CD pipeline"
+    description: "All builds must pass"
+
+  - name: "Type Safety"
+    target: 0
+    unit: "errors"
+    measurement: "TypeScript compilation + ESLint"
+    description: "Zero 'any' types in consolidated codebase"
+
+  - name: "Documentation Coverage"
+    target: 85
+    unit: "percent"
+    measurement: "Documentation audit script"
+    description: "85%+ of public APIs documented"
+
+  - name: "Bundle Size"
+    target: 275
+    unit: "KB"
+    measurement: "Vite build output"
+    description: "Maintain or reduce React vendor bundle size"
+
+# Risk Assessment
+risks:
+  - name: "Breaking Changes"
+    probability: "High"
+    impact: "High"
+    mitigation: "Comprehensive testing, feature flags, incremental rollout"
+
+  - name: "Merge Conflicts"
+    probability: "Medium"
+    impact: "Medium"
+    mitigation: "Lock platform/ directory, work on branch, frequent syncs"
+
+  - name: "Performance Regression"
+    probability: "Low"
+    impact: "High"
+    mitigation: "Benchmarking, performance monitoring, rollback plan"
+
+  - name: "Lost Functionality"
+    probability: "Low"
+    impact: "Critical"
+    mitigation: "Feature parity checklist, E2E tests, UAT"
+
+# Timeline
+timeline:
+  phase_a_completion: "2025-11-11"
+  phase_b_target: "2025-11-13"
+  phase_d_target: "2025-11-15"
+  phase_c_target: "2025-11-18"
+  consolidation_complete: "2025-12-30"
+
+# Audit Baseline (from Phase 1)
+baseline_metrics:
+  total_files: 274
+  lines_of_code: 10704
+  eslint_errors: 364
+  test_coverage: "Unknown"
+  documentation_coverage: 16.6
+  security_vulnerabilities: 6
+  outdated_dependencies: 50
+  code_health_score: 6.2
+
+# Target Metrics (Post-Consolidation)
+target_metrics:
+  total_files: 250  # Reduced through deduplication
+  lines_of_code: 9500  # Reduced through deduplication
+  eslint_errors: 0
+  test_coverage: 80
+  documentation_coverage: 85
+  security_vulnerabilities: 0
+  outdated_dependencies: 5
+  code_health_score: 8.5
+
+# Notes
+notes: |
+  - platform/ directory appears to be a mirror/duplicate of src/
+  - Need to identify which is the "source of truth"
+  - Launch platform (26 AI agents) is unique and should be preserved
+  - Careful with API handlers - may have subtle differences
+  - Components may have diverged - need detailed comparison
+  - Governance structure is already in place - preserve it

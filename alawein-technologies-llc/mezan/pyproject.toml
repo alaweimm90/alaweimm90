@@ -1,0 +1,9 @@
+[project]
+name = "MEZAN"
+version = "0.1.0"
+description = ""
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

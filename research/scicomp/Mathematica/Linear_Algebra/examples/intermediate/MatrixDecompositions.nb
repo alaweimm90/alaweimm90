@@ -1,0 +1,747 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     38742,        950]
+NotebookOptionsPosition[     36234,        895]
+NotebookOutlinePosition[     36673,        912]
+CellTagsIndexPosition[     36630,        909]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Matrix Decompositions - Intermediate Example", "Title",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "This notebook demonstrates matrix decomposition techniques including LU, \
+QR, Cholesky, and SVD decompositions with practical applications.\n\n",
+ StyleBox["Learning Objectives:", "Subsubsection"],
+ "\n\[Bullet] Understand different matrix decomposition methods\n\[Bullet] \
+Apply decompositions to solve linear systems efficiently\n\[Bullet] Use SVD \
+for data analysis and dimensionality reduction\n\[Bullet] Analyze matrix \
+properties through decompositions\n\[Bullet] Implement numerical algorithms \
+using decompositions"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["Setup and Dependencies", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/MatrixOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/VectorOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/LinearSystems.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", 
+   "\"\<Matrix Decomposition packages loaded successfully!\>\"", "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"berkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"50", "/", "255"}], ",", " ", 
+     RowBox[{"98", "/", "255"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"californiaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     RowBox[{"253", "/", "255"}], ",", " ", 
+     RowBox[{"181", "/", "255"}], ",", " ", 
+     RowBox[{"21", "/", "255"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["LU Decomposition", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"A", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "3", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"8", ",", "7", ",", "9"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix A:\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"A", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"luResult", "=", 
+   RowBox[{"MatrixOperations`LUDecompositionChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"luResult", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"P", "=", 
+      RowBox[{"luResult", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"L", "=", 
+      RowBox[{"luResult", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"U", "=", 
+      RowBox[{"luResult", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<LU Decomposition: PA = LU\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Permutation matrix P:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"P", "//", "MatrixForm"}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Lower triangular L:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"L", "//", "MatrixForm"}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Upper triangular U:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"U", "//", "MatrixForm"}], "]"}], ";", "\n", "  ", 
+     RowBox[{"PA", "=", 
+      RowBox[{"P", ".", "A"}]}], ";", "\n", "  ", 
+     RowBox[{"LU", "=", 
+      RowBox[{"L", ".", "U"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification: ||PA - LU|| = \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"PA", "-", "LU"}], "]"}], "]"}]}], "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", "\"\<LU decomposition failed\>\"", "]"}]}], "\n", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["QR Decomposition", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"m", "=", "6"}], ";", " ", 
+  RowBox[{"n", "=", "4"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ARect", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"m", ",", "n"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix A (\>\"", ",", " ", "m", ",", " ", "\"\<x\>\"", ",", 
+    " ", "n", ",", " ", "\"\<):\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"ARect", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"qrResult", "=", 
+   RowBox[{"MatrixOperations`QRDecompositionChecked", "[", 
+    RowBox[{"ARect", ",", "\"\<Economic\>\""}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"qrResult", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"Q", "=", 
+      RowBox[{"qrResult", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"R", "=", 
+      RowBox[{"qrResult", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Economic QR: A = QR\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Q matrix (\>\"", ",", " ", 
+       RowBox[{"Dimensions", "[", "Q", "]"}], ",", " ", "\"\<):\>\""}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "Q", "]"}], "//", "MatrixForm"}], "]"}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<R matrix (\>\"", ",", " ", 
+       RowBox[{"Dimensions", "[", "R", "]"}], ",", " ", "\"\<):\>\""}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "R", "]"}], "//", "MatrixForm"}], "]"}], ";", "\n", 
+     "  ", 
+     RowBox[{"QR", "=", 
+      RowBox[{"Q", ".", "R"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification: ||A - QR|| = \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"ARect", "-", "QR"}], "]"}], "]"}]}], "]"}], ";", "\n", "  ",
+      
+     RowBox[{"QtQ", "=", 
+      RowBox[{
+       RowBox[{"ConjugateTranspose", "[", "Q", "]"}], ".", "Q"}]}], ";", "\n",
+      "  ", 
+     RowBox[{"ISmall", "=", 
+      RowBox[{"IdentityMatrix", "[", 
+       RowBox[{"Dimensions", "[", "Q", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Q orthogonality: ||Q^T Q - I|| = \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"QtQ", "-", 
+          RowBox[{"ISmall", "[", 
+           RowBox[{"[", 
+            RowBox[{"1", ";;", 
+             RowBox[{"Dimensions", "[", "QtQ", "]"}]}], "]"}], "]"}]}], "]"}],
+         "]"}]}], "]"}]}], ",", "\n", "  ", 
+    RowBox[{"Print", "[", "\"\<QR decomposition failed\>\"", "]"}]}], "\n", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Cholesky Decomposition", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ABase", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "4"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ASPD", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Transpose", "[", "ABase", "]"}], ".", "ABase"}], "+", 
+    RowBox[{"0.1", " ", 
+     RowBox[{"IdentityMatrix", "[", "4", "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Positive definite matrix A:\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+    RowBox[{"N", "[", "ASPD", "]"}], "//", "MatrixForm"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"eigenvals", "=", 
+   RowBox[{"Eigenvalues", "[", "ASPD", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Eigenvalues: \>\"", ",", " ", 
+    RowBox[{"N", "[", "eigenvals", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<All positive: \>\"", ",", " ", 
+    RowBox[{"AllTrue", "[", 
+     RowBox[{"eigenvals", ",", 
+      RowBox[{
+       RowBox[{"#", ">", "0"}], "&"}]}], "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"LChol", "=", 
+   RowBox[{"MatrixOperations`CholeskyDecompositionChecked", "[", 
+    RowBox[{"ASPD", ",", "True"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"LChol", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Cholesky factor L (lower triangular):\>\""}], "]"}], ";", 
+     "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "LChol", "]"}], "//", "MatrixForm"}], "]"}], ";", 
+     "\n", "  ", 
+     RowBox[{"LLt", "=", 
+      RowBox[{"LChol", ".", 
+       RowBox[{"ConjugateTranspose", "[", "LChol", "]"}]}]}], ";", "\n", "  ",
+      
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification: ||A - LL^T|| = \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"ASPD", "-", "LLt"}], "]"}], "]"}]}], "]"}]}], ",", "\n", 
+    "  ", 
+    RowBox[{"Print", "[", "\"\<Cholesky decomposition failed\>\"", "]"}]}], 
+   "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["SVD Applications", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ASVD", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"5", ",", "3"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix A (5x3):\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+    RowBox[{"N", "[", "ASVD", "]"}], "//", "MatrixForm"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"svdResult", "=", 
+   RowBox[{"MatrixOperations`SVDChecked", "[", 
+    RowBox[{"ASVD", ",", "False", ",", "True"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"svdResult", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"USVD", "=", 
+      RowBox[{"svdResult", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"SSVD", "=", 
+      RowBox[{"svdResult", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"VSVD", "=", 
+      RowBox[{"svdResult", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<SVD: A = U @ diag(s) @ V^T\>\""}], "]"}], ";", "\n", "  ",
+      
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<U matrix (\>\"", ",", " ", 
+       RowBox[{"Dimensions", "[", "USVD", "]"}], ",", " ", "\"\<):\>\""}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "USVD", "]"}], "//", "MatrixForm"}], "]"}], ";", 
+     "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Singular values: \>\"", ",", " ", 
+       RowBox[{"N", "[", "SSVD", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<V^T matrix (\>\"", ",", " ", 
+       RowBox[{"Dimensions", "[", "VSVD", "]"}], ",", " ", "\"\<):\>\""}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", 
+        RowBox[{"ConjugateTranspose", "[", "VSVD", "]"}], "]"}], "//", 
+       "MatrixForm"}], "]"}], ";", "\n", "  ", 
+     RowBox[{"AReconstructed", "=", 
+      RowBox[{"USVD", ".", 
+       RowBox[{"DiagonalMatrix", "[", "SSVD", "]"}], ".", 
+       RowBox[{"ConjugateTranspose", "[", "VSVD", "]"}]}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification: ||A - U*S*V^T|| = \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"ASVD", "-", "AReconstructed"}], "]"}], "]"}]}], "]"}]}], 
+    ",", "\n", "  ", 
+    RowBox[{"Print", "[", "\"\<SVD decomposition failed\>\"", "]"}]}], "\n", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Low-rank Approximation with SVD", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rank2Matrix", "=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3", ",", "4", ",", "5"}], "}"}], ".", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1", ",", "2"}], "}"}]}], "}"}]}], "+", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "1", ",", "1", ",", "2", ",", "1"}], "}"}], ".", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "2", ",", "1"}], "}"}]}], "}"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"noisyMatrix", "=", 
+   RowBox[{"rank2Matrix", "+", 
+    RowBox[{"0.1", " ", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+       RowBox[{"Dimensions", "[", "rank2Matrix", "]"}]}], "]"}]}]}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Original rank-2 matrix + noise:\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+    RowBox[{"N", "[", "noisyMatrix", "]"}], "//", "MatrixForm"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"svdNoise", "=", 
+   RowBox[{"MatrixOperations`SVDChecked", "[", 
+    RowBox[{"noisyMatrix", ",", "False", ",", "True"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"svdNoise", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"UNoise", "=", 
+      RowBox[{"svdNoise", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"SNoise", "=", 
+      RowBox[{"svdNoise", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"VNoise", "=", 
+      RowBox[{"svdNoise", "[", 
+       RowBox[{"[", "3", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Singular values: \>\"", ",", " ", 
+       RowBox[{"N", "[", "SNoise", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"k", "=", "2"}], ";", "\n", "  ", 
+     RowBox[{"ADenoised", "=", 
+      RowBox[{
+       RowBox[{"UNoise", "[", 
+        RowBox[{"[", 
+         RowBox[{"All", ",", 
+          RowBox[{"1", ";;", "k"}]}], "]"}], "]"}], ".", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"SNoise", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ";;", "k"}], "]"}], "]"}], "]"}], ".", 
+       RowBox[{"ConjugateTranspose", "[", 
+        RowBox[{"VNoise", "[", 
+         RowBox[{"[", 
+          RowBox[{"All", ",", 
+           RowBox[{"1", ";;", "k"}]}], "]"}], "]"}], "]"}]}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Denoised matrix (rank \>\"", ",", " ", "k", ",", " ", 
+       "\"\<):\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "ADenoised", "]"}], "//", "MatrixForm"}], "]"}], 
+     ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Original rank: \>\"", ",", " ", 
+       RowBox[{"MatrixOperations`RankChecked", "[", "noisyMatrix", "]"}]}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Denoised rank: \>\"", ",", " ", 
+       RowBox[{"MatrixOperations`RankChecked", "[", "ADenoised", "]"}]}], 
+      "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Frobenius error: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"rank2Matrix", "-", "ADenoised"}], "]"}], "]"}]}], "]"}]}], 
+    ",", "\n", "  ", 
+    RowBox[{"Print", "[", "\"\<SVD denoising failed\>\"", "]"}]}], "\n", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Eigenvalue Decomposition", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ABase", "=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"4", ",", "4"}], "}"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ASymm", "=", 
+   RowBox[{"ABase", "+", 
+    RowBox[{"Transpose", "[", "ABase", "]"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Symmetric matrix A:\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+    RowBox[{"N", "[", "ASymm", "]"}], "//", "MatrixForm"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"eigenResult", "=", 
+   RowBox[{"MatrixOperations`SymmetricEigendecompositionChecked", "[", 
+    "ASymm", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"eigenResult", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"eigenvals", "=", 
+      RowBox[{"eigenResult", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"eigenvecs", "=", 
+      RowBox[{"eigenResult", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Eigenvalues (ascending order): \>\"", ",", " ", 
+       RowBox[{"N", "[", "eigenvals", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Eigenvectors:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "eigenvecs", "]"}], "//", "MatrixForm"}], "]"}], 
+     ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification (A*v = \[Lambda]*v for each eigenpair):\>\""}],
+       "]"}], ";", "\n", "  ", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", "1"}], ",", 
+       RowBox[{"i", "<=", 
+        RowBox[{"Length", "[", "eigenvals", "]"}]}], ",", 
+       RowBox[{"i", "++"}], ",", "\n", "    ", 
+       RowBox[{
+        RowBox[{"v", "=", 
+         RowBox[{"eigenvecs", "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", "i"}], "]"}], "]"}]}], ";", "\n", "    ", 
+        RowBox[{"Av", "=", 
+         RowBox[{"ASymm", ".", "v"}]}], ";", "\n", "    ", 
+        RowBox[{"lambdaV", "=", 
+         RowBox[{
+          RowBox[{"eigenvals", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], " ", "v"}]}], ";", "\n", "    ", 
+        RowBox[{"error", "=", 
+         RowBox[{"Norm", "[", 
+          RowBox[{"Av", "-", "lambdaV"}], "]"}]}], ";", "\n", "    ", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<  Eigenpair \>\"", ",", " ", "i", ",", " ", 
+          "\"\<: ||A*v - \[Lambda]*v|| = \>\"", ",", " ", 
+          RowBox[{"N", "[", "error", "]"}]}], "]"}]}]}], "\n", "  ", "]"}], 
+     ";", "\n", "  ", 
+     RowBox[{"VtV", "=", 
+      RowBox[{
+       RowBox[{"ConjugateTranspose", "[", "eigenvecs", "]"}], ".", 
+       "eigenvecs"}]}], ";", "\n", "  ", 
+     RowBox[{"I", "=", 
+      RowBox[{"IdentityMatrix", "[", "4", "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Eigenvector orthogonality: ||V^T*V - I|| = \>\"", ",", 
+       " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"VtV", "-", "I"}], "]"}], "]"}]}], "]"}]}], ",", "\n", "  ", 
+    
+    RowBox[{"Print", "[", "\"\<Eigendecomposition failed\>\"", "]"}]}], "\n",
+    "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Matrix Powers using Eigendecomposition", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"n", "=", "10"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"eigenResult", "=!=", "$Failed"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"APowerEigen", "=", 
+      RowBox[{"eigenvecs", ".", 
+       RowBox[{"DiagonalMatrix", "[", 
+        RowBox[{"eigenvals", "^", "n"}], "]"}], ".", 
+       RowBox[{"ConjugateTranspose", "[", "eigenvecs", "]"}]}]}], ";", "\n", 
+     "  ", 
+     RowBox[{"APowerDirect", "=", 
+      RowBox[{"MatrixPower", "[", 
+       RowBox[{"ASymm", ",", "n"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<A^\>\"", ",", " ", "n", ",", " ", 
+       "\"\< using eigendecomposition:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "APowerEigen", "]"}], "//", "MatrixForm"}], "]"}], 
+     ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<A^\>\"", ",", " ", "n", ",", " ", 
+       "\"\< using direct computation:\>\""}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{
+       RowBox[{"N", "[", "APowerDirect", "]"}], "//", "MatrixForm"}], "]"}], 
+     ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Difference: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", 
+         RowBox[{"APowerEigen", "-", "APowerDirect"}], "]"}], "]"}]}], 
+      "]"}]}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ StyleBox["Key Learning Points:", "Subsubsection"],
+ "\n\[Bullet] LU decomposition efficiently solves multiple systems with same \
+matrix\n\[Bullet] QR decomposition is robust for least squares problems\n\
+\[Bullet] Cholesky decomposition is fastest for positive definite systems\n\
+\[Bullet] SVD provides optimal low-rank approximations\n\[Bullet] \
+Eigendecomposition reveals matrix spectral properties\n\[Bullet] Matrix \
+decompositions enable efficient and stable numerical algorithms\n\[Bullet] \
+SVD is fundamental for data analysis and dimensionality reduction"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Mac OS X x86 (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 124, 1, 98, "Title",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[707, 25, 607, 10, 173, "Text",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[CellGroupData[{
+Cell[1339, 39, 112, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[1454, 42, 628, 18, 115, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[2085, 62, 523, 14, 52, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2645, 81, 102, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[2750, 84, 596, 17, 73, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[3349, 103, 1772, 44, 283, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5158, 152, 102, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[5263, 155, 764, 22, 115, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[6030, 179, 2448, 61, 367, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8515, 245, 112, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[8630, 248, 855, 27, 115, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[9488, 277, 575, 15, 73, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[10066, 294, 1187, 29, 178, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11290, 328, 103, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[11396, 331, 646, 20, 94, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[12045, 353, 2138, 54, 325, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14220, 412, 121, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[14344, 415, 1269, 40, 115, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[15616, 457, 2394, 63, 283, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[18047, 525, 115, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[18165, 528, 766, 24, 115, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[18934, 554, 2707, 68, 388, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21678, 627, 130, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[21811, 630, 1507, 37, 199, "Input",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23355, 672, 95, 1, 67, "Section",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"],
+Cell[23453, 675, 647, 10, 150, "Text",ExpressionUUID->"23456789-2345-6789-abcd-234567890abc"]
+}, Open  ]]
+}, Open  ]]
+}
+]

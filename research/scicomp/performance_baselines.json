@@ -1,0 +1,11 @@
+{
+  "Quantum Computations.bell_state_creation": 2.5237008230760694e-05,
+  "Quantum Computations.quantum_evolution_4d": Infinity,
+  "Quantum Computations.large_quantum_state_256d": 0.00019886100199073553,
+  "Linear Algebra.matrix_multiply_100x100": Infinity,
+  "Linear Algebra.matrix_multiply_500x500": Infinity,
+  "Linear Algebra.eigenvalues_100x100": Infinity,
+  "Linear Algebra.matrix_inverse_50x50": Infinity,
+  "Memory Operations.large_array_allocation": 0.15279199200449511,
+  "Memory Operations.memory_quantum_operations": 0.04481601100997068
+}

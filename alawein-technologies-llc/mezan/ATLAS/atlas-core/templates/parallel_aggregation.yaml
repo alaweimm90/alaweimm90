@@ -1,0 +1,270 @@
+name: parallel_aggregation
+version: 1.0.0
+category: distributed_processing
+description: Fan-out/fan-in pattern for parallel data processing and aggregation
+author: ORCHEX Team
+tags:
+  - parallel
+  - distributed
+  - mapreduce
+  - aggregation
+  - fan-out
+
+parameters:
+  input_data:
+    type: string
+    description: Path to input data source
+    required: true
+
+  partition_key:
+    type: string
+    description: Key to partition data
+    required: true
+
+  processing_function:
+    type: string
+    description: Function to apply to each partition
+    required: true
+
+  aggregation_method:
+    type: string
+    description: Method to aggregate results
+    required: true
+    allowed_values: [sum, mean, median, min, max, concat, merge, custom]
+
+  num_workers:
+    type: int
+    description: Number of parallel workers
+    required: false
+    default: 8
+
+  chunk_size:
+    type: int
+    description: Size of each data chunk
+    required: false
+    default: 10000
+
+  timeout_per_chunk:
+    type: int
+    description: Timeout in seconds for each chunk
+    required: false
+    default: 300
+
+  enable_streaming:
+    type: bool
+    description: Enable streaming aggregation
+    required: false
+    default: false
+
+workflow:
+  config:
+    type: map_reduce
+    distributed: true
+    fault_tolerant: true
+
+  tasks:
+    - name: initialize_coordinator
+      type: initialization
+      description: Initialize coordinator for distributed processing
+      parameters:
+        num_workers: "{{num_workers}}"
+        work_queue: distributed_queue
+        result_queue: aggregation_queue
+        monitoring: true
+
+    - name: load_and_partition
+      type: partitioning
+      description: Load and partition input data
+      depends_on: [initialize_coordinator]
+      parameters:
+        input: "{{input_data}}"
+        partition_key: "{{partition_key}}"
+        chunk_size: "{{chunk_size}}"
+        strategy:
+          type: hash_based
+          ensure_balance: true
+        output: partitions
+
+    - name: validate_partitions
+      type: validation
+      description: Validate partition distribution
+      depends_on: [load_and_partition]
+      parameters:
+        partitions: "${load_and_partition.partitions}"
+        checks:
+          - min_partitions: 2
+          - max_skew: 0.2
+          - data_integrity: true
+
+    - name: fan_out_processing
+      type: parallel
+      description: Process partitions in parallel (fan-out)
+      depends_on: [validate_partitions]
+      subtasks:
+        - name: process_partition
+          type: distributed_task
+          foreach: "${load_and_partition.partitions}"
+          max_parallel: "{{num_workers}}"
+          parameters:
+            partition_id: "${item.id}"
+            partition_data: "${item.data}"
+            processing_function: "{{processing_function}}"
+            timeout: "{{timeout_per_chunk}}"
+            retry_on_failure: 3
+            retry_backoff: exponential
+
+            # Monitoring per partition
+            monitoring:
+              track_progress: true
+              report_interval: 10
+              metrics:
+                - processing_rate
+                - memory_usage
+                - error_count
+
+            # Error handling per partition
+            error_handling:
+              strategy: continue_on_error
+              quarantine_failed: true
+              max_errors_percent: 10
+
+    - name: collect_results
+      type: collection
+      description: Collect results from all workers
+      depends_on: [fan_out_processing]
+      parameters:
+        source: "${fan_out_processing.results}"
+        timeout: 600
+        partial_results: true
+        min_success_rate: 0.95
+
+    - name: streaming_aggregation
+      type: conditional
+      description: Conditionally enable streaming aggregation
+      depends_on: [collect_results]
+      condition: "{{enable_streaming}} == true"
+      if_branch:
+        - name: stream_aggregate
+          type: streaming
+          parameters:
+            input_stream: "${collect_results.stream}"
+            window_size: 1000
+            aggregation_function: "{{aggregation_method}}"
+            emit_interval: 100
+
+    - name: batch_aggregation
+      type: conditional
+      description: Batch aggregation (default path)
+      depends_on: [collect_results]
+      condition: "{{enable_streaming}} == false"
+      if_branch:
+        - name: aggregate_results
+          type: aggregation
+          description: Aggregate all results (fan-in)
+          parameters:
+            data: "${collect_results.output}"
+            method: "{{aggregation_method}}"
+            groupby: ["{{partition_key}}"]
+            parallel_aggregation: true
+
+    - name: combine_aggregations
+      type: combination
+      description: Combine streaming and batch results
+      depends_on: [streaming_aggregation, batch_aggregation]
+      parameters:
+        streaming_result: "${stream_aggregate.output}"
+        batch_result: "${aggregate_results.output}"
+        prefer: batch
+
+    - name: post_processing
+      type: post_process
+      description: Apply post-processing to aggregated results
+      depends_on: [combine_aggregations]
+      parameters:
+        data: "${combine_aggregations.output}"
+        operations:
+          - sort:
+              by: value
+              descending: true
+          - filter:
+              condition: "value > threshold"
+          - transform:
+              calculate_percentiles: true
+              add_metadata: true
+
+    - name: quality_assurance
+      type: qa_check
+      description: Verify aggregation quality
+      depends_on: [post_processing]
+      parameters:
+        aggregated_data: "${post_processing.output}"
+        original_count: "${load_and_partition.total_records}"
+        checks:
+          - completeness: 0.99
+          - consistency: true
+          - statistical_validity: true
+
+    - name: cache_results
+      type: caching
+      description: Cache aggregated results
+      depends_on: [quality_assurance]
+      parameters:
+        data: "${post_processing.output}"
+        cache_key: "aggregation_${workflow.id}"
+        ttl: 3600
+        compression: true
+
+    - name: generate_statistics
+      type: statistics
+      description: Generate processing statistics
+      depends_on: [cache_results]
+      parameters:
+        processing_times: "${fan_out_processing.timings}"
+        partition_sizes: "${load_and_partition.sizes}"
+        aggregation_metrics: "${combine_aggregations.metrics}"
+        calculate:
+          - throughput
+          - latency_percentiles
+          - resource_utilization
+          - cost_estimate
+
+    - name: cleanup_workers
+      type: cleanup
+      description: Clean up distributed workers
+      depends_on: [generate_statistics]
+      on_failure: continue
+      parameters:
+        workers: "${initialize_coordinator.workers}"
+        queues: [distributed_queue, aggregation_queue]
+        temp_storage: "${fan_out_processing.temp_paths}"
+
+    - name: publish_results
+      type: publishing
+      description: Publish aggregated results
+      depends_on: [generate_statistics]
+      parameters:
+        data: "${post_processing.output}"
+        statistics: "${generate_statistics.output}"
+        destinations:
+          - type: database
+            table: aggregation_results
+          - type: message_queue
+            topic: aggregation_complete
+          - type: webhook
+            url: callback_url
+
+dependencies:
+  - distributed_computing_framework
+  - message_queue
+  - aggregation_engine
+
+metadata:
+  scalability:
+    max_workers: 100
+    max_data_size: "1TB"
+    supports_spot_instances: true
+
+  optimization_hints:
+    prefer_memory: false
+    use_compression: true
+    enable_shuffling: true

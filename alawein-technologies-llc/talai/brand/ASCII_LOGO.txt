@@ -1,0 +1,93 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║   ████████╗ █████╗ ██╗      █████╗ ██╗                    ║
+║   ╚══██╔══╝██╔══██╗██║     ██╔══██╗██║                    ║
+║      ██║   ███████║██║     ███████║██║                    ║
+║      ██║   ██╔══██║██║     ██╔══██║██║                    ║
+║      ██║   ██║  ██║███████╗██║  ██║██║                    ║
+║      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝                    ║
+║                                                            ║
+║              طلال - Fresh Ideas Like Dew 💧                ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+Simple version (for small terminals):
+
+  ___________    ____    ____
+ |           |  /    \  |    |
+ |     |     | |  /\  | |    |
+ |     |     | | |  | | |    |
+ |     |     | | |  | | |    |
+ |_____T_____|  \|__A_| |__I_|
+
+      TalAI - طلال
+ Fresh Ideas Like Dew 💧
+
+Minimal version (header comments):
+
+  ████████╗ █████╗ ██╗      █████╗ ██╗
+  ╚══██╔══╝██╔══██╗██║     ██╔══██╗██║
+     ██║   ███████║██║     ███████║██║
+     ██║   ██╔══██║██║     ██╔══██║██║
+     ██║   ██║  ██║███████╗██║  ██║██║
+     ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝
+
+Super minimal:
+
+  TalAI (طلال) - Fresh Ideas Like Dew 💧
+
+One-liner:
+
+  TalAI 💧 | Powered by relentless curiosity
+
+For code comments:
+
+  # TalAI - Because one nephew wouldn't stop asking questions
+  # طلال - Fresh ideas, like morning dew
+
+For Python files:
+
+  """
+  TalAI - Talal's AI Research Tools
+
+  Named after Talal (طلال - "dew"), symbolizing fresh ideas
+  that nourish innovation.
+
+  Built because one very persistent nephew drove his uncle
+  absolutely crazy with relentless questions.
+
+  Habibi, here you go. Now leave me alone... or not. 💙
+  """
+
+For CLI welcome messages:
+
+  ┌─────────────────────────────────────────┐
+  │  TalAI 💧                               │
+  │  Fresh ideas, like morning dew          │
+  │  Powered by relentless curiosity        │
+  └─────────────────────────────────────────┘
+
+For success messages:
+
+  ✨ TalAI says: Great question! Here's what I found...
+
+For loading states:
+
+  🤔 TalAI is thinking...
+  💡 TalAI found something interesting...
+  ⚡ TalAI is processing...
+
+For error messages:
+
+  😅 TalAI is confused (but still trying!)
+  🔧 TalAI needs a bit of help here...
+
+Emoji variations:
+
+  💧 TalAI - Dew (fresh ideas)
+  🧙 TalAI - Wizard (wisdom)
+  🤖 TalAI - Robot (AI)
+  ✨ TalAI - Magic (innovation)
+  💙 TalAI - Heart (built with love)
+  🇸🇦 TalAI - Saudi heritage
+

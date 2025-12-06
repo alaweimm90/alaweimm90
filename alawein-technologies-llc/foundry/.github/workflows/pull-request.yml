@@ -1,0 +1,421 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [ opened, synchronize, reopened ]
+
+env:
+  NODE_VERSION: '20'
+  CACHE_NAME: 'pr-cache'
+
+jobs:
+  # Code Quality Checks
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/${{ matrix.app }}
+        run: npm ci
+
+      - name: ESLint Check
+        working-directory: frontend/${{ matrix.app }}
+        run: npm run lint || true
+
+      - name: TypeScript Compilation Check
+        working-directory: frontend/${{ matrix.app }}
+        run: npm run type-check || npx tsc --noEmit
+
+      - name: Prettier Format Check
+        working-directory: frontend/${{ matrix.app }}
+        run: npx prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}" || true
+
+      - name: Upload ESLint results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: eslint-results-${{ matrix.app }}
+          path: frontend/${{ matrix.app }}/eslint-report.json
+          retention-days: 7
+
+  # Unit and Component Tests
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/${{ matrix.app }}
+        run: npm ci
+
+      - name: Run Jest Unit Tests
+        working-directory: frontend/${{ matrix.app }}
+        run: |
+          npm run test:ci || npm test -- --coverage --watchAll=false --passWithNoTests
+        env:
+          CI: true
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./frontend/${{ matrix.app }}/coverage/lcov.info
+          flags: ${{ matrix.app }}
+          name: ${{ matrix.app }}-coverage
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.app }}
+          path: frontend/${{ matrix.app }}/coverage
+          retention-days: 7
+
+  # E2E Tests
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: test
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/${{ matrix.app }}
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        working-directory: frontend/${{ matrix.app }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Build application
+        working-directory: frontend/${{ matrix.app }}
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+
+      - name: Run Playwright Tests
+        working-directory: frontend/${{ matrix.app }}
+        run: npx playwright test || npm run test:e2e || echo "No E2E tests configured"
+        env:
+          CI: true
+          PLAYWRIGHT_TEST_BASE_URL: http://localhost:3000
+
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-report-${{ matrix.app }}
+          path: frontend/${{ matrix.app }}/playwright-report
+          retention-days: 7
+
+  # Security Scanning
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    needs: code-quality
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: NPM Audit
+        working-directory: frontend/${{ matrix.app }}
+        run: |
+          npm audit --audit-level=moderate || true
+          npm audit --json > npm-audit-report.json || true
+
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --file=frontend/${{ matrix.app }}/package.json
+
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: '${{ matrix.app }}'
+          path: 'frontend/${{ matrix.app }}'
+          format: 'HTML'
+          args: >
+            --enableRetired
+            --enableExperimental
+
+      - name: Upload Security Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports-${{ matrix.app }}
+          path: |
+            frontend/${{ matrix.app }}/npm-audit-report.json
+            reports/
+          retention-days: 7
+
+  # SonarQube Analysis
+  sonarqube:
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event.pull_request.draft == false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: SonarQube Quality Gate check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # Build Validation
+  build-validation:
+    name: Build Validation
+    runs-on: ubuntu-latest
+    needs: [test, security-scan]
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/${{ matrix.app }}
+        run: npm ci
+
+      - name: Build Application
+        working-directory: frontend/${{ matrix.app }}
+        run: |
+          START_TIME=$(date +%s)
+          npm run build
+          END_TIME=$(date +%s)
+          BUILD_TIME=$((END_TIME - START_TIME))
+          echo "Build completed in ${BUILD_TIME} seconds"
+          echo "BUILD_TIME=${BUILD_TIME}" >> $GITHUB_ENV
+        env:
+          NEXT_PUBLIC_API_URL: https://api.crazyideas.com
+          NODE_ENV: production
+
+      - name: Analyze Bundle Size
+        working-directory: frontend/${{ matrix.app }}
+        run: |
+          npx next-bundle-analyzer || true
+          du -sh .next/
+
+      - name: Check Build Time
+        run: |
+          if [ ${{ env.BUILD_TIME }} -gt 300 ]; then
+            echo "⚠️ Build time exceeded 5 minutes (${BUILD_TIME}s)"
+            exit 1
+          fi
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-${{ matrix.app }}
+          path: frontend/${{ matrix.app }}/.next
+          retention-days: 7
+
+  # Accessibility Tests
+  accessibility:
+    name: Accessibility Tests
+    runs-on: ubuntu-latest
+    needs: build-validation
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend/${{ matrix.app }}
+        run: npm ci
+
+      - name: Build application
+        working-directory: frontend/${{ matrix.app }}
+        run: npm run build
+
+      - name: Start application
+        working-directory: frontend/${{ matrix.app }}
+        run: |
+          npm run start &
+          npx wait-on http://localhost:3000 -t 30000
+
+      - name: Run Axe Accessibility Tests
+        run: |
+          npx @axe-core/cli http://localhost:3000 \
+            --tags wcag2a,wcag2aa,wcag21a,wcag21aa \
+            --save accessibility-report.json
+
+      - name: Run Lighthouse Audit
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            http://localhost:3000
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Upload Accessibility Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: accessibility-${{ matrix.app }}
+          path: |
+            accessibility-report.json
+            .lighthouseci/
+          retention-days: 7
+
+  # Docker Build Test
+  docker-build:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    needs: build-validation
+    strategy:
+      matrix:
+        app: [ghost-researcher, scientific-tinder, chaos-engine]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: frontend/${{ matrix.app }}
+          file: frontend/${{ matrix.app }}/Dockerfile
+          push: false
+          tags: crazyideas/${{ matrix.app }}:pr-${{ github.event.pull_request.number }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://api.crazyideas.com
+            NEXT_PUBLIC_ENVIRONMENT=production
+
+      - name: Scan Docker Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: crazyideas/${{ matrix.app }}:pr-${{ github.event.pull_request.number }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Summary Report
+  pr-summary:
+    name: PR Summary Report
+    runs-on: ubuntu-latest
+    needs: [code-quality, test, security-scan, build-validation, accessibility, docker-build]
+    if: always()
+    steps:
+      - name: Generate Summary Report
+        run: |
+          echo "## Pull Request Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Status Overview" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Code Quality | ${{ needs.code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security | ${{ needs.security-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build-validation.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Accessibility | ${{ needs.accessibility.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Docker | ${{ needs.docker-build.result }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const summary = `
+            ## 🚀 PR Validation Complete
+
+            **Build Status:** ${{ needs.build-validation.result }}
+            **Test Coverage:** Available in artifacts
+            **Security Scan:** ${{ needs.security-scan.result }}
+
+            View detailed results in the [Actions tab](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });

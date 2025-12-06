@@ -1,0 +1,28 @@
+name: CI
+'on':
+  push:
+    branches:
+    - main
+    - master
+    - develop
+  pull_request:
+    branches:
+    - main
+    - master
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Run tests
+      run: echo "Add tests for ${language}"
+  policy-check:
+    name: Policy Check
+    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+  security:
+    name: Security Scan
+    uses: alaweimm90/alaweimm90/.github/workflows/scorecard.yml@main

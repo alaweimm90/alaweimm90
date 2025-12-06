@@ -1,0 +1,173 @@
+name: batch_processing
+version: 1.0.0
+category: data_processing
+description: Template for batch job orchestration with parallel processing and error handling
+author: ORCHEX Team
+tags:
+  - batch
+  - parallel
+  - data-processing
+  - scalable
+
+parameters:
+  batch_size:
+    type: int
+    description: Number of items to process in each batch
+    required: true
+    default: 100
+
+  data_source:
+    type: string
+    description: Source of data (file path, database connection, API endpoint)
+    required: true
+    validation_pattern: '^[a-zA-Z0-9/_\-\.]+$'
+
+  output_destination:
+    type: string
+    description: Where to store processed results
+    required: true
+
+  parallel_workers:
+    type: int
+    description: Number of parallel workers for processing
+    required: false
+    default: 4
+    allowed_values: [1, 2, 4, 8, 16, 32]
+
+  error_threshold:
+    type: float
+    description: Maximum error rate before stopping (0.0 to 1.0)
+    required: false
+    default: 0.1
+
+  retry_attempts:
+    type: int
+    description: Number of retry attempts for failed items
+    required: false
+    default: 3
+
+workflow:
+  config:
+    timeout: 3600
+    checkpoint_enabled: true
+    checkpoint_interval: 100
+
+  tasks:
+    - name: validate_input
+      type: validation
+      description: Validate input data source
+      parameters:
+        source: "{{data_source}}"
+        validation_rules:
+          - exists: true
+          - accessible: true
+          - format_valid: true
+
+    - name: prepare_batches
+      type: preparation
+      description: Split data into batches for processing
+      depends_on: [validate_input]
+      parameters:
+        source: "{{data_source}}"
+        batch_size: "{{batch_size}}"
+        output: batches_metadata
+
+    - name: process_batches
+      type: parallel
+      description: Process batches in parallel
+      depends_on: [prepare_batches]
+      subtasks:
+        - name: batch_processor
+          type: loop
+          items: "${batches_metadata}"
+          max_parallel: "{{parallel_workers}}"
+          tasks:
+            - name: process_single_batch
+              type: processing
+              retry:
+                attempts: "{{retry_attempts}}"
+                backoff: exponential
+                initial_delay: 1000
+              parameters:
+                batch_id: "${item.id}"
+                batch_data: "${item.data}"
+                processing_config:
+                  timeout: 300
+                  memory_limit: "2GB"
+
+            - name: validate_batch_result
+              type: validation
+              parameters:
+                result: "${process_single_batch.output}"
+                error_threshold: "{{error_threshold}}"
+
+            - name: store_batch_result
+              type: storage
+              parameters:
+                data: "${process_single_batch.output}"
+                destination: "{{output_destination}}/batch_${item.id}"
+
+    - name: aggregate_results
+      type: aggregation
+      description: Aggregate all batch results
+      depends_on: [process_batches]
+      parameters:
+        source: "{{output_destination}}/batch_*"
+        aggregation_method: merge
+        output: final_results
+
+    - name: quality_check
+      type: validation
+      description: Perform quality checks on aggregated results
+      depends_on: [aggregate_results]
+      parameters:
+        data: "${aggregate_results.output}"
+        checks:
+          - completeness: 0.95
+          - accuracy: 0.99
+          - consistency: true
+
+    - name: generate_report
+      type: reporting
+      description: Generate processing report
+      depends_on: [quality_check]
+      parameters:
+        results: "${aggregate_results.output}"
+        metrics: "${quality_check.metrics}"
+        output_format: "json"
+        destination: "{{output_destination}}/report.json"
+
+    - name: cleanup
+      type: cleanup
+      description: Clean up temporary files
+      depends_on: [generate_report]
+      on_failure: continue
+      parameters:
+        paths:
+          - temp_batches
+          - processing_cache
+
+dependencies:
+  - data_validator
+  - batch_processor
+  - aggregator
+
+metadata:
+  performance_hints:
+    optimal_batch_size: 100-1000
+    max_parallel_workers: 32
+    memory_per_worker: "2GB"
+
+  monitoring:
+    metrics:
+      - processing_rate
+      - error_rate
+      - memory_usage
+      - cpu_utilization
+    alerts:
+      - type: error_rate
+        threshold: 0.2
+        action: pause_processing
+      - type: memory_usage
+        threshold: 90
+        action: scale_down

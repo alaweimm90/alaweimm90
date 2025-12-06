@@ -1,0 +1,102 @@
+{
+  "name": "SimCore - Scientific Computing Platform",
+  "short_name": "SimCore",
+  "description": "Interactive scientific computing platform for physics, mathematics, and scientific machine learning",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f23",
+  "theme_color": "#6366f1",
+  "orientation": "any",
+  "scope": "/",
+  "categories": ["education", "productivity", "science", "mathematics"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Scientific modules dashboard on desktop"
+    },
+    {
+      "src": "/screenshot-mobile.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Scientific simulation on mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Quantum Mechanics",
+      "short_name": "Quantum",
+      "description": "Access quantum physics simulations",
+      "url": "/?category=Quantum%20Mechanics",
+      "icons": [
+        {
+          "src": "/quantum-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "2D Materials", 
+      "short_name": "2D Materials",
+      "description": "Explore graphene and other 2D materials",
+      "url": "/?category=2D%20Materials",
+      "icons": [
+        {
+          "src": "/materials-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Spintronics",
+      "short_name": "Spintronics", 
+      "description": "Magnetization dynamics simulations",
+      "url": "/?category=Spintronics",
+      "icons": [
+        {
+          "src": "/spin-icon.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+simcore",
+      "url": "/open?data=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/open",
+      "accept": {
+        "application/json": [".json"],
+        "text/csv": [".csv"]
+      }
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

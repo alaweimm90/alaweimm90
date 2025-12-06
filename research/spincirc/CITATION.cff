@@ -1,0 +1,69 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "SpinCirc: Advanced Spin Transport Circuit Framework"
+version: 1.0.0
+doi: 10.5281/zenodo.spincirc-v1.0.0
+date-released: 2025-01-31
+url: "https://github.com/alaweimm90/SpinCirc"
+repository-code: "https://github.com/alaweimm90/SpinCirc"
+repository-artifact: "https://github.com/alaweimm90/SpinCirc/releases"
+abstract: >-
+  SpinCirc is a comprehensive MATLAB/Python/Verilog-A framework 
+  implementing the equivalent-circuit spin-transport formalism for 
+  computational spintronics research. It features 4×4 conductance 
+  matrix formalism, time-dependent drift-diffusion solvers, and 
+  advanced magnetodynamics with LLG/LLGS integration.
+authors:
+  - family-names: "Alawein"
+    given-names: "Dr. Meshal"
+    email: "meshal@berkeley.edu"
+    affiliation: "University of California, Berkeley"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+    website: "https://malawein.com"
+license: MIT
+keywords:
+  - "spintronics"
+  - "computational physics"
+  - "spin transport"
+  - "magnetization dynamics"
+  - "device modeling"
+  - "LLG equation"
+  - "Berkeley"
+  - "quantum computing"
+  - "materials science"
+  - "MATLAB"
+  - "Python"
+  - "Verilog-A"
+references:
+  - type: article
+    authors:
+      - family-names: "Alawein"
+        given-names: "Meshal"
+      - family-names: "Fariborzi"
+        given-names: "Hamid"
+    title: "Circuit Models for Spintronic Devices Subject to Electric and Magnetic Fields"
+    journal: "IEEE Journal on Exploratory Solid-State Computational Devices and Circuits"
+    volume: 4
+    issue: 2
+    start: 76
+    end: 85
+    year: 2018
+    publisher: "IEEE"
+    doi: 10.1109/JXCDC.2018.2848670
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Alawein"
+      given-names: "Meshal"
+    - family-names: "Fariborzi"
+      given-names: "Hamid"
+  title: "Circuit Models for Spintronic Devices Subject to Electric and Magnetic Fields"
+  journal: "IEEE Journal on Exploratory Solid-State Computational Devices and Circuits"
+  volume: 4
+  issue: 2
+  start: 76
+  end: 85
+  year: 2018
+  publisher: "IEEE"
+  doi: 10.1109/JXCDC.2018.2848670

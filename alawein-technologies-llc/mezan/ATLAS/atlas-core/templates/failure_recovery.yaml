@@ -1,0 +1,315 @@
+name: failure_recovery
+version: 1.0.0
+category: resilience
+description: Workflow with comprehensive retry logic, circuit breakers, and fallback strategies
+author: ORCHEX Team
+tags:
+  - resilience
+  - retry
+  - circuit-breaker
+  - fallback
+  - fault-tolerance
+
+parameters:
+  primary_service:
+    type: string
+    description: Primary service endpoint
+    required: true
+
+  fallback_service:
+    type: string
+    description: Fallback service endpoint
+    required: false
+
+  max_retries:
+    type: int
+    description: Maximum number of retry attempts
+    required: false
+    default: 3
+
+  retry_strategy:
+    type: string
+    description: Retry backoff strategy
+    required: false
+    default: exponential
+    allowed_values: [linear, exponential, fibonacci, custom]
+
+  circuit_breaker_threshold:
+    type: float
+    description: Error rate threshold for circuit breaker
+    required: false
+    default: 0.5
+
+  recovery_timeout:
+    type: int
+    description: Timeout before attempting recovery (seconds)
+    required: false
+    default: 60
+
+  enable_degraded_mode:
+    type: bool
+    description: Enable degraded mode on failure
+    required: false
+    default: true
+
+workflow:
+  config:
+    type: resilient
+    monitor_health: true
+    enable_checkpoints: true
+
+  tasks:
+    - name: health_check
+      type: health_check
+      description: Check service health before processing
+      parameters:
+        services:
+          - url: "{{primary_service}}/health"
+            timeout: 5
+            expected_status: 200
+          - url: "{{fallback_service}}/health"
+            timeout: 5
+            expected_status: 200
+            optional: true
+
+    - name: initialize_circuit_breaker
+      type: circuit_breaker_init
+      description: Initialize circuit breaker for service calls
+      depends_on: [health_check]
+      parameters:
+        failure_threshold: "{{circuit_breaker_threshold}}"
+        recovery_timeout: "{{recovery_timeout}}"
+        half_open_requests: 3
+        monitoring_window: 60
+
+    - name: primary_operation
+      type: operation
+      description: Attempt primary operation with retry logic
+      depends_on: [initialize_circuit_breaker]
+      parameters:
+        service: "{{primary_service}}"
+        circuit_breaker: "${initialize_circuit_breaker.breaker}"
+        retry:
+          enabled: true
+          max_attempts: "{{max_retries}}"
+          strategy: "{{retry_strategy}}"
+          initial_delay: 1000
+          max_delay: 30000
+          jitter: true
+        timeout: 30
+
+      error_handling:
+        - on_error: timeout
+          action: retry
+          log_level: warning
+
+        - on_error: connection_refused
+          action: retry
+          delay: 5000
+
+        - on_error: rate_limit
+          action: backoff
+          delay: exponential
+
+        - on_error: server_error
+          action: circuit_break
+
+    - name: check_circuit_state
+      type: circuit_state_check
+      description: Check if circuit breaker is open
+      depends_on: [primary_operation]
+      on_failure: continue
+      parameters:
+        breaker: "${initialize_circuit_breaker.breaker}"
+
+    - name: fallback_operation
+      type: conditional
+      description: Execute fallback if primary fails
+      depends_on: [check_circuit_state]
+      condition: "${primary_operation.failed} == true OR ${check_circuit_state.open} == true"
+      if_branch:
+        - name: attempt_fallback
+          type: operation
+          parameters:
+            service: "{{fallback_service}}"
+            timeout: 30
+            retry:
+              enabled: true
+              max_attempts: 2
+              strategy: linear
+
+        - name: cache_fallback_result
+          type: caching
+          parameters:
+            data: "${attempt_fallback.output}"
+            ttl: 300
+            key: "fallback_${workflow.id}"
+
+    - name: degraded_mode_handler
+      type: conditional
+      description: Handle degraded mode if both services fail
+      depends_on: [fallback_operation]
+      condition: "{{enable_degraded_mode}} == true AND ${fallback_operation.failed} == true"
+      if_branch:
+        - name: load_cached_data
+          type: cache_lookup
+          description: Try to use cached data
+          parameters:
+            key_pattern: "result_*"
+            max_age: 3600
+
+        - name: use_default_values
+          type: default_handler
+          description: Use default values if no cache
+          condition: "${load_cached_data.miss} == true"
+          parameters:
+            defaults:
+              status: degraded
+              data: minimal_dataset
+              quality: reduced
+
+    - name: compensating_transaction
+      type: compensation
+      description: Execute compensating transaction on failure
+      depends_on: [primary_operation, fallback_operation]
+      on_failure: required
+      parameters:
+        original_operation: "${primary_operation.transaction_id}"
+        compensation_steps:
+          - rollback_database
+          - restore_state
+          - notify_downstream
+
+    - name: bulkhead_isolation
+      type: bulkhead
+      description: Isolate failures using bulkhead pattern
+      parameters:
+        pools:
+          - name: critical
+            size: 10
+            timeout: 5000
+          - name: standard
+            size: 20
+            timeout: 10000
+          - name: bulk
+            size: 5
+            timeout: 30000
+
+    - name: timeout_handler
+      type: timeout_management
+      description: Handle various timeout scenarios
+      parameters:
+        global_timeout: 300
+        operation_timeouts:
+          network_call: 30
+          database_query: 10
+          file_operation: 60
+        timeout_action: abort_and_compensate
+
+    - name: retry_with_jitter
+      type: retry_logic
+      description: Implement sophisticated retry with jitter
+      parameters:
+        base_delay: 1000
+        max_delay: 60000
+        jitter_factor: 0.3
+        retry_conditions:
+          - status_code: [500, 502, 503]
+          - error_type: [timeout, connection_error]
+        skip_conditions:
+          - status_code: [400, 401, 403, 404]
+
+    - name: monitor_recovery
+      type: monitoring
+      description: Monitor recovery progress
+      depends_on: [primary_operation, fallback_operation, degraded_mode_handler]
+      parameters:
+        metrics:
+          - success_rate
+          - retry_count
+          - circuit_breaker_state
+          - fallback_usage
+          - degraded_mode_activations
+        alerts:
+          - metric: success_rate
+            threshold: 0.9
+            operator: less_than
+          - metric: circuit_breaker_state
+            value: open
+            duration: 300
+
+    - name: adaptive_timeout
+      type: adaptive_control
+      description: Adjust timeouts based on performance
+      parameters:
+        initial_timeout: 10000
+        min_timeout: 5000
+        max_timeout: 60000
+        adjustment_factor: 1.5
+        performance_window: 100
+        target_success_rate: 0.95
+
+    - name: chaos_testing
+      type: chaos_injection
+      description: Inject failures for testing resilience
+      optional: true
+      parameters:
+        enabled: false
+        failure_types:
+          - network_delay:
+              probability: 0.1
+              delay: 5000
+          - service_error:
+              probability: 0.05
+              error_code: 500
+          - timeout:
+              probability: 0.02
+
+    - name: recovery_verification
+      type: verification
+      description: Verify successful recovery
+      depends_on: [monitor_recovery]
+      parameters:
+        checks:
+          - data_consistency: true
+          - state_validity: true
+          - no_data_loss: true
+
+    - name: update_circuit_metrics
+      type: metrics_update
+      description: Update circuit breaker metrics
+      depends_on: [recovery_verification]
+      parameters:
+        breaker: "${initialize_circuit_breaker.breaker}"
+        success: "${recovery_verification.success}"
+        response_time: "${workflow.duration}"
+
+    - name: publish_resilience_report
+      type: reporting
+      description: Generate resilience report
+      depends_on: [update_circuit_metrics]
+      parameters:
+        include:
+          - retry_statistics
+          - circuit_breaker_events
+          - fallback_usage
+          - recovery_times
+          - error_distribution
+
+dependencies:
+  - resilience4j
+  - hystrix
+  - polly
+
+metadata:
+  patterns_implemented:
+    - circuit_breaker
+    - retry
+    - fallback
+    - bulkhead
+    - timeout
+    - compensating_transaction
+
+  sla:
+    availability: 99.9
+    max_recovery_time: 300

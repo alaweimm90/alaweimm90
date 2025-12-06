@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://liveiticonic.com/product/black-tshirt</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://liveiticonic.com/images/black-tshirt-front.jpg</image:loc>
+      <image:caption>Premium black t-shirt with automotive-inspired design</image:caption>
+      <image:title>Black T-Shirt Front View</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://liveiticonic.com/product/premium-hoodie</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://liveiticonic.com/images/hoodie-front.jpg</image:loc>
+      <image:caption>Luxury hoodie with precision-cut design</image:caption>
+      <image:title>Premium Hoodie</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://liveiticonic.com/product/iconic-cap</loc>
+    <lastmod>2025-11-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://liveiticonic.com/images/cap-front.jpg</image:loc>
+      <image:caption>Premium automotive-inspired cap</image:caption>
+      <image:title>Iconic Cap</image:title>
+    </image:image>
+  </url>
+</urlset>

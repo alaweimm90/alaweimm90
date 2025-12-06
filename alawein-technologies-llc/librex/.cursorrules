@@ -1,0 +1,45 @@
+# Optilibria - AI Assistant Rules
+
+## Project Context
+- **Project**: Optilibria - Quantum Annealing Problem Solver
+- **Organization**: AlaweinLabs
+- **Repository**: https://github.com/AlaweinLabs/Optilibria
+- **Language**: Python
+- **Framework**: Scientific Computing, Optimization
+
+## Code Style
+- Follow PEP 8 for Python code
+- Use type hints for all function signatures
+- Write docstrings in NumPy style
+- Maximum line length: 100 characters
+- Use meaningful variable names
+
+## Testing
+- Write pytest tests for all new features
+- Maintain >80% code coverage
+- Include doctest examples in docstrings
+- Run tests before committing
+
+## Documentation
+- Update README.md for new features
+- Document all public APIs
+- Include usage examples
+- Keep CHANGELOG.md updated
+
+## Git Workflow
+- Use conventional commits (feat:, fix:, docs:, etc.)
+- Reference issues in commit messages
+- Keep commits atomic and focused
+- Write descriptive commit messages
+
+## Dependencies
+- Use pyproject.toml for dependency management
+- Pin major versions, allow minor updates
+- Document why each dependency is needed
+- Keep dependencies minimal
+
+## Organization Standards
+- This project is part of AlaweinLabs organization
+- Follow organization-wide governance policies
+- Maintain consistency with other AlaweinLabs projects
+- Use organization templates and standards

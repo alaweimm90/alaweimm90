@@ -1,0 +1,406 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: talai-batch-processor
+  namespace: data-pipeline
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: "talai/spark:3.5.0"
+  imagePullPolicy: Always
+  mainApplicationFile: "s3a://talai-jobs/batch-processor.py"
+  sparkVersion: "3.5.0"
+
+  # High-performance configuration
+  sparkConf:
+    # Memory and execution
+    "spark.executor.memory": "8g"
+    "spark.executor.memoryOverhead": "2g"
+    "spark.driver.memory": "4g"
+    "spark.driver.memoryOverhead": "1g"
+    "spark.memory.fraction": "0.8"
+    "spark.memory.storageFraction": "0.3"
+
+    # Parallelism and partitioning
+    "spark.default.parallelism": "400"
+    "spark.sql.shuffle.partitions": "400"
+    "spark.sql.adaptive.enabled": "true"
+    "spark.sql.adaptive.coalescePartitions.enabled": "true"
+    "spark.sql.adaptive.skewJoin.enabled": "true"
+
+    # Network and I/O
+    "spark.network.timeout": "600s"
+    "spark.rpc.message.maxSize": "1024"
+    "spark.serializer": "org.apache.spark.serializer.KryoSerializer"
+    "spark.kryo.unsafe": "true"
+    "spark.kryoserializer.buffer.max": "1024m"
+
+    # Data sources
+    "spark.sql.sources.parallelPartitionDiscovery.parallelism": "32"
+    "spark.sql.files.maxPartitionBytes": "134217728"  # 128MB
+    "spark.sql.files.openCostInBytes": "4194304"  # 4MB
+
+    # S3 optimization
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"
+    "spark.hadoop.fs.s3a.fast.upload": "true"
+    "spark.hadoop.fs.s3a.fast.upload.buffer": "disk"
+    "spark.hadoop.fs.s3a.multipart.size": "104857600"  # 100MB
+    "spark.hadoop.fs.s3a.multipart.threshold": "2147483647"
+    "spark.hadoop.fs.s3a.connection.maximum": "100"
+    "spark.hadoop.fs.s3a.threads.max": "64"
+
+    # Kubernetes integration
+    "spark.kubernetes.allocation.batch.size": "10"
+    "spark.kubernetes.allocation.batch.delay": "1s"
+    "spark.kubernetes.executor.deleteOnTermination": "true"
+    "spark.kubernetes.container.image.pullPolicy": "IfNotPresent"
+
+    # Dynamic allocation
+    "spark.dynamicAllocation.enabled": "true"
+    "spark.dynamicAllocation.executorIdleTimeout": "60s"
+    "spark.dynamicAllocation.minExecutors": "5"
+    "spark.dynamicAllocation.maxExecutors": "100"
+    "spark.dynamicAllocation.initialExecutors": "10"
+
+    # Monitoring
+    "spark.ui.enabled": "true"
+    "spark.ui.port": "4040"
+    "spark.eventLog.enabled": "true"
+    "spark.eventLog.dir": "s3a://talai-spark-logs/"
+    "spark.history.fs.logDirectory": "s3a://talai-spark-logs/"
+    "spark.metrics.conf.*.sink.prometheus.class": "org.apache.spark.banzaicloud.metrics.sink.PrometheusSink"
+    "spark.metrics.conf.*.sink.prometheus.port": "8090"
+
+  hadoopConf:
+    "fs.s3a.access.key": "YOUR_ACCESS_KEY"
+    "fs.s3a.secret.key": "YOUR_SECRET_KEY"
+    "fs.s3a.endpoint": "s3.amazonaws.com"
+    "fs.s3a.connection.ssl.enabled": "true"
+
+  driver:
+    cores: 4
+    coreLimit: "4000m"
+    memory: "4g"
+    labels:
+      app: spark-driver
+      component: batch-processing
+    serviceAccount: spark
+    nodeSelector:
+      node-type: compute-optimized
+    tolerations:
+      - key: "spark-driver"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+  executor:
+    cores: 4
+    instances: 10
+    memory: "8g"
+    labels:
+      app: spark-executor
+      component: batch-processing
+    nodeSelector:
+      node-type: memory-optimized
+    tolerations:
+      - key: "spark-executor"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+  deps:
+    packages:
+      - "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
+      - "org.elasticsearch:elasticsearch-spark-30_2.12:8.11.0"
+      - "io.delta:delta-core_2.12:2.4.0"
+      - "org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.4.2"
+
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureRetryInterval: 10
+    onSubmissionFailureRetries: 5
+    onSubmissionFailureRetryInterval: 20
+
+  monitoring:
+    exposeDriverMetrics: true
+    exposeExecutorMetrics: true
+    prometheus:
+      jmxExporterJar: "/opt/spark/jars/jmx_prometheus_javaagent.jar"
+      port: 8090
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: talai-daily-aggregation
+  namespace: data-pipeline
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: spark
+          containers:
+            - name: spark-submit
+              image: talai/spark:3.5.0
+              command:
+                - spark-submit
+                - --master
+                - k8s://https://kubernetes.default.svc
+                - --deploy-mode
+                - cluster
+                - --name
+                - daily-aggregation
+                - --conf
+                - spark.executor.instances=20
+                - --conf
+                - spark.executor.memory=16g
+                - --conf
+                - spark.executor.cores=8
+                - --conf
+                - spark.sql.adaptive.enabled=true
+                - --conf
+                - spark.sql.adaptive.coalescePartitions.enabled=true
+                - --packages
+                - org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,io.delta:delta-core_2.12:2.4.0
+                - s3a://talai-jobs/daily_aggregation.py
+              env:
+                - name: SPARK_HOME
+                  value: /opt/spark
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-credentials
+                      key: access-key-id
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-credentials
+                      key: secret-access-key
+          restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-batch-jobs
+  namespace: data-pipeline
+data:
+  batch-processor.py: |
+    from pyspark.sql import SparkSession
+    from pyspark.sql.functions import *
+    from pyspark.sql.types import *
+    from pyspark.sql.window import Window
+    import json
+    from datetime import datetime, timedelta
+
+    def main():
+        # Initialize Spark session with optimizations
+        spark = SparkSession.builder \
+            .appName("TalAI Batch Processor") \
+            .config("spark.sql.adaptive.enabled", "true") \
+            .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+            .config("spark.sql.adaptive.skewJoin.enabled", "true") \
+            .getOrCreate()
+
+        # Set log level
+        spark.sparkContext.setLogLevel("INFO")
+
+        # Read from Kafka
+        df_kafka = spark \
+            .readStream \
+            .format("kafka") \
+            .option("kafka.bootstrap.servers", "talai-kafka-cluster:9092") \
+            .option("subscribe", "talai-research-events") \
+            .option("startingOffsets", "earliest") \
+            .option("maxOffsetsPerTrigger", 100000) \
+            .load()
+
+        # Parse JSON data
+        schema = StructType([
+            StructField("event_id", StringType(), True),
+            StructField("timestamp", TimestampType(), True),
+            StructField("user_id", StringType(), True),
+            StructField("service", StringType(), True),
+            StructField("action", StringType(), True),
+            StructField("metadata", MapType(StringType(), StringType()), True),
+            StructField("metrics", StructType([
+                StructField("latency_ms", IntegerType(), True),
+                StructField("tokens_used", IntegerType(), True),
+                StructField("cost_usd", FloatType(), True)
+            ]), True)
+        ])
+
+        df_parsed = df_kafka.select(
+            col("key").cast("string").alias("key"),
+            from_json(col("value").cast("string"), schema).alias("data"),
+            col("timestamp").alias("kafka_timestamp")
+        ).select("key", "data.*", "kafka_timestamp")
+
+        # Aggregations
+        # 1. Service metrics aggregation
+        service_metrics = df_parsed \
+            .groupBy(
+                window("timestamp", "5 minutes"),
+                "service"
+            ) \
+            .agg(
+                count("event_id").alias("event_count"),
+                avg("metrics.latency_ms").alias("avg_latency"),
+                sum("metrics.tokens_used").alias("total_tokens"),
+                sum("metrics.cost_usd").alias("total_cost"),
+                approx_count_distinct("user_id").alias("unique_users")
+            )
+
+        # 2. User activity aggregation
+        user_activity = df_parsed \
+            .withWatermark("timestamp", "10 minutes") \
+            .groupBy(
+                window("timestamp", "1 hour"),
+                "user_id"
+            ) \
+            .agg(
+                collect_list("action").alias("actions"),
+                sum("metrics.tokens_used").alias("tokens_consumed"),
+                count("event_id").alias("action_count")
+            )
+
+        # 3. Anomaly detection
+        window_spec = Window.partitionBy("service").orderBy("timestamp").rowsBetween(-100, 0)
+
+        anomaly_detection = df_parsed \
+            .withColumn("avg_latency", avg("metrics.latency_ms").over(window_spec)) \
+            .withColumn("stddev_latency", stddev("metrics.latency_ms").over(window_spec)) \
+            .withColumn(
+                "is_anomaly",
+                when(
+                    col("metrics.latency_ms") > (col("avg_latency") + 3 * col("stddev_latency")),
+                    True
+                ).otherwise(False)
+            ) \
+            .filter(col("is_anomaly") == True)
+
+        # Write to Delta Lake
+        service_metrics.writeStream \
+            .format("delta") \
+            .outputMode("append") \
+            .option("checkpointLocation", "s3a://talai-checkpoints/service-metrics") \
+            .option("path", "s3a://talai-delta/service-metrics") \
+            .trigger(processingTime="5 minutes") \
+            .start()
+
+        user_activity.writeStream \
+            .format("delta") \
+            .outputMode("append") \
+            .option("checkpointLocation", "s3a://talai-checkpoints/user-activity") \
+            .option("path", "s3a://talai-delta/user-activity") \
+            .trigger(processingTime="10 minutes") \
+            .start()
+
+        # Write anomalies to Elasticsearch for alerting
+        anomaly_detection.writeStream \
+            .format("org.elasticsearch.spark.sql") \
+            .outputMode("append") \
+            .option("es.nodes", "elasticsearch.data-pipeline.svc.cluster.local") \
+            .option("es.port", "9200") \
+            .option("es.resource", "talai-anomalies/_doc") \
+            .option("es.mapping.id", "event_id") \
+            .option("checkpointLocation", "s3a://talai-checkpoints/anomalies") \
+            .trigger(processingTime="1 minute") \
+            .start()
+
+        # Await termination
+        spark.streams.awaitAnyTermination()
+
+    if __name__ == "__main__":
+        main()
+
+  daily_aggregation.py: |
+    from pyspark.sql import SparkSession
+    from pyspark.sql.functions import *
+    from datetime import datetime, timedelta
+    import boto3
+
+    def main():
+        spark = SparkSession.builder \
+            .appName("TalAI Daily Aggregation") \
+            .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+            .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+            .getOrCreate()
+
+        # Calculate yesterday's date
+        yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+
+        # Read from Delta Lake
+        df_service = spark.read.format("delta").load("s3a://talai-delta/service-metrics") \
+            .filter(f"date(window.start) = '{yesterday}'")
+
+        df_user = spark.read.format("delta").load("s3a://talai-delta/user-activity") \
+            .filter(f"date(window.start) = '{yesterday}'")
+
+        # Daily service report
+        daily_service_report = df_service \
+            .groupBy("service") \
+            .agg(
+                sum("event_count").alias("total_events"),
+                avg("avg_latency").alias("avg_latency_ms"),
+                sum("total_tokens").alias("total_tokens"),
+                sum("total_cost").alias("total_cost_usd"),
+                sum("unique_users").alias("unique_users"),
+                percentile_approx("avg_latency", 0.5).alias("p50_latency"),
+                percentile_approx("avg_latency", 0.95).alias("p95_latency"),
+                percentile_approx("avg_latency", 0.99).alias("p99_latency")
+            ) \
+            .withColumn("report_date", lit(yesterday))
+
+        # Daily user report
+        daily_user_report = df_user \
+            .groupBy("user_id") \
+            .agg(
+                sum("tokens_consumed").alias("total_tokens"),
+                sum("action_count").alias("total_actions"),
+                flatten(collect_list("actions")).alias("all_actions")
+            ) \
+            .withColumn("unique_actions", size(array_distinct("all_actions"))) \
+            .withColumn("report_date", lit(yesterday))
+
+        # Write reports to Parquet for long-term storage
+        daily_service_report.write \
+            .mode("overwrite") \
+            .partitionBy("report_date") \
+            .parquet(f"s3a://talai-reports/service-metrics/date={yesterday}")
+
+        daily_user_report.write \
+            .mode("overwrite") \
+            .partitionBy("report_date") \
+            .parquet(f"s3a://talai-reports/user-activity/date={yesterday}")
+
+        # Generate cost optimization recommendations
+        cost_analysis = daily_service_report \
+            .withColumn("cost_per_event", col("total_cost_usd") / col("total_events")) \
+            .withColumn("tokens_per_event", col("total_tokens") / col("total_events")) \
+            .withColumn(
+                "recommendation",
+                when(col("cost_per_event") > 0.01, "Consider optimizing token usage")
+                .when(col("p99_latency") > 5000, "Investigate high latency issues")
+                .otherwise("Performance within acceptable range")
+            )
+
+        # Send report via SNS
+        sns_client = boto3.client('sns', region_name='us-west-2')
+
+        report_summary = cost_analysis.toPandas().to_html()
+
+        sns_client.publish(
+            TopicArn='arn:aws:sns:us-west-2:123456789012:talai-reports',
+            Subject=f'TalAI Daily Report - {yesterday}',
+            Message=report_summary
+        )
+
+        spark.stop()
+
+    if __name__ == "__main__":
+        main()

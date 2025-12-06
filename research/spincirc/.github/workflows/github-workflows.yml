@@ -1,0 +1,504 @@
+name: SpinCirc CI/CD Pipeline
+
+# Trigger on push to main/develop and pull requests
+on:
+  push:
+    branches: [ main, develop ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run tests weekly on Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+# Cancel previous runs if new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # MATLAB version matrix
+  MATLAB_VERSIONS: '["R2024a", "R2024b"]'
+  # Python version for post-processing
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # =========================================================================
+  # MATLAB Testing Jobs
+  # =========================================================================
+  
+  matlab-tests:
+    name: MATLAB Tests (${{ matrix.matlab-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        matlab-version: [R2024a, R2024b]
+        
+        # Exclude some combinations to reduce CI load
+        exclude:
+          - os: macos-latest
+            matlab-version: R2024a
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for version detection
+    
+    - name: Setup MATLAB
+      uses: matlab-actions/setup-matlab@v2
+      with:
+        release: ${{ matrix.matlab-version }}
+        products: |
+          MATLAB
+          Signal_Processing_Toolbox
+          Optimization_Toolbox
+          Statistics_and_Machine_Learning_Toolbox
+          Parallel_Computing_Toolbox
+    
+    - name: Cache MATLAB toolboxes
+      uses: actions/cache@v3
+      with:
+        path: ~/.matlab
+        key: matlab-${{ matrix.matlab-version }}-${{ runner.os }}
+        restore-keys: |
+          matlab-${{ matrix.matlab-version }}-
+          matlab-
+    
+    - name: Add SpinCirc to MATLAB path
+      uses: matlab-actions/run-command@v2
+      with:
+        command: |
+          addpath(genpath('matlab'));
+          berkeley();  % Apply Berkeley styling
+          fprintf('SpinCirc framework loaded successfully\n');
+    
+    - name: Run unit tests
+      uses: matlab-actions/run-tests@v2
+      with:
+        source-folder: matlab
+        test-results-junit: test-results/matlab-junit.xml
+        code-coverage-cobertura: coverage/matlab-coverage.xml
+        select-by-folder: matlab/tests
+    
+    - name: Run validation examples
+      uses: matlab-actions/run-command@v2
+      with:
+        command: |
+          % Run basic validation examples
+          addpath(genpath('matlab'));
+          
+          try
+              % Test basic transport
+              fprintf('Running basic transport validation...\n');
+              run('matlab/validation/basic_transport/transport_1D_diffusion.m');
+              
+              % Test magnetodynamics
+              fprintf('Running magnetodynamics validation...\n');
+              run('matlab/validation/magnetodynamics/llg_damped_precession.m');
+              
+              % Test device simulation
+              fprintf('Running device validation...\n');
+              run('matlab/validation/paper_figures/reproduce_fig8_ASL.m');
+              
+              fprintf('All validation examples passed!\n');
+          catch ME
+              fprintf('Validation failed: %s\n', ME.message);
+              exit(1);
+          end
+    
+    - name: Performance benchmarking
+      uses: matlab-actions/run-command@v2
+      with:
+        command: |
+          % Run performance benchmarks
+          addpath(genpath('matlab'));
+          
+          % Benchmark transport solver
+          fprintf('Benchmarking transport solver...\n');
+          tic;
+          solver = SpinTransportSolver();
+          solver.setGeometry(200e-9, 100e-9, 2e-9);
+          materials = [MaterialsDB.CoFeB, MaterialsDB.Cu, MaterialsDB.CoFeB];
+          solver.setMaterials(materials);
+          solver.setMagnetization([1,0,0; 1,0,0]);
+          bc = struct('node', [1, 3], 'voltage', [1, 0]);
+          solver.setBoundaryConditions('voltage', bc);
+          [V, I_s] = solver.solve('verbose', false);
+          transport_time = toc;
+          
+          % Benchmark LLG solver
+          fprintf('Benchmarking LLG solver...\n');
+          tic;
+          m0 = [1; 0; 0];
+          H_eff = @(t, m) [0; 0; 1];
+          [m, t] = LLGSolver(m0, H_eff, 0.01, 1.76e11, [0, 1e-9], 'Verbose', false);
+          llg_time = toc;
+          
+          fprintf('Performance benchmark completed:\n');
+          fprintf('  Transport solver: %.3f seconds\n', transport_time);
+          fprintf('  LLG solver: %.3f seconds\n', llg_time);
+          
+          % Save benchmark results
+          benchmark_data = struct('transport_time', transport_time, 'llg_time', llg_time);
+          save('benchmark_results.mat', 'benchmark_data');
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: matlab-test-results-${{ matrix.matlab-version }}-${{ matrix.os }}
+        path: |
+          test-results/
+          coverage/
+          benchmark_results.mat
+    
+    - name: Upload coverage to Codecov
+      if: matrix.os == 'ubuntu-latest' && matrix.matlab-version == 'R2024b'
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage/matlab-coverage.xml
+        flags: matlab
+        name: MATLAB Coverage
+  
+  # =========================================================================
+  # Python Testing Jobs
+  # =========================================================================
+  
+  python-tests:
+    name: Python Tests (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+        
+        # Reduce matrix for efficiency
+        exclude:
+          - os: macos-latest
+            python-version: '3.9'
+          - os: windows-latest
+            python-version: '3.10'
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy scipy matplotlib pandas h5py
+        pip install pytest pytest-cov pytest-xdist
+        pip install black flake8 mypy
+        if [ -f python/requirements.txt ]; then pip install -r python/requirements.txt; fi
+      shell: bash
+    
+    - name: Run Python linting
+      run: |
+        # Code formatting check
+        black --check python/
+        
+        # Style checking
+        flake8 python/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        
+        # Type checking
+        mypy python/ --ignore-missing-imports
+    
+    - name: Run Python tests
+      run: |
+        pytest python/ -v --cov=python --cov-report=xml --cov-report=html
+    
+    - name: Upload Python coverage
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      uses: codecov/codecov-action@v3
+      with:
+        files: coverage.xml
+        flags: python
+        name: Python Coverage
+  
+  # =========================================================================
+  # Documentation Jobs
+  # =========================================================================
+  
+  documentation:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Python for Sphinx
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install documentation dependencies
+      run: |
+        pip install sphinx sphinx-rtd-theme sphinxcontrib-matlab
+        pip install myst-parser sphinx-copybutton
+    
+    - name: Build documentation
+      run: |
+        cd docs
+        sphinx-build -b html . _build/html
+    
+    - name: Upload documentation
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: docs/_build/html
+    
+    - name: Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: docs/_build/html
+  
+  # =========================================================================
+  # Verilog-A Compilation
+  # =========================================================================
+  
+  verilog-compilation:
+    name: Verilog-A Compilation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup Icarus Verilog
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y iverilog
+    
+    - name: Compile Verilog-A models
+      run: |
+        cd verilogA
+        for model in models/*.va; do
+          echo "Compiling $model..."
+          iverilog -g2012 -o ${model%.va}.vvp $model
+        done
+    
+    - name: Run Verilog-A testbenches
+      run: |
+        cd verilogA/examples
+        for testbench in *.v; do
+          echo "Running testbench $testbench..."
+          iverilog -g2012 -o ${testbench%.v}.vvp $testbench
+          vvp ${testbench%.v}.vvp
+        done
+  
+  # =========================================================================
+  # Integration Tests
+  # =========================================================================
+  
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [matlab-tests, python-tests]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Setup MATLAB
+      uses: matlab-actions/setup-matlab@v2
+      with:
+        release: R2024b
+        products: |
+          MATLAB
+          Signal_Processing_Toolbox
+          Optimization_Toolbox
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install Python dependencies
+      run: |
+        pip install numpy scipy matplotlib h5py
+    
+    - name: Run MATLAB-Python integration tests
+      uses: matlab-actions/run-command@v2
+      with:
+        command: |
+          % Test MATLAB-Python data exchange
+          addpath(genpath('matlab'));
+          
+          % Generate test data in MATLAB
+          test_data = struct();
+          test_data.magnetization = rand(3, 100);
+          test_data.time = linspace(0, 1e-9, 100);
+          test_data.parameters = MaterialsDB.CoFeB;
+          
+          % Save for Python processing
+          save('integration_test_data.mat', 'test_data', '-v7.3');
+          
+          % Test successful
+          fprintf('MATLAB-Python integration test passed\n');
+    
+    - name: Process data with Python
+      run: |
+        python -c "
+        import scipy.io
+        import numpy as np
+        
+        # Load MATLAB data
+        data = scipy.io.loadmat('integration_test_data.mat')
+        print('Successfully loaded MATLAB data in Python')
+        
+        # Process data
+        m = data['test_data']['magnetization'][0,0]
+        print(f'Magnetization shape: {m.shape}')
+        
+        # Save processed results
+        np.savez('python_processed_data.npz', processed_magnetization=m**2)
+        print('Python processing completed')
+        "
+  
+  # =========================================================================
+  # Release Jobs
+  # =========================================================================
+  
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [matlab-tests, python-tests, documentation, integration-tests]
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Generate changelog
+      run: |
+        # Generate changelog from git commits
+        echo "# Changelog" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD >> CHANGELOG.md
+    
+    - name: Create release archive
+      run: |
+        # Create source distribution
+        tar -czf SpinCirc-${{ github.ref_name }}.tar.gz \
+          --exclude='.git*' \
+          --exclude='*.pyc' \
+          --exclude='__pycache__' \
+          .
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          SpinCirc-${{ github.ref_name }}.tar.gz
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'rc') || contains(github.ref_name, 'beta') }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  # =========================================================================
+  # Deployment Jobs
+  # =========================================================================
+  
+  deploy-docker:
+    name: Deploy Docker Image
+    runs-on: ubuntu-latest
+    needs: [matlab-tests, python-tests]
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: spincirc/framework
+        tags: |
+          type=ref,event=branch
+          type=ref,event=tag
+          type=raw,value=latest,enable={{is_default_branch}}
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+  
+  # =========================================================================
+  # Notification Jobs
+  # =========================================================================
+  
+  notify-results:
+    name: Notify Results
+    runs-on: ubuntu-latest
+    needs: [matlab-tests, python-tests, documentation, integration-tests]
+    if: always()
+    
+    steps:
+    - name: Notify on success
+      if: needs.matlab-tests.result == 'success' && needs.python-tests.result == 'success'
+      run: |
+        echo "✅ All tests passed! SpinCirc is ready for deployment."
+    
+    - name: Notify on failure
+      if: needs.matlab-tests.result == 'failure' || needs.python-tests.result == 'failure'
+      run: |
+        echo "❌ Tests failed! Please check the logs and fix issues."
+        exit 1
+    
+    - name: Update status badge
+      run: |
+        # This would typically update a status badge or send notifications
+        echo "Status: ${{ job.status }}"
+
+# =========================================================================
+# Environment Variables and Secrets Required:
+# =========================================================================
+#
+# Repository Secrets:
+# - DOCKER_USERNAME: Docker Hub username
+# - DOCKER_PASSWORD: Docker Hub password or access token
+# - CODECOV_TOKEN: Codecov token for coverage reporting
+#
+# Environment Variables:
+# - MATLAB_VERSIONS: JSON array of MATLAB versions to test
+# - PYTHON_VERSION: Default Python version for post-processing
+#
+# GitHub Permissions Required:
+# - contents: read (for checkout)
+# - pages: write (for documentation deployment)
+# - id-token: write (for authentication)
+# =========================================================================

@@ -1,0 +1,60 @@
+{
+  "name": "REPZ Elite Coaching",
+  "short_name": "REPZ",
+  "description": "AI-powered fitness coaching platform for elite performance",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#E97316",
+  "background_color": "#1a1a1a",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["health", "fitness", "sports"],
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "REPZ Dashboard"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icons/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Workout",
+      "url": "/client-dashboard?action=workout",
+      "description": "Quick start your workout session"
+    },
+    {
+      "name": "Messages",
+      "url": "/messages",
+      "description": "Check your coach messages"
+    },
+    {
+      "name": "Progress",
+      "url": "/progress",
+      "description": "View your fitness progress"
+    }
+  ]
+}

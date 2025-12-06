@@ -1,127 +1,109 @@
-# GitHub Repository Structure
+# GitHub Repository Structure - LLC-Based Organization
 
 **Owner:** Meshal Alawein (PhD Physics, UC Berkeley)
-**Last Updated:** December 5, 2025
-**Status:** ✅ Restructured & Ready to Ship
+**Last Updated:** December 6, 2025
+**Status:** ✅ Restructured by LLC
 
 > **📋 For comprehensive planning, checklists, and business details, see [MASTER_PLAN.md](./MASTER_PLAN.md)**
 
 ---
 
-## Legal Entities (Planned)
+## Legal Entities
 
-```text
-ALAWEIN TECHNOLOGIES LLC (California)   REPZ LLC (Delaware - when 10K users)
-├── Librex (optimization)           └── Repz (AI Fitness)
-├── MEZAN (meta-solver)
-├── Orchex (automation, fka Atlas)
-├── TalAI (25+ products) ← SHIP FIRST
-├── HELIOS (research platform)
-├── Foundry (innovation, fka CrazyIdeas)
-└── SciLab (5 physics tools)
-```
-
----
-
-## GitHub Organizations (Current → Planned)
-
-| Current               | Planned                | Status         |
-| --------------------- | ---------------------- | -------------- |
-| `AlaweinOS`           | `AlaweinLabs`          | Rename pending |
-| `alaweimm90-science`  | Merge into AlaweinLabs | Pending        |
-| `alaweimm90-business` | Keep for Repz          | Active         |
-| `MeatheadPhysicist`   | Archive                | Pending        |
+| LLC | Products | Domain |
+|-----|----------|--------|
+| **Alawein Technologies LLC** | TalAI, Librex, MEZAN, SimCore, QMLab, Attributa, LLMWorks, HELIOS, Foundry | alawein.tech |
+| **REPZ LLC** | Repz | getrepz.app |
+| **Live It Iconic LLC** | LiveItIconic, Marketing Automation | liveiticonic.com |
 
 ---
 
 ## Root Directory Structure
 
 ```text
-GitHub/
-├── .archive/               # Historical files (47,805+ files preserved)
-│   └── organizations/      # ⚠️ ARCHIVED - All project code preserved here
-│       ├── AlaweinOS/      # Librex, MEZAN, TalAI, HELIOS, SimCore, Foundry
-│       ├── alawein-science/# MagLogic, QMatSim, QubeML, SpinCirc, SciComp
-│       ├── alawein-business/# Repz
-│       └── MeatheadPhysicist/# Quantum research
+C:\Users\mesha\Desktop\GitHub\
 │
-├── .personal/              # Personal projects (portfolio, drmalawein, rounaq)
+├── alawein-technologies-llc/   # 🏢 Alawein Technologies LLC (3,338 files)
+│   ├── talai/                  # AI research platform (712 files, 50 modules)
+│   ├── librex/                 # Optimization framework (422 files)
+│   ├── librex-qap/             # QAP solver (213 files)
+│   ├── mezan/                  # Meta-solver orchestrator (560 files)
+│   ├── simcore/                # Simulation framework (352 files)
+│   ├── qmlab/                  # Quantum mechanics lab (231 files)
+│   ├── attributa/              # Attribution analysis (255 files)
+│   ├── llmworks/               # LLM experimentation (227 files)
+│   ├── helios/                 # Autonomous research AI (141 files)
+│   └── foundry/                # Product incubator (225 files)
 │
-├── automation/             # AI orchestration system
-│   ├── prompts/            # 49 prompts
-│   ├── agents/             # 24 agents
-│   ├── workflows/          # 11 workflows
-│   └── orchestration/      # Anthropic patterns
+├── repz-llc/                   # 🏋️ REPZ LLC (44,484 files)
+│   └── repz/                   # AI fitness app
 │
-├── tools/
-│   └── orchex/             # Automation CLI (fka atlas)
-├── scripts/                # Build/deploy scripts
-├── projects/               # Project registry (85+ projects documented)
-├── business/               # LLC & strategy docs
-├── docs/                   # Documentation
-│   └── pages/              # GitHub Pages (LLC landing pages)
-└── .ai/                    # AI orchestration hub
+├── live-it-iconic-llc/         # 👗 Live It Iconic LLC (746 files)
+│   ├── liveiticonic/           # Luxury e-commerce (690 files)
+│   └── marketing-automation/   # Marketing tools (56 files)
+│
+├── research/                   # 🔬 Personal Research (1,307 files)
+│   ├── maglogic/               # Magnetic logic circuits (67 files)
+│   ├── spincirc/               # Spintronics circuits (99 files)
+│   ├── qmatsim/                # Quantum materials (53 files)
+│   ├── qubeml/                 # Quantum ML (45 files)
+│   └── scicomp/                # Scientific computing (1,043 files)
+│
+├── automation/                 # 🤖 Hub: AI orchestration (153 files)
+│   ├── prompts/                # 49 prompts (28 project superprompts)
+│   ├── agents/                 # 24 agents
+│   ├── workflows/              # 11 workflows
+│   └── orchestration/          # Anthropic patterns
+│
+├── tools/                      # 🛠️ Hub: Shared tooling (156 files)
+│   └── orchex/                 # Orchestration CLI (fka Atlas)
+│
+├── templates/                  # 📦 Hub: Project templates
+│   └── fullstack-saas/         # Full-stack SaaS starter
+│
+├── docs/                       # 📚 Hub: Documentation (117 files)
+│   ├── pages/                  # GitHub Pages (LLC landing pages)
+│   └── codemaps/               # Project architecture maps
+│
+└── .archive/                   # 📦 Historical backup (47,806 files)
+    └── organizations/          # Original nested org structure
 ```
 
-> **Note:** The `organizations/` folder has been archived to `.archive/organizations/` as of December 5, 2025. All 47,805+ files are preserved and accessible.
+---
+
+## TOTAL: 49,886+ files extracted and organized
 
 ---
 
 ## Key Products by Revenue Potential
 
-| Tier | Product                 | Est. Revenue  | Status          |
-| ---- | ----------------------- | ------------- | --------------- |
-| 🥇   | TalAI AdversarialReview | $79/mo        | Ready to launch |
-| 🥇   | Librex Enterprise       | $10K+/license | Beta            |
-| 🥈   | TalAI GrantWriter       | $199/mo       | Ready           |
-| 🥈   | HELIOS                  | Enterprise    | Alpha           |
-| 🥉   | Repz                    | $9.99/mo      | Development     |
+| Tier | Product                 | LLC | Est. Revenue  | Status |
+| ---- | ----------------------- | --- | ------------- | ------ |
+| 🥇   | TalAI AdversarialReview | AT  | $79/mo        | Ready  |
+| 🥇   | Librex Enterprise       | AT  | $10K+/license | Beta   |
+| 🥈   | TalAI GrantWriter       | AT  | $199/mo       | Ready  |
+| 🥈   | HELIOS                  | AT  | Enterprise    | Alpha  |
+| 🥉   | Repz                    | REPZ| $9.99/mo      | Dev    |
 
 ---
 
 ## Tech Stack
 
 - **Languages:** Python (core), TypeScript (web)
-- **Frameworks:** FastAPI, Next.js, React
+- **Frameworks:** FastAPI, Next.js, React, Vite
 - **Infrastructure:** Docker, Kubernetes, Terraform
 - **AI/ML:** PyTorch, JAX, LangChain
 - **Databases:** PostgreSQL, Supabase
 
 ---
 
-## Automation CLI (Orchex)
+## Migration Completed (Dec 6, 2025)
 
-```bash
-# Python CLI
-orchex prompts list
-orchex agents list
-orchex workflows list
-orchex route "task description"
-
-# TypeScript CLI (automation-ts/)
-npx automation deploy list
-npx automation validate
-```
-
----
-
-## Immediate Priorities
-
-1. [ ] 🔥 Ship TalAI AdversarialReview
-2. [ ] File Alawein Technologies LLC (California)
-3. [ ] Get EIN (free, instant)
-4. [ ] Register domains: alawein.tech, Librex.dev, talai.dev
-5. [ ] Open business bank account
-
----
-
-## Recent Changes (Dec 5, 2025)
-
-- ✅ Renamed Optilibria → Librex
-- ✅ Renamed Atlas → Orchex
-- ✅ Renamed CrazyIdeas → Foundry
-- ✅ Archived governance docs
-- ✅ Cleaned folder structure
+- ✅ Extracted ALL projects from `.archive/organizations/`
+- ✅ Organized by LLC ownership
+- ✅ REPZ moved from Desktop to `repz-llc/repz/`
+- ✅ Templates consolidated to `templates/`
+- ✅ 49,886+ files properly organized
 
 ---
 

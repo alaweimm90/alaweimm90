@@ -1,0 +1,501 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12845,        345]
+NotebookOptionsPosition[     11234,        308]
+NotebookOutlinePosition[     11632,        324]
+CellTagsIndexPosition[     11589,        321]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["PID Temperature Control Example", "Title",
+ CellChangeTimes->{{3.8876543210123457`*^9, 3.8876543234567890`*^9}}],
+
+Cell["\<\
+A simple temperature control system using PID controller.
+This example demonstrates basic PID tuning and performance analysis.
+
+Learning Objectives:
+\[Bullet] Understand PID controller components
+\[Bullet] Learn basic tuning methods
+\[Bullet] Analyze step response and stability\
+\>", "Text",
+ CellChangeTimes->{{3.8876543250123457`*^9, 3.8876543267890123`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Setup and Initialization", "Section",
+ CellChangeTimes->{{3.8876543270123457`*^9, 3.8876543285678901`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Load", " ", "PID", " ", "Controller", " ", "package"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"SetDirectory", "[", 
+    RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}]}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<..\>\"", ",", " ", "\"\<..\>\"", ",", " ", "\"\<core\>\"", ",", 
+      " ", "\"\<PIDController.wl\>\""}], "}"}], "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<..\>\"", ",", " ", "\"\<..\>\"", ",", " ", "\"\<..\>\"", ",", " ", 
+      "\"\<assets\>\"", ",", " ", "\"\<BerkeleyStyle.wl\>\""}], "}"}], "]"}],
+    "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8876543290123457`*^9, 3.8876543306789012`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Berkeley", " ", "colors"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"berkeleyBlue", " ", "=", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0", ",", " ", "0.2", ",", " ", "0.38"}], "]"}]}], 
+   ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"berkeleyGold", " ", "=", " ", 
+    RowBox[{"RGBColor", "[", 
+     RowBox[{"0.99", ",", " ", "0.71", ",", " ", "0.08"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Simulation", " ", "parameters"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"dt", " ", "=", " ", "1.0"}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"duration", " ", "=", " ", "600"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"setpoint", " ", "=", " ", "75.0"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8876543320123457`*^9, 3.8876543336789012`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Temperature Plant Model", "Section",
+ CellChangeTimes->{{3.8876543350123457`*^9, 3.8876543367890123`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "Simple", " ", "first", "-", "order", " ", "temperature", " ", "plant", 
+    " ", "model"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"temperaturePlant", "[", 
+    RowBox[{"u_", ",", " ", "yPrev_", ",", " ", "dt_"}], "]"}], " ", ":=", 
+   " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"tau", ",", " ", "K", ",", " ", "a", ",", " ", "b"}], "}"}], 
+     ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"(*", " ", 
+       RowBox[{"Plant", " ", "parameters"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"tau", " ", "=", " ", "60.0"}], ";"}], " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Time", " ", "constant", " ", 
+        RowBox[{"(", "seconds", ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+      
+      RowBox[{
+       RowBox[{"K", " ", "=", " ", "2.0"}], ";"}], "   ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Steady", "-", "state", " ", "gain", " ", 
+        RowBox[{"(", 
+         RowBox[{"\[Degree]C", " ", "per", " ", "%", " ", "power"}], ")"}]}],
+        " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Discretize", ":", " ", "y", "[", "k", "+", "1", "]", " ", "=", " ", 
+        "a", "*", "y", "[", "k", "]", " ", "+", " ", "b", "*", "u", "[", "k",
+         "]"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"a", " ", "=", " ", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "dt"}], " ", "/", " ", "tau"}], "]"}]}], ";"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"b", " ", "=", " ", 
+        RowBox[{"K", " ", "*", " ", 
+         RowBox[{"(", 
+          RowBox[{"1", " ", "-", " ", "a"}], ")"}]}]}], ";"}], 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"a", " ", "*", " ", "yPrev", " ", "+", " ", "b", " ", "*", " ", 
+       "u"}]}]}], "\[IndentingNewLine]", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.8876543380123457`*^9, 3.8876543396789012`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["PID Controller Setup", "Section",
+ CellChangeTimes->{{3.8876543410123457`*^9, 3.8876543427890123`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Initial", " ", "PID", " ", "tuning", " ", 
+    RowBox[{"(", "conservative", ")"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"config", " ", "=", " ", 
+    RowBox[{"<|", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"\"\<kp\>\"", " ", "->", " ", "2.0"}], ",", "     ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Proportional", " ", "gain"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<ki\>\"", " ", "->", " ", "0.05"}], ",", "    ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Integral", " ", "gain"}], " ", "*)"}], "\[IndentingNewLine]", 
+      
+      RowBox[{"\"\<kd\>\"", " ", "->", " ", "20.0"}], ",", "    ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Derivative", " ", "gain"}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<dt\>\"", " ", "->", " ", "dt"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"\"\<outputMin\>\"", " ", "->", " ", "0.0"}], ",", "   ", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Minimum", " ", "heater", " ", "power", " ", 
+        RowBox[{"(", "%", ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"\"\<outputMax\>\"", " ", "->", " ", "100.0"}], ",", " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "Maximum", " ", "heater", " ", "power", " ", 
+        RowBox[{"(", "%", ")"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"\"\<derivativeFilterTau\>\"", " ", "->", " ", "10.0"}], " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"Derivative", " ", "filter"}], " ", "*)"}]}], 
+     "\[IndentingNewLine]", "|>"}]}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Create", " ", "controller"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"controller", " ", "=", " ", 
+    RowBox[{"PIDController", "[", "config", "]"}]}], ";"}]}]}], "Input",
+ CellChangeTimes->{{3.8876543440123457`*^9, 3.8876543456789012`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Initial PID gains: Kp=\>\"", ",", " ", 
+    RowBox[{"config", "[", "\"\<kp\>\"", "]"}], ",", " ", 
+    "\"\<, Ki=\>\"", ",", " ", 
+    RowBox[{"config", "[", "\"\<ki\>\"", "]"}], ",", " ", 
+    "\"\<, Kd=\>\"", ",", " ", 
+    RowBox[{"config", "[", "\"\<kd\>\"", "]"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.8876543470123457`*^9, 3.8876543486789012`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Simulation and Results", "Section",
+ CellChangeTimes->{{3.8876543500123457`*^9, 3.8876543517890123`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Run", " ", "simulation"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"results", " ", "=", " ", 
+    RowBox[{"SimulatePIDSystem", "[", 
+     RowBox[{
+     "controller", ",", " ", "temperaturePlant", ",", " ", "setpoint", ",", 
+      " ", "duration", ",", " ", "\[IndentingNewLine]", 
+      RowBox[{"\"\<dt\>\"", " ", "->", " ", "dt"}], ",", " ", 
+      RowBox[{"\"\<noiseStd\>\"", " ", "->", " ", "0.5"}]}], " ", 
+     RowBox[{"(*", " ", 
+      RowBox[{"Measurement", " ", "noise"}], " ", "*)"}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Performance", " ", "analysis"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"finalError", " ", "=", " ", 
+    RowBox[{"Abs", "[", 
+     RowBox[{"setpoint", " ", "-", " ", 
+      RowBox[{"Last", "[", 
+       RowBox[{"results", "[", "\"\<output\>\"", "]"}], "]"}]}], "]"}]}], 
+   ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"settlingTime", " ", "=", " ", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"tolerance", ",", " ", "errorBand", ",", " ", "output"}], "}"}],
+      ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"tolerance", " ", "=", " ", "0.02"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"errorBand", " ", "=", " ", 
+       RowBox[{"setpoint", " ", "*", " ", "tolerance"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"output", " ", "=", " ", 
+       RowBox[{"results", "[", "\"\<output\>\"", "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", "pos", "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"pos", " ", "=", " ", 
+          RowBox[{"Position", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"Abs", "[", 
+               RowBox[{"#", " ", "-", " ", "setpoint"}], "]"}], " ", ">", " ",
+               "errorBand"}], " ", "&"}], " ", "/@", " ", "output"}], ",", " ",
+             "True"}], "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", "pos", "]"}], " ", ">", " ", "0"}], ",", 
+           " ", 
+           RowBox[{
+            RowBox[{"results", "[", "\"\<time\>\"", "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"Last", "[", 
+              RowBox[{"Flatten", "[", "pos", "]"}], "]"}], "]"}], "]"}], ",", 
+           " ", "0"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8876543530123457`*^9, 3.8876543546789012`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Performance Analysis:\>\"", ",", "\[IndentingNewLine]", 
+    "\"\<Final error: \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"finalError", ",", " ", "3"}], "]"}], ",", " ", 
+    "\"\<\[Degree]C\>\"", ",", "\[IndentingNewLine]", 
+    "\"\<Settling time (2%): \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"settlingTime", ",", " ", "4"}], "]"}], ",", " ", 
+    "\"\< seconds\>\""}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.8876543560123457`*^9, 3.8876543576789012`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Visualization", "Section",
+ CellChangeTimes->{{3.8876543590123457`*^9, 3.8876543607890123`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Plot", " ", "temperature", " ", "response"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"temperaturePlot", " ", "=", " ", 
+    RowBox[{"ListLinePlot", "[", 
+     RowBox[{
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"results", "[", "\"\<time\>\"", "]"}], ",", " ", 
+           RowBox[{"results", "[", "\"\<output\>\"", "]"}]}], "}"}], "]"}], 
+        ",", "\[IndentingNewLine]", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"results", "[", "\"\<time\>\"", "]"}], ",", " ", 
+           RowBox[{"results", "[", "\"\<setpoint\>\"", "]"}]}], "}"}], "]"}]}],
+        "\[IndentingNewLine]", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotStyle", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"berkeleyBlue", ",", " ", 
+           RowBox[{"Thickness", "[", "0.004", "]"}]}], "}"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"berkeleyGold", ",", " ", 
+           RowBox[{"Thickness", "[", "0.004", "]"}], ",", " ", "Dashed"}], 
+          "}"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotLegends", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Temperature\>\"", ",", " ", "\"\<Setpoint\>\""}], 
+        "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"AxesLabel", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time (s)\>\"", ",", " ", "\"\<Temperature (\[Degree]C)\>\""}], 
+        "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotLabel", " ", "->", " ", "\"\<Temperature Response\>\""}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"GridLines", " ", "->", " ", "Automatic"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ImageSize", " ", "->", " ", "Large"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.8876543620123457`*^9, 3.8876543636789012`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Plot", " ", "control", " ", "signal"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"controlPlot", " ", "=", " ", 
+    RowBox[{"ListLinePlot", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"results", "[", "\"\<time\>\"", "]"}], ",", " ", 
+         RowBox[{"results", "[", "\"\<control\>\"", "]"}]}], "}"}], "]"}], 
+      ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotStyle", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{"berkeleyBlue", ",", " ", 
+         RowBox[{"Thickness", "[", "0.004", "]"}]}], "}"}]}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"AxesLabel", " ", "->", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time (s)\>\"", ",", " ", "\"\<Heater Power (%)\>\""}], 
+        "}"}]}], ",", "\[IndentingNewLine]", 
+      RowBox[{"PlotLabel", " ", "->", " ", "\"\<Control Signal\>\""}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"GridLines", " ", "->", " ", "Automatic"}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ImageSize", " ", "->", " ", "Large"}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.8876543650123457`*^9, 3.8876543666789012`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Display", " ", "plots"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"GraphicsGrid", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{"temperaturePlot", ",", " ", "controlPlot"}], "}"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"PlotLabel", " ", "->", " ", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+      "\"\<PID Temperature Control Performance\>\"", ",", " ", "Large", ",", 
+       " ", "Bold"}], "]"}]}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.8876543680123457`*^9, 3.8876543696789012`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Ziegler-Nichols Tuning Comparison", "Section",
+ CellChangeTimes->{{3.8876543710123457`*^9, 3.8876543727890123`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"Try", " ", "Ziegler", "-", "Nichols", " ", "tuning"}], " ", 
+   "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"ku", " ", "=", " ", "8.0"}], ";"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"tu", " ", "=", " ", "120.0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"znParams", " ", "=", " ", 
+   RowBox[{"ZieglerNicholsTuning", "[", 
+    RowBox[{"ku", ",", " ", "tu", ",", " ", "\"\<classic\>\""}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Z-N gains: Kp=\>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"znParams", "[", "\"\<kp\>\"", "]"}], ",", " ", "3"}], "]"}], 
+    ",", " ", "\"\<, Ki=\>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"znParams", "[", "\"\<ki\>\"", "]"}], ",", " ", "4"}], "]"}], 
+    ",", " ", "\"\<, Kd=\>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"znParams", "[", "\"\<kd\>\"", "]"}], ",", " ", "3"}], "]"}]}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8876543740123457`*^9, 3.8876543756789012`*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{100, Automatic}, {Automatic, 50}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"a1b2c3d4-e5f6-7890-1234-567890abcdef"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 121, 1, 98, "Title"],
+Cell[704, 25, 386, 9, 173, "Text"],
+Cell[CellGroupData[{
+Cell[1115, 38, 115, 1, 67, "Section"],
+Cell[1233, 41, 904, 24, 107, "Input"],
+Cell[2140, 67, 998, 25, 164, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3175, 97, 117, 1, 67, "Section"],
+Cell[3295, 100, 2018, 51, 278, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5350, 156, 115, 1, 67, "Section"],
+Cell[5468, 159, 1859, 45, 259, "Input"],
+Cell[7330, 206, 438, 9, 45, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7805, 220, 116, 1, 67, "Section"],
+Cell[7924, 223, 2710, 67, 335, "Input"],
+Cell[10637, 292, 563, 12, 83, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11237, 309, 107, 1, 67, "Section"],
+Cell[11347, 312, 1983, 47, 297, "Input"],
+Cell[13333, 361, 1242, 30, 202, "Input"],
+Cell[14578, 393, 603, 15, 83, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15218, 413, 126, 1, 67, "Section"],
+Cell[15347, 416, 1225, 29, 126, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]

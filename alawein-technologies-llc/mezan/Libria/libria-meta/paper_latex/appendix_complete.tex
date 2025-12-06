@@ -1,0 +1,346 @@
+% Complete Appendix for MetaLibria Paper
+% This file contains all appendix sections with complete data tables
+
+\section{Complete Results Tables}
+\label{app:complete-results}
+
+Table~\ref{tab:complete-results} shows the complete per-scenario breakdown for all 7 methods across 5 ASlib scenarios (35 configurations total).
+
+\begin{table}[h]
+\centering
+\caption{Complete per-scenario results for all methods.}
+\label{tab:complete-results}
+\scriptsize
+\begin{tabular}{llrrrr}
+\toprule
+Scenario & Method & Regret & Top-1 & Top-3 & Time (ms) \\
+\midrule
+\multicolumn{6}{l}{\textbf{SAT11-HAND (296 instances, 15 algorithms)}} \\
+& MetaLibria (optimal) & 0.112 & 0.183 & 0.433 & 0.17 \\
+& MetaLibria (default) & 0.112 & 0.167 & 0.417 & 0.18 \\
+& SATzilla & \textbf{0.045} & 0.317 & 0.467 & 421.2 \\
+& SMAC & 0.042 & \textbf{0.383} & \textbf{0.567} & 39.4 \\
+& AutoFolio & 0.059 & 0.567 & 0.750 & 28.9 \\
+& Hyperband & 0.126 & 0.133 & 0.283 & 0.17 \\
+& BOHB & 0.126 & 0.133 & 0.283 & 1.16 \\
+\midrule
+\multicolumn{6}{l}{\textbf{CSP-2010 (486 instances, 6 algorithms)}} \\
+& SMAC & \textbf{0.003} & 0.919 & 1.0 & 6.39 \\
+& MetaLibria (optimal) & 0.003 & \textbf{0.965} & 1.0 & 0.13 \\
+& MetaLibria (default) & 0.004 & 0.938 & 1.0 & 0.16 \\
+& AutoFolio & 0.013 & 0.874 & 1.0 & 23.8 \\
+& SATzilla & 0.018 & 0.753 & 1.0 & 66.7 \\
+& Hyperband & 0.079 & 0.025 & 1.0 & 0.13 \\
+& BOHB & 0.079 & 0.025 & 1.0 & 0.31 \\
+\midrule
+\multicolumn{6}{l}{\textbf{GRAPHS-2015 (1,147 instances, 9 algorithms)}} \\
+& MetaLibria (optimal) & \textbf{0.019} & \textbf{0.548} & \textbf{0.706} & 0.11 \\
+& MetaLibria (default) & 0.025 & 0.493 & 0.713 & 0.13 \\
+& SATzilla & 0.124 & 0.218 & 0.526 & 224.7 \\
+& AutoFolio & 0.128 & 0.238 & 0.688 & 31.4 \\
+& SMAC & 0.147 & 0.126 & 0.376 & 45.2 \\
+& Hyperband & 0.204 & 0.001 & 0.133 & -0.81 \\
+& BOHB & 0.204 & 0.001 & 0.133 & 20.9 \\
+\midrule
+\multicolumn{6}{l}{\textbf{MAXSAT12-PMS (876 instances, 8 algorithms)}} \\
+& Hyperband & \textbf{0.023} & \textbf{0.597} & \textbf{0.994} & 0.21 \\
+& BOHB & 0.023 & 0.597 & 0.994 & 0.92 \\
+& MetaLibria (default) & 0.023 & 0.597 & 0.994 & 0.19 \\
+& MetaLibria (optimal) & 0.025 & 0.580 & 0.983 & 0.19 \\
+& SATzilla & 0.029 & 0.483 & 0.852 & 213.6 \\
+& SMAC & 0.029 & 0.494 & 0.875 & 17.9 \\
+& AutoFolio & 0.030 & 0.489 & 0.909 & 30.6 \\
+\midrule
+\multicolumn{6}{l}{\textbf{ASP-POTASSCO (1,294 instances, 4 algorithms)}} \\
+& Hyperband & \textbf{0.076} & \textbf{0.232} & \textbf{0.645} & 0.48 \\
+& BOHB & 0.076 & 0.232 & 0.645 & 4.20 \\
+& SATzilla & 0.085 & 0.158 & 0.471 & 342.6 \\
+& SMAC & 0.107 & 0.097 & 0.359 & 40.5 \\
+& MetaLibria (optimal) & 0.113 & 0.050 & 0.255 & 0.17 \\
+& AutoFolio & 0.124 & 0.104 & 0.305 & 5.69 \\
+& MetaLibria (default) & 0.130 & 0.062 & 0.220 & 0.19 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Statistical Test Details}
+\label{app:statistical-tests}
+
+\subsection{Friedman Test}
+
+We performed a Friedman test to assess whether there are statistically significant differences in rankings across the 5 scenarios.
+
+\textbf{Result}: $\chi^2 = 2.65$, $p = 0.85$ (not significant at $\alpha = 0.05$)
+
+\textbf{Interpretation}: With only $n=5$ scenarios, statistical power is insufficient to detect ranking differences. However, this does not imply methods perform identically—descriptive statistics show MetaLibria (optimal) achieves best average regret.
+
+\subsection{Wilcoxon Signed-Rank Tests}
+
+Table~\ref{tab:wilcoxon} shows pairwise comparisons of MetaLibria (optimal) vs. each baseline using Wilcoxon signed-rank tests.
+
+\begin{table}[h]
+\centering
+\caption{Wilcoxon signed-rank test results (MetaLibria optimal vs. baselines).}
+\label{tab:wilcoxon}
+\begin{tabular}{lcc}
+\toprule
+Comparison & Test Statistic & p-value \\
+\midrule
+MetaLibria vs. SATzilla & W = 8 & 0.625 \\
+MetaLibria vs. AutoFolio & W = 10 & 0.438 \\
+MetaLibria vs. SMAC & W = 6 & 0.813 \\
+MetaLibria vs. Hyperband & W = 12 & 0.250 \\
+MetaLibria vs. BOHB & W = 12 & 0.250 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretation}: No pairwise comparisons reach significance ($p < 0.05$), consistent with Friedman test results. Limited statistical power due to $n=5$ scenarios.
+
+\subsection{Effect Sizes (Cliff's Delta)}
+
+Table~\ref{tab:effect-sizes} shows Cliff's delta effect sizes for MetaLibria (optimal) vs. each baseline.
+
+\begin{table}[h]
+\centering
+\caption{Effect sizes (Cliff's delta) for MetaLibria (optimal) vs. baselines.}
+\label{tab:effect-sizes}
+\begin{tabular}{lcc}
+\toprule
+Comparison & Cliff's $\delta$ & Magnitude \\
+\midrule
+MetaLibria vs. Hyperband & 0.44 & Medium-Large \\
+MetaLibria vs. BOHB & 0.44 & Medium-Large \\
+MetaLibria vs. AutoFolio & 0.36 & Medium \\
+MetaLibria vs. SATzilla & 0.20 & Small \\
+MetaLibria vs. SMAC & 0.12 & Negligible \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretation}: Medium-to-large effect sizes vs. Hyperband/BOHB and AutoFolio suggest practical differences despite lack of $p < 0.05$ significance. Small-to-negligible effects vs. SATzilla and SMAC indicate competitive performance.
+
+\section{Hyperparameter Ablation Details}
+\label{app:ablation}
+
+We conducted ablation studies on four hyperparameters across SAT11-HAND and CSP-2010 scenarios.
+
+\subsection{Number of Clusters ($n\_clusters$)}
+
+Table~\ref{tab:ablation-clusters} shows the impact of varying the number of clusters.
+
+\begin{table}[h]
+\centering
+\caption{Ablation study: Impact of $n\_clusters$ on average regret.}
+\label{tab:ablation-clusters}
+\begin{tabular}{lcc}
+\toprule
+$n\_clusters$ & SAT11-HAND & CSP-2010 \\
+\midrule
+1 & 0.1214 & 0.0048 \\
+2 & 0.1156 & 0.0041 \\
+\textbf{3} & \textbf{0.1123} & \textbf{0.0034} \\
+5 (default) & 0.1118 & 0.0042 \\
+7 & 0.1189 & 0.0045 \\
+10 & 0.1247 & 0.0051 \\
+15 & 0.1298 & 0.0058 \\
+20 & 0.1342 & 0.0063 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding}: Optimal $k=3$ achieves 9.4\% regret improvement over default $k=5$ averaged across scenarios. Fine-grained clustering ($k=20$) degrades performance by 16\%.
+
+\subsection{UCB Constant ($ucb\_constant$)}
+
+Table~\ref{tab:ablation-ucb} shows the impact of varying the UCB exploration constant.
+
+\begin{table}[h]
+\centering
+\caption{Ablation study: Impact of $ucb\_constant$ on average regret.}
+\label{tab:ablation-ucb}
+\begin{tabular}{lcc}
+\toprule
+$ucb\_constant$ & SAT11-HAND & CSP-2010 \\
+\midrule
+0.1 & 0.1123 & 0.0034 \\
+0.2 & 0.1123 & 0.0034 \\
+0.5 & 0.1123 & 0.0034 \\
+1.0 (default) & 0.1123 & 0.0034 \\
+1.5 & 0.1122 & 0.0034 \\
+2.0 & 0.1124 & 0.0033 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding}: NO impact—all values yield identical regret ($\pm 0.1\%$). This contradicts synthetic data experiments where $ucb\_c=0.5$ gave 34\% improvement.
+
+\subsection{Tournament Rounds ($n\_tournament\_rounds$)}
+
+Table~\ref{tab:ablation-rounds} shows the impact of varying the number of tournament rounds.
+
+\begin{table}[h]
+\centering
+\caption{Ablation study: Impact of $n\_tournament\_rounds$ on average regret.}
+\label{tab:ablation-rounds}
+\begin{tabular}{lcc}
+\toprule
+$n\_rounds$ & SAT11-HAND & CSP-2010 \\
+\midrule
+1 & 0.1124 & 0.0034 \\
+3 & 0.1123 & 0.0034 \\
+5 (default) & 0.1123 & 0.0034 \\
+7 & 0.1123 & 0.0033 \\
+10 & 0.1122 & 0.0034 \\
+12 & 0.1123 & 0.0034 \\
+15 & 0.1124 & 0.0034 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding}: NO impact—all values yield identical regret ($\pm 0.2\%$). Even $R=1$ achieves 98\% of optimal performance.
+
+\subsection{Elo Update Rate ($elo\_k$)}
+
+Table~\ref{tab:ablation-elok} shows the impact of varying the Elo update rate.
+
+\begin{table}[h]
+\centering
+\caption{Ablation study: Impact of $elo\_k$ on average regret.}
+\label{tab:ablation-elok}
+\begin{tabular}{lcc}
+\toprule
+$elo\_k$ & SAT11-HAND & CSP-2010 \\
+\midrule
+8 & 0.1156 & 0.0041 \\
+16 & 0.1189 & 0.0046 \\
+24 & 0.1134 & 0.0036 \\
+32 (default) & \textbf{0.1123} & \textbf{0.0034} \\
+40 & 0.1129 & 0.0035 \\
+48 & 0.1131 & 0.0036 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding}: WEAK impact—most values work; avoid $K=8$, 16. Optimal $K=32$ shows 3\% regret variation across $K \in [24, 48]$.
+
+\section{Additional Experimental Details}
+\label{app:experimental-details}
+
+\subsection{Hardware Specifications}
+
+All experiments were conducted on:
+\begin{itemize}
+\item CPU: Intel Xeon E5-2680 v4 @ 2.40GHz (28 cores)
+\item RAM: 64 GB DDR4
+\item OS: Ubuntu 20.04 LTS
+\item Python: 3.9.7
+\item scikit-learn: 1.0.2
+\item NumPy: 1.21.5
+\end{itemize}
+
+\subsection{Training Time Breakdown}
+
+\begin{table}[h]
+\centering
+\caption{Training time breakdown by scenario.}
+\label{tab:training-time}
+\begin{tabular}{lrr}
+\toprule
+Scenario & Instances & Training Time (s) \\
+\midrule
+SAT11-HAND & 296 & 0.046 \\
+CSP-2010 & 486 & 0.112 \\
+GRAPHS-2015 & 1,147 & 0.515 \\
+MAXSAT12-PMS & 876 & 0.156 \\
+ASP-POTASSCO & 1,294 & 0.165 \\
+\midrule
+\textbf{Average} & \textbf{820} & \textbf{0.199} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Selection Time Breakdown}
+
+\begin{table}[h]
+\centering
+\caption{Selection time breakdown by component (MetaLibria optimal).}
+\label{tab:selection-time}
+\begin{tabular}{lr}
+\toprule
+Component & Time ($\mu$s) \\
+\midrule
+Feature extraction & $< 10$ \\
+Cluster assignment & 45 \\
+UCB computation & 105 \\
+\midrule
+\textbf{Total} & \textbf{150} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Reproducibility Information}
+\label{app:reproducibility}
+
+\subsection{Code Availability}
+
+Full source code, data, and trained models are available at:
+
+\texttt{https://github.com/[anonymous]/metalibria-automl2025}
+
+The repository includes:
+\begin{itemize}
+\item Implementation of MetaLibria and all baselines
+\item Evaluation scripts for all 5 ASlib scenarios
+\item Ablation study code
+\item Figure generation scripts
+\item Pre-processed ASlib data
+\item Trained models (Elo ratings and cluster centroids)
+\end{itemize}
+
+\subsection{Random Seeds}
+
+All experiments use fixed random seeds for reproducibility:
+\begin{itemize}
+\item Main experiments: seed = 42
+\item Cross-validation folds: seeds = [0, 1, 2, 3, 4]
+\item Ablation studies: seed = 123
+\end{itemize}
+
+\subsection{ASlib Data Download}
+
+ASlib scenarios can be downloaded from:
+
+\texttt{http://www.aslib.net/}
+
+We use the following scenario versions:
+\begin{itemize}
+\item SAT11-HAND: v1.0
+\item CSP-2010: v1.0
+\item GRAPHS-2015: v1.0
+\item MAXSAT12-PMS: v1.0
+\item ASP-POTASSCO: v1.0
+\end{itemize}
+
+\subsection{Execution Instructions}
+
+To reproduce all experiments:
+
+\begin{verbatim}
+# Install dependencies
+pip install -r requirements.txt
+
+# Download ASlib data
+bash scripts/download_aslib.sh
+
+# Run Phase 2 evaluation
+python benchmark/phase2_evaluation.py
+
+# Run ablation studies
+python benchmark/ablation_studies_real.py
+
+# Generate figures
+python figures/generate_paper_figures.py
+\end{verbatim}
+
+Estimated runtime: 2-3 hours on specified hardware.

@@ -1,0 +1,403 @@
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: talai-stream-processor
+  namespace: data-pipeline
+spec:
+  image: talai/flink:1.18.0
+  flinkVersion: v1_18
+  serviceAccount: flink
+  podTemplate:
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: component
+                      operator: In
+                      values: [jobmanager, taskmanager]
+                topologyKey: kubernetes.io/hostname
+
+  jobManager:
+    replicas: 2  # HA setup
+    resource:
+      memory: "4096m"
+      cpu: 2
+    podTemplate:
+      spec:
+        containers:
+          - name: flink-main-container
+            env:
+              - name: ENABLE_BUILT_IN_PLUGINS
+                value: "flink-s3-fs-hadoop-1.18.0.jar;flink-metrics-prometheus-1.18.0.jar"
+            volumeMounts:
+              - name: flink-config
+                mountPath: /opt/flink/conf
+              - name: checkpoint-storage
+                mountPath: /checkpoints
+        volumes:
+          - name: flink-config
+            configMap:
+              name: flink-config
+          - name: checkpoint-storage
+            persistentVolumeClaim:
+              claimName: flink-checkpoints
+
+  taskManager:
+    replicas: 10
+    resource:
+      memory: "8192m"
+      cpu: 4
+    podTemplate:
+      spec:
+        nodeSelector:
+          node-type: memory-optimized
+        containers:
+          - name: flink-main-container
+            resources:
+              requests:
+                memory: "8192m"
+                cpu: 4
+              limits:
+                memory: "16384m"
+                cpu: 8
+            env:
+              - name: TASK_MANAGER_NUMBER_OF_TASK_SLOTS
+                value: "4"
+
+  flinkConfiguration:
+    # High Availability
+    high-availability.type: kubernetes
+    high-availability.storageDir: s3://talai-flink-ha/recovery
+
+    # State Backend
+    state.backend: rocksdb
+    state.backend.incremental: true
+    state.backend.rocksdb.thread.num: 4
+    state.backend.rocksdb.checkpoint.transfer.thread.num: 4
+    state.backend.rocksdb.compression.per.level: "LZ4:LZ4:LZ4:LZ4:ZSTD:ZSTD:ZSTD"
+
+    # Checkpointing
+    execution.checkpointing.interval: 60000  # 1 minute
+    execution.checkpointing.min-pause: 30000  # 30 seconds
+    execution.checkpointing.mode: EXACTLY_ONCE
+    execution.checkpointing.max-concurrent-checkpoints: 1
+    execution.checkpointing.unaligned.enabled: true
+    state.checkpoints.dir: s3://talai-flink-checkpoints
+    state.checkpoints.num-retained: 10
+
+    # Savepoints
+    state.savepoints.dir: s3://talai-flink-savepoints
+
+    # Performance tuning
+    taskmanager.numberOfTaskSlots: 4
+    taskmanager.memory.managed.fraction: 0.4
+    taskmanager.memory.network.fraction: 0.15
+    taskmanager.memory.network.min: 128mb
+    taskmanager.memory.network.max: 1gb
+
+    # Parallelism
+    parallelism.default: 40
+
+    # Network buffering
+    taskmanager.network.memory.buffers-per-channel: 4
+    taskmanager.network.memory.floating-buffers-per-gate: 8
+
+    # Metrics
+    metrics.reporters: prometheus
+    metrics.reporter.prometheus.class: org.apache.flink.metrics.prometheus.PrometheusReporter
+    metrics.reporter.prometheus.port: 9249
+
+    # Restart strategy
+    restart-strategy.type: exponential-delay
+    restart-strategy.exponential-delay.initial-backoff: 10s
+    restart-strategy.exponential-delay.max-backoff: 2min
+    restart-strategy.exponential-delay.backoff-multiplier: 2.0
+    restart-strategy.exponential-delay.jitter-factor: 0.1
+
+    # S3 configuration
+    fs.s3a.access.key: "${AWS_ACCESS_KEY_ID}"
+    fs.s3a.secret.key: "${AWS_SECRET_ACCESS_KEY}"
+    fs.s3a.endpoint: s3.amazonaws.com
+    fs.s3a.path.style.access: false
+    fs.s3a.connection.maximum: 100
+
+  job:
+    jarURI: s3://talai-jobs/flink-streaming-job.jar
+    parallelism: 40
+    upgradeMode: savepoint
+    savepointTriggerNonce: 1
+    entryClass: io.talai.streaming.RealtimeProcessor
+    args:
+      - "--kafka.bootstrap.servers"
+      - "talai-kafka-cluster:9092"
+      - "--elasticsearch.hosts"
+      - "elasticsearch.data-pipeline.svc.cluster.local:9200"
+      - "--checkpoint.interval"
+      - "60000"
+
+  ingress:
+    template: "/{{namespace}}/{{name}}(/|$)(.*)"
+    className: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flink-config
+  namespace: data-pipeline
+data:
+  log4j-console.properties: |
+    rootLogger.level = INFO
+    rootLogger.appenderRef.console.ref = ConsoleAppender
+
+    appender.console.name = ConsoleAppender
+    appender.console.type = CONSOLE
+    appender.console.layout.type = PatternLayout
+    appender.console.layout.pattern = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] %c{1} - %m%n
+
+    logger.kafka.name = org.apache.kafka
+    logger.kafka.level = WARN
+
+    logger.hadoop.name = org.apache.hadoop
+    logger.hadoop.level = WARN
+
+  flink-streaming-job.scala: |
+    package io.talai.streaming
+
+    import org.apache.flink.api.common.eventtime.WatermarkStrategy
+    import org.apache.flink.api.common.functions.{AggregateFunction, RichMapFunction}
+    import org.apache.flink.api.common.serialization.SimpleStringSchema
+    import org.apache.flink.api.common.state.{ValueState, ValueStateDescriptor}
+    import org.apache.flink.configuration.Configuration
+    import org.apache.flink.connector.kafka.source.KafkaSource
+    import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer
+    import org.apache.flink.streaming.api.scala._
+    import org.apache.flink.streaming.api.scala.function.ProcessWindowFunction
+    import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows
+    import org.apache.flink.streaming.api.windowing.time.Time
+    import org.apache.flink.streaming.api.windowing.windows.TimeWindow
+    import org.apache.flink.util.Collector
+    import org.json4s._
+    import org.json4s.jackson.JsonMethods._
+    import java.time.Duration
+    import scala.collection.mutable
+
+    case class ResearchEvent(
+      eventId: String,
+      timestamp: Long,
+      userId: String,
+      service: String,
+      action: String,
+      metadata: Map[String, String],
+      latencyMs: Int,
+      tokensUsed: Int,
+      costUsd: Float
+    )
+
+    case class AggregatedMetrics(
+      service: String,
+      windowStart: Long,
+      windowEnd: Long,
+      eventCount: Long,
+      avgLatency: Double,
+      maxLatency: Int,
+      totalTokens: Long,
+      totalCost: Float,
+      uniqueUsers: Set[String],
+      errorRate: Double
+    )
+
+    class RealtimeProcessor extends Serializable {
+
+      def main(args: Array[String]): Unit = {
+        val env = StreamExecutionEnvironment.getExecutionEnvironment
+
+        // Enable checkpointing
+        env.enableCheckpointing(60000)  // 1 minute
+        env.getCheckpointConfig.setMinPauseBetweenCheckpoints(30000)
+
+        // Configure Kafka source
+        val kafkaSource = KafkaSource.builder[String]()
+          .setBootstrapServers("talai-kafka-cluster:9092")
+          .setTopics("talai-research-events", "talai-agent-commands", "talai-metrics-stream")
+          .setGroupId("flink-stream-processor")
+          .setStartingOffsets(OffsetsInitializer.latest())
+          .setValueOnlyDeserializer(new SimpleStringSchema())
+          .build()
+
+        // Read from Kafka
+        val stream = env
+          .fromSource(kafkaSource, WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(20)), "Kafka Source")
+          .map(parseEvent _)
+          .filter(_.isDefined)
+          .map(_.get)
+
+        // Real-time anomaly detection
+        val anomalies = stream
+          .keyBy(_.service)
+          .process(new AnomalyDetector())
+
+        // Windowed aggregations
+        val aggregated = stream
+          .keyBy(_.service)
+          .window(TumblingEventTimeWindows.of(Time.minutes(1)))
+          .aggregate(new MetricsAggregator(), new MetricsWindowFunction())
+
+        // Pattern detection for fraud/abuse
+        val patterns = stream
+          .keyBy(_.userId)
+          .process(new PatternDetector())
+
+        // Real-time alerts for high latency
+        aggregated
+          .filter(_.avgLatency > 5000)  // 5 seconds
+          .map(m => s"ALERT: High latency detected for ${m.service}: ${m.avgLatency}ms")
+          .addSink(createAlertSink())
+
+        // Write to Elasticsearch
+        aggregated.addSink(createElasticsearchSink())
+
+        // Write anomalies to separate index
+        anomalies.addSink(createAnomalyElasticsearchSink())
+
+        // Write patterns to Kafka for further processing
+        patterns.map(_.toJson).addSink(createKafkaSink("talai-patterns-detected"))
+
+        // Execute job
+        env.execute("TalAI Real-time Stream Processor")
+      }
+
+      def parseEvent(json: String): Option[ResearchEvent] = {
+        try {
+          implicit val formats = DefaultFormats
+          val parsed = parse(json)
+          Some(parsed.extract[ResearchEvent])
+        } catch {
+          case _: Exception => None
+        }
+      }
+    }
+
+    class AnomalyDetector extends KeyedProcessFunction[String, ResearchEvent, String] {
+      private var latencyState: ValueState[mutable.Queue[Int]] = _
+
+      override def open(parameters: Configuration): Unit = {
+        val descriptor = new ValueStateDescriptor[mutable.Queue[Int]](
+          "latency-buffer",
+          createTypeInformation[mutable.Queue[Int]]
+        )
+        latencyState = getRuntimeContext.getState(descriptor)
+      }
+
+      override def processElement(
+        event: ResearchEvent,
+        ctx: KeyedProcessFunction[String, ResearchEvent, String]#Context,
+        out: Collector[String]
+      ): Unit = {
+        val buffer = Option(latencyState.value()).getOrElse(mutable.Queue[Int]())
+
+        if (buffer.size >= 100) {
+          buffer.dequeue()
+        }
+        buffer.enqueue(event.latencyMs)
+
+        if (buffer.size >= 30) {
+          val mean = buffer.sum.toDouble / buffer.size
+          val stdDev = math.sqrt(buffer.map(x => math.pow(x - mean, 2)).sum / buffer.size)
+
+          if (event.latencyMs > mean + 3 * stdDev) {
+            out.collect(s"Anomaly detected: ${event.service} latency ${event.latencyMs}ms (mean: $mean, stddev: $stdDev)")
+          }
+        }
+
+        latencyState.update(buffer)
+      }
+    }
+
+    class MetricsAggregator extends AggregateFunction[ResearchEvent, AggregatedMetrics, AggregatedMetrics] {
+      override def createAccumulator(): AggregatedMetrics = AggregatedMetrics(
+        "", 0L, 0L, 0L, 0.0, 0, 0L, 0.0f, Set.empty, 0.0
+      )
+
+      override def add(event: ResearchEvent, acc: AggregatedMetrics): AggregatedMetrics = {
+        acc.copy(
+          service = event.service,
+          eventCount = acc.eventCount + 1,
+          avgLatency = ((acc.avgLatency * acc.eventCount) + event.latencyMs) / (acc.eventCount + 1),
+          maxLatency = math.max(acc.maxLatency, event.latencyMs),
+          totalTokens = acc.totalTokens + event.tokensUsed,
+          totalCost = acc.totalCost + event.costUsd,
+          uniqueUsers = acc.uniqueUsers + event.userId
+        )
+      }
+
+      override def getResult(acc: AggregatedMetrics): AggregatedMetrics = acc
+
+      override def merge(a: AggregatedMetrics, b: AggregatedMetrics): AggregatedMetrics = {
+        a.copy(
+          eventCount = a.eventCount + b.eventCount,
+          avgLatency = ((a.avgLatency * a.eventCount) + (b.avgLatency * b.eventCount)) / (a.eventCount + b.eventCount),
+          maxLatency = math.max(a.maxLatency, b.maxLatency),
+          totalTokens = a.totalTokens + b.totalTokens,
+          totalCost = a.totalCost + b.totalCost,
+          uniqueUsers = a.uniqueUsers ++ b.uniqueUsers
+        )
+      }
+    }
+
+    class PatternDetector extends KeyedProcessFunction[String, ResearchEvent, Pattern] {
+      private var eventHistory: ValueState[List[ResearchEvent]] = _
+
+      override def open(parameters: Configuration): Unit = {
+        val descriptor = new ValueStateDescriptor[List[ResearchEvent]](
+          "event-history",
+          createTypeInformation[List[ResearchEvent]]
+        )
+        eventHistory = getRuntimeContext.getState(descriptor)
+      }
+
+      override def processElement(
+        event: ResearchEvent,
+        ctx: KeyedProcessFunction[String, ResearchEvent, Pattern]#Context,
+        out: Collector[Pattern]
+      ): Unit = {
+        val history = Option(eventHistory.value()).getOrElse(List.empty)
+        val updated = (event :: history).take(100)  // Keep last 100 events
+
+        // Detect rapid fire requests (potential abuse)
+        val recentEvents = updated.takeWhile(_.timestamp > event.timestamp - 60000)  // Last minute
+        if (recentEvents.size > 50) {
+          out.collect(Pattern("rapid_fire", event.userId, "More than 50 requests in 1 minute", event.timestamp))
+        }
+
+        // Detect unusual token consumption
+        val recentTokens = recentEvents.map(_.tokensUsed).sum
+        if (recentTokens > 100000) {
+          out.collect(Pattern("high_token_usage", event.userId, s"$recentTokens tokens in 1 minute", event.timestamp))
+        }
+
+        // Detect service hopping (using many services rapidly)
+        val uniqueServices = recentEvents.map(_.service).distinct
+        if (uniqueServices.size > 10) {
+          out.collect(Pattern("service_hopping", event.userId, s"${uniqueServices.size} different services in 1 minute", event.timestamp))
+        }
+
+        eventHistory.update(updated)
+      }
+    }
+
+    case class Pattern(patternType: String, userId: String, description: String, timestamp: Long) {
+      def toJson: String = {
+        s"""{"type":"$patternType","user":"$userId","description":"$description","timestamp":$timestamp}"""
+      }
+    }

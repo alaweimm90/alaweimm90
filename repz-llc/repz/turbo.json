@@ -1,0 +1,183 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*",
+        "!.env*.local",
+        "!.env.example"
+      ],
+      "outputs": [
+        "dist/**",
+        "build/**",
+        ".next/**",
+        "!.next/cache/**",
+        "storybook-static/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "VITE_*",
+        "NEXT_*",
+        "REACT_*"
+      ]
+    },
+    "build:configs": {
+      "dependsOn": [],
+      "inputs": [
+        "packages/*/src/**",
+        "packages/*/package.json"
+      ],
+      "outputs": [
+        "packages/*/dist/**"
+      ]
+    },
+    "build:storybook": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".storybook/**",
+        "**/*.stories.*",
+        "tokens.json",
+        "global.css"
+      ],
+      "outputs": [
+        "storybook-static/**"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "env": [
+        "NODE_ENV",
+        "VITE_*",
+        "NEXT_*",
+        "REACT_*"
+      ]
+    },
+    "storybook": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".eslintrc*",
+        ".eslintignore",
+        "eslint.config.*"
+      ],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".eslintrc*",
+        ".eslintignore",
+        "eslint.config.*"
+      ],
+      "outputs": []
+    },
+    "type-check": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "tsconfig*.json"
+      ],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "vitest.config.*",
+        "jest.config.*",
+        "**/*.test.*",
+        "**/*.spec.*"
+      ],
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "NODE_ENV"
+      ]
+    },
+    "test:run": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "vitest.config.*",
+        "jest.config.*",
+        "**/*.test.*",
+        "**/*.spec.*"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "vitest.config.*",
+        "jest.config.*",
+        "**/*.test.*",
+        "**/*.spec.*"
+      ],
+      "outputs": [
+        "coverage/**"
+      ]
+    },
+    "design-system:audit": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "audit.mjs",
+        "tokens.json",
+        "global.css",
+        "src/**"
+      ],
+      "outputs": [
+        "audit-results.json"
+      ]
+    },
+    "visual-test": {
+      "dependsOn": ["build:storybook"],
+      "inputs": [
+        "storybook-static/**",
+        "chromatic.config.json"
+      ],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    }
+  },
+  "globalDependencies": [
+    "**/.env*",
+    "tsconfig.json",
+    ".eslintrc*",
+    "prettier.config.*",
+    "tailwind.config.*",
+    "vite.config.*",
+    "turbo.json"
+  ],
+  "globalEnv": [
+    "NODE_ENV",
+    "CI",
+    "VERCEL",
+    "NETLIFY"
+  ],
+  "pipeline": {
+    "prebuild": {
+      "cache": false
+    },
+    "postbuild": {
+      "cache": false,
+      "dependsOn": ["build"]
+    }
+  }
+}

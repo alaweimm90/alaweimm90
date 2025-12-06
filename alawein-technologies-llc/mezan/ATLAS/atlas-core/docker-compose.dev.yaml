@@ -1,0 +1,270 @@
+version: '3.9'
+
+# Development Docker Compose for MEZAN ORCHEX
+# Usage: docker-compose -f docker-compose.dev.yml up
+
+services:
+  # MEZAN ORCHEX API Service (Development Mode)
+  ORCHEX-api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development  # Use development stage
+    container_name: ORCHEX-api-dev
+    hostname: ORCHEX-api-dev
+    restart: unless-stopped
+    ports:
+      - "8080:8080"      # Flask app
+      - "5678:5678"      # Python debugger (debugpy)
+      - "8888:8888"      # Jupyter notebook (optional)
+    environment:
+      # Flask development configuration
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
+      FLASK_APP: ORCHEX.atlas_api_server
+      WERKZEUG_DEBUG_PIN: "off"
+
+      # Redis configuration
+      REDIS_HOST: redis-dev
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+
+      # Development database (SQLite for simplicity)
+      DATABASE_URL: sqlite:////app/data/atlas_dev.db
+
+      # API Keys (use .env file)
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      # Development settings
+      LOG_LEVEL: DEBUG
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
+
+      # Enable development features
+      ENABLE_PROFILING: "true"
+      ENABLE_DEBUG_TOOLBAR: "true"
+      ENABLE_HOT_RELOAD: "true"
+    volumes:
+      # Mount source code for hot-reload
+      - ../../../MEZAN/ORCHEX/src:/app/src:rw
+      - ../../../MEZAN/ORCHEX/ORCHEX-core:/app/ORCHEX-core:rw
+      - ../../../MEZAN/ORCHEX/tests:/app/tests:rw
+
+      # Mount configuration
+      - ./config:/app/config:ro
+
+      # Persistent development data
+      - ORCHEX-dev-logs:/app/logs
+      - ORCHEX-dev-data:/app/data
+      - ORCHEX-dev-cache:/app/cache
+
+      # Mount for debugging and profiling outputs
+      - ./debug:/app/debug:rw
+      - ./profiles:/app/profiles:rw
+    depends_on:
+      - redis-dev
+    networks:
+      - ORCHEX-dev-network
+    stdin_open: true  # Keep stdin open for debugging
+    tty: true         # Allocate pseudo-TTY
+    command: >
+      sh -c "
+        echo 'Starting ORCHEX in development mode...' &&
+        echo 'Debug port: 5678' &&
+        echo 'Application port: 8080' &&
+        python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m flask run --host=0.0.0.0 --port=8080 --reload
+      "
+
+  # Redis for development (minimal configuration)
+  redis-dev:
+    image: redis:7-alpine
+    container_name: ORCHEX-redis-dev
+    hostname: ORCHEX-redis-dev
+    restart: unless-stopped
+    command: >
+      redis-server
+      --loglevel debug
+      --save ""
+      --appendonly no
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-dev-data:/data
+    networks:
+      - ORCHEX-dev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # Redis Commander for Redis GUI
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: ORCHEX-redis-commander
+    hostname: redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis-dev:6379
+      HTTP_USER: admin
+      HTTP_PASSWORD: admin
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis-dev
+    networks:
+      - ORCHEX-dev-network
+
+  # Development database viewer (Adminer)
+  adminer:
+    image: adminer:latest
+    container_name: ORCHEX-adminer
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres-dev
+      ADMINER_DESIGN: pepa-linha
+    networks:
+      - ORCHEX-dev-network
+
+  # PostgreSQL for development (optional, can use SQLite instead)
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: ORCHEX-postgres-dev
+    hostname: ORCHEX-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: atlas_dev
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_HOST_AUTH_METHOD: trust  # No password in dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+      - ./scripts/init-dev-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - ORCHEX-dev-network
+
+  # Mailhog for email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: ORCHEX-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    networks:
+      - ORCHEX-dev-network
+
+  # Development documentation server
+  docs:
+    image: nginx:alpine
+    container_name: ORCHEX-docs
+    restart: unless-stopped
+    ports:
+      - "8083:80"
+    volumes:
+      - ../../../MEZAN/docs:/usr/share/nginx/html:ro
+      - ../../../MEZAN/ORCHEX/docs:/usr/share/nginx/html/ORCHEX:ro
+    networks:
+      - ORCHEX-dev-network
+
+  # Jupyter Lab for interactive development
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ORCHEX-jupyter
+    restart: unless-stopped
+    ports:
+      - "8888:8888"
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN:-ORCHEX-dev}
+    volumes:
+      - ../../../MEZAN/ORCHEX:/workspace:rw
+      - jupyter-data:/home/jovyan
+    command: >
+      sh -c "
+        pip install jupyterlab &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='ORCHEX-dev'
+      "
+    networks:
+      - ORCHEX-dev-network
+
+  # Test runner (runs tests in watch mode)
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ORCHEX-test-runner
+    restart: unless-stopped
+    environment:
+      PYTHONPATH: /app/src:/app/ORCHEX-core
+      CI: "false"
+    volumes:
+      - ../../../MEZAN/ORCHEX/src:/app/src:ro
+      - ../../../MEZAN/ORCHEX/ORCHEX-core:/app/ORCHEX-core:ro
+      - ../../../MEZAN/ORCHEX/tests:/app/tests:ro
+      - ./test-reports:/app/test-reports:rw
+    command: >
+      sh -c "
+        echo 'Starting test runner in watch mode...' &&
+        pytest-watch --clear --nobeep --runner 'pytest -v --tb=short --color=yes'
+      "
+    networks:
+      - ORCHEX-dev-network
+
+  # Code quality checker
+  quality-checker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: ORCHEX-quality-checker
+    restart: "no"
+    volumes:
+      - ../../../MEZAN/ORCHEX:/app:ro
+    command: >
+      sh -c "
+        echo '=== Running Code Quality Checks ===' &&
+        echo 'Running Black formatter check...' &&
+        black --check /app/src /app/ORCHEX-core /app/tests &&
+        echo 'Running Ruff linter...' &&
+        ruff check /app/src /app/ORCHEX-core /app/tests &&
+        echo 'Running MyPy type checker...' &&
+        mypy /app/src /app/ORCHEX-core --ignore-missing-imports &&
+        echo '=== All quality checks passed! ==='
+      "
+    networks:
+      - ORCHEX-dev-network
+
+# Networks
+networks:
+  ORCHEX-dev-network:
+    driver: bridge
+
+# Volumes for development data
+volumes:
+  # Application volumes
+  ORCHEX-dev-logs:
+    driver: local
+  ORCHEX-dev-data:
+    driver: local
+  ORCHEX-dev-cache:
+    driver: local
+
+  # Database volumes
+  postgres-dev-data:
+    driver: local
+  redis-dev-data:
+    driver: local
+
+  # Jupyter data
+  jupyter-data:
+    driver: local

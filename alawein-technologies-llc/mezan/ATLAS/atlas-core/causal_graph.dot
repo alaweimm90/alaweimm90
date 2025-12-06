@@ -1,0 +1,24 @@
+digraph MEZAN_Causal {
+    rankdir=LR;
+    node [shape=box, style=rounded];
+
+    // Nodes
+    problem_size [label="Problem Size", fillcolor=lightblue, style=filled];
+    search_space_size [label="Search Space Size", fillcolor=lightblue, style=filled];
+    constraint_complexity [label="Constraint Complexity", fillcolor=lightblue, style=filled];
+    objective_smoothness [label="Objective Function Smoothness", fillcolor=lightblue, style=filled];
+    exploration_capability [label="Exploration Capability", fillcolor=lightgreen, style=filled];
+    exploitation_capability [label="Exploitation Capability", fillcolor=lightgreen, style=filled];
+    constraint_handling [label="Constraint Handling", fillcolor=lightgreen, style=filled];
+    convergence_speed [label="Convergence Speed", fillcolor=lightyellow, style=filled];
+    solution_quality [label="Solution Quality", fillcolor=lightyellow, style=filled];
+    computational_cost [label="Computational Cost", fillcolor=lightyellow, style=filled];
+
+    // Edges
+    problem_size -> search_space_size [label="0.95", style=bold, penwidth=3.0];
+    search_space_size -> computational_cost [label="0.90", style=bold, penwidth=3.0];
+    constraint_complexity -> constraint_handling [label="0.85", style=bold, penwidth=3.0];
+    exploration_capability -> solution_quality [label="0.80", style=solid, penwidth=2.0];
+    exploitation_capability -> convergence_speed [label="0.75", style=solid, penwidth=2.0];
+    objective_smoothness -> convergence_speed [label="0.70", style=solid, penwidth=2.0];
+}

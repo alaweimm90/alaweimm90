@@ -1,0 +1,155 @@
+# Docker ignore file for MEZAN ATLAS
+# This file optimizes Docker builds by excluding unnecessary files
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Testing and coverage
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+test-reports/
+coverage.xml
+*.cover
+
+# Development tools
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+docs/
+*.md
+!README.md
+LICENSE
+CHANGELOG
+AUTHORS
+
+# Configuration files (except needed ones)
+.env
+.env.*
+!.env.example
+.editorconfig
+.pre-commit-config.yaml
+pyproject.toml
+setup.cfg
+Makefile
+
+# Docker files themselves
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Logs and databases
+*.log
+*.db
+*.sqlite
+*.sqlite3
+logs/
+*.pid
+
+# Temporary files
+tmp/
+temp/
+cache/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+backup/
+backups/
+
+# Node modules (if any frontend exists)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Jupyter notebooks
+*.ipynb_checkpoints
+*.ipynb
+
+# OS files
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+azure-pipelines.yml
+jenkins/
+
+# Scripts (except needed ones)
+scripts/*.sh
+!scripts/docker-entrypoint.sh
+!scripts/health_check.sh
+
+# Debug and profiling
+debug/
+profiles/
+*.prof
+*.pstat
+
+# Archives
+*.tar
+*.tar.gz
+*.zip
+*.7z
+*.rar
+
+# Large data files
+*.csv
+*.tsv
+*.parquet
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Model files
+*.pth
+*.pt
+*.onnx
+*.pb
+*.h5
+
+# Media files
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav

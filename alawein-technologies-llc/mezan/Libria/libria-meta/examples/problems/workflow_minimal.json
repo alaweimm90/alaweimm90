@@ -1,0 +1,7 @@
+{
+  "stages": ["designer", "critic", "refactorer", "validator"],
+  "start": "designer",
+  "end": "validator",
+  "safety": ["validator"]
+}
+

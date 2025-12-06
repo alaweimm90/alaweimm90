@@ -1,0 +1,236 @@
+/**
+ * QMLab Animation System
+ * Quantum-inspired animations and transitions
+ */
+
+:root {
+  /* Quantum Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 450ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-elegant: 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-spring: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-bounce: 700ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-smooth: 400ms cubic-bezier(0.4, 0, 0.6, 1);
+  --transition-quantum: 500ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Quantum Animations */
+@keyframes quantum-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.03);
+    filter: brightness(1.1);
+  }
+}
+
+@keyframes quantum-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(217 91% 60% / 0.3), 0 0 40px hsl(217 91% 60% / 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(271 91% 65% / 0.5), 0 0 80px hsl(271 91% 65% / 0.2);
+  }
+}
+
+@keyframes quantum-float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-8px) translateX(2px);
+  }
+  50% {
+    transform: translateY(-12px) translateX(0);
+  }
+  75% {
+    transform: translateY(-8px) translateX(-2px);
+  }
+}
+
+@keyframes quantum-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes quantum-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes quantum-wave {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes quantum-particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes quantum-ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes quantum-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes quantum-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes quantum-slide-down {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animation Utilities */
+.animate-quantum-pulse {
+  animation: quantum-pulse 2.5s ease-in-out infinite;
+}
+
+.animate-quantum-glow {
+  animation: quantum-glow 4s ease-in-out infinite;
+}
+
+.animate-quantum-float {
+  animation: quantum-float 4s ease-in-out infinite;
+}
+
+.animate-quantum-spin {
+  animation: quantum-spin 1.5s linear infinite;
+}
+
+.animate-quantum-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(217 91% 60% / 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: quantum-shimmer 3s ease-in-out infinite;
+}
+
+.animate-quantum-wave {
+  animation: quantum-wave 6s ease-in-out infinite;
+}
+
+.animate-quantum-breathe {
+  animation: quantum-breathe 3s ease-in-out infinite;
+}
+
+.animate-quantum-slide-up {
+  animation: quantum-slide-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animate-quantum-slide-down {
+  animation: quantum-slide-down 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Hover Animations */
+.hover-lift {
+  transition: transform var(--transition-elegant), box-shadow var(--transition-elegant);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px hsl(217 91% 60% / 0.15);
+}
+
+.hover-glow {
+  position: relative;
+  transition: all var(--transition-elegant);
+}
+
+.hover-glow::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  opacity: 0;
+  background: linear-gradient(135deg, hsl(217 91% 60% / 0.3), hsl(271 91% 65% / 0.3));
+  filter: blur(8px);
+  transition: opacity var(--transition-elegant);
+  z-index: -1;
+}
+
+.hover-glow:hover::after {
+  opacity: 1;
+}
+
+.hover-scale {
+  transition: transform var(--transition-spring);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

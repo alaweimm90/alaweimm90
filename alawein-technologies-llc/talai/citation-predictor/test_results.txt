@@ -1,0 +1,60 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.2, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /mnt/c/Users/mesha/Documents/TalAI/citation-predictor
+configfile: pyproject.toml
+plugins: asyncio-1.2.0, anyio-4.11.0, cov-7.0.0, xdist-3.8.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 39 items
+
+tests/test_citation_predictor.py::TestBasicPrediction::test_predict_returns_citation_prediction PASSED [  2%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_prediction_has_required_fields PASSED [  5%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_prediction_title_matches_input PASSED [  7%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_current_citations_preserved PASSED [ 10%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_predictions_increase_over_time PASSED [ 12%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_zero_current_citations PASSED [ 15%]
+tests/test_citation_predictor.py::TestBasicPrediction::test_default_current_citations PASSED [ 17%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_all_factors_calculated PASSED [ 20%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_factor_scores_normalized PASSED [ 23%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_author_reputation_calculation PASSED [ 25%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_venue_prestige_calculation PASSED [ 28%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_topic_novelty_from_keywords PASSED [ 30%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_abstract_quality_from_length PASSED [ 33%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_reference_count_factor PASSED [ 35%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_publication_timing_factor PASSED [ 38%]
+tests/test_citation_predictor.py::TestFactorCalculation::test_collaboration_size_factor PASSED [ 41%]
+tests/test_citation_predictor.py::TestTrajectory::test_trajectory_is_valid PASSED [ 43%]
+tests/test_citation_predictor.py::TestTrajectory::test_high_impact_exponential_trajectory PASSED [ 46%]
+tests/test_citation_predictor.py::TestTrajectory::test_low_impact_modest_trajectory PASSED [ 48%]
+tests/test_citation_predictor.py::TestConfidenceIntervals::test_confidence_intervals_exist PASSED [ 51%]
+tests/test_citation_predictor.py::TestConfidenceIntervals::test_confidence_interval_structure PASSED [ 53%]
+tests/test_citation_predictor.py::TestConfidenceIntervals::test_confidence_interval_contains_prediction PASSED [ 56%]
+tests/test_citation_predictor.py::TestConfidenceIntervals::test_confidence_widens_over_time PASSED [ 58%]
+tests/test_citation_predictor.py::TestPercentileRanking::test_percentile_in_valid_range PASSED [ 61%]
+tests/test_citation_predictor.py::TestPercentileRanking::test_high_impact_higher_percentile PASSED [ 64%]
+tests/test_citation_predictor.py::TestPercentileRanking::test_percentile_reflects_predicted_citations PASSED [ 66%]
+tests/test_citation_predictor.py::TestVenueHandling::test_known_venue_impact PASSED [ 69%]
+tests/test_citation_predictor.py::TestVenueHandling::test_unknown_venue_uses_default PASSED [ 71%]
+tests/test_citation_predictor.py::TestVenueHandling::test_venue_case_insensitive PASSED [ 74%]
+tests/test_citation_predictor.py::TestFieldHandling::test_ai_field_high_growth PASSED [ 76%]
+tests/test_citation_predictor.py::TestFieldHandling::test_unknown_field_uses_default PASSED [ 79%]
+tests/test_citation_predictor.py::TestTimestamp::test_timestamp_present PASSED [ 82%]
+tests/test_citation_predictor.py::TestTimestamp::test_timestamp_is_iso_format PASSED [ 84%]
+tests/test_citation_predictor.py::TestEdgeCases::test_very_high_current_citations PASSED [ 87%]
+tests/test_citation_predictor.py::TestEdgeCases::test_single_author_paper PASSED [ 89%]
+tests/test_citation_predictor.py::TestEdgeCases::test_many_authors_paper PASSED [ 92%]
+tests/test_citation_predictor.py::TestEdgeCases::test_very_old_paper PASSED [ 94%]
+tests/test_citation_predictor.py::TestEdgeCases::test_minimal_references PASSED [ 97%]
+tests/test_citation_predictor.py::TestEdgeCases::test_many_references PASSED [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.3-final-0 ________________
+
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+src/citation_predictor/__init__.py       2      0   100%
+src/citation_predictor/main.py         166     51    69%
+--------------------------------------------------------
+TOTAL                                  168     51    70%
+Coverage HTML written to dir htmlcov
+============================== 39 passed in 1.15s ==============================

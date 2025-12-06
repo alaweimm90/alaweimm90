@@ -1,0 +1,383 @@
+name: cicd_pipeline
+version: 1.0.0
+category: devops
+description: Comprehensive CI/CD pipeline with testing, security scanning, and progressive deployment
+author: ORCHEX Team
+tags:
+  - ci-cd
+  - devops
+  - deployment
+  - testing
+  - security
+
+parameters:
+  repository_url:
+    type: string
+    description: Source code repository URL
+    required: true
+
+  branch:
+    type: string
+    description: Branch to build
+    required: false
+    default: main
+
+  deployment_environment:
+    type: string
+    description: Target deployment environment
+    required: true
+    allowed_values: [dev, staging, production]
+
+  build_type:
+    type: string
+    description: Type of build
+    required: false
+    default: container
+    allowed_values: [container, serverless, binary, library]
+
+  enable_security_scan:
+    type: bool
+    description: Enable security scanning
+    required: false
+    default: true
+
+  deployment_strategy:
+    type: string
+    description: Deployment strategy
+    required: false
+    default: blue_green
+    allowed_values: [rolling, blue_green, canary, recreate]
+
+  test_coverage_threshold:
+    type: float
+    description: Minimum test coverage percentage
+    required: false
+    default: 80.0
+
+  auto_rollback:
+    type: bool
+    description: Enable automatic rollback on failure
+    required: false
+    default: true
+
+workflow:
+  config:
+    type: ci_cd
+    triggers:
+      - push
+      - pull_request
+      - schedule
+    environment_gates: true
+
+  tasks:
+    - name: checkout_code
+      type: source_checkout
+      description: Checkout source code
+      parameters:
+        repository: "{{repository_url}}"
+        branch: "{{branch}}"
+        depth: 50
+        submodules: recursive
+        lfs: true
+
+    - name: detect_changes
+      type: change_detection
+      description: Detect what changed
+      depends_on: [checkout_code]
+      parameters:
+        base_branch: main
+        paths:
+          - source: src/**
+            label: source_code
+          - source: tests/**
+            label: tests
+          - source: docs/**
+            label: documentation
+          - source: .github/**
+            label: ci_config
+
+    - name: dependency_analysis
+      type: dependency_check
+      description: Analyze and cache dependencies
+      depends_on: [checkout_code]
+      parameters:
+        language: auto_detect
+        cache:
+          enabled: true
+          key: "${language}-${hash(lockfile)}"
+        vulnerability_check: true
+        license_check: true
+
+    - name: parallel_quality_checks
+      type: parallel
+      description: Run quality checks in parallel
+      depends_on: [dependency_analysis]
+      subtasks:
+        - name: lint_code
+          type: linting
+          parameters:
+            linters: [eslint, pylint, golint]
+            config: .lintrc
+            fail_on_warning: "${deployment_environment} == 'production'"
+
+        - name: format_check
+          type: formatting
+          parameters:
+            formatter: [prettier, black, gofmt]
+            check_only: true
+
+        - name: type_check
+          type: type_checking
+          parameters:
+            tools: [mypy, typescript, flow]
+            strict_mode: true
+
+    - name: build_application
+      type: build
+      description: Build the application
+      depends_on: [parallel_quality_checks]
+      parameters:
+        build_type: "{{build_type}}"
+        optimization: "${deployment_environment} == 'production' ? 'aggressive' : 'standard'"
+        parallel_jobs: 4
+        cache_layers: true
+        build_args:
+          VERSION: "${git.tag}"
+          COMMIT: "${git.sha}"
+          BUILD_DATE: "${now()}"
+
+    - name: run_tests
+      type: parallel
+      description: Run test suites in parallel
+      depends_on: [build_application]
+      subtasks:
+        - name: unit_tests
+          type: testing
+          parameters:
+            suite: unit
+            parallel: true
+            coverage: true
+            report_format: [junit, cobertura]
+
+        - name: integration_tests
+          type: testing
+          parameters:
+            suite: integration
+            setup_fixtures: true
+            teardown: always
+            timeout: 1800
+
+        - name: contract_tests
+          type: testing
+          parameters:
+            suite: contract
+            verify_provider: true
+            verify_consumer: true
+
+    - name: check_coverage
+      type: coverage_analysis
+      description: Analyze test coverage
+      depends_on: [run_tests]
+      parameters:
+        threshold: "{{test_coverage_threshold}}"
+        report_formats: [html, lcov, cobertura]
+        fail_under: true
+        ignore_paths: ["tests/**", "mocks/**"]
+
+    - name: security_scanning
+      type: conditional
+      condition: "{{enable_security_scan}} == true"
+      depends_on: [build_application]
+      if_branch:
+        - name: sast_scan
+          type: security_scan
+          description: Static Application Security Testing
+          parameters:
+            scanner: [sonarqube, checkmarx, veracode]
+            severity_threshold: medium
+            fail_on_critical: true
+
+        - name: dependency_scan
+          type: security_scan
+          description: Scan dependencies for vulnerabilities
+          parameters:
+            scanner: [snyk, dependabot, trivy]
+            fix_available: auto_pr
+
+        - name: container_scan
+          type: security_scan
+          description: Scan container for vulnerabilities
+          condition: "{{build_type}} == 'container'"
+          parameters:
+            image: "${build_application.artifact}"
+            scanner: [trivy, clair, anchore]
+
+        - name: secrets_scan
+          type: security_scan
+          description: Scan for exposed secrets
+          parameters:
+            scanner: [trufflehog, gitleaks]
+            scan_history: false
+
+    - name: create_artifact
+      type: artifact_creation
+      description: Create deployable artifact
+      depends_on: [run_tests, security_scanning]
+      parameters:
+        type: "{{build_type}}"
+        registry:
+          container: "docker.io/myorg"
+          binary: "artifactory.myorg.com"
+          library: "npm.myorg.com"
+        tag_strategy:
+          - latest
+          - "${git.tag}"
+          - "${git.sha[:7]}"
+        sign_artifact: true
+
+    - name: smoke_test_artifact
+      type: smoke_test
+      description: Smoke test the artifact
+      depends_on: [create_artifact]
+      parameters:
+        artifact: "${create_artifact.url}"
+        tests:
+          - health_check: /health
+          - version_check: /version
+          - basic_functionality: true
+        environment: isolated
+
+    - name: approval_gate
+      type: approval
+      description: Manual approval for production
+      depends_on: [smoke_test_artifact]
+      condition: "{{deployment_environment}} == 'production'"
+      parameters:
+        approvers: [release_manager, product_owner]
+        timeout: 3600
+        auto_approve_conditions:
+          - all_tests_passed: true
+          - no_critical_vulnerabilities: true
+          - coverage_met: true
+
+    - name: prepare_deployment
+      type: deployment_prep
+      description: Prepare deployment configuration
+      depends_on: [approval_gate]
+      parameters:
+        environment: "{{deployment_environment}}"
+        strategy: "{{deployment_strategy}}"
+        artifact: "${create_artifact.url}"
+        configure:
+          - secrets: vault
+          - config_maps: kubernetes
+          - environment_vars: ".env.${environment}"
+
+    - name: deploy_application
+      type: deployment
+      description: Deploy application using selected strategy
+      depends_on: [prepare_deployment]
+      parameters:
+        strategy: "{{deployment_strategy}}"
+        environment: "{{deployment_environment}}"
+        artifact: "${create_artifact.url}"
+
+        blue_green:
+          switch_timeout: 300
+          keep_previous: true
+
+        canary:
+          initial_percentage: 10
+          increment: 20
+          interval: 600
+          success_criteria:
+            error_rate: 0.01
+            latency_p99: 500
+
+        rolling:
+          max_surge: 25
+          max_unavailable: 0
+          wait_for_ready: true
+
+    - name: post_deployment_tests
+      type: testing
+      description: Run post-deployment tests
+      depends_on: [deploy_application]
+      parameters:
+        suite: e2e
+        environment: "{{deployment_environment}}"
+        parallel: true
+        retry_failed: 2
+
+    - name: monitor_deployment
+      type: monitoring
+      description: Monitor deployment health
+      depends_on: [deploy_application]
+      parameters:
+        duration: 600
+        metrics:
+          - error_rate
+          - response_time
+          - cpu_usage
+          - memory_usage
+        thresholds:
+          error_rate: 0.05
+          response_time_p99: 1000
+
+    - name: rollback_decision
+      type: conditional
+      description: Decide whether to rollback
+      depends_on: [monitor_deployment, post_deployment_tests]
+      condition: "${monitor_deployment.unhealthy} == true OR ${post_deployment_tests.failed} == true"
+      if_branch:
+        - name: automatic_rollback
+          type: rollback
+          condition: "{{auto_rollback}} == true"
+          parameters:
+            strategy: immediate
+            preserve_data: true
+            notify_team: true
+
+    - name: update_documentation
+      type: documentation_update
+      description: Update documentation
+      depends_on: [deploy_application]
+      condition: "${deploy_application.success} == true"
+      parameters:
+        api_docs: auto_generate
+        changelog: auto_generate
+        deployment_notes: "${workflow.summary}"
+
+    - name: notify_stakeholders
+      type: notification
+      description: Send deployment notification
+      depends_on: [monitor_deployment]
+      parameters:
+        channels: [email, slack, teams]
+        recipients:
+          success: [dev_team, product_team]
+          failure: [dev_team, ops_team, management]
+        include:
+          - deployment_summary
+          - test_results
+          - performance_metrics
+          - rollback_status
+
+dependencies:
+  - git
+  - docker
+  - kubernetes
+  - testing_frameworks
+  - security_scanners
+
+metadata:
+  environments:
+    dev:
+      auto_deploy: true
+      approval_required: false
+    staging:
+      auto_deploy: true
+      approval_required: false
+    production:
+      auto_deploy: false
+      approval_required: true

@@ -1,0 +1,19 @@
+{
+  "timestamp": "1763409808.2054446",
+  "directory": "C:\\Users\\mesha\\Desktop\\GitHub\\ORGANIZATIONS\\AlaweinOS\\Librex",
+  "files_checked": 23,
+  "valid_files": 22,
+  "violations": [
+    {
+      "file": "C:\\Users\\mesha\\Desktop\\GitHub\\ORGANIZATIONS\\AlaweinOS\\Librex\\README.md",
+      "errors": [
+        "Banned term found: [to be addressed]",
+        "Missing required section: Overview",
+        "Missing required section: Key Features",
+        "Missing required section: Examples",
+        "Document exceeds maximum length (16611 > 2000)"
+      ]
+    }
+  ],
+  "compliance_rate": 95.65217391304348
+}

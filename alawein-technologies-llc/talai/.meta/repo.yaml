@@ -1,0 +1,11 @@
+type: library
+language: Mixed
+tier: 2
+coverage:
+  target: 80
+docs:
+  profile: standard
+owner: AlaweinOS
+description: 'Repository: TalAI'
+status: active
+created: '2025-11-26'

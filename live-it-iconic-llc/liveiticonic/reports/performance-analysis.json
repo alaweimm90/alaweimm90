@@ -1,0 +1,1664 @@
+{
+  "timestamp": "2025-11-11T23:10:35.091Z",
+  "summary": {
+    "total": 224,
+    "errors": 2,
+    "warnings": 191,
+    "info": 31
+  },
+  "issues": [
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackCapMockup.tsx",
+      "line": 15,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component BlackCapMockup not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackHoodieMockup.tsx",
+      "line": 15,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component BlackHoodieMockup not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackTShirtMockup.tsx",
+      "line": 15,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component BlackTShirtMockup not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 22,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component AddressBook not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 45,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 182,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AthleteShowcase.tsx",
+      "line": 4,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 117 lines - consider decomposition",
+      "metric": 117
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 50,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component BirdLogoShowcase not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 92,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 123,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 137,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 174,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 184,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 221,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 224,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 240,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 188 lines - consider decomposition",
+      "metric": 188
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 107,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 20 - consider simplifying",
+      "metric": 20
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 213 lines - consider decomposition",
+      "metric": 213
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedCollections.tsx",
+      "line": 43,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedCollections.tsx",
+      "line": 47,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedCollections.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 89,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 98,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 118,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 125,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 140,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedGrid.tsx",
+      "line": 144,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 22,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component FilterPanel not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 66,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Footer.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 186 lines - consider decomposition",
+      "metric": 186
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Footer.tsx",
+      "line": 53,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Footer.tsx",
+      "line": 178,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 4,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 182 lines - consider decomposition",
+      "metric": 182
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 27,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 52,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 58,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 64,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 86,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 95,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 106,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 116,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 125,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 131,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 137,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 147,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Hero.tsx",
+      "line": 159,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 277 lines - consider decomposition",
+      "metric": 277
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 238,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 276,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/InventoryBadge.tsx",
+      "line": 10,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component InventoryBadge not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 189 lines - consider decomposition",
+      "metric": 189
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 102,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 135,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 160,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/MinimalShowcase.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 11 - consider simplifying",
+      "metric": 11
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 173 lines - consider decomposition",
+      "metric": 173
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 102,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 162,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 169,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/OrderHistory.tsx",
+      "line": 13,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component OrderHistory not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/OrderHistory.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PWAInstallPrompt.tsx",
+      "line": 8,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component PWAInstallPrompt not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 5,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 283 lines - consider decomposition",
+      "metric": 283
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 153,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 236,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PremiumLogo.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 101 lines - consider decomposition",
+      "metric": 101
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductBirdBadge.tsx",
+      "line": 21,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ProductBirdBadge not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductCard.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ProductCard not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductCard.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductRecommendations.tsx",
+      "line": 15,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ProductRecommendations not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductRecommendations.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductRecommendations.tsx",
+      "line": 54,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 130,
+      "type": "error",
+      "category": "Cyclomatic Complexity",
+      "message": "High complexity: 30 - refactor recommended",
+      "metric": 30
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 130,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 349 lines - consider decomposition",
+      "metric": 349
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 194,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 198,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 324,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 386,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 404,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 412,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/RecentlyViewed.tsx",
+      "line": 9,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component RecentlyViewed not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/RecentlyViewed.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/RecentlyViewed.tsx",
+      "line": 31,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/RecentlyViewed.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollIndicator.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollProgress.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SecurityBadges.tsx",
+      "line": 29,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 50,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Stories.tsx",
+      "line": 68,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Stories.tsx",
+      "line": 73,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 52,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 192 lines - consider decomposition",
+      "metric": 192
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 99,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 143,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 193,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 77,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 152,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/USPStrip.tsx",
+      "line": 29,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/USPStrip.tsx",
+      "line": 36,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/USPStrip.tsx",
+      "line": 49,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/USPStrip.tsx",
+      "line": 53,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/Filters.tsx",
+      "line": 23,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component Filters not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/OrderTable.tsx",
+      "line": 28,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component OrderTable not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/OrderTable.tsx",
+      "line": 83,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/OrderSummary.tsx",
+      "line": 11,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component OrderSummary not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/OrderSummary.tsx",
+      "line": 26,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 236,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component PaymentForm not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ShippingForm not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/AutomotiveCrestLogo.tsx",
+      "line": 12,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component AutomotiveCrestLogo not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/CaribbeanFrigateBird.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component CaribbeanFrigateBird not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/ElegantFlamingo.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ElegantFlamingo not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/IconicDiamondMark.tsx",
+      "line": 13,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component IconicDiamondMark not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component LiveItIconicWordmark not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/MajesticPelican.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component MajesticPelican not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/MinimalistRoadmark.tsx",
+      "line": 12,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component MinimalistRoadmark not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/TropicalHummingbird.tsx",
+      "line": 6,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component TropicalHummingbird not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/TropicalTanager.tsx",
+      "line": 14,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component TropicalTanager not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 23,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ProductReviews not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 63,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 100,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 143,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 149,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductVariantSelector.tsx",
+      "line": 11,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component ProductVariantSelector not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductVariantSelector.tsx",
+      "line": 38,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductVariantSelector.tsx",
+      "line": 44,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/SizeGuide.tsx",
+      "line": 24,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component SizeGuide not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/SizeGuide.tsx",
+      "line": 79,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/SizeGuide.tsx",
+      "line": 87,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/SizeGuide.tsx",
+      "line": 89,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 75,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 79,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 168,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 264,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 280,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/progress.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/skeleton.tsx",
+      "line": 50,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/skeleton.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/toaster.tsx",
+      "line": 16,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/AuthContext.tsx",
+      "line": 15,
+      "type": "info",
+      "category": "React Performance",
+      "message": "Component AuthProvider not memoized - consider React.memo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 26,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 52,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 82,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 100,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 85,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 95,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 123,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 137,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 151,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 166,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/AgentFactory.test.ts",
+      "line": 180,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.test.ts",
+      "line": 28,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.ts",
+      "line": 231,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.ts",
+      "line": 291,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.ts",
+      "line": 292,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/CopyWriter.ts",
+      "line": 121,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/CampaignManager.test.ts",
+      "line": 28,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/CompetitorAnalyst.test.ts",
+      "line": 32,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/CompetitorAnalyst.ts",
+      "line": 243,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/MarketSizer.ts",
+      "line": 568,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/TrendDetector.test.ts",
+      "line": 29,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/TrendDetector.ts",
+      "line": 159,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 180,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 377,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 380,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 608,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/examples/basic-launch.ts",
+      "line": 19,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 259 lines - consider decomposition",
+      "metric": 259
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/examples/demo-launch.ts",
+      "line": 25,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 349 lines - consider decomposition",
+      "metric": 349
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/examples/monitoring-demo.ts",
+      "line": 15,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 132 lines - consider decomposition",
+      "metric": 132
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 131,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 174,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 178,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/About.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 314 lines - consider decomposition",
+      "metric": 314
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/About.tsx",
+      "line": 40,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/About.tsx",
+      "line": 152,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandAssets.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 110 lines - consider decomposition",
+      "metric": 110
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 27,
+      "type": "error",
+      "category": "Cyclomatic Complexity",
+      "message": "High complexity: 24 - refactor recommended",
+      "metric": 24
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 27,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 715 lines - consider decomposition",
+      "metric": 715
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 126,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 195,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 203,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 213,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 223,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 245,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 252,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 261,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 271,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 337,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 16,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 411 lines - consider decomposition",
+      "metric": 411
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 70,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 103,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 360,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/CheckoutSuccess.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 182 lines - consider decomposition",
+      "metric": 182
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/CheckoutSuccess.tsx",
+      "line": 59,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Collection.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 110 lines - consider decomposition",
+      "metric": 110
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Lifestyle.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 166 lines - consider decomposition",
+      "metric": 166
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Lifestyle.tsx",
+      "line": 54,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Lifestyle.tsx",
+      "line": 102,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Lifestyle.tsx",
+      "line": 134,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/OrderDetails.tsx",
+      "line": 169,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Policies.tsx",
+      "line": 4,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 16 - consider simplifying",
+      "metric": 16
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Policies.tsx",
+      "line": 4,
+      "type": "warning",
+      "category": "Function Length",
+      "message": "Long function: 183 lines - consider decomposition",
+      "metric": 183
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 200,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 250,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 324,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Shop.tsx",
+      "line": 63,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Shop.tsx",
+      "line": 71,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Shop.tsx",
+      "line": 82,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Templates.tsx",
+      "line": 18,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Templates.tsx",
+      "line": 22,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Inline object/array in JSX - causes re-renders"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/admin/Dashboard.tsx",
+      "line": 73,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/admin/Dashboard.tsx",
+      "line": 123,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/recommendationService.ts",
+      "line": 57,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/utils/seo.ts",
+      "line": 16,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/utils/seo.ts",
+      "line": 42,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/utils/seo.ts",
+      "line": 74,
+      "type": "warning",
+      "category": "React Performance",
+      "message": "Array operation without memoization - consider useMemo"
+    }
+  ],
+  "categories": [
+    {
+      "name": "React Performance",
+      "count": 196
+    },
+    {
+      "name": "Function Length",
+      "count": 23
+    },
+    {
+      "name": "Cyclomatic Complexity",
+      "count": 5
+    }
+  ],
+  "topComplexFunctions": [
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 130,
+      "type": "error",
+      "category": "Cyclomatic Complexity",
+      "message": "High complexity: 30 - refactor recommended",
+      "metric": 30
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 27,
+      "type": "error",
+      "category": "Cyclomatic Complexity",
+      "message": "High complexity: 24 - refactor recommended",
+      "metric": 24
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 20 - consider simplifying",
+      "metric": 20
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Policies.tsx",
+      "line": 4,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 16 - consider simplifying",
+      "metric": 16
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Cyclomatic Complexity",
+      "message": "Medium complexity: 11 - consider simplifying",
+      "metric": 11
+    }
+  ],
+  "largestFiles": []
+}

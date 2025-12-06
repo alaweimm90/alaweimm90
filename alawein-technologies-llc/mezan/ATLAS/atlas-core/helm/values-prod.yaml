@@ -1,0 +1,198 @@
+# Production values for mezan-ORCHEX
+# Override default values for production environment
+
+global:
+  imageRegistry: "your-registry.example.com"
+  storageClass: "fast-ssd-retain"
+
+image:
+  repository: your-registry.example.com/mezan-ORCHEX
+  tag: 3.5.0
+  pullPolicy: Always
+
+api:
+  replicaCount: 5
+
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 4Gi
+    limits:
+      cpu: 8000m
+      memory: 16Gi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 5
+    maxReplicas: 50
+    targetCPUUtilizationPercentage: 60
+    targetMemoryUtilizationPercentage: 70
+
+  env:
+    FLASK_ENV: production
+    ATLAS_ENGINE_MODE: production
+    ATLAS_MAX_AGENTS: "20"
+    ATLAS_LOG_LEVEL: "WARNING"
+    ENABLE_PROFILING: "false"
+
+worker:
+  replicaCount: 5
+
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 8Gi
+    limits:
+      cpu: 8000m
+      memory: 32Gi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 5
+    maxReplicas: 25
+    targetCPUUtilizationPercentage: 70
+
+service:
+  type: LoadBalancer
+  loadBalancer:
+    enabled: true
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: api.mezan-ORCHEX.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: mezan-ORCHEX-production-tls
+      hosts:
+        - api.mezan-ORCHEX.com
+
+redis:
+  enabled: true
+  auth:
+    enabled: true
+  master:
+    persistence:
+      size: 50Gi
+      storageClass: fast-ssd-retain
+  replica:
+    replicaCount: 3
+    persistence:
+      size: 50Gi
+      storageClass: fast-ssd-retain
+  sentinel:
+    enabled: true
+    quorum: 2
+
+postgresql:
+  enabled: true
+  auth:
+    database: mezan_atlas_production
+  primary:
+    persistence:
+      size: 100Gi
+      storageClass: fast-ssd-retain
+  readReplicas:
+    replicaCount: 2
+    persistence:
+      size: 100Gi
+
+monitoring:
+  prometheus:
+    enabled: true
+    retention: 90d
+    storageSize: 200Gi
+    alertmanager:
+      enabled: true
+      config:
+        global:
+          slack_api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        route:
+          group_by: ['alertname', 'cluster', 'service']
+          group_wait: 10s
+          group_interval: 10s
+          repeat_interval: 12h
+          receiver: 'slack'
+        receivers:
+        - name: 'slack'
+          slack_configs:
+          - channel: '#alerts'
+            title: 'MEZAN ORCHEX Alert'
+
+  grafana:
+    enabled: true
+    persistence:
+      size: 50Gi
+    ingress:
+      enabled: true
+      hosts:
+        - monitoring.mezan-ORCHEX.com
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - monitoring.mezan-ORCHEX.com
+
+secrets:
+  existingSecret: "mezan-ORCHEX-production-secrets"
+
+networkPolicy:
+  enabled: true
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 3
+
+resourceQuota:
+  enabled: true
+  hard:
+    requests.cpu: "500"
+    requests.memory: 1Ti
+    limits.cpu: "1000"
+    limits.memory: 2Ti
+    persistentvolumeclaims: "50"
+
+vpa:
+  enabled: true
+  updateMode: "Initial"
+
+priorityClassName: "high-priority"
+
+backup:
+  enabled: true
+  schedule: "0 1 * * *"
+  s3:
+    bucket: "mezan-ORCHEX-backups-prod"
+    region: us-west-2
+  retention:
+    days: 90
+
+features:
+  dialecticalWorkflow: true
+  multiAgentCollaboration: true
+  adaptiveRouting: true
+  causalAnalysis: true
+
+# Production-specific annotations
+podAnnotations:
+  co.elastic.logs/enabled: "true"
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9090"
+
+# Production node selectors
+nodeSelector:
+  node-role.kubernetes.io/worker: "true"
+  node.kubernetes.io/instance-type: "r5.4xlarge"
+
+# Production tolerations
+tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "mezan-ORCHEX"
+    effect: "NoSchedule"

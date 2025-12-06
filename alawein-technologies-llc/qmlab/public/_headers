@@ -1,0 +1,115 @@
+# QMLab Security Headers Configuration - Production Hardened
+# Enhanced security configuration for quantum computing application
+
+/*
+  # Content Security Policy - Enforced (upgraded from report-only)
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://tagmanager.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://fonts.googleapis.com; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; worker-src 'self' blob:; child-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; report-uri /api/csp-report
+  
+  # Strict Transport Security - 2 years with preload
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  
+  # Prevent MIME type sniffing
+  X-Content-Type-Options: nosniff
+  
+  # Prevent clickjacking
+  X-Frame-Options: DENY
+  
+  # XSS Protection
+  X-XSS-Protection: 1; mode=block
+  
+  # Referrer Policy - Strict cross-origin
+  Referrer-Policy: strict-origin-when-cross-origin
+  
+  # Permissions Policy - Comprehensive feature control
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=(), vibrate=(), fullscreen=(self), accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), web-share=(), interest-cohort=(), browsing-topics=()
+  
+  # Cross-Origin Policies - Enhanced isolation
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  
+  # Security headers for quantum application
+  X-Permitted-Cross-Domain-Policies: none
+  X-DNS-Prefetch-Control: off
+  Expect-CT: max-age=86400, enforce
+  
+  # Cache Control for static assets
+  Cache-Control: public, max-age=31536000, immutable
+
+# Specific rules for HTML files
+/*.html
+  # Different cache policy for HTML
+  Cache-Control: no-cache, must-revalidate
+  
+# Service Worker with security headers
+/sw.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /
+  X-Content-Type-Options: nosniff
+
+# Manifest and PWA files
+/manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: public, max-age=86400
+  Cross-Origin-Resource-Policy: cross-origin
+
+# Font files with CORS
+/fonts/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: cross-origin
+
+# Static assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: cross-origin
+
+# API endpoints - Enhanced security
+/api/*
+  # Strict security for API
+  Content-Security-Policy: default-src 'none'
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Cache-Control: no-store, no-cache, must-revalidate
+  X-XSS-Protection: 1; mode=block
+  
+  # CORS for API (adjust origins as needed)
+  Access-Control-Allow-Origin: https://qmlab.online
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, X-API-Key
+  Access-Control-Max-Age: 86400
+  Access-Control-Allow-Credentials: false
+
+# CSP Report endpoint
+/api/csp-report
+  Access-Control-Allow-Methods: POST
+  Access-Control-Allow-Headers: Content-Type
+  Content-Type: application/json
+
+# Telemetry endpoint
+/api/telemetry
+  Access-Control-Allow-Methods: POST
+  Access-Control-Allow-Headers: Content-Type, Authorization
+  Content-Type: application/json
+  Rate-Limit: 100 per minute
+
+# Health check endpoint
+/api/health
+  Cache-Control: no-cache
+  Content-Type: application/json
+
+# Security.txt for responsible disclosure
+/.well-known/security.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=86400
+
+# Sitemap and robots
+/sitemap.xml
+  Content-Type: application/xml
+  Cache-Control: public, max-age=86400
+  X-Robots-Tag: noindex
+
+/robots.txt
+  Content-Type: text/plain
+  Cache-Control: public, max-age=86400

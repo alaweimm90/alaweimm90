@@ -1,0 +1,47 @@
+project_id = "xzuylggvftuglkdhnljs"
+
+[auth]
+# CRITICAL SECURITY FIX: Reduce OTP expiry to 5 minutes (300 seconds)
+# Previous default of 24 hours was a security vulnerability
+otp_expiry = 300
+max_otp_attempts = 3
+
+# Enhanced security configurations
+enable_signup = true
+minimum_password_length = 10  # Increased from 8
+password_requirements = "letters_digits_symbols"  # Enhanced requirements
+
+# Session security
+jwt_expiry = 3600  # 1 hour
+refresh_token_rotation_enabled = true
+refresh_token_reuse_interval = 10  # seconds
+
+# MFA settings
+mfa_enabled = true
+mfa_max_enrolled_factors = 10
+
+[auth.email]
+# Email OTP settings with security enhancements
+enable_signup = true
+double_confirm_changes = true
+secure_email_change_enabled = true
+otp_expiry = 300  # 5 minutes
+max_frequency = 60  # Rate limiting: 1 email per minute
+
+[auth.sms]
+# SMS OTP settings with security enhancements
+otp_expiry = 300  # 5 minutes
+max_frequency = 60  # Rate limiting: 1 SMS per minute
+template = "Your LLM Works verification code is: {{.Code}}. Valid for 5 minutes."
+
+[auth.security]
+# Additional security settings
+refresh_token_rotation_enabled = true
+enable_manual_linking = false
+enable_signup_without_verification = false
+
+[database]
+# Connection security
+ssl_enforce = true
+connection_limit = 100
+max_idle_connections = 10

@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["solver", "allocation", "spent", "expected_return", "metadata"],
+  "properties": {
+    "solver": { "type": "string" },
+    "allocation": { "type": "array", "items": { "type": "string" } },
+    "spent": { "type": "number" },
+    "expected_return": { "type": "number" },
+    "metadata": { "type": "object" }
+  }
+}
+

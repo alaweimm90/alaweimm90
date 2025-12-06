@@ -1,0 +1,474 @@
+{
+  "suite_name": "smoke",
+  "suite_config": {
+    "name": "Smoke Test Suite",
+    "description": "Quick validation of core functionality (~5 minutes)",
+    "enabled": true,
+    "max_duration": 300,
+    "problems": [
+      {
+        "type": "qap",
+        "sizes": [
+          10,
+          12
+        ],
+        "instances_per_size": 1
+      },
+      {
+        "type": "tsp",
+        "sizes": [
+          10,
+          15
+        ],
+        "instances_per_size": 1
+      }
+    ],
+    "methods": [
+      {
+        "name": "random_search",
+        "config": {
+          "n_iterations": 100
+        }
+      },
+      {
+        "name": "simulated_annealing",
+        "config": {
+          "max_iterations": 100
+        }
+      },
+      {
+        "name": "genetic_algorithm",
+        "config": {
+          "generations": 10,
+          "population_size": 20
+        }
+      }
+    ],
+    "runs_per_method": 2
+  },
+  "start_time": "2025-11-18T12:16:37.012654",
+  "results": [
+    {
+      "problem": {
+        "type": "qap",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "random_search",
+      "config": {
+        "n_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        196936.0,
+        201758.0
+      ],
+      "runtimes": [
+        0.021994829177856445,
+        0.015076398849487305
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 199347.0,
+        "std_objective": 2411.0,
+        "best_objective": 196936.0,
+        "worst_objective": 201758.0,
+        "mean_runtime": 0.018535614013671875,
+        "std_runtime": 0.0034592151641845703,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "qap",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "simulated_annealing",
+      "config": {
+        "max_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        198020.0,
+        196884.0
+      ],
+      "runtimes": [
+        0.28913092613220215,
+        0.2892594337463379
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 197452.0,
+        "std_objective": 568.0,
+        "best_objective": 196884.0,
+        "worst_objective": 198020.0,
+        "mean_runtime": 0.28919517993927,
+        "std_runtime": 6.42538070678711e-05,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "qap",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "genetic_algorithm",
+      "config": {
+        "generations": 10,
+        "population_size": 20
+      },
+      "runs": 2,
+      "objectives": [
+        201902.0,
+        201460.0
+      ],
+      "runtimes": [
+        0.01175999641418457,
+        0.010969161987304688
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 201681.0,
+        "std_objective": 221.0,
+        "best_objective": 201460.0,
+        "worst_objective": 201902.0,
+        "mean_runtime": 0.011364579200744629,
+        "std_runtime": 0.0003954172134399414,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "qap",
+        "size": 12,
+        "instance_idx": 0
+      },
+      "method": "random_search",
+      "config": {
+        "n_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        316770.0,
+        313938.0
+      ],
+      "runtimes": [
+        0.016191959381103516,
+        0.016432762145996094
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 315354.0,
+        "std_objective": 1416.0,
+        "best_objective": 313938.0,
+        "worst_objective": 316770.0,
+        "mean_runtime": 0.016312360763549805,
+        "std_runtime": 0.00012040138244628906,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "qap",
+        "size": 12,
+        "instance_idx": 0
+      },
+      "method": "simulated_annealing",
+      "config": {
+        "max_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        308462.0,
+        307468.0
+      ],
+      "runtimes": [
+        0.29878902435302734,
+        0.3003213405609131
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 307965.0,
+        "std_objective": 497.0,
+        "best_objective": 307468.0,
+        "worst_objective": 308462.0,
+        "mean_runtime": 0.2995551824569702,
+        "std_runtime": 0.0007661581039428711,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "qap",
+        "size": 12,
+        "instance_idx": 0
+      },
+      "method": "genetic_algorithm",
+      "config": {
+        "generations": 10,
+        "population_size": 20
+      },
+      "runs": 2,
+      "objectives": [
+        315032.0,
+        315546.0
+      ],
+      "runtimes": [
+        0.012398004531860352,
+        0.012373924255371094
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 315289.0,
+        "std_objective": 257.0,
+        "best_objective": 315032.0,
+        "worst_objective": 315546.0,
+        "mean_runtime": 0.012385964393615723,
+        "std_runtime": 1.2040138244628906e-05,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "random_search",
+      "config": {
+        "n_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        362.6643631837132,
+        339.57949791089845
+      ],
+      "runtimes": [
+        0.005561113357543945,
+        0.00540471076965332
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 351.12193054730585,
+        "std_objective": 11.54243263640737,
+        "best_objective": 339.57949791089845,
+        "worst_objective": 362.6643631837132,
+        "mean_runtime": 0.005482912063598633,
+        "std_runtime": 7.82012939453125e-05,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "simulated_annealing",
+      "config": {
+        "max_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        290.30677377778755,
+        290.3067737777876
+      ],
+      "runtimes": [
+        0.13939547538757324,
+        0.13679718971252441
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 290.3067737777876,
+        "std_objective": 4.0194366942304644e-14,
+        "best_objective": 290.30677377778755,
+        "worst_objective": 290.3067737777876,
+        "mean_runtime": 0.13809633255004883,
+        "std_runtime": 0.001299142837524414,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 10,
+        "instance_idx": 0
+      },
+      "method": "genetic_algorithm",
+      "config": {
+        "generations": 10,
+        "population_size": 20
+      },
+      "runs": 2,
+      "objectives": [
+        364.4618027551804,
+        348.6102558798524
+      ],
+      "runtimes": [
+        0.008417844772338867,
+        0.008418560028076172
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 356.5360293175164,
+        "std_objective": 7.925773437663992,
+        "best_objective": 348.6102558798524,
+        "worst_objective": 364.4618027551804,
+        "mean_runtime": 0.00841820240020752,
+        "std_runtime": 3.5762786865234375e-07,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 15,
+        "instance_idx": 0
+      },
+      "method": "random_search",
+      "config": {
+        "n_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        524.8941538595311,
+        560.0097671910444
+      ],
+      "runtimes": [
+        0.007352590560913086,
+        0.0076215267181396484
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 542.4519605252877,
+        "std_objective": 17.55780666575663,
+        "best_objective": 524.8941538595311,
+        "worst_objective": 560.0097671910444,
+        "mean_runtime": 0.007487058639526367,
+        "std_runtime": 0.00013446807861328125,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 15,
+        "instance_idx": 0
+      },
+      "method": "simulated_annealing",
+      "config": {
+        "max_iterations": 100
+      },
+      "runs": 2,
+      "objectives": [
+        320.52566566960746,
+        353.22313737541344
+      ],
+      "runtimes": [
+        0.15421319007873535,
+        0.15629196166992188
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 336.8744015225104,
+        "std_objective": 16.34873585290299,
+        "best_objective": 320.52566566960746,
+        "worst_objective": 353.22313737541344,
+        "mean_runtime": 0.1552525758743286,
+        "std_runtime": 0.0010393857955932617,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    },
+    {
+      "problem": {
+        "type": "tsp",
+        "size": 15,
+        "instance_idx": 0
+      },
+      "method": "genetic_algorithm",
+      "config": {
+        "generations": 10,
+        "population_size": 20
+      },
+      "runs": 2,
+      "objectives": [
+        533.0055556368875,
+        463.80760391834053
+      ],
+      "runtimes": [
+        0.011088848114013672,
+        0.011168479919433594
+      ],
+      "memory_usage": [
+        0,
+        0
+      ],
+      "statistics": {
+        "mean_objective": 498.406579777614,
+        "std_objective": 34.59897585927348,
+        "best_objective": 463.80760391834053,
+        "worst_objective": 533.0055556368875,
+        "mean_runtime": 0.011128664016723633,
+        "std_runtime": 3.981590270996094e-05,
+        "mean_memory": 0.0,
+        "success_rate": 100.0
+      }
+    }
+  ],
+  "end_time": "2025-11-18T12:16:38.982554",
+  "total_duration": 1.9699108600616455,
+  "metadata": {
+    "timestamp": "2025-11-18T12:16:36.994504",
+    "git_commit": "a97b433c",
+    "python_version": "3.11.14 (main, Oct 10 2025, 08:54:04) [GCC 13.3.0]",
+    "platform": "linux",
+    "cpu_count": 16,
+    "memory_total": null
+  }
+}

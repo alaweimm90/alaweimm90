@@ -1,0 +1,19 @@
+organization_framework:
+  organization_types:
+    research:
+      prefix: 'Librex'
+      governance_level: 'research'
+      required_files:
+        - 'README.md'
+        - 'LICENSE'
+        - 'CODE_OF_CONDUCT.md'
+        - 'SECURITY.md'
+        - 'CONTRIBUTING.md'
+        - '.gitignore'
+        - 'pyproject.toml'
+compliance_rules:
+  research:
+    - 'reproducibility_standards'
+    - 'benchmark_validation'
+    - 'method_documentation'
+    - 'test_coverage_95plus'

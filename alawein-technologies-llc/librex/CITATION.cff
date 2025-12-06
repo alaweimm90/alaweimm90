@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+title: Optilibria
+message: Please cite this software using the metadata below.
+authors:
+  - family-names: Alawein
+    given-names: Meshal
+    email: meshal@berkeley.edu
+identifiers:
+  - type: url
+    value: https://github.com/alaweimm90/Optilibria
+license: Apache-2.0
+repository-code: https://github.com/alaweimm90/Optilibria
+version: "1.0.0"

@@ -1,0 +1,58 @@
+# No Hype Language - Ban generic AI/marketing speak
+# Enforce concrete, evidence-based claims
+
+extends: substitution
+message: "Avoid hype language: '%s'. Use concrete, specific claims instead."
+ignorecase: true
+level: error
+swap:
+  # Generic AI hype
+  revolutionary: ''
+  groundbreaking: ''
+  game-changing: ''
+  paradigm-shifting: ''
+  disruptive: ''
+  transformative: ''
+  cutting-edge: ''
+  state-of-the-art: ''
+  next-generation: ''
+  next-gen: ''
+  world-class: ''
+  industry-leading: ''
+  best-in-class: ''
+  
+  # Vague superlatives
+  amazing: ''
+  incredible: ''
+  awesome: ''
+  fantastic: ''
+  phenomenal: ''
+  extraordinary: ''
+  remarkable: ''
+  
+  # Marketing speak
+  leverage: 'use'
+  utilize: 'use'
+  synergy: ''
+  ecosystem: 'system'
+  seamless: 'smooth'
+  robust: 'reliable'
+  scalable: ''
+  enterprise-grade: ''
+  production-ready: ''
+  
+  # Vague claims
+  easily: ''
+  simply: ''
+  just: ''
+  obviously: ''
+  clearly: ''
+  
+  # AI-specific hype
+  powered by AI: ''
+  AI-powered: ''
+  AI-driven: ''
+  intelligent: ''
+  smart: ''
+  advanced: ''
+

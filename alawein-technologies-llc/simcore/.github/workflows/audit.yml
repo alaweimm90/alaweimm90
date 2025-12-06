@@ -1,0 +1,53 @@
+name: Audit
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 3 * * *'
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  quick-audit:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps
+      - name: Run Lighthouse, axe, Playwright, CSS stats, Pa11y (skip AI)
+        run: |
+          npx start-server-and-test preview http://127.0.0.1:4173 "npm run audit:lh && npm run audit:axe && npm run audit:pw && npm run audit:css && npm run audit:pa11y"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-artifacts-pr
+          path: |
+            .audit/**
+            .audit/lhci/**
+
+  full-audit:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps
+      - run: npm run audit:full
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-artifacts
+          path: |
+            .audit/**
+            .audit/lhci/**

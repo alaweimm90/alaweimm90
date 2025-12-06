@@ -1,0 +1,390 @@
+// Type-I Reconfigurable NAND/NOR Gate - MuMax3 Implementation
+// Based on: M. Alawein et al., IEEE Mag. Lett. 2019
+// Author: Meshal Alawein <meshal@berkeley.edu>
+
+// Simulation parameters
+clock_angle := 60.0         // Clock field angle (degrees: +60° = NAND, -60° = NOR)
+temperature := 300.0        // Temperature (K)
+spacing := 30e-9           // Inter-element spacing (m)
+thickness := 10e-9         // Element thickness (m)
+edge_length := 100e-9      // Triangle edge length (m)
+
+// Input logic states
+input_A_val := 1           // Logic input A (0 or 1)
+input_B_val := 0           // Logic input B (0 or 1)
+
+// Material parameters (Permalloy Ni80Fe20)
+Msat = 860e3              // Saturation magnetization (A/m)
+Aex = 13e-12             // Exchange constant (J/m)
+alpha = 0.01             // Gilbert damping
+anisu = 0                // Uniaxial anisotropy
+
+// Field parameters
+clock_field_amplitude := 10e3    // Clock field strength (A/m)
+input_field_amplitude := 15e3    // Input field strength (A/m)
+
+// Time parameters
+final_time := 10e-9            // Total simulation time (s)
+field_ramp_time := 2e-9        // Field ramp time (s)
+input_start_time := 1e-9       // When to apply input fields (s)
+input_end_time := 3e-9         // When to stop input fields (s)
+
+// Mesh setup
+cell_size := 2e-9
+Nx := 200
+Ny := 150
+Nz := 1
+
+SetGridSize(Nx, Ny, Nz)
+SetCellSize(cell_size, cell_size, thickness)
+
+// Geometry parameters
+tri_height := edge_length * sqrt(3) / 2.0
+tri_center_y := tri_height / 3.0
+
+// Element positions
+triangle_x := 0.0
+triangle_y := 0.0
+
+input_A_x := -edge_length/2 - spacing - 40e-9
+input_A_y := 0.0
+
+input_B_x := edge_length/2 + spacing + 40e-9
+input_B_y := 0.0
+
+output_C_x := 0.0
+output_C_y := -tri_center_y - spacing - 20e-9
+
+// Define regions using geometric shapes
+// Region 1: Central triangle T
+triangle_shape := func(x, y, z float64) bool {
+    // Translate to triangle center
+    dx := x - triangle_x
+    dy := y - triangle_y
+    
+    // Equilateral triangle vertices
+    v1_x := -edge_length/2
+    v1_y := -tri_center_y
+    v2_x := edge_length/2
+    v2_y := -tri_center_y
+    v3_x := 0.0
+    v3_y := 2*tri_center_y
+    
+    // Barycentric coordinate test
+    denom := (v1_y-v2_y)*(v3_x-v2_x) + (v2_x-v1_x)*(v3_y-v2_y)
+    if abs(denom) < 1e-15 {
+        return false
+    }
+    
+    a := ((v1_y-v2_y)*(dx-v2_x) + (v2_x-v1_x)*(dy-v2_y)) / denom
+    b := ((v2_y-v3_y)*(dx-v2_x) + (v3_x-v2_x)*(dy-v2_y)) / denom
+    c := 1 - a - b
+    
+    return a >= 0 && b >= 0 && c >= 0
+}
+
+// Region 2: Input A (ellipse)
+input_A_shape := func(x, y, z float64) bool {
+    dx := x - input_A_x
+    dy := y - input_A_y
+    
+    a := 40e-9  // Semi-major axis
+    b := 20e-9  // Semi-minor axis
+    
+    return (dx*dx)/(a*a) + (dy*dy)/(b*b) <= 1.0
+}
+
+// Region 3: Input B (ellipse)
+input_B_shape := func(x, y, z float64) bool {
+    dx := x - input_B_x
+    dy := y - input_B_y
+    
+    a := 40e-9  // Semi-major axis
+    b := 20e-9  // Semi-minor axis
+    
+    return (dx*dx)/(a*a) + (dy*dy)/(b*b) <= 1.0
+}
+
+// Region 4: Output C (ellipse)
+output_C_shape := func(x, y, z float64) bool {
+    dx := x - output_C_x
+    dy := y - output_C_y
+    
+    a := 40e-9  // Semi-major axis
+    b := 20e-9  // Semi-minor axis
+    
+    return (dx*dx)/(a*a) + (dy*dy)/(b*b) <= 1.0
+}
+
+// Define all regions
+DefRegion(1, triangle_shape)  // Central triangle
+DefRegion(2, input_A_shape)   // Input A
+DefRegion(3, input_B_shape)   // Input B
+DefRegion(4, output_C_shape)  // Output C
+
+// Set material parameters for each region
+regions := []int{1, 2, 3, 4}
+for _, region := range regions {
+    Msat.SetRegion(region, 860e3)
+    Aex.SetRegion(region, 13e-12)
+    alpha.SetRegion(region, 0.01)
+}
+
+// Initial magnetization (random for all regions)
+m = RandomMag()
+
+// Temperature effects
+if temperature > 0 {
+    Temp = temperature
+    ThermSeed(1)  // Reproducible thermal noise
+}
+
+// Time-dependent clock field applied to central triangle
+clock_field_x := func(t float64) float64 {
+    // Ramp envelope
+    var scale float64
+    if t <= field_ramp_time {
+        scale = t / field_ramp_time
+    } else if t >= (final_time - field_ramp_time) {
+        scale = (final_time - t) / field_ramp_time
+        if scale < 0 {
+            scale = 0
+        }
+    } else {
+        scale = 1.0
+    }
+    
+    clock_rad := clock_angle * pi / 180.0
+    return clock_field_amplitude * scale * cos(clock_rad)
+}
+
+clock_field_y := func(t float64) float64 {
+    // Ramp envelope
+    var scale float64
+    if t <= field_ramp_time {
+        scale = t / field_ramp_time
+    } else if t >= (final_time - field_ramp_time) {
+        scale = (final_time - t) / field_ramp_time
+        if scale < 0 {
+            scale = 0
+        }
+    } else {
+        scale = 1.0
+    }
+    
+    clock_rad := clock_angle * pi / 180.0
+    return clock_field_amplitude * scale * sin(clock_rad)
+}
+
+// Apply clock field to central triangle only
+B_ext.SetRegion(1, func() [3]float64 {
+    return [3]float64{clock_field_x(t), clock_field_y(t), 0}
+})
+
+// Input fields applied to input regions during specified time window
+input_field_A := func(t float64) float64 {
+    if t >= input_start_time && t <= input_end_time {
+        return float64(input_A_val) * input_field_amplitude
+    }
+    return 0
+}
+
+input_field_B := func(t float64) float64 {
+    if t >= input_start_time && t <= input_end_time {
+        return float64(input_B_val) * input_field_amplitude
+    }
+    return 0
+}
+
+// Apply input fields
+B_ext.SetRegion(2, func() [3]float64 {
+    return [3]float64{input_field_A(t), 0, 0}
+})
+
+B_ext.SetRegion(3, func() [3]float64 {
+    return [3]float64{input_field_B(t), 0, 0}
+})
+
+// No external field on output region (only magnetostatic coupling)
+B_ext.SetRegion(4, func() [3]float64 {
+    return [3]float64{0, 0, 0}
+})
+
+// Time stepping
+FixDt = 1e-12  // 1 ps time steps
+
+// Output configuration
+gate_type := "NAND"
+if clock_angle < 0 {
+    gate_type = "NOR"
+}
+
+output_basename := Sprintf("type1_%s_clock%.0f_T%.0f_inputs%d%d", 
+                          gate_type, abs(clock_angle), temperature, input_A_val, input_B_val)
+SetOutputDir(output_basename)
+
+// Save initial state
+save(m)
+
+// Data table setup
+TableAdd(E_total)
+TableAdd(E_exch)
+TableAdd(E_demag)
+TableAdd(E_Zeeman)
+TableAdd(MaxTorque)
+
+// Regional magnetization components
+TableAddVar(m.Region(1), "m_triangle", "")
+TableAddVar(m.Region(2), "m_inputA", "")
+TableAddVar(m.Region(3), "m_inputB", "")
+TableAddVar(m.Region(4), "m_outputC", "")
+
+// Regional energy densities
+TableAddVar(Edens_total.Region(1), "E_triangle", "J/m³")
+TableAddVar(Edens_total.Region(2), "E_inputA", "J/m³")
+TableAddVar(Edens_total.Region(3), "E_inputB", "J/m³")
+TableAddVar(Edens_total.Region(4), "E_outputC", "J/m³")
+
+// Clock and input field monitoring
+TableAdd(clock_field_x(t), "H_clock_x")
+TableAdd(clock_field_y(t), "H_clock_y")
+TableAdd(input_field_A(t), "H_input_A")
+TableAdd(input_field_B(t), "H_input_B")
+
+// Logic state analysis
+logic_analyzer := func() float64 {
+    output_m := m.Region(4).Average()
+    
+    // Simple threshold-based logic detection
+    // In practice, this would be more sophisticated
+    mx := output_m.x()
+    
+    if mx > 0.5 {
+        return 1.0  // Logic '1'
+    } else if mx < -0.5 {
+        return 0.0  // Logic '0'
+    } else {
+        return -1.0 // Undefined/intermediate state
+    }
+}
+
+TableAdd(logic_analyzer(), "logic_output")
+
+// Set output intervals
+TableAutoSave(10e-12)  // Save table every 10 ps
+AutoSave(m, 100e-12)   // Save magnetization every 100 ps
+
+// Save field maps at key times
+AutoSnapshots(B_demag, "png", 1e-9)
+AutoSnapshots(m, "png", 500e-12)
+
+// Run simulation  
+Run(final_time)
+
+// Final analysis
+final_m_triangle := m.Region(1).Average()
+final_m_output := m.Region(4).Average()
+final_energy := E_total.Get()
+
+Print("=== Type-I Gate Simulation Results ===")
+Print("Gate type: ", gate_type)
+Print("Clock angle: ", clock_angle, "°")
+Print("Temperature: ", temperature, " K")
+Print("Input A: ", input_A_val, ", Input B: ", input_B_val)
+Print("Final triangle magnetization: ", final_m_triangle)
+Print("Final output magnetization: ", final_m_output)
+Print("Final total energy: ", final_energy, " J")
+
+// Logic state determination
+output_mx := final_m_output.x()
+var logic_output int
+var logic_state string
+
+if output_mx > 0.5 {
+    logic_output = 1
+    logic_state = "HIGH"
+} else if output_mx < -0.5 {
+    logic_output = 0
+    logic_state = "LOW"
+} else {
+    logic_output = -1
+    logic_state = "UNDEFINED"
+}
+
+Print("Logic output: ", logic_output, " (", logic_state, ")")
+
+// Verify expected logic operation
+var expected_output int
+if gate_type == "NAND" {
+    expected_output = 1
+    if input_A_val == 1 && input_B_val == 1 {
+        expected_output = 0
+    }
+} else { // NOR
+    expected_output = 0
+    if input_A_val == 0 && input_B_val == 0 {
+        expected_output = 1
+    }
+}
+
+Print("Expected output: ", expected_output)
+
+correct := false
+if logic_output == expected_output {
+    correct = true
+}
+
+Print("Logic correctness: ", correct)
+
+// Save final states
+SaveAs(m, "final_magnetization")
+SaveAs(B_demag, "final_demag_field")
+SaveAs(B_eff, "final_effective_field")
+SaveAs(Edens_total, "final_energy_density")
+
+// Generate summary report
+Print("\n=== Simulation Summary ===")
+Print("Total simulation time: ", final_time*1e9, " ns")
+Print("Output directory: ", GetOutputDir())
+Print("Gate operates correctly: ", correct)
+
+if !correct {
+    Print("WARNING: Gate logic output does not match expected result!")
+    Print("This may indicate:")
+    Print("  - Insufficient simulation time")
+    Print("  - Incorrect field parameters")
+    Print("  - Thermal noise effects")
+    Print("  - Need for geometry optimization")
+}
+
+Print("Simulation completed successfully!")
+
+// Physics Documentation:
+// This simulation implements the Type-I reconfigurable logic gate described in
+// M. Alawein et al., IEEE Magnetics Letters, 2019. Key features:
+//  
+// 1. Reconfigurable Operation:
+//    - Clock field at +60° → NAND gate operation
+//    - Clock field at -60° → NOR gate operation
+//    - Reconfiguration achieved by rotating effective easy axis
+//
+// 2. Magnetostatic Coupling:
+//    - Input elements create local field perturbations
+//    - Central triangle responds to combined input fields + clock field
+//    - Output element reads the resulting state
+//
+// 3. Truth Tables:
+//    NAND (clock = +60°): Output = !(A & B)
+//    NOR  (clock = -60°): Output = !(A | B)
+//
+// 4. Operating Principles:
+//    - Shape anisotropy provides bistable states
+//    - Clock field biases energy landscape
+//    - Input fields provide information encoding
+//    - Magnetostatic coupling enables information transfer
+//
+// 5. Design Considerations:
+//    - Element spacing affects coupling strength
+//    - Clock field strength determines switching reliability
+//    - Temperature affects stability and error rates
+//    - Geometry optimization balances speed vs. robustness

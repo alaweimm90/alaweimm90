@@ -1,0 +1,4173 @@
+{
+  "timestamp": "2025-11-11T23:08:40.304Z",
+  "summary": {
+    "total": 518,
+    "errors": 0,
+    "warnings": 502,
+    "info": 16
+  },
+  "issues": [
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/App.tsx",
+      "line": 27,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const Contact = lazy(() => import('./pages/Contact.tsx'));"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackCapMockup.tsx",
+      "line": 151,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackCapMockup.tsx",
+      "line": 153,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontWeight=\"bold\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackCapMockup.tsx",
+      "line": 162,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackHoodieMockup.tsx",
+      "line": 110,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackHoodieMockup.tsx",
+      "line": 112,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontWeight=\"bold\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackHoodieMockup.tsx",
+      "line": 121,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackTShirtMockup.tsx",
+      "line": 79,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackTShirtMockup.tsx",
+      "line": 81,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontWeight=\"bold\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/assets/products/BlackTShirtMockup.tsx",
+      "line": 90,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Helvetica, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 79,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 101,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, firstName: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 112,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, lastName: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 124,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, address: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 136,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, city: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 147,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, state: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 158,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, zipCode: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 164,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"outline\" onClick={() => setIsDialogOpen(false)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 167,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"primary\" onClick={handleSave}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 197,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"outline\" size=\"sm\" onClick={() => onAddressSelect(address)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 201,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"ghost\" size=\"icon\" onClick={() => handleEdit(address)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AddressBook.tsx",
+      "line": 204,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"ghost\" size=\"icon\" onClick={() => handleDelete(address)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AthleteShowcase.tsx",
+      "line": 5,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const sectionRef = useRef<HTMLElement>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/AthleteShowcase.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 59,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const currentMonth = new Date().getMonth() + 1; // 1-12"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 76,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={() => setHoveredIndex(0)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 182,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={() => setHoveredIndex(index)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/BirdLogoShowcase.tsx",
+      "line": 58,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 61,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={onClose}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={onClose}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 124,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() =>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 139,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() =>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 149,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => handleRemoveItem(item.id, item.name)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 179,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={onClose}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 186,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={handleClearCart}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 22,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartDrawer.tsx",
+      "line": 22,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/CartIcon.tsx",
+      "line": 14,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={onClick}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 32,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const validationError = validateEmail(email);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 95,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setIsSubmitted(false)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 137,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form onSubmit={handleSubmit} className=\"max-w-md mx-auto\" noValidate>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 149,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={handleEmailChange}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/EmailCapture.tsx",
+      "line": 73,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedCollections.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const collections = ["
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FeaturedCollections.tsx",
+      "line": 31,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const FeaturedCollections = () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 43,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => onChange({ search: e.target.value, page: 1 })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 57,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onValueChange={value =>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 84,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onValueChange={handlePriceRangeChange}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/FilterPanel.tsx",
+      "line": 104,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onValueChange={value => onChange({ sortBy: value as ProductFilter['sortBy'], page: 1 })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Footer.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form className=\"space-y-3\" onSubmit={e => e.preventDefault()}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const IconShowcase = () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 133,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const brandmarkConcepts = ["
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 239,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const IconComponent = icon.component;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconShowcase.tsx",
+      "line": 277,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const BrandmarkComponent = brandmark.component;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/IconicLogo.tsx",
+      "line": 5,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const IconicLogo = ({ className = 'w-8 h-8' }: IconicLogoProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const sectionRef = useRef<HTMLElement>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 107,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 111,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseLeave={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 140,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 144,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseLeave={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 165,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 169,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseLeave={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LifestyleTeaser.tsx",
+      "line": 12,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LoadingWrapper.tsx",
+      "line": 19,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "skeletonType = 'default',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LoadingWrapper.tsx",
+      "line": 26,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const timer = setTimeout(() => setShowSkeleton(true), delay);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/LoadingWrapper.tsx",
+      "line": 24,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 28,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('scroll', handleScroll);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 121,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<CartIcon onClick={() => setIsOpen(true)} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 126,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<CartIcon onClick={() => setIsOpen(true)} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 130,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setIsMenuOpen(!isMenuOpen)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 168,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setIsMenuOpen(false)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 179,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<CartDrawer isOpen={useCart().isOpen} onClose={() => setIsOpen(false)} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Navigation.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PWAInstallPrompt.tsx",
+      "line": 34,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setDismissed(true)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PWAInstallPrompt.tsx",
+      "line": 42,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"outline\" size=\"sm\" onClick={() => setDismissed(true)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PWAInstallPrompt.tsx",
+      "line": 45,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"primary\" size=\"sm\" onClick={handleInstall}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PageTransition.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const timer = setTimeout(() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PageTransition.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 20,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('resize', resizeCanvas);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 64,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "animationFrameId = requestAnimationFrame(animate);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/PodcastShowcase.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductBirdBadge.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const birdComponents = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductCard.tsx",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={() => setIsHovered(true)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductCard.tsx",
+      "line": 75,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductCard.tsx",
+      "line": 114,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={handleAddToCart}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 201,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<div onClick={() => setSelectedProduct(product)} className=\"cursor-pointer\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 249,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 302,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedProduct(null)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 441,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => toggleFavorite(selectedProduct.id)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ProductShowcase.tsx",
+      "line": 458,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => toggleCart(selectedProduct.id)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 27,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta name=\"description\" content={description} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 31,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta property=\"og:type\" content={ogType} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta property=\"og:title\" content={fullTitle} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta property=\"og:image\" content={ogImage} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta name=\"twitter:card\" content=\"summary_large_image\" />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SEO.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<meta name=\"twitter:description\" content={description} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollIndicator.tsx",
+      "line": 15,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('scroll', updateScrollProgress);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollIndicator.tsx",
+      "line": 6,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollProgress.tsx",
+      "line": 18,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('scroll', updateScrollProgress);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ScrollProgress.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 20,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "setTimeout(() => setIsVisible(false), 100);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "document.addEventListener('keydown', handleKeyDown);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "document.addEventListener('focusout', handleBlur);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onFocus={() => setIsVisible(true)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SkipLinks.tsx",
+      "line": 6,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Stories.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedStory(story)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Stories.tsx",
+      "line": 108,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedStory(null)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const sectionRef = useRef<HTMLElement>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 58,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const interval = setInterval(() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const goToNext = () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 135,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={goToPrevious}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 146,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 164,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={goToNext}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 198,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseEnter={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 202,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onMouseLeave={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 232,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setIsAutoPlaying(!isAutoPlaying)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/SupercarGallery.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 86,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => ("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 132,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const Testimonials = ({ limit, showHeader = true, className = '' }: TestimonialsProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 133,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const displayTestimonials = limit ? testimonials.slice(0, limit) : testimonials;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 152,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "{displayTestimonials.map(testimonial => ("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/Testimonials.tsx",
+      "line": 153,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<TestimonialCard key={testimonial.id} testimonial={testimonial} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/Filters.tsx",
+      "line": 34,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onValueChange={value =>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/Filters.tsx",
+      "line": 60,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => onChange({ ...filters, search: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/Filters.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => onChange({ ...filters, dateFrom: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/Filters.tsx",
+      "line": 84,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => onChange({ ...filters, dateTo: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/admin/OrderTable.tsx",
+      "line": 95,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onValueChange={value => handleStatusChange(order.id, value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"18\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"14\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 58,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 79,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArchitecturalBlock.tsx",
+      "line": 81,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"22\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"18\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 57,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 71,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"22\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ArtDecoStyle.tsx",
+      "line": 73,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"28\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"22\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 54,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"28\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/BoldStatement.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 43,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"24\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 57,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 68,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ClassicEmblem.tsx",
+      "line": 70,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DiagonalDynamic = ({ className }: DiagonalDynamicProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 26,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"24\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 28,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 40,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 42,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 53,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"24\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/DiagonalDynamic.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/FuturisticType.tsx",
+      "line": 63,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"22\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/FuturisticType.tsx",
+      "line": 65,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/HandwrittenSignature.tsx",
+      "line": 59,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/HandwrittenSignature.tsx",
+      "line": 61,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"cursive\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/HandwrittenSignature.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/HandwrittenSignature.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"cursive\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/InitialsCircle.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"32\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/InitialsCircle.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/InitialsCircle.tsx",
+      "line": 49,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"8\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/InitialsCircle.tsx",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"28\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"24\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"28\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/LuxurySerif.tsx",
+      "line": 57,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 25,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 47,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MinimalistStack.tsx",
+      "line": 49,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ModernWordmark.tsx",
+      "line": 49,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ModernWordmark.tsx",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ModernWordmark.tsx",
+      "line": 61,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ModernWordmark.tsx",
+      "line": 63,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MonogramShield.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const MonogramShield = ({ className }: MonogramShieldProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MonogramShield.tsx",
+      "line": 40,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"20\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/MonogramShield.tsx",
+      "line": 42,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ScriptElegance.tsx",
+      "line": 63,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"14\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/ScriptElegance.tsx",
+      "line": 65,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/TechMonospace.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const TechMonospace = ({ className }: TechMonospaceProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/TechMonospace.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"16\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/brandmarks/TechMonospace.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"monospace\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await paymentService.createPaymentIntent({"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 133,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const cardElementOptions = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 159,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form onSubmit={handleSubmit} className=\"space-y-6\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 180,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setCardholderName(e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 190,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<CardElement options={cardElementOptions} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 207,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={onBack}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 237,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const stripeOptions: StripeElementsOptions = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 244,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Elements stripe={stripePromise} options={stripeOptions}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/PaymentForm.tsx",
+      "line": 38,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 45,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form onSubmit={handleSubmit} className=\"space-y-6\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('firstName', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 67,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('lastName', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 82,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('email', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 96,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('phone', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 109,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('address', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 123,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('city', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 135,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('state', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 147,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('zipCode', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/checkout/ShippingForm.tsx",
+      "line": 161,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleChange('country', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/icons/DiamondLogo.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DiamondLogo = ({ className }: DiamondLogoProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/icons/ElevationLogo.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ElevationLogo = ({ className }: ElevationLogoProps) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/IconicDiamondMark.tsx",
+      "line": 73,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"10\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/IconicDiamondMark.tsx",
+      "line": 77,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-ui)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 41,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"48\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"48\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 60,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 69,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"48\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 74,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 123,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"56\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 127,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 136,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"56\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 140,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 149,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"56\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/LiveItIconicWordmark.tsx",
+      "line": 153,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"var(--font-display)\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/TropicalHummingbird.tsx",
+      "line": 89,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontSize=\"8\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/logo/TropicalHummingbird.tsx",
+      "line": 92,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "fontFamily=\"Montserrat, sans-serif\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 78,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"outline\" size=\"sm\" onClick={() => setShowForm(!showForm)}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form onSubmit={handleSubmit} className=\"space-y-4 p-4 bg-lii-charcoal/20 rounded-lg\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 93,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, userName: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 104,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setFormData({ ...formData, rating: star })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductReviews.tsx",
+      "line": 125,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => setFormData({ ...formData, comment: e.target.value })}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/product/ProductVariantSelector.tsx",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => onVariantSelect(option.variantId)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/accordion.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const AccordionItem = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/accordion.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const AccordionTrigger = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/accordion.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const AccordionContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/alert-dialog.tsx",
+      "line": 27,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const AlertDialogContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/buttonVariants.ts",
+      "line": 9,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const buttonVariants = cva("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/calendar.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "components={{"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/card.tsx",
+      "line": 45,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type CarouselOptions = UseCarouselParameters[0];"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 20,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type CarouselContextProps = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 29,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const CarouselContext = React.createContext<CarouselContextProps | null>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 32,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = React.useContext(CarouselContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const onSelect = React.useCallback((api: CarouselApi) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 122,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onKeyDownCapture={handleKeyDown}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 135,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 194,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={scrollPrev}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 222,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={scrollNext}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/carousel.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export type ChartConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 19,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type ChartContextProps = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ChartContext = React.createContext<ChartContextProps | null>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 26,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = React.useContext(ChartContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ChartContainer = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<ChartStyle id={chartId} config={config} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 65,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 95,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ChartTooltipContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 133,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const itemConfig = getPayloadConfigFromPayload(config, item, key);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 170,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const itemConfig = getPayloadConfigFromPayload(config, item, key);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 241,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ChartLegendContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 266,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const itemConfig = getPayloadConfigFromPayload(config, item, key);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 308,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "configLabelKey = payload[key as keyof typeof payload] as string;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/chart.tsx",
+      "line": 314,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "configLabelKey = payloadPayload[key as keyof typeof payloadPayload] as string;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/collapsible.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenu = ContextMenuPrimitive.Root;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 9,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuTrigger = ContextMenuPrimitive.Trigger;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuGroup = ContextMenuPrimitive.Group;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuPortal = ContextMenuPrimitive.Portal;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 15,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuSub = ContextMenuPrimitive.Sub;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 19,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuSubTrigger = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 40,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuSubContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuItem = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 90,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuCheckboxItem = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 113,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuRadioItem = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 135,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuLabel = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 149,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuSeparator = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/context-menu.tsx",
+      "line": 161,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ContextMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/dialog.tsx",
+      "line": 30,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DialogContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/drawer.tsx",
+      "line": 32,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DrawerContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/dropdown-menu.tsx",
+      "line": 40,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DropdownMenuSubContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/dropdown-menu.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const DropdownMenuContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/form.tsx",
+      "line": 56,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const FormControl = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/formHelpers.tsx",
+      "line": 11,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/formHelpers.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type FormItemContextValue = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/formHelpers.tsx",
+      "line": 17,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/formHelpers.tsx",
+      "line": 20,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const fieldContext = React.useContext(FormFieldContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/hover-card.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const HoverCardContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/input-otp.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "containerClassName={cn("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/input-otp.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const inputOTPContext = React.useContext(OTPInputContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/menubar.tsx",
+      "line": 68,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const MenubarSubContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/menubar.tsx",
+      "line": 83,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const MenubarContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenu = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuList = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuItem = NavigationMenuPrimitive.Item;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuTrigger = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 55,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 70,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuLink = NavigationMenuPrimitive.Link;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuViewport = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigation-menu.tsx",
+      "line": 89,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const NavigationMenuIndicator = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/navigationMenuStyles.ts",
+      "line": 3,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const navigationMenuTriggerStyle = cva("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 16,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<'li'>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 28,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type PaginationLinkProps = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationLink = ({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) => ("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 48,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationPrevious = ({"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 64,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationNext = ({ className, ...props }: React.ComponentProps<typeof PaginationLink>) => ("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/pagination.tsx",
+      "line": 77,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => ("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/popover.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const PopoverContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/select.tsx",
+      "line": 61,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const SelectContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sheet.tsx",
+      "line": 54,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const SheetContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 80,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('keydown', handleKeyDown);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 88,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const contextValue = React.useMemo<SidebarContext>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 166,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 244,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={event => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 267,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={toggleSidebar}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 363,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const SidebarContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 438,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const SidebarGroupContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 474,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const sidebarMenuButtonVariants = cva("
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 561,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": ">(({ className, asChild = false, showOnHover = false, ...props }, ref) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebar.tsx",
+      "line": 72,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebarHelpers.tsx",
+      "line": 3,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export type SidebarContext = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebarHelpers.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const SidebarContext = React.createContext<SidebarContext | null>(null);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sidebarHelpers.tsx",
+      "line": 16,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = React.useContext(SidebarContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/sonner.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "toastOptions={{"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/tabs.tsx",
+      "line": 38,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const TabsContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/toast.tsx",
+      "line": 110,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type ToastActionElement = React.ReactElement<typeof ToastAction>;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/toggle-group.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const ToggleGroupContext = React.createContext<VariantProps<typeof toggleVariants>>({"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/toggle-group.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = React.useContext(ToggleGroupContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/components/ui/tooltip.tsx",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const TooltipContent = React.forwardRef<"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/AuthContext.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const AuthContext = createContext<AuthContextType | undefined>(undefined);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/AuthContext.tsx",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const value: AuthContextType = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/AuthContext.tsx",
+      "line": 64,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = useContext(AuthContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/AuthContext.tsx",
+      "line": 19,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 80,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const CartContext = createContext<CartContextType | undefined>(undefined);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 123,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const value: CartContextType = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 136,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = useContext(CartContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 86,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/contexts/CartContext.tsx",
+      "line": 86,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-cart.ts",
+      "line": 5,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = useContext(CartContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-form-field.ts",
+      "line": 6,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const fieldContext = useContext(FormFieldContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-mobile.tsx",
+      "line": 10,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const onChange = () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-mobile.tsx",
+      "line": 13,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "mql.addEventListener('change', onChange);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-mobile.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-sidebar.ts",
+      "line": 5,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const context = React.useContext(SidebarContext);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 15,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const actionTypes = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 29,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "type ActionType = typeof actionTypes;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 53,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 60,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const timeout = setTimeout(() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/use-toast.ts",
+      "line": 169,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/useAnalytics.ts",
+      "line": 8,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/usePWA.ts",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/usePWA.ts",
+      "line": 13,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/useScrollAnimation.ts",
+      "line": 3,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const useScrollAnimation = (options = {}) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/hooks/useScrollAnimation.ts",
+      "line": 6,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/integrations/supabase/types.ts",
+      "line": 151,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const Constants = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/BrandArchitect.ts",
+      "line": 224,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const positioning = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/CopyWriter.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/StoryTeller.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/VideoProducer.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/creative/VisualDesigner.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/CampaignManager.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/ContentDistributor.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/EmailMarketer.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/InfluencerOutreach.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/PRManager.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/execution/SocialMediaStrategist.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/CompetitorAnalyst.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/CustomerResearcher.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/CustomerResearcher.ts",
+      "line": 493,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const personas = await this.developPersonas(params);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/MarketSizer.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/PricingStrategist.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/PricingStrategist.ts",
+      "line": 215,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const recommendations = ["
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/market/TrendDetector.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/AnalyticsInterpreter.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/AnalyticsInterpreter.ts",
+      "line": 256,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const recommendations = ["
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/ConversionOptimizer.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/FeedbackAnalyzer.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/PaidAdsManager.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/optimization/SEOSpecialist.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/supporting/BudgetManager.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/supporting/ComplianceChecker.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/supporting/DataCollector.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/supporting/QualityController.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/agents/supporting/RiskAssessor.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const config: AgentConfig = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.test.ts",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "config = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.test.ts",
+      "line": 457,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const nonLearningConfig = { ...config, learningEnabled: false };"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.ts",
+      "line": 28,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "protected learningData: Map<string, any> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.ts",
+      "line": 31,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "this.config = config;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.ts",
+      "line": 228,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const result: ActionResult = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.ts",
+      "line": 258,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const result: ActionResult = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/BaseAgent.ts",
+      "line": 395,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "this.subscriptionIds = [];"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 19,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private subscriptions: Map<string, Subscription[]> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const subscriptionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 147,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const subscriptions = this.subscriptions.get(recipient) || [];"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 218,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const responseHandler = (message: AgentMessage) => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 229,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const subscriptionId = this.subscribe(from, responseHandler, AgentPriority.HIGH);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 232,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const timeoutHandle = setTimeout(() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/EventBus.ts",
+      "line": 314,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "let totalSubscriptions = 0;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.test.ts",
+      "line": 221,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const executionAgents = orchestrator.getAgentsByType(AgentType.CAMPAIGN_MANAGER);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.test.ts",
+      "line": 270,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const constraints = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 29,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private agents: Map<string, BaseAgent> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 30,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private activeLaunches: Map<string, LaunchPlan> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/LaunchOrchestrator.ts",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "this.constraints = constraints || this.getDefaultConstraints();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/StateManager.ts",
+      "line": 54,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private launches: Map<string, LaunchState> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/StateManager.ts",
+      "line": 58,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private listeners: Map<string, Set<(state: any) => void>> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/StateManager.ts",
+      "line": 66,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "agents: new Map(),"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/core/StateManager.ts",
+      "line": 327,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "this.listeners.set(key, new Set());"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/examples/monitoring-demo.ts",
+      "line": 191,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "const bgInterval = setInterval(runBackgroundTasks, 3000);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/examples/monitoring-demo.ts",
+      "line": 194,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const monitorInterval = agentMonitor.startMonitoring(5000);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 30,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private patternCache: Map<string, Pattern[]> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 34,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "this.config = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 277,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const recommendations = await this.generateRecommendations(successFactors, plan);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 446,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const avgConfidence = factors.reduce((sum, f) => sum + f.confidence, 0) / factors.length;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/learning/LearningEngine.ts",
+      "line": 544,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const avgConfidence ="
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/monitoring/AgentMonitor.ts",
+      "line": 58,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private agents: Map<string, BaseAgent> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/monitoring/AgentMonitor.ts",
+      "line": 412,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "return setInterval(() => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/monitoring/AgentMonitor.ts",
+      "line": 458,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const agentMonitor = new AgentMonitor();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 30,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "RESPONSE = 'response',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 104,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "CONTENT_DISTRIBUTOR = 'content_distributor',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 107,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "CONVERSION_OPTIMIZER = 'conversion_optimizer',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 115,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "QUALITY_CONTROLLER = 'quality_controller',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 138,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "CONCEPT = 'concept',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 258,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "CONTENT_MARKETING = 'content_marketing',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/types/index.ts",
+      "line": 451,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "REPUTATIONAL = 'reputational',"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 46,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "private agents: Map<string, BaseAgent> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 149,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "const edgeMap: Map<string, AgentEdge> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 225,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "const partners: Map<string, number> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 246,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const communicationScore = sent + received;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 282,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "const byCategory: Map<string, number> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 307,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const strongestEdges = graph.edges"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 323,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "const categoryInteractions: Map<string, Set<string>> = new Map();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 327,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const toNode = graph.nodes.find(n => n.id === edge.to);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 332,
+      "type": "info",
+      "category": "Caching",
+      "message": "Cache structure detected - ensure size limits and TTL",
+      "snippet": "categoryInteractions.set(key, new Set());"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 386,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const toNode = graph.nodes.find(n => n.id === edge.to);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/launch-platform/utils/AgentCollaborationVisualizer.ts",
+      "line": 415,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const collaborationVisualizer = new AgentCollaborationVisualizer();"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/lib/supabase.ts",
+      "line": 6,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/lib/supabase.ts",
+      "line": 35,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const isSupabaseConfigured = () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/main.tsx",
+      "line": 8,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "window.addEventListener('load', () => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/About.tsx",
+      "line": 30,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/about\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 129,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedTheme(theme.id)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 295,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedBg('dark')}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 301,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedBg('light')}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/BrandShowcase.tsx",
+      "line": 307,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedBg('neon')}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 64,
+      "type": "warning",
+      "category": "Timers",
+      "message": "Timer detected - ensure clearInterval/clearTimeout in cleanup",
+      "snippet": "await new Promise(resolve => setTimeout(resolve, 2000));"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 144,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => navigate(-1)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 152,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<form onSubmit={handleSubmit} className=\"grid lg:grid-cols-3 gap-8\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 173,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('firstName', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 185,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('lastName', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 200,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('email', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 214,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('phone', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 227,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('address', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 241,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('city', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 253,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('state', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 265,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('zipCode', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 301,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('cardNumber', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 316,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('expiryDate', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 329,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={e => handleInputChange('cvv', e.target.value)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 339,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onCheckedChange={checked =>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Checkout.tsx",
+      "line": 22,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/CheckoutSuccess.tsx",
+      "line": 14,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Collection.tsx",
+      "line": 61,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/collection\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Contact.tsx",
+      "line": 32,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/contact\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Contact.tsx",
+      "line": 45,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onSubmit={e => {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Index.tsx",
+      "line": 33,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Lifestyle.tsx",
+      "line": 44,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/lifestyle\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/NotFound.tsx",
+      "line": 7,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/OrderDetails.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button onClick={() => navigate('/shop')} variant=\"primary\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/OrderDetails.tsx",
+      "line": 110,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => navigate(-1)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 110,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button onClick={() => navigate('/shop')} variant=\"primary\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 139,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical={`/product/${product.id}`}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 152,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => navigate('/shop')}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 167,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => navigate(-1)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 203,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedImageIndex(index)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 253,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setSelectedVariant(variant.id)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 280,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setQuantity(Math.max(1, quantity - 1))}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 289,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={() => setQuantity(quantity + 1)}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 302,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onClick={handleAddToCart}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/ProductDetail.tsx",
+      "line": 46,
+      "type": "warning",
+      "category": "Effect Cleanup",
+      "message": "useEffect without cleanup function - potential memory leak",
+      "snippet": "useEffect(()..."
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Profile.tsx",
+      "line": 59,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button onClick={() => navigate('/')} variant=\"primary\">"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Profile.tsx",
+      "line": 85,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Button variant=\"outline\" onClick={handleSignOut}>"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Shop.tsx",
+      "line": 39,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "canonical=\"/shop\""
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/Shop.tsx",
+      "line": 62,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "onChange={handleFilterChange}"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/pages/admin/Orders.tsx",
+      "line": 37,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "<Filters filters={filters} onChange={setFilters} />"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/adminService.ts",
+      "line": 12,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/admin/dashboard', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/authService.ts",
+      "line": 22,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/auth/signup', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/authService.ts",
+      "line": 53,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/auth/signin', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/authService.ts",
+      "line": 105,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/auth/me', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/emailService.ts",
+      "line": 14,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/email/order-confirmation', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/emailService.ts",
+      "line": 38,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/email/shipping-notification', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/emailService.ts",
+      "line": 59,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/email/abandoned-cart', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/emailService.ts",
+      "line": 79,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/email/newsletter', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/inventoryService.ts",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/inventory/check', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/inventoryService.ts",
+      "line": 49,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/inventory/reserve', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/inventoryService.ts",
+      "line": 75,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/inventory/confirm', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/inventoryService.ts",
+      "line": 102,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/inventory/low-stock?threshold=${threshold}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/orderService.ts",
+      "line": 14,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/orders/create', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/orderService.ts",
+      "line": 43,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/orders/${orderId}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/orderService.ts",
+      "line": 64,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/orders/customer/${customerId}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/orderService.ts",
+      "line": 85,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/orders/${orderId}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/paymentService.ts",
+      "line": 23,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/payments/create-intent', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/paymentService.ts",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch('/api/payments/confirm-payment', {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/recommendationService.ts",
+      "line": 3,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const recommendationService = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/recommendationService.ts",
+      "line": 6,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/recommendations/${userId}?limit=${limit}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/recommendationService.ts",
+      "line": 27,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/recommendations/frequently-bought/${productId}`, {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/services/recommendationService.ts",
+      "line": 58,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const response = await fetch(`/api/products/${id}`);"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/test/setup.ts",
+      "line": 17,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "global.console = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/theme/tokens.ts",
+      "line": 307,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export type MotionTokens = typeof tokens.motion;"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/theme/tokens.ts",
+      "line": 323,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "const buttonStyles = {"
+    },
+    {
+      "file": "/home/user/live-it-iconic-e3e1196b/src/utils/seo.ts",
+      "line": 51,
+      "type": "warning",
+      "category": "Event Listeners",
+      "message": "Event listener detected - ensure proper cleanup in useEffect",
+      "snippet": "export const generateOrganizationSchema = (): StructuredData => {"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Event Listeners",
+      "count": 460
+    },
+    {
+      "name": "Effect Cleanup",
+      "count": 32
+    },
+    {
+      "name": "Timers",
+      "count": 10
+    },
+    {
+      "name": "Caching",
+      "count": 16
+    }
+  ]
+}

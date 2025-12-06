@@ -1,0 +1,42 @@
+o# REPZ Platform Supabase Configuration
+project_id = "lvmcumsfpjjcgnnovvzs"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://localhost"
+
+[analytics]
+enabled = false
+
+[auth]
+site_url = "http://localhost:8080"
+additional_redirect_urls = ["https://repz.com", "https://*.vercel.app"]
+jwt_expiry = 3600
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+[auth.mfa]
+max_enrolled_factors = 10
+
+[auth.external.google]
+enabled = false
+
+[auth.external.github]
+enabled = false

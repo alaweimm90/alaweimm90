@@ -1,0 +1,43 @@
+apiVersion: v2
+name: talai-enterprise
+description: Enterprise-grade Helm chart for TalAI AI Research Platform
+type: application
+version: 2.0.0
+appVersion: "2.0.0"
+keywords:
+  - ai
+  - research
+  - automation
+  - enterprise
+  - multi-agent
+maintainers:
+  - name: TalAI DevOps Team
+    email: devops@talai.io
+    url: https://talai.io
+sources:
+  - https://github.com/AlaweinOS/TalAI
+dependencies:
+  - name: postgresql
+    version: 12.1.9
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+  - name: redis
+    version: 17.7.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
+  - name: kafka
+    version: 26.8.3
+    repository: https://charts.bitnami.com/bitnami
+    condition: kafka.enabled
+  - name: elasticsearch
+    version: 19.5.14
+    repository: https://charts.bitnami.com/bitnami
+    condition: elasticsearch.enabled
+  - name: prometheus
+    version: 19.3.1
+    repository: https://prometheus-community.github.io/helm-charts
+    condition: monitoring.prometheus.enabled
+  - name: grafana
+    version: 6.50.7
+    repository: https://grafana.github.io/helm-charts
+    condition: monitoring.grafana.enabled

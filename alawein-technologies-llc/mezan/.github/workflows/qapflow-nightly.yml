@@ -1,0 +1,52 @@
+name: QAPFlow Nightly Mini-Bench
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  mini_bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          # Install only what's needed for CLI/testing
+          pip install numpy scipy
+      - name: Run orchestrator HTTP smoke test
+        run: |
+          python - << 'PY'
+          import subprocess, time, json, urllib.request
+          p = subprocess.Popen(['python','-m','Libria.libria-meta.libria_meta.services.mezan_orchestrator'])
+          time.sleep(1.0)
+          payload = json.dumps({"fit": [[1,2],[2,1]]}).encode('utf-8')
+          req = urllib.request.Request('http://127.0.0.1:8081/qapflow/solve', data=payload, headers={'Content-Type':'application/json'})
+          with urllib.request.urlopen(req, timeout=5) as resp:
+              print(resp.read().decode('utf-8'))
+          p.terminate()
+          PY
+      - name: Optional QAPLIB bench (skips if QAPLIB_DATA_DIR unset)
+        env:
+          QAPLIB_DATA_DIR: ${{ secrets.QAPLIB_DATA_DIR }}
+        run: |
+          if [ -n "${QAPLIB_DATA_DIR}" ]; then \
+            python -m Libria.libria-meta.libria_meta.cli.qapflow_cli --bench qaplib --modes hybrid --time-limit 10 --out qap_bench.json || true ; \
+            echo "Bench results:" ; cat qap_bench.json ; \
+          else \
+            echo "QAPLIB_DATA_DIR not set; skipping bench" ; \
+          fi
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qapflow-mini-bench
+          path: |
+            qap_bench.json
+          if-no-files-found: ignore
+

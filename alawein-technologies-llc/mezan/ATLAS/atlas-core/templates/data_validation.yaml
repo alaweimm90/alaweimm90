@@ -1,0 +1,290 @@
+name: data_validation
+version: 1.0.0
+category: data_quality
+description: Comprehensive data quality validation with multi-level checks and reporting
+author: ORCHEX Team
+tags:
+  - validation
+  - data-quality
+  - testing
+  - compliance
+
+parameters:
+  data_source:
+    type: string
+    description: Path or connection to data source
+    required: true
+
+  validation_profile:
+    type: string
+    description: Validation profile to use
+    required: false
+    default: standard
+    allowed_values: [minimal, standard, comprehensive, custom]
+
+  schema_path:
+    type: string
+    description: Path to expected schema definition
+    required: false
+
+  business_rules:
+    type: list
+    description: Custom business rules to validate
+    required: false
+    default: []
+
+  output_format:
+    type: string
+    description: Format for validation report
+    required: false
+    default: json
+    allowed_values: [json, html, pdf, excel]
+
+  fail_fast:
+    type: bool
+    description: Stop on first critical error
+    required: false
+    default: false
+
+  quarantine_invalid:
+    type: bool
+    description: Quarantine invalid records
+    required: false
+    default: true
+
+workflow:
+  config:
+    type: validation
+    parallel_checks: true
+    cache_results: true
+
+  tasks:
+    - name: load_data
+      type: data_loading
+      description: Load data for validation
+      parameters:
+        source: "{{data_source}}"
+        sample_size: auto
+        cache: true
+
+    - name: schema_validation
+      type: schema_check
+      description: Validate data schema
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        schema: "{{schema_path}}"
+        checks:
+          - column_names: exact
+          - data_types: strict
+          - column_order: false
+          - additional_columns: reject
+
+    - name: completeness_check
+      type: completeness
+      description: Check data completeness
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        checks:
+          - null_values:
+              threshold: 0.05
+              critical_columns: [id, date, amount]
+          - empty_strings:
+              treat_as_null: true
+          - record_count:
+              min: 100
+              max: null
+
+    - name: uniqueness_check
+      type: uniqueness
+      description: Check uniqueness constraints
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        unique_columns:
+          - [id]
+          - [email]
+          - [order_id, line_item]
+        composite_keys: true
+
+    - name: range_validation
+      type: range_check
+      description: Validate numeric ranges
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        numeric_ranges:
+          age:
+            min: 0
+            max: 150
+          price:
+            min: 0
+            max: 1000000
+          percentage:
+            min: 0
+            max: 100
+        date_ranges:
+          created_date:
+            min: "2020-01-01"
+            max: "now"
+
+    - name: format_validation
+      type: format_check
+      description: Validate data formats
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        format_rules:
+          email:
+            pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          phone:
+            pattern: '^\+?[1-9]\d{1,14}$'
+          postal_code:
+            pattern: '^\d{5}(-\d{4})?$'
+          uuid:
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+
+    - name: referential_integrity
+      type: integrity_check
+      description: Check referential integrity
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        foreign_keys:
+          - source_column: customer_id
+            reference_table: customers
+            reference_column: id
+          - source_column: product_id
+            reference_table: products
+            reference_column: id
+
+    - name: business_rules_validation
+      type: business_rules
+      description: Validate custom business rules
+      depends_on: [load_data]
+      condition: "len({{business_rules}}) > 0"
+      parameters:
+        data: "${load_data.output}"
+        rules: "{{business_rules}}"
+        fail_on_error: "{{fail_fast}}"
+
+    - name: statistical_validation
+      type: statistical_check
+      description: Perform statistical validation
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        checks:
+          - outliers:
+              method: iqr
+              threshold: 1.5
+          - distribution:
+              expected: normal
+              columns: [revenue, quantity]
+          - correlation:
+              max_correlation: 0.95
+          - variance:
+              min_variance: 0.01
+
+    - name: duplicate_detection
+      type: duplicate_check
+      description: Detect duplicate records
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        strategies:
+          - exact: all_columns
+          - fuzzy:
+              columns: [name, address]
+              threshold: 0.85
+          - semantic:
+              columns: [description]
+              model: sentence-transformer
+
+    - name: consistency_check
+      type: consistency
+      description: Check cross-field consistency
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        consistency_rules:
+          - rule: "start_date <= end_date"
+          - rule: "total_amount == sum(line_items.amount)"
+          - rule: "status IN ('pending', 'completed', 'cancelled')"
+
+    - name: trend_analysis
+      type: trend_check
+      description: Analyze data trends and anomalies
+      depends_on: [load_data]
+      parameters:
+        data: "${load_data.output}"
+        time_column: date
+        metrics: [count, sum, avg]
+        anomaly_detection:
+          method: isolation_forest
+          contamination: 0.01
+
+    - name: quarantine_invalid_records
+      type: quarantine
+      description: Quarantine invalid records
+      depends_on: [schema_validation, completeness_check, uniqueness_check,
+                   range_validation, format_validation]
+      condition: "{{quarantine_invalid}} == true"
+      parameters:
+        validation_results:
+          - "${schema_validation.failures}"
+          - "${completeness_check.failures}"
+          - "${uniqueness_check.failures}"
+          - "${range_validation.failures}"
+          - "${format_validation.failures}"
+        quarantine_path: quarantine/invalid_records
+        include_reasons: true
+
+    - name: generate_validation_report
+      type: reporting
+      description: Generate comprehensive validation report
+      depends_on: [schema_validation, completeness_check, uniqueness_check,
+                   range_validation, format_validation, referential_integrity,
+                   statistical_validation, duplicate_detection, consistency_check,
+                   trend_analysis]
+      parameters:
+        results:
+          schema: "${schema_validation.results}"
+          completeness: "${completeness_check.results}"
+          uniqueness: "${uniqueness_check.results}"
+          ranges: "${range_validation.results}"
+          formats: "${format_validation.results}"
+          integrity: "${referential_integrity.results}"
+          statistics: "${statistical_validation.results}"
+          duplicates: "${duplicate_detection.results}"
+          consistency: "${consistency_check.results}"
+          trends: "${trend_analysis.results}"
+        format: "{{output_format}}"
+        include_recommendations: true
+
+    - name: quality_score
+      type: scoring
+      description: Calculate overall data quality score
+      depends_on: [generate_validation_report]
+      parameters:
+        weights:
+          schema: 0.2
+          completeness: 0.2
+          uniqueness: 0.15
+          ranges: 0.1
+          formats: 0.1
+          integrity: 0.15
+          consistency: 0.1
+
+dependencies:
+  - pandas
+  - great_expectations
+  - deequ
+
+metadata:
+  severity_levels:
+    critical: [schema, uniqueness, integrity]
+    high: [completeness, business_rules]
+    medium: [ranges, formats, consistency]
+    low: [statistical, trends]

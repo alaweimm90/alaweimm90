@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEZAN Metrics Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-tertiary: #252542;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8b3;
+            --accent-primary: #6366f1;
+            --accent-secondary: #22d3ee;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --border-color: #3a3a5c;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .light-theme {
+            --bg-primary: #f3f4f6;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #d1d5db;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            font-size: 0.875rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: 10px 0;
+        }
+
+        .metric-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .metric-change.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-success);
+        }
+
+        .metric-change.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-danger);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--accent-success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent-warning);
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-danger);
+        }
+
+        .badge-info {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent-secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .gauge {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .gauge-circle {
+            transform: rotate(-90deg);
+        }
+
+        .gauge-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--accent-success);
+            color: var(--accent-success);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--accent-warning);
+            color: var(--accent-warning);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--accent-danger);
+            color: var(--accent-danger);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MEZAN Metrics Dashboard</h1>
+            <div class="header-controls">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span id="connectionStatus">Connected</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
+            </div>
+        </header>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-4">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Active Jobs</span>
+                </div>
+                <div class="metric-value" id="activeJobs">42</div>
+                <div class="metric-change positive">↑ 12%</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Throughput</span>
+                </div>
+                <div class="metric-value" id="throughput">1.2K</div>
+                <div class="metric-change positive">↑ 8%</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Success Rate</span>
+                </div>
+                <div class="metric-value" id="successRate">98.5%</div>
+                <div class="metric-change negative">↓ 0.5%</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Avg Response</span>
+                </div>
+                <div class="metric-value" id="avgResponse">145ms</div>
+                <div class="metric-change positive">↑ 5ms</div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Performance Timeline</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="performanceChart" class="chart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Solver Comparison</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="solverChart" class="chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health -->
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">CPU Usage</span>
+                </div>
+                <div class="gauge" id="cpuGauge">
+                    <svg width="120" height="120" class="gauge-circle">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg-tertiary)" stroke-width="10"/>
+                        <circle id="cpuProgress" cx="60" cy="60" r="50" fill="none" stroke="url(#cpuGradient)"
+                                stroke-width="10" stroke-dasharray="314" stroke-dashoffset="157"
+                                stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="cpuGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#6366f1"/>
+                                <stop offset="100%" style="stop-color:#22d3ee"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="gauge-value" id="cpuValue">68%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Memory Usage</span>
+                </div>
+                <div class="gauge" id="memoryGauge">
+                    <svg width="120" height="120" class="gauge-circle">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg-tertiary)" stroke-width="10"/>
+                        <circle id="memProgress" cx="60" cy="60" r="50" fill="none" stroke="url(#memGradient)"
+                                stroke-width="10" stroke-dasharray="314" stroke-dashoffset="188"
+                                stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="memGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#10b981"/>
+                                <stop offset="100%" style="stop-color:#6366f1"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="gauge-value" id="memValue">45%</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">Queue Depth</span>
+                </div>
+                <div class="gauge" id="queueGauge">
+                    <svg width="120" height="120" class="gauge-circle">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg-tertiary)" stroke-width="10"/>
+                        <circle id="queueProgress" cx="60" cy="60" r="50" fill="none" stroke="url(#queueGradient)"
+                                stroke-width="10" stroke-dasharray="314" stroke-dashoffset="251"
+                                stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="queueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#f59e0b"/>
+                                <stop offset="100%" style="stop-color:#ef4444"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="gauge-value" id="queueValue">23</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Section -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">System Alerts</span>
+            </div>
+            <div id="alertContainer">
+                <div class="alert alert-success">✓ All systems operational</div>
+            </div>
+        </div>
+
+        <!-- Jobs Table -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">Active Jobs</span>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Duration</th>
+                            <th>Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsTable">
+                        <!-- Jobs will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+
+        // Simple Chart Drawing Functions
+        function drawLineChart(canvas, data, color1, color2) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width = canvas.offsetWidth * 2;
+            const height = canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+
+            const padding = 20;
+            const chartWidth = width/2 - padding * 2;
+            const chartHeight = height/2 - padding * 2;
+            const maxValue = Math.max(...data);
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width/2, height/2);
+
+            // Create gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, chartHeight);
+            gradient.addColorStop(0, color1 + '88');
+            gradient.addColorStop(1, color2 + '11');
+
+            // Draw filled area
+            ctx.beginPath();
+            ctx.moveTo(padding, padding + chartHeight);
+
+            data.forEach((value, i) => {
+                const x = padding + (i / (data.length - 1)) * chartWidth;
+                const y = padding + chartHeight - (value / maxValue) * chartHeight;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+
+            ctx.lineTo(padding + chartWidth, padding + chartHeight);
+            ctx.lineTo(padding, padding + chartHeight);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Draw line
+            ctx.beginPath();
+            data.forEach((value, i) => {
+                const x = padding + (i / (data.length - 1)) * chartWidth;
+                const y = padding + chartHeight - (value / maxValue) * chartHeight;
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+
+            ctx.strokeStyle = color1;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw points
+            data.forEach((value, i) => {
+                const x = padding + (i / (data.length - 1)) * chartWidth;
+                const y = padding + chartHeight - (value / maxValue) * chartHeight;
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = color1;
+                ctx.fill();
+            });
+        }
+
+        function drawBarChart(canvas, labels, data, colors) {
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width = canvas.offsetWidth * 2;
+            const height = canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+
+            const padding = 20;
+            const chartWidth = width/2 - padding * 2;
+            const chartHeight = height/2 - padding * 2;
+            const barWidth = chartWidth / data.length * 0.6;
+            const maxValue = Math.max(...data);
+
+            ctx.clearRect(0, 0, width/2, height/2);
+
+            data.forEach((value, i) => {
+                const x = padding + (i / data.length) * chartWidth + (chartWidth / data.length - barWidth) / 2;
+                const barHeight = (value / maxValue) * chartHeight;
+                const y = padding + chartHeight - barHeight;
+
+                // Draw bar
+                const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+                gradient.addColorStop(0, colors[i % colors.length]);
+                gradient.addColorStop(1, colors[i % colors.length] + '88');
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, barWidth, barHeight);
+
+                // Draw label
+                ctx.fillStyle = 'var(--text-secondary)';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[i], x + barWidth/2, padding + chartHeight + 15);
+
+                // Draw value
+                ctx.fillStyle = 'var(--text-primary)';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.fillText(value, x + barWidth/2, y - 5);
+            });
+        }
+
+        // Initialize charts
+        const performanceData = [45, 52, 48, 62, 58, 71, 65, 78, 82, 76, 89, 85];
+        const solverLabels = ['Genetic', 'Tabu', 'Anneal', 'Random', 'Local'];
+        const solverData = [92, 87, 78, 65, 71];
+        const solverColors = ['#6366f1', '#22d3ee', '#10b981', '#f59e0b', '#ef4444'];
+
+        function updateCharts() {
+            const perfCanvas = document.getElementById('performanceChart');
+            const solverCanvas = document.getElementById('solverChart');
+
+            drawLineChart(perfCanvas, performanceData, '#6366f1', '#22d3ee');
+            drawBarChart(solverCanvas, solverLabels, solverData, solverColors);
+        }
+
+        // Update gauge
+        function updateGauge(gaugeId, value, maxValue = 100) {
+            const progress = document.getElementById(gaugeId + 'Progress');
+            const valueEl = document.getElementById(gaugeId + 'Value');
+            const circumference = 314;
+            const offset = circumference - (value / maxValue) * circumference;
+
+            progress.style.strokeDashoffset = offset;
+            valueEl.textContent = gaugeId === 'queue' ? value : value + '%';
+        }
+
+        // Generate random job data
+        function generateJobData() {
+            const types = ['Optimization', 'Analysis', 'Synthesis', 'Evaluation', 'Research'];
+            const statuses = ['Running', 'Queued', 'Processing', 'Completing'];
+            const agents = ['ATLAS', 'Libria', 'Synthesis', 'Hypothesis', 'Literature'];
+            const jobs = [];
+
+            for (let i = 0; i < 8; i++) {
+                const progress = Math.floor(Math.random() * 100);
+                const status = progress === 100 ? 'Completed' : statuses[Math.floor(Math.random() * statuses.length)];
+
+                jobs.push({
+                    id: 'JOB-' + Math.random().toString(36).substr(2, 9).toUpperCase(),
+                    type: types[Math.floor(Math.random() * types.length)],
+                    status: status,
+                    progress: progress,
+                    duration: Math.floor(Math.random() * 300) + 's',
+                    agent: agents[Math.floor(Math.random() * agents.length)]
+                });
+            }
+
+            return jobs;
+        }
+
+        // Update jobs table
+        function updateJobsTable() {
+            const tbody = document.getElementById('jobsTable');
+            const jobs = generateJobData();
+
+            tbody.innerHTML = jobs.map(job => `
+                <tr>
+                    <td><strong>${job.id}</strong></td>
+                    <td>${job.type}</td>
+                    <td>
+                        <span class="badge ${
+                            job.status === 'Completed' ? 'badge-success' :
+                            job.status === 'Running' ? 'badge-info' :
+                            job.status === 'Processing' ? 'badge-warning' :
+                            'badge-danger'
+                        }">${job.status}</span>
+                    </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${job.progress}%"></div>
+                        </div>
+                    </td>
+                    <td>${job.duration}</td>
+                    <td>${job.agent}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Generate alerts
+        function generateAlert() {
+            const alerts = [
+                { type: 'success', message: '✓ Job JOB-X7K3M completed successfully' },
+                { type: 'warning', message: '⚠ High memory usage detected on worker-3' },
+                { type: 'danger', message: '✕ Connection timeout to solver service' },
+                { type: 'success', message: '✓ New optimization record: 98.7% efficiency' },
+                { type: 'warning', message: '⚠ Queue depth approaching threshold' }
+            ];
+
+            const alert = alerts[Math.floor(Math.random() * alerts.length)];
+            const container = document.getElementById('alertContainer');
+
+            const alertEl = document.createElement('div');
+            alertEl.className = `alert alert-${alert.type}`;
+            alertEl.textContent = alert.message;
+
+            container.insertBefore(alertEl, container.firstChild);
+
+            if (container.children.length > 5) {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+        // Real-time updates simulation
+        function updateMetrics() {
+            // Update main metrics
+            document.getElementById('activeJobs').textContent =
+                Math.floor(Math.random() * 50) + 20;
+            document.getElementById('throughput').textContent =
+                (Math.random() * 2 + 0.5).toFixed(1) + 'K';
+            document.getElementById('successRate').textContent =
+                (Math.random() * 5 + 95).toFixed(1) + '%';
+            document.getElementById('avgResponse').textContent =
+                Math.floor(Math.random() * 100 + 100) + 'ms';
+
+            // Update gauges
+            updateGauge('cpu', Math.floor(Math.random() * 40 + 50));
+            updateGauge('mem', Math.floor(Math.random() * 30 + 40));
+            updateGauge('queue', Math.floor(Math.random() * 50));
+
+            // Update performance data
+            performanceData.shift();
+            performanceData.push(Math.floor(Math.random() * 40 + 60));
+
+            // Update solver data
+            solverData.forEach((val, i) => {
+                solverData[i] = Math.floor(Math.random() * 20 + 70);
+            });
+
+            updateCharts();
+            updateJobsTable();
+        }
+
+        // WebSocket simulation
+        function simulateWebSocket() {
+            const statusEl = document.getElementById('connectionStatus');
+            const statusDot = document.querySelector('.status-dot');
+
+            setInterval(() => {
+                const connected = Math.random() > 0.05;
+                statusEl.textContent = connected ? 'Connected' : 'Reconnecting...';
+                statusDot.style.background = connected ? 'var(--accent-success)' : 'var(--accent-warning)';
+            }, 10000);
+        }
+
+        // Initialize dashboard
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCharts();
+            updateJobsTable();
+            simulateWebSocket();
+
+            // Update metrics every 2 seconds
+            setInterval(updateMetrics, 2000);
+
+            // Generate alerts occasionally
+            setInterval(() => {
+                if (Math.random() > 0.7) {
+                    generateAlert();
+                }
+            }, 5000);
+        });
+
+        // Handle resize
+        window.addEventListener('resize', () => {
+            updateCharts();
+        });
+    </script>
+</body>
+</html>

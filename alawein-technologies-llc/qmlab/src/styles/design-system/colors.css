@@ -1,0 +1,69 @@
+/**
+ * QMLab Color System
+ * Quantum-inspired color palette with WCAG AA compliance
+ */
+
+:root {
+  /* Quantum Blue Palette */
+  --quantum-blue-50: 239 246 255;
+  --quantum-blue-100: 219 234 254;
+  --quantum-blue-200: 191 219 254;
+  --quantum-blue-300: 147 197 253;
+  --quantum-blue-400: 96 165 250;
+  --quantum-blue-500: 59 130 246;
+  --quantum-blue-600: 37 99 235;
+  --quantum-blue-700: 29 78 216;
+  --quantum-blue-800: 30 64 175;
+  --quantum-blue-900: 30 58 138;
+  --quantum-blue-950: 23 37 84;
+
+  /* Quantum Purple Palette */
+  --quantum-purple-50: 250 245 255;
+  --quantum-purple-100: 243 232 255;
+  --quantum-purple-200: 233 213 255;
+  --quantum-purple-300: 216 180 254;
+  --quantum-purple-400: 192 132 252;
+  --quantum-purple-500: 168 85 247;
+  --quantum-purple-600: 147 51 234;
+  --quantum-purple-700: 124 58 237;
+  --quantum-purple-800: 107 33 168;
+  --quantum-purple-900: 88 28 135;
+  --quantum-purple-950: 59 7 100;
+
+  /* Quantum Slate Palette */
+  --quantum-slate-50: 248 250 252;
+  --quantum-slate-100: 241 245 249;
+  --quantum-slate-200: 226 232 240;
+  --quantum-slate-300: 203 213 225;
+  --quantum-slate-400: 148 163 184;
+  --quantum-slate-500: 100 116 139;
+  --quantum-slate-600: 71 85 105;
+  --quantum-slate-700: 51 65 85;
+  --quantum-slate-800: 30 41 59;
+  --quantum-slate-900: 15 23 42;
+  --quantum-slate-950: 2 6 23;
+
+  /* Semantic Colors */
+  --color-success: 5 150 105;
+  --color-warning: 217 119 6;
+  --color-danger: 220 38 38;
+  --color-info: 37 99 235;
+
+  /* Surface Colors */
+  --surface-base: var(--quantum-slate-950);
+  --surface-1: var(--quantum-slate-900);
+  --surface-2: var(--quantum-slate-800);
+  --surface-3: var(--quantum-slate-700);
+
+  /* Text Colors - WCAG AA Compliant */
+  --text-primary: var(--quantum-slate-50);
+  --text-secondary: var(--quantum-slate-300);
+  --text-muted: var(--quantum-slate-400);
+  --text-disabled: var(--quantum-slate-500);
+  --text-inverse: var(--quantum-slate-900);
+
+  /* Border Colors */
+  --border-primary: var(--quantum-slate-700);
+  --border-secondary: var(--quantum-slate-600);
+  --border-muted: var(--quantum-slate-800);
+}

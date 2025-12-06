@@ -1,0 +1,358 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* Created by the Wolfram Language Plugin for IntelliJ, see http://wlplugin.halirutan.de/ *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     8965,        246]
+NotebookOptionsPosition[     8409,        227]
+NotebookOutlinePosition[     8811,        243]
+CellTagsIndexPosition[     8768,        240]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Basic PDE Examples - Beginner Level", "Title",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellTags->"Title",ExpressionUUID->"a1b2c3d4-e5f6-7890-abcd-ef1234567890"],
+
+Cell[TextData[{
+ "Introduction to solving PDEs with the Berkeley SciComp framework\n",
+ "Author: Berkeley SciComp Team\n",
+ "Date: 2024"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"b2c3d4e5-f6g7-8901-bcde-f23456789012"],
+
+Cell[CellGroupData[{
+Cell["Setup and Initialization", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"c3d4e5f6-g7h8-9012-cdef-345678901234"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/PDESolvers.wl\>\"", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"BerkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", 
+     FractionBox["50", "255"], ",", 
+     FractionBox["98", "255"]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"CaliforniaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     FractionBox["253", "255"], ",", 
+     FractionBox["181", "255"], ",", 
+     FractionBox["21", "255"]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"d4e5f6g7-h8i9-0123-defg-456789012345"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Basic PDE Examples - Beginner Level\>\"", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"e5f6g7h8-i9j0-1234-efgh-567890123456"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Example 1: Steady Heat Equation (Poisson Problem)", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"f6g7h8i9-j0k1-2345-fghi-678901234567"],
+
+Cell[TextData[{
+ "Solve: -\[Alpha]\[Del]\[Squared]u = f(x)\n",
+ "Domain: x \[Element] [0, 1]\n",
+ "Boundary conditions: u(0) = 0, u(1) = 0\n",
+ "Source: f(x) = \[Pi]\[Squared]sin(\[Pi]x)\n",
+ "Analytical solution: u(x) = sin(\[Pi]x)/\[Alpha]"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"g7h8i9j0-k1l2-3456-ghij-789012345678"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"n", "=", "51"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"x", "=", 
+   RowBox[{"Subdivide", "[", 
+    RowBox[{"0", ",", "1", ",", 
+     RowBox[{"n", "-", "1"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"\[Alpha]", "=", "0.1"}], ";", " ", 
+  RowBox[{"(*", " ", "Thermal diffusivity", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"bc", "=", 
+   RowBox[{"<|", 
+    RowBox[{"\"\<Dirichlet\>\"", "\[Rule]", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"0", "\[Rule]", "0"}], ",", 
+       RowBox[{
+        RowBox[{"n", "-", "1"}], "\[Rule]", "0"}]}], "|>"}]}], "|>"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"h8i9j0k1-l2m3-4567-hijk-890123456789"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"sourceSteady", "[", "x_", "]"}], ":=", 
+   RowBox[{"Pi", "^", 
+    RowBox[{"2", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"Pi", "*", "x"}], "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"analyticalSteady", "[", "x_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"Sin", "[", 
+     RowBox[{"Pi", "*", "x"}], "]"}], "/", "\[Alpha]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"i9j0k1l2-m3n4-5678-ijkl-901234567890"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"resultSteady", "=", 
+   RowBox[{"HeatEquationSolve", "[", 
+    RowBox[{"x", ",", "bc", ",", "\[Alpha]", ",", "sourceSteady", ",", 
+     RowBox[{"\"\<SolutionType\>\"", "\[Rule]", "\"\<Steady\>\""}]}], "]"}]}],
+   ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[12]:=",ExpressionUUID->"j0k1l2m3-n4o5-6789-jklm-012345678901"],
+
+Cell[BoxData[
+ RowBox[{"GraphicsColumn", "[", 
+  RowBox[{"{", "\n", 
+   RowBox[{
+    RowBox[{"(*", " ", "Solution plot", " ", "*)"}], "\n", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"analyticalSteady", "[", "x", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"Black", ",", "Dashed", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Epilog", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"BerkeleyBlue", ",", 
+         RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+         RowBox[{"Point", "[", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"resultSteady", "[", "\"\<Domain\>\"", "]"}], ",", 
+             RowBox[{"resultSteady", "[", "\"\<Solution\>\"", "]"}]}], "}"}], 
+           "]"}], "]"}]}], "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{
+        "\"\<Steady Heat Equation Solution\>\"", ",", "14", ",", 
+         "BerkeleyBlue", ",", "Bold"}], "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<x\>\"", ",", "\"\<Temperature u(x)\>\""}], "}"}]}], ",", 
+      "\n", 
+      RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", "\n", 
+      RowBox[{"PlotLegends", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Analytical\>\"", ",", "\"\<Numerical\>\""}], "}"}]}], 
+      ",", "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "600"}]}], "]"}], ",", "\n", "\n", 
+    RowBox[{"(*", " ", "Error plot", " ", "*)"}], "\n", 
+    RowBox[{"ListLogPlot", "[", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"resultSteady", "[", "\"\<Domain\>\"", "]"}], ",", 
+         RowBox[{"Abs", "[", 
+          RowBox[{
+           RowBox[{"resultSteady", "[", "\"\<Solution\>\"", "]"}], "-", 
+           RowBox[{"analyticalSteady", "/@", 
+            RowBox[{"resultSteady", "[", "\"\<Domain\>\"", "]"}]}]}], "]"}]}], 
+        "}"}], "]"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"CaliforniaGold", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Absolute Error\>\"", ",", "12", ",", "BerkeleyBlue"}], 
+        "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<x\>\"", ",", "\"\<|Error|\>\""}], "}"}]}], ",", "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "600"}]}], "]"}]}], "\n", "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"k1l2m3n4-o5p6-7890-klmn-123456789012"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"maxErrorSteady", "=", 
+   RowBox[{"Max", "[", 
+    RowBox[{"Abs", "[", 
+     RowBox[{
+      RowBox[{"resultSteady", "[", "\"\<Solution\>\"", "]"}], "-", 
+      RowBox[{"analyticalSteady", "/@", 
+       RowBox[{"resultSteady", "[", "\"\<Domain\>\"", "]"}]}]}], "]"}], 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"l2m3n4o5-p6q7-8901-lmno-234567890123"],
+
+Cell[BoxData[
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Maximum error in steady solution: \>\"", ",", 
+   RowBox[{"ScientificForm", "[", "maxErrorSteady", "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"m3n4o5p6-q7r8-9012-mnop-345678901234"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Example 2: Transient Heat Equation", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"n4o5p6q7-r8s9-0123-nopq-456789012345"],
+
+Cell[TextData[{
+ "Solve: \[PartialD]u/\[PartialD]t = \[Alpha]\[Del]\[Squared]u\n",
+ "Domain: x \[Element] [0, 1], t \[Element] [0, T]\n",
+ "Boundary conditions: u(0,t) = 0, u(1,t) = 0\n",
+ "Initial condition: u(x,0) = sin(\[Pi]x)\n",
+ "Analytical solution: u(x,t) = sin(\[Pi]x)exp(-\[Pi]\[Squared]\[Alpha]t)"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"o5p6q7r8-s9t0-1234-opqr-567890123456"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"initialCondition", "[", "x_", "]"}], ":=", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"Pi", "*", "x"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"TFinal", "=", "0.5"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dt", "=", "0.001"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"p6q7r8s9-t0u1-2345-pqrs-678901234567"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"resultTransient", "=", 
+   RowBox[{"HeatEquationSolve", "[", 
+    RowBox[{"x", ",", "bc", ",", "\[Alpha]", ",", "0", ",", 
+     RowBox[{"\"\<SolutionType\>\"", "\[Rule]", "\"\<Transient\>\""}], ",", 
+     RowBox[{"\"\<InitialCondition\>\"", "\[Rule]", "initialCondition"}], 
+     ",", 
+     RowBox[{"\"\<TimeSpan\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "TFinal"}], "}"}]}], ",", 
+     RowBox[{"\"\<TimeStep\>\"", "\[Rule]", "dt"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"q7r8s9t0-u1v2-3456-qrst-789012345678"],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"resultTransient", "[", "\"\<Success\>\"", "]"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"BerkeleyPDEPlot", "[", "resultTransient", "]"}], ";", "\n", 
+    RowBox[{"PDEAnimation", "[", "resultTransient", "]"}]}], ",", "\n", 
+   RowBox[{"Print", "[", "\"\<Transient solution failed\>\"", "]"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[20]:=",ExpressionUUID->"r8s9t0u1-v2w3-4567-rstu-890123456789"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Example 3: Wave Equation", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"s9t0u1v2-w3x4-5678-stuv-901234567890"],
+
+Cell[TextData[{
+ "Solve: \[PartialD]\[Squared]u/\[PartialD]t\[Squared] = c\[Squared]\[Del]\[Squared]u\n",
+ "Domain: x \[Element] [0, 1], t \[Element] [0, T]\n",
+ "Boundary conditions: u(0,t) = 0, u(1,t) = 0\n",
+ "Initial conditions: u(x,0) = sin(\[Pi]x), \[PartialD]u/\[PartialD]t(x,0) = 0"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"t0u1v2w3-x4y5-6789-tuvw-012345678901"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"c", "=", "1.0"}], ";", " ", 
+  RowBox[{"(*", " ", "Wave speed", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"initialU", "[", "x_", "]"}], ":=", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"Pi", "*", "x"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"initialV", "[", "x_", "]"}], ":=", "0"}], ";", " ", 
+  RowBox[{"(*", " ", "Initial velocity", " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"u1v2w3x4-y5z6-7890-uvwx-123456789012"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"resultWave", "=", 
+   RowBox[{"WaveEquationSolve", "[", 
+    RowBox[{"x", ",", "bc", ",", "c", ",", 
+     RowBox[{"{", 
+      RowBox[{"initialU", ",", "initialV"}], "}"}], ",", 
+     RowBox[{"\"\<TimeSpan\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "2"}], "}"}]}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"v2w3x4y5-z6a7-8901-vwxy-234567890123"],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"resultWave", "[", "\"\<Success\>\"", "]"}], ",", "\n", 
+   RowBox[{
+    RowBox[{"BerkeleyPDEPlot", "[", "resultWave", "]"}], ";", "\n", 
+    RowBox[{"PDEAnimation", "[", "resultWave", "]"}]}], ",", "\n", 
+   RowBox[{"Print", "[", "\"\<Wave solution failed\>\"", "]"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[25]:=",ExpressionUUID->"w3x4y5z6-a7b8-9012-wxyz-345678901234"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"x4y5z6a7-b8c9-0123-xyza-456789012345"],
+
+Cell[TextData[{
+ "This notebook demonstrated:\n",
+ "1. Steady heat equation (elliptic PDE)\n",
+ "2. Transient heat equation (parabolic PDE)\n",
+ "3. Wave equation (hyperbolic PDE)\n",
+ "4. Berkeley-styled visualization and animation\n\n",
+ "Key observations:\n",
+ "- Different PDE types require different numerical approaches\n",
+ "- Boundary conditions significantly affect solutions\n",
+ "- Time-dependent problems show rich dynamic behavior\n",
+ "- Finite difference methods provide good accuracy"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"y5z6a7b8-c9d0-1234-yzab-567890123456"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"z6a7b8c9-d0e1-2345-zabc-678901234567"
+]

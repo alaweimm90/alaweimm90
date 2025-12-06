@@ -1,0 +1,53 @@
+# MagLogic Benchmark Configuration
+#
+# Performance benchmarks for nanomagnetic logic simulations
+# Uses MetaHub benchmarking system
+
+benchmarks:
+  # OOMMF Parser Benchmarks
+  - name: "OOMMF-Parser-Small"
+    module: "maglogic.parsers.oommf_parser"
+    function: "parse_ovf"
+    iterations: 50
+    warmup: 5
+    metadata:
+      type: "parser"
+      size: "small"
+      description: "Parse small OOMMF OVF file"
+
+  - name: "OOMMF-Parser-Medium"
+    module: "maglogic.parsers.oommf_parser"
+    function: "parse_ovf"
+    iterations: 20
+    warmup: 3
+    metadata:
+      type: "parser"
+      size: "medium"
+      description: "Parse medium OOMMF OVF file"
+
+  # MuMax3 Parser Benchmarks
+  - name: "MuMax3-Parser-Small"
+    module: "maglogic.parsers.mumax3_parser"
+    function: "parse_table"
+    iterations: 50
+    warmup: 5
+    metadata:
+      type: "parser"
+      size: "small"
+      description: "Parse small MuMax3 table file"
+
+  # Magnetization Analysis
+  - name: "Magnetization-Analysis"
+    module: "maglogic.analysis.magnetization"
+    function: "analyze_state"
+    iterations: 30
+    warmup: 5
+    metadata:
+      type: "analysis"
+      description: "Magnetization state analysis"
+
+output:
+  directory: "./results"
+  format: "json"
+  generate_charts: true
+  generate_report: true

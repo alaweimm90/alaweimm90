@@ -1,0 +1,394 @@
+@Library('shared-library') _
+
+pipeline {
+    agent {
+        kubernetes {
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: python
+    image: python:3.9-slim
+    command:
+    - cat
+    tty: true
+  - name: docker
+    image: docker:24-dind
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: docker-sock
+      mountPath: /var/run/docker.sock
+  - name: kubectl
+    image: bitnami/kubectl:1.28
+    command:
+    - cat
+    tty: true
+  - name: helm
+    image: alpine/helm:3.13.2
+    command:
+    - cat
+    tty: true
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
+"""
+        }
+    }
+
+    options {
+        timestamps()
+        timeout(time: 2, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+    }
+
+    environment {
+        REGISTRY = 'your-registry.example.com'
+        IMAGE_NAME = 'mezan-atlas'
+        CHART_PATH = 'MEZAN/ATLAS/atlas-core/helm'
+        K8S_PATH = 'MEZAN/ATLAS/atlas-core/k8s'
+        SLACK_CHANNEL = '#deployments'
+        SONAR_HOST = credentials('sonar-host')
+        SONAR_TOKEN = credentials('sonar-token')
+    }
+
+    parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['development', 'staging', 'production'],
+            description: 'Target environment for deployment'
+        )
+        booleanParam(
+            name: 'RUN_TESTS',
+            defaultValue: true,
+            description: 'Run tests before deployment'
+        )
+        booleanParam(
+            name: 'SECURITY_SCAN',
+            defaultValue: true,
+            description: 'Run security scanning'
+        )
+        string(
+            name: 'VERSION',
+            defaultValue: '',
+            description: 'Version to deploy (leave empty for latest)'
+        )
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                script {
+                    env.GIT_COMMIT = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+                    env.GIT_BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+                    env.VERSION = params.VERSION ?: "${env.GIT_BRANCH}-${env.BUILD_NUMBER}-${env.GIT_COMMIT[0..7]}"
+                }
+            }
+        }
+
+        stage('Quality Gates') {
+            parallel {
+                stage('Lint & Format') {
+                    when {
+                        expression { params.RUN_TESTS }
+                    }
+                    steps {
+                        container('python') {
+                            dir('MEZAN/ATLAS/atlas-core') {
+                                sh '''
+                                    pip install -q black ruff mypy
+                                    ruff check .
+                                    black --check .
+                                    mypy --ignore-missing-imports .
+                                '''
+                            }
+                        }
+                    }
+                }
+
+                stage('Unit Tests') {
+                    when {
+                        expression { params.RUN_TESTS }
+                    }
+                    steps {
+                        container('python') {
+                            dir('MEZAN/ATLAS/atlas-core') {
+                                sh '''
+                                    pip install -q -r requirements.txt
+                                    pip install -q pytest pytest-cov pytest-html
+                                    pytest --cov=atlas --cov-report=xml --cov-report=html --html=report.html --self-contained-html
+                                '''
+                                publishHTML(target: [
+                                    reportDir: 'htmlcov',
+                                    reportFiles: 'index.html',
+                                    reportName: 'Coverage Report'
+                                ])
+                                junit 'test-results.xml'
+                            }
+                        }
+                    }
+                }
+
+                stage('SonarQube Analysis') {
+                    when {
+                        expression { params.RUN_TESTS }
+                    }
+                    steps {
+                        container('python') {
+                            withSonarQubeEnv('sonarqube') {
+                                sh '''
+                                    sonar-scanner \
+                                        -Dsonar.projectKey=mezan-atlas \
+                                        -Dsonar.sources=MEZAN/ATLAS/atlas-core \
+                                        -Dsonar.python.coverage.reportPaths=coverage.xml \
+                                        -Dsonar.host.url=${SONAR_HOST} \
+                                        -Dsonar.login=${SONAR_TOKEN}
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                container('docker') {
+                    dir('MEZAN/ATLAS/atlas-core') {
+                        script {
+                            docker.withRegistry("https://${REGISTRY}", 'docker-registry-creds') {
+                                def image = docker.build("${REGISTRY}/${IMAGE_NAME}:${VERSION}",
+                                    "--build-arg VERSION=${VERSION} " +
+                                    "--build-arg BUILD_DATE=${new Date().format('yyyy-MM-dd\'T\'HH:mm:ss\'Z\'')} " +
+                                    "--label org.opencontainers.image.revision=${GIT_COMMIT} " +
+                                    "--label org.opencontainers.image.version=${VERSION} " +
+                                    ".")
+                                image.push()
+                                image.push('latest')
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Security Scanning') {
+            when {
+                expression { params.SECURITY_SCAN }
+            }
+            parallel {
+                stage('Trivy Scan') {
+                    steps {
+                        container('docker') {
+                            sh """
+                                trivy image --severity HIGH,CRITICAL \
+                                    --format json \
+                                    --output trivy-report.json \
+                                    ${REGISTRY}/${IMAGE_NAME}:${VERSION}
+                            """
+                            recordIssues(
+                                enabledForFailure: true,
+                                tool: trivy(pattern: 'trivy-report.json')
+                            )
+                        }
+                    }
+                }
+
+                stage('OWASP Dependency Check') {
+                    steps {
+                        container('python') {
+                            dir('MEZAN/ATLAS/atlas-core') {
+                                sh '''
+                                    pip install safety
+                                    safety check --json --output safety-report.json
+                                '''
+                            }
+                        }
+                    }
+                }
+
+                stage('Secret Scanning') {
+                    steps {
+                        sh '''
+                            docker run --rm -v $(pwd):/src \
+                                trufflesecurity/trufflehog:latest \
+                                filesystem /src --json > trufflehog-report.json
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to Environment') {
+            when {
+                expression {
+                    params.ENVIRONMENT in ['development', 'staging', 'production']
+                }
+            }
+            steps {
+                script {
+                    def namespace = "mezan-atlas-${params.ENVIRONMENT}"
+                    def valuesFile = params.ENVIRONMENT == 'production' ? 'values-prod.yaml' : "values-${params.ENVIRONMENT}.yaml"
+
+                    container('kubectl') {
+                        withCredentials([file(credentialsId: "${params.ENVIRONMENT}-kubeconfig", variable: 'KUBECONFIG')]) {
+                            sh "kubectl config view"
+                            sh "kubectl get nodes"
+                        }
+                    }
+
+                    container('helm') {
+                        withCredentials([
+                            string(credentialsId: "${params.ENVIRONMENT}-anthropic-key", variable: 'ANTHROPIC_API_KEY'),
+                            string(credentialsId: "${params.ENVIRONMENT}-openai-key", variable: 'OPENAI_API_KEY'),
+                            string(credentialsId: "${params.ENVIRONMENT}-redis-password", variable: 'REDIS_PASSWORD')
+                        ]) {
+                            sh """
+                                helm upgrade --install mezan-atlas \
+                                    ${CHART_PATH} \
+                                    --namespace ${namespace} \
+                                    --create-namespace \
+                                    --values ${CHART_PATH}/values.yaml \
+                                    --values ${CHART_PATH}/${valuesFile} \
+                                    --set image.tag=${VERSION} \
+                                    --set secrets.anthropicApiKey=${ANTHROPIC_API_KEY} \
+                                    --set secrets.openaiApiKey=${OPENAI_API_KEY} \
+                                    --set secrets.redisPassword=${REDIS_PASSWORD} \
+                                    --wait --timeout 10m \
+                                    --atomic \
+                                    --cleanup-on-fail
+                            """
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Smoke Tests') {
+            when {
+                expression { params.ENVIRONMENT }
+            }
+            steps {
+                container('python') {
+                    script {
+                        def endpoint = params.ENVIRONMENT == 'production' ?
+                            'https://api.mezan-atlas.com' :
+                            "https://${params.ENVIRONMENT}.mezan-atlas.example.com"
+
+                        sh """
+                            pip install requests pytest
+                            cd MEZAN/ATLAS/atlas-core
+                            pytest tests/smoke/ --endpoint=${endpoint}
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Performance Tests') {
+            when {
+                expression { params.ENVIRONMENT == 'staging' }
+            }
+            steps {
+                container('python') {
+                    sh '''
+                        pip install locust
+                        cd MEZAN/ATLAS/atlas-core
+                        locust -f tests/performance/locustfile.py \
+                            --host=https://staging.mezan-atlas.example.com \
+                            --users=100 \
+                            --spawn-rate=10 \
+                            --run-time=5m \
+                            --headless \
+                            --html=performance-report.html
+                    '''
+                    publishHTML(target: [
+                        reportDir: '.',
+                        reportFiles: 'performance-report.html',
+                        reportName: 'Performance Report'
+                    ])
+                }
+            }
+        }
+
+        stage('Approval Gate') {
+            when {
+                expression { params.ENVIRONMENT == 'production' }
+            }
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Deploy to production?',
+                        parameters: [
+                            choice(name: 'APPROVAL', choices: ['YES', 'NO'], description: 'Approve production deployment?')
+                        ],
+                        submitter: 'deployers,admin'
+                    )
+
+                    if (userInput != 'YES') {
+                        error('Production deployment was not approved')
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                if (params.ENVIRONMENT == 'production') {
+                    // Tag the release
+                    sh """
+                        git tag -a v${VERSION} -m "Release version ${VERSION}"
+                        git push origin v${VERSION}
+                    """
+                }
+
+                // Send success notification
+                slackSend(
+                    channel: env.SLACK_CHANNEL,
+                    color: 'good',
+                    message: """
+                        ✅ Deployment Successful
+                        Environment: ${params.ENVIRONMENT}
+                        Version: ${VERSION}
+                        Deployed by: ${env.BUILD_USER}
+                        Build: ${env.BUILD_URL}
+                    """
+                )
+            }
+        }
+
+        failure {
+            script {
+                if (params.ENVIRONMENT == 'production') {
+                    // Automatic rollback
+                    container('helm') {
+                        sh "helm rollback mezan-atlas -n mezan-atlas-production"
+                    }
+                }
+
+                slackSend(
+                    channel: env.SLACK_CHANNEL,
+                    color: 'danger',
+                    message: """
+                        ❌ Deployment Failed
+                        Environment: ${params.ENVIRONMENT}
+                        Version: ${VERSION}
+                        Build: ${env.BUILD_URL}
+                        ${params.ENVIRONMENT == 'production' ? '🔄 Automatic rollback initiated' : ''}
+                    """
+                )
+            }
+        }
+
+        always {
+            cleanWs()
+        }
+    }
+}

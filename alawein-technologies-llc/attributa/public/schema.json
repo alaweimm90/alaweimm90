@@ -1,0 +1,34 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Attributa.dev",
+  "url": "https://attributa.dev",
+  "logo": "https://attributa.dev/logo.png",
+  "description": "Attribution intelligence for ethical AI development. Build AI that respects sources with end-to-end attribution, citation validation, and source lineage.",
+  "foundingDate": "2025",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "technical support",
+    "email": "support@attributa.dev"
+  },
+  "sameAs": [
+    "https://github.com/alaweimm90/Attributa"
+  ],
+  "offers": {
+    "@type": "Service",
+    "name": "AI Attribution Analysis",
+    "description": "Multi-signal AI detection and attribution analysis with privacy-first local processing",
+    "category": "Software Development Tools"
+  },
+  "keywords": [
+    "AI detection",
+    "Attribution intelligence", 
+    "AI ethics",
+    "Source attribution",
+    "Citation validation",
+    "Privacy-first AI",
+    "Local ML models",
+    "Text analysis",
+    "Code security"
+  ]
+}

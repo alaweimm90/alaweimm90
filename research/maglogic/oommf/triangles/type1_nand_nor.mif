@@ -1,0 +1,363 @@
+# MIF 2.1
+# Type-I Reconfigurable NAND/NOR Gate
+# Based on: M. Alawein et al., IEEE Mag. Lett. 2019
+# Author: Meshal Alawein <meshal@berkeley.edu>
+
+set PI [expr 4*atan(1.0)]
+set MU0 [expr 4*$PI*1e-7]
+
+# Simulation parameters
+Parameter clock_angle 60.0         ;# Clock field angle (±60° for NAND/NOR)
+Parameter temperature 300.0        ;# Temperature in Kelvin
+Parameter spacing 30e-9            ;# Inter-triangle spacing (nm)
+Parameter thickness 10e-9          ;# Triangle thickness (nm)
+Parameter edge_length 100e-9       ;# Triangle edge length (nm)
+
+# Input logic states (can be overridden)
+Parameter input_A 1               ;# Logic input A (0 or 1)
+Parameter input_B 0               ;# Logic input B (0 or 1)
+
+# Material parameters (Permalloy Ni80Fe20)
+Parameter Ms 860e3                ;# Saturation magnetization (A/m)
+Parameter A_ex 13e-12            ;# Exchange constant (J/m)
+Parameter K1 0                   ;# First-order anisotropy (J/m³)
+Parameter alpha 0.01             ;# Gilbert damping parameter
+Parameter gamma_ll 2.211e5       ;# Gyromagnetic ratio (m/A·s)
+
+# Simulation control
+Parameter final_time 10e-9        ;# Total simulation time (ns)
+Parameter time_step 1e-12         ;# Time step (ps)  
+Parameter field_ramp_time 2e-9    ;# Clock field ramp time
+Parameter input_time_start 1e-9   ;# When to apply input fields
+Parameter input_time_end 3e-9     ;# When to stop input fields
+
+# Field strengths
+Parameter clock_field_strength 10e3  ;# Clock field amplitude (A/m)
+Parameter input_field_strength 15e3  ;# Input field amplitude (A/m)
+
+# Mesh parameters
+Parameter cell_size 2e-9          ;# Mesh cell size (m)
+
+# Calculate geometry
+set tri_height [expr $edge_length * sqrt(3) / 2.0]
+set tri_center_y [expr $tri_height / 3.0]
+
+# Define simulation region
+set region_x [expr $edge_length + 2*$spacing + 80e-9*2]  ;# Include input ellipses
+set region_y [expr $tri_height + 2*$spacing + 40e-9*2]   ;# Include output ellipse
+
+Specify Oxs_BoxAtlas:atlas {
+  xrange [list [expr -$region_x/2] [expr $region_x/2]]
+  yrange [list [expr -$region_y/2] [expr $region_y/2]]
+  zrange [list 0 $thickness]
+}
+
+# Define the complete gate geometry
+Specify Oxs_ScriptAtlas:gate_geometry {
+  xrange [list [expr -$region_x/2] [expr $region_x/2]]
+  yrange [list [expr -$region_y/2] [expr $region_y/2]]
+  zrange [list 0 $thickness]
+  regions { triangle_T input_A input_B output_C background }
+  script_args { relpt }
+  script {
+    foreach {x y z} $relpt break
+    
+    # Convert to absolute coordinates
+    set x_abs [expr $x * $region_x - $region_x/2]
+    set y_abs [expr $y * $region_y - $region_y/2]
+    
+    # Central triangle T (equilateral)
+    set tri_in_triangle [expr 0]
+    
+    # Triangle vertices (centered at origin)
+    set v0_x 0
+    set v0_y [expr 2*$tri_center_y]
+    set v1_x [expr -$edge_length/2]
+    set v1_y [expr -$tri_center_y]
+    set v2_x [expr $edge_length/2]
+    set v2_y [expr -$tri_center_y]
+    
+    # Barycentric coordinate test for triangle
+    set denom [expr ($v1_y - $v2_y)*($v0_x - $v2_x) + ($v2_x - $v1_x)*($v0_y - $v2_y)]
+    
+    if {abs($denom) > 1e-15} {
+      set a [expr (($v1_y - $v2_y)*($x_abs - $v2_x) + ($v2_x - $v1_x)*($y_abs - $v2_y)) / $denom]
+      set b [expr (($v2_y - $v0_y)*($x_abs - $v2_x) + ($v0_x - $v2_x)*($y_abs - $v2_y)) / $denom]
+      set c [expr 1 - $a - $b]
+      
+      if {$a >= 0 && $b >= 0 && $c >= 0} {
+        set tri_in_triangle 1
+      }
+    }
+    
+    if {$tri_in_triangle} {
+      return "triangle_T"
+    }
+    
+    # Input ellipse A (left side)
+    set ellipse_a 40e-9
+    set ellipse_b 20e-9
+    set center_x_A [expr -$edge_length/2 - $spacing - $ellipse_a]
+    set center_y_A 0
+    
+    set dx_A [expr $x_abs - $center_x_A]
+    set dy_A [expr $y_abs - $center_y_A]
+    
+    if {($dx_A*$dx_A)/($ellipse_a*$ellipse_a) + ($dy_A*$dy_A)/($ellipse_b*$ellipse_b) <= 1.0} {
+      return "input_A"
+    }
+    
+    # Input ellipse B (right side)
+    set center_x_B [expr $edge_length/2 + $spacing + $ellipse_a]
+    set center_y_B 0
+    
+    set dx_B [expr $x_abs - $center_x_B]
+    set dy_B [expr $y_abs - $center_y_B]
+    
+    if {($dx_B*$dx_B)/($ellipse_a*$ellipse_a) + ($dy_B*$dy_B)/($ellipse_b*$ellipse_b) <= 1.0} {
+      return "input_B"
+    }
+    
+    # Output ellipse C (bottom)
+    set center_x_C 0
+    set center_y_C [expr -$tri_center_y - $spacing - $ellipse_b]
+    
+    set dx_C [expr $x_abs - $center_x_C]
+    set dy_C [expr $y_abs - $center_y_C]
+    
+    if {($dx_C*$dx_C)/($ellipse_a*$ellipse_a) + ($dy_C*$dy_C)/($ellipse_b*$ellipse_b) <= 1.0} {
+      return "output_C"
+    }
+    
+    return "background"
+  }
+}
+
+# Mesh specification
+Specify Oxs_RectangularMesh:mesh {
+  cellsize [list $cell_size $cell_size $thickness]
+  atlas :gate_geometry
+}
+
+# Exchange interaction
+Specify Oxs_UniformExchange:exchange {
+  A $A_ex
+}
+
+# Demag field (magnetostatic coupling between elements)
+Specify Oxs_Demag:demag {}
+
+# Thermal fluctuations
+if {$temperature > 0} {
+  set k_B 1.38064852e-23
+  set thermal_field [expr sqrt(2*$alpha*$k_B*$temperature*$gamma_ll*$Ms)]
+  
+  Specify Oxs_UZeeman:thermal {
+    multiplier $thermal_field
+    Hrange {
+      { 0 0 0 0 0 0 0 }
+    }
+  }
+}
+
+# Time-dependent clock field
+Specify Oxs_ScriptUZeeman:clock_field {
+  script_args { total_time }
+  script {
+    global clock_angle clock_field_strength field_ramp_time final_time PI
+    
+    set t $total_time
+    
+    # Ramp envelope for smooth field application
+    set scale 1.0
+    if {$t <= $field_ramp_time} {
+      set scale [expr $t / $field_ramp_time]
+    } elseif {$t >= ($final_time - $field_ramp_time)} {
+      set scale [expr ($final_time - $t) / $field_ramp_time]
+      if {$scale < 0} { set scale 0 }
+    }
+    
+    # Clock field components
+    set H_x [expr $clock_field_strength * $scale * cos($clock_angle * $PI / 180.0)]
+    set H_y [expr $clock_field_strength * $scale * sin($clock_angle * $PI / 180.0)]
+    set H_z 0
+    
+    return [list $H_x $H_y $H_z]
+  }
+}
+
+# Input field for logic states
+Specify Oxs_ScriptUZeeman:input_fields {
+  script_args { total_time }
+  script {
+    global input_A input_B input_field_strength input_time_start input_time_end
+    
+    set t $total_time
+    
+    # Apply input fields only during specified time window
+    if {$t >= $input_time_start && $t <= $input_time_end} {
+      # Input A field (applied to input_A region)
+      set H_A_x [expr $input_A * $input_field_strength]
+      set H_A_y 0
+      set H_A_z 0
+      
+      # Input B field (applied to input_B region)  
+      set H_B_x [expr $input_B * $input_field_strength]
+      set H_B_y 0
+      set H_B_z 0
+      
+      return [list $H_A_x $H_A_y $H_A_z $H_B_x $H_B_y $H_B_z]
+    } else {
+      return [list 0 0 0 0 0 0]
+    }
+  }
+}
+
+# Region-specific field application
+Specify Oxs_ScriptUZeeman:regional_input {
+  script_args { total_time stage_time x y z }
+  script {
+    global input_A input_B input_field_strength input_time_start input_time_end
+    global region_x region_y edge_length spacing tri_center_y
+    
+    set t $total_time
+    
+    # Convert normalized coordinates to absolute
+    set x_abs [expr $x * $region_x - $region_x/2]
+    set y_abs [expr $y * $region_y - $region_y/2]
+    
+    # Default: no field
+    set H_x 0
+    set H_y 0
+    set H_z 0
+    
+    if {$t >= $input_time_start && $t <= $input_time_end} {
+      # Check if we're in input A region
+      set ellipse_a 40e-9
+      set ellipse_b 20e-9
+      set center_x_A [expr -$edge_length/2 - $spacing - $ellipse_a]
+      set center_y_A 0
+      
+      set dx_A [expr $x_abs - $center_x_A]
+      set dy_A [expr $y_abs - $center_y_A]
+      
+      if {($dx_A*$dx_A)/($ellipse_a*$ellipse_a) + ($dy_A*$dy_A)/($ellipse_b*$ellipse_b) <= 1.0} {
+        set H_x [expr $input_A * $input_field_strength]
+      }
+      
+      # Check if we're in input B region
+      set center_x_B [expr $edge_length/2 + $spacing + $ellipse_a]
+      set center_y_B 0
+      
+      set dx_B [expr $x_abs - $center_x_B]
+      set dy_B [expr $y_abs - $center_y_B]
+      
+      if {($dx_B*$dx_B)/($ellipse_a*$ellipse_a) + ($dy_B*$dy_B)/($ellipse_b*$ellipse_b) <= 1.0} {
+        set H_x [expr $input_B * $input_field_strength]
+      }
+    }
+    
+    return [list $H_x $H_y $H_z]
+  }
+}
+
+# Time evolution driver
+Specify Oxs_TimeDriver:driver {
+  evolver Oxs_RungeKutta4:evolver
+  stopping_time $final_time
+  mesh :mesh
+  Ms { Oxs_AtlasScalarField {
+    atlas :gate_geometry
+    default_value 0
+    values {
+      triangle_T $Ms
+      input_A $Ms
+      input_B $Ms
+      output_C $Ms
+    }
+  }}
+  m0 { Oxs_RandomVectorField {
+    min_norm 1.0
+    max_norm 1.0
+  }}
+}
+
+# Evolver settings
+Specify Oxs_RungeKutta4:evolver {
+  alpha $alpha
+  gamma_ll $gamma_ll
+  min_timestep 1e-15
+  max_timestep $time_step
+}
+
+# Output scheduling
+Schedule DataTable Stage 1
+Schedule Oxs_TimeDriver::Magnetization Stage [expr int(100e-12 / $time_step)]
+
+# Data destinations
+Destination table mmArchive
+Destination magnetization mmArchive
+
+# Enhanced data table with region-specific magnetization
+proc region_magnetization { args } {
+  global Ms
+  
+  set time [Oxs_OutputGet :driver time]
+  
+  # Get average magnetization for each region
+  set mx_total [Oxs_OutputGet :driver "Average m_x"]
+  set my_total [Oxs_OutputGet :driver "Average m_y"]
+  set mz_total [Oxs_OutputGet :driver "Average m_z"]
+  
+  # Total energy
+  set total_energy [Oxs_OutputGet :driver "Total energy"]
+  
+  # Calculate logic state based on output region magnetization
+  # This is a simplified approach - in practice would need region-specific analysis
+  set logic_output 0
+  if {$mx_total > 0.5} {
+    set logic_output 1
+  } elseif {$mx_total < -0.5} {
+    set logic_output 0
+  } else {
+    set logic_output -1  ;# Undefined state
+  }
+  
+  return [list $time $mx_total $my_total $mz_total $total_energy $logic_output]
+}
+
+# Add custom columns to data table
+Specify Oxs_TimeDriver:evolver {
+  basename [format "type1_gate_clock%.0f_T%.0f_inputs%d%d" $clock_angle $temperature $input_A $input_B]
+  scalar_field_output_format binary 8
+  vector_field_output_format binary 8
+}
+
+# Documentation
+# This simulation implements a Type-I reconfigurable NAND/NOR gate as described in:
+# M. Alawein et al., "Multistate nanomagnetic logic using equilateral permalloy triangles,"
+# IEEE Magnetics Letters, vol. 10, pp. 1-5, 2019.
+#
+# Gate operation:
+# - Central triangle T acts as the logic element
+# - Input ellipses A and B provide logic inputs via magnetostatic coupling
+# - Output ellipse C reads the logic result
+# - Clock field at +60° configures NAND operation
+# - Clock field at -60° configures NOR operation
+#
+# Truth table (NAND mode, clock = +60°):
+# A | B | Output
+# 0 | 0 |   1
+# 0 | 1 |   1  
+# 1 | 0 |   1
+# 1 | 1 |   0
+#
+# Truth table (NOR mode, clock = -60°):
+# A | B | Output
+# 0 | 0 |   1
+# 0 | 1 |   0
+# 1 | 0 |   0
+# 1 | 1 |   0
+#
+# The reconfiguration is achieved by changing the clock field angle,
+# which rotates the effective easy axis of the central triangle.

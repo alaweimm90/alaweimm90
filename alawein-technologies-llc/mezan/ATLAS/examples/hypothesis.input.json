@@ -1,0 +1,18 @@
+{
+  "title": "Caffeine improves working memory in morning people",
+  "hypothesis": "Caffeine ingestion prior to cognitive tasks improves working memory performance specifically in morning chronotypes.",
+  "feature": "nightmare",
+  "rigor_mode": true,
+  "dataset": "cog-tests@v1",
+  "seed": 123,
+  "parameters": {
+    "difficulty": "hard",
+    "replications": 5
+  },
+  "evidence": [
+    "doi:10.1126/science.example",
+    { "url": "https://example.org/paper.pdf", "note": "baseline study" }
+  ],
+  "tags": ["caffeine", "chronotype", "working-memory"]
+}
+

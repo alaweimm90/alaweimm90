@@ -1,0 +1,26 @@
+{
+  "title": "Prediction Market for Research Validation",
+  "hypothesis": "Prediction markets can accurately forecast research replication success rates",
+  "feature": "market",
+  "contract_list": [
+    "HYPO-001: Room temperature superconductor by 2026",
+    "HYPO-002: AGI achieved before 2030",
+    "HYPO-003: Quantum advantage in drug discovery by 2025"
+  ],
+  "settlement_oracle": "peer_review_consensus",
+  "trading_horizon": "2025-12-31",
+  "position_limits": 10000,
+  "kyc_requirements": "basic",
+  "parameters": {
+    "ensemble_size": 5,
+    "liquidity_budget": 50000,
+    "maker_incentives": 0.001,
+    "budget_limit": 5.0,
+    "anti_manipulation": {
+      "wash_trading_detection": true,
+      "circuit_breakers": true,
+      "max_position_pct": 0.1
+    }
+  },
+  "tags": ["prediction", "market", "research", "validation"]
+}

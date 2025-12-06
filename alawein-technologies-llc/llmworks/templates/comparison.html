@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI - Brand Theme Comparison | Choose Your Direction</title>
+    <style>
+        /* Base Variables - Updated by theme switcher */
+        :root {
+            --primary: #1B365D;
+            --secondary: #B8860B;
+            --accent: #00D4FF;
+            --background: #FAFAFA;
+            --surface: #F7F9FC;
+            --text: #2D3748;
+            --text-muted: #718096;
+            --border: #E2E8F0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            background: var(--surface);
+            padding: 2rem;
+            border-bottom: 2px solid var(--border);
+            text-align: center;
+        }
+
+        .selector-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .theme-btn {
+            padding: 1rem 2rem;
+            border: 2px solid var(--border);
+            background: var(--background);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn.active {
+            border-color: var(--accent);
+            background: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Content Container */
+        .content-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Comparison Grid */
+        .comparison-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .demo-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent);
+        }
+
+        .demo-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .demo-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .demo-subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .demo-content {
+            padding: 2rem;
+        }
+
+        .demo-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-features {
+            list-style: none;
+        }
+
+        .demo-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .demo-features li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* Color Showcase */
+        .color-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .color-palette {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .palette-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .color-swatches {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .swatch-primary { background: var(--primary); }
+        .swatch-secondary { background: var(--secondary); }
+        .swatch-accent { background: var(--accent); }
+
+        .palette-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Interactive Elements */
+        .interactive-demo {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .demo-button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-demo {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary-demo {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-accent-demo {
+            background: var(--accent);
+            color: white;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .color-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .theme-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .demo-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Theme-specific fonts */
+        .theme-military {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .theme-cyber {
+            font-family: 'Inter', 'Courier New', monospace;
+        }
+
+        .theme-mythological {
+            font-family: 'Crimson Text', 'Georgia', serif;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <h1>Aegis AI Brand Themes</h1>
+        <p>Experience three distinct brand directions for the AI evaluation platform. Each theme represents a unique personality and approach to protecting AI integrity.</p>
+    </header>
+
+    <section class="theme-selector">
+        <h2 class="selector-title">Choose Your Experience</h2>
+        <div class="theme-buttons">
+            <button class="theme-btn active" data-theme="military">
+                ⚡ Military Precision
+            </button>
+            <button class="theme-btn" data-theme="cyber">
+                ◉ Digital Guardian
+            </button>
+            <button class="theme-btn" data-theme="mythological">
+                🏛️ Mythological Tech
+            </button>
+        </div>
+    </section>
+
+    <div class="content-container">
+        <section class="comparison-section">
+            <h2 class="section-title">Color Palette Comparison</h2>
+            <div class="color-showcase">
+                <div class="color-palette">
+                    <h3 class="palette-title">Current Theme Palette</h3>
+                    <div class="color-swatches">
+                        <div class="color-swatch swatch-primary"></div>
+                        <div class="color-swatch swatch-secondary"></div>
+                        <div class="color-swatch swatch-accent"></div>
+                    </div>
+                    <p class="palette-description" id="palette-description">
+                        Military-grade color scheme emphasizing authority, precision, and tactical readiness.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison-section">
+            <h2 class="section-title">Interactive Elements</h2>
+            <div class="interactive-demo">
+                <div class="demo-controls">
+                    <button class="demo-button btn-primary-demo">Primary Action</button>
+                    <button class="demo-button btn-secondary-demo">Secondary Action</button>
+                    <button class="demo-button btn-accent-demo">Accent Action</button>
+                </div>
+                <p class="demo-description" id="interaction-description">
+                    Experience how buttons and interactive elements feel in the current theme. Notice the color transitions, hover effects, and overall interaction personality.
+                </p>
+            </div>
+        </section>
+
+        <section class="comparison-section">
+            <h2 class="section-title">Page Previews</h2>
+            <div class="comparison-grid">
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="demo-title">Landing Page</h3>
+                        <p class="demo-subtitle">Hero section and features</p>
+                    </div>
+                    <div class="demo-content">
+                        <iframe class="demo-iframe" id="landing-frame" src="option-a/landing-sample.html"></iframe>
+                        <p class="demo-description">
+                            The main landing page showcasing the brand personality, key features, and value proposition.
+                        </p>
+                        <ul class="demo-features">
+                            <li><span class="feature-icon">✓</span> Hero section with brand messaging</li>
+                            <li><span class="feature-icon">✓</span> Feature highlights</li>
+                            <li><span class="feature-icon">✓</span> Call-to-action buttons</li>
+                            <li><span class="feature-icon">✓</span> Performance statistics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="demo-title">Arena Interface</h3>
+                        <p class="demo-subtitle">AI model comparison workspace</p>
+                    </div>
+                    <div class="demo-content">
+                        <iframe class="demo-iframe" id="arena-frame" src="option-a/arena-sample.html"></iframe>
+                        <p class="demo-description">
+                            The arena workspace where users can run comparative evaluations between AI models.
+                        </p>
+                        <ul class="demo-features">
+                            <li><span class="feature-icon">✓</span> Model vs model interface</li>
+                            <li><span class="feature-icon">✓</span> Real-time progress tracking</li>
+                            <li><span class="feature-icon">✓</span> Live activity logs</li>
+                            <li><span class="feature-icon">✓</span> Control panel</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-header">
+                        <h3 class="demo-title">Benchmark Suite</h3>
+                        <p class="demo-subtitle">Comprehensive testing dashboard</p>
+                    </div>
+                    <div class="demo-content">
+                        <iframe class="demo-iframe" id="bench-frame" src="option-a/bench-sample.html"></iframe>
+                        <p class="demo-description">
+                            The benchmark interface for running comprehensive test suites and viewing detailed results.
+                        </p>
+                        <ul class="demo-features">
+                            <li><span class="feature-icon">✓</span> Test suite selection</li>
+                            <li><span class="feature-icon">✓</span> Results visualization</li>
+                            <li><span class="feature-icon">✓</span> Performance leaderboard</li>
+                            <li><span class="feature-icon">✓</span> Progress tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>Choose the theme that best represents your vision for Aegis AI. Each direction offers a unique approach to AI evaluation and protection.</p>
+    </footer>
+
+    <script>
+        // Theme configurations
+        const themes = {
+            military: {
+                name: 'Military Precision',
+                colors: {
+                    primary: '#1B365D',
+                    secondary: '#B8860B', 
+                    accent: '#00D4FF',
+                    background: '#FAFAFA',
+                    surface: '#F7F9FC',
+                    text: '#2D3748',
+                    textMuted: '#718096',
+                    border: '#E2E8F0'
+                },
+                font: 'Inter',
+                description: 'Military-grade color scheme emphasizing authority, precision, and tactical readiness with deep blues and strategic gold accents.',
+                interaction: 'Tactical interactions with sharp precision - buttons feel decisive and authoritative, like military command interfaces.',
+                folder: 'option-a'
+            },
+            cyber: {
+                name: 'Digital Guardian',
+                colors: {
+                    primary: '#0F1419',
+                    secondary: '#00C896',
+                    accent: '#FF6B35',
+                    background: '#0A0E13',
+                    surface: '#1A1B23',
+                    text: '#E2E8F0',
+                    textMuted: '#94A3B8',
+                    border: '#2D3748'
+                },
+                font: 'Inter, Courier New',
+                description: 'Cybersecurity-focused dark palette with guardian green and warning orange, designed for digital protection and neural network aesthetics.',
+                interaction: 'Cyber-enhanced interactions with glitch effects and digital precision - buttons respond like advanced security systems.',
+                folder: 'option-b'
+            },
+            mythological: {
+                name: 'Mythological Tech',
+                colors: {
+                    primary: '#6B46C1',
+                    secondary: '#C0C0C0',
+                    accent: '#DAA520',
+                    background: '#F7FAFC',
+                    surface: '#FFFFFF',
+                    text: '#2D3748',
+                    textMuted: '#718096',
+                    border: '#E2E8F0'
+                },
+                font: 'Crimson Text, Georgia',
+                description: 'Wisdom-driven palette combining Athena purple with classical silver and oracle gold, evoking scholarly tradition and divine knowledge.',
+                interaction: 'Elegant, scholarly interactions with smooth transitions - buttons feel like ancient wisdom meets modern technology.',
+                folder: 'option-c'
+            }
+        };
+
+        let currentTheme = 'military';
+
+        // Apply theme to page
+        function applyTheme(themeName) {
+            const theme = themes[themeName];
+            const root = document.documentElement;
+            
+            // Update CSS variables
+            root.style.setProperty('--primary', theme.colors.primary);
+            root.style.setProperty('--secondary', theme.colors.secondary);
+            root.style.setProperty('--accent', theme.colors.accent);
+            root.style.setProperty('--background', theme.colors.background);
+            root.style.setProperty('--surface', theme.colors.surface);
+            root.style.setProperty('--text', theme.colors.text);
+            root.style.setProperty('--text-muted', theme.colors.textMuted);
+            root.style.setProperty('--border', theme.colors.border);
+
+            // Update content
+            document.getElementById('palette-description').textContent = theme.description;
+            document.getElementById('interaction-description').textContent = theme.interaction;
+
+            // Update iframes
+            document.getElementById('landing-frame').src = `${theme.folder}/landing-sample.html`;
+            document.getElementById('arena-frame').src = `${theme.folder}/arena-sample.html`;
+            document.getElementById('bench-frame').src = `${theme.folder}/bench-sample.html`;
+
+            // Update body class for font
+            document.body.className = `theme-${themeName}`;
+
+            currentTheme = themeName;
+        }
+
+        // Handle theme button clicks
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Apply the theme
+                const theme = btn.dataset.theme;
+                applyTheme(theme);
+            });
+        });
+
+        // Add hover effects to demo buttons
+        document.querySelectorAll('.demo-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Create a ripple effect
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = 'translateY(-2px)';
+                }, 100);
+            });
+        });
+
+        // Initialize with military theme
+        applyTheme('military');
+    </script>
+</body>
+</html>

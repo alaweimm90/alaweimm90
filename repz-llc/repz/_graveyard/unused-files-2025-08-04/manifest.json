@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-08-04T14:11:02.852Z",
+  "totalAuditedFiles": 464,
+  "potentiallyUnused": 86,
+  "actuallyMoved": 9,
+  "movedFiles": [
+    "src/components/ContactLinks.tsx",
+    "src/components/advanced/AdvancedAnalytics.tsx",
+    "src/components/analytics/RealTimeAnalytics.tsx",
+    "src/components/auth/CompactAuthForm.tsx",
+    "src/components/blog/BlogSystem.tsx",
+    "src/components/blog/LaTeXRenderer.tsx",
+    "src/components/booking/BookingSection.tsx",
+    "src/components/booking/SimpleCalendlyButton.tsx",
+    "src/components/feature-flags/FeatureFlagDevTools.tsx"
+  ],
+  "stats": {
+    "moved": 9,
+    "skipped": 0,
+    "errors": 0
+  }
+}

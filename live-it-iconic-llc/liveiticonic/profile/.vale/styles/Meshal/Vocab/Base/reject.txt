@@ -1,0 +1,22 @@
+# Rejected terminology - common mistakes
+# These will be flagged
+
+# Common typos
+Github
+Javascript
+Typescript
+Jupyter Notebook
+
+# Informal
+repo
+gonna
+wanna
+kinda
+sorta
+
+# Vague
+thing
+stuff
+nice
+cool
+

@@ -1,0 +1,59 @@
+{
+  "navigation": {
+    "dashboard": "Painel",
+    "workouts": "Exercícios",
+    "nutrition": "Nutrição",
+    "progress": "Progresso",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signUp": "Cadastrar-se",
+    "email": "E-mail",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu a Senha?",
+    "createAccount": "Criar Conta",
+    "welcomeBack": "Bem-vindo de Volta",
+    "getStarted": "Começar"
+  },
+  "tiers": {
+    "core": "Básico",
+    "adaptive": "Adaptativo",
+    "performance": "Performance",
+    "longevity": "Longevidade",
+    "selectPlan": "Selecionar Plano",
+    "currentPlan": "Plano Atual",
+    "upgradeNow": "Atualizar Agora"
+  },
+  "dashboard": {
+    "welcome": "Bem-vindo",
+    "todaysWorkout": "Treino de Hoje",
+    "recentProgress": "Progresso Recente",
+    "weeklyGoals": "Metas Semanais",
+    "achievements": "Conquistas"
+  },
+  "global": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "view": "Visualizar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "previous": "Anterior",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "export": "Exportar"
+  },
+  "enterprise": {
+    "globalInfrastructure": "Infraestrutura Global",
+    "internationalFeatures": "Recursos Internacionais",
+    "securityCompliance": "Segurança e Conformidade",
+    "performanceMetrics": "Métricas de Performance",
+    "scalingManagement": "Gerenciamento de Escala"
+  }
+}

@@ -1,0 +1,23 @@
+```mermaid
+graph LR
+
+    %% Nodes
+    problem_size["Problem Size"]
+    search_space_size["Search Space Size"]
+    constraint_complexity["Constraint Complexity"]
+    objective_smoothness["Objective Function Smoothness"]
+    exploration_capability["Exploration Capability"]
+    exploitation_capability["Exploitation Capability"]
+    constraint_handling["Constraint Handling"]
+    convergence_speed["Convergence Speed"]
+    solution_quality["Solution Quality"]
+    computational_cost["Computational Cost"]
+
+    %% Causal relationships
+    problem_size ==>|0.95| search_space_size
+    search_space_size ==>|0.90| computational_cost
+    constraint_complexity ==>|0.85| constraint_handling
+    exploration_capability -->|0.80| solution_quality
+    exploitation_capability -->|0.75| convergence_speed
+    objective_smoothness -->|0.70| convergence_speed
+```

@@ -1,0 +1,506 @@
+# TalAI Enterprise Helm Values
+# Production-Grade Configuration for Enterprise Deployment
+
+global:
+  storageClass: ssd-regional
+  domain: talai.io
+  region: us-west-2
+  multiRegion:
+    enabled: true
+    regions:
+      - us-west-2
+      - eu-west-1
+      - ap-southeast-1
+  security:
+    podSecurityPolicy: restricted
+    networkPolicy: true
+    rbac:
+      enabled: true
+      strictMode: true
+  monitoring:
+    enabled: true
+    namespace: monitoring
+  istio:
+    enabled: true
+    mtls:
+      mode: STRICT
+
+# Core TalAI Services Configuration
+services:
+  abstractWriter:
+    enabled: true
+    replicas: 3
+    image:
+      repository: talai/abstract-writer
+      tag: 2.0.0
+      pullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 3
+      maxReplicas: 20
+      targetCPU: 70
+      targetMemory: 80
+      customMetrics:
+        - type: External
+          external:
+            metric:
+              name: queue_depth
+              selector:
+                matchLabels:
+                  queue: abstract-writer
+            target:
+              type: AverageValue
+              averageValue: 30
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: ssd-regional
+    service:
+      type: ClusterIP
+      port: 8080
+    ingress:
+      enabled: true
+      path: /api/abstract-writer
+      tls: true
+
+  adversarialReview:
+    enabled: true
+    replicas: 5
+    image:
+      repository: talai/adversarial-review
+      tag: 2.0.0
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 5
+      maxReplicas: 50
+      targetCPU: 65
+      behavior:
+        scaleUp:
+          stabilizationWindowSeconds: 60
+          policies:
+            - type: Percent
+              value: 100
+              periodSeconds: 60
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent
+              value: 50
+              periodSeconds: 60
+
+  atlasOrchestrator:
+    enabled: true
+    replicas: 10
+    image:
+      repository: talai/ORCHEX-orchestrator
+      tag: 2.0.0
+    resources:
+      requests:
+        cpu: 2000m
+        memory: 4Gi
+      limits:
+        cpu: 8000m
+        memory: 16Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 10
+      maxReplicas: 100
+      targetCPU: 60
+      targetMemory: 75
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - ORCHEX-orchestrator
+              topologyKey: kubernetes.io/hostname
+
+  grantWriter:
+    enabled: true
+    replicas: 3
+    statefulset: true  # Uses StatefulSet for session persistence
+    image:
+      repository: talai/grant-writer
+      tag: 2.0.0
+    resources:
+      requests:
+        cpu: 1500m
+        memory: 3Gi
+      limits:
+        cpu: 6000m
+        memory: 12Gi
+    volumeClaimTemplates:
+      - metadata:
+          name: grant-data
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          storageClassName: ssd-regional
+          resources:
+            requests:
+              storage: 50Gi
+
+  litReviewBot:
+    enabled: true
+    replicas: 8
+    image:
+      repository: talai/lit-review-bot
+      tag: 2.0.0
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+    autoscaling:
+      enabled: true
+      minReplicas: 8
+      maxReplicas: 80
+      targetCPU: 70
+
+  promptMarketplace:
+    enabled: true
+    replicas: 5
+    image:
+      repository: talai/prompt-marketplace
+      tag: 2.0.0
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+# Database Configuration
+postgresql:
+  enabled: true
+  auth:
+    database: talai
+    username: talai
+    existingSecret: talai-db-secret
+  primary:
+    persistence:
+      enabled: true
+      size: 100Gi
+      storageClass: ssd-regional
+    resources:
+      requests:
+        cpu: 2000m
+        memory: 4Gi
+      limits:
+        cpu: 8000m
+        memory: 16Gi
+  readReplicas:
+    replicaCount: 3
+    persistence:
+      enabled: true
+      size: 100Gi
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# Redis Cache Configuration
+redis:
+  enabled: true
+  architecture: replication
+  auth:
+    enabled: true
+    existingSecret: talai-redis-secret
+  master:
+    persistence:
+      enabled: true
+      size: 50Gi
+      storageClass: ssd-regional
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+  replica:
+    replicaCount: 3
+    persistence:
+      enabled: true
+      size: 50Gi
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+  sentinel:
+    enabled: true
+    quorum: 2
+
+# Kafka Event Streaming
+kafka:
+  enabled: true
+  replicaCount: 5
+  persistence:
+    enabled: true
+    size: 200Gi
+    storageClass: ssd-regional
+  resources:
+    requests:
+      cpu: 2000m
+      memory: 4Gi
+    limits:
+      cpu: 8000m
+      memory: 16Gi
+  zookeeper:
+    enabled: true
+    replicaCount: 3
+    persistence:
+      enabled: true
+      size: 50Gi
+  metrics:
+    kafka:
+      enabled: true
+    jmx:
+      enabled: true
+
+# Elasticsearch for Search & Analytics
+elasticsearch:
+  enabled: true
+  replicas: 3
+  minimumMasterNodes: 2
+  coordinating:
+    replicaCount: 2
+  data:
+    replicaCount: 5
+    persistence:
+      enabled: true
+      size: 500Gi
+      storageClass: ssd-regional
+    resources:
+      requests:
+        cpu: 2000m
+        memory: 8Gi
+      limits:
+        cpu: 8000m
+        memory: 32Gi
+  master:
+    replicaCount: 3
+    persistence:
+      enabled: true
+      size: 50Gi
+
+# Ingress Configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+    nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+  hosts:
+    - host: api.talai.io
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: api-eu.talai.io
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: api-ap.talai.io
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: talai-tls-secret
+      hosts:
+        - api.talai.io
+        - api-eu.talai.io
+        - api-ap.talai.io
+
+# Service Mesh (Istio) Configuration
+istio:
+  enabled: true
+  virtualService:
+    enabled: true
+    gateways:
+      - istio-system/talai-gateway
+    http:
+      - match:
+          - headers:
+              x-api-version:
+                exact: v2
+        route:
+          - destination:
+              host: talai-services
+              subset: v2
+            weight: 100
+      - route:
+          - destination:
+              host: talai-services
+              subset: v1
+            weight: 90
+          - destination:
+              host: talai-services
+              subset: v2
+            weight: 10
+  destinationRule:
+    enabled: true
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 100
+        http:
+          http1MaxPendingRequests: 100
+          http2MaxRequests: 100
+          maxRequestsPerConnection: 2
+      outlierDetection:
+        consecutiveErrors: 5
+        interval: 30s
+        baseEjectionTime: 30s
+        maxEjectionPercent: 50
+
+# Monitoring & Observability
+monitoring:
+  prometheus:
+    enabled: true
+    retention: 30d
+    storageSize: 500Gi
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+  grafana:
+    enabled: true
+    adminPassword: changeme
+    persistence:
+      enabled: true
+      size: 10Gi
+    dashboards:
+      - talai-overview
+      - service-metrics
+      - infrastructure
+      - cost-analysis
+  jaeger:
+    enabled: true
+    storage:
+      type: elasticsearch
+  alerting:
+    enabled: true
+    rules:
+      - name: high-cpu
+        expr: rate(container_cpu_usage_seconds_total[5m]) > 0.8
+        for: 5m
+        severity: warning
+      - name: high-memory
+        expr: container_memory_usage_bytes / container_spec_memory_limit_bytes > 0.9
+        for: 5m
+        severity: critical
+      - name: pod-restart
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        severity: warning
+
+# Security Configuration
+security:
+  podSecurityPolicy:
+    enabled: true
+    spec:
+      privileged: false
+      allowPrivilegeEscalation: false
+      requiredDropCapabilities:
+        - ALL
+      volumes:
+        - configMap
+        - emptyDir
+        - projected
+        - secret
+        - downwardAPI
+        - persistentVolumeClaim
+      hostNetwork: false
+      hostIPC: false
+      hostPID: false
+      runAsUser:
+        rule: MustRunAsNonRoot
+      seLinux:
+        rule: RunAsAny
+      supplementalGroups:
+        rule: RunAsAny
+      fsGroup:
+        rule: RunAsAny
+  networkPolicy:
+    enabled: true
+    ingress:
+      - from:
+          - namespaceSelector:
+              matchLabels:
+                name: istio-system
+    egress:
+      - to:
+          - namespaceSelector:
+              matchLabels:
+                name: talai
+  secrets:
+    externalSecrets:
+      enabled: true
+      backend: aws-secrets-manager
+      region: us-west-2
+
+# Backup & Disaster Recovery
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention: 30
+  destination:
+    type: s3
+    bucket: talai-backups
+    region: us-west-2
+  databases:
+    - postgresql
+    - redis
+    - elasticsearch
+  volumes:
+    - grant-data
+    - research-data
+
+# Cost Optimization
+costOptimization:
+  nodeSelector:
+    node.kubernetes.io/instance-type: t3.xlarge
+  spotInstances:
+    enabled: true
+    percentage: 60
+    onDemandBaseCapacity: 10
+  preemptibleNodes:
+    enabled: true
+    taints:
+      - key: cloud.google.com/gke-preemptible
+        value: "true"
+        effect: NoSchedule

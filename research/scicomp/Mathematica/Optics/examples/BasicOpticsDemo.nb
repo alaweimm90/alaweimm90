@@ -1,0 +1,756 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       156,          7]
+NotebookDataLength[     23456,        567]
+NotebookOptionsPosition[     21234,        523]
+NotebookOutlinePosition[     21678,        540]
+CellTagsIndexPosition[     21635,        537]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Berkeley SciComp - Mathematica Optics Demo", "Title",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ TextAlignment->Center,
+ FontColor->RGBColor[0, 50/255, 98/255],ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+
+Cell["\<\
+This notebook demonstrates fundamental optics concepts using the Berkeley \
+SciComp Mathematica Optics package including geometric optics, wave optics, \
+and material properties.\
+\>", "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789abd"],
+
+Cell[CellGroupData[{
+
+Cell["Initialization", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789abe"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../core/WaveOptics.wl\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../core/RayOptics.wl\>\"", "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../core/OpticalMaterials.wl\>\"", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789abf"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Berkeley SciComp - Mathematica Optics Package Loaded Successfully!\>\"", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac0"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 1: Snell's Law and Refraction", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789ac1"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", 
+   RowBox[{"589.3", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "9"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Sodium", " ", "D", "-", "line"}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"incidentAngle", " ", "=", " ", "30"}], ";", " ", 
+  RowBox[{"(*", " ", "degrees", " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nAir", " ", "=", " ", 
+   RowBox[{"RefractiveIndex", "[", 
+    RowBox[{"\"\<air\>\"", ",", " ", "wavelength"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nGlass", " ", "=", " ", 
+   RowBox[{"RefractiveIndex", "[", 
+    RowBox[{"\"\<BK7\>\"", ",", " ", "wavelength"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"nWater", " ", "=", " ", 
+   RowBox[{"RefractiveIndex", "[", 
+    RowBox[{"\"\<H2O\>\"", ",", " ", "wavelength"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Wavelength: \>\"", ",", " ", 
+    RowBox[{"wavelength", "*", 
+     SuperscriptBox["10", "9"]}], ",", " ", "\"\< nm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Incident angle: \>\"", ",", " ", "incidentAngle", ",", " ", 
+    "\"\<°\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\\nRefractive indices:\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Air:   n = \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"nAir", ",", " ", "6"}], "]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<BK7:   n = \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"nGlass", ",", " ", "6"}], "]"}]}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Water: n = \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"nWater", ",", " ", "6"}], "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[10]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"thetaIRad", " ", "=", " ", 
+   RowBox[{"incidentAngle", " ", "*", " ", 
+    FractionBox["\[Pi]", "180"]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sinThetaRGlass", " ", "=", " ", 
+   FractionBox[
+    RowBox[{"nAir", " ", "*", " ", 
+     RowBox[{"Sin", "[", "thetaIRad", "]"}]}], "nGlass"]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"thetaRGlass", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"ArcSin", "[", "sinThetaRGlass", "]"}], " ", "*", " ", 
+    FractionBox["180", "\[Pi]"]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"sinThetaRWater", " ", "=", " ", 
+   FractionBox[
+    RowBox[{"nAir", " ", "*", " ", 
+     RowBox[{"Sin", "[", "thetaIRad", "]"}]}], "nWater"]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"thetaRWater", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"ArcSin", "[", "sinThetaRWater", "]"}], " ", "*", " ", 
+    FractionBox["180", "\[Pi]"]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[16]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac4"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\\nRefraction angles:\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Air \[Rule] BK7:   \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"thetaRGlass", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", "\"\<°\>\""}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Air \[Rule] Water: \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"thetaRWater", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", "\"\<°\>\""}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[21]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac5"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 2: Gaussian Beam Propagation", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789ac6"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", 
+   RowBox[{"633", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "9"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"HeNe", " ", "laser"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"waistRadius", " ", "=", " ", 
+   RowBox[{"1", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "3"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"1", " ", "mm"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"power", " ", "=", " ", 
+   RowBox[{"1", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "3"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"1", " ", "mW"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"beam", " ", "=", " ", 
+   RowBox[{"GaussianBeam", "[", 
+    RowBox[{"wavelength", ",", " ", "waistRadius", ",", " ", 
+     RowBox[{"\"\<Power\>\"", " ", "\[Rule]", " ", "power"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac7"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Beam parameters:\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Wavelength: \>\"", ",", " ", 
+    RowBox[{"wavelength", "*", 
+     SuperscriptBox["10", "9"]}], ",", " ", "\"\< nm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Beam waist: \>\"", ",", " ", 
+    RowBox[{"waistRadius", "*", "1000"}], ",", " ", "\"\< mm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Rayleigh range: \>\"", ",", " ", 
+    RowBox[{
+     RowBox[{"beam", "[", "\"\<RayleighRange\>\"", "]"}], "*", "1000"}], ",", 
+    " ", "\"\< mm\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Divergence angle: \>\"", ",", " ", 
+    RowBox[{
+     RowBox[{"beam", "[", "\"\<DivergenceAngle\>\"", "]"}], "*", "1000"}], 
+    ",", " ", "\"\< mrad\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Power: \>\"", ",", " ", 
+    RowBox[{"power", "*", "1000"}], ",", " ", "\"\< mW\>\""}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"zRange", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "5"}], "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "3"}]]}], ",", " ", 
+     RowBox[{"5", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "3"}]]}]}], "}"}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"\[PlusMinus]", 
+    RowBox[{"5", " ", "mm"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"PlotBeamPropagation", "[", 
+   RowBox[{"beam", ",", " ", "zRange"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[32]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac9"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 3: Young's Double Slit Interference", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789aca"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", 
+   RowBox[{"550", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "9"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Green", " ", "light"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"slitSeparation", " ", "=", " ", 
+   RowBox[{"100", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "6"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"100", " ", "\[Mu]m"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"screenDistance", " ", "=", " ", "1.0"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"1", " ", "m"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"interference", " ", "=", " ", 
+   RowBox[{"AnalyzeInterference", "[", 
+    RowBox[{"wavelength", ",", " ", "slitSeparation", ",", " ", 
+     "screenDistance"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[34]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789acb"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Wavelength: \>\"", ",", " ", 
+    RowBox[{"wavelength", "*", 
+     SuperscriptBox["10", "9"]}], ",", " ", "\"\< nm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Slit separation: \>\"", ",", " ", 
+    RowBox[{"slitSeparation", "*", 
+     SuperscriptBox["10", "6"]}], ",", " ", "\"\< \[Mu]m\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Screen distance: \>\"", ",", " ", "screenDistance", ",", " ", 
+    "\"\< m\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Fringe spacing: \>\"", ",", " ", 
+    RowBox[{
+     RowBox[{"interference", "[", "\"\<FringeSpacing\>\"", "]"}], "*", 
+     "1000"}], ",", " ", "\"\< mm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Visibility: \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"interference", "[", "\"\<Visibility\>\"", "]"}], ",", " ", 
+      "3"}], "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[36]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789acc"],
+
+Cell[BoxData[
+ RowBox[{"PlotInterferencePattern", "[", "interference", "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[41]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789acd"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 4: Single Slit Diffraction", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789ace"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", 
+   RowBox[{"633", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "9"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"HeNe", " ", "laser"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"slitWidth", " ", "=", " ", 
+   RowBox[{"50", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "6"}]]}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"50", " ", "\[Mu]m"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"screenDistance", " ", "=", " ", "2.0"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"2", " ", "m"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"diffraction", " ", "=", " ", 
+   RowBox[{"CalculateDiffraction", "[", 
+    RowBox[{"\"\<single_slit\>\"", ",", " ", "slitWidth", ",", " ", 
+     "wavelength", ",", " ", "screenDistance", ",", " ", "0.02"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[42]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789acf"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"firstMinimum", " ", "=", " ", 
+   FractionBox[
+    RowBox[{"wavelength", " ", "*", " ", "screenDistance"}], "slitWidth"]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Wavelength: \>\"", ",", " ", 
+    RowBox[{"wavelength", "*", 
+     SuperscriptBox["10", "9"]}], ",", " ", "\"\< nm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Slit width: \>\"", ",", " ", 
+    RowBox[{"slitWidth", "*", 
+     SuperscriptBox["10", "6"]}], ",", " ", "\"\< \[Mu]m\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Screen distance: \>\"", ",", " ", "screenDistance", ",", " ", 
+    "\"\< m\>\""}], "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<First minimum position: \[PlusMinus]\>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"firstMinimum", "*", "1000"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", "\"\< mm\>\""}],
+    "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[44]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad0"],
+
+Cell[BoxData[
+ RowBox[{"PlotDiffractionPattern", "[", "diffraction", "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[49]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad1"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 5: Ray Tracing with Thin Lens", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789ad2"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"focalLength", " ", "=", " ", "0.1"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"100", " ", "mm"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"lensDiameter", " ", "=", " ", "0.025"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"25", " ", "mm"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"objectDistance", " ", "=", " ", "0.15"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"150", " ", "mm"}], " ", "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"system", " ", "=", " ", 
+   RowBox[{"RayOptics", "[", 
+    RowBox[{"\"\<Wavelength\>\"", " ", "\[Rule]", " ", 
+     RowBox[{"589", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "9"}]]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lens", " ", "=", " ", 
+   RowBox[{"ThinLens", "[", 
+    RowBox[{"0", ",", " ", "focalLength", ",", " ", "lensDiameter"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"system", "[", "\"\<AddSurface\>\"", "]"}], "[", "lens", "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[50]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"objectHeight", " ", "=", " ", "0.005"}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"5", " ", "mm"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"rayHeights", " ", "=", " ", 
+   RowBox[{"Table", "[", 
+    RowBox[{"h", ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"h", ",", " ", 
+       RowBox[{"-", "objectHeight"}], ",", " ", "objectHeight", ",", " ", 
+       FractionBox[
+        RowBox[{"2", "*", "objectHeight"}], "10"]}], "}"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"rays", " ", "=", " ", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"Ray", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"h", ",", " ", "0", ",", " ", 
+         RowBox[{"-", "objectDistance"}]}], "}"}], ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", " ", "0", ",", " ", "1"}], "}"}], ",", " ", 
+       RowBox[{"589", "*", 
+        SuperscriptBox["10", 
+         RowBox[{"-", "9"}]]}]}], "]"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"h", ",", " ", "rayHeights"}], "}"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[54]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad4"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"imageDistance", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"lens", "[", "\"\<CalculateImagePosition\>\"", "]"}], "[", 
+    RowBox[{"-", "objectDistance"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"magnification", " ", "=", " ", 
+   RowBox[{"-", 
+    FractionBox["imageDistance", "objectDistance"]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Lens focal length: \>\"", ",", " ", 
+    RowBox[{"focalLength", "*", "1000"}], ",", " ", "\"\< mm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Object distance: \>\"", ",", " ", 
+    RowBox[{"objectDistance", "*", "1000"}], ",", " ", "\"\< mm\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Image distance: \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{
+      RowBox[{"imageDistance", "*", "1000"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", " ", "1"}], "}"}]}], "]"}], ",", " ", "\"\< mm\>\""}],
+    "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Magnification: \>\"", ",", " ", 
+    RowBox[{"NumberForm", "[", 
+     RowBox[{"magnification", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"4", ",", " ", "2"}], "}"}]}], "]"}], ",", " ", "\"\<x\>\""}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[56]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad5"],
+
+Cell[BoxData[
+ RowBox[{"PlotRayDiagram", "[", 
+  RowBox[{"system", ",", " ", "rays"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[62]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad6"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example 6: Material Dispersion Analysis", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789ad7"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"materials", " ", "=", " ", 
+   RowBox[{"OpticalMaterials", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"materials", "[", "\"\<ListMaterials\>\"", "]"}], "[", "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[63]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad8"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wavelength", " ", "=", " ", 
+   RowBox[{"589.3", "*", 
+    SuperscriptBox["10", 
+     RowBox[{"-", "9"}]]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"materialNames", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<BK7\>\"", ",", " ", "\"\<SiO2\>\"", ",", " ", "\"\<air\>\"", ",", 
+     " ", "\"\<H2O\>\""}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<Refractive indices at 589.3 nm (sodium D-line):\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<================================================\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"n", " ", "=", " ", 
+      RowBox[{"RefractiveIndex", "[", 
+       RowBox[{"mat", ",", " ", "wavelength"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Print", "[", 
+      RowBox[{"mat", ",", " ", "\"\<: n = \>\"", ",", " ", 
+       RowBox[{"NumberForm", "[", 
+        RowBox[{"n", ",", " ", "6"}], "]"}]}], "]"}]}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"{", 
+     RowBox[{"mat", ",", " ", "materialNames"}], "}"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[65]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"wlRange", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"400", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "9"}]]}], ",", " ", 
+     RowBox[{"800", "*", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "9"}]]}]}], "}"}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Visible", " ", "range"}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"PlotDispersion", "[", 
+   RowBox[{"\"\<BK7\>\"", ",", " ", "wlRange"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[70]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ada"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"compareMaterialsList", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"\"\<BK7\>\"", ",", " ", "\"\<SiO2\>\"", ",", " ", "\"\<H2O\>\""}], 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"CompareMaterials", "[", 
+  RowBox[{"compareMaterialsList", ",", " ", "wlRange"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[72]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789adb"]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789adc"],
+
+Cell["\<\
+This notebook has demonstrated the key capabilities of the Berkeley SciComp \
+Mathematica Optics package:
+
+\[Bullet] Wave Optics: Gaussian beam propagation and analysis
+\[Bullet] Interference: Young's double slit patterns with fringe analysis
+\[Bullet] Diffraction: Single slit patterns with theoretical predictions
+\[Bullet] Ray Optics: Geometric ray tracing through lens systems
+\[Bullet] Materials: Dispersion models and refractive index calculations
+\[Bullet] Visualization: Berkeley-themed plots with professional styling
+
+The package provides a comprehensive framework for optical system design, \
+analysis, and education, maintaining cross-platform compatibility with \
+Python and MATLAB implementations.\
+\>", "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"12345678-1234-5678-9abc-123456789add"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<\\n\>\"", ",", " ", 
+    "\"\<=====================================\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<ALL EXAMPLES COMPLETED SUCCESSFULLY!\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<=====================================\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\\nFor more advanced functionality, try:\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\[Bullet] WaveOpticsDemo[]\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\[Bullet] RayOpticsDemo[]\>\""}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<\[Bullet] OpticalMaterialsDemo[]\>\""}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[74]:=",ExpressionUUID->"12345678-1234-5678-9abc-123456789ade"]
+
+}, Open  ]]
+
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{100, Automatic}, {Automatic, 50}},
+FrontEndVersion->"13.3 for Mac OS X ARM (64-bit) (June 3, 2023)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"12345678-1234-5678-9abc-123456789abf"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 211, 4, 98, "Title",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[794, 28, 302, 5, 58, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789abd"],
+Cell[CellGroupData[{
+Cell[1121, 37, 116, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abe"],
+Cell[1240, 40, 576, 14, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abf"],
+Cell[1819, 56, 247, 4, 30, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac0"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2103, 65, 139, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac1"],
+Cell[2245, 68, 1046, 26, 115, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac2"],
+Cell[3294, 96, 1298, 33, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac3"],
+Cell[4595, 131, 1135, 28, 132, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac4"],
+Cell[5733, 161, 854, 22, 73, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6624, 188, 139, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac6"],
+Cell[6766, 191, 1067, 27, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac7"],
+Cell[7836, 220, 1337, 33, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac8"],
+Cell[9176, 255, 639, 18, 54, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ac9"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9852, 278, 143, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789aca"],
+Cell[9998, 281, 939, 23, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789acb"],
+Cell[10940, 306, 1279, 32, 115, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789acc"],
+Cell[12222, 340, 193, 3, 30, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789acd"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12452, 348, 135, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789ace"],
+Cell[12590, 351, 970, 24, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789acf"],
+Cell[13563, 377, 1251, 32, 115, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad0"],
+Cell[14817, 411, 190, 3, 30, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad1"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15044, 419, 138, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad2"],
+Cell[15185, 422, 1145, 28, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad3"],
+Cell[16333, 452, 1207, 31, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad4"],
+Cell[17543, 485, 1516, 39, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad5"],
+Cell[19062, 526, 207, 4, 30, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad6"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19306, 535, 140, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad7"],
+Cell[19449, 538, 378, 9, 52, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad8"],
+Cell[19830, 549, 1397, 38, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ad9"],
+Cell[21230, 589, 604, 16, 54, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ada"],
+Cell[21837, 607, 434, 9, 52, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789adb"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22308, 621, 108, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789adc"],
+Cell[22419, 624, 733, 15, 288, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789add"],
+Cell[23155, 641, 1151, 31, 157, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789ade"]
+}, Open  ]]
+}, Open  ]]
+}
+]

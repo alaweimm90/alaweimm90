@@ -1,0 +1,27 @@
+version: '1.0'
+sources:
+  - name: talai_ideaforge
+    module: ORGANIZATIONS.AlaweinOS.TalAI.ideaforge.agents
+    factory: get_agent
+categories:
+  ideation:
+    agents:
+      - meta_orchestrator
+      - planner
+      - researcher
+      - critic
+      - evolver
+      - executor
+      - synthesizer
+      - chaos_monkey
+  expertise:
+    agents:
+      - domain_expert
+      - futurist
+      - historian
+      - economist
+      - ethicist
+      - ux_visionary
+      - technical_architect
+      - market_analyst
+      - wild_card

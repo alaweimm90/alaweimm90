@@ -1,0 +1,15 @@
+# Apple Touch Icon Placeholder
+# This is a placeholder file for the Apple Touch Icon (180x180 PNG)
+# 
+# Production implementation should include:
+# - 180x180 PNG file with rounded corners
+# - Analytical prism icon in LLM Works brand colors
+# - Background: Primary blue (#4F83F0)
+# - Icon: White/light prism with orange accent
+# 
+# To generate:
+# 1. Create 180x180 PNG from favicon.svg
+# 2. Apply iOS icon styling (rounded corners, etc.)
+# 3. Optimize for iOS display
+#
+# This placeholder ensures the HTML reference doesn't break

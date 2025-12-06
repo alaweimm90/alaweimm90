@@ -1,0 +1,26 @@
+{
+  "title": "AI Safety Through Interpretability",
+  "hypothesis": "Mechanistic interpretability techniques can provide sufficient guarantees for AI safety in deployment of large language models",
+  "feature": "nightmare",
+  "rigor_mode": true,
+  "dataset": "safety_research_2025",
+  "parameters": {
+    "difficulty": "nightmare",
+    "score_weights": {
+      "statistical_robustness": 0.3,
+      "methodological_integrity": 0.25,
+      "logical_consistency": 0.2,
+      "ethical_compliance": 0.15,
+      "economic_feasibility": 0.1
+    },
+    "ensemble_size": 5,
+    "consensus_method": "weighted",
+    "budget_limit": 2.5
+  },
+  "evidence": [
+    "Recent papers on circuit discovery in transformers",
+    "Anthropic's interpretability research findings",
+    "DeepMind's mechanistic interpretability work"
+  ],
+  "tags": ["ai-safety", "interpretability", "deployment", "risk-assessment"]
+}

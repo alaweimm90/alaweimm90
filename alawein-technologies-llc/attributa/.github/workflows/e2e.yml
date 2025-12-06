@@ -1,0 +1,201 @@
+name: E2E - Run all demos
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      VITE_USE_LOCAL_MODEL: 'true'
+      VITE_LOCAL_MODEL_NAME: 'Xenova/gpt2'
+      PORT: '8080'
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install deps
+        run: npm ci || npm install
+
+      - name: Unit guard (GLTR normalization)
+        run: npm test -- -t "histogram sums to ~1"
+
+      - name: Build (informational)
+        run: npm run build --if-present || true
+
+      - name: Install Playwright Browsers
+        run: npx --yes playwright install --with-deps
+
+      # Derive gate overrides from PR labels (ci-relaxed / ci-strict)
+      - name: Derive gate overrides from labels
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const labels = (github.context.payload.pull_request?.labels || []).map(l => l.name);
+            const relaxed = labels.includes('ci-relaxed');
+            const strict  = labels.includes('ci-strict');
+            core.info(`Labels: ${labels.join(', ') || '(none)'}`);
+            let envs = {
+              GATES_REQUIRE_MODEL_NAME: 'true',
+              GATES_REQUIRE_GLTR_VISIBLE: 'true',
+              GATES_REQUIRE_WORKER_NO_ERRORS: 'true',
+              GATES_REQUIRE_ALL_BROWSERS: 'true',
+              GATES_WARM_RUN_MS_MAX: '5000'
+            };
+            if (relaxed) {
+              envs.GATES_REQUIRE_ALL_BROWSERS = 'false';
+              envs.GATES_WARM_RUN_MS_MAX = '7000';
+            }
+            if (strict) {
+              envs.GATES_WARM_RUN_MS_MAX = '3000';
+            }
+            for (const [k,v] of Object.entries(envs)) {
+              core.exportVariable(k, v);
+              core.info(`Set ${k}=${v}`);
+            }
+
+      - name: Start dev server
+        run: |
+          mkdir -p artifacts
+          nohup npm run dev -- --port ${PORT} > artifacts/dev.log 2>&1 &
+          echo $! > artifacts/dev.pid
+
+      - name: Wait for dev server
+        run: npx --yes wait-on http://localhost:${PORT}
+
+      - name: Run E2E (Playwright QA)
+        env:
+          BASE_URL: http://localhost:${PORT}
+        run: npm run e2e
+
+      - name: Evaluate QA gates
+        run: |
+          node -e "const g=require('./artifacts/qa_gates.json'); if(!g.passed){ console.error('GATES FAILED:', g.reasons); process.exit(1);} else { console.log('GATES PASSED'); }"
+
+      - name: Attach QA summary to Job Summary
+        if: always()
+        run: |
+          if [ -f artifacts/qa_summary.md ]; then
+            {
+              echo "### Playwright QA Summary"
+              echo
+              cat artifacts/qa_summary.md
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No artifacts/qa_summary.md found." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Comment QA summary on PR (failure only)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const github = require('@actions/github');
+            let body = ":warning: E2E failed and qa_summary.md was not found.";
+            try { body = fs.readFileSync('artifacts/qa_summary.md', 'utf8'); } catch (e) {}
+            await github.rest.issues.createComment({
+              owner: github.context.repo.owner,
+              repo: github.context.repo.repo,
+              issue_number: github.context.payload.pull_request.number,
+              body
+            });
+
+      - name: Create draft release for E2E artifacts (failure only)
+        if: failure()
+        run: |
+          TAG="ci-e2e-${{ github.run_id }}-${{ github.sha }}"
+          TITLE="E2E Artifacts (run ${{ github.run_id }})"
+          BODY="Automated E2E failure artifacts for run ${{ github.run_id }} on ${{ github.ref }}."
+          gh release create "$TAG" --title "$TITLE" --notes "$BODY" --draft || true
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Upload images/traces to draft release (failure only)
+        if: failure()
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG }}
+          draft: true
+          files: |
+            artifacts/*.png
+            artifacts/trace_*.zip
+            artifacts/qa_summary.md
+            artifacts/qa_results.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment release link on PR (failure only)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const github = require('@actions/github');
+            const owner = github.context.repo.owner;
+            const repo = github.context.repo.repo;
+            const issue_number = github.context.payload.pull_request.number;
+            const tag = process.env.TAG;
+            try {
+              const rel = await github.rest.repos.getReleaseByTag({ owner, repo, tag });
+              const url = rel.data.html_url;
+              const body = `:warning: E2E failed. Artifacts published to draft release:\n\n- ${url}\n\nYou can preview screenshots and download traces/summary there.`;
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            } catch (e) {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body: ":warning: E2E failed. Draft release creation/linking failed." });
+            }
+
+      - name: Slack notify (optional)
+        if: always() && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          SUMMARY=$( [ -f artifacts/qa_summary.md ] && cat artifacts/qa_summary.md || echo "No qa_summary.md" )
+          STATUS="${{ job.status }}"
+          node -e "const https=require('https');const url=process.env.SLACK_WEBHOOK_URL;const payload=JSON.stringify({text:\`E2E ${STATUS} for ${process.env.GITHUB_REPOSITORY} @ ${process.env.GITHUB_SHA}\n\n\${process.env.SUMMARY}\`});const req=https.request(url,{method:'POST',headers:{'Content-Type':'application/json'}},res=>{res.on('data',()=>{});});req.on('error',()=>{});req.write(payload);req.end();" || true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Stop dev server
+        if: always()
+        run: |
+          if [ -f artifacts/dev.pid ]; then
+            kill $(cat artifacts/dev.pid) || true
+          fi
+
+      - name: Upload artifacts (screenshots, QA summary, traces)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-artifacts-${{ github.run_id }}
+          path: |
+            artifacts/**
+            !artifacts/dev.pid

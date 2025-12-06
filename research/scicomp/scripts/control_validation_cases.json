@@ -1,0 +1,702 @@
+{
+  "pid": {
+    "config": {
+      "kp": 2.0,
+      "ki": 0.5,
+      "kd": 0.1,
+      "dt": 0.01,
+      "output_min": -50.0,
+      "output_max": 50.0,
+      "derivative_filter_tau": 0.05
+    },
+    "test_sequence": [
+      [
+        10.0,
+        0.0
+      ],
+      [
+        10.0,
+        2.0
+      ],
+      [
+        10.0,
+        5.0
+      ],
+      [
+        10.0,
+        8.0
+      ],
+      [
+        10.0,
+        10.5
+      ],
+      [
+        10.0,
+        9.5
+      ],
+      [
+        15.0,
+        9.5
+      ],
+      [
+        15.0,
+        12.0
+      ],
+      [
+        15.0,
+        14.0
+      ],
+      [
+        15.0,
+        15.2
+      ]
+    ],
+    "expected_outputs": [
+      20.05,
+      12.756666666666668,
+      2.3372222222222225,
+      -7.356481481481481,
+      -14.612067901234568,
+      -8.653806584362142,
+      3.003494513031548,
+      -4.790004572473709,
+      -10.292087143728093,
+      -12.61565595310674
+    ],
+    "expected_components": [
+      {
+        "proportional": 20.0,
+        "integral": 0.05,
+        "derivative": 0.0
+      },
+      {
+        "proportional": 16.0,
+        "integral": 0.09,
+        "derivative": -2.7777777777777777
+      },
+      {
+        "proportional": 10.0,
+        "integral": 0.11499999999999999,
+        "derivative": -6.481481481481481
+      },
+      {
+        "proportional": 4.0,
+        "integral": 0.12499999999999999,
+        "derivative": -9.567901234567902
+      },
+      {
+        "proportional": -1.0,
+        "integral": 0.12249999999999998,
+        "derivative": -11.445473251028808
+      },
+      {
+        "proportional": 1.0,
+        "integral": 0.12499999999999999,
+        "derivative": -8.149005486968452
+      },
+      {
+        "proportional": 11.0,
+        "integral": 0.1525,
+        "derivative": -6.790837905807044
+      },
+      {
+        "proportional": 6.0,
+        "integral": 0.16749999999999998,
+        "derivative": -9.131253810394758
+      },
+      {
+        "proportional": 2.0,
+        "integral": 0.1725,
+        "derivative": -10.387155953106744
+      },
+      {
+        "proportional": -0.3999999999999986,
+        "integral": 0.17149999999999999,
+        "derivative": -10.322629960922285
+      }
+    ],
+    "tolerance": 1e-10
+  },
+  "state_space": {
+    "matrices": {
+      "A": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "B": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
+      "C": [
+        [
+          1,
+          0
+        ]
+      ],
+      "D": [
+        [
+          0
+        ]
+      ]
+    },
+    "properties": {
+      "poles": [
+        0.0,
+        0.0
+      ],
+      "controllable": true,
+      "observable": true
+    },
+    "controllability_matrix": [
+      [
+        0.0,
+        1.0
+      ],
+      [
+        1.0,
+        0.0
+      ]
+    ],
+    "observability_matrix": [
+      [
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0
+      ]
+    ],
+    "tolerance": 1e-10,
+    "step_response": {
+      "time_points": [
+        0.0,
+        0.5,
+        1.0,
+        2.0,
+        5.0
+      ],
+      "state_response": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.12500000298024,
+          0.5
+        ],
+        [
+          0.5000000029802398,
+          1.0
+        ],
+        [
+          2.0000000029802365,
+          2.0
+        ],
+        [
+          12.500000002980238,
+          5.0
+        ]
+      ],
+      "output_response": [
+        [
+          0.0
+        ],
+        [
+          0.12500000298024
+        ],
+        [
+          0.5000000029802398
+        ],
+        [
+          2.0000000029802365
+        ],
+        [
+          12.500000002980238
+        ]
+      ]
+    }
+  },
+  "lqr": {
+    "system_matrices": {
+      "A": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "B": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ],
+      "C": [
+        [
+          1,
+          0
+        ]
+      ],
+      "D": [
+        [
+          0
+        ]
+      ]
+    },
+    "weights": {
+      "Q": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.1
+        ]
+      ],
+      "R": [
+        [
+          0.1
+        ]
+      ]
+    },
+    "results": {
+      "gain_matrix": [
+        [
+          3.162277660168382,
+          2.7063915681838764
+        ]
+      ],
+      "riccati_solution": [
+        [
+          0.8558361595735932,
+          0.3162277660168382
+        ],
+        [
+          0.3162277660168382,
+          0.2706391568183876
+        ]
+      ],
+      "closed_loop_poles": [
+        {
+          "real": -1.3531957840919384,
+          "imag": 1.1537498992780832,
+          "_complex": true
+        },
+        {
+          "real": -1.3531957840919384,
+          "imag": -1.1537498992780832,
+          "_complex": true
+        }
+      ]
+    },
+    "cost_function_tests": {
+      "initial_states": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          -1.0,
+          0.5
+        ]
+      ],
+      "expected_costs": [
+        0.8558361595735932,
+        0.2706391568183876,
+        1.7589308484256574,
+        0.6072681827613519
+      ]
+    },
+    "tolerance": 1e-10
+  },
+  "ziegler_nichols": {
+    "test_cases": [
+      {
+        "ku": 1.0,
+        "tu": 0.5,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 0.6,
+          "ki": 2.4,
+          "kd": 0.0375
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 0.5,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 0.7,
+          "ki": 3.5,
+          "kd": 0.0525
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 0.5,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 0.33,
+          "ki": 1.32,
+          "kd": 0.055
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 0.5,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 0.2,
+          "ki": 0.8,
+          "kd": 0.03333333333333333
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 1.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 0.6,
+          "ki": 1.2,
+          "kd": 0.075
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 1.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 0.7,
+          "ki": 1.75,
+          "kd": 0.105
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 1.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 0.33,
+          "ki": 0.66,
+          "kd": 0.11
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 1.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 0.2,
+          "ki": 0.4,
+          "kd": 0.06666666666666667
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 2.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 0.6,
+          "ki": 0.6,
+          "kd": 0.15
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 2.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 0.7,
+          "ki": 0.875,
+          "kd": 0.21
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 2.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 0.33,
+          "ki": 0.33,
+          "kd": 0.22
+        }
+      },
+      {
+        "ku": 1.0,
+        "tu": 2.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 0.2,
+          "ki": 0.2,
+          "kd": 0.13333333333333333
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 0.5,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 3.0,
+          "ki": 12.0,
+          "kd": 0.1875
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 0.5,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 3.5,
+          "ki": 17.5,
+          "kd": 0.2625
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 0.5,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 1.6500000000000001,
+          "ki": 6.6000000000000005,
+          "kd": 0.275
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 0.5,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 1.0,
+          "ki": 4.0,
+          "kd": 0.16666666666666666
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 1.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 3.0,
+          "ki": 6.0,
+          "kd": 0.375
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 1.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 3.5,
+          "ki": 8.75,
+          "kd": 0.525
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 1.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 1.6500000000000001,
+          "ki": 3.3000000000000003,
+          "kd": 0.55
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 1.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 1.0,
+          "ki": 2.0,
+          "kd": 0.3333333333333333
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 2.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 3.0,
+          "ki": 3.0,
+          "kd": 0.75
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 2.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 3.5,
+          "ki": 4.375,
+          "kd": 1.05
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 2.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 1.6500000000000001,
+          "ki": 1.6500000000000001,
+          "kd": 1.1
+        }
+      },
+      {
+        "ku": 5.0,
+        "tu": 2.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 1.0,
+          "ki": 1.0,
+          "kd": 0.6666666666666666
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 0.5,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 6.0,
+          "ki": 24.0,
+          "kd": 0.375
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 0.5,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 7.0,
+          "ki": 35.0,
+          "kd": 0.525
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 0.5,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 3.3000000000000003,
+          "ki": 13.200000000000001,
+          "kd": 0.55
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 0.5,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 2.0,
+          "ki": 8.0,
+          "kd": 0.3333333333333333
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 1.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 6.0,
+          "ki": 12.0,
+          "kd": 0.75
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 1.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 7.0,
+          "ki": 17.5,
+          "kd": 1.05
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 1.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 3.3000000000000003,
+          "ki": 6.6000000000000005,
+          "kd": 1.1
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 1.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 2.0,
+          "ki": 4.0,
+          "kd": 0.6666666666666666
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 2.0,
+        "method": "classic",
+        "tuned_parameters": {
+          "kp": 6.0,
+          "ki": 6.0,
+          "kd": 1.5
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 2.0,
+        "method": "pessen",
+        "tuned_parameters": {
+          "kp": 7.0,
+          "ki": 8.75,
+          "kd": 2.1
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 2.0,
+        "method": "some_overshoot",
+        "tuned_parameters": {
+          "kp": 3.3000000000000003,
+          "ki": 3.3000000000000003,
+          "kd": 2.2
+        }
+      },
+      {
+        "ku": 10.0,
+        "tu": 2.0,
+        "method": "no_overshoot",
+        "tuned_parameters": {
+          "kp": 2.0,
+          "ki": 2.0,
+          "kd": 1.3333333333333333
+        }
+      }
+    ],
+    "tolerance": 1e-10
+  }
+}

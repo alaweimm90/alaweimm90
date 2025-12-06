@@ -1,0 +1,320 @@
+version: '3.8'
+
+services:
+  # Nginx Load Balancer & Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infrastructure/nginx/sites-enabled:/etc/nginx/sites-enabled:ro
+      - ./infrastructure/ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+    depends_on:
+      - ghost-researcher
+      - scientific-tinder
+      - chaos-engine
+      - api
+    networks:
+      - crazyideas-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Ghost Researcher Frontend
+  ghost-researcher:
+    build:
+      context: ./frontend/ghost-researcher
+      dockerfile: Dockerfile
+      target: runner
+    container_name: ghost-researcher-prod
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.crazyideas.com
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+    networks:
+      - crazyideas-network
+    restart: always
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # Scientific Tinder Frontend
+  scientific-tinder:
+    build:
+      context: ./frontend/scientific-tinder
+      dockerfile: Dockerfile
+      target: runner
+    container_name: scientific-tinder-prod
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.crazyideas.com
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+    networks:
+      - crazyideas-network
+    restart: always
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # Chaos Engine Frontend
+  chaos-engine:
+    build:
+      context: ./frontend/chaos-engine
+      dockerfile: Dockerfile
+      target: runner
+    container_name: chaos-engine-prod
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=https://api.crazyideas.com
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+    networks:
+      - crazyideas-network
+    restart: always
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # API Backend
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runner
+    container_name: api-prod
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGINS=${CORS_ORIGINS}
+    networks:
+      - crazyideas-network
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # PostgreSQL Primary Database
+  postgres-primary:
+    image: postgres:15-alpine
+    container_name: postgres-primary
+    volumes:
+      - postgres-primary-data:/var/lib/postgresql/data
+      - ./infrastructure/database/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_REPLICATION_MODE=master
+      - POSTGRES_REPLICATION_USER=${POSTGRES_REPLICATION_USER}
+      - POSTGRES_REPLICATION_PASSWORD=${POSTGRES_REPLICATION_PASSWORD}
+    networks:
+      - crazyideas-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # PostgreSQL Read Replica
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: postgres-replica
+    volumes:
+      - postgres-replica-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_REPLICATION_MODE=slave
+      - POSTGRES_MASTER_HOST=postgres-primary
+      - POSTGRES_MASTER_PORT_NUMBER=5432
+      - POSTGRES_REPLICATION_USER=${POSTGRES_REPLICATION_USER}
+      - POSTGRES_REPLICATION_PASSWORD=${POSTGRES_REPLICATION_PASSWORD}
+    depends_on:
+      - postgres-primary
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Redis Cluster
+  redis-master:
+    image: redis:7-alpine
+    container_name: redis-master
+    volumes:
+      - redis-master-data:/data
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    networks:
+      - crazyideas-network
+    restart: always
+
+  redis-slave:
+    image: redis:7-alpine
+    container_name: redis-slave
+    volumes:
+      - redis-slave-data:/data
+    command: redis-server --slaveof redis-master 6379 --masterauth ${REDIS_PASSWORD} --requirepass ${REDIS_PASSWORD}
+    depends_on:
+      - redis-master
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Monitoring Stack - Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - "9090:9090"
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Monitoring Stack - Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./infrastructure/monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./infrastructure/monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=redis-datasource
+    ports:
+      - "3003:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Logging Stack - Elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Logging Stack - Logstash
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.0
+    container_name: logstash
+    volumes:
+      - ./infrastructure/logging/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+    depends_on:
+      - elasticsearch
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Logging Stack - Kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - crazyideas-network
+    restart: always
+
+  # Backup Service
+  postgres-backup:
+    image: postgres:15-alpine
+    container_name: postgres-backup
+    volumes:
+      - ./backups:/backups
+    environment:
+      - POSTGRES_HOST=postgres-primary
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    command: >
+      sh -c "while true; do
+        PGPASSWORD=${POSTGRES_PASSWORD} pg_dump -h postgres-primary -U ${POSTGRES_USER} ${POSTGRES_DB} > /backups/backup-$$(date +%Y%m%d-%H%M%S).sql
+        find /backups -type f -name 'backup-*.sql' -mtime +30 -delete
+        sleep 86400
+      done"
+    depends_on:
+      - postgres-primary
+    networks:
+      - crazyideas-network
+    restart: always
+
+networks:
+  crazyideas-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  # Application data
+  nginx-cache:
+
+  # Database volumes
+  postgres-primary-data:
+  postgres-replica-data:
+
+  # Redis volumes
+  redis-master-data:
+  redis-slave-data:
+
+  # Monitoring volumes
+  prometheus-data:
+  grafana-data:
+
+  # Logging volumes
+  elasticsearch-data:

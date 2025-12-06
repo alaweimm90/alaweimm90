@@ -1,0 +1,190 @@
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { render, screen, act } from '@testing-library/react'
+import React from 'react'
+import { AnalyticsProvider } from '@/components/AnalyticsProvider'
+import { useAnalytics } from '@/hooks/useAnalytics'
+
+// Mock useAnalytics to avoid useLocation() hook issues in tests
+vi.mock('@/hooks/useAnalytics', () => {
+  const mockAnalytics = {
+    trackConversion: { tierReservation: vi.fn() },
+    trackCustom: vi.fn(),
+    trackFunnel: { pricingView: vi.fn() }
+  }
+  return {
+    useAnalytics: () => mockAnalytics
+  }
+})
+
+// Mock gtag
+const mockGtag = vi.fn()
+vi.stubGlobal('gtag', mockGtag)
+
+// Mock performance API
+const mockPerformance = {
+  now: vi.fn(() => Date.now()),
+  mark: vi.fn(),
+  measure: vi.fn(),
+  getEntriesByType: vi.fn(() => [])
+}
+vi.stubGlobal('performance', mockPerformance)
+
+// Test component that uses analytics
+const TestComponent = () => {
+  const analytics = useAnalytics()
+  
+  return (
+    <div>
+      <button onClick={() => analytics.trackConversion.tierReservation('core', 96)}>
+        Track Tier
+      </button>
+      <button onClick={() => analytics.trackCustom('test', 'click', { page: 'home' })}>
+        Track Custom
+      </button>
+      <button onClick={() => analytics.trackFunnel.pricingView('adaptive')}>
+        Track Funnel
+      </button>
+    </div>
+  )
+}
+
+describe('AnalyticsProvider', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockPerformance.now.mockReturnValue(1000)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('provides analytics context to children', () => {
+    render(
+      <AnalyticsProvider>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    expect(screen.getByText('Track Tier')).toBeInTheDocument()
+    expect(screen.getByText('Track Custom')).toBeInTheDocument()
+    expect(screen.getByText('Track Funnel')).toBeInTheDocument()
+  })
+
+  it('tracks tier reservations correctly', () => {
+    render(
+      <AnalyticsProvider>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    act(() => {
+      screen.getByText('Track Tier').click()
+    })
+
+    expect(mockGtag).toHaveBeenCalledWith('event', 'tier_reservation', {
+      tier: 'core',
+      value: 96,
+      currency: 'USD'
+    })
+  })
+
+  it('tracks custom events with metadata', () => {
+    render(
+      <AnalyticsProvider>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    act(() => {
+      screen.getByText('Track Custom').click()
+    })
+
+    expect(mockGtag).toHaveBeenCalledWith('event', 'click', {
+      event_category: 'test',
+      page: 'home'
+    })
+  })
+
+  it('tracks funnel progression events', () => {
+    render(
+      <AnalyticsProvider>
+        <TestComponent />
+      </AnalyticsProvider>
+    )
+
+    act(() => {
+      screen.getByText('Track Funnel').click()
+    })
+
+    expect(mockGtag).toHaveBeenCalledWith('event', 'pricing_view', {
+      tier: 'adaptive'
+    })
+  })
+
+  it('handles missing gtag gracefully', () => {
+    // Temporarily remove gtag
+    const originalGtag = window.gtag
+    delete window.gtag
+
+    expect(() => {
+      render(
+        <AnalyticsProvider>
+          <TestComponent />
+        </AnalyticsProvider>
+      )
+    }).not.toThrow()
+
+    // Restore gtag
+    window.gtag = originalGtag
+  })
+
+  it('tracks performance metrics', () => {
+    const TestPerformanceComponent = () => {
+      const analytics = useAnalytics()
+
+      React.useEffect(() => {
+        analytics.trackCustom('performance', 'page_load', { duration: 1500 })
+      }, [analytics])
+
+      return <div>Performance Test</div>
+    }
+
+    render(
+      <AnalyticsProvider>
+        <TestPerformanceComponent />
+      </AnalyticsProvider>
+    )
+
+    expect(mockGtag).toHaveBeenCalledWith('event', 'page_load', {
+      event_category: 'performance',
+      duration: 1500
+    })
+  })
+
+  it('batches events to prevent excessive calls', async () => {
+    const TestBatchComponent = () => {
+      const analytics = useAnalytics()
+      
+      const handleMultipleEvents = () => {
+        for (let i = 0; i < 5; i++) {
+          analytics.trackCustom('test', 'rapid_click', { index: i })
+        }
+      }
+      
+      return <button onClick={handleMultipleEvents}>Rapid Fire</button>
+    }
+
+    render(
+      <AnalyticsProvider>
+        <TestBatchComponent />
+      </AnalyticsProvider>
+    )
+
+    act(() => {
+      screen.getByText('Rapid Fire').click()
+    })
+
+    // Should call gtag for each event but efficiently
+    expect(mockGtag).toHaveBeenCalledTimes(5)
+  })
+})

@@ -1,0 +1,547 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* Created By: Berkeley SciComp Team *)
+(* Date: 2024 *)
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Berkeley SciComp - Optimization Package Demo", "Title",
+ CellChangeTimes->{{3.9, 3.9}},
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["\<\
+This notebook demonstrates the optimization algorithms implemented in the \
+Berkeley SciComp framework. The package includes various local and global \
+optimization methods with consistent APIs across Python, MATLAB, and \
+Mathematica.\
+\>", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Package Loading", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell[BoxData[{
+ RowBox[{"<<", "GradientDescent.wl"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "NewtonMethod.wl"}], "\[IndentingNewLine]", 
+ RowBox[{"<<", "SimulatedAnnealing.wl"}]}], "Input",
+ CellLabel->"In[1]:="],
+
+Cell["Define Berkeley color scheme for consistent plotting:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"BerkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", 
+     RowBox[{"50", "/", "255"}], ",", 
+     RowBox[["98", "/", "255"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"CaliforniaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     RowBox[{"253", "/", "255"}], ",", 
+     RowBox[{"181", "/", "255"}], ",", 
+     RowBox[{"21", "/", "255"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"BerkeleyLightBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     RowBox[{"59", "/", "255"}], ",", 
+     RowBox[{"126", "/", "255"}], ",", 
+     RowBox[{"161", "/", "255"}]}], "]"}]}], ";"}]}], "Input",
+ CellLabel->"In[2]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Test Problem Definitions", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Define standard optimization test functions:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"RosenbrockFunction", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{"100", "*", 
+     SuperscriptBox[
+      RowBox[{"(", 
+       RowBox[{"y", "-", 
+        SuperscriptBox["x", "2"]}], ")"}], "2"]}], "+", 
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{"1", "-", "x"}], ")"}], "2"]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RosenbrockGradient", "[", 
+    RowBox[{"{", 
+     RowBox[{"x_", ",", "y_"}], "}"}], "]"}], ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "400"}], "*", "x", "*", 
+       RowBox[{"(", 
+        RowBox[{"y", "-", 
+         SuperscriptBox["x", "2"]}], ")"}]}], "-", 
+      RowBox[{"2", "*", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", "x"}], ")"}]}]}], ",", 
+     RowBox[{"200", "*", 
+      RowBox[{"(", 
+       RowBox[{"y", "-", 
+        SuperscriptBox["x", "2"]}], ")"}]}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RosenbrockHessian", "[", 
+    RowBox[{"{", 
+     RowBox[{"x_", ",", "y_"}], "}"}], "]"}], ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "400"}], "*", 
+         RowBox[{"(", 
+          RowBox[{"y", "-", 
+           RowBox[{"3", "*", 
+            SuperscriptBox["x", "2"]}]}], ")"}]}], "+", "2"}], ",", 
+       RowBox[{
+        RowBox[{"-", "400"}], "*", "x"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "400"}], "*", "x"}], ",", "200"}], "}"}]}], "}"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[3]:="],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"AckleyFunction", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "20"}], "*", 
+     RowBox[{"Exp", "[", 
+      RowBox[{
+       RowBox[{"-", "0.2"}], "*", 
+       RowBox[{"Sqrt", "[", 
+        RowBox[{"0.5", "*", 
+         RowBox[{"(", 
+          RowBox[{
+           SuperscriptBox["x", "2"], "+", 
+           SuperscriptBox["y", "2"]}], ")"}]}], "]"}]}], "]"}]}], "-", 
+    RowBox[{"Exp", "[", 
+     RowBox[{"0.5", "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Cos", "[", 
+         RowBox[{"2", "*", "Pi", "*", "x"}], "]"}], "+", 
+        RowBox[{"Cos", "[", 
+         RowBox[{"2", "*", "Pi", "*", "y"}], "]"}]}], ")"}]}], "]"}], "+", 
+    "E", "+", "20"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"SphereFunction", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{
+    SuperscriptBox["x", "2"], "+", 
+    SuperscriptBox["y", "2"]}]}], ";"}]}], "Input",
+ CellLabel->"In[4]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Gradient Descent Demonstration", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Test gradient descent on the Rosenbrock function:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"x0", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1.2"}], ",", "1.0"}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"resultGD", "=", 
+   RowBox[{"GradientDescentMinimize", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"RosenbrockFunction", "[", 
+       RowBox[{"#1", ",", "#2"}], "]"}], "&"}], ",", "x0", ",", 
+     RowBox[{"\"\<MaxIterations\>\"", "\[Rule]", "2000"}], ",", 
+     RowBox[{"\"\<Tolerance\>\"", "\[Rule]", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "6"}]]}], ",", 
+     RowBox[{"\"\<LineSearch\>\"", "\[Rule]", "\"\<Backtrack\>\""}], ",", 
+     RowBox[{"\"\<Gradient\>\"", "\[Rule]", "RosenbrockGradient"}], ",", 
+     RowBox[{"\"\<Verbose\>\"", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[5]:="],
+
+Cell["Display results:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Gradient Descent Results:\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Solution: \>\"", ",", 
+   RowBox[{"resultGD", "[", "\"\<x\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Function value: \>\"", ",", 
+   RowBox[{"resultGD", "[", "\"\<f\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Iterations: \>\"", ",", 
+   RowBox[{"resultGD", "[", "\"\<iterations\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Success: \>\"", ",", 
+   RowBox[{"resultGD", "[", "\"\<success\>\"", "]"}]}], "]"}]}], "Input",
+ CellLabel->"In[6]:="],
+
+Cell["Plot convergence:", "Text"],
+
+Cell[BoxData[
+ RowBox[{"PlotGradientDescentConvergence", "[", "resultGD", "]"}]], "Input",
+ CellLabel->"In[7]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Newton Method Demonstration", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Test Newton's method on the same problem:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultNewton", "=", 
+   RowBox[{"NewtonMinimize", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"RosenbrockFunction", "[", 
+       RowBox[{"#1", ",", "#2"}], "]"}], "&"}], ",", "x0", ",", 
+     RowBox[{"\"\<MaxIterations\>\"", "\[Rule]", "100"}], ",", 
+     RowBox[{"\"\<Tolerance\>\"", "\[Rule]", 
+      SuperscriptBox["10", 
+       RowBox[{"-", "6"}]]}], ",", 
+     RowBox[{"\"\<LineSearch\>\"", "\[Rule]", "\"\<Backtrack\>\""}], ",", 
+     RowBox[{
+     "\"\<HessianModification\>\"", "\[Rule]", "\"\<Regularization\>\""}], 
+     ",", 
+     RowBox[{"\"\<Gradient\>\"", "\[Rule]", "RosenbrockGradient"}], ",", 
+     RowBox[{"\"\<Hessian\>\"", "\[Rule]", "RosenbrockHessian"}], ",", 
+     RowBox[{"\"\<Verbose\>\"", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Newton Method Results:\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Solution: \>\"", ",", 
+   RowBox[{"resultNewton", "[", "\"\<x\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Function value: \>\"", ",", 
+   RowBox[{"resultNewton", "[", "\"\<f\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Iterations: \>\"", ",", 
+   RowBox[{"resultNewton", "[", "\"\<iterations\>\"", "]"}]}], 
+  "]"}]}], "Input",
+ CellLabel->"In[8]:="],
+
+Cell[BoxData[
+ RowBox[{"PlotNewtonConvergence", "[", "resultNewton", "]"}]], "Input",
+ CellLabel->"In[9]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Simulated Annealing Demonstration", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Test simulated annealing on the Ackley function (global optimization):", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"bounds", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "5"}], ",", "5"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "5"}], ",", "5"}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"resultSA", "=", 
+   RowBox[{"SimulatedAnnealingMinimize", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"AckleyFunction", "[", 
+       RowBox[{"#1", ",", "#2"}], "]"}], "&"}], ",", "bounds", ",", 
+     RowBox[{"\"\<MaxIterations\>\"", "\[Rule]", "10000"}], ",", 
+     RowBox[{"\"\<InitialTemperature\>\"", "\[Rule]", "100"}], ",", 
+     RowBox[{"\"\<CoolingSchedule\>\"", "\[Rule]", "\"\<Exponential\>\""}], 
+     ",", 
+     RowBox[{"\"\<Verbose\>\"", "\[Rule]", "True"}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[10]:="],
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Simulated Annealing Results:\>\""}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Solution: \>\"", ",", 
+   RowBox[{"resultSA", "[", "\"\<x\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Function value: \>\"", ",", 
+   RowBox[{"resultSA", "[", "\"\<f\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Iterations: \>\"", ",", 
+   RowBox[{"resultSA", "[", "\"\<iterations\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Final temperature: \>\"", ",", 
+   RowBox[{"resultSA", "[", "\"\<finalTemperature\>\"", "]"}]}], 
+  "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"\"\<Acceptance rate: \>\"", ",", 
+   RowBox[{"resultSA", "[", "\"\<acceptanceRate\>\"", "]"}]}], "]"}]}], "Input",
+ CellLabel->"In[11]:="],
+
+Cell[BoxData[
+ RowBox[{"PlotSimulatedAnnealingConvergence", "[", "resultSA", "]"}]], "Input",
+ CellLabel->"In[12]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Visualization and Comparison", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Create contour plots showing optimization paths:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"rosenbrockContour", "=", 
+   RowBox[{"ContourPlot", "[", 
+    RowBox[{
+     RowBox[{"Log10", "[", 
+      RowBox[{
+       RowBox[{"RosenbrockFunction", "[", 
+        RowBox[{"x", ",", "y"}], "]"}], "+", "1"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", 
+       RowBox[{"-", "2"}], ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"y", ",", 
+       RowBox[{"-", "1"}], ",", "3"}], "}"}], ",", 
+     RowBox[{"Contours", "\[Rule]", "20"}], ",", 
+     RowBox[{"ColorFunction", "\[Rule]", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Blend", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"BerkeleyLightBlue", ",", "CaliforniaGold"}], "}"}], ",", 
+          "#"}], "]"}], "&"}], ")"}]}], ",", 
+     RowBox[{"PlotLabel", "\[Rule]", 
+      RowBox[{"Style", "[", 
+       RowBox[{
+       "\"\<Rosenbrock Function with Optimization Paths\>\"", ",", 
+        "BerkeleyBlue", ",", "Bold"}], "]"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"gdPath", "=", 
+   RowBox[{"ListLinePlot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"resultGD", "[", "\"\<history\>\"", "]"}], "[", 
+      "\"\<x\>\"", "]"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Thick", ",", "Red"}], "}"}]}], ",", 
+     RowBox[{"PlotMarkers", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Automatic", ",", "Small"}], "}"}]}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"newtonPath", "=", 
+   RowBox[{"ListLinePlot", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"resultNewton", "[", "\"\<history\>\"", "]"}], "[", 
+      "\"\<x\>\"", "]"}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Thick", ",", "Blue"}], "}"}]}], ",", 
+     RowBox[{"PlotMarkers", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Automatic", ",", "Medium"}], "}"}]}]}], "]"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[13]:="],
+
+Cell[BoxData[
+ RowBox[{"Show", "[", 
+  RowBox[{"rosenbrockContour", ",", "gdPath", ",", "newtonPath", ",", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"PointSize", "[", "Large", "]"}], ",", "Black", ",", 
+      RowBox[{"Point", "[", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], "]"}]}], "}"}], "]"}], ",", 
+   RowBox[{"PlotLegends", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<Gradient Descent\>\"", ",", "\"\<Newton Method\>\"", ",", 
+      "\"\<Global Minimum\>\""}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "Large"}]}], "]"}]], "Input",
+ CellLabel->"In[14]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Performance Summary", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["Compare algorithm performance:", "Text"],
+
+Cell[BoxData[{
+ RowBox[{"Print", "[", 
+  RowBox[{
+   RowBox[{"Style", "[", 
+    RowBox[{
+    "\"\<Performance Comparison Summary\>\"", ",", "BerkeleyBlue", ",", 
+     "Bold", ",", "16"}], "]"}]}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"Print", "[", 
+  RowBox[{"StringRepeat", "[", 
+   RowBox[{"\"\<=\>\"", ",", "50"}], "]"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"trueOptimum", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "1"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"algorithms", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<Gradient Descent\>\"", ",", "\"\<Newton Method\>\"", ",", 
+     "\"\<Simulated Annealing\>\""}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"results", "=", 
+   RowBox[{"{", 
+    RowBox[{"resultGD", ",", "resultNewton", ",", "resultSA"}], "}"}]}], 
+  ";"}]}], "Input",
+ CellLabel->"In[15]:="],
+
+Cell[BoxData[
+ RowBox[{"TableForm", "[", 
+  RowBox[{
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"algorithms", "[", 
+        RowBox[{"[", "i", "]"}], "]"}], ",", 
+       RowBox[{"N", "[", 
+        RowBox[{"Norm", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"results", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<x\>\"", "]"}], "-", 
+          "trueOptimum"}], "]"}], "]"}], ",", 
+       RowBox[{
+        RowBox[{"results", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<f\>\"", "]"}], ",", 
+       RowBox[{
+        RowBox[{"results", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<iterations\>\"", "]"}], 
+       ",", 
+       RowBox[{
+        RowBox[{"results", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<success\>\"", "]"}]}], 
+      "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "3"}], "}"}]}], "]"}], ",", 
+   RowBox[{"TableHeadings", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Algorithm\>\"", ",", "\"\<Solution Error\>\"", ",", 
+        "\"\<Function Value\>\"", ",", "\"\<Iterations\>\"", ",", 
+        "\"\<Success\>\""}], "}"}]}], "}"}]}]}], "]"}]], "Input",
+ CellLabel->"In[16]:="]
+
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Conclusion", "Section",
+ FontColor->RGBColor[0, 50/255, 98/255]],
+
+Cell["\<\
+The Berkeley SciComp Optimization package provides a comprehensive suite of \
+optimization algorithms with consistent APIs across platforms:\
+
+• Local optimization: Gradient Descent, Newton Method, BFGS
+• Global optimization: Simulated Annealing, Genetic Algorithm
+• Linear programming: Simplex Method, Interior Point
+• Multi-objective: NSGA-II, Pareto optimization
+
+All algorithms include:
+- Robust error handling and convergence checking
+- Comprehensive history tracking for analysis
+- Professional visualization capabilities
+- Extensive documentation and examples
+- Cross-platform compatibility (Python, MATLAB, Mathematica)
+
+The consistent Berkeley branding and color scheme provides a unified \
+experience across all implementations.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"Print", "[", 
+  RowBox[{
+   RowBox[{"Style", "[", 
+    RowBox[{
+    "\"\<Berkeley SciComp Optimization Demo Completed Successfully!\>\"", ",",
+      "BerkeleyBlue", ",", "Bold", ",", "14"}], "]"}]}], "]"}]], "Input",
+ CellLabel->"In[17]:="]
+
+}, Open  ]]
+
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+FrontEndVersion->"13.0",
+StyleDefinitions->"Default.nb"
+]

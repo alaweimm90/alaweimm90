@@ -1,0 +1,10 @@
+project_id = "jbemxaykbjsbxlgfznwy"
+
+[functions.openai-proxy]
+verify_jwt = false
+
+[functions.anthropic-proxy]
+verify_jwt = false
+
+[functions.perplexity-proxy]
+verify_jwt = false

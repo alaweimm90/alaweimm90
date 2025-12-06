@@ -1,0 +1,181 @@
+# SciComp - Development Dependencies
+# ====================================================
+#
+# Development and testing dependencies for the UC Berkeley Scientific
+# Computing Framework. These packages are required for development,
+# testing, documentation, and code quality assurance.
+#
+# Author: Meshal Alawein (meshal@berkeley.edu)
+# Institution: University of California, Berkeley
+# Created: 2025
+# =============================================================================
+# Testing Framework
+# =============================================================================
+# Core testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-xdist>=3.3.0
+pytest-mock>=3.11.0
+pytest-benchmark>=4.0.0
+pytest-timeout>=2.1.0
+# Test data and fixtures
+pytest-datafiles>=3.0.0
+pytest-randomly>=3.12.0
+# =============================================================================
+# Code Quality and Formatting
+# =============================================================================
+# Code formatting
+black>=23.7.0
+isort>=5.12.0
+# Linting
+flake8>=6.0.0
+flake8-docstrings>=1.7.0
+flake8-import-order>=0.18.2
+flake8-bugbear>=23.7.0
+# Type checking
+mypy>=1.5.0
+types-requests>=2.31.0
+# Security scanning
+bandit>=1.7.5
+safety>=2.3.5
+# =============================================================================
+# Git Hooks and Workflow
+# =============================================================================
+# Pre-commit hooks
+pre-commit>=3.3.0
+# =============================================================================
+# Documentation
+# =============================================================================
+# Sphinx documentation
+sphinx>=7.1.0
+sphinx-rtd-theme>=1.3.0
+myst-parser>=2.0.0
+sphinx-autodoc-typehints>=1.24.0
+sphinx-copybutton>=0.5.2
+# Jupyter Book for interactive docs
+jupyter-book>=0.15.0
+# API documentation
+pdoc>=14.0.0
+# =============================================================================
+# Development Tools
+# =============================================================================
+# Interactive development
+ipython>=8.14.0
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipywidgets>=8.0.0
+# Profiling and debugging
+line-profiler>=4.1.0
+memory-profiler>=0.61.0
+py-spy>=0.3.14
+# Development utilities
+tox>=4.6.0
+nox>=2023.4.22
+cookiecutter>=2.2.0
+# =============================================================================
+# Berkeley SciComp Specific Testing
+# =============================================================================
+# Quantum computing libraries for testing
+qiskit>=0.45.0
+cirq>=1.2.0
+pennylane>=0.32.0
+# Machine learning testing
+tensorflow>=2.13.0
+jax>=0.4.0
+jaxlib>=0.4.0
+# Scientific computing validation
+scipy>=1.10.0
+scikit-learn>=1.3.0
+# =============================================================================
+# Platform-Specific Testing (Optional)
+# =============================================================================
+# MATLAB engine (if available)
+# Note: Requires MATLAB installation
+# matlabengine
+# Mathematica kernel interface (if available)
+# Note: Requires Mathematica installation
+# wolframclient>=1.1.7
+# =============================================================================
+# Performance and Benchmarking
+# =============================================================================
+# Benchmarking tools
+pytest-benchmark>=4.0.0
+asv>=0.5.1
+# Memory profiling
+memory-profiler>=0.61.0
+psutil>=5.9.0
+# =============================================================================
+# CI/CD and Automation
+# =============================================================================
+# GitHub Actions utilities
+github3.py>=4.0.1
+# Build tools
+build>=0.10.0
+twine>=4.0.2
+# =============================================================================
+# Jupyter and Notebook Development
+# =============================================================================
+# Notebook testing
+nbval>=0.10.0
+nbformat>=5.9.0
+nbconvert>=7.7.0
+# Interactive widgets
+plotly>=5.15.0
+bokeh>=3.2.0
+holoviews>=1.17.0
+# =============================================================================
+# Data Science Development Tools
+# =============================================================================
+# Data manipulation and analysis
+pandas>=2.0.0
+xarray>=2023.6.0
+# File formats
+h5py>=3.9.0
+netcdf4>=1.6.4
+# =============================================================================
+# Berkeley Development Standards
+# =============================================================================
+# Academic paper generation
+pypandoc>=1.11
+pandoc-fignos>=2.4.0
+pandoc-eqnos>=2.5.0
+# Citation management
+bibtexparser>=1.4.0
+# Berkeley-specific tools
+matplotlib>=3.6.0  # For Berkeley color schemes
+seaborn>=0.12.0    # Statistical visualizations
+# =============================================================================
+# Optional GPU Development (Uncomment if needed)
+# =============================================================================
+# GPU-accelerated libraries (uncomment for GPU development)
+# tensorflow-gpu>=2.13.0
+# jax[cuda11_pip]>=0.4.0
+# cupy-cuda11x>=12.0.0
+# =============================================================================
+# Version Management
+# =============================================================================
+# Version bumping
+bump2version>=1.0.1
+setuptools-scm>=7.1.0
+# =============================================================================
+# Development Environment
+# =============================================================================
+# Environment management
+python-dotenv>=1.0.0
+# Development server (if needed for web interfaces)
+flask>=2.3.0
+fastapi>=0.100.0
+# =============================================================================
+# Installation Notes
+# =============================================================================
+# To install all development dependencies:
+# pip install -r requirements-dev.txt
+#
+# For specific development workflows:
+# pip install -r requirements-dev.txt -e .[dev]
+#
+# For Berkeley-specific development:
+# pip install -r requirements-dev.txt -e .[all]
+#
+# Note: Some dependencies require system libraries or external software
+# (MATLAB, Mathematica) to be installed separately.

@@ -1,0 +1,227 @@
+/* QMLab Typography System - Elegant & Refined */
+
+/* Heading Hierarchy - Semantic & Beautiful */
+.heading-refined-1 {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+  margin-bottom: var(--space-6);
+}
+
+.heading-refined-2 {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--text-primary);
+  margin-bottom: var(--space-5);
+}
+
+.heading-refined-3 {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.heading-refined-4 {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+/* Body Text - Readable & Elegant */
+.body-elegant {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.body-elegant-sm {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.body-elegant-lg {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-5);
+}
+
+/* Special Text Variants */
+.text-subtitle {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.text-caption {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+}
+
+.text-label {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  color: var(--text-secondary);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* Code & Monospace */
+.text-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.text-mono-inline {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.9em;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Mathematical Typography */
+.text-math {
+  font-family: 'Computer Modern', 'KaTeX_Math', 'Times New Roman', serif;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+.text-math-display {
+  font-family: 'Computer Modern', 'KaTeX_Math', 'Times New Roman', serif;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-primary);
+  text-align: center;
+  margin: var(--space-6) 0;
+  padding: var(--space-4);
+  background: var(--glass-bg-minimal);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-backdrop-filter-minimal);
+}
+
+/* Enhanced Focus States for Typography */
+.heading-refined-1:focus,
+.heading-refined-2:focus,
+.heading-refined-3:focus,
+.heading-refined-4:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .heading-refined-1 {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .heading-refined-2 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .heading-refined-3 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .body-elegant {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Print Optimizations */
+@media print {
+  .heading-refined-1,
+  .heading-refined-2,
+  .heading-refined-3,
+  .heading-refined-4 {
+    color: #000;
+    page-break-after: avoid;
+  }
+  
+  .body-elegant,
+  .body-elegant-sm,
+  .body-elegant-lg {
+    color: #333;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .heading-refined-1,
+  .heading-refined-2,
+  .heading-refined-3,
+  .heading-refined-4 {
+    color: #ffffff;
+    font-weight: var(--font-weight-bold);
+  }
+  
+  .body-elegant,
+  .body-elegant-sm,
+  .body-elegant-lg {
+    color: #ffffff;
+  }
+  
+  .text-subtitle,
+  .text-caption,
+  .text-label {
+    color: #ffffff;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .heading-refined-1,
+  .heading-refined-2,
+  .heading-refined-3,
+  .heading-refined-4,
+  .body-elegant,
+  .body-elegant-sm,
+  .body-elegant-lg {
+    transition: none;
+  }
+}

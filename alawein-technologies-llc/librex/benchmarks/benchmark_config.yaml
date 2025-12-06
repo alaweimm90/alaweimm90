@@ -1,0 +1,241 @@
+# Librex Benchmark Configuration
+# Defines benchmark suites with different time and resource requirements
+
+benchmark_suites:
+  smoke:
+    name: "Smoke Test Suite"
+    description: "Quick validation of core functionality (~5 minutes)"
+    enabled: true
+    max_duration: 300  # seconds
+    problems:
+      - type: "qap"
+        sizes: [10, 12]
+        instances_per_size: 1
+      - type: "tsp"
+        sizes: [10, 15]
+        instances_per_size: 1
+    methods:
+      - name: "random_search"
+        config:
+          n_iterations: 100
+      - name: "simulated_annealing"
+        config:
+          max_iterations: 100
+      - name: "genetic_algorithm"
+        config:
+          generations: 10
+          population_size: 20
+    runs_per_method: 2
+
+  standard:
+    name: "Standard Benchmark Suite"
+    description: "Regular performance benchmarking (~30 minutes)"
+    enabled: true
+    max_duration: 1800  # seconds
+    problems:
+      - type: "qap"
+        sizes: [10, 15, 20, 25]
+        instances_per_size: 2
+        use_qaplib: true
+        qaplib_instances: ["chr12a", "nug20", "rou20"]
+      - type: "tsp"
+        sizes: [15, 20, 30, 50]
+        instances_per_size: 2
+    methods:
+      # Baseline methods
+      - name: "random_search"
+        config:
+          n_iterations: 1000
+      - name: "simulated_annealing"
+        config:
+          max_iterations: 1000
+      - name: "genetic_algorithm"
+        config:
+          generations: 50
+          population_size: 50
+      - name: "tabu_search"
+        config:
+          max_iterations: 500
+      - name: "local_search"
+        config:
+          max_iterations: 500
+      # Advanced methods
+      - name: "ant_colony"
+        config:
+          n_iterations: 50
+          n_ants: 20
+      - name: "particle_swarm"
+        config:
+          n_iterations: 50
+          n_particles: 30
+      - name: "variable_neighborhood"
+        config:
+          max_iterations: 200
+          k_max: 5
+      - name: "iterated_local_search"
+        config:
+          max_iterations: 100
+      - name: "grasp"
+        config:
+          max_iterations: 100
+          alpha: 0.2
+    runs_per_method: 5
+
+  comprehensive:
+    name: "Comprehensive Benchmark Suite"
+    description: "Full performance analysis (~2 hours)"
+    enabled: false  # Only run when explicitly requested
+    max_duration: 7200  # seconds
+    problems:
+      - type: "qap"
+        sizes: [10, 15, 20, 25, 30, 40, 50]
+        instances_per_size: 3
+        use_qaplib: true
+        qaplib_instances: ["chr12a", "chr15a", "chr20a", "nug20", "nug30",
+                          "rou20", "tai20a", "tai30a", "lipa30a"]
+      - type: "tsp"
+        sizes: [20, 30, 50, 75, 100]
+        instances_per_size: 3
+      - type: "knapsack"
+        sizes: [50, 100, 200]
+        instances_per_size: 2
+    methods:
+      # All available methods with full parameter sweeps
+      - name: "random_search"
+        parameter_sweep:
+          n_iterations: [500, 1000, 2000]
+      - name: "simulated_annealing"
+        parameter_sweep:
+          max_iterations: [500, 1000, 2000]
+          temperature: [100, 500, 1000]
+      - name: "genetic_algorithm"
+        parameter_sweep:
+          generations: [30, 50, 100]
+          population_size: [30, 50, 100]
+          mutation_rate: [0.01, 0.05, 0.1]
+      - name: "tabu_search"
+        parameter_sweep:
+          max_iterations: [300, 500, 1000]
+          tabu_tenure: [5, 10, 20]
+      - name: "ant_colony"
+        parameter_sweep:
+          n_iterations: [30, 50, 100]
+          n_ants: [10, 20, 40]
+      - name: "particle_swarm"
+        parameter_sweep:
+          n_iterations: [30, 50, 100]
+          n_particles: [20, 30, 50]
+      - name: "variable_neighborhood"
+        parameter_sweep:
+          max_iterations: [100, 200, 400]
+          k_max: [3, 5, 7]
+      - name: "iterated_local_search"
+        parameter_sweep:
+          max_iterations: [50, 100, 200]
+      - name: "grasp"
+        parameter_sweep:
+          max_iterations: [50, 100, 200]
+          alpha: [0.1, 0.2, 0.3]
+    runs_per_method: 10
+
+  method_comparison:
+    name: "Method Comparison Suite"
+    description: "Head-to-head method comparison on standard problems"
+    enabled: true
+    max_duration: 3600  # seconds
+    problems:
+      - type: "qap"
+        use_qaplib: true
+        qaplib_instances: ["chr12a", "chr15a", "nug20", "rou20", "tai20a"]
+    methods:
+      # All methods with standardized parameters for fair comparison
+      - name: "random_search"
+        config:
+          n_iterations: 1000
+      - name: "simulated_annealing"
+        config:
+          max_iterations: 1000
+      - name: "genetic_algorithm"
+        config:
+          generations: 50
+          population_size: 50
+      - name: "tabu_search"
+        config:
+          max_iterations: 500
+      - name: "local_search"
+        config:
+          max_iterations: 500
+      - name: "ant_colony"
+        config:
+          n_iterations: 50
+          n_ants: 20
+      - name: "particle_swarm"
+        config:
+          n_iterations: 50
+          n_particles: 30
+      - name: "variable_neighborhood"
+        config:
+          max_iterations: 200
+          k_max: 5
+      - name: "iterated_local_search"
+        config:
+          max_iterations: 100
+      - name: "grasp"
+        config:
+          max_iterations: 100
+          alpha: 0.2
+    runs_per_method: 10
+    compute_statistical_significance: true
+
+# Performance metrics to track
+metrics:
+  - name: "solution_quality"
+    description: "Objective value of the best solution found"
+    primary: true
+  - name: "optimality_gap"
+    description: "Gap from known optimal or best known solution"
+    compute_if_optimal_known: true
+  - name: "runtime"
+    description: "Total execution time in seconds"
+  - name: "memory_usage"
+    description: "Peak memory usage in MB"
+  - name: "convergence_speed"
+    description: "Iterations to reach 90% of final quality"
+  - name: "success_rate"
+    description: "Percentage of runs meeting quality threshold"
+  - name: "stability"
+    description: "Standard deviation across multiple runs"
+
+# Regression detection settings
+regression_detection:
+  enabled: true
+  baseline_window: 7  # days to consider for baseline
+  thresholds:
+    solution_quality: 0.05  # 5% degradation triggers warning
+    runtime: 0.20  # 20% slowdown triggers warning
+    memory_usage: 0.30  # 30% increase triggers warning
+  confidence_level: 0.95  # Statistical confidence for regression detection
+
+# Output settings
+output:
+  results_dir: "benchmark_results"
+  formats:
+    - json  # Machine-readable results
+    - html  # Interactive dashboard
+    - markdown  # GitHub-friendly summary
+    - csv  # For data analysis
+  archive:
+    enabled: true
+    retention_days: 90
+    compression: true
+
+# Notification settings
+notifications:
+  regression_alerts:
+    enabled: true
+    channels:
+      - github_issue
+      - console
+  completion_summary:
+    enabled: true
+    include_plots: true

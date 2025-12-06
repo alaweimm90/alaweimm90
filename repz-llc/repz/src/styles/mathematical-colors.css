@@ -1,0 +1,98 @@
+/* =====================================================================
+   REPZ MATHEMATICAL COLOR SYSTEM - ENTERPRISE GRADE
+   Based on REPZ Orange (#F15B23) with mathematical relationships
+   ===================================================================== */
+
+:root {
+  /* ====== FOUNDATION: REPZ BRAND ANCHOR ====== */
+  --repz-primary: 14 87% 54%;              /* #F15B23 - REPZ Orange (Brand Anchor) */
+  --repz-primary-rgb: 241, 91, 35;         /* RGB for opacity calculations */
+  
+  /* ====== MATHEMATICAL RELATIONSHIPS ====== */
+  --repz-complement: 196 88% 54%;          /* #2359EC - Mathematical opposite (Trust) */
+  --repz-complement-rgb: 35, 89, 236;
+  
+  --repz-analogous-warm: 26 88% 54%;       /* #EC7523 - Adjacent (Energy/Performance) */
+  --repz-analogous-warm-rgb: 236, 117, 35;
+  
+  --repz-analogous-cool: 6 88% 54%;        /* #EC3523 - Adjacent (Urgency) */
+  --repz-analogous-cool-rgb: 236, 53, 35;
+  
+  /* ====== TIER-SPECIFIC COLORS (BUSINESS STRATEGY) ====== */
+  --tier-core-primary: 210 15% 60%;                 /* Gray = Foundation */
+  --tier-adaptive-primary: 330 60% 75%;             /* Light Pink = Enhanced Foundation */
+  --tier-performance-primary: 269 60% 35%;          /* Dark Purple = Elite Performance */
+  --tier-longevity-primary: 43 84% 40%;             /* #B8860B - Sophisticated Gold */
+  --tier-longevity-rgb: 184, 134, 11;
+  
+  /* ====== SEMANTIC BUTTON SYSTEM ====== */
+  /* PRIMARY: Only for main conversion actions */
+  --btn-primary-bg: hsl(var(--repz-primary));
+  --btn-primary-hover: hsl(14 87% 48%);
+  --btn-primary-shadow: 0 8px 25px hsla(var(--repz-primary-rgb), 0.4);
+  
+  /* SECONDARY: Supporting actions that don't compete */
+  --btn-secondary-bg: hsl(var(--repz-complement));
+  --btn-secondary-hover: hsl(196 88% 48%);
+  --btn-secondary-shadow: 0 8px 25px hsla(var(--repz-complement-rgb), 0.3);
+  
+  /* GHOST: Subtle actions, filters, toggles */
+  --btn-ghost-border: hsl(var(--repz-primary));
+  --btn-ghost-color: hsl(var(--repz-primary));
+  --btn-ghost-hover-bg: hsla(var(--repz-primary-rgb), 0.1);
+  
+  /* ====== TIER BUTTON SYSTEM (ONLY FOR PRICING CARDS) ====== */
+  --btn-tier-core: hsl(var(--tier-core-primary));
+  --btn-tier-adaptive: hsl(var(--tier-adaptive-primary));
+  --btn-tier-performance: hsl(var(--tier-performance-primary));
+  --btn-tier-longevity: hsl(var(--tier-longevity-primary));
+  
+  /* ====== GLASS MORPHISM ENHANCEMENTS ====== */
+  --glass-tier-core-tint: hsla(var(--repz-complement-rgb), 0.05);
+  --glass-tier-adaptive-tint: hsla(var(--repz-primary-rgb), 0.05);
+  --glass-tier-performance-tint: hsla(var(--repz-analogous-warm-rgb), 0.05);
+  --glass-tier-longevity-tint: hsla(var(--tier-longevity-rgb), 0.05);
+  
+  --glass-tier-core-border: hsla(var(--repz-complement-rgb), 0.3);
+  --glass-tier-adaptive-border: hsla(var(--repz-primary-rgb), 0.3);
+  --glass-tier-performance-border: hsla(var(--repz-analogous-warm-rgb), 0.3);
+  --glass-tier-longevity-border: hsla(var(--tier-longevity-rgb), 0.3);
+  
+  /* ====== SEMANTIC STATES ====== */
+  --state-success: 142 76% 36%;           /* Green for completed states */
+  --state-warning: 38 92% 50%;            /* Amber for warning states */
+  --state-error: 0 84% 60%;               /* Red for error states */
+  --state-info: var(--repz-complement);   /* Blue for info states */
+  
+  /* ====== PROFESSIONAL GRAYS ====== */
+  --gray-50: 210 20% 98%;
+  --gray-100: 210 20% 95%;
+  --gray-200: 210 16% 90%;
+  --gray-300: 210 14% 83%;
+  --gray-400: 210 14% 65%;
+  --gray-500: 210 11% 50%;
+  --gray-600: 210 12% 42%;
+  --gray-700: 210 13% 32%;
+  --gray-800: 210 15% 23%;
+  --gray-900: 210 18% 15%;
+  --gray-950: 210 20% 10%;
+}
+
+/* ====== USAGE RULES (COMMENTS FOR DEVELOPERS) ====== */
+/*
+BUTTON USAGE RULES:
+- PRIMARY (Orange): ONLY for main conversion actions (Choose Plan, Book Session, Pre-order)
+- SECONDARY (Blue): ONLY for supporting actions (View Details, Learn More, Contact)
+- TIER: ONLY for tier-specific pricing card buttons (maintains tier identity)
+- GHOST: ONLY for filters, toggles, less important actions
+
+PSYCHOLOGY:
+- Blue = Trust, reliability → Perfect for secondary actions
+- Orange = Energy, action → Perfect for primary conversions
+- Warm Orange = Performance → Perfect for performance tier
+- Gold = Luxury → Perfect for longevity tier
+
+MATHEMATICAL HARMONY:
+All colors derived from REPZ Orange using color theory relationships.
+This creates subconscious brand reinforcement and professional cohesion.
+*/

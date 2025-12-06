@@ -1,0 +1,82 @@
+# MEZAN Optimizer Configuration
+# Controls which Libria solvers are enabled and optimization settings
+
+# Feature Flags for Libria Suite Rollout
+feature_flags:
+  # Individual solver flags (incremental rollout)
+  enable_qap_libria: false      # Librex.QAP - Agent-task assignment
+  enable_flow_libria: false     # Librex.Flow - Workflow routing
+  enable_alloc_libria: false    # Librex.Alloc - Resource allocation
+  enable_graph_libria: false    # Librex.Graph - Network topology
+  enable_dual_libria: false     # Librex.Dual - Adversarial robustness
+  enable_evo_libria: false      # Librex.Evo - Multi-objective
+  enable_meta_libria: false     # Librex.Meta - Algorithm selection
+
+  # Master control
+  enable_all_libria: false      # Enable ALL Libria solvers at once
+  force_heuristic: false        # Force heuristic fallback (for testing)
+
+  # GPU acceleration
+  enable_gpu: false             # Enable GPU acceleration when available
+
+# Default Optimization Settings
+default_timeout: 60.0           # Default timeout in seconds
+enable_monitoring: true         # Enable Prometheus metrics
+enable_logging: true            # Enable detailed logging
+
+# Solver-Specific Configurations
+solvers:
+  qap_libria:
+    algorithm: "simulated_annealing"  # or "genetic", "tabu_search"
+    max_iterations: 1000
+    temperature_init: 100.0
+    cooling_rate: 0.95
+    gpu_batch_size: 32
+
+  flow_libria:
+    confidence_threshold: 0.7
+    path_algorithm: "dijkstra"
+    recompute_on_failure: true
+
+  alloc_libria:
+    thompson_sampling_horizon: 100
+    exploration_rate: 0.1
+    budget_buffer: 0.05
+
+  graph_libria:
+    objective: "minimize_entropy"
+    max_graph_size: 100
+
+  dual_libria:
+    adversarial_budget: 0.1
+    minimax_algorithm: "value_iteration"
+
+  evo_libria:
+    population_size: 50
+    num_generations: 100
+    mutation_rate: 0.1
+    crossover_rate: 0.8
+
+  meta_libria:
+    feature_extraction: "problem_signature"
+    selection_algorithm: "ucb"
+    online_learning: true
+
+# Fallback Behavior
+fallback:
+  use_heuristic_on_timeout: true
+  use_heuristic_on_failure: true
+  log_fallback_events: true
+
+# Monitoring (Prometheus)
+monitoring:
+  metrics_port: 9090
+  track_solution_quality: true
+  track_computation_time: true
+  track_gpu_utilization: true
+
+# Integration with V4.0.0
+integration:
+  redis_backend: true           # Use Redis for caching solutions
+  event_bus_notifications: true # Publish optimization events
+  api_endpoints_enabled: true   # Expose optimization API

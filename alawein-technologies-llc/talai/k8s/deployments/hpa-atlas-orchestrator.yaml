@@ -1,0 +1,203 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ORCHEX-orchestrator-hpa
+  namespace: talai
+  labels:
+    app: ORCHEX-orchestrator
+    component: autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ORCHEX-orchestrator
+  minReplicas: 10
+  maxReplicas: 100
+  metrics:
+    # CPU-based scaling
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    # Memory-based scaling
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 75
+    # Custom metric: Request rate
+    - type: Pods
+      pods:
+        metric:
+          name: http_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "1000"
+    # Custom metric: Response time
+    - type: Pods
+      pods:
+        metric:
+          name: http_request_duration_p99
+        target:
+          type: AverageValue
+          averageValue: "500m"  # 500ms
+    # External metric: Kafka queue depth
+    - type: External
+      external:
+        metric:
+          name: kafka_consumer_lag_sum
+          selector:
+            matchLabels:
+              topic: ORCHEX-tasks
+              consumergroup: ORCHEX-orchestrator
+        target:
+          type: AverageValue
+          averageValue: "100"
+    # External metric: Active agent count
+    - type: External
+      external:
+        metric:
+          name: atlas_active_agents_total
+          selector:
+            matchLabels:
+              service: ORCHEX-orchestrator
+        target:
+          type: Value
+          value: "500"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+        - type: Pods
+          value: 10
+          periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 120
+        - type: Pods
+          value: 5
+          periodSeconds: 120
+      selectPolicy: Min
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lit-review-bot-hpa
+  namespace: talai
+  labels:
+    app: lit-review-bot
+    component: autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lit-review-bot
+  minReplicas: 8
+  maxReplicas: 80
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Pods
+      pods:
+        metric:
+          name: papers_processing_rate
+        target:
+          type: AverageValue
+          averageValue: "50"
+    - type: External
+      external:
+        metric:
+          name: elasticsearch_search_latency
+          selector:
+            matchLabels:
+              index: papers
+        target:
+          type: AverageValue
+          averageValue: "200m"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 30
+      policies:
+        - type: Percent
+          value: 200
+          periodSeconds: 30
+    scaleDown:
+      stabilizationWindowSeconds: 600
+      policies:
+        - type: Percent
+          value: 25
+          periodSeconds: 60
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: adversarial-review-hpa
+  namespace: talai
+  labels:
+    app: adversarial-review
+    component: autoscaling
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: adversarial-review
+  minReplicas: 5
+  maxReplicas: 50
+  targetCPUUtilizationPercentage: 65
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65
+    - type: Pods
+      pods:
+        metric:
+          name: review_generation_time
+        target:
+          type: AverageValue
+          averageValue: "5000m"  # 5 seconds
+    - type: External
+      external:
+        metric:
+          name: llm_api_throttle_rate
+          selector:
+            matchLabels:
+              service: adversarial-review
+        target:
+          type: AverageValue
+          averageValue: "10"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60

@@ -1,0 +1,51 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: mezan-ORCHEX-api-pdb
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/component: pdb-api
+    app.kubernetes.io/part-of: mezan
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mezan-ORCHEX
+      app.kubernetes.io/component: api
+  unhealthyPodEvictionPolicy: IfHealthyBudget
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: mezan-ORCHEX-worker-pdb
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: mezan-ORCHEX
+    app.kubernetes.io/component: pdb-worker
+    app.kubernetes.io/part-of: mezan
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mezan-ORCHEX
+      app.kubernetes.io/component: worker
+  unhealthyPodEvictionPolicy: AlwaysAllow
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: redis-pdb
+  namespace: mezan-ORCHEX
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/component: pdb
+    app.kubernetes.io/part-of: mezan
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/component: master

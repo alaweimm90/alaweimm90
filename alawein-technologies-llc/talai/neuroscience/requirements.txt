@@ -1,0 +1,50 @@
+# Neuroscience Research Module Requirements
+
+# Core dependencies
+pydantic==2.5.3
+numpy==1.24.3
+scipy==1.11.4
+asyncio-mqtt==0.16.2
+aiohttp==3.9.1
+
+# Neuroimaging
+nibabel==5.2.0  # Neuroimaging data formats
+nilearn==0.10.2  # Machine learning for neuroimaging
+mne==1.6.1  # MEG/EEG analysis
+pybids==0.16.4  # BIDS format support
+
+# Signal processing
+scikit-learn==1.3.2
+pandas==2.1.4
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# Connectivity analysis
+networkx==3.2.1
+bct==0.5.2  # Brain Connectivity Toolbox
+
+# Neurodata formats
+pynwb==2.5.0  # Neurodata Without Borders
+h5py==3.10.0  # HDF5 support
+zarr==2.16.1  # Alternative array storage
+
+# Statistical analysis
+statsmodels==0.14.1
+pingouin==0.5.4  # Statistical tests
+
+# Visualization
+plotly==5.18.0
+vtk==9.3.0  # 3D brain visualization
+ipywidgets==8.1.1  # Interactive widgets
+
+# Cognitive modeling
+# pyactr==1.0.0  # ACT-R (commented - requires special installation)
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# Documentation
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0

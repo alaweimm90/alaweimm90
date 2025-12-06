@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Bench - Mythological Tech | Scholarly Evaluation Suite</title>
+    <style>
+        :root {
+            --primary: #6B46C1;
+            --secondary: #C0C0C0;
+            --accent: #DAA520;
+            --background: #F7FAFC;
+            --surface: #FFFFFF;
+            --text: #2D3748;
+            --text-muted: #718096;
+            --border: #E2E8F0;
+            --success: #38A169;
+            --warning: #D69E2E;
+            --danger: #E53E3E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Crimson Text', 'Georgia', serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-family: 'Crimson Text', serif;
+            text-shadow: 0 2px 10px rgba(218, 165, 32, 0.5);
+        }
+
+        .mission-info {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        /* Layout */
+        .bench-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            height: calc(100vh - 100px);
+        }
+
+        .library-sidebar {
+            background: var(--surface);
+            border-right: 3px solid var(--secondary);
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(107, 70, 193, 0.1);
+        }
+
+        .main-content {
+            background: var(--background);
+            padding: 2.5rem;
+            overflow-y: auto;
+        }
+
+        /* Sidebar */
+        .sidebar-header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .sidebar-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .scholarly-suite {
+            padding: 2rem;
+        }
+
+        .suite-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .test-item {
+            padding: 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .test-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--border);
+            transition: all 0.4s ease;
+        }
+
+        .test-item:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.15);
+        }
+
+        .test-item:hover::before {
+            background: var(--accent);
+            width: 6px;
+        }
+
+        .test-item.active {
+            border-color: var(--primary);
+            background: rgba(107, 70, 193, 0.05);
+        }
+
+        .test-item.active::before {
+            background: var(--primary);
+            width: 6px;
+        }
+
+        .test-name {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .test-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .test-status {
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .status-ready { color: var(--success); }
+        .status-evaluating { color: var(--accent); }
+        .status-complete { color: var(--primary); }
+
+        /* Main Content */
+        .benchmark-header {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.1);
+        }
+
+        .benchmark-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            font-family: 'Crimson Text', serif;
+            text-shadow: 0 2px 15px rgba(107, 70, 193, 0.2);
+        }
+
+        .benchmark-subtitle {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .benchmark-actions {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .oracle-button {
+            background: linear-gradient(135deg, var(--accent), #F7931E);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.3);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+        }
+
+        .oracle-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .oracle-button:hover::before {
+            left: 100%;
+        }
+
+        .oracle-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(218, 165, 32, 0.4);
+        }
+
+        .oracle-button.primary {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .oracle-button.primary:hover {
+            box-shadow: 0 8px 30px rgba(107, 70, 193, 0.4);
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .result-card {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .result-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .result-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(107, 70, 193, 0.15);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .model-name {
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.2rem;
+        }
+
+        .model-score {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Crimson Text', serif;
+            text-shadow: 0 2px 10px rgba(218, 165, 32, 0.3);
+        }
+
+        .result-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: var(--background);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.4s ease;
+        }
+
+        .metric:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.15);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Crimson Text', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .result-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-family: 'Crimson Text', serif;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.4s ease;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: wisdom-flow 3s linear infinite;
+        }
+
+        @keyframes wisdom-flow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .result-status {
+            text-align: center;
+            padding: 0.75rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .status-exemplary {
+            background: rgba(56, 161, 105, 0.1);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+
+        .status-accomplished {
+            background: rgba(107, 70, 193, 0.1);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .status-developing {
+            background: rgba(218, 165, 32, 0.1);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        /* Academy Leaderboard */
+        .academy-board {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--accent);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(218, 165, 32, 0.1);
+        }
+
+        .board-header {
+            background: linear-gradient(135deg, var(--primary), #553C9A);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .board-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+        }
+
+        .board-content {
+            padding: 2rem;
+        }
+
+        .board-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 120px 120px;
+            gap: 1.5rem;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--border);
+            transition: all 0.4s ease;
+        }
+
+        .board-item:hover {
+            background: var(--background);
+            transform: translateX(8px);
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.1);
+        }
+
+        .rank {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Crimson Text', serif;
+            text-align: center;
+        }
+
+        .rank.first { color: var(--accent); }
+        .rank.second { color: var(--secondary); }
+        .rank.third { color: var(--text-muted); }
+
+        .model-info {
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 1px;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.1rem;
+        }
+
+        .model-details {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'Crimson Text', serif;
+            text-align: center;
+        }
+
+        .wisdom-level {
+            text-align: center;
+            font-weight: 600;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .level-sage { color: var(--success); }
+        .level-scholar { color: var(--primary); }
+        .level-student { color: var(--accent); }
+
+        /* Classical proportions */
+        .elegant-text {
+            font-variant: small-caps;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bench-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .library-sidebar {
+                border-right: none;
+                border-bottom: 3px solid var(--secondary);
+                max-height: 350px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .board-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo elegant-text">⚡ Aegis Academy</div>
+        <div class="mission-info">
+            <span class="elegant-text">🏛️ Protocol: Sophia-VII</span>
+            <span class="elegant-text">🔮 Status: Evaluating</span>
+            <span class="elegant-text">⏳ ETA: 3:14</span>
+        </div>
+    </header>
+
+    <div class="bench-container">
+        <div class="library-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title elegant-text">Sacred Library</div>
+                <div class="sidebar-subtitle">Scholarly Evaluation Suite</div>
+            </div>
+            
+            <div class="scholarly-suite">
+                <div class="suite-title elegant-text">🏛️ Active Studies</div>
+                
+                <div class="test-item active">
+                    <div class="test-name elegant-text">Logical Reasoning</div>
+                    <div class="test-description">Classical syllogistic evaluation with dialectical methodology and philosophical rigor</div>
+                    <div class="test-status status-evaluating">🔮 Contemplating</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name elegant-text">Wisdom Synthesis</div>
+                    <div class="test-description">Knowledge integration assessment through academic discourse frameworks</div>
+                    <div class="test-status status-ready">🏛️ Prepared</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name elegant-text">Truth Verification</div>
+                    <div class="test-description">Epistemological accuracy testing with scholarly verification protocols</div>
+                    <div class="test-status status-ready">🏛️ Prepared</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name elegant-text">Creative Wisdom</div>
+                    <div class="test-description">Artistic and narrative generation with classical aesthetic principles</div>
+                    <div class="test-status status-complete">✨ Illuminated</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name elegant-text">Quantitative Logic</div>
+                    <div class="test-description">Mathematical reasoning with geometric precision and numerical harmony</div>
+                    <div class="test-status status-ready">🏛️ Prepared</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="benchmark-header">
+                <h1 class="benchmark-title elegant-text">Symposium Sophia-VII</h1>
+                <p class="benchmark-subtitle">Comprehensive scholarly evaluation through wisdom-driven methodologies. Assess intellectual capabilities across multiple domains using time-tested academic principles and classical evaluation frameworks.</p>
+                <div class="benchmark-actions">
+                    <button class="oracle-button primary">🚀 Commence All Studies</button>
+                    <button class="oracle-button">📜 Generate Scholarly Report</button>
+                    <button class="oracle-button">⚙️ Configure Parameters</button>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name elegant-text">GPT-4 Turbo</div>
+                        <div class="model-score">94.7</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">97%</div>
+                            <div class="metric-label elegant-text">Wisdom</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">1.8s</div>
+                            <div class="metric-label elegant-text">Contemplation</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span class="elegant-text">Study Progress</span>
+                            <span>89%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-exemplary elegant-text">🏆 Exemplary Scholar</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name elegant-text">Claude 3.5 Sonnet</div>
+                        <div class="model-score">89.3</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">94%</div>
+                            <div class="metric-label elegant-text">Wisdom</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2.1s</div>
+                            <div class="metric-label elegant-text">Contemplation</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span class="elegant-text">Study Progress</span>
+                            <span>84%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 84%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-accomplished elegant-text">🎓 Accomplished Scholar</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name elegant-text">Gemini Pro</div>
+                        <div class="model-score">85.1</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">88%</div>
+                            <div class="metric-label elegant-text">Wisdom</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2.7s</div>
+                            <div class="metric-label elegant-text">Contemplation</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span class="elegant-text">Study Progress</span>
+                            <span>76%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 76%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-accomplished elegant-text">⚡ Learned Scholar</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name elegant-text">Llama 3.1 70B</div>
+                        <div class="model-score">79.9</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">82%</div>
+                            <div class="metric-label elegant-text">Wisdom</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">3.4s</div>
+                            <div class="metric-label elegant-text">Contemplation</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span class="elegant-text">Study Progress</span>
+                            <span>68%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 68%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-developing elegant-text">📚 Developing Scholar</div>
+                </div>
+            </div>
+
+            <div class="academy-board">
+                <div class="board-header">
+                    <div class="board-title elegant-text">🏛️ Academy Honors</div>
+                </div>
+                <div class="board-content">
+                    <div class="board-item">
+                        <div class="rank first">I</div>
+                        <div>
+                            <div class="model-info elegant-text">GPT-4 Turbo</div>
+                            <div class="model-details">OpenAI • Latest Scholarly Edition</div>
+                        </div>
+                        <div class="score">94.7</div>
+                        <div class="wisdom-level level-sage elegant-text">Sage</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank second">II</div>
+                        <div>
+                            <div class="model-info elegant-text">Claude 3.5 Sonnet</div>
+                            <div class="model-details">Anthropic • Wisdom Enhanced</div>
+                        </div>
+                        <div class="score">89.3</div>
+                        <div class="wisdom-level level-scholar elegant-text">Scholar</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank third">III</div>
+                        <div>
+                            <div class="model-info elegant-text">Gemini Pro</div>
+                            <div class="model-details">Google • Academic Training</div>
+                        </div>
+                        <div class="score">85.1</div>
+                        <div class="wisdom-level level-scholar elegant-text">Scholar</div>
+                    </div>
+                    <div class="board-item">
+                        <div class="rank">IV</div>
+                        <div>
+                            <div class="model-info elegant-text">Llama 3.1 70B</div>
+                            <div class="model-details">Meta • Open Knowledge</div>
+                        </div>
+                        <div class="score">79.9</div>
+                        <div class="wisdom-level level-student elegant-text">Student</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

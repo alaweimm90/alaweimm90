@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - Live It Iconic</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 60px 40px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+
+    h1 {
+      font-size: 32px;
+      color: #1a202c;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #4a5568;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      background: #f7fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    .features h3 {
+      font-size: 18px;
+      color: #2d3748;
+      margin-bottom: 16px;
+    }
+
+    .features ul {
+      list-style: none;
+    }
+
+    .features li {
+      font-size: 16px;
+      color: #4a5568;
+      padding: 8px 0;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 14px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .status {
+      margin-top: 24px;
+      padding: 12px;
+      background: #fff5f5;
+      border: 1px solid #fc8181;
+      border-radius: 8px;
+      color: #c53030;
+      font-size: 14px;
+    }
+
+    .status.online {
+      background: #f0fff4;
+      border-color: #68d391;
+      color: #276749;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 40px 24px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">
+      📡
+    </div>
+
+    <h1>You're Offline</h1>
+
+    <p>
+      No internet connection detected. Don't worry, you can still access some features!
+    </p>
+
+    <div class="features">
+      <h3>Available Offline:</h3>
+      <ul>
+        <li>View your recent wellness data</li>
+        <li>Log habits and meals (will sync later)</li>
+        <li>Browse cached content</li>
+        <li>View your achievements and progress</li>
+      </ul>
+    </div>
+
+    <a href="/" class="button" id="retryButton">Try Again</a>
+
+    <div class="status" id="status">
+      <span id="statusText">Currently offline</span>
+    </div>
+  </div>
+
+  <script>
+    // Monitor online status
+    function updateStatus() {
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('statusText');
+
+      if (navigator.onLine) {
+        status.classList.add('online');
+        statusText.textContent = 'Back online! Click "Try Again" to continue.';
+      } else {
+        status.classList.remove('online');
+        statusText.textContent = 'Currently offline';
+      }
+    }
+
+    // Auto-reload when back online
+    window.addEventListener('online', () => {
+      updateStatus();
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
+    });
+
+    window.addEventListener('offline', updateStatus);
+
+    // Initial status check
+    updateStatus();
+
+    // Retry button
+    document.getElementById('retryButton').addEventListener('click', (e) => {
+      if (!navigator.onLine) {
+        e.preventDefault();
+        alert('Still offline. Please check your internet connection.');
+      }
+    });
+  </script>
+</body>
+</html>

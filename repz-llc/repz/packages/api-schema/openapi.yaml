@@ -1,0 +1,1410 @@
+openapi: 3.0.3
+info:
+  title: REPZ Coach Platform API
+  description: |
+    Comprehensive API for the REPZ Coach platform - connecting certified personal trainers 
+    with clients through personalized training programs, nutrition plans, and progress tracking.
+    
+    ## Features
+    - **Multi-Tier Subscription System**: Core, Adaptive, Performance, and Longevity tiers
+    - **Role-Based Access**: Client, Coach, and Admin roles with appropriate permissions  
+    - **Real-Time Updates**: WebSocket support for live coaching and progress updates
+    - **Comprehensive Analytics**: Detailed metrics and reporting for all stakeholders
+    - **Mobile-First Design**: Optimized for native mobile applications
+    
+    ## Authentication
+    All endpoints require authentication via Bearer token unless marked as public.
+    Tokens are issued through Supabase Auth and include user role and tier information.
+    
+    ## Rate Limiting
+    - **Free/Core Tier**: 1000 requests/hour
+    - **Adaptive Tier**: 2500 requests/hour  
+    - **Performance Tier**: 5000 requests/hour
+    - **Longevity Tier**: 10000 requests/hour
+    
+    ## Versioning
+    This API uses semantic versioning. Breaking changes will result in a new major version.
+    
+  version: 1.0.0
+  contact:
+    name: REPZ API Support
+    email: api-support@repzcoach.com
+    url: https://docs.repzcoach.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.repzcoach.com/v1
+    description: Production server
+  - url: https://staging-api.repzcoach.com/v1  
+    description: Staging server
+  - url: https://dev-api.repzcoach.com/v1
+    description: Development server
+  - url: http://localhost:3000/v1
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+paths:
+  # Authentication Endpoints
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      description: Authenticate user with email and password
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: User registration
+      description: Register new user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Refresh access token
+      description: Refresh expired access token using refresh token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # User Management
+  /users/me:
+    get:
+      tags: [Users]
+      summary: Get current user profile
+      description: Retrieve the authenticated user's profile information
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    patch:
+      tags: [Users]
+      summary: Update current user profile
+      description: Update the authenticated user's profile information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Subscription Management
+  /subscriptions:
+    get:
+      tags: [Subscriptions]
+      summary: Get user subscriptions
+      description: Retrieve current user's subscription information
+      responses:
+        '200':
+          description: Subscriptions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Subscriptions]
+      summary: Create new subscription
+      description: Create a new subscription for the current user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubscriptionRequest'
+      responses:
+        '201':
+          description: Subscription created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          $ref: '#/components/responses/PaymentRequired'
+
+  /subscriptions/{subscriptionId}/cancel:
+    post:
+      tags: [Subscriptions]
+      summary: Cancel subscription
+      description: Cancel an active subscription
+      parameters:
+        - $ref: '#/components/parameters/SubscriptionId'
+      responses:
+        '200':
+          description: Subscription cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # Client Data Management
+  /clients/data:
+    get:
+      tags: [Client Data]
+      summary: Get client data
+      description: Retrieve comprehensive client data including goals, progress, and metrics
+      parameters:
+        - name: include
+          in: query
+          description: Additional data to include
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [workouts, nutrition, progress, goals, measurements]
+        - name: startDate
+          in: query
+          description: Start date for time-series data
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for time-series data
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Client data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    patch:
+      tags: [Client Data]
+      summary: Update client data
+      description: Update client's personal data, goals, or preferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClientDataRequest'
+      responses:
+        '200':
+          description: Client data updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientData'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Workout Management
+  /workouts:
+    get:
+      tags: [Workouts]
+      summary: Get workouts
+      description: Retrieve workouts for the authenticated user
+      parameters:
+        - name: status
+          in: query
+          description: Filter workouts by status
+          schema:
+            type: string
+            enum: [scheduled, in_progress, completed, skipped]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Workouts retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Workouts]
+      summary: Create workout
+      description: Create a new workout (coaches only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkoutRequest'
+      responses:
+        '201':
+          description: Workout created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workout'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /workouts/{workoutId}:
+    get:
+      tags: [Workouts]
+      summary: Get workout details
+      description: Retrieve detailed information about a specific workout
+      parameters:
+        - $ref: '#/components/parameters/WorkoutId'
+      responses:
+        '200':
+          description: Workout details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Workouts]
+      summary: Update workout
+      description: Update workout details or log completion
+      parameters:
+        - $ref: '#/components/parameters/WorkoutId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkoutRequest'
+      responses:
+        '200':
+          description: Workout updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutDetail'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # Analytics
+  /analytics/dashboard:
+    get:
+      tags: [Analytics]
+      summary: Get dashboard analytics
+      description: Retrieve analytics data for dashboard display
+      parameters:
+        - name: period
+          in: query
+          description: Time period for analytics
+          schema:
+            type: string
+            enum: [7d, 30d, 90d, 1y]
+            default: 30d
+        - name: metrics
+          in: query
+          description: Specific metrics to include
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [workouts, progress, nutrition, engagement, retention]
+      responses:
+        '200':
+          description: Analytics data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsDashboard'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  # Feature Flags
+  /feature-flags:
+    get:
+      tags: [Feature Flags]
+      summary: Get feature flags
+      description: Retrieve feature flags for the current user context
+      responses:
+        '200':
+          description: Feature flags retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeatureFlags'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    SubscriptionId:
+      name: subscriptionId
+      in: path
+      required: true
+      description: Unique identifier for the subscription
+      schema:
+        type: string
+        format: uuid
+
+    WorkoutId:
+      name: workoutId
+      in: path
+      required: true
+      description: Unique identifier for the workout
+      schema:
+        type: string
+        format: uuid
+
+    ClientId:
+      name: clientId
+      in: path
+      required: true
+      description: Unique identifier for the client
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    # Authentication Schemas
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          minLength: 8
+          example: securePassword123
+
+    RegisterRequest:
+      type: object
+      required: [email, password, firstName, lastName, role]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+          minLength: 8
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        role:
+          $ref: '#/components/schemas/UserRole'
+        phoneNumber:
+          type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
+
+    RefreshRequest:
+      type: object
+      required: [refreshToken]
+      properties:
+        refreshToken:
+          type: string
+
+    AuthResponse:
+      type: object
+      required: [accessToken, refreshToken, user]
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+        refreshToken:
+          type: string
+          description: Refresh token for obtaining new access tokens
+        expiresIn:
+          type: integer
+          description: Token expiration time in seconds
+          example: 3600
+        user:
+          $ref: '#/components/schemas/UserProfile'
+
+    # User Schemas
+    UserRole:
+      type: string
+      enum: [client, coach, admin]
+      description: |
+        User role in the platform:
+        - `client`: End user receiving coaching services
+        - `coach`: Certified trainer providing coaching services  
+        - `admin`: Platform administrator with full access
+
+    SubscriptionTier:
+      type: string
+      enum: [core, adaptive, performance, longevity]
+      description: |
+        Subscription tier levels:
+        - `core`: Essential training and nutrition ($89/month)
+        - `adaptive`: Interactive coaching with tracking ($149/month)
+        - `performance`: Advanced biohacking and AI ($229/month)  
+        - `longevity`: Premium concierge service ($349/month)
+
+    UserProfile:
+      type: object
+      required: [id, email, firstName, lastName, role, tier, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        firstName:
+          type: string
+        lastName:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole'
+        tier:
+          $ref: '#/components/schemas/SubscriptionTier'
+        phoneNumber:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+        timeZone:
+          type: string
+          example: America/New_York
+        preferences:
+          $ref: '#/components/schemas/UserPreferences'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        lastLoginAt:
+          type: string
+          format: date-time
+
+    UserPreferences:
+      type: object
+      properties:
+        notifications:
+          $ref: '#/components/schemas/NotificationPreferences'
+        units:
+          $ref: '#/components/schemas/UnitPreferences'
+        privacy:
+          $ref: '#/components/schemas/PrivacyPreferences'
+
+    NotificationPreferences:
+      type: object
+      properties:
+        email:
+          type: boolean
+          default: true
+        push:
+          type: boolean
+          default: true
+        sms:
+          type: boolean
+          default: false
+        workoutReminders:
+          type: boolean
+          default: true
+        progressUpdates:
+          type: boolean
+          default: true
+        coachMessages:
+          type: boolean
+          default: true
+
+    UnitPreferences:
+      type: object
+      properties:
+        weight:
+          type: string
+          enum: [lbs, kg]
+          default: lbs
+        distance:
+          type: string
+          enum: [miles, km]
+          default: miles
+        temperature:
+          type: string
+          enum: [fahrenheit, celsius]
+          default: fahrenheit
+
+    PrivacyPreferences:
+      type: object
+      properties:
+        profileVisibility:
+          type: string
+          enum: [public, friends, private]
+          default: private
+        shareProgress:
+          type: boolean
+          default: false
+        shareWorkouts:
+          type: boolean
+          default: false
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+        phoneNumber:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+        timeZone:
+          type: string
+        preferences:
+          $ref: '#/components/schemas/UserPreferences'
+
+    # Subscription Schemas
+    Subscription:
+      type: object
+      required: [id, userId, tier, status, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        tier:
+          $ref: '#/components/schemas/SubscriptionTier'
+        status:
+          type: string
+          enum: [active, inactive, cancelled, expired, trial]
+        stripeSubscriptionId:
+          type: string
+        currentPeriodStart:
+          type: string
+          format: date-time
+        currentPeriodEnd:
+          type: string
+          format: date-time
+        cancelAtPeriodEnd:
+          type: boolean
+          default: false
+        trialEnd:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateSubscriptionRequest:
+      type: object
+      required: [tier, paymentMethodId]
+      properties:
+        tier:
+          $ref: '#/components/schemas/SubscriptionTier'
+        paymentMethodId:
+          type: string
+          description: Stripe payment method ID
+        billingCycle:
+          type: string
+          enum: [monthly, quarterly, semi_annual, annual]
+          default: monthly
+        promoCode:
+          type: string
+
+    # Client Data Schemas
+    ClientData:
+      type: object
+      required: [id, userId]
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        personalInfo:
+          $ref: '#/components/schemas/PersonalInfo'
+        healthInfo:
+          $ref: '#/components/schemas/HealthInfo'
+        fitnessGoals:
+          type: array
+          items:
+            $ref: '#/components/schemas/FitnessGoal'
+        measurements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
+        progressData:
+          $ref: '#/components/schemas/ProgressData'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PersonalInfo:
+      type: object
+      properties:
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+          enum: [male, female, other, prefer_not_to_say]
+        height:
+          type: number
+          description: Height in inches
+        activityLevel:
+          type: string
+          enum: [sedentary, lightly_active, moderately_active, very_active, extremely_active]
+
+    HealthInfo:
+      type: object
+      properties:
+        medicalConditions:
+          type: array
+          items:
+            type: string
+        medications:
+          type: array
+          items:
+            type: string
+        allergies:
+          type: array
+          items:
+            type: string
+        injuries:
+          type: array
+          items:
+            $ref: '#/components/schemas/Injury'
+        sleepHours:
+          type: number
+          minimum: 0
+          maximum: 24
+        stressLevel:
+          type: integer
+          minimum: 1
+          maximum: 10
+
+    Injury:
+      type: object
+      required: [type, description]
+      properties:
+        type:
+          type: string
+        description:
+          type: string
+        dateOccurred:
+          type: string
+          format: date
+        severity:
+          type: string
+          enum: [minor, moderate, severe]
+        currentStatus:
+          type: string
+          enum: [recovered, healing, chronic]
+
+    FitnessGoal:
+      type: object
+      required: [type, targetValue, targetDate]
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [weight_loss, weight_gain, muscle_gain, strength, endurance, flexibility, general_fitness]
+        targetValue:
+          type: number
+        currentValue:
+          type: number
+        unit:
+          type: string
+        targetDate:
+          type: string
+          format: date
+        priority:
+          type: string
+          enum: [low, medium, high]
+        status:
+          type: string
+          enum: [active, achieved, paused, cancelled]
+
+    Measurement:
+      type: object
+      required: [type, value, recordedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [weight, body_fat, muscle_mass, waist, chest, arms, thighs]
+        value:
+          type: number
+        unit:
+          type: string
+        recordedAt:
+          type: string
+          format: date-time
+        notes:
+          type: string
+
+    ProgressData:
+      type: object
+      properties:
+        workoutsCompleted:
+          type: integer
+        totalWorkoutTime:
+          type: integer
+          description: Total workout time in minutes
+        currentStreak:
+          type: integer
+          description: Current workout streak in days
+        longestStreak:
+          type: integer
+          description: Longest workout streak in days
+        achievedGoals:
+          type: integer
+        lastWorkoutDate:
+          type: string
+          format: date
+
+    UpdateClientDataRequest:
+      type: object
+      properties:
+        personalInfo:
+          $ref: '#/components/schemas/PersonalInfo'
+        healthInfo:
+          $ref: '#/components/schemas/HealthInfo'
+        fitnessGoals:
+          type: array
+          items:
+            $ref: '#/components/schemas/FitnessGoal'
+
+    # Workout Schemas
+    WorkoutList:
+      type: object
+      required: [workouts, pagination]
+      properties:
+        workouts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workout'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    Workout:
+      type: object
+      required: [id, name, scheduledAt, status]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        scheduledAt:
+          type: string
+          format: date-time
+        estimatedDuration:
+          type: integer
+          description: Estimated duration in minutes
+        actualDuration:
+          type: integer
+          description: Actual duration in minutes
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, skipped]
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        category:
+          type: string
+          enum: [strength, cardio, flexibility, sports, rehabilitation]
+        coachId:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    WorkoutDetail:
+      allOf:
+        - $ref: '#/components/schemas/Workout'
+        - type: object
+          properties:
+            exercises:
+              type: array
+              items:
+                $ref: '#/components/schemas/Exercise'
+            notes:
+              type: string
+            completedAt:
+              type: string
+              format: date-time
+            feedback:
+              $ref: '#/components/schemas/WorkoutFeedback'
+
+    Exercise:
+      type: object
+      required: [id, name, type]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [strength, cardio, flexibility, plyometric, balance]
+        muscleGroups:
+          type: array
+          items:
+            type: string
+        equipment:
+          type: array
+          items:
+            type: string
+        instructions:
+          type: string
+        sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExerciseSet'
+        restTime:
+          type: integer
+          description: Rest time between sets in seconds
+        notes:
+          type: string
+
+    ExerciseSet:
+      type: object
+      properties:
+        setNumber:
+          type: integer
+        reps:
+          type: integer
+        weight:
+          type: number
+        duration:
+          type: integer
+          description: Duration in seconds
+        distance:
+          type: number
+          description: Distance in specified units
+        completed:
+          type: boolean
+          default: false
+        actualReps:
+          type: integer
+        actualWeight:
+          type: number
+        actualDuration:
+          type: integer
+        actualDistance:
+          type: number
+
+    WorkoutFeedback:
+      type: object
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        difficulty:
+          type: integer
+          minimum: 1
+          maximum: 10
+        energy:
+          type: integer
+          minimum: 1
+          maximum: 10
+        notes:
+          type: string
+        submittedAt:
+          type: string
+          format: date-time
+
+    CreateWorkoutRequest:
+      type: object
+      required: [name, clientId, scheduledAt, exercises]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        clientId:
+          type: string
+          format: uuid
+        scheduledAt:
+          type: string
+          format: date-time
+        estimatedDuration:
+          type: integer
+        difficulty:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        category:
+          type: string
+          enum: [strength, cardio, flexibility, sports, rehabilitation]
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exercise'
+        notes:
+          type: string
+
+    UpdateWorkoutRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [in_progress, completed, skipped]
+        actualDuration:
+          type: integer
+        completedAt:
+          type: string
+          format: date-time
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/Exercise'
+        feedback:
+          $ref: '#/components/schemas/WorkoutFeedback'
+        notes:
+          type: string
+
+    # Analytics Schemas
+    AnalyticsDashboard:
+      type: object
+      properties:
+        period:
+          type: string
+          enum: [7d, 30d, 90d, 1y]
+        workoutMetrics:
+          $ref: '#/components/schemas/WorkoutMetrics'
+        progressMetrics:
+          $ref: '#/components/schemas/ProgressMetrics'
+        engagementMetrics:
+          $ref: '#/components/schemas/EngagementMetrics'
+        nutritionMetrics:
+          $ref: '#/components/schemas/NutritionMetrics'
+        generatedAt:
+          type: string
+          format: date-time
+
+    WorkoutMetrics:
+      type: object
+      properties:
+        totalWorkouts:
+          type: integer
+        completedWorkouts:
+          type: integer
+        completionRate:
+          type: number
+          minimum: 0
+          maximum: 1
+        averageDuration:
+          type: number
+        totalTime:
+          type: integer
+          description: Total workout time in minutes
+        workoutsByCategory:
+          type: object
+          additionalProperties:
+            type: integer
+        weeklyTrend:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeSeriesPoint'
+
+    ProgressMetrics:
+      type: object
+      properties:
+        weightChange:
+          type: number
+        bodyFatChange:
+          type: number
+        strengthGains:
+          type: object
+          additionalProperties:
+            type: number
+        goalsAchieved:
+          type: integer
+        currentStreak:
+          type: integer
+        measurementTrends:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/TimeSeriesPoint'
+
+    EngagementMetrics:
+      type: object
+      properties:
+        loginFrequency:
+          type: number
+        sessionDuration:
+          type: number
+        featureUsage:
+          type: object
+          additionalProperties:
+            type: integer
+        coachInteractions:
+          type: integer
+        appRating:
+          type: number
+
+    NutritionMetrics:
+      type: object
+      properties:
+        mealsLogged:
+          type: integer
+        caloriesTracked:
+          type: boolean
+        macroCompliance:
+          type: object
+          properties:
+            protein:
+              type: number
+            carbs:
+              type: number
+            fat:
+              type: number
+        hydrationTracking:
+          type: boolean
+
+    TimeSeriesPoint:
+      type: object
+      required: [date, value]
+      properties:
+        date:
+          type: string
+          format: date
+        value:
+          type: number
+        label:
+          type: string
+
+    # Feature Flag Schemas
+    FeatureFlags:
+      type: object
+      additionalProperties:
+        oneOf:
+          - type: boolean
+          - type: string
+          - type: number
+          - type: object
+      example:
+        new_dashboard: true
+        ai_coaching: false
+        pricing_experiment: "variant_a"
+        advanced_analytics: true
+
+    # Common Schemas
+    Pagination:
+      type: object
+      required: [page, limit, total, totalPages]
+      properties:
+        page:
+          type: integer
+          minimum: 1
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+        total:
+          type: integer
+          minimum: 0
+        totalPages:
+          type: integer
+          minimum: 0
+        hasNext:
+          type: boolean
+        hasPrev:
+          type: boolean
+
+    Error:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        timestamp:
+          type: string
+          format: date-time
+        path:
+          type: string
+          description: API endpoint that generated the error
+
+    ValidationError:
+      allOf:
+        - $ref: '#/components/schemas/Error'
+        - type: object
+          properties:
+            validationErrors:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+                  code:
+                    type: string
+
+  responses:
+    Unauthorized:
+      description: Authentication required or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "UNAUTHORIZED"
+            message: "Authentication required"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    Forbidden:
+      description: Access denied - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "FORBIDDEN"
+            message: "Insufficient permissions to access this resource"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "NOT_FOUND"
+            message: "The requested resource was not found"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    ValidationError:
+      description: Validation error in request data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+          example:
+            error: "VALIDATION_ERROR"
+            message: "Request validation failed"
+            validationErrors:
+              - field: "email"
+                message: "Invalid email format"
+                code: "INVALID_FORMAT"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    Conflict:
+      description: Resource conflict (e.g., duplicate email)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "CONFLICT"
+            message: "Email address already exists"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    PaymentRequired:
+      description: Payment required to access resource
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "PAYMENT_REQUIRED"
+            message: "Upgrade required to access this feature"
+            timestamp: "2024-01-15T10:30:00Z"
+
+    RateLimited:
+      description: Rate limit exceeded
+      headers:
+        Retry-After:
+          description: Seconds until rate limit resets
+          schema:
+            type: integer
+        X-RateLimit-Limit:
+          description: Request limit per hour
+          schema:
+            type: integer
+        X-RateLimit-Remaining:
+          description: Remaining requests in current window
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: "RATE_LIMITED"
+            message: "Rate limit exceeded. Try again later."
+            timestamp: "2024-01-15T10:30:00Z"
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Users
+    description: User profile management
+  - name: Subscriptions
+    description: Subscription and billing management
+  - name: Client Data
+    description: Client health and fitness data
+  - name: Workouts
+    description: Workout creation and tracking
+  - name: Analytics
+    description: Performance analytics and reporting
+  - name: Feature Flags  
+    description: Feature flag management

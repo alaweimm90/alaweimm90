@@ -1,0 +1,48 @@
+# Apache .htaccess for LLM Works Domain Migration
+# For Apache servers (shared hosting, etc.)
+
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Legacy domain redirects (when old domain is configured)
+RewriteCond %{HTTP_HOST} ^aegis-ai\.com$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www\.aegis-ai\.com$ [NC]
+RewriteRule ^(.*)$ https://llmworks.dev/$1 [L,R=301]
+
+# Old path structure redirects
+RewriteRule ^aegis/(.*)$ /arena/$1 [L,R=301]
+RewriteRule ^aegis-ai/(.*)$ /$1 [L,R=301]
+RewriteRule ^platform/(.*)$ /$1 [L,R=301]
+
+# API endpoint redirects
+RewriteRule ^api/v1/aegis/(.*)$ /api/v1/$1 [L,R=301]
+
+# Documentation redirects
+RewriteRule ^docs/aegis/(.*)$ /docs/$1 [L,R=301]
+
+# React Router SPA support
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.llmworks.dev https://*.supabase.co;"
+</IfModule>
+
+# Cache Control
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType text/html "access plus 1 hour"
+</IfModule>

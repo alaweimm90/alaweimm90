@@ -1,0 +1,34 @@
+% Minimal AutoML 2025 Conference Style Package
+% This is a placeholder for the official conference template
+% For final submission, replace with official automl.sty from conference
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{automl}[2025/01/01 AutoML Conference Style]
+
+% Page geometry for 9-page limit
+\RequirePackage[letterpaper,margin=1in]{geometry}
+
+% Line spacing
+\RequirePackage{setspace}
+\setstretch{1.0}
+
+% Section formatting
+\RequirePackage{titlesec}
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+% Double-blind review mode (anonymization)
+\newif\if@anonymous
+\@anonymoustrue
+
+% Hyperlinks (colored for digital viewing)
+\RequirePackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue,
+}
+
+\endinput

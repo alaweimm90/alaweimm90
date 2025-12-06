@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "fit": {
+      "type": "array",
+      "items": { "type": "array", "items": { "type": "number" } }
+    },
+    "interaction": {
+      "type": "array",
+      "items": { "type": "array", "items": { "type": "number" } }
+    },
+    "constraints": { "type": "object" },
+    "mode": { "type": "string" },
+    "time_limit": { "type": "number" },
+    "backend": { "type": "string" },
+    "robust_eps": { "type": "number" },
+    "seed": { "type": "number" },
+    "use_homotopy": { "type": "boolean" },
+    "A": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } },
+    "B": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } }
+  }
+}

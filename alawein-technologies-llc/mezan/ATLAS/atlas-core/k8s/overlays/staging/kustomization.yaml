@@ -1,0 +1,71 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mezan-ORCHEX-staging
+
+namePrefix: staging-
+nameSuffix: ""
+
+commonLabels:
+  environment: staging
+  team: qa
+
+commonAnnotations:
+  environment: staging
+  cost-center: "qa"
+
+bases:
+  - ../../base
+
+resources:
+  - namespace.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+
+configMapGenerator:
+  - name: mezan-ORCHEX-config
+    behavior: merge
+    literals:
+      - FLASK_ENV=staging
+      - FLASK_DEBUG=false
+      - ATLAS_LOG_LEVEL=INFO
+      - ENABLE_PROFILING=false
+      - ATLAS_MAX_AGENTS=10
+
+secretGenerator:
+  - name: mezan-ORCHEX-secrets
+    behavior: merge
+    envs:
+      - secrets.env
+
+images:
+  - name: mezan-ORCHEX
+    newName: your-registry.example.com/mezan-ORCHEX
+    newTag: staging-3.5.0
+
+replicas:
+  - name: mezan-ORCHEX-api
+    count: 2
+  - name: mezan-ORCHEX-worker
+    count: 2
+  - name: redis
+    count: 2
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 1Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 4Gi
+    target:
+      kind: Deployment
+      name: mezan-ORCHEX-api

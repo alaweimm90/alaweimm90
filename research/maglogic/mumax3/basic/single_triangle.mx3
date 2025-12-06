@@ -1,0 +1,250 @@
+// Single Triangle Simulation - MuMax3 Implementation
+// Basic study of equilateral permalloy triangle
+// Author: Meshal Alawein <meshal@berkeley.edu>
+// Based on: M. Alawein et al., IEEE Mag. Lett. 2019
+
+// Simulation parameters (can be overridden)
+edge_length := 100e-9       // Triangle edge length (m)
+thickness := 10e-9          // Triangle thickness (m)
+temperature := 0.0          // Temperature (K, 0 = no thermal effects)  
+applied_field := 0.0        // Applied field strength (A/m)
+field_angle := 0.0          // Applied field angle (degrees)
+final_time := 5e-9          // Total simulation time (s)
+
+// Material parameters (Permalloy Ni80Fe20)
+Msat = 860e3               // Saturation magnetization (A/m)
+Aex = 13e-12              // Exchange constant (J/m)  
+anisu = 0                 // Uniaxial anisotropy (J/m³)
+alpha = 0.01              // Gilbert damping parameter
+
+// Mesh parameters
+cell_size := 2e-9         // Mesh cell size (m)
+
+// Calculate triangle geometry
+tri_height := edge_length * sqrt(3) / 2.0
+tri_center_y := tri_height / 3.0
+
+// Define mesh size based on triangle dimensions
+Nx := 64   // Optimized for 100nm triangle with 2nm cells
+Ny := 56
+Nz := 1
+
+SetGridSize(Nx, Ny, Nz)
+SetCellSize(cell_size, cell_size, thickness)
+
+// Center the triangle in the simulation region
+triangle_center_x := 0.0
+triangle_center_y := 0.0
+
+// Define triangular shape
+// Using a combination of primitives to approximate equilateral triangle
+// For exact triangle, we'd need custom geometry function
+
+// Method 1: Approximate triangle using intersection of half-spaces
+triangle_region := Layers(0, 1)
+
+// Create triangle using geometric primitives
+// Vertex coordinates for equilateral triangle centered at origin
+v1_x := -edge_length/2
+v1_y := -tri_center_y
+v2_x := edge_length/2  
+v2_y := -tri_center_y
+v3_x := 0.0
+v3_y := 2*tri_center_y
+
+// Define triangle using intersection of three half-planes
+// Each half-plane is defined by the equation: ax + by + c >= 0
+
+// Side 1: from v1 to v2 (bottom edge)
+a1 := 0.0
+b1 := 1.0  
+c1 := tri_center_y
+
+// Side 2: from v2 to v3 (right edge)
+a2 := -sqrt(3)
+b2 := 1.0
+c2 := sqrt(3) * edge_length / 2
+
+// Side 3: from v3 to v1 (left edge)  
+a3 := sqrt(3)
+b3 := 1.0
+c3 := sqrt(3) * edge_length / 2
+
+// Create triangle shape function
+triangle_shape := func(x, y, z float64) bool {
+    // Check if point is inside all three half-planes
+    side1 := a1*x + b1*y + c1 >= 0
+    side2 := a2*x + b2*y + c2 >= 0
+    side3 := a3*x + b3*y + c3 >= 0
+    
+    return side1 && side2 && side3
+}
+
+// Apply triangle shape to define magnetic region
+DefRegion(1, triangle_shape)
+
+// Set material parameters for triangle region
+Msat.SetRegion(1, 860e3)
+Aex.SetRegion(1, 13e-12)
+alpha.SetRegion(1, 0.01)
+
+// Uniaxial anisotropy (if non-zero)
+if anisu != 0 {
+    Ku1.SetRegion(1, anisu)
+    AnisU.SetRegion(1, vector(0, 0, 1))  // Easy axis along z
+}
+
+// Initial magnetization state
+// Start with random configuration
+m = RandomMag()
+
+// Alternative initial states:
+// m = uniform(1, 0, 0)        // Uniform along +x
+// m = uniform(0, 1, 0)        // Uniform along +y
+// m = vortex(1, 1)            // Vortex state
+
+// Temperature effects
+if temperature > 0 {
+    Temp = temperature
+    ThermSeed(1)  // Set seed for reproducible thermal noise
+}
+
+// Applied field (if non-zero)
+if applied_field != 0 {
+    field_x := applied_field * cos(field_angle * pi / 180.0)
+    field_y := applied_field * sin(field_angle * pi / 180.0)
+    field_z := 0.0
+    
+    B_ext = vector(field_x, field_y, field_z)
+}
+
+// Time step control
+FixDt = 1e-12  // Fixed time step (s)
+
+// Output directory
+output_basename := Sprintf("single_triangle_L%.0fnm_T%.0fK", edge_length*1e9, temperature)
+SetOutputDir(output_basename)
+
+// Save initial state
+save(m)
+
+// Data table setup
+TableAdd(E_total)
+TableAdd(E_exch)
+TableAdd(E_demag)
+TableAdd(E_Zeeman)
+TableAdd(MaxTorque)
+
+// Average magnetization components
+TableAddVar(m.Region(1), "m_triangle", "")
+
+// Custom analysis functions
+TableAdd(E_total)
+
+// Energy density calculations
+TableAddVar(Edens_total.Region(1), "energy_density", "J/m³")
+
+// Magnetization angle
+m_avg := m.Region(1)
+TableAdd(atan2(m_avg.y(), m_avg.x()) * 180/pi, "angle_degrees")
+
+// Set output intervals
+TableAutoSave(10e-12)  // Save table every 10 ps
+AutoSave(m, 100e-12)   // Save magnetization every 100 ps
+
+// Additional outputs for analysis
+AutoSave(B_demag, 1e-9)    // Save demagnetization field every 1 ns
+AutoSave(Edens_total, 1e-9) // Save energy density every 1 ns
+
+// Run simulation
+Run(final_time)
+
+// Final analysis
+final_m := m.Region(1).Average()
+final_energy := E_total.Get()
+
+Print("=== Single Triangle Simulation Results ===")
+Print("Edge length: ", edge_length*1e9, " nm")
+Print("Temperature: ", temperature, " K")
+Print("Applied field: ", applied_field, " A/m at ", field_angle, "°")
+Print("Final average magnetization: ", final_m)
+Print("Final total energy: ", final_energy, " J")
+
+// Calculate energy per unit volume
+area := edge_length * edge_length * sqrt(3) / 4.0
+volume := area * thickness
+energy_density := final_energy / volume
+Print("Final energy density: ", energy_density, " J/m³")
+
+// Determine magnetic state based on magnetization direction
+mx := final_m.x()
+my := final_m.y()
+mz := final_m.z()
+
+m_magnitude := sqrt(mx*mx + my*my + mz*mz)
+Print("Magnetization magnitude: ", m_magnitude)
+
+// Classify magnetic state
+angle := atan2(my, mx) * 180 / pi
+if angle < 0 {
+    angle += 360
+}
+
+Print("Magnetization angle: ", angle, "°")
+
+// State classification for equilateral triangle
+// Y-states occur at approximately 0°, 120°, 240°
+// Vortex states have smaller net magnetization
+state := "undefined"
+if m_magnitude > 0.8 {
+    if (angle >= -30 && angle <= 30) || (angle >= 330) {
+        state = "Y-state-1 (0°)"
+    } else if angle >= 90 && angle <= 150 {
+        state = "Y-state-2 (120°)" 
+    } else if angle >= 210 && angle <= 270 {
+        state = "Y-state-3 (240°)"
+    } else {
+        state = "intermediate"
+    }
+} else {
+    state = "vortex-like"
+}
+
+Print("Identified magnetic state: ", state)
+
+// Save final states for further analysis
+SaveAs(m, "final_magnetization")
+SaveAs(B_demag, "final_demag_field")
+SaveAs(B_eff, "final_effective_field")
+SaveAs(Edens_total, "final_energy_density")
+
+// Print summary information
+Print("Simulation completed successfully!")
+Print("Output directory: ", GetOutputDir())
+Print("Total simulation time: ", final_time*1e9, " ns")
+
+// Additional physics notes:
+// This simulation studies the fundamental magnetic states of an equilateral
+// permalloy triangle, which serves as the building block for nanomagnetic
+// logic (NML) devices. Key physics include:
+//
+// 1. Shape anisotropy: The triangular geometry creates effective easy axes
+//    along the triangle edges due to magnetostatic energy minimization
+//
+// 2. Six stable states: Three Y-states with net magnetization along edges
+//    and three vortex states with circulation around the center
+//
+// 3. Energy barriers: Transitions between states require overcoming energy
+//    barriers determined by exchange and magnetostatic energies
+//
+// 4. Thermal activation: At finite temperature, thermal fluctuations can
+//    induce spontaneous state transitions
+//
+// 5. Field response: Applied fields can selectively stabilize certain states
+//    or induce controlled switching between states
+//
+// This simulation framework can be extended to study:
+// - Multi-element arrays and dipolar coupling
+// - Dynamic switching under time-varying fields  
+// - Temperature-dependent stability analysis
+// - Optimization of geometry and material parameters

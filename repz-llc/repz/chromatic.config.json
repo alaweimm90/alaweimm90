@@ -1,0 +1,63 @@
+{
+  "projectToken": "CHROMATIC_PROJECT_TOKEN_PLACEHOLDER",
+  "buildScriptName": "build-storybook",
+  "storybookBuildDir": "storybook-static",
+  "onlyChanged": true,
+  "externals": [
+    "public/**"
+  ],
+  "ignoreLastBuildOnBranch": "main",
+  "skip": false,
+  "exitZeroOnChanges": false,
+  "exitOnceUploaded": false,
+  "allowConsoleErrors": false,
+  "debug": false,
+  "diagnostics": false,
+  "fileHashing": true,
+  "zip": true,
+  "junitReport": false,
+  "autoAcceptChanges": false,
+  "branchName": null,
+  "patchBuild": null,
+  "fromCI": false,
+  "interactive": true,
+  "forceRebuild": false,
+  "originalArgv": [],
+  "storybookLogLevel": "info",
+  "uploadMetadata": true,
+  "playwright": false,
+  "cypress": false,
+  "modes": {
+    "mobile": {
+      "viewport": {
+        "width": 375,
+        "height": 667
+      },
+      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15"
+    },
+    "tablet": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "userAgent": "Mozilla/5.0 (iPad; CPU OS 14_0 like Mac OS X) AppleWebKit/605.1.15"
+    },
+    "desktop": {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      }
+    },
+    "desktopLarge": {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      }
+    }
+  },
+  "threshold": 0.2,
+  "diffThreshold": 0.1,
+  "diffIncludeAntiAliasing": false,
+  "scanSubdirectories": true,
+  "logLevel": "info"
+}

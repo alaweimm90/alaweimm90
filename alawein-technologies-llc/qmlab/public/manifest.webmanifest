@@ -1,0 +1,80 @@
+{
+  "name": "QMLab - Quantum Machine Learning Playground",
+  "short_name": "QMLab",
+  "description": "Interactive quantum machine learning playground for building and training quantum circuits in your browser",
+  "theme_color": "#0ea5e9",
+  "background_color": "#0a0a0a",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "productivity", "science"],
+  "lang": "en",
+  "shortcuts": [
+    {
+      "name": "Circuit Builder",
+      "short_name": "Circuits",
+      "description": "Build quantum circuits with drag-and-drop interface",
+      "url": "/#circuit-builder",
+      "icons": [
+        {
+          "src": "favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Bloch Sphere",
+      "short_name": "Bloch",
+      "description": "Visualize quantum states on the Bloch sphere",
+      "url": "/#bloch-sphere",
+      "icons": [
+        {
+          "src": "favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "Training Lab",
+      "short_name": "Training",
+      "description": "Train variational quantum circuits",
+      "url": "/#training-dashboard",
+      "icons": [
+        {
+          "src": "favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "placeholder.svg",
+      "type": "image/svg+xml",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "QMLab main interface with quantum circuit builder"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 480
+  }
+}

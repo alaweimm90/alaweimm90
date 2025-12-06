@@ -1,0 +1,5 @@
+# Librex.Flow Requirements
+numpy>=1.24.0
+
+# For graph algorithms
+# networkx>=3.0

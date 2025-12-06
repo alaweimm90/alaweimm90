@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "turing-hall-of-failures"
+version = "0.1.0"
+description = "Hall of Failures Database - Learn from failures to prevent repeated mistakes (Turing Challenge Feature #3)"
+readme = "README.md"
+authors = [
+    {name = "Project ATLAS", email = "atlas@example.com"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["turing-challenge", "failure-analysis", "lesson-learning", "autonomous-research", "meta-learning"]
+requires-python = ">=3.9"
+
+dependencies = [
+    "atlas-orchestrator>=0.1.0",
+    "pydantic>=2.0.0",
+    "typer>=0.9.0",
+    "rich>=13.0.0",
+    "sqlalchemy>=2.0.0",
+    "scikit-learn>=1.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+hall-of-failures = "hall_of_failures.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]

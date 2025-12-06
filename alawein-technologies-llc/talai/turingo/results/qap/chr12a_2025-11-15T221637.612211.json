@@ -1,0 +1,35 @@
+{
+  "problem_type": "qap",
+  "instance_name": "chr12a",
+  "objective_value": 116.70382727903949,
+  "solution": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "winning_paradigm": "classical",
+  "improvement_over_sota": -1.481588938295206,
+  "computation_time_seconds": 1.6158,
+  "validation_status": "FAIL",
+  "novelty_score": 83.81965081194295,
+  "proof_verified": false,
+  "agents_used": [
+    "Puzzle Prodigy",
+    "Ethics Enforcer",
+    "Blueprint Boss",
+    "Classical Squad",
+    "Benchmark Bandit",
+    "Novelty Ninja",
+    "Skeptic Sorcerer"
+  ],
+  "timestamp": "2025-11-15T22:16:37.612211"
+}

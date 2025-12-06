@@ -1,0 +1,304 @@
+#!/bin/bash
+# Blue-Green Deployment Pipeline for TalAI Services
+
+set -euo pipefail
+
+# Configuration
+NAMESPACE="talai"
+SERVICE_NAME="${1:-ORCHEX-orchestrator}"
+NEW_VERSION="${2:-v2.0.0}"
+ROLLBACK_ON_ERROR="${3:-true}"
+HEALTH_CHECK_RETRIES=30
+HEALTH_CHECK_INTERVAL=10
+CANARY_PERCENTAGE=10
+MONITORING_DURATION=300  # 5 minutes
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+log() {
+    echo -e "${BLUE}[$(date +'%Y-%m-%d %H:%M:%S')]${NC} $1"
+}
+
+error() {
+    echo -e "${RED}[ERROR]${NC} $1" >&2
+}
+
+success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+# Function to check deployment health
+check_deployment_health() {
+    local deployment=$1
+    local retries=$2
+
+    log "Checking health of deployment: $deployment"
+
+    for i in $(seq 1 $retries); do
+        local ready_replicas=$(kubectl get deployment $deployment -n $NAMESPACE -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo "0")
+        local desired_replicas=$(kubectl get deployment $deployment -n $NAMESPACE -o jsonpath='{.spec.replicas}' 2>/dev/null || echo "0")
+
+        if [ "$ready_replicas" == "$desired_replicas" ] && [ "$ready_replicas" != "0" ]; then
+            success "Deployment $deployment is healthy ($ready_replicas/$desired_replicas replicas ready)"
+            return 0
+        fi
+
+        warning "Deployment $deployment not ready yet ($ready_replicas/$desired_replicas). Attempt $i/$retries"
+        sleep $HEALTH_CHECK_INTERVAL
+    done
+
+    error "Deployment $deployment failed health check after $retries attempts"
+    return 1
+}
+
+# Function to monitor metrics
+monitor_metrics() {
+    local deployment=$1
+    local duration=$2
+
+    log "Monitoring metrics for $deployment for $duration seconds"
+
+    # Start monitoring in background
+    (
+        end_time=$(($(date +%s) + duration))
+        while [ $(date +%s) -lt $end_time ]; do
+            # Check error rate
+            error_rate=$(kubectl exec -n monitoring prometheus-0 -- \
+                promtool query instant 'rate(http_requests_total{job="'$deployment'",status=~"5.."}[5m]) / rate(http_requests_total{job="'$deployment'"}[5m])' \
+                2>/dev/null | grep -oP '\d+\.\d+' || echo "0")
+
+            # Check latency
+            p99_latency=$(kubectl exec -n monitoring prometheus-0 -- \
+                promtool query instant 'histogram_quantile(0.99, rate(http_request_duration_seconds_bucket{job="'$deployment'"}[5m]))' \
+                2>/dev/null | grep -oP '\d+\.\d+' || echo "0")
+
+            if (( $(echo "$error_rate > 0.01" | bc -l) )); then
+                error "High error rate detected: ${error_rate}%"
+                return 1
+            fi
+
+            if (( $(echo "$p99_latency > 1" | bc -l) )); then
+                warning "High P99 latency detected: ${p99_latency}s"
+            fi
+
+            sleep 30
+        done
+    ) &
+
+    monitor_pid=$!
+    return 0
+}
+
+# Function to perform blue-green switch
+switch_traffic() {
+    local from_color=$1
+    local to_color=$2
+    local percentage=$3
+
+    log "Switching traffic: $from_color -> $to_color ($percentage%)"
+
+    # Update Istio VirtualService
+    cat <<EOF | kubectl apply -f -
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ${SERVICE_NAME}-vs
+  namespace: $NAMESPACE
+spec:
+  hosts:
+    - ${SERVICE_NAME}.${NAMESPACE}.svc.cluster.local
+  http:
+    - route:
+        - destination:
+            host: ${SERVICE_NAME}.${NAMESPACE}.svc.cluster.local
+            subset: $from_color
+          weight: $((100 - percentage))
+        - destination:
+            host: ${SERVICE_NAME}.${NAMESPACE}.svc.cluster.local
+            subset: $to_color
+          weight: $percentage
+EOF
+
+    success "Traffic switch completed"
+}
+
+# Function to rollback deployment
+rollback() {
+    local deployment=$1
+
+    error "Rolling back deployment: $deployment"
+
+    # Revert to previous version
+    kubectl rollout undo deployment/$deployment -n $NAMESPACE
+
+    # Wait for rollback to complete
+    kubectl rollout status deployment/$deployment -n $NAMESPACE --timeout=600s
+
+    # Switch traffic back to blue
+    switch_traffic "green" "blue" 0
+
+    success "Rollback completed"
+}
+
+# Main deployment flow
+main() {
+    log "Starting blue-green deployment for $SERVICE_NAME version $NEW_VERSION"
+
+    # Step 1: Check current state
+    log "Checking current deployment state"
+    current_deployment="${SERVICE_NAME}-blue"
+    new_deployment="${SERVICE_NAME}-green"
+
+    if ! kubectl get deployment $current_deployment -n $NAMESPACE &>/dev/null; then
+        error "Blue deployment not found. Please ensure blue deployment exists"
+        exit 1
+    fi
+
+    # Step 2: Deploy green version
+    log "Deploying green version"
+    kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $new_deployment
+  namespace: $NAMESPACE
+  labels:
+    app: $SERVICE_NAME
+    version: $NEW_VERSION
+    color: green
+spec:
+  replicas: $(kubectl get deployment $current_deployment -n $NAMESPACE -o jsonpath='{.spec.replicas}')
+  selector:
+    matchLabels:
+      app: $SERVICE_NAME
+      color: green
+  template:
+    metadata:
+      labels:
+        app: $SERVICE_NAME
+        version: $NEW_VERSION
+        color: green
+    spec:
+      containers:
+        - name: $SERVICE_NAME
+          image: talai/$SERVICE_NAME:$NEW_VERSION
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DEPLOYMENT_COLOR
+              value: green
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 2Gi
+            limits:
+              cpu: 4000m
+              memory: 8Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+EOF
+
+    # Step 3: Wait for green deployment to be healthy
+    if ! check_deployment_health $new_deployment $HEALTH_CHECK_RETRIES; then
+        if [ "$ROLLBACK_ON_ERROR" == "true" ]; then
+            rollback $new_deployment
+        fi
+        exit 1
+    fi
+
+    # Step 4: Start canary traffic to green
+    log "Starting canary deployment with $CANARY_PERCENTAGE% traffic"
+    switch_traffic "blue" "green" $CANARY_PERCENTAGE
+
+    # Step 5: Monitor metrics
+    monitor_metrics $new_deployment $MONITORING_DURATION
+
+    # Wait for monitoring to complete
+    wait $monitor_pid
+    monitor_exit_code=$?
+
+    if [ $monitor_exit_code -ne 0 ]; then
+        error "Metrics monitoring detected issues"
+        if [ "$ROLLBACK_ON_ERROR" == "true" ]; then
+            rollback $new_deployment
+        fi
+        exit 1
+    fi
+
+    # Step 6: Gradually increase traffic to green
+    for percentage in 25 50 75 100; do
+        log "Increasing traffic to green: $percentage%"
+        switch_traffic "blue" "green" $percentage
+
+        # Brief monitoring after each increase
+        sleep 60
+
+        # Check error rates
+        error_rate=$(kubectl exec -n monitoring prometheus-0 -- \
+            promtool query instant 'rate(http_requests_total{job="'$new_deployment'",status=~"5.."}[1m]) / rate(http_requests_total{job="'$new_deployment'"}[1m])' \
+            2>/dev/null | grep -oP '\d+\.\d+' || echo "0")
+
+        if (( $(echo "$error_rate > 0.05" | bc -l) )); then
+            error "High error rate detected during traffic shift: ${error_rate}%"
+            if [ "$ROLLBACK_ON_ERROR" == "true" ]; then
+                rollback $new_deployment
+            fi
+            exit 1
+        fi
+    done
+
+    # Step 7: Complete the deployment
+    success "Blue-green deployment completed successfully"
+
+    # Step 8: Scale down blue deployment (keep it for quick rollback)
+    log "Scaling down blue deployment to 1 replica (for quick rollback)"
+    kubectl scale deployment $current_deployment -n $NAMESPACE --replicas=1
+
+    # Step 9: Update DNS/service endpoints if needed
+    kubectl patch service $SERVICE_NAME -n $NAMESPACE -p '{"spec":{"selector":{"color":"green"}}}'
+
+    success "Deployment of $SERVICE_NAME version $NEW_VERSION completed!"
+
+    # Output deployment summary
+    cat <<EOF
+
+==============================================
+DEPLOYMENT SUMMARY
+==============================================
+Service: $SERVICE_NAME
+New Version: $NEW_VERSION
+Deployment Type: Blue-Green
+Status: SUCCESS
+Green Deployment: $new_deployment
+Blue Deployment: $current_deployment (scaled to 1 replica)
+
+Next Steps:
+1. Monitor application metrics in Grafana
+2. Check application logs: kubectl logs -l app=$SERVICE_NAME,color=green -n $NAMESPACE
+3. If issues arise, rollback: kubectl rollout undo deployment/$new_deployment -n $NAMESPACE
+4. After stability confirmed, remove blue: kubectl delete deployment $current_deployment -n $NAMESPACE
+==============================================
+EOF
+}
+
+# Run main function
+main "$@"

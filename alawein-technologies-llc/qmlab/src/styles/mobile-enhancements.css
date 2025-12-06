@@ -1,0 +1,255 @@
+/* QMLab Mobile Experience Enhancements */
+
+/* Touch-optimized quantum interactions */
+@media (max-width: 768px) {
+  /* Enhanced touch targets for quantum gates */
+  .quantum-gate-touch {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    background: var(--glass-bg-subtle);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: var(--glass-backdrop-filter-subtle);
+    transition: var(--transition-elegant);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .quantum-gate-touch:active {
+    transform: scale(0.95);
+    background: var(--glass-bg);
+    border-color: var(--border-primary);
+  }
+
+  /* Mobile-optimized glass panels */
+  .glass-panel {
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: var(--space-2);
+  }
+
+  .glass-subtle {
+    border-radius: var(--radius-sm);
+    padding: var(--space-3);
+  }
+
+  /* Mobile command palette */
+  .command-palette-content {
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  /* Improved mobile typography */
+  .heading-refined-1 {
+    font-size: var(--font-size-3xl);
+    line-height: var(--line-height-tight);
+  }
+
+  .heading-refined-2 {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-tight);
+  }
+
+  .heading-refined-3 {
+    font-size: var(--font-size-xl);
+    line-height: var(--line-height-normal);
+  }
+
+  /* Mobile-optimized spacing */
+  .mobile-spacing-sm {
+    margin: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .mobile-spacing-md {
+    margin: var(--space-3);
+    padding: var(--space-4);
+  }
+
+  .mobile-spacing-lg {
+    margin: var(--space-4);
+    padding: var(--space-6);
+  }
+
+  /* Mobile grid optimizations */
+  .quantum-workspace {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    padding: var(--space-3);
+  }
+
+  /* Enhanced mobile focus states */
+  .mobile-focus:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.2);
+  }
+
+  /* Mobile-optimized animations */
+  .mobile-animate-subtle {
+    animation: mobile-fade-in 0.4s ease-out;
+  }
+
+  @keyframes mobile-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Disable complex animations on mobile for performance */
+  .glass-interactive:hover {
+    transform: none;
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Mobile-specific button enhancements */
+  .mobile-button-primary {
+    min-height: 48px;
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    border-radius: var(--radius-lg);
+    background: var(--gradient-primary);
+    color: var(--text-primary);
+    border: none;
+    box-shadow: var(--shadow-elevated);
+    transition: var(--transition-elegant);
+  }
+
+  .mobile-button-primary:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Enhanced mobile scrolling */
+  .mobile-scroll-enhanced {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-primary) transparent;
+  }
+
+  .mobile-scroll-enhanced::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .mobile-scroll-enhanced::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .mobile-scroll-enhanced::-webkit-scrollbar-thumb {
+    background: var(--border-primary);
+    border-radius: var(--radius-full);
+  }
+
+  /* Mobile-safe z-index adjustments */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .mobile-modal {
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    right: 5%;
+    bottom: 10%;
+    z-index: 1000;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border-strong);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-floating);
+    overflow: auto;
+  }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .quantum-workspace {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .glass-panel {
+    padding: var(--space-5);
+  }
+
+  /* Tablet-optimized command palette */
+  .command-palette-content {
+    max-width: 500px;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .glass-panel,
+  .glass-subtle,
+  .glass-minimal {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Sharper borders on high DPI */
+  .glass-border-enhanced {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark mode mobile enhancements */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .mobile-dark-enhancement {
+    background: rgba(15, 23, 42, 0.95);
+    color: var(--text-primary);
+  }
+
+  .mobile-button-primary {
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-glass);
+  }
+}
+
+/* Landscape mobile optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .quantum-workspace {
+    padding: var(--space-2);
+    gap: var(--space-3);
+  }
+
+  .glass-panel {
+    padding: var(--space-3);
+  }
+
+  .heading-refined-1,
+  .heading-refined-2,
+  .heading-refined-3 {
+    margin-bottom: var(--space-2);
+  }
+}
+
+/* Safe area support for devices with notches */
+@supports (padding: max(0px)) {
+  .mobile-safe-area {
+    padding-top: max(var(--space-4), env(safe-area-inset-top));
+    padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+    padding-left: max(var(--space-3), env(safe-area-inset-left));
+    padding-right: max(var(--space-3), env(safe-area-inset-right));
+  }
+}

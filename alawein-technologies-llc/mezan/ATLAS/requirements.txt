@@ -1,0 +1,20 @@
+# ATLAS Hypothesis Evaluation Platform - Dependencies
+# Python 3.9+
+
+# Web Framework
+flask>=2.3.0,<3.0.0
+flask-cors>=4.0.0
+flask-limiter>=3.5.0
+
+# Data Processing
+numpy>=1.24.0,<2.0.0
+scipy>=1.10.0,<2.0.0
+
+# Database
+sqlite3  # Built-in, but listed for clarity
+
+# Utilities
+python-dotenv>=1.0.0
+
+# Development Dependencies (install with: pip install -r requirements-dev.txt)
+# See requirements-dev.txt

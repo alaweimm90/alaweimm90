@@ -1,0 +1,299 @@
+/* Brand tech text effects: scanlines, micro‑pixel grid, and animated sheen
+   Uses existing design tokens (HSL) from index.css
+*/
+
+.brand-tech-text {
+  /* CSS Variables for tweakable density & intensity */
+  --grid-y-step: 3px;           /* horizontal scanline spacing */
+  --grid-x-step: 8px;           /* vertical micro-grid spacing */
+  --grid-alpha: 0.06;           /* grid/scanline opacity */
+  --micro-alpha: 0.05;          /* micro texture alpha (::after) */
+  --overlay-opacity: 0.35;      /* ::after overlay opacity */
+  --sheen-alpha: 0.25;          /* main sheen strength */
+  --sheen-soft-alpha: 0.05;     /* soft trailing sheen */
+
+  /* Layered backgrounds: brand gradient + micro grid + scanlines + moving sheen */
+  background-image:
+    var(--brand-gradient),
+    repeating-linear-gradient(0deg, hsl(var(--brand-ink) / var(--grid-alpha, 0.06)) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, hsl(var(--brand-ink) / var(--grid-alpha, 0.06)) 0 1px, transparent 1px 3px),
+    linear-gradient(110deg, transparent 0%, hsl(var(--brand-primary-glow) / var(--sheen-alpha, 0.25)) 45%, hsl(var(--brand-primary-glow) / var(--sheen-soft-alpha, 0.05)) 50%, transparent 55%);
+  background-size:
+    100% 100%,
+    100% var(--grid-y-step, 3px),
+    var(--grid-x-step, 8px) 100%,
+    300% 100%;
+  background-repeat:
+    no-repeat,
+    repeat,
+    repeat,
+    no-repeat;
+  background-position:
+    0 0,
+    0 0,
+    0 0,
+    -150% 0;
+
+  /* The text span already has bg-clip-text and text-transparent applied */
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  animation: brand-holo-sheen 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes brand-holo-sheen {
+  0% {
+    background-position: 0 0, 0 0, 0 0, -180% 0;
+  }
+  55% {
+    background-position: 0 0, 0 0, 0 0, 160% 0;
+  }
+  100% {
+    background-position: 0 0, 0 0, 0 0, 160% 0;
+  }
+}
+
+/* Subtle pixel micro‑texture overlay (very low opacity) */
+.brand-tech-text::after {
+  content: '';
+  position: absolute;
+  inset: -2% -1%;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(0deg, hsl(var(--brand-ink) / 0.05) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(90deg, hsl(var(--brand-ink) / 0.05) 0 1px, transparent 1px 2px);
+  background-size: 100% 2px, 2px 100%;
+  opacity: 0.35;
+  filter: saturate(1.05) contrast(1.02);
+  border-radius: 2px;
+}
+
+/* Variant B: RGB micro‑split + soft shimmer */
+.brand-tech-text-rgb {
+  background-image:
+    var(--brand-gradient),
+    repeating-linear-gradient(0deg, hsl(var(--brand-ink) / 0.04) 0 1px, transparent 1px 3px),
+    linear-gradient(110deg, transparent 0%, hsl(var(--brand-primary-glow) / 0.18) 45%, transparent 55%);
+  background-size:
+    100% 100%,
+    100% 3px,
+    300% 100%;
+  background-repeat:
+    no-repeat,
+    repeat,
+    no-repeat;
+  background-position:
+    0 0,
+    0 0,
+    -150% 0;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  animation: brand-holo-sheen 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  /* minute chromatic aberration */
+  text-shadow:
+    -0.4px 0 0 hsl(var(--brand-primary-glow) / 0.45),
+     0.4px 0 0 hsl(var(--brand-ink) / 0.45);
+}
+.brand-tech-text-rgb::after {
+  content: '';
+  position: absolute;
+  inset: -2% -1%;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(90deg, hsl(var(--brand-ink) / 0.05) 0 1px, transparent 1px 2px);
+  background-size: 2px 100%;
+  opacity: 0.3;
+}
+
+/* Variant C: Interference bands + slow shine */
+.brand-tech-text-bands {
+  background-image:
+    var(--brand-gradient),
+    repeating-linear-gradient(100deg, hsl(var(--brand-ink) / 0.05) 0 1px, transparent 1px 6px),
+    linear-gradient(110deg, transparent 0%, hsl(var(--brand-primary-glow) / 0.22) 40%, hsl(var(--brand-primary-glow) / 0.05) 48%, transparent 56%);
+  background-size:
+    100% 100%,
+    12px 100%,
+    300% 100%;
+  background-repeat:
+    no-repeat,
+    repeat,
+    no-repeat;
+  background-position:
+    0 0,
+    0 0,
+    -160% 0;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  animation: brand-bands-shift 5.5s ease-in-out infinite;
+}
+
+@keyframes brand-bands-shift {
+  0% { background-position: 0 0, 0 0, -180% 0; }
+  50% { background-position: 0 0, 10% 0, 140% 0; }
+  100% { background-position: 0 0, 20% 0, 140% 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .brand-tech-text,
+  .brand-tech-text-rgb,
+  .brand-tech-text-bands,
+  .brand-tech-text-glitch,
+  .brand-tech-text-crt,
+  .brand-tech-text-holo {
+    animation: none;
+  }
+}
+
+/* Modifiers: Pixel grid density */
+.brand-grid-tight { --grid-y-step: 2px; --grid-x-step: 6px; --bands-repeat-step: 4px; }
+.brand-grid-normal { --grid-y-step: 3px; --grid-x-step: 8px; --bands-repeat-step: 6px; }
+.brand-grid-loose { --grid-y-step: 4px; --grid-x-step: 12px; --bands-repeat-step: 8px; }
+
+/* Modifiers: Intensity controls */
+.brand-intensity-subtle {
+  --grid-alpha: 0.035;
+  --micro-alpha: 0.035;
+  --overlay-opacity: 0.25;
+  --sheen-alpha: 0.18;
+  --sheen-soft-alpha: 0.03;
+}
+.brand-intensity-medium {
+  --grid-alpha: 0.06;
+  --micro-alpha: 0.05;
+  --overlay-opacity: 0.35;
+  --sheen-alpha: 0.25;
+  --sheen-soft-alpha: 0.05;
+}
+.brand-intensity-vivid {
+  --grid-alpha: 0.1;
+  --micro-alpha: 0.08;
+  --overlay-opacity: 0.45;
+  --sheen-alpha: 0.32;
+  --sheen-soft-alpha: 0.07;
+}
+
+/* Variant D: Digital Glitch */
+.brand-tech-text-glitch {
+  background-image:
+    var(--brand-gradient),
+    repeating-linear-gradient(0deg, hsl(var(--brand-ink) / var(--grid-alpha, 0.08)) 0 1px, transparent 1px var(--grid-y-step, 3px)),
+    repeating-linear-gradient(90deg, hsl(var(--brand-ink) / var(--grid-alpha, 0.08)) 0 1px, transparent 1px var(--grid-x-step, 8px));
+  background-size:
+    100% 100%,
+    100% var(--grid-y-step, 3px),
+    var(--grid-x-step, 8px) 100%;
+  background-repeat: no-repeat, repeat, repeat;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* chromatic split */
+  text-shadow:
+    -1px 0 0 hsl(var(--brand-primary-glow) / 0.55),
+     1px 0 0 hsl(var(--brand-ink) / 0.55);
+  filter: saturate(1.12) contrast(1.06);
+  animation:
+    glitch-shift 2.8s steps(24, end) infinite,
+    brand-holo-sheen 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.brand-tech-text-glitch::after {
+  content: '';
+  position: absolute;
+  inset: -3% -2%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-image:
+    repeating-linear-gradient(0deg, hsl(var(--brand-primary-glow) / 0.10) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, hsl(var(--brand-ink) / 0.08) 0 1px, transparent 1px 2px);
+  background-size: 100% 2px, 2px 100%;
+  opacity: 0.35;
+  animation: glitch-scan 1.8s steps(30, end) infinite;
+}
+
+@keyframes glitch-shift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(0.5px, -0.2px); }
+  20% { transform: translate(-0.5px, 0.3px); }
+  30% { transform: translate(0.6px, 0.2px); }
+  40% { transform: translate(-0.6px, -0.3px); }
+  50% { transform: translate(0.4px, 0.1px); }
+  60% { transform: translate(-0.4px, -0.1px); }
+  70% { transform: translate(0.7px, -0.2px); }
+  80% { transform: translate(-0.7px, 0.2px); }
+  90% { transform: translate(0.2px, -0.1px); }
+}
+@keyframes glitch-scan {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 0 100%, 100% 0; }
+}
+
+/* Variant E: CRT Scanline + Flicker */
+.brand-tech-text-crt {
+  background-image:
+    var(--brand-gradient),
+    repeating-linear-gradient(0deg, hsl(var(--brand-ink) / 0.12) 0 1px, transparent 1px 3px);
+  background-size: 100% 100%, 100% var(--grid-y-step, 3px);
+  background-repeat: no-repeat, repeat;
+  position: relative;
+  text-shadow:
+    0 0 6px hsl(var(--brand-primary-glow) / 0.55),
+    0 0 12px hsl(var(--brand-primary-glow) / 0.35);
+  filter: saturate(1.08) contrast(1.04);
+  animation:
+    crt-flicker 1.8s steps(60, end) infinite,
+    brand-holo-sheen 4s ease-in-out infinite;
+}
+.brand-tech-text-crt::after {
+  content: '';
+  position: absolute;
+  inset: -3% -2%;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% 10%, transparent 30%, hsl(var(--brand-ink) / 0.08) 65%, transparent 80%),
+    linear-gradient(0deg, hsla(0,0%,100%,0.02), transparent 60%);
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+@keyframes crt-flicker {
+  0%, 2%, 4%, 100% { opacity: 1; }
+  1% { opacity: 0.92; }
+  3% { opacity: 0.96; }
+}
+
+/* Variant F: Holographic Diffraction */
+.brand-tech-text-holo {
+  background-image:
+    var(--brand-gradient);
+  background-size: 100% 100%;
+  position: relative;
+  filter: saturate(1.15) contrast(1.05);
+  animation: brand-holo-sheen 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.brand-tech-text-holo::after {
+  content: '';
+  position: absolute;
+  inset: -4% -2%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    conic-gradient(from 0deg at 50% 50%,
+      hsl(var(--brand-primary-glow) / 0.0) 0deg,
+      hsl(var(--brand-primary-glow) / 0.25) 60deg,
+      hsl(var(--brand-ink) / 0.15) 120deg,
+      hsl(var(--brand-primary-glow) / 0.3) 180deg,
+      hsl(var(--brand-ink) / 0.15) 240deg,
+      hsl(var(--brand-primary-glow) / 0.25) 300deg,
+      hsl(var(--brand-primary-glow) / 0.0) 360deg);
+  opacity: var(--overlay-opacity, 0.35);
+  border-radius: 2px;
+  transform-origin: 50% 50%;
+  animation: holo-rotate 12s linear infinite;
+}
+@keyframes holo-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

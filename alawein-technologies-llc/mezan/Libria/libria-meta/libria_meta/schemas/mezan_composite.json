@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "assignment": { "type": "object" },
+    "workflow": { "type": "object" },
+    "allocation": { "type": "object" }
+  }
+}
+

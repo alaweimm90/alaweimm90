@@ -1,0 +1,11 @@
+type: framework
+language: Python
+tier: 4
+coverage:
+  target: 70
+docs:
+  profile: minimal
+owner: AlaweinOS
+description: 'Repository: MEZAN'
+status: active
+created: '2025-11-26'

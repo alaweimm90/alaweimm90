@@ -1,0 +1,96 @@
+/* LLM Works Strategic Command Center - Unified Design Token System */
+
+:root {
+  /* Text System */
+  --text: 218 11% 95%;                    /* Primary text - high contrast */
+  --text-muted: 218 11% 70%;             /* Secondary text - muted */
+  --text-inverse: 222 84% 4%;            /* Inverse text for light backgrounds */
+
+  /* Surface System */
+  --bg: 222 84% 4%;                      /* Main background */
+  --surface-1: 215 25% 10%;              /* Elevated surface level 1 */
+  --surface-2: 215 20% 15%;              /* Elevated surface level 2 */
+  --surface-3: 215 20% 20%;              /* Elevated surface level 3 */
+
+  /* Border & Focus System */
+  --border: 215 20% 25%;                 /* Default border */
+  --border-strong: 215 20% 35%;          /* Strong border for emphasis */
+  --focus-ring: 217 91% 75%;             /* Focus ring - enhanced visibility */
+
+  /* Brand Roles - Core Identity */
+  --primary: 217 91% 60%;                /* Tactical Blue - main brand */
+  --primary-600: 217 91% 50%;            /* Primary hover state */
+  --primary-700: 217 91% 40%;            /* Primary active state */
+  --secondary: 215 20% 47%;              /* Neutral secondary */
+  --accent: 25 95% 53%;                  /* Victory Gold accent */
+
+  /* Status System - Semantic Colors */
+  --success: 142 76% 36%;                /* Success green */
+  --warning: 45 93% 53%;                 /* Warning yellow */
+  --danger: 0 73% 41%;                   /* Danger red */
+  --info: 217 91% 60%;                   /* Info blue (matches primary) */
+
+  /* Glass Morphism System */
+  --glass-bg: rgba(16, 25, 45, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 18px;
+  
+  /* Theme Variants - Override brand roles only */
+}
+
+.theme--tactical-blue {
+  --primary: 214 84% 56%;
+  --primary-600: 214 84% 46%;
+  --primary-700: 214 84% 36%;
+  --accent: 195 100% 50%;
+}
+
+.theme--neural-network {
+  --primary: 250 84% 70%;
+  --primary-600: 250 84% 60%;
+  --primary-700: 250 84% 50%;
+  --accent: 340 82% 65%;
+}
+
+.theme--cyber-matrix {
+  --primary: 162 73% 46%;
+  --primary-600: 162 73% 36%;
+  --primary-700: 162 73% 26%;
+  --accent: 195 100% 58%;
+}
+
+.theme--stealth-mode {
+  --primary: 215 16% 65%;
+  --primary-600: 215 16% 55%;
+  --primary-700: 215 16% 45%;
+  --accent: 215 20% 75%;
+}
+
+/* Component-Specific Tokens */
+:root {
+  /* Typography Scale */
+  --heading-tracking: -0.01em;
+  --body-tracking: 0;
+  --caption-tracking: 0.02em;
+  
+  /* Spacing Scale */
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-12: 3rem;     /* 48px */
+  
+  /* Icon Scale */
+  --icon-sm: 14px;
+  --icon-md: 16px;
+  --icon-lg: 20px;
+  --icon-xl: 24px;
+  
+  /* Shadow Scale */
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-2: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-3: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-4: 0 20px 25px rgba(0, 0, 0, 0.15);
+}

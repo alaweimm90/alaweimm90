@@ -1,0 +1,192 @@
+/* =====================================================================
+   SEMANTIC TOKEN UTILITIES
+   Migration bridge for moving from hardcoded colors to semantic tokens
+   ===================================================================== */
+
+@layer utilities {
+  /* Background Utilities */
+  .bg-brand-primary { @apply bg-[hsl(var(--repz-orange))]; }
+  .bg-brand-secondary { @apply bg-[hsl(var(--blue-steel))]; }
+  .bg-brand-accent { @apply bg-[hsl(var(--amber-elegant))]; }
+  .bg-surface-glass { @apply bg-[var(--surface-glass)]; }
+  .bg-surface-frost { @apply bg-[var(--surface-frost)]; }
+  .bg-surface-smoke { @apply bg-[var(--surface-smoke)]; }
+  .bg-surface-velvet { @apply bg-[var(--surface-velvet)]; }
+  
+  /* Text Color Utilities */
+  .text-brand-primary { @apply text-[hsl(var(--repz-orange))]; }
+  .text-brand-secondary { @apply text-[hsl(var(--blue-steel))]; }
+  .text-brand-accent { @apply text-[hsl(var(--amber-elegant))]; }
+  .text-content-primary { @apply text-[hsl(var(--pearl-subtle))]; }
+  .text-content-muted { @apply text-[hsl(var(--silver-muted))]; }
+  
+  /* Border Utilities */
+  .border-brand-primary { @apply border-[hsl(var(--repz-orange))]; }
+  .border-brand-secondary { @apply border-[hsl(var(--blue-steel))]; }
+  .border-surface { @apply border-[hsl(var(--silver-muted))]; }
+  
+  /* Shadow & Glow Utilities */
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-floating { box-shadow: var(--shadow-floating); }
+  .shadow-subtle { box-shadow: var(--shadow-subtle); }
+  .glow-orange { box-shadow: var(--glow-orange); }
+  .glow-gold { box-shadow: var(--glow-gold); }
+  .glow-blue { box-shadow: var(--glow-blue); }
+  .glow-purple { box-shadow: var(--glow-purple); }
+  
+  /* Animation Utilities */
+  .animate-elegant-float {
+    animation: elegantFloat var(--timing-elegant) var(--easing-elegant) infinite;
+  }
+  
+  .animate-sophisticated-pulse {
+    animation: sophisticatedPulse var(--timing-smooth) var(--easing-smooth) infinite;
+  }
+  
+  .animate-premium-glow {
+    animation: premiumGlow var(--timing-luxurious) var(--easing-premium) infinite;
+  }
+  
+  .animate-gradient-shift {
+    animation: gradientShift var(--timing-elegant) var(--easing-elegant) infinite;
+    background-size: 200% 200%;
+  }
+  
+  .animate-subtle-shimmer {
+    animation: subtleShimmer var(--timing-smooth) var(--easing-smooth) infinite;
+  }
+  
+  .animate-elegant-slide {
+    animation: elegantSlide var(--timing-smooth) var(--easing-elegant) forwards;
+  }
+  
+  .animate-fade-in-slow {
+    animation: fadeInSlow var(--timing-elegant) var(--easing-elegant) forwards;
+  }
+  
+  /* Timing Utilities */
+  .transition-instant { transition-duration: var(--timing-instant); }
+  .transition-quick { transition-duration: var(--timing-quick); }
+  .transition-smooth { transition-duration: var(--timing-smooth); }
+  .transition-elegant { transition-duration: var(--timing-elegant); }
+  .transition-luxurious { transition-duration: var(--timing-luxurious); }
+  
+  /* Easing Utilities */
+  .ease-premium { transition-timing-function: var(--easing-premium); }
+  .ease-elegant { transition-timing-function: var(--easing-elegant); }
+  .ease-smooth { transition-timing-function: var(--easing-smooth); }
+  
+  /* Glass Morphism Utilities */
+  .glass-light {
+    background: var(--surface-glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsla(var(--silver-muted), 0.2);
+  }
+  
+  .glass-medium {
+    background: var(--surface-frost);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid hsla(var(--silver-muted), 0.3);
+  }
+  
+  .glass-heavy {
+    background: var(--surface-smoke);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid hsla(var(--silver-muted), 0.4);
+  }
+  
+  /* Brand Gradient Utilities */
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, 
+      hsl(var(--repz-orange)) 0%, 
+      hsl(var(--amber-elegant)) 50%, 
+      hsl(var(--gold-luxe)) 100%);
+  }
+  
+  .bg-gradient-elegant {
+    background: linear-gradient(165deg, 
+      hsl(var(--blue-steel)) 0%, 
+      hsl(var(--teal-elegant)) 50%, 
+      hsl(var(--purple-luxe)) 100%);
+  }
+  
+  .bg-gradient-dark {
+    background: var(--bg-primary);
+  }
+  
+  .bg-gradient-hero {
+    background: var(--bg-hero);
+  }
+  
+  /* Responsive Hide/Show for Theme Migration */
+  .theme-legacy { 
+    display: var(--use-semantic-tokens, block);
+  }
+  
+  .theme-modern {
+    display: var(--use-semantic-tokens, none);
+  }
+}
+
+/* =====================================================================
+   COMPONENT-SPECIFIC SEMANTIC OVERRIDES
+   For gradual migration - these can override hardcoded styles
+   ===================================================================== */
+
+/* Button semantic styling */
+.btn-brand {
+  @apply bg-brand-primary text-white hover:opacity-90 transition-elegant;
+  box-shadow: var(--glow-orange);
+}
+
+.btn-secondary {
+  @apply bg-brand-secondary text-white hover:opacity-90 transition-elegant;
+  box-shadow: var(--glow-blue);
+}
+
+.btn-accent {
+  @apply bg-brand-accent text-[hsl(var(--charcoal-premium))] hover:opacity-90 transition-elegant;
+  box-shadow: var(--glow-gold);
+}
+
+/* Card semantic styling */
+.card-glass {
+  @apply glass-medium shadow-floating transition-elegant;
+}
+
+.card-elegant {
+  @apply bg-[hsl(var(--graphite-soft))] border-surface shadow-subtle transition-elegant;
+}
+
+/* Text semantic styling */
+.text-heading {
+  @apply text-content-primary font-bold;
+}
+
+.text-body {
+  @apply text-content-primary;
+}
+
+.text-muted {
+  @apply text-content-muted;
+}
+
+/* Status color mappings using semantic tokens */
+.status-success {
+  @apply bg-[hsl(var(--teal-elegant))] text-white;
+}
+
+.status-warning {
+  @apply bg-[hsl(var(--amber-elegant))] text-[hsl(var(--charcoal-premium))];
+}
+
+.status-error {
+  @apply bg-[hsl(var(--destructive))] text-[hsl(var(--destructive-foreground))];
+}
+
+.status-info {
+  @apply bg-[hsl(var(--blue-steel))] text-white;
+}

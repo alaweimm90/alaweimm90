@@ -1,0 +1,66 @@
+[
+  {
+    "claim": "Our modified genetic algorithm achieves 15% improvement on TSP instances compared to standard GA",
+    "domain": "optimization",
+    "context": "Tested on 25 TSPLIB instances ranging from 50 to 200 cities",
+    "evidence": [
+      "Average tour length reduction of 15.3% across all instances",
+      "Statistical significance p < 0.01 via paired t-test",
+      "Consistent improvement across different city counts"
+    ],
+    "assumptions": [
+      "Same population size and generation count for both algorithms",
+      "Standard crossover and mutation operators",
+      "Computational budget is identical"
+    ],
+    "predictions": [
+      "Improvement will hold on untested TSPLIB instances",
+      "Improvement may not generalize to non-TSP routing problems",
+      "Performance depends on population diversity maintenance"
+    ]
+  },
+  {
+    "claim": "Deep learning model achieves state-of-the-art performance on MNIST dataset",
+    "domain": "machine_learning",
+    "context": "CNN architecture with 5 layers, trained on full MNIST training set",
+    "evidence": [
+      "Test accuracy: 99.2%",
+      "Outperforms baseline by 0.5%"
+    ],
+    "assumptions": [
+      "Standard MNIST train/test split",
+      "No data augmentation"
+    ]
+  },
+  {
+    "claim": "Proposed sorting algorithm has O(n log n) worst-case complexity",
+    "domain": "computer_science",
+    "context": "Comparison-based sorting using modified quicksort with median-of-medians pivot",
+    "assumptions": [
+      "Input is an array of comparable elements",
+      "Random access to array elements is O(1)"
+    ],
+    "predictions": [
+      "Will maintain O(n log n) on adversarial inputs",
+      "Constants are higher than standard quicksort"
+    ]
+  },
+  {
+    "claim": "New approximation algorithm achieves 1.5-approximation for vertex cover",
+    "domain": "mathematics",
+    "context": "Polynomial-time greedy algorithm with local search refinement",
+    "evidence": [
+      "Theoretical proof of 1.5-approximation ratio",
+      "Experimental validation on random graphs"
+    ],
+    "assumptions": [
+      "Graph is undirected and unweighted",
+      "Approximation ratio measured against optimal solution"
+    ]
+  },
+  {
+    "claim": "Method always produces optimal results",
+    "domain": "general",
+    "context": "Tested on a few examples"
+  }
+]

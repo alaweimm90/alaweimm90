@@ -1,0 +1,238 @@
+/**
+ * Card Molecule Styles - Design Token Consumption
+ * Professional card component with consistent elevation system
+ */
+
+.repz-card {
+  /* Base structure using design tokens */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  word-wrap: break-word;
+  background-clip: border-box;
+  
+  /* Border radius from tokens */
+  border-radius: var(--radius-lg);
+  
+  /* Transitions from tokens */
+  transition: all var(--transition-normal) var(--easing-ease-out);
+  
+  /* Ensure proper text color inheritance */
+  color: var(--color-text-primary);
+}
+
+/* Variant Styles - All using design tokens */
+.repz-card--default {
+  background-color: var(--color-surface-elevated);
+  box-shadow: var(--shadow-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.repz-card--elevated {
+  background-color: var(--color-surface-elevated);
+  box-shadow: var(--shadow-moderate);
+  border: none;
+}
+
+.repz-card--outlined {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+}
+
+.repz-card--glass {
+  background-color: var(--color-surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-moderate);
+}
+
+/* Interactive States */
+.repz-card--interactive {
+  cursor: pointer;
+}
+
+.repz-card--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-strong);
+}
+
+.repz-card--interactive:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-moderate);
+}
+
+.repz-card--interactive:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Padding Variants - Using design token spacing */
+.repz-card--padding-sm {
+  padding: var(--spacing-sm);
+}
+
+.repz-card--padding-md {
+  padding: var(--spacing-md);
+}
+
+.repz-card--padding-lg {
+  padding: var(--spacing-lg);
+}
+
+.repz-card--padding-xl {
+  padding: var(--spacing-xl);
+}
+
+/* Card Structure Elements */
+.repz-card__header {
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: var(--spacing-md);
+}
+
+.repz-card__header:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.repz-card__content {
+  flex: 1;
+  padding: 0;
+}
+
+.repz-card__footer {
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: var(--spacing-md);
+}
+
+.repz-card__footer:first-child {
+  padding-top: 0;
+  border-top: none;
+  margin-top: 0;
+}
+
+/* Nested Card Overrides */
+.repz-card .repz-card__header + .repz-card__content {
+  padding-top: 0;
+}
+
+.repz-card .repz-card__content + .repz-card__footer {
+  padding-top: var(--spacing-md);
+}
+
+/* Typography inside cards */
+.repz-card h1,
+.repz-card h2,
+.repz-card h3,
+.repz-card h4,
+.repz-card h5,
+.repz-card h6 {
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.repz-card h1:last-child,
+.repz-card h2:last-child,
+.repz-card h3:last-child,
+.repz-card h4:last-child,
+.repz-card h5:last-child,
+.repz-card h6:last-child {
+  margin-bottom: 0;
+}
+
+.repz-card p {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.repz-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Special card variants for tier system */
+.repz-card--tier-core {
+  border-left: 4px solid var(--color-tier-core);
+}
+
+.repz-card--tier-adaptive {
+  border-left: 4px solid var(--color-tier-adaptive);
+}
+
+.repz-card--tier-performance {
+  border-left: 4px solid var(--color-tier-performance);
+}
+
+.repz-card--tier-longevity {
+  border-left: 4px solid var(--color-tier-longevity);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-elevated) 0%,
+    rgba(204, 153, 0, 0.05) 100%
+  );
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .repz-card--padding-lg {
+    padding: var(--spacing-md);
+  }
+  
+  .repz-card--padding-xl {
+    padding: var(--spacing-lg);
+  }
+  
+  .repz-card__header {
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .repz-card__footer {
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .repz-card {
+    transition: none;
+  }
+  
+  .repz-card--interactive:hover {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .repz-card--default,
+  .repz-card--elevated {
+    border: 2px solid var(--color-text-primary);
+  }
+  
+  .repz-card--outlined {
+    border-width: 2px;
+  }
+  
+  .repz-card__header {
+    border-bottom-width: 2px;
+  }
+  
+  .repz-card__footer {
+    border-top-width: 2px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .repz-card {
+    background: white !important;
+    border: 1px solid black !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+}

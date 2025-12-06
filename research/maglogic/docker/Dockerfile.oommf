@@ -1,0 +1,322 @@
+# OOMMF with TCL/Tk Support for MagLogic
+# Comprehensive OOMMF simulation environment with GUI support
+# Author: Meshal Alawein <meshal@berkeley.edu>
+# Based on Ubuntu 20.04 LTS with OOMMF 2.0
+
+FROM ubuntu:20.04
+
+LABEL maintainer="Meshal Alawein <meshal@berkeley.edu>"
+LABEL description="OOMMF micromagnetic simulation environment for MagLogic"
+LABEL version="2.0.0"
+LABEL org.opencontainers.image.source="https://github.com/alaweimm90/MagLogic" 
+LABEL org.opencontainers.image.documentation="https://alaweimm90.github.io/MagLogic/"
+LABEL org.opencontainers.image.licenses="MIT"
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# Set up locale to avoid potential issues
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Build essentials
+    build-essential \
+    g++ \
+    gfortran \
+    make \
+    cmake \
+    pkg-config \
+    # TCL/Tk for OOMMF
+    tcl-dev \
+    tk-dev \
+    tcllib \
+    tklib \
+    # X11 and display support  
+    xvfb \
+    x11-apps \
+    x11-utils \
+    xauth \
+    # Graphics libraries
+    libgl1-mesa-glx \
+    libglu1-mesa \
+    libxt6 \
+    # Network and download tools
+    wget \
+    curl \
+    ca-certificates \
+    # Archive tools
+    unzip \
+    tar \
+    gzip \
+    # Version control
+    git \
+    # Text editors
+    vim \
+    nano \
+    # Python for advanced post-processing
+    python3 \
+    python3-pip \
+    python3-dev \
+    python3-setuptools \
+    python3-wheel \
+    # Additional utilities
+    htop \
+    tree \
+    less \
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/*
+
+# Create non-root user for security
+RUN useradd -m -s /bin/bash -u 1000 oommf && \
+    usermod -aG sudo oommf && \
+    echo "oommf ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# Set up working directory
+WORKDIR /opt
+
+# Download and install OOMMF
+ENV OOMMF_VERSION=20a3
+ENV OOMMF_ROOT=/opt/oommf
+ENV OOMMF_DATE=20191002
+
+# Download OOMMF from NIST
+RUN wget -q --timeout=30 --tries=3 \
+    https://math.nist.gov/oommf/dist/oommf${OOMMF_VERSION}_${OOMMF_DATE}.tar.gz \
+    -O oommf.tar.gz && \
+    tar -xzf oommf.tar.gz && \
+    mv oommf oommf-${OOMMF_VERSION} && \
+    ln -s oommf-${OOMMF_VERSION} oommf && \
+    rm oommf.tar.gz && \
+    chown -R oommf:oommf /opt/oommf*
+
+# Set environment variables
+ENV PATH="${OOMMF_ROOT}:${PATH}"
+ENV OOMMF_ROOT="${OOMMF_ROOT}"
+ENV TCL_LIBRARY="/usr/share/tcltk/tcl8.6"
+ENV TK_LIBRARY="/usr/share/tcltk/tk8.6"
+ENV DISPLAY=:99
+
+# Install Python packages for MagLogic analysis
+RUN pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir \
+    numpy>=1.21.0 \
+    scipy>=1.7.0 \
+    matplotlib>=3.5.0 \
+    pandas>=1.3.0 \
+    jupyter>=1.0.0 \
+    jupyterlab>=3.0.0 \
+    notebook>=6.4.0 \
+    h5py>=3.2.0 \
+    pillow>=8.3.0 \
+    plotly>=5.0.0 \
+    tqdm>=4.61.0 \
+    pyyaml>=5.4.0
+
+# Switch to oommf user for compilation
+USER oommf
+WORKDIR ${OOMMF_ROOT}
+
+# Configure and build OOMMF
+RUN echo "Configuring OOMMF..." && \
+    tclsh oommf.tcl +platform && \
+    echo "Building OOMMF..." && \
+    tclsh oommf.tcl pimake distclean && \
+    tclsh oommf.tcl pimake upgrade && \
+    tclsh oommf.tcl pimake && \
+    echo "OOMMF build completed"
+
+# Verify OOMMF installation
+RUN tclsh oommf.tcl +version
+
+# Set up user environment
+USER root
+WORKDIR /home/oommf
+
+# Create directories for simulations and results
+RUN mkdir -p /home/oommf/{simulations,results,scripts,data} && \
+    chown -R oommf:oommf /home/oommf
+
+# Install additional useful tools
+RUN pip3 install --no-cache-dir \
+    ipywidgets \
+    ipympl \
+    seaborn \
+    scikit-learn \
+    numba
+
+# Copy MagLogic simulation files (if available)
+COPY --chown=oommf:oommf oommf/ /home/oommf/simulations/oommf/
+COPY --chown=oommf:oommf python/ /home/oommf/python/
+COPY --chown=oommf:oommf examples/ /home/oommf/examples/
+
+# Create startup script with comprehensive functionality
+RUN cat > /usr/local/bin/start-oommf.sh << 'EOF'
+#!/bin/bash
+
+# MagLogic OOMMF Container Startup Script
+# Author: Meshal Alawein <meshal@berkeley.edu>
+
+set -e
+
+echo "=================================================="
+echo "MagLogic OOMMF Simulation Environment"
+echo "=================================================="
+echo "Author: Meshal Alawein"
+echo "Institution: UC Berkeley"
+echo "Container Version: 2.0.0"
+echo "=================================================="
+
+# Start virtual display for headless operation
+echo "Starting virtual display..."
+Xvfb :99 -screen 0 1920x1080x24 -dpi 100 &
+export DISPLAY=:99
+sleep 2
+
+# Test X11 functionality
+if command -v xset >/dev/null 2>&1; then
+    echo "Testing X11 display..."
+    if xset q >/dev/null 2>&1; then
+        echo "✓ X11 display working"
+    else
+        echo "⚠ X11 display may have issues"
+    fi
+fi
+
+# Test OOMMF installation
+echo "Testing OOMMF installation..."
+cd ${OOMMF_ROOT}
+if tclsh oommf.tcl +version >/dev/null 2>&1; then
+    echo "✓ OOMMF installation verified"
+    tclsh oommf.tcl +version
+else
+    echo "✗ OOMMF installation failed"
+    exit 1
+fi
+
+# Set up environment
+echo "Setting up environment..."
+echo "OOMMF_ROOT: ${OOMMF_ROOT}"
+echo "PATH includes OOMMF: $(echo $PATH | grep -q oommf && echo "Yes" || echo "No")"
+
+# Python environment info
+echo "Python environment:"
+python3 --version
+echo "Available packages: numpy, scipy, matplotlib, pandas, jupyter"
+
+# Display usage information
+echo ""
+echo "=================================================="
+echo "USAGE INSTRUCTIONS"
+echo "=================================================="
+echo ""
+echo "1. Run OOMMF simulations:"
+echo "   cd /home/oommf/simulations"
+echo "   tclsh \${OOMMF_ROOT}/oommf.tcl boxsi +fg simulation.mif"
+echo ""
+echo "2. Launch OOMMF GUI (if X11 forwarding enabled):"
+echo "   tclsh \${OOMMF_ROOT}/oommf.tcl"
+echo ""
+echo "3. Start Jupyter Lab for analysis:"
+echo "   jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root"
+echo ""
+echo "4. Run example simulations:"
+echo "   cd /home/oommf/examples"
+echo "   python3 run_basic_triangle.py"
+echo ""
+echo "5. Access Python analysis tools:"
+echo "   python3 -c \"import sys; sys.path.append('/home/oommf/python'); import maglogic\""
+echo ""
+echo "=================================================="
+
+# Change to oommf user home directory
+cd /home/oommf
+
+# Handle different startup modes
+case "$1" in
+    "jupyter")
+        echo "Starting Jupyter Lab..."
+        sudo -u oommf jupyter lab --ip=0.0.0.0 --port=8888 --no-browser \
+                                  --allow-root --notebook-dir=/home/oommf
+        ;;
+    "gui")
+        echo "Starting OOMMF GUI..."
+        sudo -u oommf tclsh ${OOMMF_ROOT}/oommf.tcl
+        ;;
+    "test")
+        echo "Running test simulation..."
+        cd /home/oommf/simulations/oommf/basic
+        sudo -u oommf timeout 300 tclsh ${OOMMF_ROOT}/oommf.tcl boxsi +fg single_triangle.mif
+        echo "Test completed successfully!"
+        ;;
+    "shell"|"bash")
+        echo "Starting interactive shell..."
+        exec sudo -u oommf /bin/bash
+        ;;
+    "daemon"|"--daemon")
+        echo "Container running in daemon mode..."
+        echo "Connect with: docker exec -it <container_name> /bin/bash"
+        tail -f /dev/null
+        ;;
+    *)
+        if [ $# -eq 0 ]; then
+            echo "Starting interactive shell..."
+            exec sudo -u oommf /bin/bash
+        else
+            echo "Executing command: $@"
+            exec sudo -u oommf "$@"
+        fi
+        ;;  
+esac
+EOF
+
+# Make startup script executable
+RUN chmod +x /usr/local/bin/start-oommf.sh
+
+# Create convenient aliases
+RUN echo 'alias oommf="tclsh ${OOMMF_ROOT}/oommf.tcl"' >> /home/oommf/.bashrc && \
+    echo 'alias boxsi="tclsh ${OOMMF_ROOT}/oommf.tcl boxsi +fg"' >> /home/oommf/.bashrc && \
+    echo 'alias oommf-gui="tclsh ${OOMMF_ROOT}/oommf.tcl &"' >> /home/oommf/.bashrc && \
+    echo 'export PATH="${OOMMF_ROOT}:${PATH}"' >> /home/oommf/.bashrc && \
+    echo 'cd /home/oommf' >> /home/oommf/.bashrc
+
+# Set appropriate permissions
+RUN chown -R oommf:oommf /home/oommf
+
+# Expose ports for Jupyter and potential web interfaces
+EXPOSE 8888 8080 8000
+
+# Volume mounts for persistent data
+VOLUME ["/home/oommf/simulations", "/home/oommf/results", "/home/oommf/data"]
+
+# Health check to verify OOMMF functionality
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD tclsh ${OOMMF_ROOT}/oommf.tcl +version || exit 1
+
+# Switch back to oommf user
+USER oommf
+WORKDIR /home/oommf
+
+# Default entrypoint
+ENTRYPOINT ["/usr/local/bin/start-oommf.sh"]
+CMD ["shell"]
+
+# Build information
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/alaweimm90/MagLogic" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
+
+# Final setup message
+RUN echo "MagLogic OOMMF container build completed successfully!" && \
+    echo "Run with: docker run -it --rm meshalalawein/maglogic:oommf" && \
+    echo "For GUI: docker run -it --rm -e DISPLAY=\$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix meshalalawein/maglogic:oommf gui"

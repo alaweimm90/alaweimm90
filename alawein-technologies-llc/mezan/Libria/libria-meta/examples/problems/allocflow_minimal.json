@@ -1,0 +1,9 @@
+{
+  "budget": 7,
+  "options": [
+    {"id": "A", "cost": 3, "expected_return": 5},
+    {"id": "B", "cost": 2, "expected_return": 3},
+    {"id": "C", "cost": 4, "expected_return": 4}
+  ]
+}
+

@@ -1,0 +1,38 @@
+# Accepted terminology - project-specific terms
+# These are allowed and won't be flagged
+
+# Projects
+Optilibria
+ATLAS
+MeatheadPhysicist
+REPZCoach
+
+# Technical terms
+L-BFGS
+CMA-ES
+GPU
+CUDA
+NumPy
+SciPy
+PyTorch
+TensorFlow
+
+# Institutions
+UC Berkeley
+Berkeley
+
+# Proper names
+Meshal Alawein
+GitHub
+Python
+JavaScript
+TypeScript
+Jupyter
+
+# Domain-specific
+quantum
+optimization
+spintronics
+self-refutation
+multi-agent
+

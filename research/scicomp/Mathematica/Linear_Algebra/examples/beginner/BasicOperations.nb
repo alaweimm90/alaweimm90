@@ -1,0 +1,868 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     45876,       1125]
+NotebookOptionsPosition[     42634,       1058]
+NotebookOutlinePosition[     43073,       1075]
+CellTagsIndexPosition[     43030,       1072]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Basic Linear Algebra Operations - Beginner Example", "Title",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "This notebook demonstrates fundamental linear algebra operations including\n\
+vector operations, matrix arithmetic, and basic problem solving.\n\n",
+ StyleBox["Learning Objectives:", "Subsubsection"],
+ "\n\[Bullet] Understand vector and matrix representations\n\[Bullet] \
+Perform basic arithmetic operations\n\[Bullet] Compute norms, dot products, \
+and cross products\n\[Bullet] Solve simple linear systems\n\[Bullet] \
+Visualize geometric interpretations"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["Setup and Dependencies", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/MatrixOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/VectorOperations.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/LinearSystems.wl\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+  "Print", "[", "\"\<Linear Algebra packages loaded successfully!\>\"", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"berkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"50", "/", "255"}], ",", " ", 
+     RowBox[{"98", "/", "255"}]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"californiaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     RowBox[{"253", "/", "255"}], ",", " ", 
+     RowBox[{"181", "/", "255"}], ",", " ", 
+     RowBox[{"21", "/", "255"}]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Vector Operations", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["1. Creating Vectors", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"u", "=", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "4"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"v", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "2"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"w", "=", 
+   RowBox[{"{", 
+    RowBox[{"2", ",", 
+     RowBox[{"-", "1"}], ",", "3"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<2D Vector u: \>\"", ",", " ", "u"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<2D Vector v: \>\"", ",", " ", "v"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<3D Vector w: \>\"", ",", " ", "w"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["2. Vector Arithmetic", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"sumUV", "=", 
+   RowBox[{"VectorOperations`VectorAddChecked", "[", 
+    RowBox[{"u", ",", "v"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"diffUV", "=", 
+   RowBox[{"VectorOperations`VectorSubtractChecked", "[", 
+    RowBox[{"u", ",", "v"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"scaledU", "=", 
+   RowBox[{"VectorOperations`ScalarMultiplyChecked", "[", 
+    RowBox[{"2.5", ",", "u"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<u + v = \>\"", ",", " ", "sumUV"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<u - v = \>\"", ",", " ", "diffUV"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<2.5 * u = \>\"", ",", " ", "scaledU"}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["3. Vector Magnitude and Direction", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"magU", "=", 
+   RowBox[{"VectorOperations`MagnitudeChecked", "[", "u", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"magV", "=", 
+   RowBox[{"VectorOperations`MagnitudeChecked", "[", "v", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"uUnit", "=", 
+   RowBox[{"VectorOperations`NormalizeChecked", "[", "u", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"vUnit", "=", 
+   RowBox[{"VectorOperations`NormalizeChecked", "[", "v", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Magnitude of u: \>\"", ",", " ", 
+    RowBox[{"N", "[", "magU", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Magnitude of v: \>\"", ",", " ", 
+    RowBox[{"N", "[", "magV", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Unit vector in direction of u: \>\"", ",", " ", 
+    RowBox[{"N", "[", "uUnit", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Unit vector in direction of v: \>\"", ",", " ", 
+    RowBox[{"N", "[", "vUnit", "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["4. Dot Product and Angle", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"dotUV", "=", 
+   RowBox[{"VectorOperations`DotProductChecked", "[", 
+    RowBox[{"u", ",", "v"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"angleUV", "=", 
+   RowBox[{"VectorOperations`AngleBetweenChecked", "[", 
+    RowBox[{"u", ",", "v", ",", "True"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<u \[CenterDot] v = \>\"", ",", " ", "dotUV"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Angle between u and v: \>\"", ",", " ", 
+    RowBox[{"N", "[", "angleUV", "]"}], ",", " ", "\"\< degrees\>\""}], "]"}],
+   ";"}], "\n", 
+ RowBox[{
+  RowBox[{"orthogonalToU", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      RowBox[{"u", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ",", 
+     RowBox[{"u", "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dotOrthogonal", "=", 
+   RowBox[{"VectorOperations`DotProductChecked", "[", 
+    RowBox[{"u", ",", "orthogonalToU"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vector orthogonal to u: \>\"", ",", " ", "orthogonalToU"}], 
+   "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<u \[CenterDot] orthogonal_vector = \>\"", ",", " ", 
+    "dotOrthogonal", ",", " ", "\"\< (should be 0)\>\""}], "]"}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["5. Cross Product (3D)", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"a3d", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"b3d", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"crossAB", "=", 
+   RowBox[{"VectorOperations`CrossProductChecked", "[", 
+    RowBox[{"a3d", ",", "b3d"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{
+   "\"\<x-axis \[Times] y-axis = \>\"", ",", " ", "crossAB", ",", " ", 
+    "\"\< (should be z-axis)\>\""}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Cross product is orthogonal to both inputs:\>\""}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<  (x \[Times] y) \[CenterDot] x = \>\"", ",", " ", 
+    RowBox[{"VectorOperations`DotProductChecked", "[", 
+     RowBox[{"crossAB", ",", "a3d"}], "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<  (x \[Times] y) \[CenterDot] y = \>\"", ",", " ", 
+    RowBox[{"VectorOperations`DotProductChecked", "[", 
+     RowBox[{"crossAB", ",", "b3d"}], "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["6. Vector Norms", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"testVector", "=", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "4", ",", "0"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"l1Norm", "=", 
+   RowBox[{"VectorOperations`L1NormChecked", "[", "testVector", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"l2Norm", "=", 
+   RowBox[{"VectorOperations`L2NormChecked", "[", "testVector", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"infNorm", "=", 
+   RowBox[{"VectorOperations`LInfNormChecked", "[", "testVector", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vector: \>\"", ",", " ", "testVector"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<L1 norm (Manhattan): \>\"", ",", " ", "l1Norm"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<L2 norm (Euclidean): \>\"", ",", " ", "l2Norm"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<L\[Infinity] norm (Maximum): \>\"", ",", " ", "infNorm"}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Matrix Operations", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["1. Creating Matrices", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"A", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"B", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "1"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"C", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "2"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix A:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"A", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix B:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"B", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix C (2\[Times]3):\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"C", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["2. Matrix Arithmetic", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"sumAB", "=", 
+   RowBox[{"MatrixOperations`MatrixAddChecked", "[", 
+    RowBox[{"A", ",", "B"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"diffAB", "=", 
+   RowBox[{"MatrixOperations`MatrixSubtractChecked", "[", 
+    RowBox[{"A", ",", "B"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"productAB", "=", 
+   RowBox[{"MatrixOperations`MatrixMultiplyChecked", "[", 
+    RowBox[{"A", ",", "B"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"productAC", "=", 
+   RowBox[{"MatrixOperations`MatrixMultiplyChecked", "[", 
+    RowBox[{"A", ",", "C"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A + B:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"sumAB", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A - B:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"diffAB", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A \[Times] B:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"productAB", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["3. Matrix Properties", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"traceA", "=", 
+   RowBox[{"MatrixOperations`TraceChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"detA", "=", 
+   RowBox[{"MatrixOperations`DeterminantChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"rankA", "=", 
+   RowBox[{"MatrixOperations`RankChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Trace of A: \>\"", ",", " ", "traceA"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Determinant of A: \>\"", ",", " ", "detA"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Rank of A: \>\"", ",", " ", "rankA"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"AT", "=", 
+   RowBox[{"Transpose", "[", "A", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A transpose:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"AT", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["4. Matrix Norms", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"frobeniusNorm", "=", 
+   RowBox[{"MatrixOperations`FrobeniusNormChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"spectralNorm", "=", 
+   RowBox[{"MatrixOperations`SpectralNormChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"conditionNumber", "=", 
+   RowBox[{"MatrixOperations`ConditionNumberChecked", "[", "A", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Frobenius norm of A: \>\"", ",", " ", 
+    RowBox[{"N", "[", "frobeniusNorm", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Spectral norm of A: \>\"", ",", " ", 
+    RowBox[{"N", "[", "spectralNorm", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Condition number of A: \>\"", ",", " ", 
+    RowBox[{"N", "[", "conditionNumber", "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["5. Matrix Powers", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ASquared", "=", 
+   RowBox[{"MatrixOperations`MatrixPowerChecked", "[", 
+    RowBox[{"A", ",", "2"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ACubed", "=", 
+   RowBox[{"MatrixOperations`MatrixPowerChecked", "[", 
+    RowBox[{"A", ",", "3"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A\[TwoSuperscript]:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"ASquared", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<A\[ThreeSuperscript]:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"ACubed", "//", "MatrixForm"}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Linear Systems", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["1. Simple 2\[Times]2 System", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "System of equations:\n",
+ "  2x + y = 5\n",
+ "  x + 3y = 6"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ASystem", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"2", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"bSystem", "=", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "6"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Matrix A:\>\""}], "]"}], ";", " ", 
+  RowBox[{"Print", "[", 
+   RowBox[{"ASystem", "//", "MatrixForm"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vector b: \>\"", ",", " ", "bSystem"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"result", "=", 
+   RowBox[{"LinearSystems`LUSolveChecked", "[", 
+    RowBox[{"ASystem", ",", "bSystem"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"result", "[", "\"\<success\>\"", "]"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"x", "=", 
+      RowBox[{
+       RowBox[{"result", "[", "\"\<solution\>\"", "]"}], "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"y", "=", 
+      RowBox[{
+       RowBox[{"result", "[", "\"\<solution\>\"", "]"}], "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Solution: x = \>\"", ",", " ", 
+       RowBox[{"N", "[", "x", "]"}], ",", " ", "\"\<, y = \>\"", ",", " ", 
+       RowBox[{"N", "[", "y", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"verification", "=", 
+      RowBox[{"ASystem", ".", 
+       RowBox[{"result", "[", "\"\<solution\>\"", "]"}]}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Verification: A \[Times] solution = \>\"", ",", " ", 
+       RowBox[{"N", "[", "verification", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Original b = \>\"", ",", " ", "bSystem"}], "]"}], ";", 
+     "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Residual = \>\"", ",", " ", 
+       RowBox[{"result", "[", "\"\<residualNorm\>\"", "]"}]}], "]"}]}], ",", 
+    "\n", "  ", 
+    RowBox[{"Print", "[", "\"\<Failed to solve system\>\"", "]"}]}], "\n", 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["2. Overdetermined System (Least Squares)", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ "More equations than unknowns - find best fit line\n",
+ "Points: (1, 2.1), (2, 2.9), (3, 4.2), (4, 4.8)"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"AOver", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "3"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "4"}], "}"}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"bOver", "=", 
+   RowBox[{"{", 
+    RowBox[{"2.1", ",", "2.9", ",", "4.2", ",", "4.8"}], "}"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"resultOver", "=", 
+   RowBox[{"LinearSystems`QRSolveChecked", "[", 
+    RowBox[{"AOver", ",", "bOver"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"resultOver", "[", "\"\<success\>\"", "]"}], ",", "\n", "  ", 
+    RowBox[{
+     RowBox[{"c", "=", 
+      RowBox[{
+       RowBox[{"resultOver", "[", "\"\<solution\>\"", "]"}], "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"m", "=", 
+      RowBox[{
+       RowBox[{"resultOver", "[", "\"\<solution\>\"", "]"}], "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Best fit line: y = \>\"", ",", " ", 
+       RowBox[{"N", "[", "m", "]"}], ",", " ", "\"\<x + \>\"", ",", " ", 
+       RowBox[{"N", "[", "c", "]"}]}], "]"}], ";", "\n", "  ", 
+     RowBox[{"Print", "[", 
+      RowBox[{"\"\<Residual norm: \>\"", ",", " ", 
+       RowBox[{"N", "[", 
+        RowBox[{"resultOver", "[", "\"\<residualNorm\>\"", "]"}], "]"}]}], 
+      "]"}]}]}], "\n", "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Visualizations", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[CellGroupData[{
+Cell["Vector Projections", "Subsection",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"uProj", "=", 
+   RowBox[{"{", 
+    RowBox[{"4", ",", "2"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"vProj", "=", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "0"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"proj", "=", 
+   RowBox[{"VectorOperations`ProjectChecked", "[", 
+    RowBox[{"uProj", ",", "vProj"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"rejection", "=", 
+   RowBox[{"VectorOperations`RejectChecked", "[", 
+    RowBox[{"uProj", ",", "vProj"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vector u: \>\"", ",", " ", "uProj"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Vector v: \>\"", ",", " ", "vProj"}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Projection of u onto v: \>\"", ",", " ", 
+    RowBox[{"N", "[", "proj", "]"}]}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Print", "[", 
+   RowBox[{"\"\<Rejection (orthogonal component): \>\"", ",", " ", 
+    RowBox[{"N", "[", "rejection", "]"}]}], "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"vectorPlot", "=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"{", "\n", "  ", 
+      RowBox[{
+       RowBox[{"Thick", ",", " ", "berkeleyBlue", ",", " ", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", " ", "uProj"}], "}"}], 
+         "]"}]}], ",", "\n", "  ", 
+       RowBox[{"Thick", ",", " ", "Red", ",", " ", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", " ", "vProj"}], "}"}], 
+         "]"}]}], ",", "\n", "  ", 
+       RowBox[{"Thick", ",", " ", "californiaGold", ",", " ", 
+        RowBox[{"Arrow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"0", ",", "0"}], "}"}], ",", " ", "proj"}], "}"}], 
+         "]"}]}], ",", "\n", "  ", 
+       RowBox[{"Gray", ",", " ", "Dashed", ",", " ", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{"uProj", ",", " ", "proj"}], "}"}], "]"}]}], ",", "\n", 
+       "  ", 
+       RowBox[{"Text", "[", 
+        RowBox[{"\"\<u\>\"", ",", " ", 
+         RowBox[{"uProj", " ", "+", " ", 
+          RowBox[{"{", 
+           RowBox[{"0.2", ",", "0.2"}], "}"}]}]}], "]"}], ",", "\n", "  ", 
+       RowBox[{"Text", "[", 
+        RowBox[{"\"\<v\>\"", ",", " ", 
+         RowBox[{"vProj", " ", "+", " ", 
+          RowBox[{"{", 
+           RowBox[{"0.2", ",", "0.2"}], "}"}]}]}], "]"}], ",", "\n", "  ", 
+       RowBox[{"Text", "[", 
+        RowBox[{"\"\<proj\>\"", ",", " ", 
+         RowBox[{"proj", " ", "+", " ", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", 
+            RowBox[{"-", "0.3"}]}], "}"}]}]}], "]"}]}], "\n", "}"}], ",", 
+     "\n", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", "5"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", "3"}], "}"}]}], "}"}]}], ",", "\n", 
+     RowBox[{"Axes", "\[Rule]", "True"}], ",", "\n", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<X\>\"", ",", "\"\<Y\>\""}], "}"}]}], ",", "\n", 
+     RowBox[{"PlotLabel", "\[Rule]", "\"\<Vector Projection\>\""}]}], "\n", 
+    "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[BoxData[
+ RowBox[{"vectorPlot", "//", "Print"}]], "Input",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}],
+
+Cell[TextData[{
+ StyleBox["Key Learning Points:", "Subsubsection"],
+ "\n\[Bullet] Vectors represent quantities with magnitude and direction\n\
+\[Bullet] Matrices can represent transformations and systems of equations\n\
+\[Bullet] Dot products measure alignment, cross products measure \
+perpendicularity\n\[Bullet] Linear systems appear everywhere in science and \
+engineering\n\[Bullet] Different norms provide different measures of vector \
+\"size\"\n\[Bullet] Matrix decompositions enable efficient computation"
+}], "Text",
+ CellChangeTimes->{{3.8765432109876543*^9, 3.8765432123456789*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Mac OS X x86 (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 131, 1, 98, "Title",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[714, 25, 517, 9, 150, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[CellGroupData[{
+Cell[1256, 38, 112, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[1371, 41, 621, 17, 115, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[1995, 60, 523, 14, 52, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2555, 79, 104, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[CellGroupData[{
+Cell[2684, 84, 112, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[2799, 87, 785, 23, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3621, 115, 112, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[3736, 118, 912, 23, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4685, 146, 125, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[4813, 149, 1233, 33, 178, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6083, 187, 115, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[6201, 190, 1520, 41, 178, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7758, 236, 112, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[7873, 239, 1274, 32, 157, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9184, 276, 108, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[9295, 279, 1178, 33, 178, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10522, 318, 107, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[CellGroupData[{
+Cell[10654, 323, 113, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[10770, 326, 1318, 40, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12125, 371, 112, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[12240, 374, 1270, 32, 157, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13547, 411, 112, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[13662, 414, 1146, 33, 178, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14845, 452, 108, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[14956, 455, 994, 25, 136, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15987, 485, 109, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[16099, 488, 767, 19, 94, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16915, 513, 103, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[CellGroupData[{
+Cell[17043, 518, 120, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[17166, 521, 167, 5, 81, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[17336, 528, 2361, 58, 325, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19734, 591, 132, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[19869, 594, 201, 4, 58, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[20073, 600, 1616, 44, 199, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21738, 650, 104, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[CellGroupData[{
+Cell[21867, 655, 110, 1, 54, "Subsection",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[21980, 658, 1220, 33, 178, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[23203, 693, 2421, 65, 304, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[25627, 760, 127, 2, 30, "Input",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[25803, 768, 95, 1, 67, "Section",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"],
+Cell[25901, 771, 565, 9, 127, "Text",ExpressionUUID->"12345678-1234-5678-9abc-123456789abc"]
+}, Open  ]]
+}, Open  ]]
+}
+]

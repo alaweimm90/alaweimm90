@@ -1,0 +1,102 @@
+{
+  "name": "@repz/infrastructure",
+  "version": "1.0.0",
+  "description": "REPZ Infrastructure as Code - Multi-cloud deployment and management",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "terraform",
+    "cloudformation",
+    "pulumi",
+    "docker",
+    "scripts",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c --watch",
+    "dev": "npm run build:watch",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "clean": "rm -rf dist",
+    "terraform:init": "cd terraform && terraform init",
+    "terraform:plan": "cd terraform && terraform plan",
+    "terraform:apply": "cd terraform && terraform apply",
+    "terraform:destroy": "cd terraform && terraform destroy",
+    "pulumi:preview": "cd pulumi && pulumi preview",
+    "pulumi:up": "cd pulumi && pulumi up",
+    "pulumi:destroy": "cd pulumi && pulumi destroy",
+    "docker:build": "docker build -t repz-platform .",
+    "docker:run": "docker run -p 3000:3000 repz-platform",
+    "deploy:dev": "tsx scripts/deploy.ts --env=development",
+    "deploy:staging": "tsx scripts/deploy.ts --env=staging",
+    "deploy:prod": "tsx scripts/deploy.ts --env=production",
+    "setup:aws": "tsx scripts/setup-aws.ts",
+    "setup:gcp": "tsx scripts/setup-gcp.ts",
+    "setup:azure": "tsx scripts/setup-azure.ts",
+    "validate": "npm run validate:terraform && npm run validate:docker",
+    "validate:terraform": "cd terraform && terraform validate",
+    "validate:docker": "docker run --rm -i hadolint/hadolint < docker/Dockerfile",
+    "prepublishOnly": "npm run clean && npm run build && npm run validate"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudformation": "^3.450.0",
+    "@aws-sdk/client-ec2": "^3.450.0",
+    "@aws-sdk/client-rds": "^3.450.0",
+    "@aws-sdk/client-s3": "^3.450.0",
+    "@pulumi/aws": "^6.0.0",
+    "@pulumi/pulumi": "^3.90.0",
+    "commander": "^11.1.0",
+    "dotenv": "^16.3.1",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@repz/eslint-config": "workspace:*",
+    "@repz/prettier-config": "workspace:*",
+    "@repz/typescript-config": "workspace:*",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/node": "^22.5.5",
+    "@vitest/coverage-v8": "^3.2.4",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.0.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.5.3",
+    "vitest": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/repz/repzcoach-pro-ai.git",
+    "directory": "packages/infrastructure"
+  },
+  "keywords": [
+    "infrastructure",
+    "terraform",
+    "cloudformation",
+    "pulumi",
+    "docker",
+    "aws",
+    "gcp",
+    "azure",
+    "kubernetes",
+    "repz"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

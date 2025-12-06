@@ -1,0 +1,55 @@
+# Netlify/Vercel Cache Headers
+# Implement long-term caching for assets and versioned JS/CSS
+# HTML is not cached to allow updates
+# https://docs.netlify.com/routing/headers/
+
+# Hashed assets - cache forever (12 months)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  ETag: "{{hash}}"
+
+# Hashed JavaScript - cache forever
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+# Hashed CSS - cache forever
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts - long-term cache (1 year)
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images - long-term cache (1 year) with revalidation
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Service worker - always revalidate
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# HTML files - no cache, always revalidate
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+
+# Index file - no cache
+/
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+
+# API responses - no caching by default
+/api/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Security headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# CORS headers for fonts
+/assets/fonts/*
+  Access-Control-Allow-Origin: *

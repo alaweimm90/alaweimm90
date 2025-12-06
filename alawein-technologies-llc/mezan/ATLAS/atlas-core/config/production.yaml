@@ -1,0 +1,328 @@
+# MEZAN ORCHEX Production Configuration
+# This file contains production environment settings
+
+# Application Configuration
+application:
+  name: "MEZAN ORCHEX"
+  version: "3.5.0"
+  environment: "production"
+  debug: false
+  timezone: "UTC"
+
+# API Server Configuration
+server:
+  host: "0.0.0.0"
+  port: 8080
+  workers: 4
+  threads: 2
+  timeout: 120
+  max_request_size: "100MB"
+  cors:
+    enabled: true
+    origins:
+      - "https://ORCHEX.mezan.io"
+      - "https://api.mezan.io"
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
+    headers: ["Content-Type", "Authorization", "X-Request-ID"]
+  rate_limiting:
+    enabled: true
+    default: "1000 per hour"
+    burst: "100 per minute"
+
+# Database Configuration
+database:
+  postgres:
+    host: "${POSTGRES_HOST:-postgres}"
+    port: 5432
+    database: "ORCHEX"
+    username: "${POSTGRES_USER:-ORCHEX}"
+    password: "${POSTGRES_PASSWORD}"
+    pool_size: 20
+    max_overflow: 40
+    pool_timeout: 30
+    pool_recycle: 3600
+    echo: false
+    ssl_mode: "prefer"
+    statement_timeout: 30000
+
+# Cache Configuration
+cache:
+  redis:
+    host: "${REDIS_HOST:-redis}"
+    port: 6379
+    database: 0
+    password: "${REDIS_PASSWORD}"
+    pool_size: 50
+    max_connections: 100
+    socket_timeout: 5
+    socket_connect_timeout: 5
+    socket_keepalive: true
+    socket_keepalive_options:
+      - 1
+      - 3
+      - 5
+    ttl:
+      default: 3600
+      session: 86400
+      results: 7200
+      metrics: 300
+
+# Message Queue Configuration
+message_queue:
+  type: "redis"
+  config:
+    host: "${REDIS_HOST:-redis}"
+    port: 6379
+    database: 1
+    password: "${REDIS_PASSWORD}"
+    queue_names:
+      - "atlas_tasks"
+      - "atlas_priority"
+      - "atlas_results"
+    worker_config:
+      concurrency: 10
+      prefetch_count: 2
+      visibility_timeout: 3600
+      result_ttl: 86400
+
+# AI Provider Configuration
+ai_providers:
+  anthropic:
+    api_key: "${ANTHROPIC_API_KEY}"
+    model: "claude-3-opus-20240229"
+    max_tokens: 4096
+    temperature: 0.7
+    timeout: 60
+    retry:
+      max_attempts: 3
+      backoff_factor: 2
+      max_wait: 30
+  openai:
+    api_key: "${OPENAI_API_KEY}"
+    model: "gpt-4-turbo-preview"
+    max_tokens: 4096
+    temperature: 0.7
+    timeout: 60
+    retry:
+      max_attempts: 3
+      backoff_factor: 2
+      max_wait: 30
+
+# Agent Configuration
+agents:
+  max_concurrent: 10
+  timeout: 300
+  retry_policy:
+    max_retries: 3
+    backoff: "exponential"
+    base_delay: 1
+    max_delay: 60
+  resource_limits:
+    cpu: "2000m"
+    memory: "2Gi"
+    ephemeral_storage: "10Gi"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "json"
+  output:
+    - type: "console"
+      level: "INFO"
+    - type: "file"
+      path: "/app/logs/ORCHEX.log"
+      level: "DEBUG"
+      rotation:
+        max_size: "100MB"
+        max_age: 30
+        max_backups: 10
+        compress: true
+    - type: "syslog"
+      address: "${SYSLOG_ADDRESS}"
+      facility: "local0"
+      level: "WARNING"
+  structured:
+    enabled: true
+    include_context: true
+    include_trace: true
+
+# Monitoring Configuration
+monitoring:
+  metrics:
+    enabled: true
+    port: 9090
+    path: "/metrics"
+    namespace: "ORCHEX"
+    subsystem: "production"
+    labels:
+      environment: "production"
+      region: "${AWS_REGION:-us-west-2}"
+      cluster: "${CLUSTER_NAME:-default}"
+  tracing:
+    enabled: true
+    provider: "jaeger"
+    endpoint: "${JAEGER_ENDPOINT:-http://jaeger:14268/api/traces}"
+    sampling_rate: 0.1
+    service_name: "ORCHEX-api"
+  health_check:
+    enabled: true
+    path: "/health"
+    interval: 30
+    timeout: 10
+    failure_threshold: 3
+
+# Security Configuration
+security:
+  encryption:
+    algorithm: "AES-256-GCM"
+    key_derivation: "PBKDF2"
+    iterations: 100000
+  authentication:
+    enabled: true
+    type: "jwt"
+    secret_key: "${JWT_SECRET_KEY}"
+    algorithm: "HS256"
+    token_ttl: 3600
+    refresh_ttl: 86400
+  authorization:
+    enabled: true
+    rbac:
+      enabled: true
+      default_role: "viewer"
+  audit:
+    enabled: true
+    log_file: "/app/logs/audit.log"
+    include_request_body: false
+    include_response_body: false
+    sensitive_fields:
+      - "password"
+      - "token"
+      - "api_key"
+      - "secret"
+
+# Resource Limits
+resource_limits:
+  max_request_size: "100MB"
+  max_upload_size: "500MB"
+  max_query_time: 30
+  max_connections: 1000
+  request_timeout: 120
+  idle_timeout: 600
+
+# Feature Flags
+features:
+  experimental_agents: false
+  advanced_analytics: true
+  multi_tenancy: true
+  api_versioning: true
+  request_validation: true
+  response_compression: true
+  distributed_tracing: true
+  circuit_breaker: true
+
+# Storage Configuration
+storage:
+  type: "s3"
+  config:
+    bucket: "${S3_BUCKET:-ORCHEX-storage}"
+    region: "${AWS_REGION:-us-west-2}"
+    access_key: "${AWS_ACCESS_KEY_ID}"
+    secret_key: "${AWS_SECRET_ACCESS_KEY}"
+    endpoint: "${S3_ENDPOINT}"
+    use_ssl: true
+    verify_ssl: true
+    signature_version: "s3v4"
+  local:
+    base_path: "/app/data"
+    temp_path: "/app/temp"
+
+# Backup Configuration
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention_days: 30
+  destinations:
+    - type: "local"
+      path: "/backup"
+    - type: "s3"
+      bucket: "${BACKUP_S3_BUCKET}"
+      prefix: "ORCHEX-backups/"
+  encryption:
+    enabled: true
+    key: "${BACKUP_ENCRYPTION_KEY}"
+
+# Notification Configuration
+notifications:
+  slack:
+    enabled: "${SLACK_ENABLED:-false}"
+    webhook_url: "${SLACK_WEBHOOK}"
+    channel: "#ORCHEX-alerts"
+    username: "ORCHEX Bot"
+  email:
+    enabled: "${EMAIL_ENABLED:-false}"
+    smtp_host: "${SMTP_HOST}"
+    smtp_port: 587
+    smtp_user: "${SMTP_USER}"
+    smtp_password: "${SMTP_PASSWORD}"
+    from_address: "ORCHEX@mezan.io"
+    admin_emails:
+      - "admin@mezan.io"
+
+# Performance Tuning
+performance:
+  connection_pooling: true
+  query_optimization: true
+  result_caching: true
+  lazy_loading: true
+  batch_processing:
+    enabled: true
+    batch_size: 100
+    flush_interval: 10
+  async_processing:
+    enabled: true
+    worker_threads: 8
+    queue_size: 1000
+
+# Deployment Configuration
+deployment:
+  rolling_update:
+    enabled: true
+    max_surge: 1
+    max_unavailable: 0
+  health_checks:
+    liveness:
+      path: "/health/live"
+      interval: 30
+      timeout: 10
+      failure_threshold: 3
+    readiness:
+      path: "/health/ready"
+      interval: 10
+      timeout: 5
+      success_threshold: 1
+      failure_threshold: 3
+  auto_scaling:
+    enabled: true
+    min_replicas: 2
+    max_replicas: 10
+    target_cpu: 70
+    target_memory: 80
+    scale_down_delay: 300
+
+# Compliance Configuration
+compliance:
+  gdpr:
+    enabled: true
+    data_retention_days: 365
+    pii_redaction: true
+    right_to_be_forgotten: true
+  hipaa:
+    enabled: false
+    audit_logging: true
+    encryption_at_rest: true
+    encryption_in_transit: true
+  soc2:
+    enabled: true
+    change_management: true
+    access_reviews: true
+    vulnerability_scanning: true

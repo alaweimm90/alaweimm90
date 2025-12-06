@@ -1,0 +1,11 @@
+type: library
+language: TypeScript
+tier: 2
+coverage:
+  target: 80
+docs:
+  profile: standard
+owner: alaweimm90-tools
+description: 'Repository: Attributa'
+status: active
+created: '2025-11-26'

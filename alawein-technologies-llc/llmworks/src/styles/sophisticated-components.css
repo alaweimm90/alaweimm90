@@ -1,0 +1,624 @@
+/**
+ * Sophisticated Component Library
+ * Elegant, performant components with advanced visual effects
+ */
+
+/* ========================================
+   GLASS MORPHISM SYSTEM
+   ======================================== */
+
+/* Primary glass morphism for key UI elements - Enhanced readability */
+.glass-panel {
+  background: hsl(var(--color-tactical-blue) / 0.08);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid hsl(var(--color-tactical-blue) / 0.15);
+  box-shadow: var(--shadow-lg), 0 0 0 1px hsl(0 0% 0% / 0.1);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glass for secondary elements - Enhanced readability */
+.glass-subtle {
+  background: hsl(var(--color-tactical-blue) / 0.03);
+  backdrop-filter: blur(16px) saturate(110%);
+  border: 1px solid hsl(var(--color-tactical-blue) / 0.08);
+  box-shadow: var(--shadow-sm), 0 0 0 1px hsl(0 0% 0% / 0.05);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+
+/* Minimal glass for tertiary elements */
+.glass-minimal {
+  background: hsl(var(--color-tactical-blue) / 0.02);
+  border: 1px solid hsl(var(--color-tactical-blue) / 0.05);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--radius-md);
+}
+
+/* Glass panel shine effect for primary elements only */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--neutral-50) / 0.1) 0%,
+    transparent 50%,
+    hsl(var(--neutral-900) / 0.05) 100%
+  );
+  pointer-events: none;
+}
+
+/* Subtle shine for secondary glass */
+.glass-subtle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--neutral-50) / 0.05) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ========================================
+   SOPHISTICATED BUTTON SYSTEM
+   ======================================== */
+
+.btn-elegant {
+  --btn-color: var(--color-primary);
+  --btn-bg: hsl(var(--btn-color));
+  --btn-text: hsl(var(--neutral-50));
+  
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--type-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  
+  cursor: pointer;
+  overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  
+  /* Multi-layer shadow */
+  box-shadow: var(--shadow-md);
+  
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-elegant::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    hsl(var(--neutral-50) / 0.2) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-normal) var(--ease-out);
+  pointer-events: none;
+}
+
+.btn-elegant:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-elegant:hover::before {
+  opacity: 1;
+}
+
+.btn-elegant:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Ripple Effect */
+.btn-elegant::after {
+  content: '';
+  position: absolute;
+  left: var(--ripple-x, 50%);
+  top: var(--ripple-y, 50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: hsl(var(--neutral-50) / 0.3);
+  transform: translate(-50%, -50%);
+  transition: width var(--duration-slower), height var(--duration-slower);
+  pointer-events: none;
+}
+
+.btn-elegant:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Button Variants */
+.btn-elegant.btn-secondary {
+  --btn-color: var(--color-secondary);
+}
+
+.btn-elegant.btn-outline {
+  --btn-bg: transparent;
+  --btn-text: hsl(var(--btn-color));
+  border-color: hsl(var(--btn-color) / 0.3);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-elegant.btn-outline:hover {
+  --btn-bg: hsl(var(--btn-color) / 0.05);
+  border-color: hsl(var(--btn-color) / 0.5);
+}
+
+.btn-elegant.btn-ghost {
+  --btn-bg: transparent;
+  --btn-text: hsl(var(--btn-color));
+  box-shadow: none;
+}
+
+.btn-elegant.btn-ghost:hover {
+  --btn-bg: hsl(var(--btn-color) / 0.1);
+}
+
+/* ========================================
+   CARD SYSTEM WITH DEPTH
+   ======================================== */
+
+/* Refined card system with selective glass */
+.card-sophisticated {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Enhanced card with subtle glass on hover */
+.card-sophisticated:hover {
+  background: hsl(var(--color-tactical-blue) / 0.02);
+  border-color: hsl(var(--color-primary) / 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Refined card accent line */
+.card-sophisticated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--color-primary) / 0.1),
+    transparent
+  );
+}
+
+.card-sophisticated:hover::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--color-primary) / 0.3),
+    transparent
+  );
+}
+
+/* ========================================
+   METALLIC RANKING SYSTEM
+   ======================================== */
+
+/* Metallic ranking badges with appropriate visual hierarchy */
+.rank-platinum {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-platinum)) 0%, 
+    hsl(var(--neutral-100)) 50%, 
+    hsl(var(--color-platinum)) 100%
+  );
+  color: hsl(var(--neutral-800));
+  border: 1px solid hsl(var(--color-platinum) / 0.3);
+  box-shadow: 
+    0 2px 8px hsl(var(--color-platinum) / 0.2),
+    inset 0 1px 0 hsl(var(--neutral-50));
+}
+
+.rank-gold {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-gold)) 0%, 
+    hsl(45 100% 70%) 50%, 
+    hsl(var(--color-gold)) 100%
+  );
+  color: hsl(var(--neutral-800));
+  border: 1px solid hsl(var(--color-gold) / 0.4);
+  box-shadow: 
+    0 2px 8px hsl(var(--color-gold) / 0.3),
+    inset 0 1px 0 hsl(45 100% 85%);
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-silver)) 0%, 
+    hsl(220 20% 75%) 50%, 
+    hsl(var(--color-silver)) 100%
+  );
+  color: hsl(var(--neutral-700));
+  border: 1px solid hsl(var(--color-silver) / 0.4);
+  box-shadow: 
+    0 2px 8px hsl(var(--color-silver) / 0.2),
+    inset 0 1px 0 hsl(220 20% 80%);
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-bronze)) 0%, 
+    hsl(25 60% 45%) 50%, 
+    hsl(var(--color-bronze)) 100%
+  );
+  color: hsl(var(--neutral-50));
+  border: 1px solid hsl(var(--color-bronze) / 0.4);
+  box-shadow: 
+    0 2px 8px hsl(var(--color-bronze) / 0.3),
+    inset 0 1px 0 hsl(25 60% 50%);
+}
+
+/* Strategic ranking indicators */
+.strategic-rank {
+  position: relative;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: var(--type-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.strategic-rank::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 30%,
+    hsl(var(--neutral-50) / 0.3) 0%,
+    transparent 70%
+  );
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--duration-normal);
+}
+
+.strategic-rank:hover::before {
+  opacity: 1;
+}
+
+/* Performance indicator system */
+.performance-elite {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-tactical-blue)) 0%, 
+    hsl(var(--color-intel-cyan)) 100%
+  );
+  color: hsl(var(--neutral-50));
+  box-shadow: 
+    0 0 20px hsl(var(--color-tactical-blue) / 0.4),
+    inset 0 1px 0 hsl(var(--color-intel-cyan) / 0.5);
+}
+
+.performance-superior {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-victory-gold)) 0%, 
+    hsl(35 100% 55%) 100%
+  );
+  color: hsl(var(--neutral-50));
+  box-shadow: 
+    0 0 20px hsl(var(--color-victory-gold) / 0.4),
+    inset 0 1px 0 hsl(35 100% 65%);
+}
+
+.performance-standard {
+  background: linear-gradient(135deg, 
+    hsl(var(--color-command-navy)) 0%, 
+    hsl(216 45% 25%) 100%
+  );
+  color: hsl(var(--neutral-200));
+  box-shadow: 
+    0 0 15px hsl(var(--color-command-navy) / 0.3),
+    inset 0 1px 0 hsl(216 45% 30%);
+}
+
+/* ========================================
+   MAGNETIC HOVER EFFECTS
+   ======================================== */
+
+.magnetic-hover {
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.magnetic-hover:hover {
+  transform: translate(
+    calc(var(--mouse-x) * 0.3px),
+    calc(var(--mouse-y) * 0.3px)
+  );
+}
+
+/* ========================================
+   STAGGERED ANIMATIONS
+   ======================================== */
+
+@keyframes sophisticatedFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.stagger-children > * {
+  animation: sophisticatedFadeInUp var(--duration-slower) var(--ease-out-expo) both;
+  animation-delay: calc(var(--stagger-index, 0) * 80ms);
+}
+
+/* ========================================
+   TYPOGRAPHY ENHANCEMENTS
+   ======================================== */
+
+.heading-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  
+  /* Enhanced text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: normal;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  
+  /* Improved legibility with text shadow */
+  text-shadow: 0 1px 2px hsl(0 0% 0% / 0.2);
+}
+
+.heading-refined {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  
+  /* Variable font controls */
+  font-variation-settings: 'wght' 650;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  
+  /* Improved legibility with subtle text shadow */
+  text-shadow: 0 1px 1px hsl(0 0% 0% / 0.15);
+}
+
+.body-elegant {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  
+  /* Enhanced readability */
+  hanging-punctuation: first allow-end;
+  hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* ========================================
+   FOCUS STATES & ACCESSIBILITY
+   ======================================== */
+
+.focus-elegant:focus-visible {
+  outline: none;
+  box-shadow: 
+    0 0 0 2px var(--color-background),
+    0 0 0 4px hsl(var(--color-primary));
+  border-radius: var(--radius-md);
+}
+
+.keyboard-focus:focus-visible {
+  outline: 2px dashed hsl(var(--color-primary));
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+.scrollbar-elegant {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--neutral-400)) transparent;
+}
+
+.scrollbar-elegant::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-elegant::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-elegant::-webkit-scrollbar-thumb {
+  background: hsl(var(--neutral-300));
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-elegant::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--neutral-400));
+  background-clip: content-box;
+}
+
+/* ========================================
+   SELECTION STYLING
+   ======================================== */
+
+::selection {
+  background: hsl(var(--color-primary) / 0.2);
+  color: hsl(var(--color-primary));
+}
+
+/* ========================================
+   GRADIENT BORDERS
+   ======================================== */
+
+.gradient-border {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--color-primary)),
+    hsl(var(--color-secondary)),
+    hsl(var(--color-accent))
+  );
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* ========================================
+   NOISE TEXTURE OVERLAY
+   ======================================== */
+
+.subtle-texture {
+  position: relative;
+}
+
+.subtle-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 35px,
+      hsl(var(--neutral-900) / 0.01) 35px,
+      hsl(var(--neutral-900) / 0.01) 70px
+    );
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+}
+
+/* ========================================
+   ASYMMETRIC LAYOUTS
+   ======================================== */
+
+.hero-asymmetric {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - 4vw),
+    0 100%
+  );
+}
+
+.section-angled {
+  clip-path: polygon(
+    0 2vw,
+    100% 0,
+    100% calc(100% - 2vw),
+    0 100%
+  );
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.performance-transition {
+  transition: transform var(--duration-normal), opacity var(--duration-normal);
+}
+
+/* Only animate transforms and opacity for best performance */
+.performance-transition:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* ========================================
+   LAYOUT UTILITIES
+   ======================================== */
+
+.container-elegant {
+  max-width: min(1200px, calc(100vw - var(--space-lg) * 2));
+  margin-inline: auto;
+  padding-inline: var(--space-lg);
+}
+
+.grid-sophisticated {
+  display: grid;
+  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+}
+
+.flex-refined {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.stack-elegant {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* ========================================
+   RESPONSIVE FLUID TYPOGRAPHY
+   ======================================== */
+
+.fluid-heading {
+  font-size: clamp(var(--type-lg), 4vw, var(--type-3xl));
+  line-height: clamp(var(--line-height-tight), 4vw * 1.2, calc(var(--type-3xl) * 1.2));
+}
+
+.fluid-body {
+  font-size: clamp(var(--type-sm), 2vw, var(--type-md));
+  line-height: clamp(var(--line-height-normal), 2vw * 1.6, calc(var(--type-md) * 1.6));
+}

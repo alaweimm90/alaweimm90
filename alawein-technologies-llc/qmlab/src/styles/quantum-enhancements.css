@@ -1,0 +1,332 @@
+/* Quantum Gate Enhanced Interactions */
+
+/* Enhanced quantum gate styling */
+.quantum-gate-enhanced {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  min-width: 48px;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-backdrop-filter-subtle);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  transition: var(--transition-elegant);
+  cursor: pointer;
+  overflow: hidden;
+  
+  /* Enhanced focus states */
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  }
+}
+
+/* Shimmer effect on hover */
+.quantum-gate-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.quantum-gate-enhanced:hover::before {
+  left: 100%;
+}
+
+/* Hover state enhancements */
+.quantum-gate-enhanced:hover {
+  background: var(--glass-bg);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glass);
+  transform: translateY(-1px);
+  color: var(--color-primary);
+}
+
+/* Active state */
+.quantum-gate-enhanced:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Selected state */
+.quantum-gate-enhanced.selected {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-color: var(--color-primary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Gate type specific colors */
+.quantum-gate-pauli {
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.quantum-gate-pauli:hover {
+  border-color: rgb(34, 197, 94);
+  color: rgb(34, 197, 94);
+}
+
+.quantum-gate-hadamard {
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.quantum-gate-hadamard:hover {
+  border-color: rgb(59, 130, 246);
+  color: rgb(59, 130, 246);
+}
+
+.quantum-gate-rotation {
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.quantum-gate-rotation:hover {
+  border-color: rgb(168, 85, 247);
+  color: rgb(168, 85, 247);
+}
+
+.quantum-gate-cnot {
+  border-color: rgba(245, 101, 101, 0.3);
+}
+
+.quantum-gate-cnot:hover {
+  border-color: rgb(245, 101, 101);
+  color: rgb(245, 101, 101);
+}
+
+/* Quantum algorithm cards */
+.quantum-algorithm-card {
+  position: relative;
+  padding: var(--space-4);
+  background: var(--glass-bg-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-backdrop-filter-subtle);
+  transition: var(--transition-elegant);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.quantum-algorithm-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient-primary);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--transition-elegant);
+}
+
+.quantum-algorithm-card:hover {
+  background: var(--glass-bg);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glass);
+  transform: translateY(-2px);
+}
+
+.quantum-algorithm-card:hover::after {
+  transform: scaleY(1);
+}
+
+/* Status indicator for quantum states */
+.quantum-status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: var(--space-2);
+  animation: quantum-pulse 2s ease-in-out infinite;
+}
+
+.quantum-status-pure {
+  background: rgb(34, 197, 94);
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+.quantum-status-mixed {
+  background: rgb(251, 146, 60);
+  box-shadow: 0 0 8px rgba(251, 146, 60, 0.5);
+}
+
+.quantum-status-entangled {
+  background: rgb(168, 85, 247);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.5);
+}
+
+@keyframes quantum-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Enhanced circuit visualization */
+.quantum-circuit-wire {
+  position: relative;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--border-primary) 0%,
+    var(--color-primary) 50%,
+    var(--border-primary) 100%
+  );
+  margin: var(--space-4) 0;
+  border-radius: 1px;
+}
+
+.quantum-circuit-wire::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.3) 50%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  animation: quantum-flow 3s ease-in-out infinite;
+}
+
+@keyframes quantum-flow {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Mathematical formula styling */
+.quantum-formula-display {
+  background: var(--glass-bg-minimal);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  margin: var(--space-4) 0;
+  font-family: 'Computer Modern', 'Times New Roman', serif;
+  font-size: var(--font-size-lg);
+  text-align: center;
+  color: var(--text-primary);
+  backdrop-filter: var(--glass-backdrop-filter-minimal);
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-formula-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gradient-primary);
+  opacity: 0.5;
+}
+
+/* Enhanced tooltips for quantum concepts */
+.quantum-tooltip-enhanced {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  backdrop-filter: var(--glass-backdrop-filter);
+  box-shadow: var(--shadow-floating);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  max-width: 300px;
+  z-index: var(--z-tooltip);
+  animation: tooltip-appear 0.2s ease-out;
+}
+
+@keyframes tooltip-appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  .quantum-gate-enhanced,
+  .quantum-algorithm-card,
+  .quantum-status-indicator,
+  .quantum-circuit-wire {
+    animation: none;
+    transition: none;
+  }
+  
+  .quantum-gate-enhanced:hover,
+  .quantum-algorithm-card:hover {
+    transform: none;
+  }
+}
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+  .quantum-gate-enhanced {
+    min-height: 48px;
+    min-width: 48px;
+    padding: var(--space-4);
+  }
+  
+  .quantum-algorithm-card {
+    padding: var(--space-5);
+  }
+  
+  /* Disable hover effects on touch devices */
+  .quantum-gate-enhanced:hover,
+  .quantum-algorithm-card:hover {
+    background: var(--glass-bg-subtle);
+    transform: none;
+    border-color: var(--glass-border);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .quantum-gate-enhanced,
+  .quantum-algorithm-card {
+    background: var(--surface-base);
+    border: 2px solid var(--border-primary);
+    backdrop-filter: none;
+  }
+  
+  .quantum-gate-enhanced:hover,
+  .quantum-algorithm-card:hover {
+    background: var(--surface-1);
+    border-color: var(--color-primary);
+  }
+}

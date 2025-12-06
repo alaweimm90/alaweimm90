@@ -1,0 +1,38 @@
+#!/bin/bash
+# Universal Git workflow helper
+# Shows available commands and typical workflow
+
+echo "🎯 Universal Git Repository Shortcuts"
+echo "======================================"
+echo ""
+echo "🚀 BEFORE CLAUDE SESSION:"
+echo "   repo-start        - Pull latest changes and check status"
+echo ""
+echo "💾 AFTER CLAUDE SESSION:"
+echo "   repo-review       - Review all changes made"
+echo "   repo-stage-all    - Stage all changes for commit"
+echo "   repo-save         - Stage all + commit + push (auto-message)"
+echo "   repo-save \"msg\"   - Same as above but with custom message"
+echo ""
+echo "📋 UTILITIES:"
+echo "   repo-help         - Show this help"
+echo "   git status        - Check current status"
+echo "   git diff          - See detailed changes"
+echo "   git log --oneline - Recent commit history"
+echo ""
+echo "💡 TYPICAL WORKFLOW:"
+echo "   1. cd /path/to/your/repo"
+echo "   2. repo-start              # Before Claude"
+echo "   3. [Use Claude Code]       # During session"
+echo "   4. repo-review             # After Claude"  
+echo "   5. repo-save               # Save everything (auto-message)"
+echo ""
+echo "✅ These scripts work in ANY Git repository!"
+echo "📍 Currently in: $(pwd)"
+
+if [ -d ".git" ]; then
+    REPO_NAME=$(basename "$(pwd)")
+    echo "🎯 Repository: $REPO_NAME"
+else
+    echo "❌ Not currently in a Git repository"
+fi

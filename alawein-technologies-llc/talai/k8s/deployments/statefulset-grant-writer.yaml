@@ -1,0 +1,270 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: grant-writer
+  namespace: talai
+  labels:
+    app: grant-writer
+    version: v2
+    tier: backend
+    component: research
+spec:
+  serviceName: grant-writer-headless
+  replicas: 3
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  selector:
+    matchLabels:
+      app: grant-writer
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: grant-writer
+        version: v2
+        tier: backend
+        component: research
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+        sidecar.istio.io/inject: "true"
+    spec:
+      serviceAccountName: grant-writer
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      initContainers:
+        - name: init-db
+          image: busybox:1.35
+          command: ['sh', '-c', 'until nslookup postgresql.talai.svc.cluster.local; do echo waiting for db; sleep 2; done;']
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+        - name: init-cache
+          image: redis:7-alpine
+          command: ['sh', '-c', 'until redis-cli -h redis-master.talai.svc.cluster.local ping; do echo waiting for redis; sleep 2; done;']
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+      containers:
+        - name: grant-writer
+          image: talai/grant-writer:2.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: grpc
+              containerPort: 9090
+              protocol: TCP
+            - name: metrics
+              containerPort: 8888
+              protocol: TCP
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: SERVICE_ACCOUNT
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.serviceAccountName
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: talai-db-secret
+                  key: connection-string
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: talai-redis-secret
+                  key: connection-string
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: talai-api-keys
+                  key: anthropic-key
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: talai-api-keys
+                  key: openai-key
+            - name: LOG_LEVEL
+              value: "info"
+            - name: ENVIRONMENT
+              value: "production"
+            - name: REGION
+              value: "us-west-2"
+            - name: ENABLE_TRACING
+              value: "true"
+            - name: JAEGER_ENDPOINT
+              value: "http://jaeger-collector.monitoring.svc.cluster.local:14268/api/traces"
+          resources:
+            requests:
+              cpu: 1500m
+              memory: 3Gi
+            limits:
+              cpu: 6000m
+              memory: 12Gi
+          volumeMounts:
+            - name: grant-data
+              mountPath: /data
+            - name: cache-volume
+              mountPath: /cache
+            - name: config
+              mountPath: /etc/grant-writer
+              readOnly: true
+            - name: tls-certs
+              mountPath: /etc/ssl/certs
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            successThreshold: 1
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /startup
+              port: http
+              scheme: HTTPS
+            initialDelaySeconds: 0
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 30
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 15"]
+        - name: sidecar-logger
+          image: fluent/fluent-bit:2.0
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log
+            - name: config-fluent
+              mountPath: /fluent-bit/etc/
+      volumes:
+        - name: cache-volume
+          emptyDir:
+            sizeLimit: 10Gi
+        - name: config
+          configMap:
+            name: grant-writer-config
+            defaultMode: 420
+        - name: tls-certs
+          secret:
+            secretName: grant-writer-tls
+            defaultMode: 420
+        - name: varlog
+          emptyDir: {}
+        - name: config-fluent
+          configMap:
+            name: fluent-bit-config
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - grant-writer
+              topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: node-type
+                    operator: In
+                    values:
+                      - compute-optimized
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "grant-writer"
+          effect: "NoSchedule"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: grant-writer
+  volumeClaimTemplates:
+    - metadata:
+        name: grant-data
+        labels:
+          app: grant-writer
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: ssd-regional
+        resources:
+          requests:
+            storage: 50Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grant-writer-headless
+  namespace: talai
+  labels:
+    app: grant-writer
+spec:
+  clusterIP: None
+  selector:
+    app: grant-writer
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+    - name: grpc
+      port: 9090
+      targetPort: 9090

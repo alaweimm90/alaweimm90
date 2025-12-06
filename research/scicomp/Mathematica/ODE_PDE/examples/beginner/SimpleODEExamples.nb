@@ -1,0 +1,487 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* Created by the Wolfram Language Plugin for IntelliJ, see http://wlplugin.halirutan.de/ *)
+
+(* CreatedBy='Mathematica 13.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12543,        356]
+NotebookOptionsPosition[     11987,        337]
+NotebookOutlinePosition[     12389,        353]
+CellTagsIndexPosition[     12346,        350]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Simple ODE Examples - Beginner Level", "Title",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellTags->"Title",ExpressionUUID->"a1b2c3d4-e5f6-7890-abcd-ef1234567890"],
+
+Cell[TextData[{
+ "Basic demonstrations of ODE solving with the Berkeley SciComp framework\n",
+ "Author: Berkeley SciComp Team\n",
+ "Date: 2024"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"b2c3d4e5-f6g7-8901-bcde-f23456789012"],
+
+Cell[CellGroupData[{
+Cell["Setup and Initialization", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"c3d4e5f6-g7h8-9012-cdef-345678901234"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"Get", "[", "\"\<../../core/ODESolvers.wl\>\"", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"BerkeleyBlue", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{"0", ",", 
+     FractionBox["50", "255"], ",", 
+     FractionBox["98", "255"]}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"CaliforniaGold", "=", 
+   RowBox[{"RGBColor", "[", 
+    RowBox[{
+     FractionBox["253", "255"], ",", 
+     FractionBox["181", "255"], ",", 
+     FractionBox["21", "255"]}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"d4e5f6g7-h8i9-0123-defg-456789012345"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Simple ODE Examples - Beginner Level\>\"", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"e5f6g7h8-i9j0-1234-efgh-567890123456"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Example 1: Exponential Growth and Decay", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"f6g7h8i9-j0k1-2345-fghi-678901234567"],
+
+Cell[TextData[{
+ "Solve the ODE: dy/dt = \[Lambda]y\n",
+ "For \[Lambda] > 0: exponential growth\n",
+ "For \[Lambda] < 0: exponential decay\n",
+ "Analytical solution: y(t) = y\[ScriptCapitalD] exp(\[Lambda]t)"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"g7h8i9j0-k1l2-3456-ghij-789012345678"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Lambda]Growth", "=", "0.5"}], ";", " ", 
+  RowBox[{"(*", " ", "Growth rate", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"\[Lambda]Decay", "=", 
+   RowBox[{"-", "1.0"}]}], ";", " ", 
+  RowBox[{"(*", " ", "Decay rate", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"y0", "=", "1.0"}], ";", " ", 
+  RowBox[{"(*", " ", "Initial condition", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"tSpan", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "3"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dt", "=", "0.1"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"h8i9j0k1-l2m3-4567-hijk-890123456789"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"odeGrowth", "[", 
+    RowBox[{"t_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{"\[Lambda]Growth", "*", "y"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"odeDecay", "[", 
+    RowBox[{"t_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{"\[Lambda]Decay", "*", "y"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"analyticalGrowth", "[", "t_", "]"}], ":=", 
+   RowBox[{"y0", "*", 
+    RowBox[{"Exp", "[", 
+     RowBox[{"\[Lambda]Growth", "*", "t"}], "]"}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"analyticalDecay", "[", "t_", "]"}], ":=", 
+   RowBox[{"y0", "*", 
+    RowBox[{"Exp", "[", 
+     RowBox[{"\[Lambda]Decay", "*", "t"}], "]"}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"i9j0k1l2-m3n4-5678-ijkl-901234567890"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"resultGrowthEuler", "=", 
+   RowBox[{"ExplicitEulerSolve", "[", 
+    RowBox[{"odeGrowth", ",", "y0", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], ",", "dt"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"resultGrowthRK4", "=", 
+   RowBox[{"RungeKutta4Solve", "[", 
+    RowBox[{"odeGrowth", ",", "y0", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], ",", "dt"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"resultDecayEuler", "=", 
+   RowBox[{"ExplicitEulerSolve", "[", 
+    RowBox[{"odeDecay", ",", "y0", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], ",", "dt"}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"resultDecayRK4", "=", 
+   RowBox[{"RungeKutta4Solve", "[", 
+    RowBox[{"odeDecay", ",", "y0", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"tSpan", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], ",", "dt"}], "]"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[15]:=",ExpressionUUID->"j0k1l2m3-n4o5-6789-jklm-012345678901"],
+
+Cell[BoxData[
+ RowBox[{"GraphicsRow", "[", 
+  RowBox[{"{", "\n", 
+   RowBox[{
+    RowBox[{"(*", " ", "Growth case", " ", "*)"}], "\n", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"analyticalGrowth", "[", "t", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "0", ",", "3"}], "}"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"Black", ",", "Dashed", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Epilog", "\[Rule]", 
+       RowBox[{"{", "\n", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"BerkeleyBlue", ",", 
+           RowBox[{"PointSize", "[", "0.01", "]"}], ",", 
+           RowBox[{"Point", "[", 
+            RowBox[{"Transpose", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"resultGrowthEuler", "[", "\"\<Times\>\"", "]"}], ",", 
+               RowBox[{"resultGrowthEuler", "[", "\"\<Values\>\"", "]"}]}], 
+              "}"}], "]"}], "]"}]}], "}"}], ",", "\n", 
+         RowBox[{"{", 
+          RowBox[{"CaliforniaGold", ",", 
+           RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+           RowBox[{"Point", "[", 
+            RowBox[{"Transpose", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"resultGrowthRK4", "[", "\"\<Times\>\"", "]"}], ",", 
+               RowBox[{"resultGrowthRK4", "[", "\"\<Values\>\"", "]"}]}], 
+              "}"}], "]"}], "]"}]}], "}"}]}], "\n", "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Exponential Growth\>\"", ",", "14", ",", "BerkeleyBlue", 
+         ",", "Bold"}], "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<y(t)\>\""}], "}"}]}], ",", "\n", 
+      RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "400"}]}], "]"}], ",", "\n", "\n", 
+    RowBox[{"(*", " ", "Decay case", " ", "*)"}], "\n", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"analyticalDecay", "[", "t", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "0", ",", "3"}], "}"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"Black", ",", "Dashed", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Epilog", "\[Rule]", 
+       RowBox[{"{", "\n", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"BerkeleyBlue", ",", 
+           RowBox[{"PointSize", "[", "0.01", "]"}], ",", 
+           RowBox[{"Point", "[", 
+            RowBox[{"Transpose", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"resultDecayEuler", "[", "\"\<Times\>\"", "]"}], ",", 
+               RowBox[{"resultDecayEuler", "[", "\"\<Values\>\"", "]"}]}], 
+              "}"}], "]"}], "]"}]}], "}"}], ",", "\n", 
+         RowBox[{"{", 
+          RowBox[{"CaliforniaGold", ",", 
+           RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+           RowBox[{"Point", "[", 
+            RowBox[{"Transpose", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"resultDecayRK4", "[", "\"\<Times\>\"", "]"}], ",", 
+               RowBox[{"resultDecayRK4", "[", "\"\<Values\>\"", "]"}]}], 
+              "}"}], "]"}], "]"}]}], "}"}]}], "\n", "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", "\n", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Exponential Decay\>\"", ",", "14", ",", "BerkeleyBlue", 
+         ",", "Bold"}], "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<y(t)\>\""}], "}"}]}], ",", "\n", 
+      RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "400"}]}], "]"}]}], "\n", "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"k1l2m3n4-o5p6-7890-klmn-123456789012"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Example 2: Harmonic Oscillator", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"l2m3n4o5-p6q7-8901-lmno-234567890123"],
+
+Cell[TextData[{
+ "Solve the second-order ODE: d\[Squared]y/dt\[Squared] + \[Omega]\[Squared]y = 0\n",
+ "Convert to system: dy\[ScriptCapitalD]/dt = y\[ScriptCapitalE], dy\[ScriptCapitalE]/dt = -\[Omega]\[Squared]y\[ScriptCapitalD]\n",
+ "Analytical solution: y(t) = A cos(\[Omega]t) + B sin(\[Omega]t)"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"m3n4o5p6-q7r8-9012-mnop-345678901234"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"\[Omega]", "=", "2.0"}], ";", " ", 
+  RowBox[{"(*", " ", "Angular frequency", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"A", "=", "1.0"}], ";", " ", 
+  RowBox[{"(*", " ", "Amplitude for cosine", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"B", "=", "0.5"}], ";", " ", 
+  RowBox[{"(*", " ", "Amplitude for sine", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"y0Harmonic", "=", 
+   RowBox[{"{", 
+    RowBox[{"A", ",", 
+     RowBox[{"B", "*", "\[Omega]"}]}], "}"}]}], ";", " ", 
+  RowBox[{"(*", " ", 
+   RowBox[{"{", 
+    RowBox[{"position", ",", " ", "velocity"}], "}"}], " ", "*)"}]}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[20]:=",ExpressionUUID->"n4o5p6q7-r8s9-0123-nopq-456789012345"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"harmonicODE", "[", 
+    RowBox[{"t_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"y", "[", 
+      RowBox[{"[", "2", "]"}], "]"}], ",", 
+     RowBox[{
+      RowBox[{"-", "\[Omega]"}], "^", 
+      RowBox[{"2", "*", 
+       RowBox[{"y", "[", 
+        RowBox[{"[", "1", "]"}], "]"}]}]}]}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"analyticalPosition", "[", "t_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{"A", "*", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"\[Omega]", "*", "t"}], "]"}]}], "+", 
+    RowBox[{"B", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"\[Omega]", "*", "t"}], "]"}]}]}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"analyticalVelocity", "[", "t_", "]"}], ":=", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "A"}], "*", "\[Omega]", "*", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"\[Omega]", "*", "t"}], "]"}]}], "+", 
+    RowBox[{"B", "*", "\[Omega]", "*", 
+     RowBox[{"Cos", "[", 
+      RowBox[{"\[Omega]", "*", "t"}], "]"}]}]}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[24]:=",ExpressionUUID->"o5p6q7r8-s9t0-1234-opqr-567890123456"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"T", "=", 
+   RowBox[{
+    RowBox[{"2", "*", "Pi"}], "/", "\[Omega]"}]}], ";", " ", 
+  RowBox[{"(*", " ", "Period", " ", "*)"}]}], "\n", 
+ RowBox[{
+  RowBox[{"tSpanHarmonic", "=", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "T"}], "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"dtHarmonic", "=", 
+   RowBox[{"T", "/", "100"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"resultHarmonic", "=", 
+   RowBox[{"RungeKutta4Solve", "[", 
+    RowBox[{"harmonicODE", ",", "y0Harmonic", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"tSpanHarmonic", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", 
+       RowBox[{"tSpanHarmonic", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}], "}"}], ",", "dtHarmonic"}], "]"}]}],
+   ";"}]}], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"p6q7r8s9-t0u1-2345-pqrs-678901234567"],
+
+Cell[BoxData[
+ RowBox[{"GraphicsRow", "[", 
+  RowBox[{"{", "\n", 
+   RowBox[{
+    RowBox[{"(*", " ", "Position vs time", " ", "*)"}], "\n", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"analyticalPosition", "[", "t", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "0", ",", "T"}], "}"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"Black", ",", "Dashed", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Epilog", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"BerkeleyBlue", ",", 
+         RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+         RowBox[{"Point", "[", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"resultHarmonic", "[", "\"\<Times\>\"", "]"}], ",", 
+             RowBox[{
+              RowBox[{"resultHarmonic", "[", "\"\<Values\>\"", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{"All", ",", "1"}], "]"}], "]"}]}], "}"}], "]"}], 
+          "]"}]}], "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Position vs Time\>\"", ",", "12", ",", "BerkeleyBlue"}],
+         "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<Position\>\""}], "}"}]}], ",", 
+      "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}], ",", "\n", "\n", 
+    RowBox[{"(*", " ", "Velocity vs time", " ", "*)"}], "\n", 
+    RowBox[{"Plot", "[", 
+     RowBox[{
+      RowBox[{"analyticalVelocity", "[", "t", "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "0", ",", "T"}], "}"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"Black", ",", "Dashed", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Epilog", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"CaliforniaGold", ",", 
+         RowBox[{"PointSize", "[", "0.008", "]"}], ",", 
+         RowBox[{"Point", "[", 
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"resultHarmonic", "[", "\"\<Times\>\"", "]"}], ",", 
+             RowBox[{
+              RowBox[{"resultHarmonic", "[", "\"\<Values\>\"", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{"All", ",", "2"}], "]"}], "]"}]}], "}"}], "]"}], 
+          "]"}]}], "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Velocity vs Time\>\"", ",", "12", ",", "BerkeleyBlue"}],
+         "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Time\>\"", ",", "\"\<Velocity\>\""}], "}"}]}], ",", 
+      "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}], ",", "\n", "\n", 
+    RowBox[{"(*", " ", "Phase portrait", " ", "*)"}], "\n", 
+    RowBox[{"ListLinePlot", "[", 
+     RowBox[{
+      RowBox[{"resultHarmonic", "[", "\"\<Values\>\"", "]"}], ",", "\n", 
+      RowBox[{"PlotStyle", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"BerkeleyBlue", ",", "Thick"}], "}"}]}], ",", "\n", 
+      RowBox[{"Frame", "\[Rule]", "True"}], ",", 
+      RowBox[{"FrameStyle", "\[Rule]", "BerkeleyBlue"}], ",", "\n", 
+      RowBox[{"PlotLabel", "\[Rule]", 
+       RowBox[{"Style", "[", 
+        RowBox[{"\"\<Phase Portrait\>\"", ",", "12", ",", "BerkeleyBlue"}], 
+        "]"}]}], ",", "\n", 
+      RowBox[{"FrameLabel", "\[Rule]", 
+       RowBox[{"{", 
+        RowBox[{"\"\<Position\>\"", ",", "\"\<Velocity\>\""}], "}"}]}], ",", 
+      "\n", 
+      RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", "\n", 
+      RowBox[{"ImageSize", "\[Rule]", "250"}]}], "]"}]}], "\n", "}"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},
+ CellLabel->"In[31]:=",ExpressionUUID->"q7r8s9t0-u1v2-3456-qrst-789012345678"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["Summary", "Section",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"r8s9t0u1-v2w3-4567-rstu-890123456789"],
+
+Cell[TextData[{
+ "This notebook demonstrated:\n",
+ "1. Exponential growth and decay models\n",
+ "2. Harmonic oscillator as a system of ODEs\n",
+ "3. Comparison between Euler and RK4 methods\n",
+ "4. Berkeley-styled visualization\n\n",
+ "Key observations:\n",
+ "- RK4 is generally more accurate than Euler\n",
+ "- Energy conservation in harmonic oscillator tests solver quality\n",
+ "- Berkeley color scheme enhances professional presentation"
+}], "Text",
+ CellChangeTimes->{{3.9*^9, 3.9*^9}},ExpressionUUID->"s9t0u1v2-w3x4-5678-stuv-901234567890"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1200, 800},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.0 for Microsoft Windows (64-bit) (February 4, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"t0u1v2w3-x4y5-6789-tuvw-012345678901"
+]

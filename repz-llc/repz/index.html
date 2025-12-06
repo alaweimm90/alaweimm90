@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <script type="module">
+      if (import.meta.env.PROD) {
+        const l = 'dataLayer';
+        window[l] = window[l] || [];
+        window[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        const f = document.getElementsByTagName('script')[0];
+        const j = document.createElement('script');
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-K3996XDS';
+        f.parentNode?.insertBefore(j, f);
+
+        const ga = document.createElement('script');
+        ga.async = true;
+        ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XL2VMRCZS2';
+        document.head.appendChild(ga);
+        window.dataLayer = window.dataLayer || [];
+        const gtag = (...args) => { window.dataLayer.push(args); };
+        gtag('js', new Date());
+        gtag('config', 'G-XL2VMRCZS2');
+      }
+    </script>
+    
+    <!-- Primary Meta Tags -->
+    <title>REPZ - Elite Personal Training & Coaching in Bay Area | Transform Your Fitness</title>
+    <meta name="title" content="REPZ - Elite Personal Training & Coaching in Bay Area | Transform Your Fitness" />
+    <meta name="description" content="Premium personal training and fitness coaching in San Francisco Bay Area. Achieve your fitness goals with personalized programs, nutrition guidance, and expert support. Book your free consultation today." />
+    <meta name="keywords" content="personal trainer bay area, fitness coach san francisco, nutrition coaching, weight loss, muscle building, strength training, bay area fitness" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="author" content="REPZ" />
+    
+    <!-- Geographic Meta Tags for Local SEO -->
+    <meta name="geo.region" content="US-CA" />
+    <meta name="geo.placename" content="San Francisco Bay Area" />
+    <meta name="geo.position" content="37.7749;-122.4194" />
+    <meta name="ICBM" content="37.7749, -122.4194" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://repz.com/" />
+    <meta property="og:title" content="REPZ - Elite Personal Training & Coaching in Bay Area" />
+    <meta property="og:description" content="Premium personal training and fitness coaching in San Francisco Bay Area. Achieve your fitness goals with personalized programs, nutrition guidance, and expert support." />
+    <meta property="og:image" content="https://repz.com/og-image.jpg" />
+    <meta property="og:site_name" content="REPZ" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://repz.com/" />
+    <meta property="twitter:title" content="REPZ - Elite Personal Training & Coaching in Bay Area" />
+    <meta property="twitter:description" content="Premium personal training and fitness coaching in San Francisco Bay Area. Transform your fitness with expert guidance." />
+    <meta property="twitter:image" content="https://repz.com/og-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://repz.com/" />
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <!-- Favicons and Icons -->
+    <link rel="icon" href="/lovable-uploads/009ebfb9-7a81-4a04-b2b7-370b51704874.png" type="image/png">
+    <link rel="apple-touch-icon" href="/lovable-uploads/009ebfb9-7a81-4a04-b2b7-370b51704874.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- PWA and Mobile Optimization -->
+    <meta name="theme-color" content="#E97316">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  </head>
+
+  <body>
+    
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

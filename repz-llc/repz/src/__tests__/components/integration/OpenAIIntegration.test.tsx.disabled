@@ -1,0 +1,401 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { supabase } from '@/integrations/supabase/client'
+
+// Mock fetch for external OpenAI API calls
+const mockFetch = vi.fn()
+global.fetch = mockFetch as any
+
+describe('OpenAI Integration Tests', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockFetch.mockClear()
+  })
+
+  describe('AI Fitness Analysis', () => {
+    it('processes form analysis requests correctly', async () => {
+      const mockAIResponse = {
+        data: {
+          analysis: {
+            form_score: 85,
+            improvements: ['Keep core engaged', 'Slow down the eccentric phase'],
+            confidence: 0.92
+          }
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockAIResponse)
+
+      const result = await supabase.functions.invoke('form-analysis-ai', {
+        body: {
+          exercise: 'squat',
+          video_data: 'base64-encoded-video',
+          user_metrics: {
+            height: 175,
+            weight: 70,
+            experience_level: 'intermediate'
+          }
+        }
+      })
+
+      expect(result.data?.analysis.form_score).toBe(85)
+      expect(result.data?.analysis.improvements).toHaveLength(2)
+      expect(result.data?.analysis.confidence).toBeGreaterThan(0.9)
+    })
+
+    it('handles AI analysis errors gracefully', async () => {
+      const mockError = {
+        data: null,
+        error: {
+          message: 'AI service temporarily unavailable',
+          status: 503
+        }
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockError)
+
+      const result = await supabase.functions.invoke('form-analysis-ai', {
+        body: {
+          exercise: 'squat',
+          video_data: 'invalid-data'
+        }
+      })
+
+      expect(result.error?.message).toBe('AI service temporarily unavailable')
+      expect(result.error?.status).toBe(503)
+    })
+  })
+
+  describe('AI Workout Recommendations', () => {
+    it('generates personalized workout recommendations', async () => {
+      const mockRecommendations = {
+        data: {
+          workout_plan: {
+            exercises: [
+              {
+                name: 'Squats',
+                sets: 3,
+                reps: 12,
+                weight: '70kg',
+                rest_seconds: 90
+              },
+              {
+                name: 'Push-ups',
+                sets: 3,
+                reps: 15,
+                rest_seconds: 60
+              }
+            ],
+            estimated_duration: 45,
+            difficulty_level: 'intermediate',
+            calories_estimate: 320
+          }
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockRecommendations)
+
+      const result = await supabase.functions.invoke('ai-workout-recommendations', {
+        body: {
+          user_profile: {
+            fitness_level: 'intermediate',
+            goals: ['strength', 'weight_loss'],
+            available_equipment: ['dumbbells', 'resistance_bands'],
+            time_available: 45,
+            injuries: []
+          },
+          workout_history: [
+            { date: '2024-01-01', exercises_completed: 8 },
+            { date: '2024-01-03', exercises_completed: 6 }
+          ]
+        }
+      })
+
+      expect(result.data?.workout_plan.exercises).toHaveLength(2)
+      expect(result.data?.workout_plan.estimated_duration).toBe(45)
+      expect(result.data?.workout_plan.difficulty_level).toBe('intermediate')
+    })
+
+    it('adapts recommendations based on user feedback', async () => {
+      const mockAdaptedPlan = {
+        data: {
+          workout_plan: {
+            exercises: [
+              {
+                name: 'Modified Squats',
+                sets: 2,
+                reps: 10,
+                modifications: ['Use chair for support']
+              }
+            ],
+            adaptation_reason: 'Reduced intensity based on previous session feedback'
+          }
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockAdaptedPlan)
+
+      const result = await supabase.functions.invoke('ai-workout-recommendations', {
+        body: {
+          user_profile: {
+            fitness_level: 'beginner',
+            recent_feedback: {
+              last_workout_rating: 2,
+              difficulty_feedback: 'too_hard',
+              comments: 'Struggled with squats'
+            }
+          }
+        }
+      })
+
+      expect(result.data?.workout_plan.exercises[0].modifications).toBeDefined()
+      expect(result.data?.workout_plan.adaptation_reason).toContain('feedback')
+    })
+  })
+
+  describe('Nutrition AI Assistant', () => {
+    it('provides personalized nutrition recommendations', async () => {
+      const mockNutritionResponse = {
+        data: {
+          meal_plan: {
+            breakfast: {
+              meal: 'Oatmeal with berries and almonds',
+              calories: 350,
+              macros: { protein: 12, carbs: 55, fat: 8 }
+            },
+            lunch: {
+              meal: 'Grilled chicken salad',
+              calories: 420,
+              macros: { protein: 35, carbs: 15, fat: 22 }
+            }
+          },
+          daily_totals: {
+            calories: 1850,
+            protein: 140,
+            carbs: 185,
+            fat: 62
+          },
+          recommendations: [
+            'Increase protein intake by 20g',
+            'Consider adding omega-3 rich foods'
+          ]
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockNutritionResponse)
+
+      const result = await supabase.functions.invoke('nutrition-ai-assistant', {
+        body: {
+          user_profile: {
+            age: 30,
+            weight: 70,
+            height: 175,
+            activity_level: 'moderate',
+            goals: ['muscle_gain', 'fat_loss']
+          },
+          dietary_preferences: {
+            diet_type: 'omnivore',
+            allergies: ['nuts'],
+            dislikes: ['seafood']
+          }
+        }
+      })
+
+      expect(result.data?.meal_plan.breakfast.calories).toBe(350)
+      expect(result.data?.daily_totals.protein).toBe(140)
+      expect(result.data?.recommendations).toHaveLength(2)
+    })
+
+    it('handles dietary restrictions properly', async () => {
+      const mockRestrictedPlan = {
+        data: {
+          meal_plan: {
+            breakfast: {
+              meal: 'Vegan protein smoothie',
+              allergen_free: true,
+              substitutions: ['Almond milk instead of dairy']
+            }
+          },
+          dietary_compliance: {
+            vegan: true,
+            gluten_free: false,
+            allergen_warnings: []
+          }
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockRestrictedPlan)
+
+      const result = await supabase.functions.invoke('nutrition-ai-assistant', {
+        body: {
+          dietary_preferences: {
+            diet_type: 'vegan',
+            allergies: ['dairy', 'eggs'],
+            restrictions: ['gluten_sensitive']
+          }
+        }
+      })
+
+      expect(result.data?.dietary_compliance.vegan).toBe(true)
+      expect(result.data?.meal_plan.breakfast.allergen_free).toBe(true)
+    })
+  })
+
+  describe('Rate Limiting and Cost Optimization', () => {
+    it('implements proper rate limiting', async () => {
+      const requests = Array.from({ length: 5 }, (_, i) => 
+        supabase.functions.invoke('ai-workout-recommendations', {
+          body: { request_id: i }
+        })
+      )
+
+      // Mock rate limit response for excessive requests
+      vi.mocked(supabase.functions.invoke)
+        .mockResolvedValueOnce({ data: { success: true }, error: null })
+        .mockResolvedValueOnce({ data: { success: true }, error: null })
+        .mockResolvedValueOnce({ data: { success: true }, error: null })
+        .mockResolvedValueOnce({
+          data: null,
+          error: { message: 'Rate limit exceeded', status: 429 }
+        })
+
+      const results = await Promise.all(requests.slice(0, 4))
+
+      expect(results[0].data?.success).toBe(true)
+      expect(results[3].error?.status).toBe(429)
+    })
+
+    it('optimizes token usage for cost efficiency', async () => {
+      const mockOptimizedResponse = {
+        data: {
+          analysis: 'Concise form analysis',
+          token_usage: {
+            prompt_tokens: 150,
+            completion_tokens: 80,
+            total_tokens: 230
+          },
+          cost_estimate: 0.012
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockOptimizedResponse)
+
+      const result = await supabase.functions.invoke('form-analysis-ai', {
+        body: {
+          optimization_level: 'cost_efficient',
+          max_tokens: 100
+        }
+      })
+
+      expect(result.data?.token_usage.total_tokens).toBeLessThan(300)
+      expect(result.data?.cost_estimate).toBeLessThan(0.02)
+    })
+  })
+
+  describe('Content Filtering and Safety', () => {
+    it('filters inappropriate content', async () => {
+      const mockFilteredResponse = {
+        data: null,
+        error: {
+          message: 'Content filtered due to policy violation',
+          code: 'content_filtered',
+          status: 400
+        }
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockFilteredResponse)
+
+      const result = await supabase.functions.invoke('nutrition-ai-assistant', {
+        body: {
+          user_message: 'inappropriate content here'
+        }
+      })
+
+      expect(result.error?.code).toBe('content_filtered')
+      expect(result.data).toBeNull()
+    })
+
+    it('provides safe, health-focused recommendations', async () => {
+      const mockSafeResponse = {
+        data: {
+          recommendations: [
+            'Consult with a healthcare provider before starting',
+            'Focus on gradual, sustainable changes',
+            'Listen to your body and rest when needed'
+          ],
+          safety_disclaimer: true,
+          medical_advice_warning: 'This is not medical advice'
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockSafeResponse)
+
+      const result = await supabase.functions.invoke('ai-workout-recommendations', {
+        body: {
+          user_profile: {
+            health_conditions: ['previous_injury'],
+            medication: ['blood_pressure']
+          }
+        }
+      })
+
+      expect(result.data?.safety_disclaimer).toBe(true)
+      expect(result.data?.medical_advice_warning).toBeDefined()
+      expect(result.data?.recommendations[0]).toContain('healthcare provider')
+    })
+  })
+
+  describe('Error Recovery and Fallback', () => {
+    it('handles OpenAI API outages gracefully', async () => {
+      const mockFallbackResponse = {
+        data: {
+          message: 'AI service temporarily unavailable. Using cached recommendations.',
+          fallback_recommendations: [
+            'Focus on basic bodyweight exercises',
+            'Stay hydrated and maintain proper form'
+          ],
+          is_fallback: true
+        },
+        error: null
+      }
+
+      vi.mocked(supabase.functions.invoke).mockResolvedValue(mockFallbackResponse)
+
+      const result = await supabase.functions.invoke('ai-workout-recommendations', {
+        body: { user_id: 'user-123' }
+      })
+
+      expect(result.data?.is_fallback).toBe(true)
+      expect(result.data?.fallback_recommendations).toBeDefined()
+    })
+
+    it('implements retry logic for transient failures', async () => {
+      // First call fails, second succeeds
+      vi.mocked(supabase.functions.invoke)
+        .mockResolvedValueOnce({
+          data: null,
+          error: { message: 'Temporary server error', status: 503 }
+        })
+        .mockResolvedValueOnce({
+          data: { analysis: 'Successful analysis' },
+          error: null
+        })
+
+      // Simulate retry logic
+      let result = await supabase.functions.invoke('form-analysis-ai')
+      if (result.error?.status === 503) {
+        // Retry after delay
+        await new Promise(resolve => setTimeout(resolve, 100))
+        result = await supabase.functions.invoke('form-analysis-ai')
+      }
+
+      expect(result.data?.analysis).toBe('Successful analysis')
+    })
+  })
+})

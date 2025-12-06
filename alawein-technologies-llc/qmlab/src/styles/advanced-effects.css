@@ -1,0 +1,389 @@
+/* Advanced Visual Effects - QMLab Premium Enhancement */
+
+/* Quantum particle background animation */
+.quantum-background::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+  animation: quantum-background-shift 20s ease-in-out infinite;
+}
+
+@keyframes quantum-background-shift {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-10px, -5px) scale(1.02);
+  }
+  66% {
+    transform: translate(5px, -10px) scale(0.98);
+  }
+}
+
+/* Enhanced loading states */
+.quantum-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(59, 130, 246, 0.1),
+    transparent
+  );
+  animation: quantum-loading-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes quantum-loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Advanced hover effects for cards */
+.card-advanced-hover {
+  position: relative;
+  transition: var(--transition-elegant);
+  transform-style: preserve-3d;
+}
+
+.card-advanced-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.05) 0%,
+    rgba(168, 85, 247, 0.05) 100%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-elegant);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.card-advanced-hover:hover::before {
+  opacity: 1;
+}
+
+.card-advanced-hover:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(59, 130, 246, 0.08);
+}
+
+/* Quantum state transition effects */
+.quantum-state-transition {
+  position: relative;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quantum-state-pure {
+  background: linear-gradient(135deg, 
+    rgba(34, 197, 94, 0.1) 0%, 
+    rgba(34, 197, 94, 0.05) 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.quantum-state-mixed {
+  background: linear-gradient(135deg, 
+    rgba(251, 146, 60, 0.1) 0%, 
+    rgba(251, 146, 60, 0.05) 100%);
+  border-color: rgba(251, 146, 60, 0.3);
+}
+
+.quantum-state-entangled {
+  background: linear-gradient(135deg, 
+    rgba(168, 85, 247, 0.1) 0%, 
+    rgba(168, 85, 247, 0.05) 100%);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+/* Advanced glass panel variants */
+.glass-panel-advanced {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    var(--shadow-glass),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel-advanced::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+}
+
+/* Enhanced focus ring system */
+.focus-ring-advanced {
+  position: relative;
+}
+
+.focus-ring-advanced:focus-visible {
+  outline: none;
+}
+
+.focus-ring-advanced:focus-visible::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border: 2px solid var(--color-primary);
+  border-radius: calc(var(--radius-lg) + 4px);
+  box-shadow: 
+    0 0 0 2px var(--surface-base),
+    0 0 0 6px rgba(59, 130, 246, 0.2);
+  animation: focus-pulse 0.3s ease-out;
+}
+
+@keyframes focus-pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Advanced button interactions */
+.button-quantum-enhanced {
+  position: relative;
+  overflow: hidden;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-backdrop-filter-subtle);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-quantum-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+  border-radius: 50%;
+}
+
+.button-quantum-enhanced:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+.button-quantum-enhanced:active {
+  transform: scale(0.96);
+}
+
+/* Micro-interactions for quantum elements */
+.quantum-micro-animation {
+  animation: quantum-subtle-float 4s ease-in-out infinite;
+}
+
+.quantum-micro-animation:nth-child(2n) {
+  animation-delay: -1s;
+}
+
+.quantum-micro-animation:nth-child(3n) {
+  animation-delay: -2s;
+}
+
+@keyframes quantum-subtle-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(0.5deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(-0.5deg);
+  }
+}
+
+/* Enhanced scrollbar styling */
+.quantum-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(59, 130, 246, 0.3) transparent;
+}
+
+.quantum-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.quantum-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-full);
+}
+
+.quantum-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.3) 0%,
+    rgba(168, 85, 247, 0.3) 100%
+  );
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.quantum-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.5) 0%,
+    rgba(168, 85, 247, 0.5) 100%
+  );
+  background-clip: content-box;
+}
+
+/* Advanced text selection */
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--text-primary);
+}
+
+/* Quantum energy field effect */
+.quantum-energy-field {
+  position: relative;
+}
+
+.quantum-energy-field::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(168, 85, 247, 0.1),
+    rgba(34, 197, 94, 0.1),
+    rgba(59, 130, 246, 0.1)
+  );
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  animation: quantum-energy-flow 8s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.quantum-energy-field:hover::before {
+  opacity: 1;
+}
+
+@keyframes quantum-energy-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+/* Performance optimizations for advanced effects */
+@media (prefers-reduced-motion: reduce) {
+  .quantum-background::before,
+  .quantum-loading::after,
+  .quantum-micro-animation,
+  .quantum-energy-field::before {
+    animation: none;
+  }
+  
+  .card-advanced-hover:hover {
+    transform: none;
+  }
+  
+  .button-quantum-enhanced:active {
+    transform: none;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .glass-panel-advanced {
+    background: var(--surface-1);
+    border: 2px solid var(--border-primary);
+    backdrop-filter: none;
+  }
+  
+  .quantum-state-pure,
+  .quantum-state-mixed,
+  .quantum-state-entangled {
+    background: var(--surface-base);
+    border: 2px solid var(--border-primary);
+  }
+}
+
+/* GPU acceleration for smooth performance */
+.gpu-optimized {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.gpu-optimized-hover:hover {
+  will-change: transform, box-shadow;
+}
+
+/* Remove will-change when not animating for better performance */
+.gpu-optimized:not(:hover):not(:focus):not(:active) {
+  will-change: auto;
+}

@@ -1,0 +1,291 @@
+name: stream_processing
+version: 1.0.0
+category: real_time
+description: Real-time stream processing with windowing, state management, and exactly-once semantics
+author: ORCHEX Team
+tags:
+  - streaming
+  - real-time
+  - event-driven
+  - windowing
+  - stateful
+
+parameters:
+  stream_source:
+    type: string
+    description: Stream source (kafka, kinesis, pubsub, websocket)
+    required: true
+    allowed_values: [kafka, kinesis, pubsub, websocket]
+
+  source_config:
+    type: dict
+    description: Configuration for stream source
+    required: true
+
+  processing_mode:
+    type: string
+    description: Processing mode
+    required: false
+    default: exactly_once
+    allowed_values: [at_least_once, at_most_once, exactly_once]
+
+  window_type:
+    type: string
+    description: Window type for aggregation
+    required: false
+    default: tumbling
+    allowed_values: [tumbling, sliding, session]
+
+  window_size:
+    type: int
+    description: Window size in seconds
+    required: false
+    default: 60
+
+  watermark_delay:
+    type: int
+    description: Watermark delay for late events (seconds)
+    required: false
+    default: 10
+
+  checkpoint_interval:
+    type: int
+    description: Checkpoint interval in seconds
+    required: false
+    default: 30
+
+workflow:
+  config:
+    type: streaming
+    processing_guarantee: "{{processing_mode}}"
+    state_backend: rocksdb
+
+  tasks:
+    - name: initialize_stream
+      type: stream_init
+      description: Initialize stream processing
+      parameters:
+        source: "{{stream_source}}"
+        config: "{{source_config}}"
+        consumer_group: "atlas_stream_{{job_name}}"
+        auto_offset_reset: latest
+        enable_auto_commit: false
+
+    - name: configure_windowing
+      type: windowing_config
+      description: Configure windowing strategy
+      depends_on: [initialize_stream]
+      parameters:
+        window_type: "{{window_type}}"
+        size: "{{window_size}}"
+        slide_interval: "${window_size} / 2"
+        watermark_delay: "{{watermark_delay}}"
+        allowed_lateness: "${watermark_delay} * 2"
+        trigger:
+          type: event_time
+          early_firing: true
+          late_firing: true
+
+    - name: setup_state_store
+      type: state_store
+      description: Setup distributed state store
+      depends_on: [initialize_stream]
+      parameters:
+        backend: rocksdb
+        enable_ttl: true
+        ttl_seconds: 86400
+        enable_changelog: true
+        replication_factor: 3
+
+    - name: stream_ingestion
+      type: stream_consume
+      description: Consume events from stream
+      depends_on: [initialize_stream, setup_state_store]
+      parameters:
+        parallelism: 8
+        buffer_size: 10000
+        max_poll_records: 500
+        deserializer: json
+        schema_registry: "${source_config.schema_registry}"
+
+    - name: event_validation
+      type: stream_filter
+      description: Validate and filter events
+      depends_on: [stream_ingestion]
+      parameters:
+        filters:
+          - valid_schema: true
+          - timestamp_range:
+              min: "${now() - 1h}"
+              max: "${now() + 1m}"
+          - required_fields: [id, timestamp, value]
+        dead_letter_queue: invalid_events
+
+    - name: event_enrichment
+      type: stream_map
+      description: Enrich events with additional data
+      depends_on: [event_validation]
+      parameters:
+        enrichment_source:
+          type: cache
+          lookup_key: event_id
+          cache_ttl: 300
+        async_enrichment: true
+        timeout: 100
+
+    - name: stateful_transformation
+      type: stream_process
+      description: Apply stateful transformations
+      depends_on: [event_enrichment]
+      parameters:
+        state_store: "${setup_state_store.store}"
+        transformations:
+          - deduplication:
+              key: event_id
+              window: 300
+          - session_tracking:
+              session_gap: 1800
+              max_session_length: 7200
+          - running_aggregation:
+              metrics: [count, sum, avg, min, max]
+
+    - name: window_aggregation
+      type: windowed_aggregate
+      description: Perform windowed aggregations
+      depends_on: [stateful_transformation]
+      parameters:
+        window: "${configure_windowing.window}"
+        group_by: [user_id, category]
+        aggregations:
+          - count: "*"
+          - sum: value
+          - avg: value
+          - percentiles: [50, 95, 99]
+        emit_strategy:
+          on_window_close: true
+          on_watermark: true
+          periodic: 10
+
+    - name: pattern_detection
+      type: cep
+      description: Complex event pattern detection
+      depends_on: [stateful_transformation]
+      parameters:
+        patterns:
+          - name: anomaly_spike
+            pattern: "A -> B -> C"
+            within: 60
+            conditions:
+              A: "value > avg * 2"
+              B: "value > avg * 3"
+              C: "value > avg * 4"
+          - name: fraud_pattern
+            pattern: "(A | B) -> C+"
+            within: 300
+
+    - name: ml_inference
+      type: stream_ml
+      description: Apply ML models to stream
+      depends_on: [event_enrichment]
+      parameters:
+        model_path: models/stream_classifier
+        batch_size: 100
+        async_inference: true
+        model_refresh_interval: 3600
+
+    - name: stream_join
+      type: stream_join
+      description: Join multiple streams
+      depends_on: [stateful_transformation]
+      parameters:
+        join_type: inner
+        join_window: 60
+        join_key: transaction_id
+        streams:
+          - name: transactions
+            topic: transactions_stream
+          - name: users
+            topic: users_stream
+
+    - name: output_sink
+      type: stream_sink
+      description: Write processed data to multiple sinks
+      depends_on: [window_aggregation, pattern_detection, ml_inference]
+      parameters:
+        sinks:
+          - type: kafka
+            topic: processed_events
+            key: event_id
+            compression: snappy
+          - type: database
+            table: stream_results
+            batch_size: 1000
+            upsert: true
+          - type: metrics
+            namespace: stream_metrics
+          - type: alert
+            condition: "${pattern_detection.anomaly_detected}"
+
+    - name: checkpoint_management
+      type: checkpoint
+      description: Manage stream checkpoints
+      depends_on: [output_sink]
+      parameters:
+        interval: "{{checkpoint_interval}}"
+        storage: distributed_storage
+        cleanup_policy: keep_last_n
+        keep_checkpoints: 3
+
+    - name: backpressure_handling
+      type: backpressure
+      description: Handle backpressure in stream
+      parameters:
+        strategy: adaptive
+        max_pending: 100000
+        slow_consumer_timeout: 300
+        rate_limiting:
+          enabled: true
+          max_rate: 10000
+
+    - name: stream_monitoring
+      type: monitoring
+      description: Monitor stream health
+      parameters:
+        metrics:
+          - throughput
+          - latency
+          - backlog
+          - error_rate
+          - checkpoint_duration
+        alerts:
+          - metric: backlog
+            threshold: 100000
+            action: scale_up
+          - metric: error_rate
+            threshold: 0.01
+            action: alert
+
+    - name: auto_scaling
+      type: auto_scale
+      description: Auto-scale stream processing
+      depends_on: [stream_monitoring]
+      parameters:
+        min_instances: 2
+        max_instances: 20
+        scale_up_threshold:
+          backlog: 50000
+          cpu: 0.8
+        scale_down_threshold:
+          backlog: 10000
+          cpu: 0.3
+
+dependencies:
+  - apache-flink
+  - apache-kafka
+  - rocksdb
+
+metadata:
+  performance:
+    throughput: "100k events/sec"
+    latency_p99: "100ms"
+    state_size: "100GB"

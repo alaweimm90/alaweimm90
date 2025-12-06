@@ -1,0 +1,169 @@
+{
+  "timestamp": "2025-08-04T17:20:09.867Z",
+  "summary": {
+    "totalIssues": 14,
+    "criticalIssues": 13,
+    "organizationScore": 90,
+    "functionalityScore": 11
+  },
+  "routes": {
+    "defined": [
+      "/",
+      "/login",
+      "/signup",
+      "/pricing",
+      "/account",
+      "/dashboard",
+      "/messages",
+      "/sessions",
+      "/progress",
+      "/ai-assistant",
+      "/biomarkers",
+      "/in-person-training",
+      "/terms-of-service",
+      "/privacy-policy",
+      "*"
+    ],
+    "broken": [],
+    "unused": [],
+    "missing": []
+  },
+  "components": {
+    "total": 302,
+    "functional": 0,
+    "broken": 0,
+    "unused": 0,
+    "duplicates": []
+  },
+  "themes": {
+    "scattered": [],
+    "inconsistent": [],
+    "centralized": true
+  },
+  "buttons": {
+    "total": 517,
+    "withHandlers": 505,
+    "withoutHandlers": 12,
+    "brokenButtons": [
+      {
+        "file": "src/__tests__/components/AccessibilityTests.test.tsx",
+        "line": 51,
+        "button": "<Button aria-label=\"Close dialog\">...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/__tests__/components/AccessibilityTests.test.tsx",
+        "line": 167,
+        "button": "<Button>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/__tests__/components/AuthModal.test.tsx",
+        "line": 62,
+        "button": "<button>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/__tests__/components/AuthModal.test.tsx",
+        "line": 63,
+        "button": "<button>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/pages/auth/Login.tsx",
+        "line": 247,
+        "button": "<Link \n                    to=\"/reset-password\" \n                    className=\"text-sm text-primary...",
+        "issue": "Link to undefined route: /reset-password"
+      },
+      {
+        "file": "src/test/components/tiers/TierCard.test.tsx",
+        "line": 41,
+        "button": "<Button \n            className=\"w-full\" \n            aria-label={`Upgrade to ${name}`}\n          >...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 7,
+        "button": "<Button>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 15,
+        "button": "<Button variant=\"destructive\">...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 22,
+        "button": "<Button size=\"lg\">...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 39,
+        "button": "<Button disabled>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 48,
+        "button": "<Button asChild>...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 59,
+        "button": "<Button className=\"custom-class\">...",
+        "issue": "No event handler found"
+      },
+      {
+        "file": "src/test/components/ui/Button.test.tsx",
+        "line": 67,
+        "button": "<Button ref={ref}>...",
+        "issue": "No event handler found"
+      }
+    ]
+  },
+  "architecture": {
+    "issues": [
+      "Inconsistent import patterns found in 27 files"
+    ],
+    "improvements": [
+      {
+        "type": "import-consistency",
+        "description": "Standardize import patterns across the codebase",
+        "files": [
+          "src/components/SubscriptionModal.tsx",
+          "src/components/account/AccountDashboard.tsx",
+          "src/components/ai/LiveCoachingInterface.tsx",
+          "src/components/analytics/BusinessIntelligenceDashboard.tsx",
+          "src/components/auth/AuthButton.tsx"
+        ]
+      }
+    ],
+    "consolidationOpportunities": [
+      {
+        "type": "directory-structure",
+        "description": "Mixed feature-based and component-based organization",
+        "action": "Consolidate to consistent pattern (recommend feature-based)"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "priority": "high",
+      "category": "functionality",
+      "title": "Fix 13 broken buttons/links",
+      "description": "Add missing event handlers and fix broken navigation",
+      "estimatedTime": "130 minutes"
+    },
+    {
+      "priority": "low",
+      "category": "architecture",
+      "title": "Mixed feature-based and component-based organization",
+      "description": "Consolidate to consistent pattern (recommend feature-based)",
+      "estimatedTime": "1-3 hours"
+    }
+  ]
+}

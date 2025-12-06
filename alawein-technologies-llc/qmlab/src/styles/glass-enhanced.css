@@ -1,0 +1,305 @@
+/* Enhanced Glass Morphism System - Premium UI */
+
+/* Base Glass Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gradient-glass);
+  pointer-events: none;
+}
+
+.glass-subtle {
+  background: var(--glass-bg-subtle);
+  backdrop-filter: var(--glass-backdrop-filter-subtle);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+}
+
+.glass-minimal {
+  background: var(--glass-bg-minimal);
+  backdrop-filter: var(--glass-backdrop-filter-minimal);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Interactive Glass States */
+.glass-interactive {
+  transition: var(--transition-elegant);
+  cursor: pointer;
+}
+
+.glass-interactive:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-glass-lg);
+  transform: translateY(-1px);
+}
+
+.glass-interactive:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-elevated);
+}
+
+.glass-interactive:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Specialized Glass Variants */
+.glass-elevated {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-floating);
+  z-index: var(--z-elevated);
+}
+
+.glass-floating {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-floating);
+  position: relative;
+  z-index: var(--z-floating);
+}
+
+/* Overlay System - Proper Z-Index Management */
+.overlay-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--surface-overlay);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-modal-backdrop);
+  animation: fade-in 0.3s ease-out;
+}
+
+.overlay-content {
+  position: fixed;
+  z-index: var(--z-modal);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-floating);
+  animation: scale-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Command Palette Specific */
+.command-palette-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-command-palette);
+  animation: fade-in 0.2s ease-out;
+}
+
+.command-palette-content {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  z-index: calc(var(--z-command-palette) + 1);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-floating);
+  animation: slide-down-scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Sidebar System */
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: var(--z-sidebar);
+  animation: fade-in 0.3s ease-out;
+}
+
+.sidebar-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  max-width: 90vw;
+  z-index: calc(var(--z-sidebar) + 1);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border-left: 1px solid var(--glass-border-strong);
+  box-shadow: var(--shadow-floating);
+  animation: slide-in-right 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dropdown System */
+.dropdown-content {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-floating);
+  animation: fade-in-down 0.2s ease-out;
+}
+
+/* Tooltip System */
+.tooltip-content {
+  position: absolute;
+  z-index: var(--z-tooltip);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop-filter);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  white-space: nowrap;
+  animation: fade-in 0.2s ease-out;
+}
+
+/* Animation Keyframes */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-down-scale {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .command-palette-content {
+    top: 10%;
+    width: 95%;
+    max-width: none;
+  }
+  
+  .sidebar-content {
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  .glass-panel {
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .glass-interactive,
+  .overlay-backdrop,
+  .overlay-content,
+  .command-palette-backdrop,
+  .command-palette-content,
+  .sidebar-backdrop,
+  .sidebar-content,
+  .dropdown-content,
+  .tooltip-content {
+    animation: none;
+    transition: none;
+  }
+  
+  .glass-interactive:hover {
+    transform: none;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .glass-panel,
+  .glass-subtle,
+  .glass-minimal,
+  .overlay-content,
+  .command-palette-content,
+  .sidebar-content,
+  .dropdown-content {
+    background: var(--surface-base);
+    border: 2px solid var(--border-primary);
+    backdrop-filter: none;
+  }
+  
+  .overlay-backdrop,
+  .command-palette-backdrop,
+  .sidebar-backdrop {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: none;
+  }
+}

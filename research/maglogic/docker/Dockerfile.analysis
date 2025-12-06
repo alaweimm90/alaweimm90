@@ -1,0 +1,868 @@
+# MagLogic Analysis Environment
+# UC Berkeley Nanomagnetic Logic Research
+# 
+# This container provides a complete Python analysis environment for
+# processing micromagnetic simulation results with MagLogic tools.
+
+FROM python:3.11-slim-bullseye
+
+# Metadata
+LABEL maintainer="Meshal Alawein <meshal@berkeley.edu>"
+LABEL description="Python analysis environment for MagLogic nanomagnetic simulations"
+LABEL version="1.0.0"
+LABEL repository="https://github.com/alaweimm90/MagLogic"
+
+# Environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/workspace/maglogic:$PYTHONPATH
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    # Build tools
+    build-essential \
+    git \
+    wget \
+    curl \
+    # Graphics and visualization dependencies
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libfontconfig1 \
+    libxft2 \
+    # Additional utilities
+    vim \
+    htop \
+    tree \
+    unzip \
+    # LaTeX for publication-quality plots
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-fonts-extra \
+    dvipng \
+    cm-super \
+    && rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip and install core Python packages
+RUN python -m pip install --upgrade pip setuptools wheel
+
+# Install scientific Python stack
+RUN pip install --no-cache-dir \
+    # Core scientific libraries
+    numpy>=1.21.0 \
+    scipy>=1.7.0 \
+    matplotlib>=3.5.0 \
+    pandas>=1.3.0 \
+    # Data handling
+    h5py>=3.2.0 \
+    pillow>=8.3.0 \
+    pyyaml>=5.4.0 \
+    # Interactive and visualization
+    plotly>=5.0.0 \
+    seaborn>=0.11.0 \
+    bokeh>=2.4.0 \
+    # Jupyter ecosystem
+    jupyter>=1.0.0 \
+    jupyterlab>=3.4.0 \
+    ipywidgets>=7.6.0 \
+    ipympl>=0.9.0 \
+    # Progress and utilities
+    tqdm>=4.61.0 \
+    click>=8.0.0 \
+    # Scientific computing extensions
+    scikit-image>=0.19.0 \
+    scikit-learn>=1.0.0 \
+    # Machine learning (optional)
+    torch>=1.12.0 \
+    torchvision>=0.13.0 \
+    # Advanced analysis
+    networkx>=2.8.0 \
+    sympy>=1.10.0
+
+# Install development and testing tools
+RUN pip install --no-cache-dir \
+    pytest>=6.2.0 \
+    pytest-cov>=2.12.0 \
+    black>=21.0.0 \
+    flake8>=3.9.0 \
+    mypy>=0.910 \
+    # Documentation
+    sphinx>=4.0.0 \
+    sphinx-rtd-theme>=0.5.0 \
+    nbsphinx>=0.8.0
+
+# Create working directories
+RUN mkdir -p /workspace/maglogic \
+             /workspace/data \
+             /workspace/results \
+             /workspace/notebooks \
+             /workspace/scripts \
+             /workspace/examples
+
+# Set up MagLogic Python package
+WORKDIR /workspace
+COPY python/ ./maglogic/
+COPY examples/ ./examples/
+COPY docs/ ./docs/
+COPY pyproject.toml ./
+COPY requirements.txt ./
+
+# Install MagLogic package in development mode
+RUN pip install -e ./maglogic/
+
+# Create analysis runner script
+RUN cat > /usr/local/bin/maglogic-analyze << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Analysis Suite ==="
+echo "UC Berkeley Nanomagnetic Logic Research"
+echo "Meshal Alawein"
+echo ""
+
+# Function to show usage
+show_usage() {
+    echo "Usage: maglogic-analyze [COMMAND] [OPTIONS]"
+    echo ""
+    echo "Commands:"
+    echo "  ovf <file>              - Analyze single OVF file"
+    echo "  odt <file>              - Analyze ODT table file"
+    echo "  directory <dir>         - Analyze all files in directory"
+    echo "  batch <pattern>         - Batch analysis of files matching pattern"
+    echo "  compare <file1> <file2> - Compare two simulation results"
+    echo "  demo                    - Run NAND/NOR logic gate demo"
+    echo "  notebook                - Start Jupyter notebook server"
+    echo ""
+    echo "Examples:"
+    echo "  maglogic-analyze ovf /data/magnetization.ovf"
+    echo "  maglogic-analyze directory /data/simulation_results/"
+    echo "  maglogic-analyze demo"
+}
+
+# Parse command
+COMMAND=${1:-help}
+shift || true
+
+case $COMMAND in
+    "ovf")
+        if [ $# -eq 0 ]; then
+            echo "Error: OVF file path required"
+            exit 1
+        fi
+        
+        python3 << PYTHON_SCRIPT
+import sys
+sys.path.insert(0, '/workspace/maglogic')
+from maglogic.analysis.magnetization import MagnetizationAnalyzer
+from pathlib import Path
+
+analyzer = MagnetizationAnalyzer()
+ovf_file = Path("$1")
+
+if not ovf_file.exists():
+    print(f"Error: File {ovf_file} not found")
+    sys.exit(1)
+
+print(f"Analyzing OVF file: {ovf_file}")
+results = analyzer.analyze_ovf_file(ovf_file)
+
+# Print summary
+print("\\n=== Analysis Summary ===")
+domain_info = results.get('domain_analysis', {})
+print(f"Domains: {domain_info.get('num_domains', 'unknown')}")
+
+energy_info = results.get('energy_analysis', {})
+if 'total_energy' in energy_info:
+    total_e = energy_info['total_energy'].get('total', 0)
+    print(f"Total energy: {total_e:.2e} J")
+
+topo_info = results.get('topological_analysis', {})
+print(f"Topological defects: {topo_info.get('num_topological_defects', 0)}")
+
+# Save visualization
+fig = analyzer.plot_magnetization_map(results)
+output_file = ovf_file.parent / f"{ovf_file.stem}_analysis.png"
+fig.savefig(output_file, dpi=300, bbox_inches='tight')
+print(f"\\nVisualization saved: {output_file}")
+PYTHON_SCRIPT
+        ;;
+        
+    "directory")
+        if [ $# -eq 0 ]; then
+            echo "Error: Directory path required"
+            exit 1
+        fi
+        
+        python3 << PYTHON_SCRIPT
+import sys
+sys.path.insert(0, '/workspace/maglogic')
+from maglogic.parsers import OOMMFParser, MuMax3Parser
+from maglogic.analysis.magnetization import MagnetizationAnalyzer
+from pathlib import Path
+import json
+
+directory = Path("$1")
+if not directory.exists():
+    print(f"Error: Directory {directory} not found")
+    sys.exit(1)
+
+print(f"Analyzing directory: {directory}")
+
+oommf_parser = OOMMFParser()
+mumax3_parser = MuMax3Parser()
+analyzer = MagnetizationAnalyzer()
+
+results_summary = {
+    'directory': str(directory),
+    'ovf_files': [],
+    'odt_files': [],
+    'table_files': [],
+    'analysis_results': []
+}
+
+# Find all relevant files
+ovf_files = list(directory.glob('*.ovf'))
+odt_files = list(directory.glob('*.odt'))
+table_files = list(directory.glob('table.txt'))
+
+print(f"Found: {len(ovf_files)} OVF files, {len(odt_files)} ODT files, {len(table_files)} table files")
+
+# Analyze OVF files
+for ovf_file in ovf_files[:5]:  # Limit to first 5 for speed
+    try:
+        print(f"Analyzing: {ovf_file.name}")
+        analysis = analyzer.analyze_ovf_file(ovf_file)
+        results_summary['analysis_results'].append({
+            'file': str(ovf_file),
+            'type': 'ovf',
+            'analysis': analysis
+        })
+    except Exception as e:
+        print(f"Error analyzing {ovf_file}: {e}")
+
+# Save summary
+summary_file = directory / 'analysis_summary.json'
+with open(summary_file, 'w') as f:
+    # Make JSON serializable
+    def make_serializable(obj):
+        if hasattr(obj, 'tolist'):
+            return obj.tolist()
+        elif isinstance(obj, Path):
+            return str(obj)
+        elif isinstance(obj, dict):
+            return {k: make_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [make_serializable(item) for item in obj]
+        else:
+            return obj
+    
+    json.dump(make_serializable(results_summary), f, indent=2)
+
+print(f"\\nAnalysis complete. Summary saved to: {summary_file}")
+PYTHON_SCRIPT
+        ;;
+        
+    "demo")
+        echo "Running NAND/NOR logic gate demonstration..."
+        python3 << PYTHON_SCRIPT
+import sys
+sys.path.insert(0, '/workspace/maglogic')
+from maglogic.demos.demo_nand_nor import run_nand_nor_demo
+
+try:
+    results = run_nand_nor_demo('/workspace/results/nand_nor_demo')
+    print("\\nDemo completed successfully!")
+    print("Results saved to: /workspace/results/nand_nor_demo")
+except Exception as e:
+    print(f"Demo failed: {e}")
+    import traceback
+    traceback.print_exc()
+PYTHON_SCRIPT
+        ;;
+        
+    "notebook")
+        echo "Starting Jupyter Lab server..."
+        echo "Access at: http://localhost:8888"
+        jupyter lab \
+            --ip=0.0.0.0 \
+            --port=8888 \
+            --no-browser \
+            --allow-root \
+            --notebook-dir=/workspace \
+            --ServerApp.token='' \
+            --ServerApp.password='' \
+            --ServerApp.allow_origin='*'
+        ;;
+        
+    "help"|*)
+        show_usage
+        ;;
+esac
+EOF
+
+RUN chmod +x /usr/local/bin/maglogic-analyze
+
+# Create data processing utilities
+RUN cat > /usr/local/bin/maglogic-convert << 'EOF'
+#!/bin/bash
+set -e
+
+echo "=== MagLogic Format Converter ==="
+echo ""
+
+show_usage() {
+    echo "Usage: maglogic-convert [FORMAT] [INPUT] [OUTPUT]"
+    echo ""
+    echo "Formats:"
+    echo "  ovf2hdf5    - Convert OVF to HDF5"
+    echo "  odt2csv     - Convert ODT to CSV"
+    echo "  ovf2vtk     - Convert OVF to VTK"
+    echo ""
+}
+
+FORMAT=${1:-help}
+INPUT_FILE=$2
+OUTPUT_FILE=$3
+
+case $FORMAT in
+    "ovf2hdf5")
+        if [ -z "$INPUT_FILE" ] || [ -z "$OUTPUT_FILE" ]; then
+            echo "Error: Input and output files required"
+            exit 1
+        fi
+        
+        python3 << PYTHON_SCRIPT
+import sys
+sys.path.insert(0, '/workspace/maglogic')
+import h5py
+import numpy as np
+from maglogic.parsers import OOMMFParser
+
+parser = OOMMFParser()
+data = parser.parse_ovf("$INPUT_FILE")
+
+with h5py.File("$OUTPUT_FILE", 'w') as f:
+    # Save magnetization data
+    mag_group = f.create_group('magnetization')
+    for key, value in data['magnetization'].items():
+        mag_group.create_dataset(key, data=value)
+    
+    # Save coordinates
+    coord_group = f.create_group('coordinates')
+    for key, value in data['coordinates'].items():
+        coord_group.create_dataset(key, data=value)
+    
+    # Save metadata
+    meta_group = f.create_group('metadata')
+    for key, value in data['metadata'].items():
+        if isinstance(value, (int, float, str)):
+            meta_group.attrs[key] = value
+        elif isinstance(value, list):
+            meta_group.attrs[key] = np.array(value)
+
+print(f"Converted {INPUT_FILE} to {OUTPUT_FILE}")
+PYTHON_SCRIPT
+        ;;
+        
+    "help"|*)
+        show_usage
+        ;;
+esac
+EOF
+
+RUN chmod +x /usr/local/bin/maglogic-convert
+
+# Create example notebooks
+RUN cat > /workspace/notebooks/MagLogic_Analysis_Tutorial.ipynb << 'EOF'
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# MagLogic Analysis Tutorial\n",
+    "\n",
+    "**Nanomagnetic Logic Simulation and Analysis**  \n",
+    "**UC Berkeley - Meshal Alawein**\n",
+    "\n",
+    "This tutorial demonstrates the complete workflow for analyzing micromagnetic simulation results using MagLogic."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Import required libraries\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import pandas as pd\n",
+    "from pathlib import Path\n",
+    "\n",
+    "# Configure matplotlib for high-quality plots\n",
+    "plt.rcParams['figure.dpi'] = 100\n",
+    "plt.rcParams['savefig.dpi'] = 300\n",
+    "plt.rcParams['font.size'] = 12\n",
+    "\n",
+    "# Import MagLogic modules\n",
+    "import sys\n",
+    "sys.path.insert(0, '/workspace/maglogic')\n",
+    "\n",
+    "from maglogic.parsers import OOMMFParser, MuMax3Parser\n",
+    "from maglogic.analysis.magnetization import MagnetizationAnalyzer\n",
+    "from maglogic.core.constants import BERKELEY_COLORS\n",
+    "\n",
+    "print(\"MagLogic loaded successfully!\")\n",
+    "print(f\"Berkeley colors available: {list(BERKELEY_COLORS.keys())}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 1. Basic File Parsing\n",
+    "\n",
+    "MagLogic can parse both OOMMF and MuMax3 output files:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Initialize parsers\n",
+    "oommf_parser = OOMMFParser(verbose=True)\n",
+    "mumax3_parser = MuMax3Parser(verbose=True)\n",
+    "\n",
+    "# Example: Parse an OVF file if available\n",
+    "data_dir = Path('/workspace/data')\n",
+    "results_dir = Path('/workspace/results')\n",
+    "\n",
+    "print(f\"Looking for data in: {data_dir}\")\n",
+    "print(f\"Results will be saved to: {results_dir}\")\n",
+    "\n",
+    "# Find example files\n",
+    "ovf_files = list(data_dir.glob('**/*.ovf'))\n",
+    "odt_files = list(data_dir.glob('**/*.odt'))\n",
+    "table_files = list(data_dir.glob('**/table.txt'))\n",
+    "\n",
+    "print(f\"\\nFound files:\")\n",
+    "print(f\"  OVF files: {len(ovf_files)}\")\n",
+    "print(f\"  ODT files: {len(odt_files)}\")\n",
+    "print(f\"  Table files: {len(table_files)}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 2. Magnetization Analysis\n",
+    "\n",
+    "The MagnetizationAnalyzer provides comprehensive analysis of magnetic structures:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Initialize analyzer\n",
+    "analyzer = MagnetizationAnalyzer()\n",
+    "\n",
+    "# If we have OVF files, analyze them\n",
+    "if ovf_files:\n",
+    "    example_ovf = ovf_files[0]\n",
+    "    print(f\"Analyzing: {example_ovf}\")\n",
+    "    \n",
+    "    # Perform comprehensive analysis\n",
+    "    analysis_results = analyzer.analyze_ovf_file(example_ovf)\n",
+    "    \n",
+    "    # Display results\n",
+    "    print(\"\\n=== Analysis Results ===\")\n",
+    "    \n",
+    "    # Domain analysis\n",
+    "    domain_info = analysis_results.get('domain_analysis', {})\n",
+    "    print(f\"Number of domains: {domain_info.get('num_domains', 'N/A')}\")\n",
+    "    print(f\"Average domain size: {domain_info.get('average_domain_size', 0):.1f} cells\")\n",
+    "    print(f\"Domain wall density: {domain_info.get('domain_wall_density', 0):.4f}\")\n",
+    "    \n",
+    "    # Energy analysis\n",
+    "    energy_info = analysis_results.get('energy_analysis', {})\n",
+    "    if 'total_energy' in energy_info:\n",
+    "        total_energy = energy_info['total_energy']\n",
+    "        print(f\"\\nTotal energy: {total_energy.get('total', 0):.2e} J\")\n",
+    "        print(f\"Average energy density: {total_energy.get('average', 0):.2e} J/m³\")\n",
+    "    \n",
+    "    # Topological analysis\n",
+    "    topo_info = analysis_results.get('topological_analysis', {})\n",
+    "    print(f\"\\nTopological defects: {topo_info.get('num_topological_defects', 0)}\")\n",
+    "    print(f\"Total topological charge: {topo_info.get('total_topological_charge', 0):.3f}\")\n",
+    "    \n",
+    "    # Create visualization\n",
+    "    fig = analyzer.plot_magnetization_map(analysis_results, component='mz')\n",
+    "    plt.show()\n",
+    "    \n",
+    "else:\n",
+    "    print(\"No OVF files found. Please add simulation data to /workspace/data/\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 3. Time Series Analysis\n",
+    "\n",
+    "Analyze temporal evolution of magnetic systems:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Parse time series data\n",
+    "if odt_files:\n",
+    "    odt_file = odt_files[0]\n",
+    "    print(f\"Parsing ODT file: {odt_file}\")\n",
+    "    \n",
+    "    odt_data = oommf_parser.parse_odt(odt_file)\n",
+    "    time_series = odt_data['time_series']\n",
+    "    \n",
+    "    print(f\"Time series data: {len(time_series)} columns, {odt_data['metadata']['num_rows']} rows\")\n",
+    "    \n",
+    "    # Plot time evolution\n",
+    "    fig, axes = plt.subplots(2, 2, figsize=(15, 10))\n",
+    "    \n",
+    "    # Find time column\n",
+    "    time_key = None\n",
+    "    for key in ['Time', 'time', 't']:\n",
+    "        if key in time_series:\n",
+    "            time_key = key\n",
+    "            break\n",
+    "    \n",
+    "    if time_key:\n",
+    "        time = time_series[time_key]\n",
+    "        \n",
+    "        # Plot magnetization components\n",
+    "        mag_components = ['mx', 'my', 'mz']\n",
+    "        colors = [BERKELEY_COLORS['berkeley_blue'], BERKELEY_COLORS['california_gold'], BERKELEY_COLORS['founders_rock']]\n",
+    "        \n",
+    "        for i, (component, color) in enumerate(zip(mag_components, colors)):\n",
+    "            if component in time_series:\n",
+    "                ax = axes[i//2, i%2]\n",
+    "                ax.plot(time * 1e9, time_series[component], color=color, linewidth=2)\n",
+    "                ax.set_xlabel('Time (ns)')\n",
+    "                ax.set_ylabel(f'<{component}>')\n",
+    "                ax.set_title(f'Average {component.upper()} vs Time')\n",
+    "                ax.grid(True, alpha=0.3)\n",
+    "        \n",
+    "        # Plot energy if available\n",
+    "        energy_keys = [k for k in time_series.keys() if 'energy' in k.lower() or k.startswith('E_')]\n",
+    "        if energy_keys:\n",
+    "            ax = axes[1, 1]\n",
+    "            ax.plot(time * 1e9, time_series[energy_keys[0]], \n",
+    "                   color=BERKELEY_COLORS['golden_gate_bridge'], linewidth=2)\n",
+    "            ax.set_xlabel('Time (ns)')\n",
+    "            ax.set_ylabel('Energy (J)')\n",
+    "            ax.set_title('Total Energy vs Time')\n",
+    "            ax.grid(True, alpha=0.3)\n",
+    "        \n",
+    "        plt.tight_layout()\n",
+    "        plt.show()\n",
+    "    \n",
+    "elif table_files:\n",
+    "    table_file = table_files[0]\n",
+    "    print(f\"Parsing MuMax3 table file: {table_file}\")\n",
+    "    \n",
+    "    table_data = mumax3_parser.parse_table(table_file)\n",
+    "    # Similar plotting code as above\n",
+    "    \n",
+    "else:\n",
+    "    print(\"No time series files found.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 4. Advanced Analysis Techniques\n",
+    "\n",
+    "### 4.1 Domain Wall Analysis"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Example of advanced domain wall analysis\n",
+    "if ovf_files and len(ovf_files) > 1:\n",
+    "    print(\"Analyzing domain wall dynamics...\")\n",
+    "    \n",
+    "    # Analyze multiple time steps\n",
+    "    domain_wall_positions = []\n",
+    "    times = []\n",
+    "    \n",
+    "    for i, ovf_file in enumerate(ovf_files[:5]):  # First 5 files\n",
+    "        analysis = analyzer.analyze_ovf_file(ovf_file)\n",
+    "        domain_info = analysis.get('domain_analysis', {})\n",
+    "        \n",
+    "        # Extract domain wall information\n",
+    "        domain_walls = domain_info.get('domain_walls')\n",
+    "        if domain_walls is not None:\n",
+    "            # Calculate domain wall center of mass\n",
+    "            if domain_walls.any():\n",
+    "                wall_positions = np.where(domain_walls)\n",
+    "                center_of_mass = [np.mean(pos) for pos in wall_positions]\n",
+    "                domain_wall_positions.append(center_of_mass)\n",
+    "            else:\n",
+    "                domain_wall_positions.append([0, 0])  # No domain walls\n",
+    "            \n",
+    "            times.append(i)  # Use file index as time proxy\n",
+    "    \n",
+    "    if domain_wall_positions:\n",
+    "        positions_array = np.array(domain_wall_positions)\n",
+    "        \n",
+    "        plt.figure(figsize=(10, 6))\n",
+    "        \n",
+    "        if positions_array.shape[1] >= 2:\n",
+    "            plt.subplot(1, 2, 1)\n",
+    "            plt.plot(times, positions_array[:, 0], 'o-', color=BERKELEY_COLORS['berkeley_blue'])\n",
+    "            plt.xlabel('Time Step')\n",
+    "            plt.ylabel('Domain Wall Position (X)')\n",
+    "            plt.title('Domain Wall X Position')\n",
+    "            plt.grid(True)\n",
+    "            \n",
+    "            plt.subplot(1, 2, 2)\n",
+    "            plt.plot(times, positions_array[:, 1], 'o-', color=BERKELEY_COLORS['california_gold'])\n",
+    "            plt.xlabel('Time Step')\n",
+    "            plt.ylabel('Domain Wall Position (Y)')\n",
+    "            plt.title('Domain Wall Y Position')\n",
+    "            plt.grid(True)\n",
+    "        \n",
+    "        plt.tight_layout()\n",
+    "        plt.show()\n",
+    "    \n",
+    "else:\n",
+    "    print(\"Multiple OVF files needed for domain wall dynamics analysis.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### 4.2 Statistical Analysis"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Statistical analysis of magnetization patterns\n",
+    "if ovf_files:\n",
+    "    print(\"Performing statistical analysis...\")\n",
+    "    \n",
+    "    statistics_data = []\n",
+    "    \n",
+    "    for ovf_file in ovf_files[:3]:  # Analyze first 3 files\n",
+    "        analysis = analyzer.analyze_ovf_file(ovf_file)\n",
+    "        spatial_stats = analysis.get('spatial_analysis', {})\n",
+    "        \n",
+    "        # Extract field statistics\n",
+    "        field_stats = spatial_stats.get('field_statistics', {})\n",
+    "        \n",
+    "        file_stats = {\n",
+    "            'file': ovf_file.name,\n",
+    "            'mx_mean': field_stats.get('mx_stats', {}).get('mean', 0),\n",
+    "            'my_mean': field_stats.get('my_stats', {}).get('mean', 0),\n",
+    "            'mz_mean': field_stats.get('mz_stats', {}).get('mean', 0),\n",
+    "            'mx_std': field_stats.get('mx_stats', {}).get('std', 0),\n",
+    "            'my_std': field_stats.get('my_stats', {}).get('std', 0),\n",
+    "            'mz_std': field_stats.get('mz_stats', {}).get('std', 0),\n",
+    "            'uniformity': spatial_stats.get('uniformity_index', 0)\n",
+    "        }\n",
+    "        \n",
+    "        statistics_data.append(file_stats)\n",
+    "    \n",
+    "    # Convert to DataFrame for easy analysis\n",
+    "    stats_df = pd.DataFrame(statistics_data)\n",
+    "    \n",
+    "    print(\"\\nStatistical Summary:\")\n",
+    "    print(stats_df.describe())\n",
+    "    \n",
+    "    # Plot statistical evolution\n",
+    "    fig, axes = plt.subplots(2, 2, figsize=(12, 8))\n",
+    "    \n",
+    "    # Mean values\n",
+    "    ax = axes[0, 0]\n",
+    "    ax.plot(stats_df.index, stats_df['mx_mean'], 'o-', label='mx', color=BERKELEY_COLORS['berkeley_blue'])\n",
+    "    ax.plot(stats_df.index, stats_df['my_mean'], 's-', label='my', color=BERKELEY_COLORS['california_gold'])\n",
+    "    ax.plot(stats_df.index, stats_df['mz_mean'], '^-', label='mz', color=BERKELEY_COLORS['founders_rock'])\n",
+    "    ax.set_xlabel('File Index')\n",
+    "    ax.set_ylabel('Mean Magnetization')\n",
+    "    ax.set_title('Mean Magnetization Components')\n",
+    "    ax.legend()\n",
+    "    ax.grid(True)\n",
+    "    \n",
+    "    # Standard deviations\n",
+    "    ax = axes[0, 1]\n",
+    "    ax.plot(stats_df.index, stats_df['mx_std'], 'o-', label='mx', color=BERKELEY_COLORS['berkeley_blue'])\n",
+    "    ax.plot(stats_df.index, stats_df['my_std'], 's-', label='my', color=BERKELEY_COLORS['california_gold'])\n",
+    "    ax.plot(stats_df.index, stats_df['mz_std'], '^-', label='mz', color=BERKELEY_COLORS['founders_rock'])\n",
+    "    ax.set_xlabel('File Index')\n",
+    "    ax.set_ylabel('Standard Deviation')\n",
+    "    ax.set_title('Magnetization Variability')\n",
+    "    ax.legend()\n",
+    "    ax.grid(True)\n",
+    "    \n",
+    "    # Uniformity index\n",
+    "    ax = axes[1, 0]\n",
+    "    ax.plot(stats_df.index, stats_df['uniformity'], 'o-', color=BERKELEY_COLORS['golden_gate_bridge'], linewidth=2)\n",
+    "    ax.set_xlabel('File Index')\n",
+    "    ax.set_ylabel('Uniformity Index')\n",
+    "    ax.set_title('Magnetization Uniformity')\n",
+    "    ax.grid(True)\n",
+    "    \n",
+    "    # Correlation plot\n",
+    "    ax = axes[1, 1]\n",
+    "    scatter = ax.scatter(stats_df['mx_mean'], stats_df['mz_mean'], \n",
+    "                        c=stats_df['uniformity'], cmap='viridis', s=100)\n",
+    "    ax.set_xlabel('mx mean')\n",
+    "    ax.set_ylabel('mz mean')\n",
+    "    ax.set_title('mx vs mz (colored by uniformity)')\n",
+    "    plt.colorbar(scatter, ax=ax)\n",
+    "    ax.grid(True)\n",
+    "    \n",
+    "    plt.tight_layout()\n",
+    "    plt.show()\n",
+    "    \n",
+    "else:\n",
+    "    print(\"No OVF files available for statistical analysis.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 5. Exporting Results\n",
+    "\n",
+    "Save analysis results in various formats:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Create results directory\n",
+    "results_dir.mkdir(exist_ok=True)\n",
+    "\n",
+    "# Save analysis results\n",
+    "if 'analysis_results' in locals():\n",
+    "    import json\n",
+    "    \n",
+    "    # Function to make results JSON serializable\n",
+    "    def make_serializable(obj):\n",
+    "        if hasattr(obj, 'tolist'):\n",
+    "            return obj.tolist()\n",
+    "        elif isinstance(obj, np.integer):\n",
+    "            return int(obj)\n",
+    "        elif isinstance(obj, np.floating):\n",
+    "            return float(obj)\n",
+    "        elif isinstance(obj, Path):\n",
+    "            return str(obj)\n",
+    "        elif isinstance(obj, dict):\n",
+    "            return {k: make_serializable(v) for k, v in obj.items()}\n",
+    "        elif isinstance(obj, list):\n",
+    "            return [make_serializable(item) for item in obj]\n",
+    "        else:\n",
+    "            return obj\n",
+    "    \n",
+    "    # Save to JSON\n",
+    "    json_file = results_dir / 'analysis_results.json'\n",
+    "    with open(json_file, 'w') as f:\n",
+    "        json.dump(make_serializable(analysis_results), f, indent=2)\n",
+    "    \n",
+    "    print(f\"Analysis results saved to: {json_file}\")\n",
+    "\n",
+    "# Save statistical data\n",
+    "if 'stats_df' in locals():\n",
+    "    csv_file = results_dir / 'statistics_summary.csv'\n",
+    "    stats_df.to_csv(csv_file, index=False)\n",
+    "    print(f\"Statistical summary saved to: {csv_file}\")\n",
+    "\n",
+    "print(f\"\\nAll results saved to: {results_dir}\")\n",
+    "print(\"Analysis complete!\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Next Steps\n",
+    "\n",
+    "This tutorial covered the basic analysis capabilities of MagLogic. For more advanced features:\n",
+    "\n",
+    "1. **NAND/NOR Logic Demo**: Run `maglogic-analyze demo` in the terminal\n",
+    "2. **Batch Processing**: Use `maglogic-analyze batch` for multiple files\n",
+    "3. **Custom Analysis**: Extend the MagnetizationAnalyzer class for specific needs\n",
+    "4. **Visualization**: Explore interactive plotting with Plotly\n",
+    "5. **Machine Learning**: Apply ML techniques to classify magnetic states\n",
+    "\n",
+    "For more information, visit: [MagLogic Documentation](https://alaweimm90.github.io/MagLogic/)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.11.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
+EOF
+
+# Create non-root user and set permissions
+RUN groupadd -r maglogic && useradd -r -g maglogic maglogic && \
+    chmod -R 755 /workspace && \
+    chown -R maglogic:maglogic /workspace
+WORKDIR /workspace
+
+# Switch to non-root user
+USER maglogic
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD python3 -c "import maglogic; print('MagLogic OK')" || exit 1
+
+# Default command
+CMD ["bash", "-c", "echo 'MagLogic Analysis Container Started' && echo '' && echo 'Available commands:' && echo '  maglogic-analyze     - Analysis tools' && echo '  maglogic-convert     - Format converters' && echo '  jupyter lab          - Start Jupyter Lab' && echo '' && echo 'Examples:' && echo '  maglogic-analyze demo' && echo '  maglogic-analyze notebook' && echo '' && exec bash"]

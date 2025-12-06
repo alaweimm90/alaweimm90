@@ -1,0 +1,266 @@
+name: multi_stage_approval
+version: 1.0.0
+category: workflow_control
+description: Multi-stage approval workflow with escalation and delegation
+author: ORCHEX Team
+tags:
+  - approval
+  - workflow
+  - escalation
+  - governance
+
+parameters:
+  request_type:
+    type: string
+    description: Type of request requiring approval
+    required: true
+
+  request_data:
+    type: dict
+    description: Request details and metadata
+    required: true
+
+  approval_stages:
+    type: list
+    description: List of approval stages with approvers
+    required: true
+
+  escalation_timeout:
+    type: int
+    description: Timeout in hours before escalation
+    required: false
+    default: 24
+
+  require_all_approvals:
+    type: bool
+    description: Require all approvers at each stage
+    required: false
+    default: false
+
+  allow_delegation:
+    type: bool
+    description: Allow approvers to delegate
+    required: false
+    default: true
+
+  notification_channels:
+    type: list
+    description: Channels for notifications
+    required: false
+    default: [email, slack]
+
+workflow:
+  config:
+    type: approval
+    persistent_state: true
+    audit_trail: true
+
+  tasks:
+    - name: validate_request
+      type: validation
+      description: Validate approval request
+      parameters:
+        request_type: "{{request_type}}"
+        request_data: "{{request_data}}"
+        validation_rules:
+          - required_fields: [requester, amount, justification]
+          - authorization: check_requester_permissions
+
+    - name: enrich_request
+      type: enrichment
+      description: Add context and metadata to request
+      depends_on: [validate_request]
+      parameters:
+        request: "{{request_data}}"
+        enrich_with:
+          - historical_approvals
+          - risk_assessment
+          - compliance_check
+          - budget_impact
+
+    - name: determine_approval_path
+      type: routing
+      description: Determine approval path based on request
+      depends_on: [enrich_request]
+      parameters:
+        request_type: "{{request_type}}"
+        enriched_data: "${enrich_request.output}"
+        routing_rules:
+          - condition: "amount > 100000"
+            add_stage: executive_approval
+          - condition: "risk_level == 'high'"
+            add_stage: risk_committee
+          - condition: "compliance_required == true"
+            add_stage: compliance_review
+
+    - name: approval_stages_loop
+      type: loop
+      description: Process each approval stage
+      depends_on: [determine_approval_path]
+      items: "${determine_approval_path.stages}"
+      tasks:
+        - name: notify_approvers
+          type: notification
+          description: Notify approvers for current stage
+          parameters:
+            stage: "${item}"
+            approvers: "${item.approvers}"
+            channels: "{{notification_channels}}"
+            message_template:
+              subject: "Approval Required: {{request_type}}"
+              body: "Request ID: ${request.id}\nAmount: ${request.amount}\nJustification: ${request.justification}"
+
+        - name: collect_approvals
+          type: approval_collection
+          description: Collect approvals from stage approvers
+          parameters:
+            stage: "${item}"
+            approvers: "${item.approvers}"
+            require_all: "{{require_all_approvals}}"
+            timeout: "{{escalation_timeout}}"
+            allow_comments: true
+            allow_conditions: true
+
+        - name: check_delegation
+          type: conditional
+          condition: "{{allow_delegation}} == true AND ${collect_approvals.delegated} == true"
+          if_branch:
+            - name: process_delegation
+              type: delegation
+              parameters:
+                original_approver: "${collect_approvals.delegated_from}"
+                delegate: "${collect_approvals.delegated_to}"
+                validate_delegate: true
+                notify_all: true
+
+        - name: evaluate_stage_result
+          type: evaluation
+          description: Evaluate approval results for stage
+          parameters:
+            approvals: "${collect_approvals.results}"
+            require_all: "{{require_all_approvals}}"
+            stage_weight: "${item.weight}"
+
+        - name: handle_rejection
+          type: conditional
+          condition: "${evaluate_stage_result.status} == 'rejected'"
+          if_branch:
+            - name: notify_rejection
+              type: notification
+              parameters:
+                recipient: "${request.requester}"
+                stage: "${item.name}"
+                reason: "${evaluate_stage_result.rejection_reason}"
+                channels: "{{notification_channels}}"
+
+            - name: stop_workflow
+              type: termination
+              parameters:
+                status: rejected
+                stage: "${item.name}"
+
+        - name: handle_timeout
+          type: conditional
+          condition: "${collect_approvals.timeout} == true"
+          if_branch:
+            - name: escalate_approval
+              type: escalation
+              parameters:
+                current_stage: "${item}"
+                escalation_path: "${item.escalation_path}"
+                reason: timeout
+                original_timeout: "{{escalation_timeout}}"
+
+            - name: notify_escalation
+              type: notification
+              parameters:
+                recipients: "${escalate_approval.escalated_to}"
+                urgency: high
+                channels: "{{notification_channels}}"
+
+        - name: record_stage_decision
+          type: audit
+          description: Record decision for audit trail
+          parameters:
+            stage: "${item.name}"
+            approvers: "${collect_approvals.approvers}"
+            decision: "${evaluate_stage_result.status}"
+            timestamp: "${now()}"
+            comments: "${collect_approvals.comments}"
+            conditions: "${collect_approvals.conditions}"
+
+    - name: final_approval_check
+      type: aggregation
+      description: Aggregate all stage approvals
+      depends_on: [approval_stages_loop]
+      parameters:
+        stages: "${approval_stages_loop.results}"
+        aggregation_method: weighted_vote
+        min_approval_score: 0.7
+
+    - name: execute_approved_action
+      type: conditional
+      depends_on: [final_approval_check]
+      condition: "${final_approval_check.approved} == true"
+      if_branch:
+        - name: implement_request
+          type: implementation
+          parameters:
+            request: "{{request_data}}"
+            approval_id: "${final_approval_check.approval_id}"
+            conditions: "${final_approval_check.conditions}"
+
+        - name: notify_approval
+          type: notification
+          parameters:
+            recipient: "${request.requester}"
+            status: approved
+            approval_id: "${final_approval_check.approval_id}"
+            next_steps: "${implement_request.next_steps}"
+
+      else_branch:
+        - name: notify_final_rejection
+          type: notification
+          parameters:
+            recipient: "${request.requester}"
+            status: rejected
+            reason: "${final_approval_check.rejection_reason}"
+
+    - name: generate_approval_report
+      type: reporting
+      description: Generate approval audit report
+      depends_on: [final_approval_check]
+      parameters:
+        request: "{{request_data}}"
+        stages: "${approval_stages_loop.results}"
+        final_decision: "${final_approval_check.decision}"
+        timeline: "${workflow.timeline}"
+        include_comments: true
+        format: pdf
+
+    - name: update_approval_metrics
+      type: metrics
+      description: Update approval metrics
+      depends_on: [generate_approval_report]
+      parameters:
+        metrics:
+          - approval_time: "${workflow.duration}"
+          - stages_completed: "${approval_stages_loop.completed_count}"
+          - escalations: "${approval_stages_loop.escalation_count}"
+          - delegations: "${approval_stages_loop.delegation_count}"
+
+dependencies:
+  - approval_engine
+  - notification_service
+  - audit_service
+
+metadata:
+  compliance:
+    sox_compliant: true
+    gdpr_compliant: true
+    audit_retention: 7 years
+
+  escalation_matrix:
+    level_1: immediate_supervisor
+    level_2: department_head
+    level_3: executive_committee

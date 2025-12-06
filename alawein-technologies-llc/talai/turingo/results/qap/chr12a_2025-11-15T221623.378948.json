@@ -1,0 +1,35 @@
+{
+  "problem_type": "qap",
+  "instance_name": "chr12a",
+  "objective_value": 116.98666101230211,
+  "solution": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "winning_paradigm": "quantum",
+  "improvement_over_sota": -1.7275313150453109,
+  "computation_time_seconds": 1.615894,
+  "validation_status": "FAIL",
+  "novelty_score": 65.20845212043311,
+  "proof_verified": false,
+  "agents_used": [
+    "Puzzle Prodigy",
+    "Ethics Enforcer",
+    "Blueprint Boss",
+    "Quantum Squad",
+    "Benchmark Bandit",
+    "Novelty Ninja",
+    "Skeptic Sorcerer"
+  ],
+  "timestamp": "2025-11-15T22:16:23.378948"
+}

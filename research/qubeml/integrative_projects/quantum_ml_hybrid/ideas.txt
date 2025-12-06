@@ -1,0 +1,28 @@
+Hybrid Quantum-ML Project Ideas
+==============================
+
+1. VQE + Classical Post-processing
+   - Use VQE to find ground state energies
+   - Apply classical ML to predict properties from energies
+   - Status: Just an idea, need to research implementation
+
+2. Quantum Feature Maps for Materials
+   - Encode crystal descriptors into quantum circuits
+   - Use quantum kernel methods for classification
+   - Challenge: How to handle high-dimensional descriptor space?
+
+3. Variational Quantum Regression
+   - Train quantum circuits to predict bandgaps
+   - Compare with classical neural networks
+   - TODO: Check if this is even feasible with current hardware
+
+Research Questions:
+- What advantage do quantum methods provide for materials?
+- How to handle noise in quantum predictions?
+- Scaling to realistic problem sizes?
+
+References to check:
+- Havlíček et al. (2019) - Quantum feature maps
+- Schuld & Killoran (2019) - Quantum ML review
+
+NEXT: Start with simple quantum feature map example

@@ -1,0 +1,28 @@
+# Concrete Claims - Require evidence/specifics
+# Flag vague claims that need quantification
+
+extends: existence
+message: "Vague claim: '%s'. Provide specific numbers, examples, or evidence."
+ignorecase: true
+level: warning
+tokens:
+  - many
+  - several
+  - numerous
+  - various
+  - multiple
+  - significant
+  - substantial
+  - considerable
+  - extensive
+  - comprehensive
+  - improved
+  - enhanced
+  - optimized
+  - better
+  - faster
+  - more efficient
+  - high performance
+  - low latency
+  - highly available
+

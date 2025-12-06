@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "required": ["solver", "assignment", "objective", "metadata"],
+  "properties": {
+    "solver": { "type": "string" },
+    "assignment": { "type": "array", "items": { "type": "integer" } },
+    "objective": { "type": "number" },
+    "solve_time": { "type": "number" },
+    "bound": { "type": "number" },
+    "metadata": { "type": "object" }
+  }
+}

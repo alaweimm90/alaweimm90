@@ -1,0 +1,279 @@
+import { Toaster } from "@/ui/molecules/Toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { AdminRoute } from "@/components/AdminRoute";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { SecurityProvider } from "@/security/SecurityProvider";
+import { AccessibilityProvider } from "@/accessibility/AccessibilityProvider";
+import "@/i18n/index";
+import { WeeklyCheckinForm } from "@/components/client/WeeklyCheckinForm";
+import { AICoachingPanel } from "@/features/ai/components/AICoachingPanel";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { ProductionErrorBoundary } from "@/components/shared/ProductionErrorBoundary";
+import { SEOHead } from "@/components/SEOHead";
+import { useCoreWebVitals } from "@/hooks/usePerformanceMonitor";
+import { Suspense, lazy } from "react";
+import React from "react";
+
+// Lazy load heavy components for better performance
+const ClientDashboard = lazy(() => import("./pages/ClientDashboard"));
+const CoachDashboard = lazy(() => import("./pages/CoachDashboard"));
+const AnalyticsDashboard = lazy(() => import("./pages/AnalyticsDashboard"));
+const SystemHealth = lazy(() => import("./pages/SystemHealth"));
+const CoachAdmin = lazy(() => import("./pages/CoachAdmin"));
+const ReservationAdmin = lazy(() => import("./pages/ReservationAdmin"));
+const SystemDashboard = lazy(() => import("./pages/SystemDashboard"));
+const TestingDashboard = lazy(() => import("./pages/TestingDashboard"));
+
+// NEW: Conversion-optimized components
+const SmartPricingPage = lazy(() => import("./pages/pricing/SmartPricingPage"));
+const ElegantPricing = lazy(() => import("./pages/pricing/ElegantPricing"));
+const ElegantDashboard = lazy(() => import("./components/dashboard/ElegantDashboard"));
+
+// Static imports for critical pages
+import Index from "./pages/Index";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
+import { Dashboard } from "./pages/Dashboard";
+// Removed redundant pricing imports
+import TermsOfService from "./pages/TermsOfService";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import LiabilityWaiver from "./pages/LiabilityWaiver";
+import HealthDisclaimer from "./pages/HealthDisclaimer";
+import Messages from "./pages/Messages";
+import Sessions from "./pages/Sessions";
+import Progress from "./pages/Progress";
+import NotFound from "./pages/NotFound";
+import MonthlyCoachingPrices from "./pages/MonthlyCoachingPrices";
+import InPersonTrainingPrices from "./pages/InPersonTrainingPrices";
+import InPersonTraining from "./pages/InPersonTraining";
+import AIAssistant from "./pages/AIAssistant";
+import Biomarkers from "./pages/Biomarkers";
+import Pricing from "./pages/Pricing";
+import Account from "./pages/Account";
+import PaymentSuccess from "./pages/PaymentSuccess";
+// Removed development-only imports
+
+// Import tier access and conversion utilities
+import { useTierAccess } from "@/hooks/useTierAccess";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { TierType, BillingCycle } from "@/constants/tiers";
+
+// Tier gate component for protected features
+const TierGate: React.FC<{ requiredTier: TierType; children: React.ReactNode }> = ({ requiredTier, children }) => {
+  const { hasMinimumTier, upgradePrompts } = useTierAccess();
+  
+  if (!hasMinimumTier(requiredTier)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-center p-8 max-w-md">
+          <h2 className="text-2xl font-bold text-white mb-4">Premium Feature</h2>
+          <p className="text-gray-400 mb-6">
+            This feature requires the {requiredTier.charAt(0).toUpperCase() + requiredTier.slice(1)} tier or higher.
+          </p>
+          <button 
+            className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all"
+            onClick={() => window.location.href = '/pricing'}
+          >
+            Upgrade Now
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return <>{children}</>;
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      gcTime: 1000 * 60 * 10, // 10 minutes
+    },
+  },
+});
+
+// Tier-aware dashboard wrapper
+const TierAwareDashboard = () => {
+  const { userTier, upgradePrompts } = useTierAccess();
+  
+  return (
+    <Suspense fallback={<LoadingSpinner size="lg" message="Loading dashboard..." />}>
+      <ElegantDashboard userName="Athlete" />
+    </Suspense>
+  );
+};
+
+// SmartPricingPage is imported above as a lazy component
+
+const App = () => {
+  // Monitor Core Web Vitals for performance tracking - wrapped in try-catch for safety
+  try {
+    useCoreWebVitals();
+  } catch (error) {
+    console.warn('[App] Performance monitoring disabled:', error);
+  }
+
+  return (
+  <ProductionErrorBoundary componentName="App">
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <SecurityProvider>
+          <AccessibilityProvider>
+            <AuthProvider>
+              <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <SEOHead />
+              <AnalyticsProvider>
+              <Routes>
+              <Route path="/" element={<Index />} />
+              
+              {/* Authentication Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              
+              {/* Protected Routes with Lazy Loading */}}>
+                    <CoachDashboard />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
+               {/* CONSOLIDATED PRICING ROUTES */}
+               <Route path="/pricing" element={
+                 <Suspense fallback={<LoadingSpinner size="lg" message="Loading pricing..." />}>
+                   <SmartPricingPage />
+                 </Suspense>
+               } />
+               
+               {/* LEGACY REDIRECTS - Deprecated pages */}
+                
+                {/* SERVICE-SPECIFIC PRICING PAGES - Renamed */}
+               <Route path="/account" element={
+                 <ProtectedRoute>
+                   <Account />
+                 </ProtectedRoute>
+               } />
+              {/* NEW: Enhanced dashboard with tier-based access */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute requiredRole="client">
+                  <Dashboard />
+                </ProtectedRoute>
+              } />
+              
+              {/* Weekly Check-ins (Adaptive+ tier) */}
+                </ProtectedRoute>
+              } />
+              
+              {/* AI Assistant (Performance+ tier) */}
+                </ProtectedRoute>
+              } />
+              
+              {/* Legacy dashboard for backwards compatibility */}}>
+                    <ClientDashboard />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
+              <Route path="/messages" element={
+                <ProtectedRoute>
+                  <Messages />
+                </ProtectedRoute>
+              } />
+              <Route path="/sessions" element={
+                <ProtectedRoute>
+                  <Sessions />
+                </ProtectedRoute>
+              } />
+              <Route path="/progress" element={
+                <ProtectedRoute>
+                  <Progress />
+                </ProtectedRoute>
+              } />}>
+                    <CoachAdmin />
+                  </Suspense>
+                </ProtectedRoute>
+              } />}>
+                    <AnalyticsDashboard />
+                  </Suspense>
+                </ProtectedRoute>
+              } />}>
+                    <SystemHealth />
+                  </Suspense>
+                </ProtectedRoute>
+              } />
+                {/* Enterprise System Dashboard */}}>
+                        <SystemDashboard />
+                      </Suspense>
+                    </ProtectedRoute>
+                  } 
+                />
+                
+                {/* Enterprise Testing Dashboard */}}>
+                        <TestingDashboard />
+                      </Suspense>
+                    </ProtectedRoute>
+                  } 
+                />
+                
+                {/* Demo routes removed - use production routes instead */}
+                
+                {/* Tier-gated feature routes */}
+              <Route 
+                path="/ai-assistant" 
+                element={
+                  <ProtectedRoute>
+                    <TierGate requiredTier="performance">
+                      <AIAssistant />
+                    </TierGate>
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route 
+                path="/biomarkers" 
+                element={
+                  <ProtectedRoute>
+                    <TierGate requiredTier="adaptive">
+                      <Biomarkers />
+                    </TierGate>
+                  </ProtectedRoute>
+                }
+              />
+              
+              <Route 
+                path="/in-person-training" 
+                element={
+                  <ProtectedRoute>
+                    <TierGate requiredTier="longevity">
+                      <InPersonTraining />
+                    </TierGate>
+                  </ProtectedRoute>
+                }
+                />
+                
+                {/* Legal and static pages */}
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+               <Route path="*" element={<NotFound />} />
+              </Routes>
+              </AnalyticsProvider>
+            </BrowserRouter>
+              </TooltipProvider>
+            </AuthProvider>
+          </AccessibilityProvider>
+        </SecurityProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  </ProductionErrorBoundary>
+  );
+};
+
+export default App;

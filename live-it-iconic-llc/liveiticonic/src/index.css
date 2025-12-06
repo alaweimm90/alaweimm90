@@ -1,0 +1,986 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Live It Iconic Design System
+   Luxury minimalist apparel brand inspired by exotic car culture
+   Confident, refined, disciplined aesthetic
+*/
+
+@layer base {
+  :root {
+    /* Canonical Color Palette - Live It Iconic Brand Guidelines */
+    --lii-bg: 218 8% 4%; /* #0B0B0C - Background */
+    --lii-ink: 222 13% 9%; /* #14161A - Ink */
+    --lii-charcoal: 222 9% 18%; /* #2A2D33 - Charcoal */
+    --lii-graphite: 222 9% 25%; /* #3A4048 - Graphite */
+    --lii-ash: 222 7% 57%; /* #8C93A3 - Ash */
+    --lii-cloud: 222 15% 93%; /* #E6E9EF - Cloud */
+    --lii-gold: 38 42% 57%; /* #C1A060 - Gold */
+    --lii-gold-press: 38 35% 51%; /* #AE8D55 - Gold pressed state */
+    --lii-signal-red: 4 72% 54%; /* #E03A2F - Signal red (alerts) */
+
+    /* Legacy aliases for backward compatibility - Remove after migration */
+    --lii-black: var(--lii-bg);
+    --lii-champagne: var(--lii-gold);
+    --lii-bronze: var(--lii-gold-press);
+
+    /* Semantic Token Mapping */
+    --background: var(--lii-black);
+    --foreground: var(--lii-cloud);
+
+    --card: var(--lii-ink);
+    --card-foreground: var(--lii-cloud);
+
+    --popover: var(--lii-charcoal);
+    --popover-foreground: var(--lii-cloud);
+
+    --primary: var(--lii-cloud);
+    --primary-foreground: var(--lii-black);
+
+    --secondary: var(--lii-charcoal);
+    --secondary-foreground: var(--lii-cloud);
+
+    --muted: var(--lii-graphite);
+    --muted-foreground: var(--lii-ash);
+
+    --accent: var(--lii-gold);
+    --accent-foreground: var(--lii-black);
+
+    --destructive: var(--lii-bronze);
+    --destructive-foreground: var(--lii-cloud);
+
+    --border: var(--lii-charcoal);
+    --input: var(--lii-charcoal);
+    --ring: var(--lii-gold);
+
+    --radius: 1rem;
+
+    /* Refined Brand Design Tokens */
+    --brand-gold: var(--lii-gold);
+    --brand-champagne: var(--lii-champagne);
+    --brand-bronze: var(--lii-bronze);
+
+    /* Premium Typography System */
+    --font-display: 'Playfair Display', 'Georgia', serif;
+    --font-ui: 'Inter', -apple-system, system-ui, sans-serif;
+
+    /* Motion System */
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --motion-enter: 280ms;
+    --motion-micro: 140ms;
+    --parallax-max: 10px;
+
+    /* Elevation System */
+    --shadow-base: 0 6px 24px hsl(0 0% 0% / 0.06);
+    --shadow-elevated: 0 12px 48px hsl(0 0% 0% / 0.12);
+    --shadow-floating: 0 24px 96px hsl(0 0% 0% / 0.18);
+  }
+
+  /* Light mode override - keeping dark luxury branding */
+  .light {
+    --background: var(--lii-black);
+    --foreground: var(--lii-cloud);
+    --card: var(--lii-ink);
+    --card-foreground: var(--lii-cloud);
+    --popover: var(--lii-charcoal);
+    --popover-foreground: var(--lii-cloud);
+    --primary: var(--lii-cloud);
+    --primary-foreground: var(--lii-black);
+    --secondary: var(--lii-charcoal);
+    --secondary-foreground: var(--lii-cloud);
+    --muted: var(--lii-graphite);
+    --muted-foreground: var(--lii-ash);
+    --accent: var(--lii-gold);
+    --accent-foreground: var(--lii-black);
+    --border: var(--lii-charcoal);
+    --input: var(--lii-charcoal);
+    --ring: var(--lii-gold);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+      box-shadow, transform;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  /* Custom easing functions */
+  .ease-out-quart {
+    transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-ui);
+  }
+
+  /* Typography Classes */
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em; /* Tight tracking for headlines */
+  }
+
+  .font-ui {
+    font-family: var(--font-ui);
+  }
+
+  .font-numeric {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Live It Iconic Button Variants */
+  .btn-lii-primary {
+    @apply bg-accent text-accent-foreground hover:bg-accent/90;
+    transition: all var(--motion-micro) var(--ease);
+    box-shadow: var(--shadow-base);
+  }
+
+  .btn-lii-secondary {
+    @apply border-2 border-current text-foreground hover:bg-foreground hover:text-background;
+    transition: all var(--motion-micro) var(--ease);
+  }
+
+  .btn-lii-ghost {
+    @apply text-muted-foreground hover:text-foreground hover:bg-muted/10;
+    transition: all var(--motion-micro) var(--ease);
+  }
+
+  /* Brand-specific gradients */
+  .lii-hero-overlay {
+    background: linear-gradient(135deg, hsl(var(--lii-black) / 0.85), hsl(var(--lii-black) / 0.35));
+  }
+
+  .lii-card-gradient {
+    background: linear-gradient(145deg, hsl(var(--lii-ink)), hsl(var(--lii-charcoal) / 0.8));
+  }
+
+  /* Smooth scroll */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+  }
+
+  /* Scroll-triggered animations */
+  .animate-fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    animation: slideInRight 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  /* Keyframes */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Luxury Hero Animations */
+  @keyframes subtleZoom {
+    0%,
+    100% {
+      transform: scale(1.05);
+      filter: blur(0.5px) saturate(1.1);
+    }
+    50% {
+      transform: scale(1.08);
+      filter: blur(0.3px) saturate(1.15);
+    }
+  }
+
+  @keyframes heroTextReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(60px) scale(0.95);
+      filter: blur(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  /* Hero Text Animations */
+  .hero-text-reveal {
+    opacity: 0;
+    animation: heroTextReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+  }
+
+  .hero-subtitle-reveal {
+    opacity: 0;
+    animation: heroTextReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.6s forwards;
+  }
+
+  .hero-cta-reveal {
+    opacity: 0;
+    animation: heroTextReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.9s forwards;
+  }
+
+  /* Background Effects */
+  @keyframes floatingElements {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+      opacity: 0.6;
+    }
+  }
+
+  /* Refined Keyframes */
+  @keyframes subtleFloat {
+    0%,
+    100% {
+      transform: translateY(0px) scale(1);
+      opacity: 0.9;
+    }
+    50% {
+      transform: translateY(-2px) scale(1.02);
+      opacity: 1;
+    }
+  }
+
+  @keyframes gentleShift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes refinedPulse {
+    0%,
+    100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.01);
+    }
+  }
+
+  @keyframes luxuryShimmer {
+    0%,
+    100% {
+      opacity: 0.6;
+      transform: translateX(-10px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateX(10px);
+    }
+  }
+
+  @keyframes luxuryPulse {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes luxuryGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 20px hsl(var(--lii-gold) / 0.2);
+    }
+    50% {
+      box-shadow: 0 0 30px hsl(var(--lii-gold) / 0.3);
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes scan {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(200vh);
+      opacity: 0;
+    }
+  }
+
+  /* Sophisticated Background Effects */
+  .luxury-background {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lii-black)) 0%,
+      hsl(var(--lii-ink)) 25%,
+      hsl(var(--lii-charcoal) / 0.8) 50%,
+      hsl(var(--lii-ink)) 75%,
+      hsl(var(--lii-black)) 100%
+    );
+    background-size: 400% 400%;
+    animation: gentleShift 12s ease-in-out infinite;
+  }
+
+  /* Sophisticated Scroll Indicator */
+  .scroll-indicator {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--lii-gold)) 25%,
+      hsl(var(--lii-champagne)) 50%,
+      hsl(var(--lii-gold)) 75%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmerProgress 3s linear infinite;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-indicator.visible {
+    opacity: 1;
+  }
+
+  @keyframes shimmerProgress {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Enhanced Mobile Touches */
+  @media (max-width: 768px) {
+    .logo-elegant {
+      font-size: 0.9em;
+      letter-spacing: 0.15em;
+    }
+
+    .text-breathe,
+    .text-float {
+      animation-duration: 6s;
+    }
+
+    .luxury-button {
+      min-height: 48px;
+      font-size: 16px;
+    }
+  }
+
+  /* Unique Layout Asymmetry */
+  .asymmetric-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 2rem;
+  }
+
+  .asymmetric-grid > *:nth-child(even) {
+    transform: translateY(2rem);
+  }
+
+  @media (max-width: 768px) {
+    .asymmetric-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .asymmetric-grid > *:nth-child(even) {
+      transform: translateY(0);
+    }
+  }
+
+  /* Floating Background Elements */
+  .floating-element {
+    position: absolute;
+    opacity: 0.1;
+    animation: floatingElements 8s ease-in-out infinite;
+  }
+
+  .floating-element:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .floating-element:nth-child(2) {
+    animation-delay: 2s;
+  }
+  .floating-element:nth-child(3) {
+    animation-delay: 4s;
+  }
+
+  /* Luxury Button Effects */
+  /* Premium Button System */
+  .luxury-button {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, hsl(var(--lii-gold)), hsl(var(--lii-champagne)));
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid hsl(var(--lii-gold) / 0.3);
+    box-shadow:
+      0 4px 20px hsl(var(--lii-gold) / 0.2),
+      inset 0 1px 0 hsl(var(--lii-cloud) / 0.1);
+  }
+
+  .luxury-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--lii-cloud) / 0.2), transparent);
+    transition: left 0.8s;
+  }
+
+  .luxury-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 30px hsl(var(--lii-gold) / 0.3),
+      inset 0 1px 0 hsl(var(--lii-cloud) / 0.2);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lii-gold) / 0.95),
+      hsl(var(--lii-champagne) / 0.95)
+    );
+    border-color: hsl(var(--lii-gold) / 0.5);
+  }
+
+  .luxury-button:hover::before {
+    left: 100%;
+  }
+
+  .luxury-button:active {
+    transform: translateY(0);
+    transition: transform 0.1s;
+  }
+
+  /* Enhanced hover effects with luxury aesthetics */
+  .hover-lift {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px hsl(var(--lii-gold) / 0.3);
+  }
+
+  .hover-glow:hover {
+    box-shadow:
+      0 0 60px hsl(var(--lii-gold) / 0.4),
+      0 0 120px hsl(var(--lii-copper) / 0.2);
+    transform: scale(1.05);
+  }
+
+  /* Advanced staggered animations */
+  .animate-stagger > * {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: luxuryFadeIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-stagger > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  .animate-stagger > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .animate-stagger > *:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .animate-stagger > *:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  .animate-stagger > *:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+  .animate-stagger > *:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  @keyframes luxuryFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Advanced Text Effects - Thematic & Dynamic */
+  .text-velocity {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--lii-gold)) 0%,
+      hsl(var(--lii-champagne)) 30%,
+      hsl(var(--lii-cloud)) 60%,
+      hsl(var(--lii-gold)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 300% 300%;
+    animation: velocityShimmer 4s ease-in-out infinite;
+    filter: drop-shadow(0 2px 12px hsl(var(--lii-gold) / 0.3));
+  }
+
+  @keyframes velocityShimmer {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .text-engine-rev {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--lii-bronze)) 0%,
+      hsl(var(--lii-gold)) 25%,
+      hsl(var(--lii-champagne)) 50%,
+      hsl(var(--lii-gold)) 75%,
+      hsl(var(--lii-bronze)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 400% 100%;
+    animation: engineRev 3s ease-in-out infinite;
+  }
+
+  @keyframes engineRev {
+    0%,
+    100% {
+      background-position: 0% 50%;
+      filter: drop-shadow(0 2px 6px hsl(var(--lii-gold) / 0.2));
+    }
+    50% {
+      background-position: 100% 50%;
+      filter: drop-shadow(0 4px 12px hsl(var(--lii-gold) / 0.4));
+    }
+  }
+
+  .text-apex-glow {
+    color: hsl(var(--lii-cloud));
+    text-shadow:
+      0 0 8px hsl(var(--lii-gold) / 0.6),
+      0 0 16px hsl(var(--lii-gold) / 0.4),
+      0 0 24px hsl(var(--lii-gold) / 0.2),
+      0 2px 4px hsl(var(--lii-black) / 0.8);
+    animation: apexPulse 5s ease-in-out infinite;
+  }
+
+  @keyframes apexPulse {
+    0%,
+    100% {
+      text-shadow:
+        0 0 8px hsl(var(--lii-gold) / 0.6),
+        0 0 16px hsl(var(--lii-gold) / 0.4),
+        0 0 24px hsl(var(--lii-gold) / 0.2),
+        0 2px 4px hsl(var(--lii-black) / 0.8);
+      transform: scale(1);
+    }
+    50% {
+      text-shadow:
+        0 0 12px hsl(var(--lii-gold) / 0.8),
+        0 0 24px hsl(var(--lii-gold) / 0.6),
+        0 0 36px hsl(var(--lii-gold) / 0.4),
+        0 3px 6px hsl(var(--lii-black) / 0.9);
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes luxuryTextShimmer {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 50% 0%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    75% {
+      background-position: 50% 100%;
+    }
+  }
+
+  .text-refined-glow {
+    color: hsl(var(--foreground));
+    text-shadow:
+      0 0 12px hsl(var(--lii-gold) / 0.3),
+      0 0 24px hsl(var(--lii-gold) / 0.2),
+      0 0 36px hsl(var(--lii-gold) / 0.1);
+    transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .text-refined-glow:hover {
+    color: hsl(var(--lii-champagne));
+    text-shadow:
+      0 0 18px hsl(var(--lii-gold) / 0.5),
+      0 0 30px hsl(var(--lii-gold) / 0.4),
+      0 0 45px hsl(var(--lii-gold) / 0.3);
+    transform: translateY(-1px);
+  }
+
+  /* Luxury Navigation Effects */
+  .luxury-nav-link,
+  .luxury-social-link {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .luxury-nav-link::after,
+  .luxury-social-link::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, hsl(var(--lii-gold) / 0.2) 0%, transparent 70%);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: -1;
+  }
+
+  .luxury-nav-link:hover::after,
+  .luxury-social-link:hover::after {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Sophisticated Logo Typography */
+  .logo-sophisticated {
+    font-variation-settings: 'wght' 300;
+    letter-spacing: 0.25em;
+    position: relative;
+    text-shadow: 0 2px 20px hsl(var(--lii-gold) / 0.2);
+  }
+
+  .logo-sophisticated .word {
+    display: inline-block;
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    margin-right: 0.4em;
+  }
+
+  .logo-sophisticated .word:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .logo-sophisticated .word.live {
+    color: hsl(var(--lii-gold));
+    text-shadow: 0 0 15px hsl(var(--lii-gold) / 0.4);
+  }
+  .logo-sophisticated .word.it {
+    color: hsl(var(--lii-champagne));
+    font-style: italic;
+    font-weight: 200;
+  }
+  .logo-sophisticated .word.iconic {
+    color: hsl(var(--lii-bronze));
+    font-weight: 400;
+    text-shadow: 0 0 10px hsl(var(--lii-bronze) / 0.3);
+  }
+
+  /* Elegant Logo Typography */
+  .logo-elegant {
+    font-variation-settings: 'wght' 300;
+    letter-spacing: 0.2em;
+    position: relative;
+  }
+
+  .logo-elegant .word {
+    display: inline-block;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .logo-elegant .word:hover {
+    transform: translateY(-1px);
+  }
+
+  .logo-elegant .word.live {
+    color: hsl(var(--lii-gold));
+    margin-right: 0.5em;
+  }
+  .logo-elegant .word.it {
+    color: hsl(var(--lii-champagne));
+    margin-right: 0.5em;
+    font-style: italic;
+  }
+  .logo-elegant .word.iconic {
+    color: hsl(var(--lii-bronze));
+    font-weight: 400;
+  }
+
+  /* Sophisticated Text Animations */
+  .text-breathe {
+    animation: luxuryBreathe 5s ease-in-out infinite;
+  }
+
+  .text-float {
+    animation: elegantFloat 7s ease-in-out infinite;
+  }
+
+  @keyframes luxuryBreathe {
+    0%,
+    100% {
+      opacity: 0.95;
+      transform: scale(1);
+      filter: brightness(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.008);
+      filter: brightness(1.05);
+    }
+  }
+
+  @keyframes elegantFloat {
+    0%,
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-2px) rotate(0.5deg);
+    }
+    66% {
+      transform: translateY(1px) rotate(-0.3deg);
+    }
+  }
+
+  /* Enhanced Animation Timing */
+  .animate-breathe {
+    animation: luxuryBreathe 5s ease-in-out infinite;
+    animation-delay: var(--animation-delay, 0s);
+  }
+
+  .animate-float {
+    animation: elegantFloat 7s ease-in-out infinite;
+    animation-delay: var(--animation-delay, 0s);
+  }
+
+  /* Image filter effects for supercars */
+  .supercar-filter {
+    filter: contrast(1.1) saturate(1.2) brightness(1.05);
+    transition: var(--transition-smooth);
+  }
+
+  .supercar-filter:hover {
+    filter: contrast(1.15) saturate(1.3) brightness(1.1);
+  }
+
+  /* Parallax effect */
+  .parallax-bg {
+    transform: translateZ(0);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  /* Performance overlay effects */
+  .performance-overlay {
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      hsl(var(--accent) / 0.1) 25%,
+      transparent 50%,
+      hsl(var(--accent) / 0.1) 75%,
+      transparent 100%
+    );
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Hero Fade In Up Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Hero Zoom Animation */
+  @keyframes heroZoom {
+    from {
+      transform: scale(1.1);
+    }
+    to {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Sparkle Animation */
+  @keyframes sparkle {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.5);
+    }
+  }
+
+  /* Border Shimmer Animation */
+  @keyframes borderShimmer {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  /* Fade In Scale Animation */
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Shimmer Text Animation */
+  @keyframes shimmerText {
+    0% {
+      background-position: -200% center;
+    }
+    100% {
+      background-position: 200% center;
+    }
+  }
+
+  .animate-shimmerText {
+    background-size: 200% auto;
+    animation: shimmerText 8s linear infinite;
+  }
+
+  /* Scroll Indicator Animation */
+  @keyframes scrollIndicator {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(80px);
+      opacity: 0;
+    }
+  }
+
+  /* Screen Reader Only Class - WCAG 2.2 Accessibility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Allow sr-only to become visible on focus */
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}

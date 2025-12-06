@@ -1,0 +1,1 @@
+# Frontend Engineer JD\n\nResponsibilities\n- Build accessible, responsive UIs in React.\n- Collaborate with designers and backend engineers.\n- Maintain CI/CD and testing.\n\nRequirements\n- Proficiency in React, TypeScript, CSS.\n- Experience with testing and performance.\n

@@ -1,0 +1,22 @@
+# LAMMPS data file: 1x1 MoS2 rectangular unit cell
+
+6 atoms
+2 atom types
+
+0.0 3.18 xlo xhi
+0.0 11.00 ylo yhi
+0.0 40.0 zlo zhi
+
+Masses
+
+1 95.94  # Mo
+2 32.065 # S
+
+Atoms  # atomic
+
+1 1 1.59 2.75 20.0       # Mo 1
+2 1 1.59 8.25 20.0       # Mo 2
+3 2 1.59 2.75 21.6       # S 1 top
+4 2 1.59 8.25 21.6       # S 2 top
+5 2 1.59 2.75 18.4       # S 1 bottom
+6 2 1.59 8.25 18.4       # S 2 bottom

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Bench - Military Precision | Tactical Evaluation Suite</title>
+    <style>
+        :root {
+            --primary: #1B365D;
+            --secondary: #B8860B;
+            --accent: #00D4FF;
+            --background: #FAFAFA;
+            --surface: #F7F9FC;
+            --text: #2D3748;
+            --text-muted: #718096;
+            --border: #E2E8F0;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .mission-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Layout */
+        .bench-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            background: white;
+            border-right: 4px solid var(--secondary);
+            overflow-y: auto;
+        }
+
+        .main-content {
+            background: var(--surface);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        /* Sidebar */
+        .sidebar-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .sidebar-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+
+        .test-suite {
+            padding: 1.5rem;
+        }
+
+        .suite-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .test-item {
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .test-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .test-item:hover {
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .test-item:hover::before {
+            background: var(--accent);
+            width: 6px;
+        }
+
+        .test-item.active {
+            border-color: var(--secondary);
+            background: rgba(184, 134, 11, 0.05);
+        }
+
+        .test-item.active::before {
+            background: var(--secondary);
+            width: 6px;
+        }
+
+        .test-name {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .test-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .test-status {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-ready { color: var(--success); }
+        .status-running { color: var(--warning); }
+        .status-complete { color: var(--accent); }
+
+        /* Main Content */
+        .benchmark-header {
+            background: white;
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .benchmark-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .benchmark-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benchmark-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tactical-button {
+            background: linear-gradient(135deg, var(--secondary), #D4AF37);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tactical-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .tactical-button:hover::before {
+            left: 100%;
+        }
+
+        .tactical-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(184, 134, 11, 0.3);
+        }
+
+        .tactical-button.primary {
+            background: linear-gradient(135deg, var(--accent), #0EA5E9);
+            color: var(--primary);
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(27, 54, 93, 0.1);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .model-name {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .model-score {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .result-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--surface);
+            border-radius: 6px;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-progress {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: progress-sweep 2s linear infinite;
+        }
+
+        @keyframes progress-sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .result-status {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-excellent {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-good {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .status-fair {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            background: white;
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .leaderboard-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .leaderboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .leaderboard-content {
+            padding: 1.5rem;
+        }
+
+        .leaderboard-item {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px 100px;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: var(--surface);
+            transform: translateX(5px);
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .rank.first { color: var(--secondary); }
+        .rank.second { color: var(--text-muted); }
+        .rank.third { color: #CD7F32; }
+
+        .model-info {
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .model-details {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .score {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .trend {
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .trend.up { color: var(--success); }
+        .trend.down { color: var(--danger); }
+        .trend.stable { color: var(--text-muted); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bench-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .sidebar {
+                border-right: none;
+                border-bottom: 4px solid var(--secondary);
+                max-height: 300px;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .leaderboard-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">⚡ AEGIS BENCH</div>
+        <div class="mission-info">
+            <span>🎯 Mission: Code-Alpha-7</span>
+            <span>📊 Status: Active</span>
+            <span>⏱️ ETA: 4:32</span>
+        </div>
+    </header>
+
+    <div class="bench-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Test Arsenal</div>
+                <div class="sidebar-subtitle">Tactical Evaluation Suite</div>
+            </div>
+            
+            <div class="test-suite">
+                <div class="suite-title">🔥 Active Operations</div>
+                
+                <div class="test-item active">
+                    <div class="test-name">Code Generation</div>
+                    <div class="test-description">Tactical programming assessment under combat conditions</div>
+                    <div class="test-status status-running">⚡ Executing</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Logic Reasoning</div>
+                    <div class="test-description">Strategic thinking and problem-solving evaluation</div>
+                    <div class="test-status status-ready">🎯 Ready</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Knowledge Recall</div>
+                    <div class="test-description">Information retrieval and accuracy assessment</div>
+                    <div class="test-status status-ready">🎯 Ready</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Creative Writing</div>
+                    <div class="test-description">Narrative generation and linguistic capabilities</div>
+                    <div class="test-status status-complete">✅ Complete</div>
+                </div>
+                
+                <div class="test-item">
+                    <div class="test-name">Math & Analysis</div>
+                    <div class="test-description">Quantitative reasoning and computational accuracy</div>
+                    <div class="test-status status-ready">🎯 Ready</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="benchmark-header">
+                <h1 class="benchmark-title">Operation Code-Alpha-7</h1>
+                <p class="benchmark-subtitle">Comprehensive AI model evaluation under tactical conditions. Assess performance across multiple domains with military-grade precision.</p>
+                <div class="benchmark-actions">
+                    <button class="tactical-button primary">🚀 Deploy All Tests</button>
+                    <button class="tactical-button">📊 Generate Intel Report</button>
+                    <button class="tactical-button">⚙️ Configure Parameters</button>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">GPT-4 Turbo</div>
+                        <div class="model-score">94.7</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">97%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2.1s</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-excellent">🏆 Tactical Superiority</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Claude 3.5 Sonnet</div>
+                        <div class="model-score">92.3</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">95%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">1.8s</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>78%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-excellent">🎯 Combat Ready</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Gemini Pro</div>
+                        <div class="model-score">88.1</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">91%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">2.7s</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>72%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 72%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-good">⚡ Field Ready</div>
+                </div>
+
+                <div class="result-card">
+                    <div class="result-header">
+                        <div class="model-name">Llama 3.1 70B</div>
+                        <div class="model-score">84.9</div>
+                    </div>
+                    <div class="result-metrics">
+                        <div class="metric">
+                            <div class="metric-value">88%</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">3.2s</div>
+                            <div class="metric-label">Response</div>
+                        </div>
+                    </div>
+                    <div class="result-progress">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="result-status status-fair">⚠️ Training Required</div>
+                </div>
+            </div>
+
+            <div class="leaderboard">
+                <div class="leaderboard-header">
+                    <div class="leaderboard-title">🏆 Tactical Leaderboard</div>
+                </div>
+                <div class="leaderboard-content">
+                    <div class="leaderboard-item">
+                        <div class="rank first">1</div>
+                        <div>
+                            <div class="model-info">GPT-4 Turbo</div>
+                            <div class="model-details">OpenAI • Latest Deploy</div>
+                        </div>
+                        <div class="score">94.7</div>
+                        <div class="trend up">↗ +2.3</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank second">2</div>
+                        <div>
+                            <div class="model-info">Claude 3.5 Sonnet</div>
+                            <div class="model-details">Anthropic • Combat Ready</div>
+                        </div>
+                        <div class="score">92.3</div>
+                        <div class="trend up">↗ +1.7</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank third">3</div>
+                        <div>
+                            <div class="model-info">Gemini Pro</div>
+                            <div class="model-details">Google • Field Test</div>
+                        </div>
+                        <div class="score">88.1</div>
+                        <div class="trend stable">→ +0.1</div>
+                    </div>
+                    <div class="leaderboard-item">
+                        <div class="rank">4</div>
+                        <div>
+                            <div class="model-info">Llama 3.1 70B</div>
+                            <div class="model-details">Meta • Open Source</div>
+                        </div>
+                        <div class="score">84.9</div>
+                        <div class="trend down">↘ -0.8</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

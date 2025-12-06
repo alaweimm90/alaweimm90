@@ -1,0 +1,60 @@
+name: Repo Hygiene
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for forbidden paths
+        run: |
+          set -e
+          echo "Scanning for forbidden directories..."
+          bad=$(git ls-files -z | tr '\0' '\n' | egrep '(^|/)venv/|(^|/)\.pytest_cache/|(^|/)__pycache__/') || true
+          if [ -n "$bad" ]; then
+            echo "Found forbidden paths:" >&2
+            echo "$bad" >&2
+            exit 1
+          fi
+      - name: Enforce naming (docs files)
+        run: |
+          set -e
+          # Allow existing legacy files; warn only for new uppercase doc files
+          newdocs=$(git diff --name-only --diff-filter=AR origin/${{ github.base_ref || 'main' }}..HEAD | egrep '\.md$' || true)
+          echo "$newdocs" | while read f; do
+            [ -z "$f" ] && continue
+            base=$(basename "$f")
+            if echo "$base" | egrep -q '^[A-Z0-9_\-]+'; then
+              echo "Warning: Consider lowercase-kebab for docs file: $f"
+            fi
+          done
+      - name: Check links to moved root docs
+        run: |
+          set -e
+          # Fail if any markdown links point to moved files at root instead of docs/
+          declare -a moved=(
+            ATLAS_LIBRIA_INTEGRATION_SPEC.md
+            CLAUDE_COORDINATION_GUIDE.md
+            COMPREHENSIVE_DELIVERY_SUMMARY.md
+            COMPREHENSIVE_PROJECT_HANDOFF_FOR_SIDER_AI.md
+            FINAL_PROJECT_VALIDATION_REPORT.md
+            HANDOFF_TO_LOCAL_SETUP_CLAUDE.md
+            LOCAL_AI_ORCHESTRATION_SUPERPROMPT.md
+            MASTER_PROJECT_INDEX.md
+          )
+          bad=0
+          for m in "${moved[@]}"; do
+            # Find links like ](m) but allow our stub files at root
+            hit=$(grep -RIn "]($m)" -- '*.md' ':!docs/*' ':!README.md' || true)
+            if [ -n "$hit" ]; then
+              echo "Found links to moved doc at root (should link to docs/$m):" >&2
+              echo "$hit" >&2
+              bad=1
+            fi
+          done
+          if [ "$bad" -eq 1 ]; then
+            exit 1
+          fi

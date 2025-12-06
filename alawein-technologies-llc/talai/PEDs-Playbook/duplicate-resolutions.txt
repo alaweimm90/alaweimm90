@@ -1,0 +1,30 @@
+kept base; suffixed older	.gitignore
+replaced base with newer suffixed	.gitignore
+kept base; suffixed older	.gitignore
+replaced base with newer suffixed	.gitignore
+replaced base with newer suffixed	.gitignore
+kept base; suffixed older	.gitignore
+replaced base with newer suffixed	.gitignore
+replaced base with newer suffixed	.gitignore
+kept base; suffixed older	.gitignore
+replaced base with newer suffixed	.gitignore
+kept base; suffixed older	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+kept base; suffixed older	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+kept base; suffixed older	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+kept base; suffixed older	docs/PROJECT_PLAN.md
+replaced base with newer suffixed	docs/PROJECT_PLAN.md
+kept base; suffixed older	README.md
+replaced base with newer suffixed	README.md
+kept base; suffixed older	README.md
+replaced base with newer suffixed	README.md
+replaced base with newer suffixed	README.md
+kept base; suffixed older	README.md
+replaced base with newer suffixed	README.md
+replaced base with newer suffixed	README.md
+kept base; suffixed older	README.md
+replaced base with newer suffixed	README.md

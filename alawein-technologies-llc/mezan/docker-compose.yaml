@@ -1,0 +1,223 @@
+# Itqān ORCHEX + Libria Suite - Complete Stack
+# Docker Compose orchestration for local development
+
+version: '3.8'
+
+services:
+  # ===================
+  # Infrastructure
+  # ===================
+
+  redis:
+    image: redis:7-alpine
+    container_name: libria-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./infrastructure/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - libria-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: libria-postgres
+    environment:
+      POSTGRES_DB: libria
+      POSTGRES_USER: libria
+      POSTGRES_PASSWORD: libria_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - libria-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U libria"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ===================
+  # ORCHEX Engine
+  # ===================
+
+  ORCHEX-core:
+    build:
+      context: ./ORCHEX
+      dockerfile: ../infrastructure/docker/Dockerfile.ORCHEX
+    container_name: ORCHEX-core
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - POSTGRES_URL=postgresql://libria:libria_dev_password@postgres:5432/libria
+      - LIBRIA_ENABLED=true
+      - LIBRIA_API_URL=http://libria-api:8001
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ORCHEX:/app/ORCHEX
+      - ./shared:/app/shared
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - libria-network
+    command: python -m atlas_core.server
+
+  # ===================
+  # Libria Solvers
+  # ===================
+
+  libria-api:
+    build:
+      context: ./Libria
+      dockerfile: ../infrastructure/docker/Dockerfile.libria
+    container_name: libria-api
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - POSTGRES_URL=postgresql://libria:libria_dev_password@postgres:5432/libria
+      - ATLAS_API_URL=http://ORCHEX-core:8000
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./Libria:/app/Libria
+      - ./shared:/app/shared
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - libria-network
+    command: python -m libria_integration.api_server
+
+  # Librex.Meta solver service
+  Librex.Meta:
+    build:
+      context: ./Libria/libria-meta
+      dockerfile: ../../infrastructure/docker/Dockerfile.solver
+    container_name: Librex.Meta
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - SOLVER_NAME=Librex.Meta
+    volumes:
+      - ./Libria/libria-meta:/app
+      - ./Libria/libria-core:/app/libria-core
+    depends_on:
+      - redis
+    networks:
+      - libria-network
+
+  # Librex.QAP solver service
+  Librex.QAP:
+    build:
+      context: ./Libria/libria-qap
+      dockerfile: ../../infrastructure/docker/Dockerfile.solver
+    container_name: Librex.QAP
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - SOLVER_NAME=Librex.QAP
+    volumes:
+      - ./Libria/libria-qap:/app
+      - ./Libria/libria-core:/app/libria-core
+    depends_on:
+      - redis
+    networks:
+      - libria-network
+
+  # Librex.Flow solver service
+  Librex.Flow:
+    build:
+      context: ./Libria/libria-flow
+      dockerfile: ../../infrastructure/docker/Dockerfile.solver
+    container_name: Librex.Flow
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - SOLVER_NAME=Librex.Flow
+    volumes:
+      - ./Libria/libria-flow:/app
+      - ./Libria/libria-core:/app/libria-core
+    depends_on:
+      - redis
+    networks:
+      - libria-network
+
+  # ===================
+  # Monitoring & Observability
+  # ===================
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: libria-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - libria-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: libria-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./infrastructure/monitoring/grafana-dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - prometheus
+    networks:
+      - libria-network
+
+  # ===================
+  # Development Tools
+  # ===================
+
+  jupyter:
+    build:
+      context: ./Libria
+      dockerfile: ../infrastructure/docker/Dockerfile.jupyter
+    container_name: libria-jupyter
+    ports:
+      - "8888:8888"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - POSTGRES_URL=postgresql://libria:libria_dev_password@postgres:5432/libria
+    volumes:
+      - ./Libria:/app/Libria
+      - ./ORCHEX:/app/ORCHEX
+      - ./shared:/app/shared
+      - jupyter-data:/root/.jupyter
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - libria-network
+    command: jupyter lab --ip=0.0.0.0 --allow-root --no-browser
+
+networks:
+  libria-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  postgres-data:
+  prometheus-data:
+  grafana-data:
+  jupyter-data:

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HELIOS - Autonomous Research Discovery Platform">
+    <title>HELIOS Dashboard | Hypothesis Exploration & Learning Intelligence Orchestration System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+    <!-- Navigation Header -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="navbar-container">
+            <div class="logo-section">
+                <div class="logo" aria-label="HELIOS logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 4 L16 28 M4 16 L28 16" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+                        <circle cx="16" cy="16" r="3" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1 class="brand-name">HELIOS</h1>
+                <span class="version-badge">v0.1.0</span>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#overview" class="nav-link active" data-tab="overview">Overview</a>
+                <a href="#domains" class="nav-link" data-tab="domains">Domains</a>
+                <a href="#algorithms" class="nav-link" data-tab="algorithms">Algorithms</a>
+                <a href="#leaderboard" class="nav-link" data-tab="leaderboard">Leaderboard</a>
+                <a href="#validator" class="nav-link" data-tab="validator">Validator</a>
+            </div>
+
+            <div class="theme-toggle">
+                <button class="btn-icon" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content">
+        <!-- OVERVIEW TAB -->
+        <section id="overview" class="tab-content active" role="tabpanel" aria-labelledby="overview-tab">
+            <div class="container">
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h2 class="hero-title">Autonomous Research Discovery</h2>
+                        <p class="hero-subtitle">Generate, validate, and learn from hypotheses across 7 research domains with enterprise-grade algorithms and meta-learning</p>
+
+                        <div class="cta-buttons">
+                            <button class="btn btn-primary" onclick="scrollToTab('domains')">Explore Domains</button>
+                            <button class="btn btn-secondary" onclick="openModal('quick-start')">Quick Start</button>
+                        </div>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">7</div>
+                            <div class="stat-label">Research Domains</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">64</div>
+                            <div class="stat-label">Algorithms</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">152</div>
+                            <div class="stat-label">Tests Passing</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">95%</div>
+                            <div class="stat-label">Code Coverage</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Grid -->
+                <section class="features-section" aria-labelledby="features-heading">
+                    <h3 id="features-heading" class="section-title">Key Capabilities</h3>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🔬</div>
+                            <h4>Hypothesis Generation</h4>
+                            <p>AI-powered hypothesis generation from literature search and domain knowledge</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">✅</div>
+                            <h4>Turing Validation</h4>
+                            <p>5-strategy falsification suite with 200-question interrogation framework</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🧠</div>
+                            <h4>Meta-Learning</h4>
+                            <p>Hall of Failures database + multi-armed bandit for continuous improvement</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🤖</div>
+                            <h4>Research Agents</h4>
+                            <p>7 personality-based agents with domain expertise and learning capability</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h4>Orchestration</h4>
+                            <p>ATLAS workflow engine: discovery → validation → learning → publication</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h4>Performance</h4>
+                            <p>5.03x average speedup with optimized algorithms and GPU support</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Quick Stats -->
+                <section class="quick-stats" aria-labelledby="stats-heading">
+                    <h3 id="stats-heading" class="section-title">Quality Metrics</h3>
+
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 95%"></div>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Code Coverage</span>
+                                <span class="metric-value">95%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 100%"></div>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Tests Passing</span>
+                                <span class="metric-value">100%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 97%"></div>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Algorithm Quality</span>
+                                <span class="metric-value">97.1%</span>
+                            </div>
+                        </div>
+
+                        <div class="metric">
+                            <div class="metric-bar">
+                                <div class="metric-fill" style="width: 85%"></div>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Performance Gain</span>
+                                <span class="metric-value">5.03x</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <!-- DOMAINS TAB -->
+        <section id="domains" class="tab-content" role="tabpanel" aria-labelledby="domains-tab">
+            <div class="container">
+                <h2 class="section-title">Research Domains</h2>
+
+                <div class="domains-grid">
+                    <!-- Quantum Domain -->
+                    <div class="domain-card" data-domain="quantum">
+                        <div class="domain-icon">⚛️</div>
+                        <h3>Quantum Computing</h3>
+                        <p>Circuit optimization, error correction, and quantum algorithms</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('quantum')">Learn More</button>
+                    </div>
+
+                    <!-- Materials Domain -->
+                    <div class="domain-card" data-domain="materials">
+                        <div class="domain-icon">🧪</div>
+                        <h3>Materials Science</h3>
+                        <p>Crystal structure prediction and property design</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('materials')">Learn More</button>
+                    </div>
+
+                    <!-- Optimization Domain -->
+                    <div class="domain-card" data-domain="optimization">
+                        <div class="domain-icon">🎯</div>
+                        <h3>Optimization</h3>
+                        <p>QAP, TSP, and combinatorial problem solving with QAPLibria</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('optimization')">Learn More</button>
+                    </div>
+
+                    <!-- ML Domain -->
+                    <div class="domain-card" data-domain="ml">
+                        <div class="domain-icon">🧠</div>
+                        <h3>Machine Learning</h3>
+                        <p>Architecture search, training optimization, and generalization</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('ml')">Learn More</button>
+                    </div>
+
+                    <!-- NAS Domain -->
+                    <div class="domain-card" data-domain="nas">
+                        <div class="domain-icon">🏗️</div>
+                        <h3>Neural Architecture Search</h3>
+                        <p>AutoML with zero-cost proxies and progressive shrinking</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('nas')">Learn More</button>
+                    </div>
+
+                    <!-- Synthesis Domain -->
+                    <div class="domain-card" data-domain="synthesis">
+                        <div class="domain-icon">💊</div>
+                        <h3>Molecular Synthesis</h3>
+                        <p>Drug discovery, binding affinity, and ADME prediction</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('synthesis')">Learn More</button>
+                    </div>
+
+                    <!-- Graph Domain -->
+                    <div class="domain-card" data-domain="graph">
+                        <div class="domain-icon">🌐</div>
+                        <h3>Graph Optimization</h3>
+                        <p>Partitioning, community detection, and max clique problems</p>
+                        <div class="domain-details">
+                            <span class="badge">4 Algorithms</span>
+                            <span class="badge">5 Benchmarks</span>
+                        </div>
+                        <button class="btn btn-small" onclick="viewDomainDetail('graph')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALGORITHMS TAB -->
+        <section id="algorithms" class="tab-content" role="tabpanel" aria-labelledby="algorithms-tab">
+            <div class="container">
+                <h2 class="section-title">Algorithm Library</h2>
+
+                <div class="algorithms-filters">
+                    <div class="filter-group">
+                        <label for="filter-domain">Domain:</label>
+                        <select id="filter-domain" class="select-input" onchange="filterAlgorithms()">
+                            <option value="">All Domains</option>
+                            <option value="quantum">Quantum</option>
+                            <option value="materials">Materials</option>
+                            <option value="optimization">Optimization</option>
+                            <option value="ml">Machine Learning</option>
+                            <option value="nas">NAS</option>
+                            <option value="synthesis">Synthesis</option>
+                            <option value="graph">Graph</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="filter-type">Type:</label>
+                        <select id="filter-type" class="select-input" onchange="filterAlgorithms()">
+                            <option value="">All Types</option>
+                            <option value="baseline">Baseline</option>
+                            <option value="novel">Novel</option>
+                            <option value="ensemble">Ensemble</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <input type="text" id="filter-search" class="search-input" placeholder="Search algorithms..." onkeyup="filterAlgorithms()">
+                    </div>
+                </div>
+
+                <div id="algorithms-list" class="algorithms-table">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- LEADERBOARD TAB -->
+        <section id="leaderboard" class="tab-content" role="tabpanel" aria-labelledby="leaderboard-tab">
+            <div class="container">
+                <h2 class="section-title">Performance Leaderboard</h2>
+
+                <div class="leaderboard-controls">
+                    <select class="select-input" id="leaderboard-domain" onchange="updateLeaderboard()">
+                        <option value="">All Domains</option>
+                        <option value="quantum">Quantum</option>
+                        <option value="materials">Materials</option>
+                        <option value="optimization">Optimization</option>
+                        <option value="ml">Machine Learning</option>
+                        <option value="nas">NAS</option>
+                        <option value="synthesis">Synthesis</option>
+                        <option value="graph">Graph</option>
+                    </select>
+                </div>
+
+                <table class="leaderboard-table" role="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" onclick="sortLeaderboard('rank')">Rank</th>
+                            <th scope="col" onclick="sortLeaderboard('algorithm')">Algorithm</th>
+                            <th scope="col" onclick="sortLeaderboard('domain')">Domain</th>
+                            <th scope="col" onclick="sortLeaderboard('quality')">Quality %</th>
+                            <th scope="col" onclick="sortLeaderboard('speedup')">Speedup</th>
+                            <th scope="col" onclick="sortLeaderboard('tests')">Tests</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- VALIDATOR TAB -->
+        <section id="validator" class="tab-content" role="tabpanel" aria-labelledby="validator-tab">
+            <div class="container">
+                <h2 class="section-title">Hypothesis Validator</h2>
+                <p class="section-subtitle">Test your hypotheses using the Turing validation suite</p>
+
+                <div class="validator-container">
+                    <div class="validator-form">
+                        <div class="form-group">
+                            <label for="hypothesis-text">Hypothesis</label>
+                            <textarea
+                                id="hypothesis-text"
+                                class="textarea-input"
+                                placeholder="Enter your hypothesis here..."
+                                rows="6"
+                                aria-label="Hypothesis input"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hypothesis-domain">Domain</label>
+                            <select id="hypothesis-domain" class="select-input" aria-label="Select research domain">
+                                <option value="">Select a domain...</option>
+                                <option value="quantum">Quantum Computing</option>
+                                <option value="materials">Materials Science</option>
+                                <option value="optimization">Optimization</option>
+                                <option value="ml">Machine Learning</option>
+                                <option value="nas">Neural Architecture Search</option>
+                                <option value="synthesis">Molecular Synthesis</option>
+                                <option value="graph">Graph Optimization</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="validateHypothesis()" aria-label="Validate hypothesis">
+                            <span>Validate Hypothesis</span>
+                        </button>
+                    </div>
+
+                    <div id="validator-results" class="validator-results" style="display: none;">
+                        <!-- Results populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for domain details -->
+    <div id="domain-detail-modal" class="modal" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close modal">&times;</button>
+            <div id="modal-body">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>HELIOS</h4>
+                <p>Autonomous Research Discovery Platform</p>
+            </div>
+            <div class="footer-section">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="../README.md" target="_blank">Getting Started</a></li>
+                    <li><a href="../helios/docs/API.md" target="_blank">API Reference</a></li>
+                    <li><a href="../helios/docs/ARCHITECTURE.md" target="_blank">Architecture</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="../CONTRIBUTING.md" target="_blank">Contributing</a></li>
+                    <li><a href="../CODE_OF_CONDUCT.md" target="_blank">Code of Conduct</a></li>
+                    <li><a href="../SECURITY.md" target="_blank">Security</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="../LICENSE" target="_blank">License (MIT)</a></li>
+                    <li><a href="../SECURITY.md" target="_blank">Security Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HELIOS. Made with ❤️ for the research community.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

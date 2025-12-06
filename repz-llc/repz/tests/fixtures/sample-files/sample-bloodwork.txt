@@ -1,0 +1,41 @@
+# Sample Lab Results (Test Fixture)
+
+**COMPREHENSIVE METABOLIC PANEL**
+Patient: Test Performance Client
+Date: January 10, 2024
+Lab: Quest Diagnostics
+
+**LIPID PANEL:**
+- Total Cholesterol: 185 mg/dL (Normal: <200)
+- HDL Cholesterol: 55 mg/dL (Normal: >40)
+- LDL Cholesterol: 110 mg/dL (Normal: <100)
+- Triglycerides: 95 mg/dL (Normal: <150)
+
+**HORMONE PANEL:**
+- Total Testosterone: 450 ng/dL (Normal: 300-1000)
+- Free Testosterone: 12.5 pg/mL (Normal: 8.7-25.1)
+- Estradiol: 25 pg/mL (Normal: 7.6-42.6)
+- LH: 4.2 mIU/mL (Normal: 1.7-8.6)
+- FSH: 3.8 mIU/mL (Normal: 1.5-12.4)
+
+**LIVER FUNCTION:**
+- ALT: 28 U/L (Normal: 7-56)
+- AST: 24 U/L (Normal: 10-40)
+- Bilirubin: 0.8 mg/dL (Normal: 0.1-1.2)
+
+**KIDNEY FUNCTION:**
+- Creatinine: 1.0 mg/dL (Normal: 0.7-1.3)
+- BUN: 15 mg/dL (Normal: 6-24)
+- eGFR: >60 mL/min/1.73m²
+
+**HEMATOLOGY:**
+- Hemoglobin: 15.2 g/dL (Normal: 14.0-18.0)
+- Hematocrit: 45% (Normal: 42-52)
+- RBC: 4.8 million/μL (Normal: 4.7-6.1)
+- WBC: 6.5 thousand/μL (Normal: 4.8-10.8)
+
+**Overall Assessment:**
+All values within normal ranges. Patient cleared for hormone optimization protocol.
+
+This is a test fixture file for automated testing purposes.
+Not real medical lab results.

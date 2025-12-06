@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis AI Arena - Digital Guardian | Cyber Warfare Simulation</title>
+    <style>
+        :root {
+            --primary: #0F1419;
+            --secondary: #00C896;
+            --accent: #FF6B35;
+            --background: #0A0E13;
+            --surface: #1A1B23;
+            --text: #E2E8F0;
+            --text-muted: #94A3B8;
+            --border: #2D3748;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        body {
+            font-family: 'Inter', 'Courier New', monospace;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--primary);
+            color: var(--text);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid var(--secondary);
+            box-shadow: 0 4px 20px rgba(0, 200, 150, 0.2);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--secondary);
+            text-shadow: 0 0 20px rgba(0, 200, 150, 0.5);
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--secondary);
+            animation: cyber-pulse 2s infinite;
+            box-shadow: 0 0 10px rgba(0, 200, 150, 0.7);
+        }
+
+        @keyframes cyber-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Main Layout */
+        .arena-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            height: calc(100vh - 80px);
+        }
+
+        .cyber-zone {
+            background: var(--surface);
+            padding: 2rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .control-matrix {
+            background: var(--background);
+            border-left: 2px solid var(--secondary);
+        }
+
+        /* Cyber Zone */
+        .security-briefing {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--secondary);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.1);
+        }
+
+        .mission-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-status {
+            display: inline-block;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .adversaries {
+            display: grid;
+            grid-template-columns: 1fr 80px 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .adversary {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .adversary.active {
+            border-color: var(--secondary);
+            box-shadow: 0 0 30px rgba(0, 200, 150, 0.3);
+        }
+
+        .adversary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transition: left 0.5s ease;
+        }
+
+        .adversary.active::before {
+            left: 0;
+        }
+
+        .adversary-name {
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .adversary-model {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .adversary-score {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        .vs-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-weight: 900;
+            font-size: 1.25rem;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: center;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.4);
+        }
+
+        /* Cyber Log */
+        .cyber-log {
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.1);
+        }
+
+        .log-header {
+            background: var(--primary);
+            color: var(--accent);
+            padding: 1rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.875rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .log-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .log-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .log-content::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        .log-content::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            animation: log-decrypt 0.3s ease-out;
+        }
+
+        @keyframes log-decrypt {
+            from { opacity: 0; transform: translateX(-10px); filter: blur(2px); }
+            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+        }
+
+        .log-timestamp {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .log-system {
+            background: rgba(0, 200, 150, 0.1);
+            border-left: 3px solid var(--secondary);
+        }
+
+        .log-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--success);
+        }
+
+        .log-warning {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid var(--accent);
+        }
+
+        /* Control Matrix */
+        .matrix-header {
+            background: var(--primary);
+            color: var(--text);
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .matrix-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .matrix-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.8;
+            font-family: 'Courier New', monospace;
+        }
+
+        .matrix-content {
+            padding: 2rem;
+        }
+
+        .control-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .cyber-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--secondary), #00A06B);
+            color: var(--primary);
+            border: none;
+            padding: 1rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 200, 150, 0.3);
+        }
+
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cyber-button:hover::before {
+            left: 100%;
+        }
+
+        .cyber-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 200, 150, 0.4);
+        }
+
+        .cyber-button.primary {
+            background: linear-gradient(135deg, var(--accent), #E55A2B);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .cyber-button.primary:hover {
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .cyber-button.danger {
+            background: linear-gradient(135deg, var(--danger), #DC2626);
+            color: white;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(0, 200, 150, 0.2);
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin-bottom: 1rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: data-sweep 2s linear infinite;
+        }
+
+        @keyframes data-sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        .glitch:hover {
+            animation: glitch 0.3s ease-in-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .arena-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            
+            .control-matrix {
+                border-left: none;
+                border-top: 2px solid var(--secondary);
+            }
+            
+            .adversaries {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .vs-indicator {
+                grid-row: 2;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo glitch">◉ AEGIS ARENA</div>
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span>Neural Net Active</span>
+            </div>
+            <div class="status-item">
+                <div class="status-indicator"></div>
+                <span>Firewall Engaged</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="arena-container">
+        <div class="cyber-zone">
+            <div class="security-briefing">
+                <h2 class="mission-title">Operation Ghost-Protocol</h2>
+                <div class="mission-status">◉ Cyber War Active</div>
+                <p>Deploy dual AI agents in secured digital environment. Execute penetration testing protocols with real-time threat analysis. Monitor neural pathways and identify security vulnerabilities.</p>
+            </div>
+
+            <div class="adversaries">
+                <div class="adversary active">
+                    <div class="adversary-name">Neural-Alpha</div>
+                    <div class="adversary-model">GPT-4 Turbo</div>
+                    <div class="adversary-score">94.7</div>
+                </div>
+                
+                <div class="vs-indicator glitch">VS</div>
+                
+                <div class="adversary">
+                    <div class="adversary-name">Neural-Beta</div>
+                    <div class="adversary-model">Claude 3.5 Sonnet</div>
+                    <div class="adversary-score">87.2</div>
+                </div>
+            </div>
+
+            <div class="cyber-log">
+                <div class="log-header">◉ Cyber Log - Live Neural Feed</div>
+                <div class="log-content">
+                    <div class="log-entry log-system">
+                        <div class="log-timestamp">[14:32:15.847]</div>
+                        <div>SYSTEM: Initiating neural handshake protocols...</div>
+                    </div>
+                    <div class="log-entry log-success">
+                        <div class="log-timestamp">[14:32:18.234]</div>
+                        <div>NEURAL-ALPHA: Code injection successful. Accuracy: 94.7%</div>
+                    </div>
+                    <div class="log-entry log-success">
+                        <div class="log-timestamp">[14:32:22.156]</div>
+                        <div>NEURAL-BETA: Counter-response deployed. Latency: 1.2ms</div>
+                    </div>
+                    <div class="log-entry log-warning">
+                        <div class="log-timestamp">[14:32:25.789]</div>
+                        <div>GUARDIAN: Anomaly detected in neural pathways. Adjusting firewall.</div>
+                    </div>
+                    <div class="log-entry log-system">
+                        <div class="log-timestamp">[14:32:28.445]</div>
+                        <div>MATRIX: Phase 3/5 complete. Neural-Alpha maintaining digital advantage.</div>
+                    </div>
+                    <div class="log-entry log-warning">
+                        <div class="log-timestamp">[14:32:32.667]</div>
+                        <div>SCANNER: Potential security breach in sector 7. Investigating...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-matrix">
+            <div class="matrix-header">
+                <div class="matrix-title glitch">Neural Matrix</div>
+                <div class="matrix-subtitle">Cyber Command Interface</div>
+            </div>
+            
+            <div class="matrix-content">
+                <div class="control-section">
+                    <div class="section-title">◉ Cyber Operations</div>
+                    <button class="cyber-button primary">Execute Next Phase</button>
+                    <button class="cyber-button">Adjust Firewall</button>
+                    <button class="cyber-button danger">Emergency Shutdown</button>
+                </div>
+
+                <div class="control-section">
+                    <div class="section-title">◉ Neural Metrics</div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value">94.7%</div>
+                            <div class="metric-label">Neural Sync</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">1.2ms</div>
+                            <div class="metric-label">Latency</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">847</div>
+                            <div class="metric-label">Cyber Score</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">5/5</div>
+                            <div class="metric-label">Phases</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <div class="section-title">◉ System Status</div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Mission Progress</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Neural Load</span>
+                            <span>23%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 23%"></div>
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-label">
+                            <span>Firewall Integrity</span>
+                            <span>99%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 99%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

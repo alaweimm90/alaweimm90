@@ -1,0 +1,61 @@
+# BuildForge Domain Configuration Template
+# Copy this file and customize for your project
+
+# Project metadata
+domain: "Example Research Domain"
+keywords:
+  - "keyword1"
+  - "keyword2"
+  - "keyword3"
+
+# Gate 1: Novelty threshold (0-100)
+# GO if >= threshold, PIVOT if 40-64, STOP if < 40
+novelty_threshold: 65
+
+# Gate 1: SOTA baselines for comparison
+sota_baselines:
+  - name: "Existing Method 1"
+    year: 2023
+    metric_value: 12.5
+    runtime_sec: 45.2
+    paper_url: "https://arxiv.org/abs/2023.12345"
+
+  - name: "Existing Method 2"
+    year: 2024
+    metric_value: 15.8
+    runtime_sec: 38.1
+    paper_url: "https://arxiv.org/abs/2024.56789"
+
+# Gate 4: Benchmark datasets and instances
+benchmarks:
+  dataset: "Standard Benchmark Name"
+  source_url: "https://example.com/benchmark"
+  instances:
+    - "test_instance_1"
+    - "test_instance_2"
+    - "test_instance_3"
+  size: "1000 test cases"
+
+# Gate 4: Evaluation metrics
+evaluation_metrics:
+  - "accuracy"
+  - "runtime"
+  - "memory_usage"
+  - "throughput"
+
+# Gate 4: Release criteria (all must be met)
+release_criteria:
+  - "Beat SOTA on 3+ instances by >= 2%"
+  - "Runtime within +/- 10% of SOTA"
+  - "Memory usage < 2GB"
+  - "Pass all unit tests"
+  - "Documentation complete"
+
+# Product track (optional - remove if research-only)
+price_point:
+  api_per_call: 0.10  # $0.10 per API call
+  api_monthly_100k: 500  # $500 for 100K calls/month
+  enterprise_monthly: 5000  # $5K enterprise license
+
+# Target users (optional)
+target_users: "Data scientists and ML engineers"

@@ -1,0 +1,33 @@
+version: "1.0"
+workflows:
+  autonomous_ide_cycle:
+    description: Unified autonomous cycle across IDEs
+    execution_policy:
+      mode: sequential
+      allow_parallel_groups: false
+    steps:
+      - meta_orchestrator
+      - researcher
+      - planner
+      - critic
+      - synthesizer
+      - executor
+  code_review_enhanced:
+    description: Multi-agent code review and refactor
+    execution_policy:
+      mode: sequential
+    steps:
+      - planner
+      - critic
+      - technical_architect
+      - synthesizer
+  research_synthesis:
+    description: Rapid research → synthesis → plan
+    execution_policy:
+      mode: sequential
+    steps:
+      - researcher
+      - historian
+      - futurist
+      - synthesizer
+      - planner

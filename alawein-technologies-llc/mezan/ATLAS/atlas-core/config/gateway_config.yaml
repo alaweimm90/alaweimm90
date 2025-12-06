@@ -1,0 +1,252 @@
+# API Gateway Configuration
+# Production-grade routing and service configuration
+
+services:
+  # MEZAN Core Service
+  - name: mezan-core
+    endpoints:
+      - url: http://localhost:8001
+        weight: 3
+        health_check_url: http://localhost:8001/health
+        timeout: 30.0
+        retry_count: 3
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 5
+        circuit_breaker_timeout: 60.0
+      - url: http://localhost:8002
+        weight: 2
+        health_check_url: http://localhost:8002/health
+        timeout: 30.0
+        retry_count: 3
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 5
+        circuit_breaker_timeout: 60.0
+      - url: http://localhost:8003
+        weight: 1
+        health_check_url: http://localhost:8003/health
+        timeout: 30.0
+        retry_count: 3
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 5
+        circuit_breaker_timeout: 60.0
+    load_balancing_strategy: weighted_round_robin
+    health_check_interval: 30.0
+    sticky_sessions: false
+    session_ttl: 3600.0
+    max_connections_per_endpoint: 100
+
+  # ORCHEX Research Service
+  - name: ORCHEX-research
+    endpoints:
+      - url: http://localhost:9001
+        weight: 1
+        health_check_url: http://localhost:9001/health
+        timeout: 120.0  # Longer timeout for research operations
+        retry_count: 2
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 3
+        circuit_breaker_timeout: 120.0
+      - url: http://localhost:9002
+        weight: 1
+        health_check_url: http://localhost:9002/health
+        timeout: 120.0
+        retry_count: 2
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 3
+        circuit_breaker_timeout: 120.0
+    load_balancing_strategy: least_connections
+    health_check_interval: 60.0
+    sticky_sessions: true  # Keep research sessions on same server
+    session_ttl: 7200.0
+    max_connections_per_endpoint: 50
+
+  # Libria Optimization Service
+  - name: libria-solvers
+    endpoints:
+      - url: http://localhost:7001
+        weight: 2
+        health_check_url: http://localhost:7001/health
+        timeout: 60.0
+        retry_count: 3
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 5
+        circuit_breaker_timeout: 60.0
+        metadata:
+          gpu_enabled: true
+          solver_types: ["qap", "flow", "alloc"]
+      - url: http://localhost:7002
+        weight: 1
+        health_check_url: http://localhost:7002/health
+        timeout: 60.0
+        retry_count: 3
+        circuit_breaker_enabled: true
+        circuit_breaker_threshold: 5
+        circuit_breaker_timeout: 60.0
+        metadata:
+          gpu_enabled: false
+          solver_types: ["graph", "dual", "evo"]
+    load_balancing_strategy: resource_based  # Use load score
+    health_check_interval: 30.0
+    sticky_sessions: false
+    session_ttl: 3600.0
+    max_connections_per_endpoint: 80
+
+  # Benchmarking Service
+  - name: benchmark-workers
+    endpoints:
+      - url: http://localhost:6001
+        weight: 1
+        health_check_url: http://localhost:6001/health
+        timeout: 300.0  # 5 minutes for benchmarks
+        retry_count: 1
+        circuit_breaker_enabled: false  # Don't circuit break on long benchmarks
+      - url: http://localhost:6002
+        weight: 1
+        health_check_url: http://localhost:6002/health
+        timeout: 300.0
+        retry_count: 1
+        circuit_breaker_enabled: false
+    load_balancing_strategy: round_robin
+    health_check_interval: 120.0
+    sticky_sessions: false
+    max_connections_per_endpoint: 10
+
+routes:
+  # Core MEZAN API
+  - path: /api/v1/solve
+    methods: [POST]
+    service_name: mezan-core
+    version: v1
+    rate_limit:
+      name: solve_limit
+      algorithm: token_bucket
+      limit: 100
+      window: 60
+    auth_required: true
+    cache_ttl: null  # Don't cache solve requests
+    cors_enabled: true
+    timeout_override: 60.0
+    retry_policy:
+      count: 3
+      delay: 1.0
+
+  - path: /api/v1/analyze
+    methods: [POST]
+    service_name: mezan-core
+    version: v1
+    rate_limit:
+      name: analyze_limit
+      algorithm: sliding_window_log
+      limit: 50
+      window: 60
+    auth_required: true
+    cache_ttl: 300  # Cache analysis for 5 minutes
+    cors_enabled: true
+
+  # ORCHEX Research API
+  - path: /api/v1/research
+    methods: [POST, GET]
+    service_name: ORCHEX-research
+    version: v1
+    rate_limit:
+      name: research_limit
+      algorithm: token_bucket
+      limit: 20
+      window: 60
+      burst_size: 5
+    auth_required: true
+    cache_ttl: null
+    cors_enabled: true
+    timeout_override: 180.0
+
+  # Libria Solvers API
+  - path: /api/v1/libria
+    methods: [POST]
+    service_name: libria-solvers
+    version: v1
+    rate_limit:
+      name: libria_limit
+      algorithm: leaky_bucket
+      limit: 60
+      window: 60
+      leak_rate: 1.0
+    auth_required: true
+    cache_ttl: null
+    cors_enabled: true
+
+  # Benchmarking API
+  - path: /api/v1/benchmarks
+    methods: [POST, GET]
+    service_name: benchmark-workers
+    version: v1
+    rate_limit:
+      name: benchmark_limit
+      algorithm: fixed_window
+      limit: 10
+      window: 3600  # 10 benchmarks per hour
+    auth_required: true
+    cache_ttl: null
+    cors_enabled: true
+    timeout_override: 600.0  # 10 minutes
+
+  # Health Check (no auth required)
+  - path: /health
+    methods: [GET]
+    service_name: mezan-core
+    auth_required: false
+    rate_limit: null
+    cache_ttl: 10  # Cache health check for 10 seconds
+    cors_enabled: true
+
+  # Metrics Endpoint
+  - path: /metrics
+    methods: [GET]
+    service_name: mezan-core
+    auth_required: true
+    rate_limit:
+      name: metrics_limit
+      algorithm: fixed_window
+      limit: 100
+      window: 60
+    cache_ttl: 5
+    cors_enabled: true
+
+  # WebSocket endpoints
+  - path: /ws/jobs
+    methods: [GET]
+    service_name: mezan-core
+    auth_required: true
+    rate_limit: null  # No rate limiting for WebSocket
+    cache_ttl: null
+    cors_enabled: true
+
+# Global settings
+global:
+  enable_metrics: true
+  enable_tracing: true
+  enable_caching: true
+  default_timeout: 30.0
+  max_request_body_size: 10485760  # 10MB
+  cors:
+    allowed_origins:
+      - "http://localhost:3000"
+      - "http://localhost:8080"
+      - "https://mezan.app"
+    allowed_methods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    allowed_headers:
+      - Authorization
+      - Content-Type
+      - X-Request-ID
+      - X-Session-ID
+    expose_headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - X-RateLimit-Reset
+      - X-Request-ID
+    max_age: 86400  # 24 hours
+    allow_credentials: true

@@ -1,0 +1,28 @@
+#!/bin/bash
+# Universal: Review changes after Claude session
+# Works in any Git repository directory
+
+if [ ! -d ".git" ]; then
+    echo "❌ Not in a Git repository!"
+    exit 1
+fi
+
+REPO_NAME=$(basename "$(pwd)")
+echo "🔍 Reviewing changes in: $REPO_NAME"
+echo ""
+
+echo "📊 Repository status:"
+git status
+echo ""
+
+echo "📋 Files changed:"
+git diff --stat
+echo ""
+
+echo "💡 Next steps:"
+echo "   repo-stage file1 file2    # Stage specific files"
+echo "   repo-stage-all            # Stage all changes"  
+echo "   repo-save \"message\"       # Stage all + commit + push"
+echo ""
+
+echo "🔍 To see detailed changes: git diff"

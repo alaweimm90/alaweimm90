@@ -1,0 +1,24 @@
+#!/bin/bash
+# Universal: Start Git session (pull latest changes and check status)
+# Works in any Git repository directory
+
+if [ ! -d ".git" ]; then
+    echo "❌ Not in a Git repository! Navigate to your repo first: cd /path/to/your/repo"
+    exit 1
+fi
+
+REPO_NAME=$(basename "$(pwd)")
+echo "🚀 Starting Git session for: $REPO_NAME"
+echo "📍 Location: $(pwd)"
+echo ""
+
+echo "⬇️  Pulling latest changes..."
+git pull origin main || git pull origin master || echo "⚠️  Could not pull (check branch name)"
+echo ""
+
+echo "📊 Repository status:"
+git status
+echo ""
+
+echo "✅ Ready for development!"
+echo "💡 After making changes, use: repo-review → repo-save \"message\""

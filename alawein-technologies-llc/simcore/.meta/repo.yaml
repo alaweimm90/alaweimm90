@@ -1,0 +1,11 @@
+type: simulator
+language: TypeScript
+tier: 1
+coverage:
+  target: 70
+docs:
+  profile: minimal
+owner: AlaweinOS
+description: 'Repository: SimCore'
+status: active
+created: '2025-11-26'

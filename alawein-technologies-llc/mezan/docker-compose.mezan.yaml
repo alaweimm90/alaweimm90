@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  orchestrator:
+    build:
+      context: ./Libria/libria-meta
+      dockerfile: Dockerfile
+    image: mezan-orchestrator:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - ORCH_MAX_BODY=2097152
+
+  client:
+    image: python:3.11-slim
+    depends_on:
+      - orchestrator
+    command: >
+      sh -c "python - << 'PY'
+      import json, time, urllib.request
+      # wait a bit for server
+      time.sleep(1.5)
+      payload = json.dumps({"fit": [[1,2],[2,1]]}).encode('utf-8')
+      req = urllib.request.Request('http://orchestrator:8081/qapflow/solve', data=payload, headers={'Content-Type':'application/json'})
+      with urllib.request.urlopen(req, timeout=10) as resp:
+          print(resp.read().decode('utf-8'))
+      PY"
+

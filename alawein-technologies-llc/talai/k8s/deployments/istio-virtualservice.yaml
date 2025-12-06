@@ -1,0 +1,242 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: talai-services
+  namespace: talai
+spec:
+  hosts:
+    - api.talai.io
+    - api-eu.talai.io
+    - api-ap.talai.io
+  gateways:
+    - talai-gateway
+  http:
+    # Canary deployment for v2
+    - match:
+        - headers:
+            x-canary:
+              exact: "true"
+      route:
+        - destination:
+            host: talai-services
+            subset: v2
+          weight: 100
+    # A/B testing based on user segment
+    - match:
+        - headers:
+            x-user-segment:
+              exact: "premium"
+      route:
+        - destination:
+            host: talai-services
+            subset: v2-premium
+          weight: 100
+    # Fault injection for testing
+    - match:
+        - headers:
+            x-test-fault:
+              exact: "true"
+      fault:
+        delay:
+          percentage:
+            value: 10
+          fixedDelay: 5s
+        abort:
+          percentage:
+            value: 5
+          httpStatus: 503
+      route:
+        - destination:
+            host: talai-services
+            subset: v1
+    # Traffic mirroring for shadow testing
+    - match:
+        - uri:
+            prefix: /api/experimental
+      route:
+        - destination:
+            host: talai-services
+            subset: v1
+          weight: 100
+      mirror:
+        host: talai-services
+        subset: v3-experimental
+      mirrorPercentage:
+        value: 10.0
+    # Blue-green deployment
+    - match:
+        - headers:
+            x-version:
+              exact: v2
+      route:
+        - destination:
+            host: talai-services
+            subset: green
+          weight: 100
+    # Default traffic split
+    - route:
+        - destination:
+            host: talai-services
+            subset: blue
+          weight: 90
+        - destination:
+            host: talai-services
+            subset: green
+          weight: 10
+      timeout: 30s
+      retries:
+        attempts: 3
+        perTryTimeout: 10s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: talai-services
+  namespace: talai
+spec:
+  host: talai-services
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 100
+        http2MaxRequests: 1000
+        maxRequestsPerConnection: 2
+        h2UpgradePolicy: UPGRADE
+    loadBalancer:
+      simple: LEAST_REQUEST
+    outlierDetection:
+      consecutiveErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+      minHealthPercent: 50
+      splitExternalLocalOriginErrors: true
+  subsets:
+    - name: blue
+      labels:
+        version: v1
+        deployment: blue
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 50
+    - name: green
+      labels:
+        version: v2
+        deployment: green
+      trafficPolicy:
+        connectionPool:
+          tcp:
+            maxConnections: 50
+    - name: v2-premium
+      labels:
+        version: v2
+        tier: premium
+    - name: v3-experimental
+      labels:
+        version: v3
+        stage: experimental
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: talai-gateway
+  namespace: talai
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - api.talai.io
+        - api-eu.talai.io
+        - api-ap.talai.io
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - api.talai.io
+        - api-eu.talai.io
+        - api-ap.talai.io
+      tls:
+        mode: SIMPLE
+        credentialName: talai-tls-cert
+---
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: talai-mtls
+  namespace: talai
+spec:
+  mtls:
+    mode: STRICT
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: talai-authz
+  namespace: talai
+spec:
+  selector:
+    matchLabels:
+      app: talai
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/talai/sa/talai-services"]
+        - source:
+            namespaces: ["talai", "istio-system"]
+      to:
+        - operation:
+            methods: ["GET", "POST", "PUT", "DELETE"]
+            paths: ["/api/*"]
+      when:
+        - key: request.headers[x-api-key]
+          values: ["*"]
+    - from:
+        - source:
+            principals: ["cluster.local/ns/monitoring/sa/prometheus"]
+      to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/metrics"]
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-anthropic-api
+  namespace: talai
+spec:
+  hosts:
+    - api.anthropic.com
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-openai-api
+  namespace: talai
+spec:
+  hosts:
+    - api.openai.com
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+  location: MESH_EXTERNAL
+  resolution: DNS

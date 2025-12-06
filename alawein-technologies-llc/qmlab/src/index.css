@@ -1,0 +1,1062 @@
+/* Design System - Core tokens and primitives */
+@import './styles/design-system/colors.css';
+@import './styles/design-system/effects.css';
+@import './styles/design-system/animations.css';
+
+/* Legacy design tokens (to be gradually migrated) */
+@import './styles/tokens.css';
+@import './styles/typography.css';
+
+/* Feature-specific styles */
+@import './styles/glass-enhanced.css';
+@import './styles/mobile-enhancements.css';
+@import './styles/quantum-enhancements.css';
+@import './styles/advanced-effects.css';
+@import './styles/performance-optimizations.css';
+@import './styles/accessibility-enhancements.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import enhanced design system */
+@import './styles/design-system/enhanced-colors.css';
+@import './styles/design-system/micro-interactions.css';
+
+/* Skip to main content link for accessibility */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 1rem 2rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  text-decoration: none;
+  border-radius: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.skip-to-main:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  outline: 3px solid hsl(var(--primary-glow));
+  outline-offset: 2px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Screen reader only - visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Standardized Glass Morphism System */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+.glass-subtle {
+  background: var(--glass-bg-subtle);
+  backdrop-filter: blur(var(--glass-blur-subtle));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+.glass-minimal {
+  background: var(--glass-bg-minimal);
+  backdrop-filter: blur(var(--glass-blur-minimal));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+}
+
+/* Typography System */
+.heading-refined-1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+}
+
+.heading-refined-2 {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--text-primary);
+}
+
+.heading-refined-3 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  color: var(--text-primary);
+}
+
+.body-elegant {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-secondary);
+}
+
+.body-elegant-sm {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--text-muted);
+}
+
+/* WCAG 2.1 AA Focus Management */
+/* Ensure all interactive elements have visible focus indicators */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Enhanced focus for buttons and interactive elements */
+button:focus-visible,
+[role="button"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+/* Focus for form controls */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Links focus indicator */
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  text-decoration: underline;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #e2e8f0;
+    --border-primary: #ffffff;
+    --color-primary: #60a5fa;
+  }
+  
+  .glass-panel,
+  .glass-subtle,
+  .glass-minimal {
+    background: var(--surface-1);
+    backdrop-filter: none;
+    border: 2px solid var(--border-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen reader optimizations */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* QuantumML Playground Design System - Quantum-inspired aesthetics */
+
+@layer base {
+  :root {
+    /* Color scheme metadata for browser theming */
+    color-scheme: light dark;
+    /* Base surfaces */
+    --bg: 222 47% 7%;
+    --surface-1: 222 40% 10%;
+    --surface-2: 222 32% 14%;
+    --border: 220 30% 35%; /* Raised for 3:1 contrast against surfaces */
+    
+    /* Text colors - WCAG 2.2 AA compliant */
+    --text: 210 18% 92%;
+    --muted: 215 12% 85%; /* Raised to 85% for 4.5:1+ contrast ratio */
+    --muted-light: 215 12% 80%; /* Secondary muted text - 4.5:1+ contrast */
+    
+    /* Brand colors */
+    --primary: 196 100% 52%;
+    --primary-foreground: 210 100% 98%;
+    --primary-glow: 196 100% 62%;
+    --accent: 262 85% 64%;
+    --accent-foreground: 210 100% 98%;
+    
+    /* Status colors */
+    --success: 162 72% 41%;
+    --warn: 38 100% 54%;
+    --error: 350 84% 56%;
+    --info: 218 14% 55%;
+    
+    /* Quantum state colors */
+    --state-pure: 196 100% 52%;
+    --state-mixed: 200 20% 60%;
+    --state-entangled: 262 85% 64%;
+    
+    /* Legacy compatibility */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface-1);
+    --card-foreground: var(--text);
+    --popover: var(--surface-2);
+    --popover-foreground: var(--text);
+    --secondary: var(--surface-2);
+    --secondary-foreground: var(--text);
+    --muted-foreground: var(--muted);
+    --destructive: var(--error);
+    --destructive-foreground: var(--primary-foreground);
+    --input: var(--surface-2);
+    --ring: var(--primary);
+    --radius: 0.625rem;
+    
+    /* Chart colors */
+    --chart-1: var(--primary);
+    --chart-2: var(--accent);
+    --chart-3: var(--success);
+    --chart-4: var(--warn);
+    --chart-5: var(--error);
+    
+    /* Gradients using semantic tokens */
+    --gradient-quantum: linear-gradient(135deg, hsl(var(--bg)) 0%, hsl(var(--surface-1)) 50%, hsl(var(--bg)) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--accent)), hsl(262 85% 74%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--state-pure)), hsl(var(--state-mixed)));
+    
+    /* Shadows using semantic tokens */
+    --glow-primary: 0 0 20px hsl(var(--primary) / 0.3), 0 0 40px hsl(var(--primary) / 0.1);
+    --glow-secondary: 0 0 20px hsl(var(--accent) / 0.3), 0 0 40px hsl(var(--accent) / 0.1);
+    --glow-accent: 0 0 20px hsl(var(--state-pure) / 0.3), 0 0 40px hsl(var(--state-pure) / 0.1);
+    
+    /* Elevation shadows */
+    --shadow-low: 0 1px 0 hsl(0 0% 100%/0.02), 0 1px 2px hsl(220 40% 2% / 0.4);
+    --shadow-high: 0 8px 30px hsl(220 60% 2% / 0.55);
+    
+    /* Quantum transitions */
+    --transition-quantum: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-glow: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Quantum keyframes for enhanced animations */
+    --quantum-orbit-duration: 4s;
+    --quantum-pulse-duration: 2s;
+    --quantum-float-duration: 3s;
+    
+    /* Enhanced CTA animations */
+    --quantum-glow-subtle-duration: 4s;
+    --quantum-shimmer-duration: 2s;
+    
+    /* Sidebar compatibility */
+    --sidebar-background: var(--surface-1);
+    --sidebar-foreground: var(--text);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--surface-2);
+    --sidebar-accent-foreground: var(--text);
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--primary);
+
+    --sidebar-background: 222 35% 8%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 85%; /* Raised for 4.5:1+ contrast */
+    --muted-foreground-light: 215 20.2% 80%; /* Secondary muted - 4.5:1+ contrast */
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 25%; /* Raised for 3:1 contrast */
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  
+  /* Typography base styles */
+  .font-display {
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  }
+  
+  /* Monospace for metrics */
+  .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  /* WCAG 2.2 SC 2.4.11/12/13 Focus Management */
+  .focus-ring {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 4px;
+    box-shadow: 
+      0 0 0 1px hsl(var(--background)),
+      0 0 0 4px hsl(var(--primary) / 0.3);
+  }
+  
+  :focus-visible {
+    @apply focus-ring;
+  }
+  
+  /* High-contrast focus for critical interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible,
+  [role="tab"]:focus-visible,
+  [role="menuitem"]:focus-visible,
+  [tabindex]:not([tabindex="-1"]):focus-visible {
+    @apply focus-ring;
+    /* Ensure focus is never obscured by other elements */
+    z-index: 100;
+    position: relative;
+  }
+  
+  /* Skip link enhanced visibility */
+  .skip-to-main:focus-visible {
+    @apply focus-ring;
+    outline-offset: 4px;
+    z-index: 1000;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: 210 100% 95%;
+      --ring: 208 100% 70%;
+    }
+  }
+  
+  /* Motion Preferences - Full Three.js Support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    /* Disable quantum animations */
+    .animate-quantum-pulse,
+    .animate-quantum-glow,
+    .animate-quantum-float,
+    .animate-bloch-rotate {
+      animation: none !important;
+    }
+    
+    /* Reduce Three.js canvas opacity */
+    canvas[data-animated="true"] {
+      opacity: 0.6 !important;
+    }
+    
+    /* Disable glow effects for performance */
+    [style*="drop-shadow"],
+    [style*="box-shadow"] {
+      filter: none !important;
+      box-shadow: 0 1px 3px hsl(var(--border)) !important;
+    }
+  }
+    
+  
+  /* Performance optimizations */
+  .gpu-accelerated {
+    will-change: transform;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* Only apply will-change when actually animating */
+  .animating {
+    will-change: transform, opacity;
+  }
+  
+  .not-animating {
+    will-change: auto;
+  }
+  
+  /* Optimize glow effects */
+  .quantum-glow {
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+  
+  @media (max-width: 768px) {
+    /* Reduce expensive effects on mobile */
+    .quantum-glow {
+      filter: none;
+      box-shadow: 0 0 0 1px currentColor;
+    }
+    
+    /* Disable complex transforms on mobile */
+    .animate-quantum-pulse,
+    .animate-quantum-glow {
+      animation-duration: 2s;
+      animation-timing-function: ease-in-out;
+    }
+  }
+  
+  /* Container queries for performance */
+  @container (width < 600px) {
+    .performance-heavy {
+      display: none;
+    }
+  }
+  
+  /* Skip to main content link for screen readers */
+  .skip-to-main {
+    @apply absolute left-[-9999px] top-2 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md;
+  }
+  
+  .skip-to-main:focus {
+    @apply left-2;
+  }
+  
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Enhanced focus indicators for complex widgets */
+  [role="tablist"] [role="tab"]:focus,
+  [role="menu"] [role="menuitem"]:focus,
+  [role="grid"] [role="gridcell"]:focus {
+    @apply focus-ring;
+    /* Higher z-index for complex widgets */
+    z-index: 1000;
+  }
+  
+  /* Roving tabindex support */
+  [role="tab"][tabindex="-1"],
+  [role="menuitem"][tabindex="-1"],
+  [role="gridcell"][tabindex="-1"] {
+    outline: none;
+  }
+  
+  /* WCAG 2.2 Target Size Requirements */
+  button,
+  a,
+  [role="button"],
+  input,
+  select,
+  textarea {
+    min-height: 44px; /* iOS minimum */
+    min-width: 44px;
+  }
+  
+  /* Desktop can be smaller with fine pointer */
+  @media (pointer: fine) {
+    .chip,
+    .nav-link {
+      min-height: 28px;
+    }
+  }
+  
+  /* Mobile requires full touch targets */
+  @media (pointer: coarse) {
+    .chip,
+    .nav-link,
+    button {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+  
+  /* Improve form field visibility */
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    @apply border-2;
+  }
+}
+
+/* ========================================
+   MOBILE EXPERIENCE ENHANCEMENTS
+   ======================================== */
+
+/* Mobile-optimized touch interactions */
+@media (max-width: 768px) {
+  /* Touch-friendly button sizing */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve touch manipulation */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Quantum gate optimizations for mobile */
+  .gate-palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(56px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .gate-palette::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .gate-palette::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 2px;
+  }
+
+  .gate-palette::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 2px;
+  }
+
+  /* Circuit builder mobile optimizations */
+  .circuit-wire {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .circuit-wire::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Mobile quantum visualization */
+  .bloch-sphere-container {
+    height: 300px; /* Smaller on mobile */
+    touch-action: pan-x pan-y;
+  }
+
+  /* Improved readability on small screens */
+  .quantum-state-label {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* Mobile-friendly forms */
+  .quantum-input {
+    min-height: 48px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  /* Training dashboard mobile layout */
+  .training-controls {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .training-controls button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Mobile header optimizations */
+  .mobile-header {
+    padding: 0.75rem 1rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Mobile navigation improvements */
+  .mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 50;
+    padding: 2rem 1rem;
+  }
+
+  /* Touch-optimized cards */
+  .mobile-card {
+    padding: 1.5rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gate-palette {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 400px;
+  }
+
+  .circuit-builder-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .bloch-sphere-container {
+    height: 400px;
+  }
+
+  /* Tablet-specific touch optimizations */
+  .tablet-touch-target {
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1025px) {
+  .gate-palette {
+    grid-template-columns: repeat(8, 1fr);
+    max-width: 600px;
+  }
+
+  .circuit-builder-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .bloch-sphere-container {
+    height: 500px;
+  }
+}
+
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .quantum-gate-symbol {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .circuit-line {
+    border-width: 0.5px;
+  }
+}
+
+/* Dark mode mobile optimizations */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  .gate-palette {
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid rgba(51, 65, 85, 0.6);
+  }
+
+  .circuit-wire {
+    background: rgba(15, 23, 42, 0.95);
+  }
+
+  .mobile-nav {
+    background: rgba(15, 23, 42, 0.95);
+  }
+}
+
+/* Accessibility improvements for mobile */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  .quantum-animation {
+    animation: none;
+  }
+  
+  .bloch-sphere-rotation {
+    animation: none;
+  }
+
+  .mobile-card {
+    transition: none;
+  }
+}
+
+/* Focus improvements for mobile keyboard users */
+@media (max-width: 768px) {
+  .mobile-focus-ring:focus-visible {
+    outline: 3px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 8px;
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Larger touch targets for accessibility */
+  .a11y-mobile-target {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 12px;
+  }
+}
+
+/* Safe area insets for devices with notches */
+@supports (padding: max(0px)) {
+  .safe-area-inset-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-area-inset-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-area-inset-left {
+    padding-left: max(1rem, env(safe-area-inset-left));
+  }
+
+  .safe-area-inset-right {
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  /* Mobile header with safe area */
+  .mobile-header-safe {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-header {
+    padding: 0.5rem 1rem;
+  }
+
+  .mobile-card {
+    padding: 1rem;
+  }
+
+  .bloch-sphere-container {
+    height: 250px;
+  }
+}
+
+/* Hover states only on devices that support hover */
+@media (hover: hover) {
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Touch-optimized scrollbars */
+@media (max-width: 768px) {
+  .mobile-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .mobile-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Visual scroll indicators */
+  .scroll-indicator {
+    position: relative;
+  }
+
+  .scroll-indicator::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      hsl(var(--primary)) 50%, 
+      transparent 100%);
+    opacity: 0.3;
+  }
+}
+
+/* ========================================
+   QUANTUM CUSTOM ANIMATIONS
+   ======================================== */
+
+@keyframes quantum-orbit {
+  0% {
+    transform: rotate(0deg) translateX(20px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(20px) rotate(-360deg);
+  }
+}
+
+@keyframes quantum-pulse-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 5px hsl(var(--primary) / 0.4),
+      0 0 15px hsl(var(--primary) / 0.2),
+      0 0 30px hsl(var(--primary) / 0.1);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 
+      0 0 8px hsl(var(--primary) / 0.6),
+      0 0 25px hsl(var(--primary) / 0.4),
+      0 0 45px hsl(var(--primary) / 0.2);
+    transform: scale(1.05);
+  }
+}
+
+@keyframes quantum-float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(3px) rotate(-1deg);
+  }
+}
+
+@keyframes quantum-particle-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(10px, -5px) scale(1.1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(5px, 10px) scale(0.9);
+    opacity: 1;
+  }
+  75% {
+    transform: translate(-8px, 5px) scale(1.05);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+}
+
+@keyframes quantum-gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes quantum-border-dance {
+  0% {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1);
+  }
+  25% {
+    border-color: hsl(var(--accent) / 0.4);
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.2);
+  }
+  50% {
+    border-color: hsl(var(--state-pure) / 0.5);
+    box-shadow: 0 0 0 1px hsl(var(--state-pure) / 0.3);
+  }
+  75% {
+    border-color: hsl(var(--accent) / 0.4);
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.2);
+  }
+  100% {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1);
+  }
+}
+
+/* Apply quantum animations with proper classes */
+.animate-quantum-orbit {
+  animation: quantum-orbit var(--quantum-orbit-duration) linear infinite;
+}
+
+.animate-quantum-pulse-glow {
+  animation: quantum-pulse-glow var(--quantum-pulse-duration) ease-in-out infinite;
+}
+
+.animate-quantum-float-gentle {
+  animation: quantum-float-gentle var(--quantum-float-duration) ease-in-out infinite;
+}
+
+.animate-quantum-particle-drift {
+  animation: quantum-particle-drift 6s ease-in-out infinite;
+}
+
+.animate-quantum-gradient-shift {
+  background-size: 200% 200%;
+  animation: quantum-gradient-shift 4s ease infinite;
+}
+
+.animate-quantum-border-dance {
+  animation: quantum-border-dance 8s ease-in-out infinite;
+}
+
+/* Staggered animation delays for multiple elements */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animate-delay-700 {
+  animation-delay: 0.7s;
+}
+
+.animate-delay-1000 {
+  animation-delay: 1s;
+}
+
+/* Hover-triggered quantum effects */
+@media (hover: hover) {
+  .quantum-hover-glow:hover {
+    animation: quantum-pulse-glow 1.5s ease-in-out 3;
+    transition: var(--transition-glow);
+  }
+  
+  .quantum-hover-float:hover {
+    animation: quantum-float-gentle 2s ease-in-out infinite;
+  }
+  
+  .quantum-hover-drift:hover {
+    animation: quantum-particle-drift 3s ease-in-out infinite;
+  }
+}
+
+/* Performance optimizations for quantum animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-quantum-orbit,
+  .animate-quantum-pulse-glow,
+  .animate-quantum-float-gentle,
+  .animate-quantum-particle-drift,
+  .animate-quantum-gradient-shift,
+  .animate-quantum-border-dance {
+    animation: none !important;
+  }
+  
+  /* Provide subtle static alternatives */
+  .animate-quantum-pulse-glow {
+    box-shadow: 0 0 3px hsl(var(--primary) / 0.3) !important;
+  }
+}
+
+/* GPU acceleration for smooth animations */
+.animate-quantum-orbit,
+.animate-quantum-float-gentle,
+.animate-quantum-particle-drift {
+  will-change: transform;
+  transform-origin: center;
+  backface-visibility: hidden;
+}
+
+.animate-quantum-pulse-glow,
+.animate-quantum-border-dance {
+  will-change: box-shadow, border-color;
+}
+
+.animate-quantum-gradient-shift {
+  will-change: background-position;
+}

@@ -1,0 +1,286 @@
+name: ml_training
+version: 1.0.0
+category: machine_learning
+description: Machine Learning model training pipeline with hyperparameter tuning and validation
+author: ORCHEX Team
+tags:
+  - ml
+  - training
+  - model
+  - hyperparameter-tuning
+  - validation
+
+parameters:
+  dataset_path:
+    type: string
+    description: Path to training dataset
+    required: true
+
+  model_type:
+    type: string
+    description: Type of ML model to train
+    required: true
+    allowed_values: [classification, regression, clustering, nlp, vision]
+
+  algorithm:
+    type: string
+    description: ML algorithm to use
+    required: true
+
+  hyperparameters:
+    type: dict
+    description: Initial hyperparameters for model
+    required: false
+    default: {}
+
+  validation_split:
+    type: float
+    description: Validation data split ratio
+    required: false
+    default: 0.2
+
+  enable_tuning:
+    type: bool
+    description: Enable hyperparameter tuning
+    required: false
+    default: true
+
+  tuning_trials:
+    type: int
+    description: Number of tuning trials
+    required: false
+    default: 20
+
+  model_registry:
+    type: string
+    description: Path to model registry
+    required: true
+
+  experiment_name:
+    type: string
+    description: Name of the experiment
+    required: true
+
+workflow:
+  config:
+    type: ml_training
+    gpu_enabled: auto
+    distributed: false
+    tracking_enabled: true
+
+  tasks:
+    - name: setup_experiment
+      type: experiment_setup
+      description: Setup ML experiment tracking
+      parameters:
+        experiment_name: "{{experiment_name}}"
+        tracking_uri: "{{model_registry}}/tracking"
+        tags:
+          model_type: "{{model_type}}"
+          algorithm: "{{algorithm}}"
+
+    - name: load_dataset
+      type: data_loading
+      description: Load and validate dataset
+      depends_on: [setup_experiment]
+      parameters:
+        path: "{{dataset_path}}"
+        format: auto
+        cache: true
+
+    - name: data_profiling
+      type: profiling
+      description: Profile dataset for insights
+      depends_on: [load_dataset]
+      parameters:
+        data: "${load_dataset.output}"
+        generate_report: true
+        checks:
+          - missing_values
+          - duplicates
+          - outliers
+          - class_imbalance
+          - feature_correlation
+
+    - name: preprocess_data
+      type: preprocessing
+      description: Preprocess data for training
+      depends_on: [data_profiling]
+      parameters:
+        data: "${load_dataset.output}"
+        preprocessing_steps:
+          - handle_missing: median
+          - scale_features: standardize
+          - encode_categorical: onehot
+          - handle_outliers: clip
+        based_on_profile: "${data_profiling.report}"
+
+    - name: feature_engineering
+      type: feature_engineering
+      description: Create and select features
+      depends_on: [preprocess_data]
+      parameters:
+        data: "${preprocess_data.output}"
+        feature_selection:
+          method: mutual_info
+          top_k: auto
+        feature_creation:
+          polynomial: 2
+          interactions: true
+
+    - name: split_data
+      type: data_splitting
+      description: Split data into train and validation sets
+      depends_on: [feature_engineering]
+      parameters:
+        data: "${feature_engineering.output}"
+        validation_split: "{{validation_split}}"
+        stratify: true
+        seed: 42
+
+    - name: hyperparameter_tuning
+      type: conditional
+      description: Conditionally run hyperparameter tuning
+      condition: "{{enable_tuning}} == true"
+      if_branch:
+        - name: run_tuning
+          type: hpo
+          description: Run hyperparameter optimization
+          parameters:
+            algorithm: "{{algorithm}}"
+            search_space: auto
+            n_trials: "{{tuning_trials}}"
+            objective: accuracy
+            train_data: "${split_data.train}"
+            val_data: "${split_data.validation}"
+            parallel_trials: 4
+            pruning: true
+
+    - name: select_hyperparameters
+      type: parameter_selection
+      description: Select best hyperparameters
+      depends_on: [hyperparameter_tuning, split_data]
+      parameters:
+        tuning_results: "${run_tuning.results}"
+        default_params: "{{hyperparameters}}"
+        use_tuned: "{{enable_tuning}}"
+
+    - name: train_model
+      type: model_training
+      description: Train the ML model
+      depends_on: [select_hyperparameters]
+      parameters:
+        algorithm: "{{algorithm}}"
+        hyperparameters: "${select_hyperparameters.params}"
+        train_data: "${split_data.train}"
+        val_data: "${split_data.validation}"
+        callbacks:
+          - early_stopping:
+              patience: 5
+              monitor: val_loss
+          - model_checkpoint:
+              save_best: true
+              monitor: val_accuracy
+          - tensorboard:
+              log_dir: logs/training
+
+    - name: evaluate_model
+      type: model_evaluation
+      description: Evaluate model performance
+      depends_on: [train_model]
+      parameters:
+        model: "${train_model.model}"
+        test_data: "${split_data.validation}"
+        metrics:
+          - accuracy
+          - precision
+          - recall
+          - f1_score
+          - confusion_matrix
+          - roc_auc
+        generate_plots: true
+
+    - name: cross_validation
+      type: cross_validation
+      description: Perform k-fold cross validation
+      depends_on: [train_model]
+      parameters:
+        model: "${train_model.model}"
+        data: "${split_data.train}"
+        k_folds: 5
+        scoring: accuracy
+
+    - name: model_interpretation
+      type: explainability
+      description: Generate model interpretability insights
+      depends_on: [evaluate_model]
+      parameters:
+        model: "${train_model.model}"
+        test_data: "${split_data.validation}"
+        methods:
+          - feature_importance
+          - shap_values
+          - partial_dependence
+          - lime
+
+    - name: validate_model
+      type: validation
+      description: Validate model against criteria
+      depends_on: [evaluate_model, cross_validation]
+      parameters:
+        metrics: "${evaluate_model.metrics}"
+        cv_scores: "${cross_validation.scores}"
+        thresholds:
+          accuracy: 0.85
+          precision: 0.80
+          recall: 0.80
+          cv_std: 0.05
+
+    - name: register_model
+      type: model_registration
+      description: Register model in registry
+      depends_on: [validate_model]
+      parameters:
+        model: "${train_model.model}"
+        registry: "{{model_registry}}"
+        name: "{{experiment_name}}_{{algorithm}}"
+        version: auto
+        metrics: "${evaluate_model.metrics}"
+        artifacts:
+          - preprocessor: "${preprocess_data.transformer}"
+          - feature_selector: "${feature_engineering.selector}"
+          - evaluation_report: "${evaluate_model.report}"
+          - interpretation: "${model_interpretation.results}"
+
+    - name: generate_report
+      type: reporting
+      description: Generate comprehensive training report
+      depends_on: [register_model]
+      parameters:
+        sections:
+          - data_profile: "${data_profiling.report}"
+          - preprocessing: "${preprocess_data.summary}"
+          - tuning: "${run_tuning.results}"
+          - training: "${train_model.history}"
+          - evaluation: "${evaluate_model.report}"
+          - interpretation: "${model_interpretation.results}"
+        format: html
+        destination: "{{model_registry}}/reports/{{experiment_name}}.html"
+
+dependencies:
+  - scikit-learn
+  - xgboost
+  - lightgbm
+  - tensorflow
+  - mlflow
+
+metadata:
+  compute_requirements:
+    min_memory: "8GB"
+    recommended_memory: "16GB"
+    gpu: optional
+
+  best_practices:
+    always_validate: true
+    track_experiments: true
+    version_data: true

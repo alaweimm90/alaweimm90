@@ -1,0 +1,299 @@
+version: '3.9'
+
+# Production Docker Compose for MEZAN ORCHEX
+services:
+  # MEZAN ORCHEX API Service
+  ORCHEX-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: ORCHEX-api
+    hostname: ORCHEX-api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Flask configuration
+      FLASK_ENV: production
+      FLASK_APP: ORCHEX.atlas_api_server
+      SECRET_KEY: ${SECRET_KEY:-changeme-in-production}
+
+      # Redis configuration
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+
+      # PostgreSQL configuration
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ORCHEX
+      POSTGRES_USER: ${POSTGRES_USER:-ORCHEX}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+
+      # API Keys (stored in secrets in production)
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+
+      # Performance tuning
+      WORKERS: ${WORKERS:-4}
+      THREADS: ${THREADS:-2}
+      MAX_REQUESTS: ${MAX_REQUESTS:-1000}
+      MAX_REQUESTS_JITTER: ${MAX_REQUESTS_JITTER:-50}
+
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_FORMAT: json
+
+      # Monitoring
+      ENABLE_METRICS: "true"
+      METRICS_PORT: 9090
+    volumes:
+      - ORCHEX-logs:/app/logs
+      - ORCHEX-data:/app/data
+      - ORCHEX-cache:/app/cache
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis for distributed state and caching
+  redis:
+    image: redis:7-alpine
+    container_name: ORCHEX-redis
+    hostname: ORCHEX-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfilename "ORCHEX.aof"
+      --dbfilename ORCHEX.rdb
+      --dir /data
+      ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # PostgreSQL for persistent storage
+  postgres:
+    image: postgres:15-alpine
+    container_name: ORCHEX-postgres
+    hostname: ORCHEX-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ORCHEX
+      POSTGRES_USER: ${POSTGRES_USER:-ORCHEX}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./backup:/backup
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ORCHEX} -d ORCHEX"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: ORCHEX-prometheus
+    hostname: ORCHEX-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--storage.tsdb.retention.size=10GB'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:10.1.0
+    container_name: ORCHEX-grafana
+    hostname: ORCHEX-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GF_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_ADMIN_PASSWORD:-changeme}
+      GF_SERVER_ROOT_URL: ${GF_ROOT_URL:-http://localhost:3000}
+      GF_INSTALL_PLUGINS: redis-datasource,redis-app
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_LOG_MODE: console
+      GF_LOG_LEVEL: info
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # Nginx reverse proxy (optional, for production)
+  nginx:
+    image: nginx:alpine
+    container_name: ORCHEX-nginx
+    hostname: ORCHEX-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/ssl:/etc/nginx/ssl:ro
+      - nginx-cache:/var/cache/nginx
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - ORCHEX-api
+    networks:
+      - ORCHEX-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+  # Backup service (runs periodically)
+  backup:
+    build:
+      context: .
+      dockerfile: Dockerfile.backup
+    container_name: ORCHEX-backup
+    hostname: ORCHEX-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-0 2 * * *}
+      BACKUP_RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-30}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      S3_BUCKET: ${S3_BUCKET:-}
+    volumes:
+      - ./backup:/backup
+      - postgres-data:/var/lib/postgresql/data:ro
+      - redis-data:/redis-data:ro
+      - ORCHEX-data:/ORCHEX-data:ro
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ORCHEX-network
+
+# Networks
+networks:
+  ORCHEX-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# Volumes for persistent data
+volumes:
+  # Application volumes
+  ORCHEX-logs:
+    driver: local
+  ORCHEX-data:
+    driver: local
+  ORCHEX-cache:
+    driver: local
+
+  # Database volumes
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+  # Monitoring volumes
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
+
+  # Proxy volumes
+  nginx-cache:
+    driver: local
+  nginx-logs:
+    driver: local

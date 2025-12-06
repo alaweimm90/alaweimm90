@@ -8,7 +8,7 @@
 
 ## ✅ Completed
 
-### Phase 1: Root Cleanup (IN PROGRESS)
+### Phase 1: Root Cleanup ✅ COMPLETE
 
 - [x] Created `docs/planning/` directory
 - [x] Moved 7 planning documents to `docs/planning/`:
@@ -20,12 +20,12 @@
   - QUICK_START.md
   - REFACTOR_PLAN.md
 - [x] Moved STRUCTURE.md to `docs/`
-- [x] Committed changes
-- [ ] Move AI configs to `.config/ai/`
-- [ ] Update all references
-- [ ] Verify tests pass
+- [x] Moved `.ai/` → `.config/ai/`
+- [x] Moved `.claude/` → `.config/claude/`
+- [x] All AI configs centralized
+- [x] Committed all changes
 
-**Root Files:** 20+ → 13 (Target: <15) ✅
+**Root Files:** 20+ → 11 (Target: <15) ✅✅
 
 ---
 
@@ -33,11 +33,11 @@
 
 ### Immediate (Today)
 
-1. Move `.ai/` → `.config/ai/tools/`
-2. Move `.claude/` → `.config/ai/claude/`
+1. ✅ Move `.ai/` → `.config/ai/`
+2. ✅ Move `.claude/` → `.config/claude/`
 3. Update references in automation/, tools/, .github/
 4. Run tests
-5. Commit Phase 1 completion
+5. Start Phase 2: Consolidate Duplicates
 
 ### Tomorrow
 
@@ -52,7 +52,7 @@
 
 | Metric        | Before    | Current   | Target  |
 | ------------- | --------- | --------- | ------- |
-| Root Files    | 20+       | 13        | <15     |
+| Root Files    | 20+       | 11        | <15     |
 | Planning Docs | Scattered | Organized | ✅      |
 | Tests Passing | 270/270   | TBD       | 270/270 |
 

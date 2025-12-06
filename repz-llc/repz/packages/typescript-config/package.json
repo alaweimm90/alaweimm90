@@ -1,0 +1,27 @@
+{
+  "name": "@repz/typescript-config",
+  "version": "1.0.0",
+  "description": "Shared TypeScript configurations for REPZ platform",
+  "main": "base.json",
+  "license": "MIT",
+  "files": [
+    "base.json",
+    "react.json",
+    "node.json",
+    "library.json"
+  ],
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "typescript",
+    "tsconfig",
+    "repz",
+    "configuration"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/repz/repzcoach-pro-ai.git",
+    "directory": "packages/typescript-config"
+  }
+}

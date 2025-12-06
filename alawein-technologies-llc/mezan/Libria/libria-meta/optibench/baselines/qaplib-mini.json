@@ -1,0 +1,12 @@
+{
+  "entry": "qaplib-mini",
+  "min_count": 1,
+  "modes": {
+    "hybrid": { "max_avg_time": 15.0 }
+  },
+  "instances": {
+    "tai20a": {
+      "hybrid": { "max_objective": 9999999999 }
+    }
+  }
+}

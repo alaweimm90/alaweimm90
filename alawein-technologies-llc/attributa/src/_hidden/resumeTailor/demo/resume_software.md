@@ -1,0 +1,1 @@
+# Sample Software Engineer Resume\n\nSummary: Full-stack engineer with experience in React, Node.js, and cloud services.\n\nSkills: React, TypeScript, Node.js, AWS, CI/CD, Docker, PostgreSQL\n\nExperience\n- Built and deployed a microservice increasing reliability.\n- Implemented CI pipelines and reduced failures.\n- Led migration to React with TypeScript.\n

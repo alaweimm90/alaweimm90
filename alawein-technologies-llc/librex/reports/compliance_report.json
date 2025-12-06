@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "files": {
+    "README.md": true,
+    "LICENSE": true,
+    "CODE_OF_CONDUCT.md": true,
+    "SECURITY.md": true,
+    "CONTRIBUTING.md": true,
+    ".gitignore": true,
+    "pyproject.toml": true
+  },
+  "readme_sections": {
+    "Quick Start": true,
+    "Architecture": true,
+    "Testing": true
+  },
+  "ssot_references": true
+}

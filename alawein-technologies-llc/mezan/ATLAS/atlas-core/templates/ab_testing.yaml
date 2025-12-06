@@ -1,0 +1,403 @@
+name: ab_testing
+version: 1.0.0
+category: experimentation
+description: A/B testing orchestration with statistical analysis and automated decision making
+author: ORCHEX Team
+tags:
+  - experimentation
+  - ab-testing
+  - statistics
+  - optimization
+  - decision-making
+
+parameters:
+  experiment_name:
+    type: string
+    description: Name of the A/B test experiment
+    required: true
+
+  hypothesis:
+    type: string
+    description: Hypothesis being tested
+    required: true
+
+  variants:
+    type: list
+    description: List of variants to test (including control)
+    required: true
+
+  traffic_allocation:
+    type: dict
+    description: Traffic allocation percentages per variant
+    required: false
+    default: {control: 50, treatment: 50}
+
+  success_metrics:
+    type: list
+    description: Primary and secondary success metrics
+    required: true
+
+  sample_size:
+    type: int
+    description: Minimum sample size per variant
+    required: false
+    default: 10000
+
+  confidence_level:
+    type: float
+    description: Statistical confidence level
+    required: false
+    default: 0.95
+
+  experiment_duration:
+    type: int
+    description: Maximum experiment duration in hours
+    required: false
+    default: 168
+
+  auto_stop:
+    type: bool
+    description: Automatically stop when significance reached
+    required: false
+    default: true
+
+  enable_guardrails:
+    type: bool
+    description: Enable guardrail metrics
+    required: false
+    default: true
+
+workflow:
+  config:
+    type: experimentation
+    real_time_analysis: true
+    audit_logging: true
+
+  tasks:
+    - name: validate_experiment
+      type: validation
+      description: Validate experiment configuration
+      parameters:
+        hypothesis: "{{hypothesis}}"
+        variants: "{{variants}}"
+        traffic_allocation: "{{traffic_allocation}}"
+        checks:
+          - sum_traffic: 100
+          - minimum_variants: 2
+          - control_exists: true
+          - metrics_defined: true
+
+    - name: calculate_power
+      type: power_analysis
+      description: Perform statistical power analysis
+      depends_on: [validate_experiment]
+      parameters:
+        effect_size: minimal_detectable
+        alpha: "${1 - {{confidence_level}}}"
+        power: 0.8
+        metrics: "{{success_metrics}}"
+        calculate:
+          - required_sample_size
+          - experiment_duration
+          - detection_probability
+
+    - name: setup_experiment
+      type: experiment_setup
+      description: Setup experiment infrastructure
+      depends_on: [calculate_power]
+      parameters:
+        name: "{{experiment_name}}"
+        variants: "{{variants}}"
+        infrastructure:
+          - feature_flags: create
+          - tracking_events: configure
+          - data_pipeline: setup
+          - monitoring: enable
+
+    - name: configure_randomization
+      type: randomization_config
+      description: Configure user randomization
+      depends_on: [setup_experiment]
+      parameters:
+        method: deterministic_hash
+        salt: "${experiment_name}_${timestamp}"
+        sticky_sessions: true
+        exclusion_rules:
+          - internal_users
+          - opt_out_users
+          - active_experiments
+
+    - name: setup_guardrails
+      type: guardrail_setup
+      description: Setup guardrail metrics
+      depends_on: [setup_experiment]
+      condition: "{{enable_guardrails}} == true"
+      parameters:
+        metrics:
+          - revenue_per_user:
+              threshold: -0.05
+              action: pause
+          - page_load_time:
+              threshold: 0.1
+              action: alert
+          - error_rate:
+              threshold: 0.02
+              action: rollback
+          - user_satisfaction:
+              threshold: -0.1
+              action: investigate
+
+    - name: pre_launch_checks
+      type: pre_launch
+      description: Perform pre-launch validation
+      depends_on: [configure_randomization, setup_guardrails]
+      parameters:
+        checks:
+          - aa_test:
+              duration: 86400
+              expected_difference: 0
+              tolerance: 0.01
+          - instrumentation:
+              events_firing: true
+              data_quality: 0.99
+          - variant_rendering:
+              all_variants: correct
+          - sample_ratio:
+              mismatch_threshold: 0.01
+
+    - name: launch_experiment
+      type: launch
+      description: Launch the experiment
+      depends_on: [pre_launch_checks]
+      parameters:
+        rollout_strategy: gradual
+        initial_traffic: 0.01
+        ramp_schedule:
+          - percentage: 0.05
+            after_hours: 1
+          - percentage: 0.25
+            after_hours: 6
+          - percentage: 1.0
+            after_hours: 24
+        monitoring: continuous
+
+    - name: collect_data
+      type: data_collection
+      description: Collect experiment data
+      depends_on: [launch_experiment]
+      parameters:
+        sources:
+          - events: real_time
+          - metrics: aggregated
+          - logs: filtered
+        storage:
+          - raw: data_lake
+          - processed: analytics_db
+        quality_checks:
+          - completeness: 0.99
+          - timeliness: 60
+
+    - name: real_time_monitoring
+      type: monitoring
+      description: Monitor experiment in real-time
+      depends_on: [collect_data]
+      parameters:
+        dashboards:
+          - overall_health
+          - variant_performance
+          - user_segments
+          - funnel_analysis
+        alerts:
+          - sample_ratio_mismatch
+          - guardrail_violation
+          - data_quality_degradation
+          - unusual_patterns
+
+    - name: statistical_analysis
+      type: analysis
+      description: Perform statistical analysis
+      depends_on: [collect_data]
+      parameters:
+        methods:
+          - frequentist:
+              test: t_test
+              correction: bonferroni
+          - bayesian:
+              prior: uninformative
+              credible_interval: 0.95
+          - sequential:
+              method: always_valid_inference
+              alpha_spending: obrien_fleming
+
+        metrics_analysis:
+          - primary: "{{success_metrics[0]}}"
+            secondary: "${success_metrics[1:]}"
+
+        segment_analysis:
+          - new_users_vs_existing
+          - by_device_type
+          - by_geography
+          - by_user_cohort
+
+    - name: check_significance
+      type: significance_check
+      description: Check statistical significance
+      depends_on: [statistical_analysis]
+      parameters:
+        confidence_level: "{{confidence_level}}"
+        minimum_sample: "{{sample_size}}"
+        multiple_testing_correction: true
+        practical_significance:
+          minimum_effect: 0.01
+          business_impact: calculated
+
+    - name: detect_novelty_effect
+      type: novelty_detection
+      description: Check for novelty effects
+      depends_on: [statistical_analysis]
+      parameters:
+        method: time_series_analysis
+        window: daily
+        trend_test: mann_kendall
+        stabilization_check: true
+
+    - name: segment_deep_dive
+      type: segment_analysis
+      description: Deep dive into segments
+      depends_on: [check_significance]
+      condition: "${check_significance.heterogeneous_effects} == true"
+      parameters:
+        segments: auto_discover
+        methods:
+          - causal_forest
+          - interaction_detection
+          - subgroup_analysis
+        report_significant: true
+
+    - name: winner_determination
+      type: decision
+      description: Determine experiment winner
+      depends_on: [check_significance, detect_novelty_effect]
+      parameters:
+        criteria:
+          - statistical_significance: "{{confidence_level}}"
+          - practical_significance: true
+          - guardrails_passed: true
+          - novelty_adjusted: true
+          - duration_met: "${collect_data.duration} >= ${calculate_power.min_duration}"
+
+        decision_matrix:
+          clear_winner: rollout
+          no_difference: rollback
+          mixed_results: extend
+          harmful: immediate_rollback
+
+    - name: auto_stop_check
+      type: conditional
+      description: Check if experiment should auto-stop
+      depends_on: [winner_determination]
+      condition: "{{auto_stop}} == true"
+      if_branch:
+        - name: stop_experiment
+          type: experiment_control
+          condition: "${winner_determination.decision} != 'extend'"
+          parameters:
+            action: stop
+            preserve_assignments: true
+
+    - name: gradual_rollout
+      type: rollout
+      description: Gradually rollout winning variant
+      depends_on: [winner_determination]
+      condition: "${winner_determination.decision} == 'rollout'"
+      parameters:
+        winner: "${winner_determination.winner}"
+        strategy: progressive
+        stages:
+          - percentage: 25
+            duration: 86400
+            monitor: true
+          - percentage: 50
+            duration: 86400
+          - percentage: 75
+            duration: 86400
+          - percentage: 100
+            duration: 0
+
+    - name: post_experiment_analysis
+      type: post_analysis
+      description: Comprehensive post-experiment analysis
+      depends_on: [winner_determination]
+      parameters:
+        analyses:
+          - long_term_effects:
+              duration: 30_days
+              metrics: all
+          - user_behavior_changes:
+              cohort_analysis: true
+              retention_impact: true
+          - business_impact:
+              revenue_analysis: true
+              cost_benefit: true
+          - learnings:
+              unexpected_findings: true
+              methodology_improvements: true
+
+    - name: generate_report
+      type: reporting
+      description: Generate experiment report
+      depends_on: [post_experiment_analysis]
+      parameters:
+        sections:
+          - executive_summary
+          - hypothesis_validation
+          - statistical_results
+          - segment_insights
+          - business_impact
+          - recommendations
+          - technical_appendix
+        formats: [html, pdf, jupyter]
+        distribution: [stakeholders, data_team, product_team]
+
+    - name: archive_experiment
+      type: archival
+      description: Archive experiment data
+      depends_on: [generate_report]
+      parameters:
+        archive:
+          - configuration
+          - raw_data
+          - analysis_results
+          - reports
+          - code_artifacts
+        retention: 365_days
+        searchable: true
+
+    - name: update_knowledge_base
+      type: knowledge_update
+      description: Update experimentation knowledge base
+      depends_on: [generate_report]
+      parameters:
+        updates:
+          - hypothesis_registry
+          - effect_sizes_database
+          - segment_insights
+          - best_practices
+          - anti_patterns
+
+dependencies:
+  - statistics_library
+  - feature_flag_system
+  - analytics_platform
+
+metadata:
+  statistical_methods:
+    frequentist: [t_test, chi_squared, anova]
+    bayesian: [beta_binomial, normal_normal]
+    sequential: [sprt, always_valid_inference]
+
+  best_practices:
+    minimum_duration: 7_days
+    include_weekends: true
+    avoid_holidays: true
+    pre_registration: recommended

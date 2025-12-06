@@ -1,0 +1,34 @@
+Contact: security@qmlab.online
+Expires: 2026-01-01T00:00:00.000Z
+Acknowledgments: https://qmlab.online/security/acknowledgments
+Preferred-Languages: en
+Canonical: https://qmlab.online/.well-known/security.txt
+Policy: https://qmlab.online/security/policy
+Hiring: https://qmlab.online/careers
+
+# QMLab Security Policy
+# 
+# We take security seriously. If you discover a security vulnerability
+# in QMLab, please report it responsibly to our security team.
+#
+# Scope:
+# - QMLab web application (qmlab.online)
+# - Quantum simulation algorithms
+# - User data handling
+# - Authentication and authorization
+# - Service worker and PWA components
+#
+# Out of scope:
+# - Third-party dependencies (report to upstream)
+# - Social engineering attacks
+# - Physical attacks
+# - DoS attacks
+#
+# Please include:
+# - Detailed description of the vulnerability
+# - Steps to reproduce
+# - Potential impact assessment
+# - Suggested remediation (if any)
+#
+# We will respond within 48 hours and aim to resolve
+# critical issues within 7 days.

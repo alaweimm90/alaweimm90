@@ -1,0 +1,100 @@
+{
+  "materials": [
+    {
+      "name": "Silicon",
+      "formula": "Si",
+      "structure": "Diamond",
+      "experimental_gap": 1.12,
+      "dft_gap": 0.65,
+      "hse_gap": 1.15,
+      "gw_gap": 1.11,
+      "features": {
+        "mean_valence": 4,
+        "electronegativity": 1.9,
+        "atomic_radius": 1.11,
+        "density": 2.33,
+        "bulk_modulus": 98
+      }
+    },
+    {
+      "name": "Gallium Arsenide",
+      "formula": "GaAs",
+      "structure": "Zinc Blende",
+      "experimental_gap": 1.42,
+      "dft_gap": 0.48,
+      "hse_gap": 1.38,
+      "gw_gap": 1.52,
+      "features": {
+        "mean_valence": 4,
+        "electronegativity_diff": 0.37,
+        "lattice_mismatch": 0.08,
+        "density": 5.32,
+        "bulk_modulus": 75
+      }
+    },
+    {
+      "name": "Molybdenum Disulfide",
+      "formula": "MoS2",
+      "structure": "2H",
+      "experimental_gap": 1.8,
+      "dft_gap": 1.2,
+      "hse_gap": 1.9,
+      "gw_gap": 2.5,
+      "features": {
+        "dimensionality": 2,
+        "spin_orbit_coupling": 0.15,
+        "layer_thickness": 6.5,
+        "interlayer_distance": 6.15,
+        "carrier_mobility": 200
+      }
+    },
+    {
+      "name": "Tungsten Diselenide",
+      "formula": "WSe2",
+      "structure": "2H",
+      "experimental_gap": 1.6,
+      "dft_gap": 1.1,
+      "hse_gap": 1.7,
+      "gw_gap": 2.2,
+      "features": {
+        "dimensionality": 2,
+        "spin_orbit_coupling": 0.46,
+        "layer_thickness": 7.0,
+        "interlayer_distance": 6.49,
+        "carrier_mobility": 250
+      }
+    },
+    {
+      "name": "Hexagonal Boron Nitride",
+      "formula": "hBN",
+      "structure": "Hexagonal",
+      "experimental_gap": 5.9,
+      "dft_gap": 4.5,
+      "hse_gap": 5.7,
+      "gw_gap": 6.4,
+      "features": {
+        "dimensionality": 2,
+        "ionic_character": 0.47,
+        "layer_thickness": 3.33,
+        "thermal_conductivity": 600,
+        "dielectric_constant": 4.5
+      }
+    }
+  ],
+  "metadata": {
+    "description": "Bandgap values from different computational methods compared to experiment",
+    "units": {
+      "bandgap": "eV",
+      "atomic_radius": "Angstrom",
+      "density": "g/cm³",
+      "bulk_modulus": "GPa",
+      "carrier_mobility": "cm²/V·s",
+      "thermal_conductivity": "W/m·K"
+    },
+    "methods": {
+      "dft": "Standard DFT with PBE functional",
+      "hse": "HSE06 hybrid functional",
+      "gw": "G0W0 approximation"
+    }
+  }
+}

@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS Workflow Dashboard V2</title>
+
+    <!-- External Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/cytoscape@3.23.0/dist/cytoscape.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+    <style>
+        /* CSS Variables for theming */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-yellow: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --border: #475569;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Light theme */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border: #cbd5e1;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout Components */
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            transform: translateY(-1px);
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            height: calc(100vh - 60px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .workflow-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .workflow-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .workflow-item:hover {
+            background: var(--bg-primary);
+            border-color: var(--accent-blue);
+            transform: translateX(4px);
+        }
+
+        .workflow-item.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .workflow-status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-running { background: var(--accent-blue); animation: pulse 2s infinite; }
+        .status-completed { background: var(--accent-green); }
+        .status-failed { background: var(--accent-red); }
+        .status-pending { background: var(--text-secondary); }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Canvas Area */
+        .canvas-container {
+            position: relative;
+            background: var(--bg-primary);
+            overflow: hidden;
+        }
+
+        #workflow-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Canvas Controls */
+        .canvas-controls {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .zoom-controls {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .zoom-btn {
+            padding: 8px 12px;
+            background: transparent;
+            color: var(--text-primary);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .zoom-btn:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .zoom-level {
+            padding: 8px 12px;
+            min-width: 60px;
+            text-align: center;
+            border-left: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            font-size: 0.875rem;
+        }
+
+        /* Properties Panel */
+        .properties-panel {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .property-section {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .property-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .property-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .property-row:last-child {
+            border-bottom: none;
+        }
+
+        .property-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .property-value {
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Metrics Cards */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .metric-change {
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        .metric-change.positive {
+            color: var(--accent-green);
+        }
+
+        .metric-change.negative {
+            color: var(--accent-red);
+        }
+
+        /* Mini Chart */
+        .mini-chart {
+            height: 60px;
+            margin-top: 12px;
+        }
+
+        /* Floating Action Panel */
+        .action-panel {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 50;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        /* Drag and Drop */
+        .template-library {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            width: 280px;
+            max-height: 400px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            display: none;
+            overflow-y: auto;
+            z-index: 20;
+        }
+
+        .template-library.active {
+            display: block;
+        }
+
+        .template-item {
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: grab;
+            transition: all 0.2s;
+        }
+
+        .template-item:hover {
+            background: var(--accent-blue);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .template-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        /* WebSocket Status */
+        .ws-status {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            padding: 8px 16px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+        }
+
+        .ws-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-red);
+        }
+
+        .ws-indicator.connected {
+            background: var(--accent-green);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar, .properties-panel {
+                display: none;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--bg-tertiary);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.875rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 1000;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">ATLAS Workflow Dashboard</div>
+            <div class="header-controls">
+                <button class="btn" onclick="dashboard.toggleTheme()">
+                    <span id="theme-icon">🌙</span>
+                </button>
+                <button class="btn" onclick="dashboard.importWorkflow()">Import</button>
+                <button class="btn" onclick="dashboard.exportWorkflow()">Export</button>
+                <button class="btn" onclick="dashboard.refreshData()">↻ Refresh</button>
+                <select class="btn" id="layout-select" onchange="dashboard.changeLayout(this.value)">
+                    <option value="hierarchical">Hierarchical</option>
+                    <option value="force">Force Directed</option>
+                    <option value="circular">Circular</option>
+                    <option value="dagre">Dagre</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Active Workflows</h3>
+                    <div class="workflow-list" id="workflow-list">
+                        <!-- Workflows will be populated here -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Templates</h3>
+                    <div class="workflow-list" id="template-list">
+                        <!-- Templates will be populated here -->
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Filters</h3>
+                    <label class="filter-label">
+                        <input type="checkbox" id="filter-running" checked> Running
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" id="filter-completed" checked> Completed
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" id="filter-failed" checked> Failed
+                    </label>
+                </div>
+            </aside>
+
+            <!-- Canvas Container -->
+            <div class="canvas-container">
+                <!-- Canvas Controls -->
+                <div class="canvas-controls">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="dashboard.zoomIn()">+</button>
+                        <span class="zoom-level" id="zoom-level">100%</span>
+                        <button class="zoom-btn" onclick="dashboard.zoomOut()">-</button>
+                    </div>
+                    <button class="btn" onclick="dashboard.fitToScreen()">Fit</button>
+                    <button class="btn" onclick="dashboard.toggleGrid()">Grid</button>
+                </div>
+
+                <!-- WebSocket Status -->
+                <div class="ws-status">
+                    <span class="ws-indicator" id="ws-indicator"></span>
+                    <span id="ws-status-text">Disconnected</span>
+                </div>
+
+                <!-- Template Library (Hidden by default) -->
+                <div class="template-library" id="template-library">
+                    <h3 style="margin-bottom: 16px;">Drag to Add</h3>
+                    <div class="template-item" draggable="true" data-type="batch">
+                        📦 Batch Processing
+                    </div>
+                    <div class="template-item" draggable="true" data-type="etl">
+                        🔄 ETL Pipeline
+                    </div>
+                    <div class="template-item" draggable="true" data-type="ml">
+                        🤖 ML Training
+                    </div>
+                    <div class="template-item" draggable="true" data-type="validation">
+                        ✅ Data Validation
+                    </div>
+                    <div class="template-item" draggable="true" data-type="approval">
+                        📝 Approval Flow
+                    </div>
+                </div>
+
+                <!-- Main Canvas -->
+                <div id="workflow-canvas">
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Properties Panel -->
+            <aside class="properties-panel">
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Total Nodes</div>
+                        <div class="metric-value" id="metric-nodes">0</div>
+                        <div class="metric-change positive">+12%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Success Rate</div>
+                        <div class="metric-value" id="metric-success">0%</div>
+                        <div class="metric-change negative">-3%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Avg Time</div>
+                        <div class="metric-value" id="metric-time">0s</div>
+                        <div class="metric-change positive">-15%</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Resources</div>
+                        <div class="metric-value" id="metric-resources">0%</div>
+                        <div class="metric-change positive">Optimal</div>
+                    </div>
+                </div>
+
+                <!-- Selected Node Properties -->
+                <div class="property-section" id="node-properties" style="display: none;">
+                    <h3 class="property-title">Node Properties</h3>
+                    <div id="node-details"></div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="property-section">
+                    <h3 class="property-title">Performance</h3>
+                    <canvas id="performance-chart" class="mini-chart"></canvas>
+                </div>
+
+                <!-- Actions -->
+                <div class="property-section">
+                    <h3 class="property-title">Actions</h3>
+                    <button class="btn" style="width: 100%; margin-bottom: 8px;">
+                        ▶ Run Workflow
+                    </button>
+                    <button class="btn" style="width: 100%; margin-bottom: 8px;">
+                        ⏸ Pause
+                    </button>
+                    <button class="btn" style="width: 100%;">
+                        ⏹ Stop
+                    </button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="action-panel">
+        <button class="fab" onclick="dashboard.toggleTemplates()">
+            ➕
+        </button>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="export-modal">
+        <div class="modal-content">
+            <h2>Export Workflow</h2>
+            <p>Select export format:</p>
+            <button class="btn" onclick="dashboard.export('svg')">SVG</button>
+            <button class="btn" onclick="dashboard.export('png')">PNG</button>
+            <button class="btn" onclick="dashboard.export('json')">JSON</button>
+            <button class="btn" onclick="dashboard.export('html')">HTML</button>
+            <button class="btn" onclick="dashboard.closeModal()">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Main Dashboard Application
+        class WorkflowDashboard {
+            constructor() {
+                this.cy = null;
+                this.ws = null;
+                this.currentWorkflow = null;
+                this.zoom = 1.0;
+                this.theme = 'dark';
+                this.gridEnabled = false;
+                this.nodes = [];
+                this.edges = [];
+                this.selectedNode = null;
+                this.performanceChart = null;
+
+                this.init();
+            }
+
+            init() {
+                // Initialize Cytoscape
+                this.initCytoscape();
+
+                // Initialize WebSocket
+                this.initWebSocket();
+
+                // Initialize drag and drop
+                this.initDragDrop();
+
+                // Initialize performance chart
+                this.initPerformanceChart();
+
+                // Load initial data
+                this.loadWorkflows();
+
+                // Setup event listeners
+                this.setupEventListeners();
+
+                // Start animation loop
+                this.startAnimationLoop();
+            }
+
+            initCytoscape() {
+                // Remove loading spinner
+                document.querySelector('.loading').style.display = 'none';
+
+                this.cy = cytoscape({
+                    container: document.getElementById('workflow-canvas'),
+                    style: [
+                        {
+                            selector: 'node',
+                            style: {
+                                'label': 'data(label)',
+                                'text-valign': 'center',
+                                'text-halign': 'center',
+                                'background-color': 'data(color)',
+                                'border-width': 2,
+                                'border-color': '#fff',
+                                'width': 'data(size)',
+                                'height': 'data(size)',
+                                'font-size': '12px',
+                                'color': '#fff',
+                                'text-outline-color': '#000',
+                                'text-outline-width': 1
+                            }
+                        },
+                        {
+                            selector: 'edge',
+                            style: {
+                                'curve-style': 'bezier',
+                                'target-arrow-shape': 'triangle',
+                                'line-color': '#6B7280',
+                                'target-arrow-color': '#6B7280',
+                                'width': 2,
+                                'label': 'data(label)',
+                                'font-size': '10px',
+                                'text-rotation': 'autorotate',
+                                'text-margin-y': -10
+                            }
+                        },
+                        {
+                            selector: '.running',
+                            style: {
+                                'border-color': '#3B82F6',
+                                'border-width': 4,
+                                'border-style': 'solid'
+                            }
+                        },
+                        {
+                            selector: '.selected',
+                            style: {
+                                'border-color': '#F59E0B',
+                                'border-width': 3,
+                                'box-shadow': '0 0 20px #F59E0B'
+                            }
+                        }
+                    ],
+                    layout: {
+                        name: 'breadthfirst',
+                        directed: true,
+                        spacingFactor: 1.5,
+                        avoidOverlap: true
+                    },
+                    wheelSensitivity: 0.2,
+                    minZoom: 0.1,
+                    maxZoom: 5
+                });
+
+                // Handle node selection
+                this.cy.on('tap', 'node', (evt) => {
+                    this.selectNode(evt.target);
+                });
+
+                // Handle background click
+                this.cy.on('tap', (evt) => {
+                    if (evt.target === this.cy) {
+                        this.deselectNode();
+                    }
+                });
+
+                // Handle hover
+                this.cy.on('mouseover', 'node', (evt) => {
+                    const node = evt.target;
+                    this.showTooltip(evt.renderedPosition, node.data());
+                });
+
+                this.cy.on('mouseout', 'node', () => {
+                    this.hideTooltip();
+                });
+            }
+
+            initWebSocket() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${protocol}//${window.location.host}/ws`;
+
+                try {
+                    this.ws = new WebSocket(wsUrl);
+
+                    this.ws.onopen = () => {
+                        console.log('WebSocket connected');
+                        this.updateWSStatus(true);
+                    };
+
+                    this.ws.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        this.handleWSMessage(data);
+                    };
+
+                    this.ws.onclose = () => {
+                        console.log('WebSocket disconnected');
+                        this.updateWSStatus(false);
+                        // Reconnect after 5 seconds
+                        setTimeout(() => this.initWebSocket(), 5000);
+                    };
+
+                    this.ws.onerror = (error) => {
+                        console.error('WebSocket error:', error);
+                        this.updateWSStatus(false);
+                    };
+                } catch (error) {
+                    console.error('Failed to initialize WebSocket:', error);
+                    this.updateWSStatus(false);
+                }
+            }
+
+            updateWSStatus(connected) {
+                const indicator = document.getElementById('ws-indicator');
+                const text = document.getElementById('ws-status-text');
+
+                if (connected) {
+                    indicator.classList.add('connected');
+                    text.textContent = 'Connected';
+                } else {
+                    indicator.classList.remove('connected');
+                    text.textContent = 'Disconnected';
+                }
+            }
+
+            handleWSMessage(data) {
+                switch (data.type) {
+                    case 'node_update':
+                        this.updateNode(data.nodeId, data.status);
+                        break;
+                    case 'metrics_update':
+                        this.updateMetrics(data.metrics);
+                        break;
+                    case 'workflow_complete':
+                        this.handleWorkflowComplete(data);
+                        break;
+                }
+            }
+
+            initDragDrop() {
+                const templateItems = document.querySelectorAll('.template-item');
+
+                templateItems.forEach(item => {
+                    item.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.effectAllowed = 'copy';
+                        e.dataTransfer.setData('text/plain', item.dataset.type);
+                        item.classList.add('dragging');
+                    });
+
+                    item.addEventListener('dragend', (e) => {
+                        item.classList.remove('dragging');
+                    });
+                });
+
+                const canvas = document.getElementById('workflow-canvas');
+
+                canvas.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'copy';
+                });
+
+                canvas.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const type = e.dataTransfer.getData('text/plain');
+                    const pos = this.cy.rendition.projectIntoViewport(
+                        e.clientX,
+                        e.clientY
+                    );
+                    this.addTemplateNode(type, pos);
+                });
+            }
+
+            initPerformanceChart() {
+                const ctx = document.getElementById('performance-chart').getContext('2d');
+
+                this.performanceChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            label: 'Execution Time',
+                            data: [],
+                            borderColor: '#3B82F6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: false
+                            },
+                            y: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+
+                // Add sample data
+                this.updatePerformanceChart();
+            }
+
+            updatePerformanceChart() {
+                const data = [];
+                const labels = [];
+
+                for (let i = 0; i < 10; i++) {
+                    labels.push(`T${i}`);
+                    data.push(Math.random() * 100);
+                }
+
+                this.performanceChart.data.labels = labels;
+                this.performanceChart.data.datasets[0].data = data;
+                this.performanceChart.update();
+            }
+
+            loadWorkflows() {
+                // Load sample workflows
+                const workflows = [
+                    { id: '1', name: 'Data Processing', status: 'running' },
+                    { id: '2', name: 'ML Training', status: 'completed' },
+                    { id: '3', name: 'ETL Pipeline', status: 'failed' },
+                    { id: '4', name: 'Validation', status: 'pending' }
+                ];
+
+                const list = document.getElementById('workflow-list');
+                list.innerHTML = '';
+
+                workflows.forEach(wf => {
+                    const item = document.createElement('div');
+                    item.className = 'workflow-item';
+                    item.innerHTML = `
+                        <span class="workflow-status status-${wf.status}"></span>
+                        ${wf.name}
+                    `;
+                    item.onclick = () => this.loadWorkflow(wf.id);
+                    list.appendChild(item);
+                });
+
+                // Load first workflow
+                if (workflows.length > 0) {
+                    this.loadWorkflow(workflows[0].id);
+                }
+            }
+
+            loadWorkflow(workflowId) {
+                // Clear current graph
+                this.cy.elements().remove();
+
+                // Load sample workflow data
+                const nodes = [
+                    { id: 'n1', label: 'Start', x: 100, y: 100, size: 40, color: '#10B981' },
+                    { id: 'n2', label: 'Process', x: 300, y: 100, size: 50, color: '#3B82F6' },
+                    { id: 'n3', label: 'Validate', x: 500, y: 100, size: 40, color: '#3B82F6' },
+                    { id: 'n4', label: 'Transform', x: 400, y: 250, size: 45, color: '#F59E0B' },
+                    { id: 'n5', label: 'Export', x: 600, y: 250, size: 40, color: '#9CA3AF' }
+                ];
+
+                const edges = [
+                    { source: 'n1', target: 'n2' },
+                    { source: 'n2', target: 'n3' },
+                    { source: 'n2', target: 'n4' },
+                    { source: 'n3', target: 'n5' },
+                    { source: 'n4', target: 'n5' }
+                ];
+
+                // Add nodes
+                nodes.forEach(node => {
+                    this.cy.add({
+                        data: {
+                            id: node.id,
+                            label: node.label,
+                            color: node.color,
+                            size: node.size
+                        },
+                        position: { x: node.x, y: node.y }
+                    });
+                });
+
+                // Add edges
+                edges.forEach(edge => {
+                    this.cy.add({
+                        data: {
+                            source: edge.source,
+                            target: edge.target
+                        }
+                    });
+                });
+
+                // Apply layout
+                this.cy.layout({
+                    name: 'breadthfirst',
+                    directed: true
+                }).run();
+
+                // Update metrics
+                this.updateMetrics({
+                    nodes: nodes.length,
+                    successRate: 85,
+                    avgTime: 12.5,
+                    resources: 65
+                });
+            }
+
+            selectNode(node) {
+                // Remove previous selection
+                this.cy.elements().removeClass('selected');
+
+                // Add selection to clicked node
+                node.addClass('selected');
+                this.selectedNode = node;
+
+                // Show node properties
+                this.showNodeProperties(node.data());
+            }
+
+            deselectNode() {
+                this.cy.elements().removeClass('selected');
+                this.selectedNode = null;
+                document.getElementById('node-properties').style.display = 'none';
+            }
+
+            showNodeProperties(nodeData) {
+                const propsSection = document.getElementById('node-properties');
+                const details = document.getElementById('node-details');
+
+                details.innerHTML = `
+                    <div class="property-row">
+                        <span class="property-label">ID</span>
+                        <span class="property-value">${nodeData.id}</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Name</span>
+                        <span class="property-value">${nodeData.label}</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Status</span>
+                        <span class="property-value">Running</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Duration</span>
+                        <span class="property-value">12.5s</span>
+                    </div>
+                    <div class="property-row">
+                        <span class="property-label">Memory</span>
+                        <span class="property-value">256MB</span>
+                    </div>
+                `;
+
+                propsSection.style.display = 'block';
+            }
+
+            showTooltip(position, data) {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.innerHTML = `
+                    <strong>${data.label}</strong><br>
+                    Status: Running<br>
+                    Time: 5.2s
+                `;
+                tooltip.style.left = position.x + 10 + 'px';
+                tooltip.style.top = position.y - 10 + 'px';
+                tooltip.classList.add('visible');
+            }
+
+            hideTooltip() {
+                const tooltip = document.getElementById('tooltip');
+                tooltip.classList.remove('visible');
+            }
+
+            updateMetrics(metrics) {
+                document.getElementById('metric-nodes').textContent = metrics.nodes || 0;
+                document.getElementById('metric-success').textContent = (metrics.successRate || 0) + '%';
+                document.getElementById('metric-time').textContent = (metrics.avgTime || 0) + 's';
+                document.getElementById('metric-resources').textContent = (metrics.resources || 0) + '%';
+            }
+
+            changeLayout(layoutName) {
+                this.cy.layout({
+                    name: layoutName === 'hierarchical' ? 'breadthfirst' : layoutName,
+                    directed: true,
+                    spacingFactor: 1.5
+                }).run();
+            }
+
+            zoomIn() {
+                this.zoom = Math.min(this.zoom * 1.2, 5);
+                this.cy.zoom(this.zoom);
+                this.updateZoomLevel();
+            }
+
+            zoomOut() {
+                this.zoom = Math.max(this.zoom / 1.2, 0.1);
+                this.cy.zoom(this.zoom);
+                this.updateZoomLevel();
+            }
+
+            updateZoomLevel() {
+                document.getElementById('zoom-level').textContent = Math.round(this.zoom * 100) + '%';
+            }
+
+            fitToScreen() {
+                this.cy.fit();
+                this.zoom = this.cy.zoom();
+                this.updateZoomLevel();
+            }
+
+            toggleGrid() {
+                this.gridEnabled = !this.gridEnabled;
+                // Implementation for grid toggle
+            }
+
+            toggleTheme() {
+                this.theme = this.theme === 'dark' ? 'light' : 'dark';
+                document.body.setAttribute('data-theme', this.theme);
+                document.getElementById('theme-icon').textContent = this.theme === 'dark' ? '🌙' : '☀️';
+            }
+
+            toggleTemplates() {
+                const library = document.getElementById('template-library');
+                library.classList.toggle('active');
+            }
+
+            addTemplateNode(type, position) {
+                const nodeId = 'n' + Date.now();
+                const templates = {
+                    batch: { label: 'Batch Process', color: '#3B82F6' },
+                    etl: { label: 'ETL Pipeline', color: '#10B981' },
+                    ml: { label: 'ML Training', color: '#8B5CF6' },
+                    validation: { label: 'Validation', color: '#F59E0B' },
+                    approval: { label: 'Approval', color: '#EF4444' }
+                };
+
+                const template = templates[type] || templates.batch;
+
+                this.cy.add({
+                    data: {
+                        id: nodeId,
+                        label: template.label,
+                        color: template.color,
+                        size: 40
+                    },
+                    position: position
+                });
+            }
+
+            importWorkflow() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const data = JSON.parse(event.target.result);
+                        this.loadWorkflowData(data);
+                    };
+                    reader.readAsText(file);
+                };
+                input.click();
+            }
+
+            exportWorkflow() {
+                document.getElementById('export-modal').classList.add('active');
+            }
+
+            export(format) {
+                switch(format) {
+                    case 'svg':
+                        this.exportSVG();
+                        break;
+                    case 'png':
+                        this.exportPNG();
+                        break;
+                    case 'json':
+                        this.exportJSON();
+                        break;
+                    case 'html':
+                        this.exportHTML();
+                        break;
+                }
+                this.closeModal();
+            }
+
+            exportSVG() {
+                const svg = this.cy.svg({ scale: 1, full: true });
+                const blob = new Blob([svg], { type: 'image/svg+xml' });
+                this.downloadBlob(blob, 'workflow.svg');
+            }
+
+            exportPNG() {
+                const png = this.cy.png({ scale: 2, full: true });
+                const link = document.createElement('a');
+                link.href = png;
+                link.download = 'workflow.png';
+                link.click();
+            }
+
+            exportJSON() {
+                const data = {
+                    nodes: this.cy.nodes().map(n => n.data()),
+                    edges: this.cy.edges().map(e => e.data())
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                this.downloadBlob(blob, 'workflow.json');
+            }
+
+            exportHTML() {
+                // Export as standalone HTML
+                const html = document.documentElement.outerHTML;
+                const blob = new Blob([html], { type: 'text/html' });
+                this.downloadBlob(blob, 'workflow_dashboard.html');
+            }
+
+            downloadBlob(blob, filename) {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = filename;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            closeModal() {
+                document.getElementById('export-modal').classList.remove('active');
+            }
+
+            refreshData() {
+                // Refresh workflow data
+                if (this.currentWorkflow) {
+                    this.loadWorkflow(this.currentWorkflow);
+                }
+                this.updatePerformanceChart();
+            }
+
+            setupEventListeners() {
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey || e.metaKey) {
+                        switch(e.key) {
+                            case 's':
+                                e.preventDefault();
+                                this.exportWorkflow();
+                                break;
+                            case 'o':
+                                e.preventDefault();
+                                this.importWorkflow();
+                                break;
+                            case 'f':
+                                e.preventDefault();
+                                this.fitToScreen();
+                                break;
+                        }
+                    }
+                });
+
+                // Window resize
+                window.addEventListener('resize', () => {
+                    this.cy.resize();
+                });
+            }
+
+            startAnimationLoop() {
+                // Animate running nodes
+                setInterval(() => {
+                    this.cy.nodes('.running').forEach(node => {
+                        // Add pulsing effect
+                        const size = 40 + Math.sin(Date.now() / 500) * 5;
+                        node.style('width', size);
+                        node.style('height', size);
+                    });
+                }, 50);
+            }
+
+            updateNode(nodeId, status) {
+                const node = this.cy.getElementById(nodeId);
+                if (node) {
+                    const statusColors = {
+                        pending: '#9CA3AF',
+                        running: '#3B82F6',
+                        completed: '#10B981',
+                        failed: '#EF4444'
+                    };
+                    node.data('color', statusColors[status] || '#9CA3AF');
+
+                    if (status === 'running') {
+                        node.addClass('running');
+                    } else {
+                        node.removeClass('running');
+                    }
+                }
+            }
+
+            handleWorkflowComplete(data) {
+                // Show completion notification
+                console.log('Workflow completed:', data);
+            }
+        }
+
+        // Initialize dashboard
+        const dashboard = new WorkflowDashboard();
+    </script>
+</body>
+</html>

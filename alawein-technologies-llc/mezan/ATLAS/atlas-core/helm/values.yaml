@@ -1,0 +1,375 @@
+# Default values for mezan-ORCHEX
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+global:
+  # Global image registry
+  imageRegistry: ""
+  # Global image pull secrets
+  imagePullSecrets: []
+  # Storage class for persistent volumes
+  storageClass: "fast-ssd"
+
+# Image configuration
+image:
+  repository: mezan-ORCHEX
+  tag: 3.5.0
+  pullPolicy: IfNotPresent
+
+# Service account configuration
+serviceAccount:
+  create: true
+  automountServiceAccountToken: true
+  name: ""
+  annotations:
+    eks.amazonaws.com/role-arn: ""
+    iam.gke.io/gcp-service-account: ""
+
+# API deployment configuration
+api:
+  replicaCount: 3
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 3
+    maxReplicas: 20
+    targetCPUUtilizationPercentage: 70
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+  tolerations: []
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: mezan-ORCHEX
+              app.kubernetes.io/component: api
+          topologyKey: kubernetes.io/hostname
+
+  # Environment variables
+  env:
+    FLASK_ENV: production
+    FLASK_DEBUG: "false"
+    ATLAS_ENGINE_MODE: production
+    ATLAS_MAX_AGENTS: "10"
+    ATLAS_AGENT_TIMEOUT: "300"
+    ENABLE_METRICS: "true"
+
+  # Liveness and readiness probes
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 30
+    periodSeconds: 10
+
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+# Worker deployment configuration
+worker:
+  enabled: true
+  replicaCount: 2
+
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+  annotations: {}
+
+  # Load balancer configuration (if type is LoadBalancer)
+  loadBalancer:
+    enabled: false
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: mezan-ORCHEX.example.com
+      paths:
+        - path: /api/(.*)
+          pathType: Prefix
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: mezan-ORCHEX-tls
+      hosts:
+        - mezan-ORCHEX.example.com
+
+# Redis configuration
+redis:
+  enabled: true
+  architecture: replication
+  auth:
+    enabled: true
+    existingSecret: mezan-ORCHEX-secrets
+    existingSecretPasswordKey: REDIS_PASSWORD
+  master:
+    persistence:
+      enabled: true
+      size: 10Gi
+      storageClass: fast-ssd
+  replica:
+    replicaCount: 2
+    persistence:
+      enabled: true
+      size: 10Gi
+  sentinel:
+    enabled: true
+    quorum: 2
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# PostgreSQL configuration
+postgresql:
+  enabled: false
+  auth:
+    existingSecret: mezan-ORCHEX-secrets
+    secretKeys:
+      adminPasswordKey: POSTGRES_PASSWORD
+      userPasswordKey: POSTGRES_PASSWORD
+    database: mezan_atlas_db
+  primary:
+    persistence:
+      enabled: true
+      size: 20Gi
+      storageClass: fast-ssd
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+# Monitoring configuration
+monitoring:
+  prometheus:
+    enabled: true
+    retention: 30d
+    storageSize: 50Gi
+    serviceMonitor:
+      enabled: true
+
+  grafana:
+    enabled: true
+    adminPassword: changeme
+    persistence:
+      enabled: true
+      size: 10Gi
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      folder: /tmp/dashboards
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://prometheus:9090
+          isDefault: true
+
+# Secrets configuration
+secrets:
+  create: true
+  existingSecret: ""
+  # These should be provided via --set or values file override
+  anthropicApiKey: ""
+  openaiApiKey: ""
+  redisPassword: ""
+  postgresPassword: ""
+  jwtSecretKey: ""
+  sessionSecret: ""
+
+# ConfigMap configuration
+configMap:
+  create: true
+  data: {}
+
+# Network Policy
+networkPolicy:
+  enabled: true
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: mezan-ORCHEX
+      - namespaceSelector:
+          matchLabels:
+            name: ingress-nginx
+  egress:
+    - to:
+      - namespaceSelector: {}
+      ports:
+      - protocol: TCP
+        port: 443
+      - protocol: TCP
+        port: 6379
+      - protocol: TCP
+        port: 5432
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 2
+
+# Pod Security Context
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+
+# Container Security Context
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+  capabilities:
+    drop:
+    - ALL
+
+# Resource Quotas
+resourceQuota:
+  enabled: true
+  hard:
+    requests.cpu: "100"
+    requests.memory: 200Gi
+    limits.cpu: "200"
+    limits.memory: 400Gi
+    persistentvolumeclaims: "10"
+
+# Vertical Pod Autoscaler
+vpa:
+  enabled: false
+  updateMode: "Auto"
+
+# Priority Class
+priorityClassName: ""
+
+# Topology Spread Constraints
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+
+# Extra volumes and volume mounts
+extraVolumes: []
+extraVolumeMounts: []
+
+# Extra environment variables
+extraEnvVars: []
+extraEnvVarsSecret: ""
+
+# Init containers
+initContainers:
+  - name: wait-for-redis
+    image: busybox:1.35
+    command: ['sh', '-c', 'until nc -z redis-service 6379; do sleep 2; done']
+
+# Sidecar containers
+sidecarContainers: []
+
+# Job configuration for migrations/setup
+jobs:
+  migrate:
+    enabled: false
+    image:
+      repository: mezan-ORCHEX
+      tag: 3.5.0
+    command: ["python", "-m", "ORCHEX.migrate"]
+
+  setup:
+    enabled: false
+    image:
+      repository: mezan-ORCHEX
+      tag: 3.5.0
+    command: ["python", "-m", "ORCHEX.setup"]
+
+# CronJob configuration for scheduled tasks
+cronJobs:
+  cleanup:
+    enabled: false
+    schedule: "0 2 * * *"
+    command: ["python", "-m", "ORCHEX.cleanup"]
+
+  backup:
+    enabled: false
+    schedule: "0 3 * * *"
+    command: ["python", "-m", "ORCHEX.backup"]
+
+# Feature flags
+features:
+  dialecticalWorkflow: true
+  multiAgentCollaboration: true
+  adaptiveRouting: true
+  causalAnalysis: true
+
+# Backup configuration
+backup:
+  enabled: false
+  schedule: "0 3 * * *"
+  s3:
+    bucket: ""
+    region: us-west-2
+    endpoint: ""
+  retention:
+    days: 30
+
+# Restore configuration
+restore:
+  enabled: false
+  source:
+    s3:
+      bucket: ""
+      key: ""
+
+# Testing configuration
+tests:
+  enabled: false
+  image:
+    repository: mezan-ORCHEX-tests
+    tag: 3.5.0
+
+# Documentation
+documentation:
+  enabled: false
+  url: https://docs.mezan-ORCHEX.example.com

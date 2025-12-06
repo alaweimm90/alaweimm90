@@ -1,0 +1,133 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mezan-ORCHEX-production
+
+namePrefix: ""
+nameSuffix: ""
+
+commonLabels:
+  environment: production
+  team: sre
+  criticality: high
+
+commonAnnotations:
+  environment: production
+  cost-center: "production"
+  compliance: "soc2"
+
+bases:
+  - ../../base
+
+resources:
+  - namespace.yaml
+  - network-policy.yaml
+  - pod-security-policy.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - service-patch.yaml
+  - ingress-patch.yaml
+  - hpa-patch.yaml
+  - pdb-patch.yaml
+
+configMapGenerator:
+  - name: mezan-ORCHEX-config
+    behavior: merge
+    literals:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=false
+      - ATLAS_LOG_LEVEL=WARNING
+      - ENABLE_PROFILING=false
+      - ATLAS_MAX_AGENTS=20
+      - ENABLE_METRICS=true
+      - ENABLE_TRACING=true
+
+# Production secrets should be managed by external secret operator
+# or sealed secrets, not stored in git
+secretGenerator: []
+
+images:
+  - name: mezan-ORCHEX
+    newName: your-registry.example.com/mezan-ORCHEX
+    newTag: v3.5.0
+  - name: redis
+    newName: redis
+    newTag: 7.2-alpine
+  - name: nginx
+    newName: nginx
+    newTag: 1.25-alpine
+
+replicas:
+  - name: mezan-ORCHEX-api
+    count: 5
+  - name: mezan-ORCHEX-worker
+    count: 5
+  - name: redis
+    count: 3
+
+patches:
+  # Increase resources for production
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 4Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 8000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 16Gi
+    target:
+      kind: Deployment
+      name: mezan-ORCHEX-api
+
+  # Add pod priority class for production
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/priorityClassName
+        value: high-priority
+    target:
+      kind: Deployment
+      name: ".*"
+
+  # Add pod disruption budget
+  - patch: |-
+      - op: replace
+        path: /spec/minAvailable
+        value: 3
+    target:
+      kind: PodDisruptionBudget
+      name: mezan-ORCHEX-api-pdb
+
+  # Production-specific tolerations
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/tolerations
+        value:
+        - key: dedicated
+          operator: Equal
+          value: mezan-ORCHEX
+          effect: NoSchedule
+    target:
+      kind: Deployment
+      name: ".*"
+
+  # Production node selectors
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          node-role.kubernetes.io/worker: "true"
+          node.kubernetes.io/instance-type: "r5.4xlarge"
+    target:
+      kind: Deployment
+      name: ".*"
+
+components:
+  - external-secrets
+  - monitoring-extras
+  - backup-config

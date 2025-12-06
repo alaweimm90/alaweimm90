@@ -1,0 +1,159 @@
+# Docker ignore file for SpinCirc Framework
+# This file specifies which files and directories should be excluded
+# when building the Docker image.
+
+# Git and version control
+.git
+.gitignore
+.gitattributes
+.github
+
+# Docker files (to avoid recursion)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Build artifacts and cache
+build/
+dist/
+*.egg-info/
+.eggs/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.build/
+.cache/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+logs/
+*.out
+*.err
+
+# Temporary and backup files
+temp/
+tmp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# MATLAB
+*.asv
+*.m~
+slprj/
+*.slx.autosave
+
+# Documentation build
+docs/_build/
+docs/build/
+docs/source/generated/
+.sphinx-build/
+
+# Data files (potentially large)
+data/raw/
+data/processed/
+*.h5
+*.hdf5
+*.mat
+*.csv
+results/
+output/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local configuration files
+.env
+.env.local
+config.local.ini
+local_settings.py
+
+# SSH keys
+*.pem
+*.key
+id_rsa
+id_dsa
+
+# Large binary files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.dmg
+*.iso
+
+# Test coverage reports
+coverage/
+.nyc_output/
+
+# Dependency directories
+node_modules/
+
+# Virtual environments
+.virtualenv
+.conda
+
+# Local development
+.local/
+local_*
+
+# Secrets and credentials
+secrets/
+credentials/
+*.secret
+*.credential
+
+# Personal notes and documentation
+TODO.md
+NOTES.md
+personal/
+
+# Large datasets
+datasets/
+experiments/
+simulations/large_*
+
+# Backup directories
+backups/
+backup_*/

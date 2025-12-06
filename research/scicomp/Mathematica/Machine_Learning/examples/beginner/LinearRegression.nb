@@ -1,0 +1,542 @@
+Notebook[{
+ Cell["Linear Regression Basics - Berkeley SciComp", "Title"],
+ 
+ Cell["Introduction to Linear Regression for Scientific Computing", "Subtitle"],
+ 
+ Cell[TextData[{
+   "This notebook demonstrates fundamental linear regression concepts using ",
+   "the Berkeley SciComp Machine Learning framework. We'll analyze a simple ",
+   "physics dataset and build our first predictive model."
+ }], "Text"],
+ 
+ Cell["Learning Objectives", "Section"],
+ 
+ Cell[TextData[{
+   "• Understand linear regression fundamentals\n",
+   "• Learn data preprocessing techniques\n",
+   "• Visualize model performance\n",
+   "• Interpret regression results in scientific context"
+ }], "Text"],
+ 
+ Cell["Setup and Data Generation", "Section"],
+ 
+ Cell[BoxData[
+  RowBox[{"Needs", "[", "\"SupervisedLearning`\"", "]"}
+ ]], "Input"],
+ 
+ Cell[BoxData[
+  RowBox[{"Needs", "[", "\"Utilities`\"", "]"}
+ ]], "Input"],
+ 
+ Cell["Generate Physics Dataset: Projectile Motion", "Subsection"],
+ 
+ Cell[TextData[{
+   "We'll model the relationship between launch angle and range for ",
+   "projectile motion with air resistance."
+ }], "Text"],
+ 
+ Cell[BoxData[
+  RowBox[{"(*", " ", "Physical", " ", "parameters", " ", "*)", "\n",
+   RowBox[{
+    RowBox[{"v0", " ", "=", " ", "50"}, ";", " ", 
+    RowBox[{"(*", " ", "Initial", " ", "velocity", " ", "m/s", " ", "*)", "\n"},
+    RowBox[{"g", " ", "=", " ", "9.81"}, ";", " ", 
+    RowBox[{"(*", " ", "Gravity", " ", "m/s²", " ", "*)", "\n"},
+    RowBox[{"k", " ", "=", " ", "0.01"}, ";", " ", 
+    RowBox[{"(*", " ", "Air", " ", "resistance", " ", "coefficient", " ", "*)", "\n",
+     "\n", 
+     RowBox[{"(*", " ", "Launch", " ", "angles", " ", "in", " ", "degrees", " ", "*)", "\n"},
+    RowBox[{"anglesDeg", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{"angle", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{"angle", ",", " ", "15", ",", " ", "75", ",", " ", "1"}, 
+        "}", 
+       "}"]
+      ], "]"}}
+    ";", "\n",
+    RowBox[{"anglesRad", " ", "=", " ", 
+     RowBox[{"anglesDeg", " ", "*", " ", 
+      RowBox[{"Pi", "/", "180"}
+     }
+    ";", "\n",
+     "\n", 
+     RowBox[{"(*", " ", "Calculate", " ", "range", " ", "with", " ", "air", " ", "resistance", " ", "*)", "\n"},
+    RowBox[{"ranges", " ", "=", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"v0", "^", "2", "/", "g"}
+      ")", " ", "*", " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{"2", " ", "*", " ", "anglesRad"}
+      "]", 
+      " ", "*", " ", 
+      RowBox[{"(", 
+       RowBox[{"1", " ", "-", " ", 
+        RowBox[{"k", " ", "*", " ", "v0", " ", "*", " ", 
+         RowBox[{"Sin", "[", "anglesRad", "]"}]
+        "}
+       ")
+      "}
+     ";", "\n",
+     "\n", 
+     RowBox[{"(*", " ", "Add", " ", "measurement", " ", "noise", " ", "*)", "\n"},
+    RowBox[{"SeedRandom", "[", "42", "]"}], ";", "\n",
+    RowBox[{"noise", " ", "=", " ", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"NormalDistribution", "[", 
+        RowBox[{"0", ",", " ", "2"}
+       "]", 
+       ",", " ", 
+       RowBox[{"Length", "[", "ranges", "]"}}
+      "]
+     "}", ";", "\n",
+    RowBox[{"rangesNoisy", " ", "=", " ", 
+     RowBox[{"ranges", " ", "+", " ", "noise"}
+    ";", "\n",
+     "\n", 
+     RowBox[{"(*", " ", "Prepare", " ", "data", " ", "for", " ", "regression", " ", "*)", "\n"},
+    RowBox[{"X", " ", "=", " ", 
+     RowBox[{"{", "anglesDeg", "}", "\[Transpose]"}
+    ";", "\n",
+    RowBox[{"y", " ", "=", " ", "rangesNoisy"}
+   ";
+  "}]
+ ]], "Input"],
+ 
+ Cell["Visualize the Dataset", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"ListPlot", "[", "\n", 
+   RowBox[{
+    RowBox[{"{", "\n", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"anglesDeg", ",", " ", "ranges"}
+       "}", 
+      "]", 
+      ",", " ", "\n", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"anglesDeg", ",", " ", "rangesNoisy"}
+       "}", 
+      "]
+     "}
+    "}", 
+    ",", " ", "\n", 
+    RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"RGBColor", "[", 
+          RowBox[{"0", ",", " ", 
+           RowBox[{"50", "/", "255"}
+          ",", " ", 
+           RowBox[{"98", "/", "255"}
+          "}", 
+         "]", 
+         ",", " ", "Thickness", "[", "0.003", "]"}}
+        "}", 
+        ",", " ", "\n", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"RGBColor", "[", 
+           RowBox[{
+            RowBox[{"253", "/", "255"}
+           ",", " ", 
+            RowBox[{"181", "/", "255"}
+           ",", " ", 
+            RowBox[{"21", "/", "255"}
+           "}", 
+          "]", 
+          ",", " ", "PointSize", "[", "0.015", "]"}}
+         "}
+        "}
+       "}", 
+       "},", " ", "\n", 
+       RowBox[{"PlotLegends", " ", "\[Rule]", " ", 
+        RowBox[{"{", 
+         RowBox[{"\"True Function\"", ",", " ", "\"Measured Data\""}
+        "}
+       ",", " ", "\n", 
+       RowBox[{"Frame", " ", "\[Rule]", " ", "True"}
+      ",", " ", "\n", 
+      RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"Launch Angle (degrees)\"", ",", " ", "\"Range (meters)\""}
+       "}
+      ",", " ", "\n", 
+      RowBox[{"PlotLabel", " ", "\[Rule]", " ", "\"Projectile Motion Dataset\""}
+     ",", " ", "\n", 
+     RowBox[{"GridLines", " ", "\[Rule]", " ", "Automatic"}
+    ",", " ", "\n", 
+    RowBox[{"GridLinesStyle", " ", "\[Rule]", " ", 
+     RowBox[{"Directive", "[", 
+      RowBox[{"Gray", ",", " ", 
+       RowBox[{"Opacity", "[", "0.3", "]"}}
+      "]
+     "}]
+   "]", "\n"},
+ 
+ Cell["Linear Regression Analysis", "Section"],
+ 
+ Cell["Data Splitting", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"splitResult", " ", "=", " ", 
+   RowBox[{"TrainTestSplit", "[", 
+    RowBox[{"X", ",", " ", "y", ",", " ", "0.8"}
+   "]
+  ";", "\n",
+   RowBox[{"XTrain", " ", "=", " ", 
+    RowBox[{"splitResult", "[", "\"XTrain\"", "]"}}
+   ";", "\n",
+   RowBox[{"XTest", " ", "=", " ", 
+    RowBox[{"splitResult", "[", "\"XTest\"", "]"}}
+   ";", "\n",
+   RowBox[{"yTrain", " ", "=", " ", 
+    RowBox[{"splitResult", "[", "\"YTrain\"", "]"}}
+   ";", "\n",
+   RowBox[{"yTest", " ", "=", " ", 
+    RowBox[{"splitResult", "[", "\"YTest\"", "]"}}
+  ";
+ ]}, "Input"],
+ 
+ Cell["Model Training", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"(*", " ", "Train", " ", "linear", " ", "regression", " ", "model", " ", "*)", "\n",
+   RowBox[{"model", " ", "=", " ", 
+    RowBox[{"LinearRegressionFit", "[", 
+     RowBox[{"XTrain", ",", " ", "yTrain"}
+    "]
+   ";", "\n",
+    "\n", 
+    RowBox[{"(*", " ", "Display", " ", "model", " ", "parameters", " ", "*)", "\n"},
+   RowBox[{"Print", "[", 
+    RowBox[{"\"Model Type: \"", ",", " ", 
+     RowBox[{"model", "[", "\"Type\"", "]"}}
+   "]", 
+   ";", "\n",
+   RowBox[{"Print", "[", 
+    RowBox[{"\"Intercept: \"", ",", " ", 
+     RowBox[{"model", "[", "\"Intercept\"", "]"}}
+   "]", 
+   ";", "\n",
+   RowBox[{"Print", "[", 
+    RowBox[{"\"Coefficients: \"", ",", " ", 
+     RowBox[{"model", "[", "\"Coefficients\"", "]"}}
+   "]
+  "}]
+ ]], "Input"],
+ 
+ Cell["Model Predictions", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"(*", " ", "Make", " ", "predictions", " ", "*)", "\n",
+   RowBox[{"yPredTrain", " ", "=", " ", 
+    RowBox[{"LinearRegressionPredict", "[", 
+     RowBox[{"model", ",", " ", "XTrain"}
+    "]
+   ";", "\n",
+   RowBox[{"yPredTest", " ", "=", " ", 
+    RowBox[{"LinearRegressionPredict", "[", 
+     RowBox[{"model", ",", " ", "XTest"}
+    "]
+   ";", "\n",
+    "\n", 
+    RowBox[{"(*", " ", "Evaluate", " ", "model", " ", "performance", " ", "*)", "\n"},
+   RowBox[{"trainMetrics", " ", "=", " ", 
+    RowBox[{"EvaluateModel", "[", 
+     RowBox[{"yTrain", ",", " ", "yPredTrain", ",", " ", "\"regression\""}
+    "]
+   ";", "\n",
+   RowBox[{"testMetrics", " ", "=", " ", 
+    RowBox[{"EvaluateModel", "[", 
+     RowBox[{"yTest", ",", " ", "yPredTest", ",", " ", "\"regression\""}
+    "]
+   ";", "\n",
+    "\n", 
+    RowBox[{"Print", "[", 
+     RowBox[{"\"Training R²: \"", ",", " ", 
+      RowBox[{"trainMetrics", "[", "\"R2\"", "]"}}
+    "]", 
+    ";", "\n",
+    RowBox[{"Print", "[", 
+     RowBox[{"\"Test R²: \"", ",", " ", 
+      RowBox[{"testMetrics", "[", "\"R2\"", "]"}}
+    "]", 
+    ";", "\n",
+    RowBox[{"Print", "[", 
+     RowBox[{"\"Test RMSE: \"", ",", " ", 
+      RowBox[{"testMetrics", "[", "\"RMSE\"", "]"}}
+    "]
+   "}]
+ ]], "Input"],
+ 
+ Cell["Results Visualization", "Section"],
+ 
+ Cell["Model Fit Visualization", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"(*", " ", "Create", " ", "prediction", " ", "line", " ", "*)", "\n",
+   RowBox[{"xPlot", " ", "=", " ", 
+    RowBox[{"Table", "[", 
+     RowBox[{"x", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"x", ",", " ", "15", ",", " ", "75", ",", " ", "0.5"}
+      "}
+     "]
+    "}", 
+    ";", "\n",
+   RowBox[{"XPlot", " ", "=", " ", 
+    RowBox[{"{", "xPlot", "}", "\[Transpose]"}
+   ";", "\n",
+   RowBox[{"yPlot", " ", "=", " ", 
+    RowBox[{"LinearRegressionPredict", "[", 
+     RowBox[{"model", ",", " ", "XPlot"}
+    "]
+   ";", "\n",
+    "\n", 
+    RowBox[{"ListPlot", "[", "\n", 
+     RowBox[{
+      RowBox[{"{", "\n", 
+       RowBox[{
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"Flatten", "[", "XTrain", "]", ",", " ", "yTrain"}
+         "}", 
+        "]", 
+        ",", " ", "\n", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"Flatten", "[", "XTest", "]", ",", " ", "yTest"}
+         "}", 
+        "]", 
+        ",", " ", "\n", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"xPlot", ",", " ", "yPlot"}
+         "}", 
+        "]
+       "}
+      "}", 
+      ",", " ", "\n", 
+      RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+       RowBox[{"{", "\n", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"RGBColor", "[", 
+            RowBox[{"0", ",", " ", 
+             RowBox[{"50", "/", "255"}
+            ",", " ", 
+             RowBox[{"98", "/", "255"}
+            "}", 
+           "]", 
+           ",", " ", "PointSize", "[", "0.015", "]", ",", " ", "Opacity", "[", "0.7", "]"}}
+          "}", 
+          ",", " ", "\n", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"RGBColor", "[", 
+             RowBox[{
+              RowBox[{"253", "/", "255"}
+             ",", " ", 
+              RowBox[{"181", "/", "255"}
+             ",", " ", 
+              RowBox[{"21", "/", "255"}
+             "}", 
+            "]", 
+            ",", " ", "PointSize", "[", "0.02", "]"}}
+           "}", 
+           ",", " ", "\n", 
+           RowBox[{"{", 
+            RowBox[{"Red", ",", " ", "Thickness", "[", "0.003", "]"}}
+           "}
+          "}
+         "}", 
+         ",", " ", "\n", 
+         RowBox[{"Joined", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{"False", ",", " ", "False", ",", " ", "True"}
+          "}
+         ",", " ", "\n", 
+         RowBox[{"PlotLegends", " ", "\[Rule]", " ", 
+          RowBox[{"{", 
+           RowBox[{"\"Training Data\"", ",", " ", "\"Test Data\"", ",", " ", "\"Model Prediction\""}
+          "}
+         ",", " ", "\n", 
+         RowBox[{"Frame", " ", "\[Rule]", " ", "True"}
+        ",", " ", "\n", 
+        RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"\"Launch Angle (degrees)\"", ",", " ", "\"Range (meters)\""}
+         "}
+        ",", " ", "\n", 
+        RowBox[{"PlotLabel", " ", "\[Rule]", " ", "\"Linear Regression Model Fit\""}
+       ",", " ", "\n", 
+       RowBox[{"GridLines", " ", "\[Rule]", " ", "Automatic"}
+      ",", " ", "\n", 
+      RowBox[{"GridLinesStyle", " ", "\[Rule]", " ", 
+       RowBox[{"Directive", "[", 
+        RowBox[{"Gray", ",", " ", 
+         RowBox[{"Opacity", "[", "0.3", "]"}}
+        "]
+       "}]
+     "]
+    "}", "\n"],
+ 
+ Cell["Residual Analysis", "Subsection"],
+ 
+ Cell[BoxData[
+  RowBox[{"(*", " ", "Compute", " ", "residuals", " ", "*)", "\n",
+   RowBox[{"residuals", " ", "=", " ", 
+    RowBox[{"yTest", " ", "-", " ", "yPredTest"}
+   ";", "\n",
+    "\n", 
+    RowBox[{"(*", " ", "Residual", " ", "plot", " ", "*)", "\n"},
+   RowBox[{"residualPlot", " ", "=", " ", 
+    RowBox[{"ListPlot", "[", "\n", 
+     RowBox[{
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"yPredTest", ",", " ", "residuals"}
+       "}", 
+      "]", 
+      ",", " ", "\n", 
+      RowBox[{"PlotStyle", " ", "\[Rule]", " ", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"RGBColor", "[", 
+          RowBox[{"0", ",", " ", 
+           RowBox[{"50", "/", "255"}
+          ",", " ", 
+           RowBox[{"98", "/", "255"}
+          "}", 
+         "]", 
+         ",", " ", "PointSize", "[", "0.015", "]"}}
+        "}
+       ",", " ", "\n", 
+       RowBox[{"Epilog", " ", "\[Rule]", " ", 
+        RowBox[{"{", "\n", 
+         RowBox[{
+          RowBox[{"RGBColor", "[", 
+           RowBox[{
+            RowBox[{"253", "/", "255"}
+           ",", " ", 
+            RowBox[{"181", "/", "255"}
+           ",", " ", 
+            RowBox[{"21", "/", "255"}
+           "}", 
+          "]", 
+          ",", " ", "Dashed", ",", " ", "Thickness", "[", "0.005", "]", ",", " ", "\n", 
+          RowBox[{"Line", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Min", "[", "yPredTest", "]", ",", " ", "0"}
+              "}", 
+             "]", 
+             ",", " ", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Max", "[", "yPredTest", "]", ",", " ", "0"}
+              "}", 
+             "]
+            "}", 
+           "]
+          "}
+         "}", 
+         "}", 
+         ",", " ", "\n", 
+         RowBox[{"Frame", " ", "\[Rule]", " ", "True"}
+        ",", " ", "\n", 
+        RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+         RowBox[{"{", 
+          RowBox[{"\"Predicted Values\"", ",", " ", "\"Residuals\""}
+         "}
+        ",", " ", "\n", 
+        RowBox[{"PlotLabel", " ", "\[Rule]", " ", "\"Residual Analysis\""}
+       ",", " ", "\n", 
+       RowBox[{"GridLines", " ", "\[Rule]", " ", "Automatic"}
+      ",", " ", "\n", 
+      RowBox[{"GridLinesStyle", " ", "\[Rule]", " ", 
+       RowBox[{"Directive", "[", 
+        RowBox[{"Gray", ",", " ", 
+         RowBox[{"Opacity", "[", "0.3", "]"}}
+        "]
+       "}]
+     "]
+    "}", "\n",
+     "\n", 
+     RowBox[{"(*", " ", "Residual", " ", "histogram", " ", "*)", "\n"},
+    RowBox[{"residualHist", " ", "=", " ", 
+     RowBox[{"Histogram", "[", "\n", 
+      RowBox[{"residuals", ",", " ", "\n", 
+       RowBox[{"ChartStyle", " ", "\[Rule]", " ", 
+        RowBox[{"RGBColor", "[", 
+         RowBox[{"0", ",", " ", 
+          RowBox[{"50", "/", "255"}
+         ",", " ", 
+          RowBox[{"98", "/", "255"}
+         "}", 
+        "]
+       ",", " ", "\n", 
+       RowBox[{"Frame", " ", "\[Rule]", " ", "True"}
+      ",", " ", "\n", 
+      RowBox[{"FrameLabel", " ", "\[Rule]", " ", 
+       RowBox[{"{", 
+        RowBox[{"\"Residuals\"", ",", " ", "\"Frequency\""}
+       "}
+      ",", " ", "\n", 
+      RowBox[{"PlotLabel", " ", "\[Rule]", " ", "\"Residual Distribution\""}
+     "]
+    "}
+   "}]
+ ]], "Input"],
+ 
+ Cell["Physics Interpretation", "Section"],
+ 
+ Cell[TextData[{
+   "The linear regression model captures the approximate relationship ",
+   "between launch angle and projectile range. In ideal projectile motion ",
+   "(without air resistance), the range follows R = (v₀²/g)sin(2θ), which ",
+   "is nonlinear. However, for small variations and with air resistance, ",
+   "a linear approximation can be reasonable within a limited range."
+ }], "Text"],
+ 
+ Cell["Key Insights", "Subsection"],
+ 
+ Cell[TextData[{
+   "• The model shows ", 
+   StyleBox["R² ≈ ", "Input"], "(value from test metrics)\n",
+   "• Linear regression provides a simple baseline model\n",
+   "• Residual analysis reveals systematic deviations\n",
+   "• Physical understanding suggests polynomial models might be better"
+ }], "Text"],
+ 
+ Cell["Next Steps", "Section"],
+ 
+ Cell[TextData[{
+   "1. Try polynomial regression for better fit\n",
+   "2. Explore regularization techniques\n",
+   "3. Cross-validation for model selection\n",
+   "4. Multiple features (angle, velocity, mass)"
+ }], "Text"],
+ 
+ Cell["Summary", "Section"],
+ 
+ Cell[TextData[{
+   "This notebook demonstrated basic linear regression using the Berkeley ",
+   "SciComp framework. We learned how to:\n\n",
+   "• Prepare scientific datasets\n",
+   "• Train and evaluate linear models\n",
+   "• Visualize results with Berkeley styling\n",
+   "• Interpret results in physical context"
+ }], "Text"]
+}]

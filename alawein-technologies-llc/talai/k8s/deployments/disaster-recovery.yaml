@@ -1,0 +1,413 @@
+#!/bin/bash
+# Disaster Recovery and Multi-Region Failover for TalAI
+
+set -euo pipefail
+
+# Configuration
+PRIMARY_REGION="us-west-2"
+SECONDARY_REGIONS=("eu-west-1" "ap-southeast-1")
+BACKUP_BUCKET="talai-disaster-recovery"
+RECOVERY_TIME_OBJECTIVE=300  # 5 minutes
+RECOVERY_POINT_OBJECTIVE=60   # 1 minute
+
+# Kubernetes Disaster Recovery CronJob
+cat <<'EOF' > /tmp/dr-backup-cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: talai-dr-backup
+  namespace: talai
+spec:
+  schedule: "*/15 * * * *"  # Every 15 minutes
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      activeDeadlineSeconds: 3600
+      template:
+        metadata:
+          labels:
+            app: dr-backup
+            tier: infrastructure
+        spec:
+          serviceAccountName: dr-backup-sa
+          restartPolicy: OnFailure
+          initContainers:
+            - name: check-primary-health
+              image: curlimages/curl:8.5.0
+              command:
+                - sh
+                - -c
+                - |
+                  # Check if primary region is healthy
+                  if curl -f https://api.talai.io/health; then
+                    echo "Primary region healthy"
+                  else
+                    echo "Primary region unhealthy - triggering failover"
+                    exit 1
+                  fi
+          containers:
+            - name: backup-databases
+              image: talai/dr-tools:2.0.0
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -e
+                  echo "Starting database backup..."
+
+                  # PostgreSQL backup
+                  PGPASSWORD=$POSTGRES_PASSWORD pg_dump \
+                    -h postgresql.talai.svc.cluster.local \
+                    -U talai \
+                    -d talai \
+                    --format=custom \
+                    --verbose \
+                    --no-owner \
+                    --no-acl \
+                    > /tmp/talai-db-$(date +%Y%m%d-%H%M%S).dump
+
+                  # Redis backup
+                  redis-cli -h redis-master.talai.svc.cluster.local \
+                    --rdb /tmp/redis-backup-$(date +%Y%m%d-%H%M%S).rdb
+
+                  # Elasticsearch snapshot
+                  curl -X PUT "elasticsearch.talai.svc.cluster.local:9200/_snapshot/talai_backup/snapshot_$(date +%Y%m%d-%H%M%S)?wait_for_completion=true" \
+                    -H 'Content-Type: application/json' \
+                    -d '{
+                      "indices": "talai-*",
+                      "include_global_state": false,
+                      "metadata": {
+                        "taken_by": "dr-backup",
+                        "taken_at": "'$(date -Iseconds)'"
+                      }
+                    }'
+
+                  # Upload to S3 with encryption
+                  aws s3 cp /tmp/*.dump s3://$BACKUP_BUCKET/$(date +%Y/%m/%d)/ \
+                    --sse aws:kms \
+                    --sse-kms-key-id $KMS_KEY_ID \
+                    --storage-class GLACIER_IR
+
+                  aws s3 cp /tmp/*.rdb s3://$BACKUP_BUCKET/$(date +%Y/%m/%d)/ \
+                    --sse aws:kms \
+                    --sse-kms-key-id $KMS_KEY_ID \
+                    --storage-class GLACIER_IR
+
+                  echo "Database backup completed"
+              env:
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: talai-db-secret
+                      key: password
+                - name: AWS_REGION
+                  value: us-west-2
+                - name: BACKUP_BUCKET
+                  value: talai-disaster-recovery
+                - name: KMS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: dr-kms-key
+                      key: key-id
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /tmp
+              resources:
+                requests:
+                  cpu: 1000m
+                  memory: 2Gi
+                limits:
+                  cpu: 4000m
+                  memory: 8Gi
+
+            - name: backup-configurations
+              image: talai/dr-tools:2.0.0
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -e
+                  echo "Backing up Kubernetes configurations..."
+
+                  # Export all TalAI namespace resources
+                  kubectl get all,cm,secret,pvc,ingress,svc,deployment,statefulset,hpa,vpa \
+                    -n talai \
+                    -o yaml > /tmp/talai-k8s-resources-$(date +%Y%m%d-%H%M%S).yaml
+
+                  # Export Istio configurations
+                  kubectl get virtualservice,destinationrule,gateway,serviceentry,peerauthentication \
+                    -n talai \
+                    -o yaml > /tmp/talai-istio-config-$(date +%Y%m%d-%H%M%S).yaml
+
+                  # Encrypt and upload
+                  tar czf /tmp/k8s-backup.tar.gz /tmp/*.yaml
+                  gpg --encrypt --recipient dr-backup@talai.io /tmp/k8s-backup.tar.gz
+
+                  aws s3 cp /tmp/k8s-backup.tar.gz.gpg s3://$BACKUP_BUCKET/k8s/$(date +%Y/%m/%d)/ \
+                    --sse aws:kms \
+                    --sse-kms-key-id $KMS_KEY_ID
+
+                  echo "Configuration backup completed"
+              env:
+                - name: AWS_REGION
+                  value: us-west-2
+                - name: BACKUP_BUCKET
+                  value: talai-disaster-recovery
+                - name: KMS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: dr-kms-key
+                      key: key-id
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 1Gi
+                limits:
+                  cpu: 2000m
+                  memory: 4Gi
+
+            - name: backup-persistent-volumes
+              image: restic/restic:0.16.2
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  set -e
+                  echo "Backing up persistent volumes..."
+
+                  # Initialize restic repository if not exists
+                  restic init --repo s3:s3.amazonaws.com/$BACKUP_BUCKET/volumes || true
+
+                  # Backup all PVCs
+                  for pvc in $(kubectl get pvc -n talai -o jsonpath='{.items[*].metadata.name}'); do
+                    echo "Backing up PVC: $pvc"
+                    pod_name=$(kubectl get pods -n talai -o jsonpath="{.items[?(@.spec.volumes[?(@.persistentVolumeClaim.claimName=='$pvc')])].metadata.name}" | head -1)
+
+                    if [ ! -z "$pod_name" ]; then
+                      kubectl exec -n talai $pod_name -- tar czf - /data | \
+                        restic backup --repo s3:s3.amazonaws.com/$BACKUP_BUCKET/volumes \
+                        --stdin --stdin-filename "${pvc}.tar.gz" \
+                        --tag "pvc:$pvc" --tag "date:$(date +%Y%m%d)"
+                    fi
+                  done
+
+                  # Prune old backups (keep last 30 days)
+                  restic forget --repo s3:s3.amazonaws.com/$BACKUP_BUCKET/volumes \
+                    --keep-daily 30 --prune
+
+                  echo "Volume backup completed"
+              env:
+                - name: RESTIC_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: restic-password
+                      key: password
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-credentials
+                      key: access-key-id
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-credentials
+                      key: secret-access-key
+              resources:
+                requests:
+                  cpu: 1000m
+                  memory: 2Gi
+                limits:
+                  cpu: 4000m
+                  memory: 8Gi
+
+          volumes:
+            - name: backup-storage
+              emptyDir:
+                sizeLimit: 100Gi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dr-backup-sa
+  namespace: talai
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dr-backup-role
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dr-backup-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dr-backup-role
+subjects:
+  - kind: ServiceAccount
+    name: dr-backup-sa
+    namespace: talai
+EOF
+
+# Multi-Region Failover Script
+cat <<'FAILOVER_SCRIPT' > /tmp/multi-region-failover.sh
+#!/bin/bash
+
+# Multi-Region Automatic Failover for TalAI
+set -euo pipefail
+
+PRIMARY_REGION="us-west-2"
+SECONDARY_REGION="eu-west-1"
+TERTIARY_REGION="ap-southeast-1"
+HEALTH_CHECK_ENDPOINT="https://api.talai.io/health"
+DNS_ZONE_ID="Z1234567890ABC"
+DNS_RECORD="api.talai.io"
+
+# Function to check region health
+check_region_health() {
+    local region=$1
+    local endpoint="https://api-${region}.talai.io/health"
+
+    echo "Checking health of region: $region"
+
+    for i in {1..3}; do
+        if curl -f -m 5 "$endpoint" &>/dev/null; then
+            echo "Region $region is healthy"
+            return 0
+        fi
+        sleep 2
+    done
+
+    echo "Region $region is unhealthy"
+    return 1
+}
+
+# Function to promote secondary to primary
+promote_secondary() {
+    local new_primary=$1
+
+    echo "Promoting $new_primary to primary..."
+
+    # Update Route53 DNS
+    aws route53 change-resource-record-sets \
+        --hosted-zone-id $DNS_ZONE_ID \
+        --change-batch '{
+            "Changes": [{
+                "Action": "UPSERT",
+                "ResourceRecordSet": {
+                    "Name": "'$DNS_RECORD'",
+                    "Type": "A",
+                    "AliasTarget": {
+                        "HostedZoneId": "Z2FDTNDATAQYW2",
+                        "DNSName": "api-'$new_primary'.talai.io",
+                        "EvaluateTargetHealth": true
+                    },
+                    "SetIdentifier": "Primary",
+                    "Failover": "PRIMARY"
+                }
+            }]
+        }'
+
+    # Scale up services in new primary
+    kubectl config use-context $new_primary
+    kubectl scale deployment -n talai --all --replicas=10
+
+    # Enable write operations
+    kubectl set env deployment -n talai --all ENABLE_WRITES=true
+
+    echo "Promotion complete. New primary: $new_primary"
+}
+
+# Function to restore from backup
+restore_from_backup() {
+    local target_region=$1
+
+    echo "Restoring data in region: $target_region"
+
+    kubectl config use-context $target_region
+
+    # Get latest backup
+    LATEST_BACKUP=$(aws s3 ls s3://$BACKUP_BUCKET/ --recursive | sort | tail -1 | awk '{print $4}')
+
+    # Restore PostgreSQL
+    aws s3 cp s3://$BACKUP_BUCKET/$LATEST_BACKUP /tmp/latest-backup.dump
+    PGPASSWORD=$POSTGRES_PASSWORD pg_restore \
+        -h postgresql.$target_region.talai.io \
+        -U talai \
+        -d talai \
+        --verbose \
+        --no-owner \
+        --no-acl \
+        /tmp/latest-backup.dump
+
+    # Restore Redis
+    redis-cli -h redis.$target_region.talai.io --rdb /tmp/redis-backup.rdb
+
+    echo "Data restoration complete"
+}
+
+# Main failover logic
+main() {
+    echo "Starting multi-region failover check..."
+
+    # Check primary region health
+    if ! check_region_health $PRIMARY_REGION; then
+        echo "PRIMARY REGION FAILURE DETECTED!"
+
+        # Check secondary region
+        if check_region_health $SECONDARY_REGION; then
+            promote_secondary $SECONDARY_REGION
+
+            # Restore latest data
+            restore_from_backup $SECONDARY_REGION
+
+            # Send alert
+            aws sns publish \
+                --topic-arn arn:aws:sns:us-west-2:123456789012:talai-alerts \
+                --message "CRITICAL: Primary region failed. Failover to $SECONDARY_REGION completed." \
+                --subject "TalAI Disaster Recovery Activated"
+
+        # If secondary also fails, try tertiary
+        elif check_region_health $TERTIARY_REGION; then
+            promote_secondary $TERTIARY_REGION
+            restore_from_backup $TERTIARY_REGION
+
+            aws sns publish \
+                --topic-arn arn:aws:sns:us-west-2:123456789012:talai-alerts \
+                --message "CRITICAL: Primary and secondary regions failed. Failover to $TERTIARY_REGION completed." \
+                --subject "TalAI Emergency Failover"
+        else
+            echo "CRITICAL: All regions are down!"
+            aws sns publish \
+                --topic-arn arn:aws:sns:us-west-2:123456789012:talai-alerts \
+                --message "EMERGENCY: All TalAI regions are unavailable. Manual intervention required." \
+                --subject "TalAI Complete Outage"
+            exit 1
+        fi
+    else
+        echo "Primary region is healthy. No failover needed."
+    fi
+}
+
+# Run health check every minute
+while true; do
+    main
+    sleep 60
+done
+FAILOVER_SCRIPT
+
+# Apply configurations
+kubectl apply -f /tmp/dr-backup-cronjob.yaml
+
+echo "Disaster Recovery setup completed"
