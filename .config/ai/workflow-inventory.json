@@ -1,0 +1,98 @@
+{
+  "updated_at": "2025-11-30T00:05:57.906Z",
+  "count": 23,
+  "workflows": [
+    {
+      "name": "ai-feedback",
+      "path": ".github/workflows/ai-feedback.yml"
+    },
+    {
+      "name": "ai-governance-audit",
+      "path": ".github/workflows/ai-governance-audit.yml"
+    },
+    {
+      "name": "auto-merge-dependabot",
+      "path": ".github/workflows/auto-merge-dependabot.yml"
+    },
+    {
+      "name": "catalog",
+      "path": ".github/workflows/catalog.yml"
+    },
+    {
+      "name": "checkpoint",
+      "path": ".github/workflows/checkpoint.yml"
+    },
+    {
+      "name": "ci",
+      "path": ".github/workflows/ci.yml"
+    },
+    {
+      "name": "docs",
+      "path": ".github/workflows/docs.yml"
+    },
+    {
+      "name": "enforce",
+      "path": ".github/workflows/enforce.yml"
+    },
+    {
+      "name": "health-dashboard",
+      "path": ".github/workflows/health-dashboard.yml"
+    },
+    {
+      "name": "mcp-validation",
+      "path": ".github/workflows/mcp-validation.yml"
+    },
+    {
+      "name": "opa-conftest",
+      "path": ".github/workflows/opa-conftest.yml"
+    },
+    {
+      "name": "orchestration-governance",
+      "path": ".github/workflows/orchestration-governance.yml"
+    },
+    {
+      "name": "release",
+      "path": ".github/workflows/release.yml"
+    },
+    {
+      "name": "renovate",
+      "path": ".github/workflows/renovate.yml"
+    },
+    {
+      "name": "reusable-policy",
+      "path": ".github/workflows/reusable-policy.yml"
+    },
+    {
+      "name": "reusable-python-ci",
+      "path": ".github/workflows/reusable-python-ci.yml"
+    },
+    {
+      "name": "reusable-release",
+      "path": ".github/workflows/reusable-release.yml"
+    },
+    {
+      "name": "reusable-ts-ci",
+      "path": ".github/workflows/reusable-ts-ci.yml"
+    },
+    {
+      "name": "scorecard",
+      "path": ".github/workflows/scorecard.yml"
+    },
+    {
+      "name": "slsa-provenance",
+      "path": ".github/workflows/slsa-provenance.yml"
+    },
+    {
+      "name": "structure-enforce",
+      "path": ".github/workflows/structure-enforce.yml"
+    },
+    {
+      "name": "super-linter",
+      "path": ".github/workflows/super-linter.yml"
+    },
+    {
+      "name": "weekly-governance-check",
+      "path": ".github/workflows/weekly-governance-check.yml"
+    }
+  ]
+}

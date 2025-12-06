@@ -1,0 +1,108 @@
+{
+  "updated_at": "2025-11-30T00:05:57.903Z",
+  "count": 17,
+  "templates": [
+    {
+      "name": "circleci-node-ci",
+      "category": "cicd",
+      "version": "1.0.0",
+      "path": "templates\\devops\\cicd\\circleci\\template.json"
+    },
+    {
+      "name": "github-actions-node-ci",
+      "category": "cicd",
+      "version": "1.0.0",
+      "path": "templates\\devops\\cicd\\github-actions\\template.json"
+    },
+    {
+      "name": "jenkins-pipeline",
+      "category": "cicd",
+      "version": "1.0.0",
+      "path": "templates\\devops\\cicd\\jenkins\\template.json"
+    },
+    {
+      "name": "mongo-schema",
+      "category": "db",
+      "version": "1.0.0",
+      "path": "templates\\devops\\db\\mongo\\template.json"
+    },
+    {
+      "name": "postgres-schema",
+      "category": "db",
+      "version": "1.0.0",
+      "path": "templates\\devops\\db\\postgres\\template.json"
+    },
+    {
+      "name": "prisma-schema",
+      "category": "db",
+      "version": "1.0.0",
+      "path": "templates\\devops\\db\\prisma\\template.json"
+    },
+    {
+      "name": "demo-k8s-node",
+      "category": "demo",
+      "version": "1.0.0",
+      "path": "templates\\devops\\demos\\demo-k8s-node\\template.json"
+    },
+    {
+      "name": "cloudformation-vpc-baseline",
+      "category": "iac",
+      "version": "1.0.0",
+      "path": "templates\\devops\\iac\\cloudformation\\template.json"
+    },
+    {
+      "name": "terraform-aws-baseline",
+      "category": "iac",
+      "version": "1.0.0",
+      "path": "templates\\devops\\iac\\terraform\\template.json"
+    },
+    {
+      "name": "helm-chart-base",
+      "category": "k8s",
+      "version": "1.0.0",
+      "path": "templates\\devops\\k8s\\helm\\template.json"
+    },
+    {
+      "name": "k8s-deployment-service",
+      "category": "k8s",
+      "version": "1.0.0",
+      "path": "templates\\devops\\k8s\\manifests\\template.json"
+    },
+    {
+      "name": "elk-pipeline",
+      "category": "logging",
+      "version": "1.0.0",
+      "path": "templates\\devops\\logging\\elk\\template.json"
+    },
+    {
+      "name": "grafana-dashboard",
+      "category": "monitoring",
+      "version": "1.0.0",
+      "path": "templates\\devops\\monitoring\\grafana\\template.json"
+    },
+    {
+      "name": "prometheus-config",
+      "category": "monitoring",
+      "version": "1.0.0",
+      "path": "templates\\devops\\monitoring\\prometheus\\template.json"
+    },
+    {
+      "name": "angular-component",
+      "category": "ui",
+      "version": "1.0.0",
+      "path": "templates\\devops\\ui\\angular\\template.json"
+    },
+    {
+      "name": "react-component",
+      "category": "ui",
+      "version": "1.0.0",
+      "path": "templates\\devops\\ui\\react\\template.json"
+    },
+    {
+      "name": "vue-component",
+      "category": "ui",
+      "version": "1.0.0",
+      "path": "templates\\devops\\ui\\vue\\template.json"
+    }
+  ]
+}
