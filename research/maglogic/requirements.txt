@@ -84,7 +84,7 @@ fastapi>=0.70.0,<1.0.0       # Modern web framework
 
 # Memory profiling and optimization
 memory-profiler>=0.60.0,<1.0.0 # Memory usage profiling
-psutil>=5.8.0,<6.0.0         # System and process utilities
+psutil>=5.8.0,<8.0.0         # System and process utilities
 
 # Version constraints for stability
 setuptools>=45.0.0           # Package development tools
