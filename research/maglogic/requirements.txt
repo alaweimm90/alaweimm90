@@ -24,7 +24,7 @@ ipympl>=0.8.0,<1.0.0          # Matplotlib Jupyter integration
 
 # File I/O and data formats
 h5py>=3.2.0,<4.0.0            # HDF5 file format support
-pillow>=8.3.0,<11.0.0         # Image processing and formats
+pillow>=8.3.0,<12.0.0         # Image processing and formats
 imageio>=2.9.0,<3.0.0         # Image I/O for animations
 tifffile>=2021.7.2,<2025.0.0  # TIFF file support
 netcdf4>=1.5.0,<2.0.0         # NetCDF scientific data format
