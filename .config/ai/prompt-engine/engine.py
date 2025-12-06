@@ -16,6 +16,12 @@ from enum import Enum
 import yaml
 
 
+class ModelTier(Enum):
+    LIGHTWEIGHT = "lightweight"
+    STANDARD = "standard"
+    HEAVYWEIGHT = "heavyweight"
+
+
 class TaskOutcome(Enum):
     SUCCESS = "success"
     PARTIAL = "partial"
@@ -37,6 +43,8 @@ class PromptSelection:
     confidence: float
     reasoning: str
     composed_guidance: str
+    recommended_tier: str = "standard"
+    estimated_tokens: int = 0
 
 
 @dataclass
@@ -68,19 +76,30 @@ class PromptEngine:
 
     def __init__(self, base_path: Optional[Path] = None):
         self.base_path = base_path or self._find_base_path()
-        self.superprompts_dir = self.base_path / ".ai" / "superprompts"
-        self.learning_dir = self.base_path / ".ai" / "learning" / "data"
+        # Check both legacy and new paths for superprompts
+        new_path = self.base_path / ".config" / "ai" / "superprompts"
+        legacy_path = self.base_path / ".ai" / "superprompts"
+        self.superprompts_dir = new_path if new_path.exists() else legacy_path
+
+        # Learning data directory
+        new_learning = self.base_path / ".config" / "ai" / "learning" / "data"
+        legacy_learning = self.base_path / ".ai" / "learning" / "data"
+        self.learning_dir = new_learning if new_learning.parent.exists() else legacy_learning
         self.learning_dir.mkdir(parents=True, exist_ok=True)
 
         # Load configuration
         self.selector_config = self._load_selector_config()
         self.prompts = self._load_superprompts()
         self.prompt_stats = self._load_prompt_stats()
+        self.tiering_config = self._load_tiering_config()
 
         # Thresholds
         self.PRIMARY_THRESHOLD = 0.6
         self.SECONDARY_THRESHOLD = 0.3
         self.EXPLORATION_RATE = 0.1
+
+        # Token estimation (chars per token)
+        self.CHARS_PER_TOKEN = 4
 
     def _find_base_path(self) -> Path:
         """Find the repository root."""
@@ -93,7 +112,18 @@ class PromptEngine:
 
     def _load_selector_config(self) -> dict:
         """Load the selector configuration."""
-        config_path = self.base_path / ".ai" / "prompt-engine" / "selector.yaml"
+        # Check both paths
+        new_path = self.base_path / ".config" / "ai" / "prompt-engine" / "selector.yaml"
+        legacy_path = self.base_path / ".ai" / "prompt-engine" / "selector.yaml"
+        config_path = new_path if new_path.exists() else legacy_path
+        if config_path.exists():
+            with open(config_path, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f) or {}
+        return {}
+
+    def _load_tiering_config(self) -> dict:
+        """Load the model tiering configuration."""
+        config_path = self.base_path / ".config" / "ai" / "model-tiering.yaml"
         if config_path.exists():
             with open(config_path, 'r', encoding='utf-8') as f:
                 return yaml.safe_load(f) or {}
@@ -180,6 +210,48 @@ class PromptEngine:
 
         return final_score
 
+    def _estimate_tokens(self, text: str) -> int:
+        """Estimate token count for a text string."""
+        return len(text) // self.CHARS_PER_TOKEN
+
+    def _select_tier(self, query: str, primary_intent: str, estimated_tokens: int) -> ModelTier:
+        """Select the appropriate model tier based on task complexity."""
+        query_lower = query.lower()
+
+        # Check tiering config
+        tiers = self.tiering_config.get("tiers", {})
+
+        # Check lightweight triggers
+        lightweight = tiers.get("lightweight", {})
+        lightweight_patterns = lightweight.get("triggers", {}).get("query_patterns", [])
+        if any(p in query_lower for p in lightweight_patterns):
+            if estimated_tokens < 2000:
+                return ModelTier.LIGHTWEIGHT
+
+        # Check heavyweight triggers
+        heavyweight = tiers.get("heavyweight", {})
+        heavyweight_patterns = heavyweight.get("triggers", {}).get("query_patterns", [])
+        heavyweight_tasks = heavyweight.get("triggers", {}).get("task_types", [])
+
+        if any(p in query_lower for p in heavyweight_patterns):
+            return ModelTier.HEAVYWEIGHT
+        if primary_intent in heavyweight_tasks:
+            return ModelTier.HEAVYWEIGHT
+        if estimated_tokens > 12000:
+            return ModelTier.HEAVYWEIGHT
+
+        # Check standard triggers
+        standard = tiers.get("standard", {})
+        standard_tasks = standard.get("triggers", {}).get("task_types", [])
+
+        if primary_intent in standard_tasks:
+            return ModelTier.STANDARD
+        if 2000 <= estimated_tokens <= 12000:
+            return ModelTier.STANDARD
+
+        # Default to standard
+        return ModelTier.STANDARD
+
     def _determine_composition_strategy(
         self,
         primary: str,
@@ -258,6 +330,12 @@ class PromptEngine:
         # Extract intent
         primary_intent, intent_scores = self._extract_intent(query)
 
+        # Estimate tokens from query and context
+        estimated_tokens = self._estimate_tokens(query)
+        if context:
+            context_str = json.dumps(context) if isinstance(context, dict) else str(context)
+            estimated_tokens += self._estimate_tokens(context_str)
+
         # Score all prompts
         prompt_scores: dict[str, float] = {}
         for prompt_id in self.prompts:
@@ -281,11 +359,16 @@ class PromptEngine:
         # Compose guidance
         composed = self._compose_guidance(primary, secondary, strategy)
 
+        # Select model tier based on complexity
+        tier = self._select_tier(query, primary_intent, estimated_tokens)
+
         # Build reasoning
         reasoning_parts = [
             f"Primary intent: {primary_intent}",
             f"Scores: {', '.join(f'{k}={v:.2f}' for k, v in sorted_prompts[:3])}",
-            f"Strategy: {strategy.value}"
+            f"Strategy: {strategy.value}",
+            f"Tier: {tier.value}",
+            f"Est. tokens: {estimated_tokens}"
         ]
 
         return PromptSelection(
@@ -294,7 +377,9 @@ class PromptEngine:
             strategy=strategy,
             confidence=primary_score,
             reasoning=" | ".join(reasoning_parts),
-            composed_guidance=composed
+            composed_guidance=composed,
+            recommended_tier=tier.value,
+            estimated_tokens=estimated_tokens
         )
 
     def record_outcome(
@@ -454,12 +539,15 @@ def main():
     if args.command == "select":
         selection = engine.select(args.query)
         print(f"\n{'='*60}")
-        print(f"PROMPT SELECTION")
+        print(f"PROMPT SELECTION + MODEL TIERING")
         print(f"{'='*60}")
         print(f"Primary: {selection.primary}")
         print(f"Secondary: {', '.join(selection.secondary) or 'None'}")
         print(f"Strategy: {selection.strategy.value}")
         print(f"Confidence: {selection.confidence:.2f}")
+        print(f"\n--- Token Optimization ---")
+        print(f"Recommended Tier: {selection.recommended_tier.upper()}")
+        print(f"Estimated Tokens: {selection.estimated_tokens:,}")
         print(f"Reasoning: {selection.reasoning}")
         print(f"\n{'='*60}")
         print("COMPOSED GUIDANCE")

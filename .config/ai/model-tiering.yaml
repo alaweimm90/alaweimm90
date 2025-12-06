@@ -1,0 +1,220 @@
+# =============================================================================
+# MODEL TIERING SYSTEM v1.0
+# Dynamic model selection based on task complexity and token efficiency
+# =============================================================================
+
+metadata:
+  version: '1.0.0'
+  created: '2025-12-06'
+  purpose: 'Optimize token usage by routing tasks to appropriate model tiers'
+
+# =============================================================================
+# TOKEN BUDGETS PER TIER
+# =============================================================================
+token_budgets:
+  lightweight:
+    max_input: 4000
+    max_output: 1000
+    target_cost: 0.01  # USD per request
+  standard:
+    max_input: 16000
+    max_output: 4000
+    target_cost: 0.10
+  heavyweight:
+    max_input: 100000
+    max_output: 16000
+    target_cost: 1.00
+
+# =============================================================================
+# TIER DEFINITIONS
+# =============================================================================
+tiers:
+  # Tier 1: Lightweight (< 4K tokens, simple tasks)
+  lightweight:
+    description: 'Fast, cheap models for simple queries'
+    models:
+      - id: copilot
+        context_window: 8000
+        cost_per_1k_input: 0.0001
+        cost_per_1k_output: 0.0002
+      - id: gpt-4o-mini
+        context_window: 128000
+        cost_per_1k_input: 0.00015
+        cost_per_1k_output: 0.0006
+      - id: claude-3-haiku
+        context_window: 200000
+        cost_per_1k_input: 0.00025
+        cost_per_1k_output: 0.00125
+    
+    triggers:
+      query_patterns:
+        - 'fix typo'
+        - 'add import'
+        - 'rename variable'
+        - 'format code'
+        - 'complete this'
+      task_types:
+        - code_completion
+        - quick_fix
+        - formatting
+        - simple_rename
+      signals:
+        - query_length_under: 50
+        - single_file_change: true
+        - estimated_tokens_under: 2000
+
+  # Tier 2: Standard (4K-16K tokens, moderate tasks)
+  standard:
+    description: 'Balanced models for typical development tasks'
+    models:
+      - id: kilo-code
+        context_window: 16000
+        cost_per_1k_input: 0.003
+        cost_per_1k_output: 0.015
+      - id: claude-3-sonnet
+        context_window: 200000
+        cost_per_1k_input: 0.003
+        cost_per_1k_output: 0.015
+      - id: gpt-4o
+        context_window: 128000
+        cost_per_1k_input: 0.005
+        cost_per_1k_output: 0.015
+    
+    triggers:
+      query_patterns:
+        - 'refactor'
+        - 'extract function'
+        - 'add tests'
+        - 'document'
+        - 'update component'
+      task_types:
+        - refactoring
+        - documentation
+        - unit_testing
+        - multi_file_change
+        - code_review
+      signals:
+        - query_length_between: [50, 200]
+        - files_involved_under: 5
+        - estimated_tokens_between: [2000, 12000]
+
+  # Tier 3: Heavyweight (16K+ tokens, complex tasks)
+  heavyweight:
+    description: 'Maximum capability for complex analysis'
+    models:
+      - id: claude-code
+        context_window: 200000
+        cost_per_1k_input: 0.015
+        cost_per_1k_output: 0.075
+      - id: claude-opus
+        context_window: 200000
+        cost_per_1k_input: 0.015
+        cost_per_1k_output: 0.075
+      - id: o1-preview
+        context_window: 128000
+        cost_per_1k_input: 0.015
+        cost_per_1k_output: 0.060
+    
+    triggers:
+      query_patterns:
+        - 'architect'
+        - 'design system'
+        - 'analyze codebase'
+        - 'security audit'
+        - 'debug complex'
+        - 'enterprise'
+        - 'mission-critical'
+      task_types:
+        - architecture
+        - codebase_analysis
+        - security_audit
+        - complex_debugging
+        - system_design
+        - enterprise
+      signals:
+        - query_length_over: 200
+        - files_involved_over: 5
+        - estimated_tokens_over: 12000
+        - complexity_keywords: true
+
+# =============================================================================
+# TIER SELECTION ALGORITHM
+# =============================================================================
+selection:
+  algorithm: 'score_based'
+  
+  scoring:
+    query_pattern_match: 0.4
+    task_type_match: 0.3
+    signal_match: 0.3
+  
+  escalation:
+    # Automatically escalate to higher tier if:
+    - condition: 'context_exceeds_tier_limit'
+      action: 'escalate_one_tier'
+    - condition: 'task_fails_in_lower_tier'
+      action: 'retry_in_higher_tier'
+    - condition: 'user_requests_quality'
+      action: 'use_heavyweight'
+  
+  optimization:
+    # Try to stay in lower tier when possible
+    prefer_lightweight: true
+    allow_tier_split: true  # Split large tasks into smaller chunks
+
+# =============================================================================
+# CONTEXT OPTIMIZATION STRATEGIES
+# =============================================================================
+context_strategies:
+  retrieval_first:
+    enabled: true
+    description: 'Use semantic retrieval before loading full files'
+    max_retrieval_results: 10
+    fallback_to_full_file: false
+  
+  compression:
+    enabled: true
+    script: '.config/ai/scripts/context-compressor.sh'
+    trigger_threshold: 0.7  # Compress when 70% of tier budget used
+    preserve_signatures: true
+    preserve_comments: false
+  
+  chunking:
+    enabled: true
+    max_chunk_size: 4000  # tokens
+    overlap: 200  # tokens for context continuity
+    strategy: 'semantic'  # semantic | line | function
+  
+  priority_loading:
+    enabled: true
+    priorities:
+      - type: 'system_prompt'
+        priority: 100
+      - type: 'user_query'
+        priority: 95
+      - type: 'relevant_code'
+        priority: 80
+      - type: 'examples'
+        priority: 60
+      - type: 'documentation'
+        priority: 40
+      - type: 'history'
+        priority: 20
+
+# =============================================================================
+# INTEGRATION
+# =============================================================================
+integration:
+  prompt_engine: '.config/ai/prompt-engine/engine.py'
+  context_config: '.config/ai/context.yaml'
+  cost_tracker: 'alawein-technologies-llc/talai/atlas-orchestrator/src/atlas_orchestrator/core/cost_tracker.py'
+  
+  hooks:
+    before_request:
+      - 'estimate_tokens'
+      - 'select_tier'
+      - 'apply_compression'
+    after_request:
+      - 'record_usage'
+      - 'update_tier_stats'
+

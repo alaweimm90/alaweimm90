@@ -144,24 +144,103 @@ routing:
     tool: claude
 
 # =============================================================================
-# CONTEXT INJECTION
+# MODEL TIERING (Token Optimization)
+# =============================================================================
+model_tiering:
+  config: .config/ai/model-tiering.yaml
+  enabled: true
+
+  # Default tier selection
+  default_tier: standard
+
+  # Tier overrides by task type
+  task_tier_mapping:
+    quick_fixes: lightweight
+    code_completion: lightweight
+    formatting: lightweight
+    refactoring: standard
+    documentation: standard
+    unit_testing: standard
+    code_review: standard
+    architecture: heavyweight
+    security_audit: heavyweight
+    codebase_analysis: heavyweight
+    complex_debugging: heavyweight
+
+# =============================================================================
+# CONTEXT INJECTION (Token-Optimized)
 # =============================================================================
 injection:
+  # Use retrieval-first mode instead of loading full files
+  retrieval_first:
+    enabled: true
+    max_results: 10
+    prefer_snippets: true
+    fallback_to_full: false
+
+  # Summarize large files instead of loading full content
+  summarization:
+    enabled: true
+    threshold_lines: 200  # Summarize files over 200 lines
+    preserve_signatures: true
+
+  # Priority-based loading (higher priority = loaded first)
+  priority_loading:
+    enabled: true
+    budget_percentage: 0.6  # Use 60% of tier budget for context
+
   always_include:
-    - docs/CODEMAP.md
-    - CLAUDE.md
+    - path: docs/CODEMAP.md
+      priority: 90
+      mode: summary  # Load summary, not full file
+    - path: CLAUDE.md
+      priority: 100
+      mode: full     # Always load full (it's small)
 
   include_on_audit:
-    - .config/ai/superprompts/codebase-sentinel.yaml
-    - .metaHub/policies/root-structure.yaml
+    - path: .config/ai/superprompts/codebase-sentinel.yaml
+      priority: 85
+      mode: full
+    - path: .metaHub/policies/root-structure.yaml
+      priority: 70
+      mode: summary
 
   include_on_security:
-    - .config/ai/superprompts/security-auditor.yaml
-    - .metaHub/policies/protected-files.yaml
+    - path: .config/ai/superprompts/security-auditor.yaml
+      priority: 85
+      mode: full
+    - path: .metaHub/policies/protected-files.yaml
+      priority: 80
+      mode: full
 
   include_on_feature:
-    - docs/ARCHITECTURE.md
-    - .config/ai/superprompts/architect.yaml
+    - path: docs/ARCHITECTURE.md
+      priority: 75
+      mode: summary
+    - path: .config/ai/superprompts/architect.yaml
+      priority: 85
+      mode: full
+
+# =============================================================================
+# TOKEN TRACKING
+# =============================================================================
+token_tracking:
+  enabled: true
+  log_file: .config/ai/logs/token-usage.jsonl
+
+  # Alert thresholds
+  alerts:
+    session_budget: 50000   # Warn if session exceeds 50K tokens
+    daily_budget: 500000    # Warn if daily usage exceeds 500K tokens
+    cost_threshold: 5.00    # Alert if daily cost exceeds $5
+
+  # Metrics to track
+  metrics:
+    - tokens_per_task
+    - tokens_per_file
+    - tier_distribution
+    - compression_savings
+    - retrieval_hit_rate
 
 # =============================================================================
 # SYNC AND AUTOMATION
@@ -172,3 +251,4 @@ sync:
   on_governance_change: true
   schedule: daily
   update_prompt_stats: true
+  update_token_metrics: true
