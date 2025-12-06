@@ -129,7 +129,7 @@ export const userService = {
         .single();
 
       return !!data;
-    } catch (error) {
+    } catch {
       return false;
     }
   },
@@ -165,7 +165,7 @@ export const userService = {
         .single();
 
       return (data?.role as UserRole) || null;
-    } catch (error) {
+    } catch {
       return null;
     }
   },

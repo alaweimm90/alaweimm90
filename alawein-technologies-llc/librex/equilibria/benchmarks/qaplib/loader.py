@@ -20,7 +20,7 @@ import urllib.error
 import numpy as np
 
 from .registry import QAPLIB_REGISTRY, QAPLIBInstance
-from .embedded_data import EMBEDDED_INSTANCES
+from .embedded_data import EMBEDDED_INSTANCES, DATASET_ROOT
 
 
 logger = logging.getLogger(__name__)
@@ -163,6 +163,10 @@ class QAPLIBLoader:
         }
 
     def _load_non_embedded(self, name: str, force_download: bool) -> Dict[str, np.ndarray]:  # pragma: no cover - network/cache path
+        local_dat = DATASET_ROOT / f"{name}.dat"
+        if local_dat.exists():
+            return self._load_local_dat_file(local_dat)
+
         cache_path = self.cache_dir / f"{name}.npz"
         if cache_path.exists() and not force_download:
             return self._load_from_cache(cache_path)
@@ -231,6 +235,10 @@ class QAPLIBLoader:
             # Non-critical error, just log
             print(f"Warning: Failed to cache instance: {e}")
 
+    def _load_local_dat_file(self, path: Path) -> Dict[str, np.ndarray]:
+        """Parse a .dat file that we vend with the repository."""
+        return self._parse_dat_format(path.read_text())
+
     def _download_instance(self, name: str) -> Dict[str, np.ndarray]:  # pragma: no cover - network dependent
         """Download instance from QAPLIB website"""
         instance = QAPLIB_REGISTRY[name]
@@ -253,61 +261,30 @@ class QAPLIBLoader:
 
         The format is:
         - First line: size n
-        - Next n lines: flow matrix (n×n)
-        - Next n lines: distance matrix (n×n)
+        - Next n*n numbers: flow matrix (n×n)
+        - Next n*n numbers: distance matrix (n×n)
+        Numbers may wrap arbitrarily across lines; only whitespace matters.
         """
-        lines = content.strip().split('\n')
+        tokens = [token for token in content.replace('\r', '\n').split() if not token.startswith('#')]
 
-        # Remove comments and empty lines
-        lines = [line.strip() for line in lines if line.strip() and not line.strip().startswith('#')]
-
-        if not lines:
+        if not tokens:
             raise ValueError("Empty file")
 
-        # Parse size
         try:
-            n = int(lines[0])
-        except ValueError:
-            raise ValueError(f"Invalid size on first line: {lines[0]}")
+            n = int(tokens[0])
+        except ValueError as exc:
+            raise ValueError(f"Invalid size on first line: {tokens[0]}") from exc
 
-        if len(lines) < 1 + 2 * n:
+        expected_values = 2 * n * n
+        values = tokens[1:1 + expected_values]
+        if len(values) < expected_values:
             raise ValueError(
-                f"Not enough data lines. Expected {1 + 2*n}, got {len(lines)}"
+                f"Not enough numeric data for {n}x{n} matrices ({len(values)} of {expected_values})"
             )
 
-        # Parse flow matrix
-        flow_matrix = np.zeros((n, n))
-        for i in range(n):
-            line_idx = 1 + i
-            values = lines[line_idx].split()
-            if len(values) != n:
-                raise ValueError(
-                    f"Flow matrix row {i} has {len(values)} values, expected {n}"
-                )
-            for j, val in enumerate(values):
-                try:
-                    flow_matrix[i, j] = float(val)
-                except ValueError:
-                    raise ValueError(
-                        f"Invalid value in flow matrix at ({i}, {j}): {val}"
-                    )
-
-        # Parse distance matrix
-        distance_matrix = np.zeros((n, n))
-        for i in range(n):
-            line_idx = 1 + n + i
-            values = lines[line_idx].split()
-            if len(values) != n:
-                raise ValueError(
-                    f"Distance matrix row {i} has {len(values)} values, expected {n}"
-                )
-            for j, val in enumerate(values):
-                try:
-                    distance_matrix[i, j] = float(val)
-                except ValueError:
-                    raise ValueError(
-                        f"Invalid value in distance matrix at ({i}, {j}): {val}"
-                    )
+        numbers = np.fromiter((float(v) for v in values), dtype=np.float64, count=expected_values)
+        flow_matrix = numbers[: n * n].reshape((n, n))
+        distance_matrix = numbers[n * n: expected_values].reshape((n, n))
 
         return {
             'flow_matrix': flow_matrix,

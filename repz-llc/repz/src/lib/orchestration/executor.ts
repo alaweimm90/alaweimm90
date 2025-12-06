@@ -72,7 +72,7 @@ export async function executeDAG(
     }
 
     context.status = context.errors.size > 0 ? 'failed' : 'completed';
-  } catch (error) {
+  } catch {
     context.status = 'failed';
   } finally {
     context.endTime = new Date();

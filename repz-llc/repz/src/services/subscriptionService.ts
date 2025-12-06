@@ -295,7 +295,7 @@ export const subscriptionService = {
    */
   async cancelSubscription(atPeriodEnd: boolean = true): Promise<{ success: boolean; error?: string }> {
     try {
-      const { data, error } = await supabase.functions.invoke('subscription-management', {
+      const { error } = await supabase.functions.invoke('subscription-management', {
         body: {
           action: 'cancel',
           cancel_at_period_end: atPeriodEnd,
@@ -316,7 +316,7 @@ export const subscriptionService = {
    */
   async updateTier(newTier: SubscriptionTier): Promise<{ success: boolean; error?: string }> {
     try {
-      const { data, error } = await supabase.functions.invoke('subscription-management', {
+      const { error } = await supabase.functions.invoke('subscription-management', {
         body: {
           action: 'update',
           new_tier: newTier,

@@ -1,0 +1,39 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-01-XX",
+  "prompts": [
+    {
+      "id": "optimization-refactor",
+      "name": "Optimization Refactor",
+      "category": "superprompt",
+      "description": "Refactor optimization code with physics constraints and performance focus",
+      "tags": ["optimization", "refactoring", "physics", "performance"],
+      "tools": ["amazon-q", "claude", "windsurf", "cline"],
+      "path": "prompts/superprompts/optimization-refactor.md",
+      "usage_count": 0,
+      "rating": 5.0
+    },
+    {
+      "id": "test-driven-development",
+      "name": "Test-Driven Development",
+      "category": "superprompt",
+      "description": "TDD workflow for scientific computing",
+      "tags": ["testing", "tdd", "physics"],
+      "tools": ["amazon-q", "claude", "windsurf", "cline"],
+      "path": "prompts/superprompts/test-driven-development.md",
+      "usage_count": 0,
+      "rating": 5.0
+    },
+    {
+      "id": "physics-code-review",
+      "name": "Physics Code Review",
+      "category": "code-review",
+      "description": "Review with physics correctness checks",
+      "tags": ["physics", "review", "validation"],
+      "tools": ["amazon-q", "claude", "windsurf", "cline"],
+      "path": "prompts/code-review/physics-code-review.md",
+      "usage_count": 0,
+      "rating": 5.0
+    }
+  ]
+}

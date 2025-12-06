@@ -23,6 +23,7 @@ from Librex.benchmarks.qaplib import (
     list_instances,
 )
 from Librex.benchmarks.qaplib.embedded_data import EMBEDDED_QAPLIB_DATA as EMBEDDED_INSTANCES
+from Librex.benchmarks.qaplib.embedded_data import DATASET_ROOT
 
 
 class TestQAPLIBLoader:
@@ -271,17 +272,16 @@ class TestQAPLIBAPI:
 
     def test_embedded_data_integrity(self):
         """Test integrity of embedded instance data."""
-        assert len(EMBEDDED_INSTANCES) >= 138
+        required = {'chr12a', 'nug20', 'esc16a', 'bur26a', 'tai256c'}
+        assert required.issubset(EMBEDDED_INSTANCES.keys()), "missing curated on-disk samples"
+        assert DATASET_ROOT.exists()
 
-        # Check structure of a few instances
-        for name in ['chr12a', 'nug20', 'esc16a']:
-            if name in EMBEDDED_INSTANCES:
-                instance = EMBEDDED_INSTANCES[name]
-                assert 'flow' in instance
-                assert 'distance' in instance
-                assert 'optimal' in instance
-                assert isinstance(instance['flow'], (list, np.ndarray))
-                assert isinstance(instance['distance'], (list, np.ndarray))
+        for name in required:
+            instance = EMBEDDED_INSTANCES[name]
+            assert 'flow' in instance
+            assert 'distance' in instance
+            assert len(instance['flow']) == len(instance['distance']) == instance['size']
+            assert instance['source_path']
 
 
 class TestQAPLIBPerformance:

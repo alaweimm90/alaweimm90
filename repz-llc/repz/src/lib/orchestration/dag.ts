@@ -69,7 +69,7 @@ export function buildAnalyticsDAG(config: {
   const dag = createDAG('analytics-' + Date.now());
 
   // Add data collection nodes
-  config.metrics.forEach((metric, index) => {
+  config.metrics.forEach((metric) => {
     const node: DAGNode = {
       id: `collect-${metric}`,
       name: `Collect ${metric}`,

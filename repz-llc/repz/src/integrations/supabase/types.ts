@@ -871,7 +871,7 @@ export type Database = {
         ]
       }
     }
-    Views: {}
+    Views: Record<string, never>
     Functions: {
       has_role: {
         Args: { check_role: string }
@@ -882,8 +882,8 @@ export type Database = {
         Returns: string
       }
     }
-    Enums: {}
-    CompositeTypes: {}
+    Enums: Record<string, never>
+    CompositeTypes: Record<string, never>
   }
 }
 

@@ -69,9 +69,9 @@ async function applyMigration() {
       await client.query(migrationSQL);
       await client.query('COMMIT');
       console.log('✅ Migration executed successfully!\n');
-    } catch (err: any) {
+    } catch (err: unknown) {
       await client.query('ROLLBACK');
-      console.error('❌ Migration failed:', err.message);
+      console.error('❌ Migration failed:', err instanceof Error ? err.message : String(err));
       console.error('\nRolled back all changes.');
       throw err;
     }
@@ -120,8 +120,8 @@ async function applyMigration() {
 
     console.log('\n🎉 Migration complete! All tables and functions created successfully.');
 
-  } catch (err: any) {
-    console.error('\n❌ Error:', err.message);
+  } catch (err: unknown) {
+    console.error('\n❌ Error:', err instanceof Error ? err.message : String(err));
     process.exit(1);
   } finally {
     await client.end();

@@ -17,10 +17,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
-  User, Heart, Activity, Target, Apple, Calendar,
-  AlertTriangle, FileText, CheckCircle, ChevronRight,
+  User, Heart, Target, Calendar,
+  AlertTriangle, CheckCircle, ChevronRight,
   ChevronLeft, Download, Send, Shield, Dumbbell,
-  Clock, Scale, Ruler, Brain, Pill, Utensils
+  Scale, Brain, Utensils
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/ui/atoms/Input';
@@ -31,7 +31,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+// RadioGroup imported but not used - keeping for future form enhancements
+// import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
 
 // ============================================================================
@@ -283,7 +284,8 @@ const MEDICAL_CONDITIONS = [
   'None of the above',
 ];
 
-const HOME_EQUIPMENT = [
+// These option arrays are exported for use in form rendering
+export const HOME_EQUIPMENT = [
   'Dumbbells',
   'Barbell and plates',
   'Kettlebells',
@@ -301,7 +303,7 @@ const HOME_EQUIPMENT = [
   'None',
 ];
 
-const DIETARY_RESTRICTIONS = [
+export const DIETARY_RESTRICTIONS = [
   'Vegetarian',
   'Vegan',
   'Pescatarian',
@@ -314,7 +316,7 @@ const DIETARY_RESTRICTIONS = [
   'No restrictions',
 ];
 
-const FOOD_ALLERGIES = [
+export const FOOD_ALLERGIES = [
   'Peanuts',
   'Tree nuts',
   'Dairy',
@@ -327,7 +329,7 @@ const FOOD_ALLERGIES = [
   'None',
 ];
 
-const SLEEP_ISSUES = [
+export const SLEEP_ISSUES = [
   'Difficulty falling asleep',
   'Waking up during the night',
   'Waking up too early',
@@ -338,7 +340,7 @@ const SLEEP_ISSUES = [
   'None',
 ];
 
-const RECOVERY_METHODS = [
+export const RECOVERY_METHODS = [
   'Stretching/Yoga',
   'Foam rolling',
   'Massage therapy',
@@ -355,10 +357,10 @@ const RECOVERY_METHODS = [
 // ============================================================================
 
 interface SectionProps {
-  control: any;
-  errors: any;
-  watch: any;
-  setValue: any;
+  control: ReturnType<typeof useForm<IntakeFormData>>['control'];
+  errors: ReturnType<typeof useForm<IntakeFormData>>['formState']['errors'];
+  watch: ReturnType<typeof useForm<IntakeFormData>>['watch'];
+  setValue: ReturnType<typeof useForm<IntakeFormData>>['setValue'];
 }
 
 const PersonalInfoSection: React.FC<SectionProps> = ({ control, errors }) => (
@@ -504,7 +506,7 @@ const PersonalInfoSection: React.FC<SectionProps> = ({ control, errors }) => (
   </div>
 );
 
-const FitnessAssessmentSection: React.FC<SectionProps> = ({ control, errors }) => (
+const FitnessAssessmentSection: React.FC<SectionProps> = ({ control }) => (
   <div className="space-y-6">
     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
       <p className="text-sm text-blue-800">
@@ -658,7 +660,7 @@ const FitnessAssessmentSection: React.FC<SectionProps> = ({ control, errors }) =
   </div>
 );
 
-const HealthHistorySection: React.FC<SectionProps> = ({ control, errors, watch, setValue }) => {
+const HealthHistorySection: React.FC<SectionProps> = ({ control, watch, setValue }) => {
   const medicalConditions = watch('healthHistory.medicalConditions') || [];
 
   return (
@@ -913,7 +915,7 @@ export const ProfessionalIntakeForm: React.FC<ProfessionalIntakeFormProps> = ({
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
     getValues,
   } = useForm<IntakeFormData>({
     resolver: zodResolver(fullIntakeSchema),
@@ -973,7 +975,7 @@ export const ProfessionalIntakeForm: React.FC<ProfessionalIntakeFormProps> = ({
     try {
       await onSubmit?.(data);
       toast.success('Intake form submitted successfully!');
-    } catch (error) {
+    } catch {
       toast.error('Failed to submit form. Please try again.');
     } finally {
       setIsSubmitting(false);

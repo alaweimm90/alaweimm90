@@ -31,7 +31,7 @@ class QAPLIBInstance:
         self.best_known_value = best_known_value or optimal_value
         self.problem_class = problem_class
         self.description = description
-        self.url = url or f"https://qaplib.mgi.polymtl.ca/data/qapdata/{name}.dat"
+        self.url = url or f"https://qaplib.mgi.polymtl.ca/data.d/{name}.dat"
 
     def is_optimal_known(self) -> bool:
         """Check if optimal solution is known"""

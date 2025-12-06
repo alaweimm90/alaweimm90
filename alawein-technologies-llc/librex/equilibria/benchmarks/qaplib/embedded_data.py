@@ -1,87 +1,95 @@
 """
-Embedded QAPLIB instances with deterministic coverage.
+Embedded QAPLIB instances backed by the official .dat files.
 
-Historically we stored a handful of small matrices directly in this module. That
-approach proved brittle (it was easy to corrupt the literal list definitions)
-and it only covered a tiny portion of the 138 canonical instances exercised by
-our test-suite.  Instead we now synthesize stable, reproducible matrices for
-*every* entry in the registry at import time.  The generator keeps the
-no-network guarantee (tests never hit the Internet) while still producing
-realistic-looking quadratic assignment data of the requested size.
-
-Key properties of the synthetic dataset:
-- Deterministic: hashing the instance name drives all pseudo-random numbers, so
-  repeated runs and different machines receive identical payloads.
-- Complete: every registry entry receives flow, distance, and optimal metadata,
-  ensuring len(EMBEDDED_INSTANCES) >= 138 as required by the regression tests.
-- Compatible: we expose both legacy keys ("flow", "distance") and the newer
-  "*_matrix" aliases so older callers keep working.
+Only the small/medium instances exercised by our regression suite are
+materialised eagerly; everything else is streamed from disk through the
+loader.  To keep the repository self-contained we store the canonical
+.qaplib data files under datasets/qaplib/raw and parse them here so callers
+get the original flow/distance matrices instead of synthetic stand-ins.
 """
 
 from __future__ import annotations
 
-import hashlib
+from pathlib import Path
 from typing import Dict, List
 
-from .registry import QAPLIB_REGISTRY, QAPLIBInstance
+from .registry import QAPLIB_REGISTRY
 
+DATASET_ROOT = Path(__file__).resolve().parents[4] / "datasets" / "qaplib" / "raw"
+CORE_INSTANCES = (
+    "chr12a",
+    "nug12",
+    "nug20",
+    "nug30",
+    "esc16a",
+    "esc32a",
+    "bur26a",
+    "tai35a",
+    "tai256c",
+)
 
-Matrix = List[List[int]]
+Matrix = List[List[float]]
 EmbeddedPayload = Dict[str, object]
 
 
-def _infer_size_from_name(name: str) -> int:
-    digits = "".join(ch for ch in name if ch.isdigit())
-    return int(digits) if digits else 10
+def _parse_dat_file(path: Path) -> Matrix:
+    tokens = path.read_text().split()
+    if not tokens:  # pragma: no cover - defensive guard
+        raise ValueError(f"Empty QAPLIB file: {path}")
+
+    n = int(tokens[0])
+    expected_values = 2 * n * n
+    numeric_values = list(map(float, tokens[1:1 + expected_values]))
+    if len(numeric_values) < expected_values:  # pragma: no cover - defensive guard
+        raise ValueError(
+            f"File {path} contains {len(numeric_values)} values but needs {expected_values}"
+        )
+
+    flow_values = numeric_values[: n * n]
+    distance_values = numeric_values[n * n: expected_values]
+
+    def _reshape(values: List[float]) -> Matrix:
+        return [values[i * n:(i + 1) * n] for i in range(n)]
+
+    return _reshape(flow_values), _reshape(distance_values)
 
 
-def _deterministic_int(token: str, modulus: int) -> int:
-    digest = hashlib.sha256(token.encode("utf-8")).digest()
-    return int.from_bytes(digest[:8], "little") % modulus
+def _load_instance_from_disk(name: str) -> EmbeddedPayload:
+    file_path = DATASET_ROOT / f"{name}.dat"
+    if not file_path.exists():
+        raise FileNotFoundError(
+            f"Missing {file_path}. Run datasets/qaplib/download_subset.py to fetch the file."
+        )
 
-
-def _build_matrix(name: str, size: int, label: str) -> Matrix:
-    matrix: Matrix = []
-    for i in range(size):
-        row: List[int] = []
-        for j in range(size):
-            if i == j:
-                row.append(0)
-            else:
-                value = _deterministic_int(f"{name}:{label}:{i}:{j}", 100)
-                row.append(value)
-        matrix.append(row)
-    return matrix
-
-
-def _compose_entry(name: str, meta: QAPLIBInstance | None) -> EmbeddedPayload:
-    size = meta.size if meta is not None else _infer_size_from_name(name)
-    flow = _build_matrix(name, size, "flow")
-    distance = _build_matrix(name, size, "distance")
-    optimal_value = (
-        meta.optimal_value
-        if meta and meta.optimal_value is not None
-        else _deterministic_int(f"{name}:optimal", 10_000_000) + size * 100
-    )
-
+    flow, distance = _parse_dat_file(file_path)
+    flow_int = [[int(value) for value in row] for row in flow]
+    distance_int = [[int(value) for value in row] for row in distance]
+    metadata = QAPLIB_REGISTRY[name]
     return {
         "name": name,
-        "size": size,
-        "type": meta.problem_class if meta else "synthetic",
-        "flow_matrix": flow,
-        "distance_matrix": distance,
-        "flow": flow,
-        "distance": distance,
-        "optimal": optimal_value,
+        "size": metadata.size,
+        "type": metadata.problem_class,
+        "flow_matrix": flow_int,
+        "distance_matrix": distance_int,
+        "flow": flow_int,
+        "distance": distance_int,
+        "optimal": metadata.optimal_value,
+        "source_path": str(file_path.relative_to(DATASET_ROOT.parent.parent)),
     }
 
 
 def _build_embedded_instances() -> Dict[str, EmbeddedPayload]:
     dataset: Dict[str, EmbeddedPayload] = {}
-    for key, meta in QAPLIB_REGISTRY.items():
-        dataset[key] = _compose_entry(key, meta)
+    for name in CORE_INSTANCES:
+        dataset[name] = _load_instance_from_disk(name)
     return dataset
 
 
 EMBEDDED_INSTANCES: Dict[str, EmbeddedPayload] = _build_embedded_instances()
 EMBEDDED_QAPLIB_DATA = EMBEDDED_INSTANCES
+
+__all__ = [
+    "DATASET_ROOT",
+    "EMBEDDED_INSTANCES",
+    "EMBEDDED_QAPLIB_DATA",
+]

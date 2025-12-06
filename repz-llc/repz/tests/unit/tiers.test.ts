@@ -3,7 +3,7 @@
  * @file tests/unit/tiers.test.ts
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 // Mock the tier constants (these would be imported from the actual file)
 const TIER_ORDER = ['core', 'adaptive', 'performance', 'longevity'] as const;
