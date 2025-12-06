@@ -30,6 +30,7 @@ class CostEntry:
     input_tokens: int
     output_tokens: int
     task_id: str
+    tier: str = "standard"  # lightweight | standard | heavyweight
 
 
 class CostTracker:
@@ -58,6 +59,11 @@ class CostTracker:
         self._daily_totals: Dict[str, float] = defaultdict(float)  # date -> cost
         self._model_totals: Dict[str, float] = defaultdict(float)  # model -> cost
         self._task_type_totals: Dict[str, float] = defaultdict(float)  # task_type -> cost
+        self._tier_totals: Dict[str, Dict[str, float]] = {
+            "lightweight": {"cost": 0.0, "tokens": 0, "requests": 0},
+            "standard": {"cost": 0.0, "tokens": 0, "requests": 0},
+            "heavyweight": {"cost": 0.0, "tokens": 0, "requests": 0},
+        }
 
         # Alerts
         self._alert_triggered = False
@@ -69,9 +75,10 @@ class CostTracker:
         cost: float,
         input_tokens: int,
         output_tokens: int,
-        task_id: str
+        task_id: str,
+        tier: str = "standard"
     ) -> None:
-        """Record a cost entry"""
+        """Record a cost entry with tier tracking"""
         now = datetime.now()
         entry = CostEntry(
             timestamp=now,
@@ -80,7 +87,8 @@ class CostTracker:
             cost=cost,
             input_tokens=input_tokens,
             output_tokens=output_tokens,
-            task_id=task_id
+            task_id=task_id,
+            tier=tier
         )
 
         # Store entry
@@ -91,6 +99,12 @@ class CostTracker:
         self._daily_totals[today] += cost
         self._model_totals[model] += cost
         self._task_type_totals[task_type] += cost
+
+        # Update tier totals
+        if tier in self._tier_totals:
+            self._tier_totals[tier]["cost"] += cost
+            self._tier_totals[tier]["tokens"] += input_tokens + output_tokens
+            self._tier_totals[tier]["requests"] += 1
 
         # Check alert threshold
         if not self._alert_triggered and self.get_today_cost() >= self.alert_threshold:
@@ -189,6 +203,67 @@ class CostTracker:
     def get_task_type_costs(self) -> Dict[str, float]:
         """Get cost breakdown by task type"""
         return dict(self._task_type_totals)
+
+    def get_tier_stats(self) -> Dict[str, Dict[str, float]]:
+        """Get cost and token breakdown by tier (lightweight/standard/heavyweight)"""
+        return dict(self._tier_totals)
+
+    def get_tier_efficiency_report(self) -> Dict[str, any]:
+        """
+        Calculate efficiency gains from model tiering
+
+        Returns:
+            Dict with tier-based efficiency metrics
+        """
+        tier_stats = self._tier_totals
+        total_requests = sum(t["requests"] for t in tier_stats.values())
+        total_tokens = sum(t["tokens"] for t in tier_stats.values())
+        actual_cost = sum(t["cost"] for t in tier_stats.values())
+
+        if total_requests == 0:
+            return {
+                "tier_distribution": {},
+                "efficiency_score": 0,
+                "recommendations": ["No usage data yet"]
+            }
+
+        # Calculate hypothetical cost if all used heavyweight
+        heavyweight_cost_per_1k = 0.015  # Claude Code pricing
+        hypothetical_cost = (total_tokens / 1000) * heavyweight_cost_per_1k
+
+        savings = hypothetical_cost - actual_cost
+        efficiency_score = (savings / hypothetical_cost * 100) if hypothetical_cost > 0 else 0
+
+        # Calculate tier distribution
+        tier_distribution = {
+            tier: {
+                "requests": stats["requests"],
+                "percentage": (stats["requests"] / total_requests * 100) if total_requests > 0 else 0,
+                "cost": stats["cost"],
+                "tokens": stats["tokens"]
+            }
+            for tier, stats in tier_stats.items()
+        }
+
+        # Generate recommendations
+        recommendations = []
+        if tier_distribution["heavyweight"]["percentage"] > 50:
+            recommendations.append("Consider breaking complex tasks into smaller chunks for lightweight handling")
+        if tier_distribution["lightweight"]["percentage"] < 20:
+            recommendations.append("Many tasks may be suitable for lightweight models - review task routing")
+        if efficiency_score > 40:
+            recommendations.append(f"Great efficiency! Saving {efficiency_score:.1f}% vs heavyweight-only approach")
+
+        return {
+            "tier_distribution": tier_distribution,
+            "actual_cost": actual_cost,
+            "hypothetical_heavyweight_cost": hypothetical_cost,
+            "savings": savings,
+            "efficiency_score": efficiency_score,
+            "total_requests": total_requests,
+            "total_tokens": total_tokens,
+            "recommendations": recommendations
+        }
 
     def reset_daily_tracker(self) -> None:
         """Reset daily tracking (call at midnight)"""
