@@ -58,7 +58,7 @@ Thank you for being part of our journey. With LLM Works, we're more committed th
 The LLM Works Team
 
 ---
-**Follow us**: [Twitter](https://twitter.com/llmworks) | [LinkedIn](https://linkedin.com/company/llmworks) | [GitHub](https://github.com/alaweimm90/aegis-ai-evaluator)
+**Follow us**: [Twitter](https://twitter.com/llmworks) | [LinkedIn](https://linkedin.com/company/llmworks) | [GitHub](https://github.com/alawein/aegis-ai-evaluator)
 
 LLM Works  
 Making AI evaluation transparent and trustworthy  
@@ -189,7 +189,7 @@ As one of our early access users, you're among the first to experience our rebra
 🗨️ **Early Access Forum**: [community.llmworks.dev](https://community.llmworks.dev)  
 📧 **Direct feedback**: Just reply to this email  
 📖 **Documentation**: [llmworks.dev/docs](https://llmworks.dev/docs)  
-🐛 **Bug reports**: [github.com/llmworks/issues](https://github.com/alaweimm90/aegis-ai-evaluator/issues)  
+🐛 **Bug reports**: [github.com/llmworks/issues](https://github.com/alawein/aegis-ai-evaluator/issues)  
 
 ## Thank You
 
@@ -281,7 +281,7 @@ It's been a week since we launched LLM Works, and the response has been incredib
 
 Our GitHub repository just hit 500 stars! 🌟 The community is contributing new benchmark templates and evaluation protocols.
 
-Want to contribute? Check out our [contribution guide](https://github.com/alaweimm90/aegis-ai-evaluator/blob/main/CONTRIBUTING.md).
+Want to contribute? Check out our [contribution guide](https://github.com/alawein/aegis-ai-evaluator/blob/main/CONTRIBUTING.md).
 
 Keep the feedback coming — it's shaping our roadmap!
 

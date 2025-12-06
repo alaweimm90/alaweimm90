@@ -89,4 +89,4 @@
 |---------|---------|
 | GitHub Private Reporting | Security issues |
 | GitHub Issues | General questions |
-| [@alaweimm90](https://github.com/alaweimm90) | Maintainer |
+| [@alawein](https://github.com/alawein) | Maintainer |

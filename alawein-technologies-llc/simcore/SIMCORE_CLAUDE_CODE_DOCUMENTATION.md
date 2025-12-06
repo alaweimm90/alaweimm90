@@ -912,7 +912,7 @@ If you use SimCore in research or education, please cite:
   title={SimCore: Interactive Scientific Computing Laboratory},
   author={Alawein, Dr. Meshal},
   year={2025},
-  url={https://github.com/alaweimm90/SimCore},
+  url={https://github.com/alawein/SimCore},
   note={Modular web-based platform for physics, mathematics, and scientific ML}
 }
 ```

@@ -14,7 +14,7 @@ This repository has just undergone a **major LLC-based restructuring**. All proj
 ### What Was Done Today
 
 1. ✅ Moved `marketing-automation` from `live-it-iconic-llc/` to `alawein-technologies-llc/`
-2. ✅ Consolidated `librex-qap/` into `librex/equilibria/solvers/qap/`
+2. ✅ Consolidated `librex-qap/` into `librex/Librex/solvers/qap/`
 3. ✅ Created P0 templates: `python-library/`, `landing-page/`
 4. ✅ Deep repository scan completed
 
@@ -28,7 +28,7 @@ C:\Users\mesha\Desktop\GitHub\
 ├── alawein-technologies-llc/       # 3,252 files, 10 products
 │   ├── talai/                      # 712 files - AI research platform (50 modules)
 │   ├── librex/                     # 493 files - Optimization framework
-│   │   └── equilibria/solvers/qap/ # ← QAP solver consolidated here
+│   │   └── Librex/solvers/qap/ # ← QAP solver consolidated here
 │   ├── mezan/                      # 560 files - Meta-solver orchestrator
 │   ├── simcore/                    # 352 files - Simulation framework
 │   ├── qmlab/                      # 231 files - Quantum mechanics lab
@@ -163,7 +163,7 @@ Per `.metaHub/policies/protected-files.yaml`:
 
 ## 💡 Suggestions for Kilo Code
 
-1. **Code Review Focus**: The `librex/equilibria/solvers/qap/` consolidation may have import path issues
+1. **Code Review Focus**: The `librex/Librex/solvers/qap/` consolidation may have import path issues
 2. **Template Application**: Consider applying `python-library` template to standardize all Python projects
 3. **Documentation Gaps**: Many projects have boilerplate README.md (need real content)
 4. **Test Coverage**: 99 test folders exist but coverage is inconsistent

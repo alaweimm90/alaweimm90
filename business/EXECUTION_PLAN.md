@@ -52,7 +52,7 @@
 
 ```powershell
 # Activate Repz
-Copy-Item -Recurse ".archive/organizations/alaweimm90-business/Repz" "C:/projects/repz"
+Copy-Item -Recurse ".archive/organizations/alawein-business/Repz" "C:/projects/repz"
 cd C:/projects/repz
 git init
 git remote add origin git@github.com:alawein/repz.git
@@ -130,8 +130,8 @@ git commit -m "feat: major repository restructure and brand consolidation
 
 BREAKING CHANGES:
 - Archived organizations/ to .archive/organizations/ (47,805 files)
-- Renamed Equilibria → Librex (optimization framework)
-- Updated username alaweimm90 → alawein
+- Renamed Librex → Librex (optimization framework)
+- Updated username alawein → alawein
 
 NEW STRUCTURE:
 - .personal/ - Personal projects (portfolio, drmalawein, rounaq)
@@ -186,8 +186,8 @@ git push origin main
 | SimCore      | simcore.dev ✅   | Alawein Tech   | AlaweinOS/SimCore/                |
 | QMLab        | qmlab.online ✅  | Alawein Tech   | AlaweinOS/QMLab/                  |
 | LLMWorks     | llmworks.dev ✅  | Alawein Tech   | AlaweinOS/LLMWorks/               |
-| Repz         | getrepz.app ✅   | REPZ LLC       | alaweimm90-business/Repz/         |
-| LiveItIconic | liveiticonic.com | Live It Iconic | alaweimm90-business/LiveItIconic/ |
+| Repz         | getrepz.app ✅   | REPZ LLC       | alawein-business/Repz/         |
+| LiveItIconic | liveiticonic.com | Live It Iconic | alawein-business/LiveItIconic/ |
 | Portfolio    | malawein.com ✅  | Personal       | .personal/portfolio/              |
 
 ---

@@ -595,7 +595,7 @@ print(f"Success rate: {result['success_rate']:.1%}")
 
 **Principal Investigator**: Meshal Alawein  
 **Email**: meshal@berkeley.edu  
-**GitHub**: [@alaweimm90](https://github.com/alaweimm90)
+**GitHub**: [@alawein](https://github.com/alawein)
 
 **Collaboration Opportunities**:
 - Research partnerships

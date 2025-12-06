@@ -27,7 +27,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/alaweimm90/aegis-ai-evaluator.git
+git clone https://github.com/alawein/aegis-ai-evaluator.git
 cd aegis-ai-evaluator
 
 # Install dependencies
@@ -1013,4 +1013,4 @@ Brief description of changes
 4. **Release**: GitHub Actions will automatically deploy
 5. **Announcement**: Update documentation and notify users
 
-For questions or support, join our [GitHub Discussions](https://github.com/alaweimm90/aegis-ai-evaluator/discussions) or contact the development team.
+For questions or support, join our [GitHub Discussions](https://github.com/alawein/aegis-ai-evaluator/discussions) or contact the development team.

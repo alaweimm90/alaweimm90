@@ -18,12 +18,12 @@
 
 ## Final Structure
 
-### 1. Hub Repository: `alaweimm90` (this repo)
+### 1. Hub Repository: `alawein` (this repo)
 
 **Purpose:** Landing pages, automation, shared tooling
 
 ```
-GitHub/                              # alaweimm90/alaweimm90
+GitHub/                              # alawein/alawein
 ├── .github/                         # GitHub config, workflows
 ├── automation/                      # Python automation system (KEEP)
 │   ├── prompts/                     # 49 prompts
@@ -34,7 +34,7 @@ GitHub/                              # alaweimm90/alaweimm90
 │   ├── orchex/                      # Orchestration CLI
 │   └── ai/                          # AI tools
 ├── docs/                            # GitHub Pages source
-│   └── pages/                       # Landing pages (served at alaweimm90.github.io)
+│   └── pages/                       # Landing pages (served at alawein.github.io)
 │       ├── index.html               # Main hub page
 │       └── brands/                  # Product landing pages
 │           ├── talai/               # talai.dev landing
@@ -78,7 +78,7 @@ Each product gets its own repo on GitHub:
 | `simcore` | simcore.dev | `.archive/organizations/AlaweinOS/SimCore/` | P2 |
 | `qmlab` | qmlab.online | `.archive/organizations/AlaweinOS/QMLab/` | P2 |
 | `attributa` | attributa.dev | `.archive/organizations/AlaweinOS/Attributa/` | P2 |
-| `liveiticonic` | liveiticonic.com | `.archive/organizations/alaweimm90-business/LiveItIconic/` | P3 |
+| `liveiticonic` | liveiticonic.com | `.archive/organizations/alawein-business/LiveItIconic/` | P3 |
 
 #### Research/Personal (Keep Archived)
 
@@ -92,7 +92,7 @@ Each product gets its own repo on GitHub:
 
 ### 3. TalAI Repo Structure (Priority P0)
 
-**Repo:** `github.com/alaweimm90/talai`
+**Repo:** `github.com/alawein/talai`
 
 ```
 talai/
@@ -132,7 +132,7 @@ talai/
 
 ### 4. Librex Repo Structure (Priority P1)
 
-**Repo:** `github.com/alaweimm90/librex`
+**Repo:** `github.com/alawein/librex`
 
 ```
 librex/
@@ -155,7 +155,7 @@ librex/
 
 | Domain | Points To | Type |
 |--------|-----------|------|
-| `alaweimm90.github.io` | Hub landing pages | GitHub Pages |
+| `alawein.github.io` | Hub landing pages | GitHub Pages |
 | `talai.dev` | TalAI web app | Vercel |
 | `librex.dev` | Librex docs | GitHub Pages |
 | `getrepz.app` | Repz app | Vercel |
@@ -173,14 +173,14 @@ librex/
 
 ### Phase 2: Create TalAI Repo (This Week)
 
-1. Create `github.com/alaweimm90/talai`
+1. Create `github.com/alawein/talai`
 2. Copy from `.archive/organizations/AlaweinOS/TalAI/`
 3. Consolidate 50 modules into clean structure
 4. Deploy to Vercel
 
 ### Phase 3: Create Librex Repo (Next Week)
 
-1. Create `github.com/alaweimm90/librex`
+1. Create `github.com/alawein/librex`
 2. Copy from `.archive/organizations/AlaweinOS/Librex/`
 3. Merge `Librex.QAP` into main repo
 

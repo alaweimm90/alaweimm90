@@ -46,7 +46,7 @@
 ## v0.1.0 — 2025-08-09
 
 ### Features
-- PR #1: Workerized scorer, GLTR normalization, "Run all demos", model loader progress/cancel (https://github.com/alaweimm90/Attributa/pull/1)
+- PR #1: Workerized scorer, GLTR normalization, "Run all demos", model loader progress/cancel (https://github.com/alawein/Attributa/pull/1)
   - Offloaded GLTR + DetectGPT computation to web workers for responsive UI
   - Implemented step-wise GPT-2 token analysis with computeRanks and avgLogProb
   - Fixed GLTR histogram normalization to sum to ~100%
@@ -54,7 +54,7 @@
   - Enhanced model loader with progress tracking and cancel functionality
 
 ### CI/CD
-- PR #6: Add Playwright E2E workflow + npm e2e wrapper (https://github.com/alaweimm90/Attributa/pull/6)
+- PR #6: Add Playwright E2E workflow + npm e2e wrapper (https://github.com/alawein/Attributa/pull/6)
   - Cross-browser E2E testing (Chromium, Firefox, WebKit)
   - Label-tunable quality gates (ci-relaxed/ci-strict)
   - Automated STATUS.md updates and draft releases

@@ -743,8 +743,8 @@ node --inspect-brk ./node_modules/.bin/jest --runInBand
 - [tsconfig.json](./tsconfig.json) - TypeScript configuration
 
 ### Community
-- [GitHub Issues](https://github.com/alaweimm90-archieve/Attributa/issues)
-- [Discussions](https://github.com/alaweimm90-archieve/Attributa/discussions)
+- [GitHub Issues](https://github.com/alawein-archieve/Attributa/issues)
+- [Discussions](https://github.com/alawein-archieve/Attributa/discussions)
 
 ---
 

@@ -26,6 +26,7 @@ Example:
 """
 
 from Librex.ai.features import ProblemFeatureExtractor
+from Librex.ai.legacy_selector import AIMethodSelector
 from Librex.ai.method_selector import MethodSelector
 
-__all__ = ["ProblemFeatureExtractor", "MethodSelector"]
+__all__ = ["ProblemFeatureExtractor", "MethodSelector", "AIMethodSelector"]

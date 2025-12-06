@@ -63,7 +63,7 @@ Net: +4,575 lines of production-ready code
 ### 1. Pull Latest Main Branch
 
 ```bash
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 git checkout main
 git pull origin main  # If syncing from remote later
 ```

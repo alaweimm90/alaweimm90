@@ -8,6 +8,7 @@ and problem class information.
 Reference: https://qaplib.mgi.polymtl.ca/
 """
 
+from collections import Counter
 from typing import Dict, List, Optional, Union
 
 
@@ -51,6 +52,94 @@ class QAPLIBInstance:
             "description": self.description,
             "url": self.url
         }
+
+
+class QAPLIBRegistry:
+    """Convenience wrapper that mirrors the historical Librex registry API."""
+
+    def __init__(self, registry: Optional[Dict[str, QAPLIBInstance]] = None):
+        self._registry: Dict[str, Union[QAPLIBInstance, Dict]] = dict(registry or QAPLIB_REGISTRY)
+        self._custom_payloads: Dict[str, Dict] = {}
+
+    def list_all(self) -> List[str]:
+        return sorted(self._registry.keys())
+
+    def get_metadata(self, name: str) -> Optional[Dict]:
+        if name in self._custom_payloads:
+            return dict(self._custom_payloads[name])
+
+        inst = self._registry.get(name)
+        return inst.to_dict() if isinstance(inst, QAPLIBInstance) else inst
+
+    def filter_by_size(self, min_size: int = 0, max_size: Optional[int] = None) -> List[str]:
+        max_size = max_size if max_size is not None else float("inf")
+        return [
+            name for name, inst in self._registry.items()
+            if min_size <= self._resolve_size(inst, name) <= max_size
+        ]
+
+    def filter_by_type(self, type_name: str) -> List[str]:
+        type_name = (type_name or "").lower()
+        matches = []
+        for name, inst in self._registry.items():
+            meta = self.get_metadata(name) or {}
+            declared_type = (meta.get("type") or meta.get("problem_class") or "").lower()
+            if name.lower().startswith(type_name) or type_name in declared_type:
+                matches.append(name)
+        return sorted(set(matches))
+
+    def get_statistics(self) -> Dict:
+        total = len(self._registry)
+        size_buckets = {"small": 0, "medium": 0, "large": 0}
+        type_counter = Counter()
+
+        for name, inst in self._registry.items():
+            size = self._resolve_size(inst, name)
+            if size <= 20:
+                size_buckets["small"] += 1
+            elif size <= 80:
+                size_buckets["medium"] += 1
+            else:
+                size_buckets["large"] += 1
+            meta = self.get_metadata(name) or {}
+            type_counter[meta.get("type") or meta.get("problem_class") or "unknown"] += 1
+
+        return {
+            "total_instances": total,
+            "size_distribution": size_buckets,
+            "type_distribution": dict(type_counter)
+        }
+
+    def register(self, name: str, metadata: Union[Dict, QAPLIBInstance]) -> None:
+        if isinstance(metadata, QAPLIBInstance):
+            instance = metadata
+            self._custom_payloads.pop(name, None)
+        else:
+            payload = dict(metadata)
+            payload.setdefault("name", name)
+            payload.setdefault("type", payload.get("problem_class", "custom"))
+            payload.setdefault("size", payload.get("size", 0))
+            self._custom_payloads[name] = payload
+            instance = QAPLIBInstance(
+                name=payload["name"],
+                size=payload["size"],
+                optimal_value=payload.get("optimal") or payload.get("optimal_value"),
+                best_known_value=payload.get("best_known") or payload.get("best_known_value"),
+                problem_class=payload.get("problem_class") or payload.get("type", "custom"),
+                description=payload.get("description", ""),
+                url=payload.get("url"),
+            )
+
+        self._registry[name] = instance
+        QAPLIB_REGISTRY[name] = instance
+
+    @staticmethod
+    def _resolve_size(inst: Union[QAPLIBInstance, Dict], name: str) -> int:
+        if isinstance(inst, QAPLIBInstance):
+            return inst.size
+        if isinstance(inst, dict):
+            return int(inst.get("size", 0))
+        raise ValueError(f"Unknown registry entry for {name}")
 
 
 # Complete registry of all 138 QAPLIB instances

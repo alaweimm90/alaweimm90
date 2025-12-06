@@ -37,7 +37,7 @@ All work has been pushed and organized. Your PR is ready to be created on GitHub
 GitHub provided this direct link when we pushed:
 
 ```
-https://github.com/alaweimm90-business/alaweimm90-business/pull/new/claude/liveiticonic-final-merge-012EfiZVt3quZ2TvpnXXizdB
+https://github.com/alawein-business/alawein-business/pull/new/claude/liveiticonic-final-merge-012EfiZVt3quZ2TvpnXXizdB
 ```
 
 **Just click that link** and it will pre-fill the PR creation form!
@@ -46,7 +46,7 @@ https://github.com/alaweimm90-business/alaweimm90-business/pull/new/claude/livei
 
 1. **Go to GitHub:**
    ```
-   https://github.com/alaweimm90-business/alaweimm90-business
+   https://github.com/alawein-business/alawein-business
    ```
 
 2. **Click "Pull Requests" tab**
@@ -264,7 +264,7 @@ npm install --legacy-peer-deps
 
 Check Dependabot alerts at:
 ```
-https://github.com/alaweimm90-business/alaweimm90-business/security/dependabot
+https://github.com/alawein-business/alawein-business/security/dependabot
 ```
 
 ---
@@ -324,7 +324,7 @@ Copy `.env.example` to `.env.production` and fill in:
 - `MERGE_STRATEGY.md` - Merge details
 
 **Repository:**
-- https://github.com/alaweimm90-business/alaweimm90-business
+- https://github.com/alawein-business/alawein-business
 
 ---
 
@@ -347,4 +347,4 @@ Copy `.env.example` to `.env.production` and fill in:
 **You're one PR away from deploying LiveItIconic.com! 🚀**
 
 **Click the link to create your PR:**
-https://github.com/alaweimm90-business/alaweimm90-business/pull/new/claude/liveiticonic-final-merge-012EfiZVt3quZ2TvpnXXizdB
+https://github.com/alawein-business/alawein-business/pull/new/claude/liveiticonic-final-merge-012EfiZVt3quZ2TvpnXXizdB

@@ -118,7 +118,7 @@ def main():
   qmatsim minimize --structure 1x10_rectangular --mode compress
   qmatsim analyze --material MoS2 --structure 1x10_rectangular
 
-For more information, visit: https://github.com/alaweimm90/QMatSim"""
+For more information, visit: https://github.com/alawein/QMatSim"""
     )
     
     subparsers = parser.add_subparsers(

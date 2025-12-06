@@ -1,4 +1,4 @@
-# Equilibria - Publish to PyPI
+# Librex - Publish to PyPI
 name: Publish
 
 on:
@@ -58,7 +58,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_to == 'testpypi'
     environment:
       name: testpypi
-      url: https://test.pypi.org/project/Equilibria
+      url: https://test.pypi.org/project/Librex
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -78,7 +78,7 @@ jobs:
     if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_to == 'pypi')
     environment:
       name: pypi
-      url: https://pypi.org/project/Equilibria
+      url: https://pypi.org/project/Librex
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4

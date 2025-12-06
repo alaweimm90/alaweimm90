@@ -27,7 +27,7 @@ Consolidate the scattered monorepo into a clean multi-repo structure while **pre
 ### Current Repository Layout
 
 ```
-GitHub/                              # Root: alaweimm90/alaweimm90
+GitHub/                              # Root: alawein/alawein
 ├── .archive/                        # 47,805 archived files
 │   └── organizations/               # ALL PROJECT CODE IS HERE
 │       ├── AlaweinOS/               # Alawein Technologies products
@@ -44,11 +44,11 @@ GitHub/                              # Root: alaweimm90/alaweimm90
 │       │   ├── QMLab/               # Quantum mechanics lab
 │       │   ├── SimCore/             # Simulation framework
 │       │   └── TalAI/               # AI research platform (50 modules!)
-│       ├── alaweimm90-business/     # Business products
+│       ├── alawein-business/     # Business products
 │       │   ├── LiveItIconic/        # Luxury e-commerce
 │       │   ├── MarketingAutomation/ # Marketing tools
 │       │   └── Repz/                # Fitness app (also at Desktop/REPZ)
-│       ├── alaweimm90-science/      # Research projects
+│       ├── alawein-science/      # Research projects
 │       │   ├── MagLogic/            # Magnetic logic circuits
 │       │   ├── QMatSim/             # Quantum material simulation
 │       │   ├── QubeML/              # Quantum ML framework
@@ -100,7 +100,7 @@ GitHub/                              # Root: alaweimm90/alaweimm90
 | **MEZAN** | `.archive/organizations/AlaweinOS/MEZAN/` | 30 | Development | - |
 | **Attributa** | `.archive/organizations/AlaweinOS/Attributa/` | 6 | Development | attributa.dev |
 | **LLMWorks** | `.archive/organizations/AlaweinOS/LLMWorks/` | 7 | Development | llmworks.dev |
-| **LiveItIconic** | `.archive/organizations/alaweimm90-business/LiveItIconic/` | 13 | Development | liveiticonic.com |
+| **LiveItIconic** | `.archive/organizations/alawein-business/LiveItIconic/` | 13 | Development | liveiticonic.com |
 
 ### Tier 3: Research/Future (P2)
 
@@ -115,11 +115,11 @@ GitHub/                              # Root: alaweimm90/alaweimm90
 
 | Project | Location | Focus |
 |---------|----------|-------|
-| **MagLogic** | `.archive/organizations/alaweimm90-science/MagLogic/` | Magnetic logic circuits |
-| **SpinCirc** | `.archive/organizations/alaweimm90-science/SpinCirc/` | Spintronics circuits |
-| **QMatSim** | `.archive/organizations/alaweimm90-science/QMatSim/` | Quantum materials |
-| **QubeML** | `.archive/organizations/alaweimm90-science/QubeML/` | Quantum ML |
-| **SciComp** | `.archive/organizations/alaweimm90-science/SciComp/` | Scientific computing |
+| **MagLogic** | `.archive/organizations/alawein-science/MagLogic/` | Magnetic logic circuits |
+| **SpinCirc** | `.archive/organizations/alawein-science/SpinCirc/` | Spintronics circuits |
+| **QMatSim** | `.archive/organizations/alawein-science/QMatSim/` | Quantum materials |
+| **QubeML** | `.archive/organizations/alawein-science/QubeML/` | Quantum ML |
+| **SciComp** | `.archive/organizations/alawein-science/SciComp/` | Scientific computing |
 
 ---
 
@@ -373,12 +373,12 @@ tools/orchex/
 ### Option A: Multi-Repo (Recommended)
 ```
 GitHub Organizations:
-├── alaweimm90/alaweimm90     # Hub: automation, tools, docs
-├── alaweimm90/talai          # TalAI platform
-├── alaweimm90/librex         # Librex framework
-├── alaweimm90/repz           # Already at Desktop/REPZ
-├── alaweimm90/mezan          # MEZAN orchestrator
-└── alaweimm90/[others]       # As needed
+├── alawein/alawein     # Hub: automation, tools, docs
+├── alawein/talai          # TalAI platform
+├── alawein/librex         # Librex framework
+├── alawein/repz           # Already at Desktop/REPZ
+├── alawein/mezan          # MEZAN orchestrator
+└── alawein/[others]       # As needed
 ```
 
 ### Option B: Organized Monorepo
@@ -428,7 +428,7 @@ GitHub/
 ## Contact & Ownership
 
 - **Owner:** Meshal Alawein
-- **GitHub:** @alaweimm90
+- **GitHub:** @alawein
 - **Email:** meshal@berkeley.edu
 - **LLCs:** Alawein Technologies LLC, REPZ LLC, Live It Iconic LLC
 

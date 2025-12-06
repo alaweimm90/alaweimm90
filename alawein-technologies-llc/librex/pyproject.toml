@@ -69,7 +69,7 @@ Repository = "https://github.com/AlaweinOS/Equilibria"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["equilibria*"]
+include = ["equilibria*", "Librex*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

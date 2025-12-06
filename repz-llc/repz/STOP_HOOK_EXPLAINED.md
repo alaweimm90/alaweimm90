@@ -42,7 +42,7 @@ origin/claude/work-on-repz-01QZXzXAN5NLLv8bp4nuWZri
 
 ### Option 1: Use Locally (Recommended)
 ```bash
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 # You're already on main with everything
 npm install
 npm run dev

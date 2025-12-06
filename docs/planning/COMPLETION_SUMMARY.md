@@ -4,7 +4,7 @@
 
 ### 1. Repository Restructure ✅
 
-- [x] Renamed GitHub repo from `alaweimm90` to `alawein`
+- [x] Renamed GitHub repo from `alawein` to `alawein`
 - [x] Archived 47,805 files to `.archive/organizations/`
 - [x] Renamed Optilibria → Librex
 - [x] Renamed Atlas → Orchex (1,314 references)
@@ -71,7 +71,7 @@
 
 - **Files Renamed:** 1,440+
 - **References Updated:** 1,314 (Atlas → Orchex)
-- **Username Updates:** 126 (alaweimm90 → alawein)
+- **Username Updates:** 126 (alawein → alawein)
 - **Tests Passing:** 270/270 ✅
 
 ---

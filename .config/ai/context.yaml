@@ -9,55 +9,55 @@ updated: '2025-12-02'
 # SUPERPROMPT SYSTEM (Self-Learning AI Infrastructure)
 # =============================================================================
 superprompts:
-  engine: .ai/prompt-engine/engine.py
-  selector: .ai/prompt-engine/selector.yaml
-  orchestration: .ai/prompt-engine/orchestration-integration.yaml
+  engine: .config/ai/prompt-engine/engine.py
+  selector: .config/ai/prompt-engine/selector.yaml
+  orchestration: .config/ai/prompt-engine/orchestration-integration.yaml
 
   # Available superprompts
   library:
     codebase-sentinel:
-      path: .ai/superprompts/codebase-sentinel.yaml
+      path: .config/ai/superprompts/codebase-sentinel.yaml
       triggers: [audit, cleanup, refactor, governance, quality]
       role: 'Systematic codebase quality maintenance'
 
     security-auditor:
-      path: .ai/superprompts/security-auditor.yaml
+      path: .config/ai/superprompts/security-auditor.yaml
       triggers: [security, vulnerability, audit, secrets, auth]
       role: 'Security-first code analysis'
 
     architect:
-      path: .ai/superprompts/architect.yaml
+      path: .config/ai/superprompts/architect.yaml
       triggers: [design, architecture, system, scale, pattern]
       role: 'High-level system design'
 
     meta-orchestration-master:
-      path: .ai/superprompts/meta-orchestration-master.yaml
+      path: .config/ai/superprompts/meta-orchestration-master.yaml
       triggers: [orchestrate, coordinate, multi-agent, governance, compliance, checkpoint, handoff, mcp]
       role: 'Supreme AI Governance & Orchestration Controller'
 
   # Learning system
   learning:
-    tracker: .ai/learning/effectiveness-tracker.yaml
-    data_dir: .ai/learning/data/
+    tracker: .config/ai/learning/effectiveness-tracker.yaml
+    data_dir: .config/ai/learning/data/
     feedback_enabled: true
 
 # =============================================================================
 # AGENTS, WORKFLOWS & ORCHESTRATION
 # =============================================================================
 agents:
-  registry: .ai/agents/config/agents.yaml
-  templates: .ai/agents/templates/
+  registry: .config/ai/agents/config/agents.yaml
+  templates: .config/ai/agents/templates/
 
 workflows:
-  registry: .ai/workflows/config/workflows.yaml
-  templates: .ai/workflows/templates/
+  registry: .config/ai/workflows/config/workflows.yaml
+  templates: .config/ai/workflows/templates/
 
 orchestration:
-  config: .ai/orchestration/config/orchestration.yaml
-  patterns: .ai/orchestration/patterns/
+  config: .config/ai/orchestration/config/orchestration.yaml
+  patterns: .config/ai/orchestration/patterns/
 
 scripts:
-  directory: .ai/scripts/
+  directory: .config/ai/scripts/
 
 # =============================================================================
 # CORE DOCUMENTATION
@@ -82,8 +82,8 @@ policies:
 # =============================================================================
 tools:
   # Prompt Engine
-  prompt_select: 'python .ai/prompt-engine/engine.py select'
-  prompt_report: 'python .ai/prompt-engine/engine.py report'
+  prompt_select: 'python .config/ai/prompt-engine/engine.py select'
+  prompt_report: 'python .config/ai/prompt-engine/engine.py report'
 
   # Orchestration
   orchestrator: automation/orchestration/codebase_orchestrator.py
@@ -97,21 +97,21 @@ tools:
 # TRACKING AND METRICS
 # =============================================================================
 tracking:
-  task_history: .ai/task-history.json
-  recent_changes: .ai/recent-changes.json
-  metrics: .ai/metrics.json
-  current_task: .ai/current-task.json
-  prompt_stats: .ai/learning/data/prompt-stats.json
+  task_history: .config/ai/task-history.json
+  recent_changes: .config/ai/recent-changes.json
+  metrics: .config/ai/metrics.json
+  current_task: .config/ai/current-task.json
+  prompt_stats: .config/ai/learning/data/prompt-stats.json
 
 # =============================================================================
 # FEEDBACK AND LEARNING
 # =============================================================================
 feedback:
-  directory: .ai/feedback/
-  pr_comments: .ai/feedback/pr-comments.json
-  task_outcomes: .ai/feedback/task-outcomes.json
-  suggestions: .ai/feedback/suggestions.json
-  prompt_effectiveness: .ai/learning/data/task-history.jsonl
+  directory: .config/ai/feedback/
+  pr_comments: .config/ai/feedback/pr-comments.json
+  task_outcomes: .config/ai/feedback/task-outcomes.json
+  suggestions: .config/ai/feedback/suggestions.json
+  prompt_effectiveness: .config/ai/learning/data/task-history.jsonl
 
 # =============================================================================
 # AI ROUTING (Enhanced with Superprompts)
@@ -152,16 +152,16 @@ injection:
     - CLAUDE.md
 
   include_on_audit:
-    - .ai/superprompts/codebase-sentinel.yaml
+    - .config/ai/superprompts/codebase-sentinel.yaml
     - .metaHub/policies/root-structure.yaml
 
   include_on_security:
-    - .ai/superprompts/security-auditor.yaml
+    - .config/ai/superprompts/security-auditor.yaml
     - .metaHub/policies/protected-files.yaml
 
   include_on_feature:
     - docs/ARCHITECTURE.md
-    - .ai/superprompts/architect.yaml
+    - .config/ai/superprompts/architect.yaml
 
 # =============================================================================
 # SYNC AND AUTOMATION

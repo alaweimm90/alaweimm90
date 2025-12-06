@@ -1,0 +1,302 @@
+{
+  "librex": {
+    "root": "alawein-technologies-llc/librex",
+    "env": {
+      "PYTHONWARNINGS": "default",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    },
+    "steps": [
+      {
+        "name": "pip-upgrade",
+        "cmd": ["python", "-m", "pip", "install", "--upgrade", "pip", "setuptools", "wheel"]
+      },
+      {
+        "name": "install-editable",
+        "cmd": ["python", "-m", "pip", "install", "-e", "."],
+        "if_files": ["pyproject.toml"]
+      },
+      {
+        "name": "install-dev-requirements",
+        "cmd": ["python", "-m", "pip", "install", "-r", "requirements-dev.txt"],
+        "if_files": ["requirements-dev.txt"]
+      },
+      {
+        "name": "pytest",
+        "cmd": ["python", "-m", "pytest", "-q"],
+        "if_files": ["tests"]
+      }
+    ]
+  },
+  "mezan": {
+    "root": "alawein-technologies-llc/mezan",
+    "env": {
+      "PYTHONWARNINGS": "default",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    },
+    "steps": [
+      {
+        "name": "pip-upgrade",
+        "cmd": ["python", "-m", "pip", "install", "--upgrade", "pip", "setuptools", "wheel"]
+      },
+      {
+        "name": "install-editable",
+        "cmd": ["python", "-m", "pip", "install", "-e", "."],
+        "if_files": ["pyproject.toml"]
+      },
+      {
+        "name": "install-dev-requirements",
+        "cmd": ["python", "-m", "pip", "install", "-r", "requirements-dev.txt"],
+        "if_files": ["requirements-dev.txt"]
+      },
+      {
+        "name": "pytest",
+        "cmd": ["python", "-m", "pytest", "-q"],
+        "if_files": ["tests"]
+      }
+    ]
+  },
+  "simcore": {
+    "root": "alawein-technologies-llc/simcore",
+    "env": {
+      "CI": "true",
+      "FORCE_COLOR": "0"
+    },
+    "steps": [
+      {
+        "name": "npm-install",
+        "cmd": ["npm", "install"],
+        "if_files": ["package.json"]
+      },
+      {
+        "name": "npm-lint",
+        "cmd": ["npm", "run", "lint"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "lint"
+      },
+      {
+        "name": "npm-test",
+        "cmd": ["npm", "run", "test"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "test"
+      },
+      {
+        "name": "npm-build",
+        "cmd": ["npm", "run", "build"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "build"
+      }
+    ]
+  },
+  "qmlab": {
+    "root": "alawein-technologies-llc/qmlab",
+    "env": {
+      "CI": "true",
+      "FORCE_COLOR": "0"
+    },
+    "steps": [
+      {
+        "name": "npm-install",
+        "cmd": ["npm", "install"],
+        "if_files": ["package.json"]
+      },
+      {
+        "name": "npm-lint",
+        "cmd": ["npm", "run", "lint"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "lint"
+      },
+      {
+        "name": "npm-test",
+        "cmd": ["npm", "run", "test"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "test"
+      },
+      {
+        "name": "npm-build",
+        "cmd": ["npm", "run", "build"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "build"
+      }
+    ]
+  },
+  "marketing-automation": {
+    "root": "alawein-technologies-llc/marketing-automation",
+    "env": {
+      "CI": "true",
+      "FORCE_COLOR": "0"
+    },
+    "steps": [
+      {
+        "name": "npm-install",
+        "cmd": ["npm", "install"],
+        "if_files": ["package.json"]
+      },
+      {
+        "name": "npm-lint",
+        "cmd": ["npm", "run", "lint"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "lint"
+      },
+      {
+        "name": "npm-test",
+        "cmd": ["npm", "run", "test"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "test"
+      },
+      {
+        "name": "npm-build",
+        "cmd": ["npm", "run", "build"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "build"
+      }
+    ]
+  },
+  "liveiticonic": {
+    "root": "live-it-iconic-llc/liveiticonic",
+    "env": {
+      "CI": "true",
+      "FORCE_COLOR": "0"
+    },
+    "steps": [
+      {
+        "name": "npm-install",
+        "cmd": ["npm", "install"],
+        "if_files": ["package.json"]
+      },
+      {
+        "name": "npm-lint",
+        "cmd": ["npm", "run", "lint"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "lint"
+      },
+      {
+        "name": "npm-test",
+        "cmd": ["npm", "run", "test"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "test"
+      },
+      {
+        "name": "npm-build",
+        "cmd": ["npm", "run", "build"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "build"
+      }
+    ]
+  },
+  "repz": {
+    "root": "repz-llc/repz",
+    "env": {
+      "CI": "true",
+      "FORCE_COLOR": "0"
+    },
+    "steps": [
+      {
+        "name": "npm-install",
+        "cmd": ["npm", "install"],
+        "if_files": ["package.json"]
+      },
+      {
+        "name": "npm-lint",
+        "cmd": ["npm", "run", "lint"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "lint"
+      },
+      {
+        "name": "npm-test",
+        "cmd": ["npm", "run", "test"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "test"
+      },
+      {
+        "name": "npm-build",
+        "cmd": ["npm", "run", "build"],
+        "if_files": ["package.json"],
+        "requires_npm_script": "build"
+      }
+    ]
+  },
+  "qmatsim": {
+    "root": "research/qmatsim",
+    "env": {
+      "PYTHONWARNINGS": "default",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    },
+    "steps": [
+      {
+        "name": "pip-upgrade",
+        "cmd": ["python", "-m", "pip", "install", "--upgrade", "pip", "setuptools", "wheel"]
+      },
+      {
+        "name": "install-editable",
+        "cmd": ["python", "-m", "pip", "install", "-e", "."],
+        "if_files": ["pyproject.toml"]
+      },
+      {
+        "name": "install-dev-requirements",
+        "cmd": ["python", "-m", "pip", "install", "-r", "requirements-dev.txt"],
+        "if_files": ["requirements-dev.txt"]
+      },
+      {
+        "name": "pytest",
+        "cmd": ["python", "-m", "pytest", "-q"],
+        "if_files": ["tests"]
+      }
+    ]
+  },
+  "qubeml": {
+    "root": "research/qubeml",
+    "env": {
+      "PYTHONWARNINGS": "default",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    },
+    "steps": [
+      {
+        "name": "pip-upgrade",
+        "cmd": ["python", "-m", "pip", "install", "--upgrade", "pip", "setuptools", "wheel"]
+      },
+      {
+        "name": "install-editable",
+        "cmd": ["python", "-m", "pip", "install", "-e", "."],
+        "if_files": ["pyproject.toml"]
+      },
+      {
+        "name": "install-dev-requirements",
+        "cmd": ["python", "-m", "pip", "install", "-r", "requirements-dev.txt"],
+        "if_files": ["requirements-dev.txt"]
+      },
+      {
+        "name": "pytest",
+        "cmd": ["python", "-m", "pytest", "-q"],
+        "if_files": ["tests"]
+      }
+    ]
+  },
+  "scicomp": {
+    "root": "research/scicomp",
+    "env": {
+      "PYTHONWARNINGS": "default",
+      "PIP_DISABLE_PIP_VERSION_CHECK": "1"
+    },
+    "steps": [
+      {
+        "name": "pip-upgrade",
+        "cmd": ["python", "-m", "pip", "install", "--upgrade", "pip", "setuptools", "wheel"]
+      },
+      {
+        "name": "install-editable",
+        "cmd": ["python", "-m", "pip", "install", "-e", "."],
+        "if_files": ["pyproject.toml"]
+      },
+      {
+        "name": "install-dev-requirements",
+        "cmd": ["python", "-m", "pip", "install", "-r", "requirements-dev.txt"],
+        "if_files": ["requirements-dev.txt"]
+      },
+      {
+        "name": "pytest",
+        "cmd": ["python", "-m", "pytest", "-q"],
+        "if_files": ["tests"]
+      }
+    ]
+  }
+}

@@ -5,7 +5,7 @@ coverage:
   target: 70
 docs:
   profile: minimal
-owner: alaweimm90-science
+owner: alawein-science
 description: 'Repository: qmat-sim'
 status: active
 created: '2025-11-26'

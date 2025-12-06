@@ -1,4 +1,4 @@
-# Equilibria CI - Test & Lint
+# Librex CI - Test & Lint
 name: Test
 
 on:
@@ -65,7 +65,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -v --cov=Equilibria --cov=src --cov-report=xml --cov-report=term || echo "Tests not configured yet"
+          pytest tests/ -v --cov=Librex --cov=src --cov-report=xml --cov-report=term || echo "Tests not configured yet"
 
       - name: Upload coverage
         uses: codecov/codecov-action@v3
@@ -99,8 +99,8 @@ jobs:
 
   policy-check:
     name: Policy Check
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
 
   security:
     name: Security Scan
-    uses: alaweimm90/alaweimm90/.github/workflows/scorecard.yml@main
+    uses: alawein/alawein/.github/workflows/scorecard.yml@main

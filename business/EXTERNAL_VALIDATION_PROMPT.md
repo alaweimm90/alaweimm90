@@ -10,7 +10,7 @@
 
 ### 1. Librex™ Brand (Optimization Framework)
 
-**Decision:** Rename "Equilibria" → "Librex" to avoid conflict with Equilibria CBD company.
+**Decision:** Rename "Librex" → "Librex" to avoid conflict with Librex CBD company.
 
 **Solver Naming Convention (Brand.Solver pattern):**
 | Old Name | New Name | URL Path |

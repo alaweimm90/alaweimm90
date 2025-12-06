@@ -19,8 +19,8 @@
 
 |  |  |  |  |  |  |
 |:--:|:--:|:--:|:--:|:--:|:--:|
-| <a href="https://github.com/alaweimm90"><img src="https://github.com/alaweimm90.png?size=96" alt="Meshal Alawein" width="96"/></a> | <a href="https://github.com/AlaweinOS"><img src="https://github.com/AlaweinOS.png?size=96" alt="AlaweinOS" width="96"/></a> | <a href="https://github.com/MeshyTools"><img src="https://github.com/MeshyTools.png?size=96" alt="MeshyTools" width="96"/></a> | <a href="https://github.com/MeatheadPhysicist"><img src="https://github.com/MeatheadPhysicist.png?size=96" alt="MeatheadPhysicist" width="96"/></a> | <a href="https://github.com/REPZCoach"><img src="https://github.com/REPZCoach.png?size=96" alt="REPZCoach" width="96"/></a> | <a href="https://github.com/LiveItIconic"><img src="https://github.com/LiveItIconic.png?size=96" alt="LiveItIconic" width="96"/></a> |
-| <b>@alaweimm90</b> | <b>AlaweinOS</b> | <b>MeshyTools</b> | <b>MeatheadPhysicist</b> | <b>REPZCoach</b> | <b>LiveItIconic</b> |
+| <a href="https://github.com/alawein"><img src="https://github.com/alawein.png?size=96" alt="Meshal Alawein" width="96"/></a> | <a href="https://github.com/AlaweinOS"><img src="https://github.com/AlaweinOS.png?size=96" alt="AlaweinOS" width="96"/></a> | <a href="https://github.com/MeshyTools"><img src="https://github.com/MeshyTools.png?size=96" alt="MeshyTools" width="96"/></a> | <a href="https://github.com/MeatheadPhysicist"><img src="https://github.com/MeatheadPhysicist.png?size=96" alt="MeatheadPhysicist" width="96"/></a> | <a href="https://github.com/REPZCoach"><img src="https://github.com/REPZCoach.png?size=96" alt="REPZCoach" width="96"/></a> | <a href="https://github.com/LiveItIconic"><img src="https://github.com/LiveItIconic.png?size=96" alt="LiveItIconic" width="96"/></a> |
+| <b>@alawein</b> | <b>AlaweinOS</b> | <b>MeshyTools</b> | <b>MeatheadPhysicist</b> | <b>REPZCoach</b> | <b>LiveItIconic</b> |
 | <i>Profile</i> | <i>Research</i> | <i>Automation</i> | <i>Physics</i> | <i>Coaching</i> | <i>Apparel</i> |
 
 

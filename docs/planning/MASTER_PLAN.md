@@ -31,7 +31,7 @@
 | **Optilibria** | **Librex**  | Cleaner branding, balance metaphor   | ✅ Complete |
 | **Atlas**      | **Orchex**  | Trademark safety (Atlas is overused) | ✅ Complete |
 | **CrazyIdeas** | **Foundry** | Professional, innovation-focused     | ✅ Complete |
-| `alaweimm90`   | `alawein`   | Cleaner GitHub username              | ✅ Complete |
+| `alawein`   | `alawein`   | Cleaner GitHub username              | ✅ Complete |
 
 ### Structure Changes
 
@@ -41,7 +41,7 @@
 | Fragmented planning docs    | Single SSOT | This document                |
 | Governance overhead         | Archived    | Moved to `.archive/`         |
 | 1314 "atlas" references     | 0           | All renamed to "orchex"      |
-| 126 "alaweimm90" references | 0           | All renamed to "alawein"     |
+| 126 "alawein" references | 0           | All renamed to "alawein"     |
 
 ---
 
@@ -371,7 +371,7 @@ ATLAS_OUTPUT_STYLE       → ORCHEX_OUTPUT_STYLE
 - [x] 1. Rename Optilibria → Librex
 - [x] 2. Rename Atlas → Orchex (200+ files)
 - [x] 3. Rename CrazyIdeas → Foundry (40+ files)
-- [x] 4. Update alaweimm90 → alawein (126 files)
+- [x] 4. Update alawein → alawein (126 files)
 - [x] 5. Create default workflow config
 - [x] 6. All 270 tests passing
 - [ ] 7. Archive governance docs
@@ -447,7 +447,7 @@ ATLAS_OUTPUT_STYLE       → ORCHEX_OUTPUT_STYLE
 | ----------- | --------------------------------------- |
 | Dec 5, 2025 | Created SSOT (this document)            |
 | Dec 5, 2025 | Consolidated from 12 planning documents |
-| Dec 5, 2025 | Updated username alaweimm90 → alawein   |
+| Dec 5, 2025 | Updated username alawein → alawein   |
 | Dec 5, 2025 | Completed Atlas → Orchex rename         |
 | Dec 5, 2025 | Completed CrazyIdeas → Foundry rename   |
 | Dec 5, 2025 | Added MarketingAutomation to registry   |

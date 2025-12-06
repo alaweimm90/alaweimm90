@@ -11,7 +11,7 @@
 ### 1.1 Vercel Pro - $60 (3 months)
 - [ ] Open: https://vercel.com/signup
 - [ ] Sign up with GitHub
-- [ ] Import repository: `alaweimm90-business/alaweimm90-business`
+- [ ] Import repository: `alawein-business/alawein-business`
 - [ ] Select project: `repz/REPZ/platform`
 - [ ] **Upgrade to Pro:**
   - [ ] Go to Settings → Billing
@@ -194,7 +194,7 @@
 
 ### 6.1 Build and Deploy
 ```bash
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 
 # Verify build works locally
 npm run build:production

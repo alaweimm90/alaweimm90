@@ -91,9 +91,9 @@ def ensure_ssot_references(repo_root: Path) -> bool:
     marker = "## SSOT References"
     block = (
         "## SSOT References\n\n"
-        "- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/INDEX.md` — master SSOT index\n"
-        "- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/5-TOOLS/ide-integration.md` — IDE integration guide\n"
-        "- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/2-PROMPTS/PROMPT_REGISTRY.md` — prompt registry\n"
+        "- `ORGANIZATIONS/alawein-tools/agis/docs/standards/INDEX.md` — master SSOT index\n"
+        "- `ORGANIZATIONS/alawein-tools/agis/docs/standards/5-TOOLS/ide-integration.md` — IDE integration guide\n"
+        "- `ORGANIZATIONS/alawein-tools/agis/docs/standards/2-PROMPTS/PROMPT_REGISTRY.md` — prompt registry\n"
     )
     return append_if_missing(target, marker, block)
 

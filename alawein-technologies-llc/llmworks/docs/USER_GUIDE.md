@@ -400,7 +400,7 @@ Features include:
 ### Getting Help
 
 1. **Documentation**: Check this guide and API reference
-2. **GitHub Issues**: Report bugs at [github.com/llmworks/llm-works](https://github.com/alaweimm90/aegis-ai-evaluator)
+2. **GitHub Issues**: Report bugs at [github.com/llmworks/llm-works](https://github.com/alawein/aegis-ai-evaluator)
 3. **Community**: Join discussions and ask questions
 4. **Email Support**: Contact team@llmworks.dev for enterprise users
 
@@ -458,4 +458,4 @@ A: Yes, use Settings → Privacy → Delete All Data to remove all local data.
 
 ---
 
-For additional help, visit our [GitHub repository](https://github.com/alaweimm90/aegis-ai-evaluator) or contact [team@llmworks.dev](mailto:team@llmworks.dev).
+For additional help, visit our [GitHub repository](https://github.com/alawein/aegis-ai-evaluator) or contact [team@llmworks.dev](mailto:team@llmworks.dev).

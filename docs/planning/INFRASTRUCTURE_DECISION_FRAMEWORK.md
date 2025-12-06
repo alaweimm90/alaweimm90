@@ -111,14 +111,14 @@ organizations/
 │
 ├── MeatheadPhysicist/   ← Physics persona/brand
 │
-├── alaweimm90-science/  ← Needs rename (scientific tools)
+├── alawein-science/  ← Needs rename (scientific tools)
 │   ├── MagLogic
 │   ├── QMatSim
 │   ├── QubeML
 │   ├── SpinCirc
 │   └── SciComp
 │
-└── alaweimm90-business/ ← Needs rename (consumer products)
+└── alawein-business/ ← Needs rename (consumer products)
     ├── Repz
     ├── LiveItIconic
     └── MarketingAutomation
@@ -264,7 +264,7 @@ Based on `LOVABLE_TEMPLATE_SUPERPROMPT.md`, extract:
 ### Phase 1: Consolidate (Today)
 
 1. **Create** `alawein-labs` GitHub organization
-2. **Move** repos from AlaweinOS, alaweimm90-science, alaweimm90-business
+2. **Move** repos from AlaweinOS, alawein-science, alawein-business
 3. **Rename** Librex → Librex
 4. **Archive** MeatheadPhysicist (keep as redirect)
 

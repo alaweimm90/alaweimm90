@@ -104,7 +104,7 @@ As a privacy-first tool with local processing, Attributa.dev respects internatio
 
 ## Open Source
 
-Attributa.dev is open source. You can review our code and privacy practices at: https://github.com/alaweimm90/Attributa
+Attributa.dev is open source. You can review our code and privacy practices at: https://github.com/alawein/Attributa
 
 ---
 

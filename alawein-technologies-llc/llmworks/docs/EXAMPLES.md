@@ -1033,4 +1033,4 @@ if __name__ == "__main__":
 
 These examples demonstrate the flexibility and power of LLM Works for various evaluation scenarios. Each example can be adapted for specific use cases, domains, and requirements.
 
-For more examples and community contributions, visit our [GitHub repository](https://github.com/alaweimm90/aegis-ai-evaluator) or check the `examples/` directory in the codebase.
+For more examples and community contributions, visit our [GitHub repository](https://github.com/alawein/aegis-ai-evaluator) or check the `examples/` directory in the codebase.

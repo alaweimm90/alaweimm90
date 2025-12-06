@@ -22,7 +22,7 @@
 
 ### Repository Restructure ✅
 
-- ✅ Renamed from `alaweimm90` to `alawein`
+- ✅ Renamed from `alawein` to `alawein`
 - ✅ Archived 47,805 files to `.archive/organizations/`
 - ✅ Renamed Optilibria → Librex
 - ✅ Renamed Atlas → Orchex (1,314 references)
@@ -179,8 +179,8 @@ GitHub/
 ├── .archive/                   # 47,805 archived files
 │   └── organizations/          # All project code preserved
 │       ├── AlaweinOS/          # Alawein Technologies products
-│       ├── alaweimm90-business/# Business products
-│       ├── alaweimm90-science/ # Research projects
+│       ├── alawein-business/# Business products
+│       ├── alawein-science/ # Research projects
 │       └── MeatheadPhysicist/  # Physics education
 │
 ├── .personal/                  # Personal projects

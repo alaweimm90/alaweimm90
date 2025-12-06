@@ -32,9 +32,9 @@ __copyright__ = "Copyright 2025, University of California, Berkeley"
 # Package metadata
 __title__ = "MagLogic"
 __description__ = "Nanomagnetic Logic Simulation Suite"
-__url__ = "https://github.com/alaweimm90/MagLogic"
-__download_url__ = "https://github.com/alaweimm90/MagLogic/releases"
-__docs_url__ = "https://alaweimm90.github.io/MagLogic/"
+__url__ = "https://github.com/alawein/MagLogic"
+__download_url__ = "https://github.com/alawein/MagLogic/releases"
+__docs_url__ = "https://alawein.github.io/MagLogic/"
 __paper_url__ = "https://doi.org/10.1109/LMAG.2019.2912398"
 
 # Import version check

@@ -22,7 +22,7 @@ jobs:
       run: echo "Add tests for ${language}"
   policy-check:
     name: Policy Check
-    uses: alaweimm90/alaweimm90/.github/workflows/reusable-policy.yml@main
+    uses: alawein/alawein/.github/workflows/reusable-policy.yml@main
   security:
     name: Security Scan
-    uses: alaweimm90/alaweimm90/.github/workflows/scorecard.yml@main
+    uses: alawein/alawein/.github/workflows/scorecard.yml@main

@@ -172,9 +172,9 @@ styles:
 ```markdown
 # Add to Librex/CLAUDE.md
 ## SSOT References
-- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/INDEX.md` — master SSOT index
-- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/5-TOOLS/ide-integration.md` — IDE integration guide
-- `ORGANIZATIONS/alaweimm90-tools/agis/docs/standards/2-PROMPTS/PROMPT_REGISTRY.md` — prompt registry
+- `ORGANIZATIONS/alawein-tools/agis/docs/standards/INDEX.md` — master SSOT index
+- `ORGANIZATIONS/alawein-tools/agis/docs/standards/5-TOOLS/ide-integration.md` — IDE integration guide
+- `ORGANIZATIONS/alawein-tools/agis/docs/standards/2-PROMPTS/PROMPT_REGISTRY.md` — prompt registry
 ```
 
 ## Gap Severity Matrix

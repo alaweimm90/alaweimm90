@@ -102,7 +102,7 @@ Batch Size: 100 requests/batch
 
 ```bash
 # Load & analyze
-Analyze Live It Iconic in ORGANIZATIONS/alaweimm90-business/live-it-iconic
+Analyze Live It Iconic in ORGANIZATIONS/alawein-business/live-it-iconic
 Show me the content and engagement system
 
 # Specific tasks

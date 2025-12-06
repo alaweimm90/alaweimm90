@@ -36,8 +36,8 @@ Be respectful, inclusive, and constructive in all interactions.
 
 ```bash
 # Clone
-git clone https://github.com/alaweimm90/alaweimm90.git
-cd alaweimm90
+git clone https://github.com/alawein/alawein.git
+cd alawein
 
 # Install dependencies
 pip install -r .metaHub/scripts/requirements.txt
@@ -174,4 +174,4 @@ def my_function(param: str, optional: int = 0) -> Dict[str, Any]:
 
 ---
 
-**Maintainer:** [@alaweimm90](https://github.com/alaweimm90)
+**Maintainer:** [@alawein](https://github.com/alawein)

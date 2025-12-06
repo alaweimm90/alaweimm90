@@ -51,7 +51,7 @@ vercel login
 
 ### Step 3: Link Your Project
 ```bash
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 vercel link
 ```
 
@@ -487,7 +487,7 @@ vercel env add TWILIO_PHONE_NUMBER production
 
 ```bash
 # 1. Deploy to Vercel
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 vercel --prod
 
 # 2. Set environment variables

@@ -12,11 +12,15 @@ import json
 
 from Librex.benchmarks.qaplib import (
     QAPLIBLoader,
+    QAPLIBRegistry,
+    QAPLIBBenchmarkRunner,
     load_qaplib_instance,
     list_qaplib_instances,
     get_instance_metadata,
     run_qaplib_benchmark,
     get_all_instance_names,
+    get_instance,
+    list_instances,
 )
 from Librex.benchmarks.qaplib.embedded_data import EMBEDDED_QAPLIB_DATA as EMBEDDED_INSTANCES
 

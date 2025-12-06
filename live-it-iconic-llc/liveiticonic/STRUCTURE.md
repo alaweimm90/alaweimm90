@@ -521,4 +521,4 @@ import { Button } from '@/components/ui/button';
 
 **Last Updated:** 2025-11-19
 **Version:** 1.0.0
-**Maintained By:** alaweimm90-business
+**Maintained By:** alawein-business

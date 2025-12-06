@@ -11,7 +11,7 @@ function fixOrg(orgPath: string, subdirs: string[]): void {
 
 function main(): void {
   const root = path.join(process.cwd(), 'organizations');
-  const targets = ['alaweimm90-business'];
+  const targets = ['alawein-business'];
   for (const t of targets) {
     const orgPath = path.join(root, t);
     if (fs.existsSync(orgPath)) fixOrg(orgPath, ['website', 'portal', 'app']);

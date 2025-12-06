@@ -11,7 +11,7 @@ Main functions:
     benchmark_method(): Run benchmarks on multiple instances
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
@@ -25,6 +25,7 @@ from .loader import (
 from .registry import (
     QAPLIB_REGISTRY,
     QAPLIBInstance,
+    QAPLIBRegistry,
     get_instance_by_size,
     get_instance_by_class,
     get_small_instances,
@@ -32,7 +33,22 @@ from .registry import (
     get_problem_classes,
     get_instance_metadata
 )
-from .benchmark_runner import QAPLIBBenchmark, run_qaplib_benchmark
+from .benchmark_runner import QAPLIBBenchmark, QAPLIBBenchmarkRunner, run_qaplib_benchmark
+from . import embedded_data as _embedded_data
+
+# Legacy compatibility: certain callers still expect EMBEDDED_QAPLIB_DATA to be
+# exported from the embedded_data module even though the canonical constant is
+# EMBEDDED_INSTANCES. Patch the module at import time if necessary.
+if not hasattr(_embedded_data, "EMBEDDED_QAPLIB_DATA"):
+    _embedded_data.EMBEDDED_QAPLIB_DATA = _embedded_data.EMBEDDED_INSTANCES
+
+if hasattr(_embedded_data, "__all__"):
+    if "EMBEDDED_QAPLIB_DATA" not in _embedded_data.__all__:
+        _embedded_data.__all__ = list(_embedded_data.__all__) + ["EMBEDDED_QAPLIB_DATA"]
+else:
+    _embedded_data.__all__ = ["EMBEDDED_INSTANCES", "EMBEDDED_QAPLIB_DATA"]
+
+EMBEDDED_QAPLIB_DATA = _embedded_data.EMBEDDED_QAPLIB_DATA
 
 # Version
 __version__ = "1.0.0"
@@ -43,6 +59,11 @@ __all__ = [
     "load_qaplib_instance",
     "list_qaplib_instances",
     "get_qaplib_metadata",
+    "get_instance",
+    "list_instances",
+
+    # Embedded data
+    "EMBEDDED_QAPLIB_DATA",
 
     # Registry functions
     "get_instance_by_size",
@@ -53,11 +74,13 @@ __all__ = [
 
     # Benchmark functions
     "QAPLIBBenchmark",
+    "QAPLIBBenchmarkRunner",
     "run_qaplib_benchmark",
 
     # Classes
     "QAPLIBLoader",
     "QAPLIBInstance",
+    "QAPLIBRegistry",
 
     # Constants
     "QAPLIB_REGISTRY",
@@ -118,3 +141,25 @@ def validate_installation():
     else:
         print("QAPLIB suite validated successfully!")
         return True
+
+
+def _with_legacy_keys(payload: Dict[str, Any]) -> Dict[str, Any]:
+    if 'flow' in payload and 'distance' in payload:
+        return payload
+
+    enriched = dict(payload)
+    if 'flow_matrix' in enriched:
+        enriched.setdefault('flow', enriched['flow_matrix'])
+    if 'distance_matrix' in enriched:
+        enriched.setdefault('distance', enriched['distance_matrix'])
+    return enriched
+
+
+def get_instance(name: str) -> Dict[str, Any]:
+    """Legacy alias that mirrors the pre-restructure API."""
+    return _with_legacy_keys(load_qaplib_instance(name))
+
+
+def list_instances() -> List[str]:
+    """Return the canonical list of registered QAPLIB instances."""
+    return list_qaplib_instances()

@@ -279,7 +279,7 @@ except:
 
 html_context = {
     'display_github': True,
-    'github_user': 'alaweimm90',
+    'github_user': 'alawein',
     'github_repo': 'SpinCirc',
     'github_version': 'main',
     'conf_py_path': '/docs/',

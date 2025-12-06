@@ -4,7 +4,7 @@ This project is Vite + React. Lovable builds from GitHub and serves the static `
 
 ## One-time setup
 
-1. Push repo to GitHub (already at): `https://github.com/alaweimm90/SimCore`
+1. Push repo to GitHub (already at): `https://github.com/alawein/SimCore`
 2. In Lovable, import project from GitHub and select this repo.
 3. Build settings:
    - Build command: `npm run build`
@@ -39,4 +39,4 @@ export default defineConfig(({ mode }) => ({
 ## Links
 
 - Lovable project: https://lovable.dev/projects/f5c4348e-aff9-4eb4-bf03-0c2e06c7822a
-- GitHub repo: https://github.com/alaweimm90/SimCore
+- GitHub repo: https://github.com/alawein/SimCore

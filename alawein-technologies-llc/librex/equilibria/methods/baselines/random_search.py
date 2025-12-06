@@ -1,7 +1,7 @@
 """Random Search baseline optimization method"""
 
 import logging
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import numpy as np
 
@@ -58,4 +58,17 @@ def random_search_optimize(
     }
 
 
-__all__ = ['random_search_optimize']
+class RandomSearchOptimizer:
+    """Minimal OO wrapper maintained for backwards compatibility."""
+
+    def __init__(self, **config: Any):
+        self.config = config or {}
+
+    def optimize(self, problem: StandardizedProblem, max_iterations: Optional[int] = None) -> Dict[str, Any]:
+        config = dict(self.config)
+        if max_iterations is not None:
+            config['iterations'] = max_iterations
+        return random_search_optimize(problem, config)
+
+
+__all__ = ['random_search_optimize', 'RandomSearchOptimizer']

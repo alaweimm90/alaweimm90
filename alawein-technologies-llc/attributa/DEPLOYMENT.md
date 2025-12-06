@@ -125,7 +125,7 @@ See `src/integrations/supabase/` for implementation details.
 For deployment assistance:
 - **Email**: support@attributa.dev
 - **Documentation**: https://docs.attributa.dev
-- **GitHub Issues**: https://github.com/alaweimm90/Attributa
+- **GitHub Issues**: https://github.com/alawein/Attributa
 
 ---
 

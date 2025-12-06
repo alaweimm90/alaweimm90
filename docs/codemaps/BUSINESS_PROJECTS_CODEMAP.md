@@ -1,6 +1,6 @@
 # Business Projects Codemap
 
-> **Location:** `.archive/organizations/alaweimm90-business/`
+> **Location:** `.archive/organizations/alawein-business/`
 > **Projects:** Repz, LiveItIconic, MarketingAutomation
 > **Status:** Development
 
@@ -36,7 +36,7 @@ flowchart TB
 ## Repz - AI Fitness Tracking
 
 **Primary Location:** `C:\Users\mesha\Desktop\REPZ` (ACTIVE)
-**Archive Location:** `.archive/organizations/alaweimm90-business/Repz/`
+**Archive Location:** `.archive/organizations/alawein-business/Repz/`
 **Domain:** getrepz.app ✅
 
 ### Active Repo Structure (Desktop/REPZ)
@@ -90,7 +90,7 @@ Repz/
 
 ## LiveItIconic - Luxury E-commerce
 
-**Location:** `.archive/organizations/alaweimm90-business/LiveItIconic/`
+**Location:** `.archive/organizations/alawein-business/LiveItIconic/`
 **Domain:** liveiticonic.com
 
 ```
@@ -127,7 +127,7 @@ LiveItIconic/
 
 ## MarketingAutomation
 
-**Location:** `.archive/organizations/alaweimm90-business/MarketingAutomation/`
+**Location:** `.archive/organizations/alawein-business/MarketingAutomation/`
 
 ```
 MarketingAutomation/

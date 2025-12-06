@@ -13,7 +13,7 @@
 - [x] Archived `organizations/` → `.archive/organizations/` (47,805 files)
 - [x] Renamed `Optilibria` → `Librex`
 - [x] Renamed `Atlas` → `Orchex` (1,314 references)
-- [x] Renamed `alaweimm90` → `alawein` (126 references)
+- [x] Renamed `alawein` → `alawein` (126 references)
 - [x] Renamed `CrazyIdeas` → `Foundry`
 - [x] Created `.personal/` directory structure
 - [x] Created `projects/README.md` registry (86+ projects)
@@ -32,14 +32,14 @@
 
 ### Task 1: Rename GitHub Repository
 
-**Current:** `github.com/alawein/alaweimm90`  
+**Current:** `github.com/alawein/alawein`  
 **Target:** `github.com/alawein/alawein`
 
 **Steps:**
 
-1. Go to: https://github.com/alawein/alaweimm90/settings
+1. Go to: https://github.com/alawein/alawein/settings
 2. Scroll to "Repository name"
-3. Change from `alaweimm90` to `alawein`
+3. Change from `alawein` to `alawein`
 4. Click "Rename"
 5. Update local remote:
    ```bash
@@ -572,7 +572,7 @@ Value: 185.199.111.153
 ### Code Review & Cleanup
 
 - [x] Rename Atlas → Orchex (1,314 files)
-- [x] Rename alaweimm90 → alawein (126 files)
+- [x] Rename alawein → alawein (126 files)
 - [x] Update environment variables
 - [x] All tests passing (270 tests)
 - [ ] Update API documentation

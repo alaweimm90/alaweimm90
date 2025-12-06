@@ -30,6 +30,10 @@ class MethodRecommendation:
     confidence: float  # 0.0 to 1.0
     explanation: str
     supporting_evidence: List[str]
+    method: Optional[str] = None
+    expected_time: Optional[float] = None
+    expected_quality: Optional[float] = None
+    metadata: Optional[Dict[str, Any]] = None
 
 
 @dataclass

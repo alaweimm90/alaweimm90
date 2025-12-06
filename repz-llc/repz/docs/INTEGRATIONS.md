@@ -566,7 +566,7 @@ if (DEBUG) {
 For integration support:
 - Email: support@repz-platform.com
 - Documentation: https://docs.repz-platform.com
-- GitHub Issues: https://github.com/alaweimm90-business/repz/issues
+- GitHub Issues: https://github.com/alawein-business/repz/issues
 
 ---
 

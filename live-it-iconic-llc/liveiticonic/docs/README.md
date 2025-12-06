@@ -297,8 +297,8 @@ Links to related documentation
    ```
 
 3. **Ask the Community:**
-   - [GitHub Discussions](https://github.com/alaweimm90-business/alaweimm90-business/discussions)
-   - [GitHub Issues](https://github.com/alaweimm90-business/alaweimm90-business/issues)
+   - [GitHub Discussions](https://github.com/alawein-business/alawein-business/discussions)
+   - [GitHub Issues](https://github.com/alawein-business/alawein-business/issues)
 
 4. **Check Archive:**
    - [archive/implementation-reports/](./archive/implementation-reports/)
@@ -349,10 +349,10 @@ Maintaining good documentation:
 
 ---
 
-**Questions?** Open a [Discussion](https://github.com/alaweimm90-business/alaweimm90-business/discussions) or [Issue](https://github.com/alaweimm90-business/alaweimm90-business/issues)
+**Questions?** Open a [Discussion](https://github.com/alawein-business/alawein-business/discussions) or [Issue](https://github.com/alawein-business/alawein-business/issues)
 
 ---
 
 **Last Updated:** 2025-11-19
-**Maintained By:** alaweimm90-business organization
+**Maintained By:** alawein-business organization
 **Version:** 1.0.0

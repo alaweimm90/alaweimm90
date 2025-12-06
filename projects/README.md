@@ -78,9 +78,9 @@
 
 | Project                 | Description                | Domain           | Status         | Archive Path                               |
 | ----------------------- | -------------------------- | ---------------- | -------------- | ------------------------------------------ |
-| **Repz**                | AI fitness tracking app    | getrepz.app ✅   | 🟡 Development | `alaweimm90-business/Repz/`                |
+| **Repz**                | AI fitness tracking app    | getrepz.app ✅   | 🟡 Development | `alawein-business/Repz/`                |
 | **Repz Coach**          | AI coaching features       | repzcoach.com ✅ | 🔴 Planned     | (in Repz)                                  |
-| **MarketingAutomation** | Marketing automation tools | -                | 🔴 Planned     | `alaweimm90-business/MarketingAutomation/` |
+| **MarketingAutomation** | Marketing automation tools | -                | 🔴 Planned     | `alawein-business/MarketingAutomation/` |
 
 ---
 
@@ -88,7 +88,7 @@
 
 | Project          | Description                | Domain           | Status         | Archive Path                        |
 | ---------------- | -------------------------- | ---------------- | -------------- | ----------------------------------- |
-| **LiveItIconic** | Luxury e-commerce platform | liveiticonic.com | 🟡 Development | `alaweimm90-business/LiveItIconic/` |
+| **LiveItIconic** | Luxury e-commerce platform | liveiticonic.com | 🟡 Development | `alawein-business/LiveItIconic/` |
 
 ---
 
@@ -97,11 +97,11 @@
 | Project               | Description                 | Domain | Status      | Archive Path                   |
 | --------------------- | --------------------------- | ------ | ----------- | ------------------------------ |
 | **MeatheadPhysicist** | Physics education persona   | -      | 🟡 Active   | `MeatheadPhysicist/`           |
-| **MagLogic**          | Magnetic logic circuits     | -      | 🔴 Research | `alaweimm90-science/MagLogic/` |
-| **QMatSim**           | Quantum material simulation | -      | 🔴 Research | `alaweimm90-science/QMatSim/`  |
-| **QubeML**            | Quantum ML framework        | -      | 🔴 Research | `alaweimm90-science/QubeML/`   |
-| **SciComp**           | Scientific computing tools  | -      | 🔴 Research | `alaweimm90-science/SciComp/`  |
-| **SpinCirc**          | Spintronics circuits        | -      | 🔴 Research | `alaweimm90-science/SpinCirc/` |
+| **MagLogic**          | Magnetic logic circuits     | -      | 🔴 Research | `alawein-science/MagLogic/` |
+| **QMatSim**           | Quantum material simulation | -      | 🔴 Research | `alawein-science/QMatSim/`  |
+| **QubeML**            | Quantum ML framework        | -      | 🔴 Research | `alawein-science/QubeML/`   |
+| **SciComp**           | Scientific computing tools  | -      | 🔴 Research | `alawein-science/SciComp/`  |
+| **SpinCirc**          | Spintronics circuits        | -      | 🔴 Research | `alawein-science/SpinCirc/` |
 
 ---
 
@@ -172,10 +172,10 @@
 │   ├── QMLab/                   # Quantum lab
 │   ├── SimCore/                 # Simulation
 │   └── TalAI/                   # AI research (50+ modules)
-├── alaweimm90-business/         # Business products
+├── alawein-business/         # Business products
 │   ├── Repz/                    # Fitness app
 │   └── LiveItIconic/            # E-commerce
-├── alaweimm90-science/          # Research projects
+├── alawein-science/          # Research projects
 │   ├── MagLogic/
 │   ├── QMatSim/
 │   ├── QubeML/

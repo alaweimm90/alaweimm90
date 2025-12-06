@@ -30,7 +30,7 @@ Why the rebrand?
 We realized our mission needed clearer expression: making LLM evaluation evidence-based, transparent, and trustworthy for researchers, ML engineers, and product teams. 6/7
 
 Check it out: llmworks.dev 
-Open source: github.com/alaweimm90/aegis-ai-evaluator
+Open source: github.com/alawein/aegis-ai-evaluator
 Community: [forum/discord link]
 
 #LLMWorks #AIEvaluation #OpenSource #Rebrand 7/7

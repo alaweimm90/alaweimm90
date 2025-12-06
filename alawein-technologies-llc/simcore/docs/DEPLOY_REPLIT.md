@@ -3,10 +3,10 @@
 This project is Vite + React. Replit will run the production build on its assigned `$PORT` using the provided `.replit` and `start` script.
 
 ## Your Replit
-- https://replit.com/@alaweimm90/SimCore
+- https://replit.com/@alawein/SimCore
 
 ## One-time setup
-1. In Replit, create a Repl from GitHub and select `alaweimm90/SimCore`.
+1. In Replit, create a Repl from GitHub and select `alawein/SimCore`.
 2. Replit will install dependencies automatically.
 3. The `.replit` file uses `npm run start`, which builds and serves `dist/` on `$PORT`.
 

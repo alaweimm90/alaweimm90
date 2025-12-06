@@ -5,7 +5,7 @@ coverage:
   target: 70
 docs:
   profile: minimal
-owner: alaweimm90-business
+owner: alawein-business
 description: 'Repository: live-it-iconic'
 status: active
 created: '2025-11-26'

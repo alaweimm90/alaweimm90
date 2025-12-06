@@ -22,7 +22,7 @@
 
 ```mermaid
 flowchart TB
-    subgraph Hub["Hub Repo (alaweimm90)"]
+    subgraph Hub["Hub Repo (alawein)"]
         AUTO[automation/]
         TOOLS[tools/]
         DOCS[docs/]
@@ -78,11 +78,11 @@ All project code is preserved in `.archive/organizations/`:
 │   ├── QMLab/
 │   ├── SimCore/
 │   └── TalAI/                   # 50 modules
-├── alaweimm90-business/
+├── alawein-business/
 │   ├── LiveItIconic/
 │   ├── MarketingAutomation/
 │   └── Repz/
-├── alaweimm90-science/
+├── alawein-science/
 │   ├── MagLogic/
 │   ├── QMatSim/
 │   ├── QubeML/

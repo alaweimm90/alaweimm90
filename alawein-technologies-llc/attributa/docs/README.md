@@ -10,7 +10,7 @@ Attributa is an open-source AI attribution analysis tool that helps identify AI-
 
 ```bash
 # Clone the repository
-git clone https://github.com/alaweimm90/Attributa.git
+git clone https://github.com/alawein/Attributa.git
 cd Attributa
 
 # Install dependencies
@@ -197,7 +197,7 @@ MIT License - see [LICENSE](../LICENSE) for details.
 
 ## Support
 
-- GitHub Issues: [Report bugs](https://github.com/alaweimm90/Attributa/issues)
+- GitHub Issues: [Report bugs](https://github.com/alawein/Attributa/issues)
 - Documentation: [docs/](.)
 - Examples: [examples/](./examples/)
 
@@ -210,7 +210,7 @@ If you use Attributa in academic work, please cite:
   title = {Attributa: Open-Source AI Attribution Analysis},
   author = {Alawein, Meshal},
   year = {2024},
-  url = {https://github.com/alaweimm90/Attributa}
+  url = {https://github.com/alawein/Attributa}
 }
 ```
 

@@ -5,7 +5,7 @@ coverage:
   target: 80
 docs:
   profile: standard
-owner: alaweimm90-tools
+owner: alawein-tools
 description: 'Repository: HELIOS'
 status: active
 created: '2025-11-26'

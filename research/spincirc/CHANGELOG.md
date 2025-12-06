@@ -124,7 +124,7 @@ If you use SpinCirc in your research, please cite:
   title={SpinCirc: Advanced Spin Transport Circuit Framework},
   author={Alawein, Meshal},
   year={2025},
-  url={https://github.com/alaweimm90/SpinCirc},
+  url={https://github.com/alawein/SpinCirc},
   version={1.0.0}
 }
 ```

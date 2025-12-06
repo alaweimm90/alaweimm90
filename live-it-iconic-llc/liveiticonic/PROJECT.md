@@ -201,8 +201,8 @@ See your journey:
 
 ```bash
 # Clone the repository
-git clone https://github.com/alaweimm90-business/alaweimm90-business.git
-cd alaweimm90-business/live-it-iconic
+git clone https://github.com/alawein-business/alawein-business.git
+cd alawein-business/live-it-iconic
 
 # Install dependencies
 npm install
@@ -396,8 +396,8 @@ See [LICENSE](./LICENSE) for details.
 
 ### Get Help
 - **Documentation:** [docs/README.md](./docs/README.md)
-- **Issues:** [GitHub Issues](https://github.com/alaweimm90-business/alaweimm90-business/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/alaweimm90-business/alaweimm90-business/discussions)
+- **Issues:** [GitHub Issues](https://github.com/alawein-business/alawein-business/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/alawein-business/alawein-business/discussions)
 
 ### Security
 Report security vulnerabilities to [SECURITY.md](./SECURITY.md)
@@ -422,5 +422,5 @@ Report security vulnerabilities to [SECURITY.md](./SECURITY.md)
 
 **Last Updated:** 2025-11-19
 **Version:** 1.0.0
-**Maintainer:** alaweimm90-business
-**Repository:** [alaweimm90-business/alaweimm90-business/live-it-iconic](https://github.com/alaweimm90-business/alaweimm90-business/tree/main/live-it-iconic)
+**Maintainer:** alawein-business
+**Repository:** [alawein-business/alawein-business/live-it-iconic](https://github.com/alawein-business/alawein-business/tree/main/live-it-iconic)

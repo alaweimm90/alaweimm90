@@ -60,7 +60,7 @@ Librex/
 ├── benchmarks/                  # Performance benchmarks
 ├── data/                        # Test datasets
 ├── docs/                        # Documentation
-├── equilibria/                  # Equilibrium solvers
+├── Librex/                  # Equilibrium solvers
 │   └── quantum/                 # Quantum optimization
 ├── examples/                    # Usage examples
 ├── governance/                  # Project governance

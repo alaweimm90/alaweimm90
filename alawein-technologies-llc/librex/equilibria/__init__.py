@@ -5,17 +5,19 @@ A production-grade optimization library with 31+ algorithms,
 GPU acceleration, and enterprise-scale performance.
 """
 
-__version__ = "1.0.0"
-__author__ = "Meshal Alawein"
-__email__ = "meshal@berkeley.edu"
+from __future__ import annotations
 
-from Librex.core.interfaces import (
+from equilibria.core.interfaces import (
     StandardizedProblem,
     StandardizedSolution,
     UniversalOptimizationInterface,
     ValidationResult,
 )
-from Librex.optimize import optimize
+from equilibria.optimize import optimize
+
+__version__ = "1.0.0"
+__author__ = "Meshal Alawein"
+__email__ = "meshal@berkeley.edu"
 
 __all__ = [
     "optimize",

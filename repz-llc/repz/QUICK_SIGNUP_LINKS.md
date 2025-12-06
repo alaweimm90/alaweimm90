@@ -9,7 +9,7 @@
 
 **Quick steps:**
 1. Sign up with GitHub
-2. Import: `alaweimm90-business/alaweimm90-business`
+2. Import: `alawein-business/alawein-business`
 3. Select: `repz/REPZ/platform`
 4. Settings → Billing → Upgrade to Pro
 5. Add card → Pay $60 (3 months)

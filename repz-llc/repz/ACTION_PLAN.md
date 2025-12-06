@@ -49,7 +49,7 @@ This is your step-by-step action plan to get REPZ deployed and all integrations 
 #### **Priority 2: Configure Local Environment** ⏱️ 30 minutes
 
 ```bash
-cd /home/user/alaweimm90-business/repz/REPZ/platform
+cd /home/user/alawein-business/repz/REPZ/platform
 
 # Run interactive setup
 npm run deploy:setup

@@ -1,6 +1,6 @@
 # Science Projects Codemap
 
-> **Location:** `.archive/organizations/alaweimm90-science/`
+> **Location:** `.archive/organizations/alawein-science/`
 > **Projects:** 5 research projects
 > **Status:** Research/Archive
 
@@ -38,7 +38,7 @@ flowchart TB
 
 ## MagLogic - Magnetic Logic Circuits
 
-**Location:** `alaweimm90-science/MagLogic/`
+**Location:** `alawein-science/MagLogic/`
 
 ```
 MagLogic/
@@ -61,7 +61,7 @@ MagLogic/
 
 ## SpinCirc - Spintronics Circuits
 
-**Location:** `alaweimm90-science/SpinCirc/`
+**Location:** `alawein-science/SpinCirc/`
 
 ```
 SpinCirc/
@@ -82,7 +82,7 @@ SpinCirc/
 
 ## QMatSim - Quantum Material Simulation
 
-**Location:** `alaweimm90-science/QMatSim/`
+**Location:** `alawein-science/QMatSim/`
 
 ```
 QMatSim/
@@ -100,7 +100,7 @@ QMatSim/
 
 ## QubeML - Quantum Machine Learning
 
-**Location:** `alaweimm90-science/QubeML/`
+**Location:** `alawein-science/QubeML/`
 
 ```
 QubeML/
@@ -120,7 +120,7 @@ QubeML/
 
 ## SciComp - Scientific Computing Tools
 
-**Location:** `alaweimm90-science/SciComp/`
+**Location:** `alawein-science/SciComp/`
 
 ```
 SciComp/
