@@ -1,68 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repz | AI Fitness Tracking</title>
-    <meta name="description" content="Repz - AI-powered fitness tracking and personalized workout optimization.">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --primary: #ef4444; --bg: #0f172a; --surface: #1e293b; --text: #f1f5f9; --text-muted: #94a3b8; --accent: #f87171; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 2rem; }
-        header { padding: 1.5rem 0; border-bottom: 1px solid var(--surface); }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
-        .back-link { color: var(--text-muted); text-decoration: none; }
-        .hero { padding: 4rem 0; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent); }
-        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; }
-        .tagline { font-size: 0.875rem; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-        .btn { display: inline-block; padding: 0.75rem 2rem; background: var(--primary); color: white; text-decoration: none; border-radius: 0.5rem; font-weight: 500; }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; padding: 3rem 0; }
-        .feature { text-align: center; }
-        .feature h3 { color: var(--accent); margin-bottom: 0.5rem; }
-        .feature p { color: var(--text-muted); font-size: 0.9rem; }
-        footer { border-top: 1px solid var(--surface); padding: 2rem 0; text-align: center; color: var(--text-muted); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REPZ Coach | AI-Powered Fitness Platform</title>
+  <meta name="description" content="REPZ Coach - AI-powered fitness tracking, personalized coaching, and workout optimization.">
+  <link rel="stylesheet" href="../../styles/design-system.css">
+  <style>
+    :root {
+      --repz-green: #22c55e;
+      --repz-green-dark: #15803d;
+      --color-primary: var(--repz-green);
+    }
+
+    .repz-hero {
+      background: radial-gradient(ellipse at top, rgba(34, 197, 94, 0.1) 0%, transparent 60%);
+    }
+
+    .hero-title span { color: var(--repz-green); }
+    .header-logo { color: var(--repz-green); font-weight: 800; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .feature-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .feature-card:hover {
+      border-color: var(--repz-green);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(34, 197, 94, 0.1);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .feature-card h3 {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--repz-green);
+    }
+
+    .feature-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .tier-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      text-align: center;
+    }
+
+    .tier-card h4 {
+      font-size: var(--text-base);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+
+    .tier-card p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .tier-core { border-color: rgba(34, 197, 94, 0.3); }
+    .tier-core h4 { color: #22c55e; }
+    .tier-adaptive { border-color: rgba(59, 130, 246, 0.3); }
+    .tier-adaptive h4 { color: #3b82f6; }
+    .tier-elite { border-color: rgba(168, 85, 247, 0.3); }
+    .tier-elite h4 { color: #a855f7; }
+  </style>
 </head>
-<body>
-    <header>
-        <nav class="container">
-            <div class="logo">Repz</div>
-            <a href="../../" class="back-link">← Back to Alawein</a>
-        </nav>
-    </header>
-    <main>
-        <section class="hero container">
-            <p class="tagline">AI Fitness</p>
-            <h1>Repz</h1>
-            <p>AI-powered fitness tracking with personalized workout optimization. Track your reps, analyze your form, and crush your goals.</p>
-            <a href="https://getrepz.app" class="btn">Coming Soon</a>
-        </section>
-        <section class="container">
-            <div class="features">
-                <div class="feature">
-                    <h3>🏋️ Smart Tracking</h3>
-                    <p>Automatic rep counting and exercise detection.</p>
-                </div>
-                <div class="feature">
-                    <h3>📊 Progress Analytics</h3>
-                    <p>Visualize your gains with detailed charts.</p>
-                </div>
-                <div class="feature">
-                    <h3>🤖 AI Coach</h3>
-                    <p>Personalized workout recommendations.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-        <div class="container">
-            <p>Repz is a product of <a href="../../" style="color: var(--accent);">REPZ LLC</a></p>
+<body class="template-business">
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">REPZ</div>
+      <a href="../" class="header-back">← All Platforms</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero repz-hero container" style="text-align: center;">
+      <p class="hero-tagline">AI Fitness · Personalized Coaching</p>
+      <h1 class="hero-title">AI-Powered <span>Fitness Coaching</span> Platform</h1>
+      <p class="hero-description" style="margin: 0 auto var(--space-6);">
+        Track your reps, analyze your form, get personalized workout recommendations,
+        and crush your fitness goals with AI-powered coaching.
+      </p>
+
+      <div class="btn-row" style="justify-content: center;">
+        <a href="https://getrepz.app" class="btn btn-primary">Launch App →</a>
+        <a href="https://github.com/repz-llc/repz" class="btn btn-secondary">View on GitHub</a>
+      </div>
+
+      <div class="badge-row" style="justify-content: center;">
+        <span class="badge badge-active"><span class="badge-dot"></span>Active</span>
+        <span class="badge">getrepz.app</span>
+        <span class="badge">React · Supabase · Stripe</span>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">Key Features</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🏋️</div>
+          <h3>Smart Tracking</h3>
+          <p>Automatic rep counting, exercise detection, and workout logging with AI assistance.</p>
         </div>
-    </footer>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Progress Analytics</h3>
+          <p>Visualize your gains with detailed charts, trends, and performance insights.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Coach</h3>
+          <p>Personalized workout recommendations powered by GPT-4 and fitness science.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📹</div>
+          <h3>Form Analysis</h3>
+          <p>Video-based form checking and technique feedback using computer vision.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="panel">
+        <h2 class="panel-title">Subscription Tiers</h2>
+        <p class="panel-content">
+          Choose the plan that fits your fitness journey, from basic tracking to elite AI coaching.
+        </p>
+        <div class="tier-grid">
+          <div class="tier-card tier-core">
+            <h4>Core</h4>
+            <p>Basic tracking, workout logging, progress charts</p>
+          </div>
+          <div class="tier-card tier-adaptive">
+            <h4>Adaptive</h4>
+            <p>AI recommendations, form analysis, custom programs</p>
+          </div>
+          <div class="tier-card tier-elite">
+            <h4>Elite</h4>
+            <p>Full AI coaching, priority support, advanced analytics</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Technology Stack</h2>
+        <p class="panel-content">
+          Built with React 18, TypeScript, and Tailwind CSS. Backend powered by Supabase with
+          Stripe for payments, OpenAI for coaching, and Sentry for monitoring.
+        </p>
+        <div class="pill-row">
+          <span class="pill pill-primary">React 18</span>
+          <span class="pill pill-primary">TypeScript</span>
+          <span class="pill pill-primary">Supabase</span>
+          <span class="pill pill-primary">Stripe</span>
+          <span class="pill pill-primary">OpenAI</span>
+          <span class="pill pill-primary">Sentry</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-text">
+        REPZ Coach is a product of <a href="#" class="footer-link">REPZ LLC</a>
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
-

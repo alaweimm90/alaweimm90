@@ -1,110 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SimCore | Interactive Scientific Computing Platform</title>
-  <meta
-    name="description"
-    content="SimCore is an interactive scientific computing and physics simulation platform with rich visualizations and educational modules."
-  />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="SimCore is an interactive scientific computing and physics simulation platform with rich visualizations and educational modules.">
+  <link rel="stylesheet" href="../../styles/design-system.css">
   <style>
     :root {
-      --primary: #22c55e;
-      --bg: #020617;
-      --surface: #020617;
-      --panel: #0b1220;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
+      --sc-green: #22c55e;
+      --sc-green-dark: #15803d;
+      --color-primary: var(--sc-green);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top, #1d283a 0, #020617 55%); color: var(--text); line-height: 1.6; }
-    .container { max-width: 880px; margin: 0 auto; padding: 0 1.75rem; }
-    header { padding: 1.5rem 0; border-bottom: 1px solid #111827; }
-    nav { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); letter-spacing: 0.06em; text-transform: uppercase; }
-    .back-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; }
-    .back-link:hover { color: var(--primary); }
-    .hero { padding: 3.75rem 0 2.5rem; text-align: left; }
-    .tagline { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); margin-bottom: 0.75rem; }
-    .hero h1 { font-size: 2.6rem; font-weight: 800; margin-bottom: 1rem; }
-    .hero h1 span { color: var(--primary); }
-    .hero p { font-size: 1.05rem; color: var(--muted); max-width: 36rem; }
-    .cta-row { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .btn { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 999px; font-size: 0.9rem; font-weight: 500; text-decoration: none; }
-    .btn-primary { background: var(--primary); color: #020617; }
-    .btn-primary:hover { opacity: 0.9; }
-    .btn-secondary { border: 1px solid #374151; color: var(--muted); }
-    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-    .badge-row { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.5rem; font-size: 0.75rem; }
-    .badge { padding: 0.3rem 0.7rem; border-radius: 999px; border: 1px solid #1f2937; background: rgba(15,23,42,0.9); color: var(--muted); }
-    .badge-dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: #22c55e; display: inline-block; margin-right: 0.35rem; }
-    section { padding: 0 0 2.5rem; }
-    h2 { font-size: 1rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-    .panel { background: linear-gradient(135deg, rgba(15,23,42,0.98), rgba(8,47,73,0.9)); border-radius: 1rem; border: 1px solid #111827; padding: 1.5rem 1.5rem 1.25rem; margin-bottom: 1.25rem; }
-    .panel p { font-size: 0.9rem; color: var(--muted); }
-    .pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
-    .pill { padding: 0.3rem 0.7rem; border-radius: 999px; background: #020617; border: 1px solid #1f2937; font-size: 0.8rem; color: var(--muted); }
-    footer { border-top: 1px solid #111827; padding: 1.75rem 0 2.25rem; text-align: center; font-size: 0.8rem; color: var(--muted); }
-    @media (max-width: 640px) {
-      .hero { padding-top: 2.75rem; }
-      .hero h1 { font-size: 2.1rem; }
+
+    .sc-hero {
+      background: radial-gradient(ellipse at top, rgba(34, 197, 94, 0.08) 0%, transparent 60%);
+    }
+
+    .hero-title span { color: var(--sc-green); }
+    .header-logo { color: var(--sc-green); }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .module-card {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      text-align: center;
+      transition: all var(--transition-base);
+    }
+
+    .module-card:hover {
+      border-color: var(--sc-green);
+      transform: translateY(-2px);
+    }
+
+    .module-icon {
+      font-size: 2rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .module-card h3 {
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--sc-green);
+      margin-bottom: var(--space-1);
+    }
+
+    .module-card p {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
     }
   </style>
 </head>
-<body>
-  <header>
-    <nav class="container">
-      <div class="logo">SimCore</div>
-      <a href="../../" class="back-link">← Back to Alawein</a>
+<body class="template-scientific">
+  <div class="showcase-banner" style="background: linear-gradient(90deg, var(--primary, #38bdf8), #a855f7); color: white; text-align: center; padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em;">
+    🎨 DESIGN SHOWCASE — This is a concept mockup. <a href="../" style="color: white; text-decoration: underline;">View all brand designs →</a>
+  </div>
+
+  <header class="header">
+    <nav class="header-nav container">
+      <div class="header-logo">SimCore</div>
+      <a href="../" class="header-back">← All Platforms</a>
     </nav>
   </header>
-  <main class="container">
-    <section class="hero">
-      <p class="tagline">Scientific Computing · Physics Simulation</p>
-      <h1>Interactive <span>Scientific Computing</span> Platform</h1>
-      <p>
-        SimCore is an interactive platform for learning and exploring physics, materials, and scientific
-        computing through hands-on simulations, rich visualizations, and guided modules.
+
+  <main>
+    <section class="hero sc-hero container">
+      <p class="hero-tagline">Scientific Computing · Physics Simulation</p>
+      <h1 class="hero-title">Interactive <span>Scientific Computing</span> Platform</h1>
+      <p class="hero-description">
+        Learn and explore physics, materials science, and scientific computing through hands-on simulations,
+        rich visualizations, and guided educational modules.
       </p>
-      <div class="cta-row">
-        <a href="https://github.com/AlaweinOS/SimCore" class="btn btn-primary">View on GitHub</a>
-        <a href="#features" class="btn btn-secondary">Explore Modules</a>
+
+      <div class="btn-row">
+        <a href="#" class="btn btn-primary">Launch App →</a>
+        <a href="#" class="btn btn-secondary">View on GitHub</a>
       </div>
+
       <div class="badge-row">
-        <span class="badge"><span class="badge-dot"></span>Alpha · simcore.dev (planned)</span>
-        <span class="badge">Vite · React · TypeScript · Tailwind</span>
+        <span class="badge badge-active"><span class="badge-dot"></span>Active</span>
+        <span class="badge">simcore.dev</span>
+        <span class="badge">React · TypeScript · Tailwind</span>
       </div>
     </section>
 
-    <section id="features">
-      <div class="panel">
-        <h2>Key Capabilities</h2>
-        <p>
-          SimCore ships with a growing collection of quantum, solid-state, and statistical physics modules
-          — including band structure visualizations, time-dependent Schrödinger solvers, Ising models,
-          Brownian motion, and more.
-        </p>
-        <div class="pill-row">
-          <span class="pill">Quantum &amp; solid-state modules</span>
-          <span class="pill">Interactive visualizations</span>
-          <span class="pill">Educational workflows</span>
-          <span class="pill">Supabase-backed data</span>
+    <section class="section container">
+      <div class="section-header">
+        <h2 class="section-title">Simulation Modules</h2>
+        <div class="section-line"></div>
+      </div>
+
+      <div class="module-grid">
+        <div class="module-card">
+          <div class="module-icon">⚛️</div>
+          <h3>Quantum Mechanics</h3>
+          <p>Schrödinger equation, wavefunctions, tunneling</p>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🔮</div>
+          <h3>Band Structure</h3>
+          <p>Electronic bands, density of states</p>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🧲</div>
+          <h3>Ising Model</h3>
+          <p>Phase transitions, Monte Carlo</p>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🌡️</div>
+          <h3>Thermodynamics</h3>
+          <p>Heat engines, entropy, equilibrium</p>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">🎲</div>
+          <h3>Brownian Motion</h3>
+          <p>Random walks, diffusion</p>
+        </div>
+        <div class="module-card">
+          <div class="module-icon">⚡</div>
+          <h3>Electromagnetism</h3>
+          <p>Fields, waves, circuits</p>
         </div>
       </div>
+    </section>
+
+    <section class="section container">
       <div class="panel">
-        <h2>Audience</h2>
-        <p>
-          Built for students, researchers, and practitioners who want to explore complex physical systems
-          through modern web tooling, without installing heavy desktop software.
+        <h2 class="panel-title">Key Features</h2>
+        <p class="panel-content">
+          SimCore ships with a growing collection of quantum, solid-state, and statistical physics modules
+          with interactive visualizations, real-time parameter tuning, and educational workflows.
         </p>
+        <div class="pill-row">
+          <span class="pill pill-primary">Interactive visualizations</span>
+          <span class="pill pill-primary">Real-time simulation</span>
+          <span class="pill pill-primary">Educational guides</span>
+          <span class="pill pill-primary">Export & share</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2 class="panel-title">Technology Stack</h2>
+        <p class="panel-content">
+          Built with React 18, TypeScript, Tailwind CSS, and shadcn/ui. Physics computations run in
+          WebAssembly for near-native performance. Data persistence via Supabase.
+        </p>
+        <div class="pill-row">
+          <span class="pill pill-primary">Vite</span>
+          <span class="pill pill-primary">React 18</span>
+          <span class="pill pill-primary">TypeScript</span>
+          <span class="pill pill-primary">Tailwind CSS</span>
+          <span class="pill pill-primary">Supabase</span>
+          <span class="pill pill-primary">WebAssembly</span>
+        </div>
       </div>
     </section>
   </main>
-  <footer>
+
+  <footer class="footer">
     <div class="container">
-      <p>SimCore is a product of Alawein Technologies LLC.</p>
+      <p class="footer-text">
+        SimCore is a product of <a href="../../" class="footer-link">Alawein Technologies LLC</a>
+      </p>
     </div>
   </footer>
 </body>
